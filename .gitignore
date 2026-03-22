@@ -1,0 +1,27 @@
+# venv
+.venv/
+__pycache__/
+*.pyc
+
+# model checkpoints and training data
+*.zip
+*.npz
+*.pkl
+*.pt
+crystal_battle_ppo*
+imitation_ppo*
+search_policy*
+test_best*
+
+# training logs and replays
+tb_logs/
+replays/
+pbt_runs/
+pbt_history.csv
+eval_history.csv
+
+# rust build artifacts
+crystal_engine/target/
+
+# misc
+.DS_Store
