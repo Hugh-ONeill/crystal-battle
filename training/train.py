@@ -244,12 +244,15 @@ class EvalCheckpointCallback(BaseCallback):
 
 def make_env(seed: int = 0, opponent_policy=None, use_action_masker: bool = True,
              reward_mode: str = "shaped", tier: str = "ou",
-             opp_team_strategy: str | None = None):
+             opp_team_strategy: str | None = None, hindsight: bool = False):
     """Create a wrapped CrystalBattle env."""
     def _init():
         env = gymnasium.make("CrystalBattle-v1", opponent_policy=opponent_policy,
                              reward_mode=reward_mode, tier=tier,
                              opp_team_strategy=opp_team_strategy)
+        if hindsight:
+            from gym_env.hindsight_wrapper import HindsightRewardWrapper
+            env = HindsightRewardWrapper(env)
         if use_action_masker:
             env = ActionMasker(env, lambda e: e.unwrapped.action_masks())
         return env
@@ -519,6 +522,8 @@ def main():
                         choices=["shaped", "sparse", "blended"],
                         help="Reward mode: shaped (HP diff), sparse (win/loss only), "
                              "blended (terminal + light HP diff)")
+    parser.add_argument("--hindsight", action="store_true",
+                        help="Enable hindsight reward relabeling for multi-turn credit")
     parser.add_argument("--lstm", action="store_true",
                         help="Use recurrent (LSTM) policy instead of MLP")
     parser.add_argument("--attention", nargs="?", const="v1", default=None,
@@ -661,6 +666,7 @@ def _run_curriculum(args):
             use_action_masker=use_masker,
             reward_mode=args.reward_mode,
             opp_team_strategy=args.opp_team_strategy,
+            hindsight=getattr(args, 'hindsight', False),
         )
         for i in range(args.n_envs)
     ])

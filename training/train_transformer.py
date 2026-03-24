@@ -354,6 +354,101 @@ def evaluate_transformer(model: TransformerBattlePolicy, n_games: int = 100,
 # MAIN
 # ============================================================
 
+def _pretrain_transformer(model, data_path, epochs, max_seq_len, device):
+    """Pre-train transformer on SmartAgent game sequences."""
+    import pickle
+
+    with open(data_path, "rb") as f:
+        sequences = pickle.load(f)
+    print(f"    {len(sequences)} sequences loaded")
+
+    # split
+    rng_pt = random.Random(42)
+    rng_pt.shuffle(sequences)
+    val_size = len(sequences) // 10
+    val_seqs = sequences[:val_size]
+    train_seqs = sequences[val_size:]
+
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
+
+    for epoch in range(epochs):
+        model.train()
+        train_correct = 0; train_count = 0; train_loss_sum = 0
+        indices = list(range(len(train_seqs)))
+        random.shuffle(indices)
+
+        batch_size = 16
+        optimizer.zero_grad()
+        for batch_start in range(0, len(indices), batch_size):
+            batch_idx = indices[batch_start:batch_start + batch_size]
+            batch_loss = 0
+            for idx in batch_idx:
+                seq = train_seqs[idx]
+                obs_seq = seq[0] if len(seq) >= 2 else seq
+                act_seq = seq[1] if len(seq) >= 2 else None
+                if act_seq is None:
+                    continue
+
+                # truncate to max_seq_len
+                if len(obs_seq) > max_seq_len:
+                    obs_seq = obs_seq[-max_seq_len:]
+                    act_seq = act_seq[-max_seq_len:]
+
+                obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=device).unsqueeze(0)
+                act_t = torch.tensor(act_seq, dtype=torch.long, device=device)
+
+                # mask if available
+                if len(seq) >= 3:
+                    mask_seq = seq[2]
+                    if len(mask_seq) > max_seq_len:
+                        mask_seq = mask_seq[-max_seq_len:]
+                    mask_t = torch.tensor(mask_seq, dtype=torch.float32, device=device).unsqueeze(0)
+                else:
+                    mask_t = None
+
+                logits, _ = model(obs_t, action_masks=mask_t)
+                logits = logits.squeeze(0)  # (seq_len, 10)
+                loss = F.cross_entropy(logits, act_t)
+                batch_loss += loss / len(batch_idx)
+
+                preds = logits.argmax(dim=1)
+                train_correct += (preds == act_t).sum().item()
+                train_count += len(act_t)
+                train_loss_sum += loss.item() * len(act_t)
+
+            batch_loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            optimizer.zero_grad()
+
+        # validate
+        model.eval()
+        val_correct = 0; val_count = 0
+        with torch.no_grad():
+            for seq in val_seqs:
+                obs_seq, act_seq = seq[0], seq[1]
+                if len(obs_seq) > max_seq_len:
+                    obs_seq = obs_seq[-max_seq_len:]
+                    act_seq = act_seq[-max_seq_len:]
+                obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=device).unsqueeze(0)
+                act_t = torch.tensor(act_seq, dtype=torch.long, device=device)
+                mask_t = None
+                if len(seq) >= 3:
+                    mask_seq = seq[2]
+                    if len(mask_seq) > max_seq_len:
+                        mask_seq = mask_seq[-max_seq_len:]
+                    mask_t = torch.tensor(mask_seq, dtype=torch.float32, device=device).unsqueeze(0)
+                logits, _ = model(obs_t, action_masks=mask_t)
+                preds = logits.squeeze(0).argmax(dim=1)
+                val_correct += (preds == act_t).sum().item()
+                val_count += len(act_t)
+
+        scheduler.step()
+        print(f"    Epoch {epoch+1:2d}: train_acc={train_correct/train_count:.3f} "
+              f"val_acc={val_correct/val_count:.3f}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Transformer policy training")
     parser.add_argument("--total-steps", type=int, default=10000000)
@@ -373,6 +468,12 @@ def main():
     parser.add_argument("--n-heads", type=int, default=4)
     parser.add_argument("--md-weight", type=float, default=0.5)
     parser.add_argument("--smart-weight", type=float, default=0.5)
+    parser.add_argument("--pretrain", action="store_true",
+                        help="Pre-train on SmartAgent sequences before PPO")
+    parser.add_argument("--pretrain-data", type=str, default="expert_sequences.pkl")
+    parser.add_argument("--pretrain-epochs", type=int, default=20)
+    parser.add_argument("--resume", type=str, default=None,
+                        help="Resume from saved transformer weights")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -400,6 +501,20 @@ def main():
 
     total_params = sum(p.numel() for p in model.parameters())
     print(f"  Parameters:  {total_params:,}")
+
+    # load pre-trained weights if resuming
+    if args.resume:
+        print(f"  Loading weights from {args.resume}...")
+        model.load_state_dict(torch.load(f"{args.resume}.pt", map_location=args.device,
+                                          weights_only=True))
+
+    # optional: pre-train on SmartAgent sequences
+    if args.pretrain:
+        print(f"\n  Pre-training on {args.pretrain_data}...")
+        _pretrain_transformer(model, args.pretrain_data, args.pretrain_epochs,
+                              args.seq_len, args.device)
+        torch.save(model.state_dict(), f"{args.save_path}_pretrained.pt")
+        print(f"  Saved pre-trained weights to {args.save_path}_pretrained.pt")
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
