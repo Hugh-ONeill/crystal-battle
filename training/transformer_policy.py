@@ -92,8 +92,8 @@ class TransformerCore(nn.Module):
 
         tokens = self.norm(tokens)
 
-        # return last token
-        return tokens[:, -1, :]
+        # return all tokens (pre-training needs all, RL uses last via policy head)
+        return tokens
 
 
 class TransformerBattlePolicy(nn.Module):
@@ -123,8 +123,13 @@ class TransformerBattlePolicy(nn.Module):
         self.d_model = d_model
         self.max_seq_len = max_seq_len
 
-        # per-turn feature extractor (same as v1 attention)
-        self.extractor = AttentionFeatureExtractor(obs_space, features_dim=features_dim)
+        # simple per-turn embedding (transformer does its own attention)
+        self.extractor = nn.Sequential(
+            nn.Linear(obs_space.shape[0], features_dim),
+            nn.ReLU(),
+            nn.Linear(features_dim, features_dim),
+            nn.ReLU(),
+        )
 
         # project features to transformer dimension if different
         if features_dim != d_model:
