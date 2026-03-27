@@ -118,7 +118,8 @@ def ppo_update(model: TransformerBattlePolicy, buffer: TransformerRolloutBuffer,
     for epoch in range(n_epochs):
         for batch in buffer.get_batches(batch_size):
             # pad sequences to same length for batching
-            max_len = max(len(s) for s in batch["obs_sequences"])
+            seq_lens = [len(s) for s in batch["obs_sequences"]]
+            max_len = max(seq_lens)
             padded = np.zeros((len(batch["obs_sequences"]), max_len, OBS_SIZE), dtype=np.float32)
             for i, seq in enumerate(batch["obs_sequences"]):
                 padded[i, :len(seq)] = seq
@@ -130,12 +131,18 @@ def ppo_update(model: TransformerBattlePolicy, buffer: TransformerRolloutBuffer,
             returns = batch["returns"].to(device)
             masks = batch["masks"].to(device)
 
-            # forward pass
-            logits, values = model(obs_t, action_masks=masks)
-            values = values.squeeze(-1)
+            # forward pass -- expand mask to (batch, seq_len, 10) for the model
+            masks_expanded = masks.unsqueeze(1).expand(-1, max_len, -1)
+            logits, values = model(obs_t, mask=masks_expanded)
+
+            # extract last timestep per sequence
+            last_idx = torch.tensor([l - 1 for l in seq_lens], device=device)
+            batch_idx = torch.arange(len(seq_lens), device=device)
+            last_logits = logits[batch_idx, last_idx]    # (batch, 10)
+            last_values = values[batch_idx, last_idx, 0] # (batch,)
 
             # policy loss (PPO clipping)
-            log_probs = F.log_softmax(logits, dim=-1)
+            log_probs = F.log_softmax(last_logits, dim=-1)
             action_log_probs = log_probs.gather(1, actions.unsqueeze(1)).squeeze(1)
             ratio = torch.exp(action_log_probs - old_log_probs)
             surr1 = ratio * advantages
@@ -143,10 +150,10 @@ def ppo_update(model: TransformerBattlePolicy, buffer: TransformerRolloutBuffer,
             policy_loss = -torch.min(surr1, surr2).mean()
 
             # value loss
-            value_loss = F.mse_loss(values, returns)
+            value_loss = F.mse_loss(last_values, returns)
 
             # entropy bonus
-            probs = F.softmax(logits, dim=-1)
+            probs = F.softmax(last_logits, dim=-1)
             entropy = -(probs * log_probs).sum(dim=-1).mean()
 
             # total loss
@@ -167,46 +174,38 @@ def ppo_update(model: TransformerBattlePolicy, buffer: TransformerRolloutBuffer,
 # ROLLOUT COLLECTION
 # ============================================================
 
-def collect_rollouts(envs, agent: TransformerAgent, model: TransformerBattlePolicy,
+def collect_rollouts(envs, agent: TransformerAgent, model,
                      buffer: TransformerRolloutBuffer, n_steps: int,
-                     device: str, obs_buffers: list[list]):
+                     device: str, obs_buffers: list[list],
+                     last_obs: list, last_infos: list):
     """Collect n_steps of experience from parallel envs."""
     n_envs = len(envs)
     step = 0
 
     while step < n_steps:
         for env_idx, env in enumerate(envs):
-            if env.unwrapped._battle is None or env.unwrapped._battle.is_over:
-                # reset env
-                obs, info = env.reset()
-                obs_buffers[env_idx] = [obs]
-                continue
-
-            obs = env.unwrapped._last_obs if hasattr(env.unwrapped, '_last_obs') else None
-            if obs is None:
-                obs, info = env.reset()
-                obs_buffers[env_idx] = [obs]
-                continue
+            obs = last_obs[env_idx]
+            info = last_infos[env_idx]
 
             # build observation sequence
             obs_seq = np.array(obs_buffers[env_idx], dtype=np.float32)
             obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=device).unsqueeze(0)
 
-            mask = np.array(info.get("action_mask",
-                   env.unwrapped._battle.p1.valid_action_mask(
-                       env.unwrapped._battle.p2)), dtype=np.float32)
+            mask = np.array(env.unwrapped.action_masks(), dtype=np.float32)
             mask_t = torch.tensor(mask, dtype=torch.float32, device=device).unsqueeze(0)
 
-            # get action, value, log_prob
+            # get action, value, log_prob (use last timestep output)
             with torch.no_grad():
-                logits, value = model(obs_t, action_masks=mask_t)
-                probs = F.softmax(logits, dim=-1)
+                logits, value = model(obs_t, mask_t)
+                last_logits = logits[0, -1, :]  # last timestep
+                last_value = value[0, -1, 0]    # last timestep
+                probs = F.softmax(last_logits, dim=-1)
                 dist = torch.distributions.Categorical(probs)
                 action = dist.sample()
                 log_prob = dist.log_prob(action)
 
             action_int = action.item()
-            value_float = value.item()
+            value_float = last_value.item()
             log_prob_float = log_prob.item()
 
             # step env
@@ -230,8 +229,11 @@ def collect_rollouts(envs, agent: TransformerAgent, model: TransformerBattlePoli
                 obs_buffers[env_idx] = obs_buffers[env_idx][-agent.max_seq_len:]
 
             if done:
-                obs, info = env.reset()
-                obs_buffers[env_idx] = [obs]
+                next_obs, info = env.reset()
+                obs_buffers[env_idx] = [next_obs]
+
+            last_obs[env_idx] = next_obs
+            last_infos[env_idx] = info
 
             step += 1
             if step >= n_steps:
@@ -245,7 +247,7 @@ def collect_rollouts(envs, agent: TransformerAgent, model: TransformerBattlePoli
             obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=device).unsqueeze(0)
             with torch.no_grad():
                 _, value = model(obs_t)
-            last_values.append(value.item())
+            last_values.append(value[0, -1, 0].item())
         else:
             last_values.append(0.0)
 
@@ -474,6 +476,8 @@ def main():
     parser.add_argument("--pretrain-epochs", type=int, default=20)
     parser.add_argument("--resume", type=str, default=None,
                         help="Resume from saved transformer weights")
+    parser.add_argument("--simple", action="store_true",
+                        help="Use SimpleTransformerPolicy (PyTorch built-in encoder)")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -488,16 +492,23 @@ def main():
 
     obs_space = gymnasium.spaces.Box(low=-10, high=10, shape=(OBS_SIZE,), dtype=np.float32)
 
-    model = TransformerBattlePolicy(
-        obs_space=obs_space,
-        features_dim=256,
-        d_model=256,
-        n_heads=args.n_heads,
-        n_layers=args.n_layers,
-        ff_dim=512,
-        max_seq_len=args.seq_len,
-        net_arch=[256, 256],
-    ).to(args.device)
+    if getattr(args, 'simple', False):
+        from pretrain_simple import SimpleTransformerPolicy
+        model = SimpleTransformerPolicy(
+            d_model=256, n_heads=args.n_heads, n_layers=args.n_layers,
+            max_seq=args.seq_len,
+        ).to(args.device)
+    else:
+        model = TransformerBattlePolicy(
+            obs_space=obs_space,
+            features_dim=256,
+            d_model=256,
+            n_heads=args.n_heads,
+            n_layers=args.n_layers,
+            ff_dim=512,
+            max_seq_len=args.seq_len,
+            net_arch=[256, 256],
+        ).to(args.device)
 
     total_params = sum(p.numel() for p in model.parameters())
     print(f"  Parameters:  {total_params:,}")
@@ -532,34 +543,49 @@ def main():
     obs_buffers = [[] for _ in range(args.n_envs)]
 
     # initialize envs
+    last_obs = []
+    last_infos = []
     for i, env in enumerate(envs):
         obs, info = env.reset()
         obs_buffers[i] = [obs]
+        last_obs.append(obs)
+        last_infos.append(info)
 
     total_steps = 0
     last_eval = 0
     start_time = time.time()
 
-    print("Training...")
+    print("Training...", flush=True)
+    rollout_count = 0
     while total_steps < args.total_steps:
         buffer = TransformerRolloutBuffer()
         collect_rollouts(envs, agent, model, buffer, args.n_steps * args.n_envs,
-                         args.device, obs_buffers)
+                         args.device, obs_buffers, last_obs, last_infos)
 
         total_steps += len(buffer.rewards)
         avg_loss = ppo_update(model, buffer, optimizer, args.device,
                               n_epochs=args.n_epochs, batch_size=args.batch_size,
                               ent_coef=args.ent_coef)
         buffer.clear()
+        rollout_count += 1
+        if rollout_count % 5 == 0:
+            elapsed = time.time() - start_time
+            fps = total_steps / elapsed if elapsed > 0 else 0
+            print(f"  [{total_steps:>8,} steps | {fps:.0f} fps | loss={avg_loss:.4f}]", flush=True)
 
         # eval
         if total_steps - last_eval >= args.eval_freq:
             elapsed = time.time() - start_time
             fps = total_steps / elapsed
             print(f"\n  Step {total_steps:>10,} | loss={avg_loss:.4f} | "
-                  f"{fps:.0f} steps/s")
+                  f"{fps:.0f} steps/s", flush=True)
             model.eval()
-            evaluate_transformer(model, n_games=args.eval_games, device=args.device)
+            if getattr(args, 'simple', False):
+                from pretrain_simple import evaluate
+                torch.save(model.state_dict(), f"{args.save_path}_eval_tmp.pt")
+                evaluate(f"{args.save_path}_eval_tmp.pt", args.device, args.eval_games)
+            else:
+                evaluate_transformer(model, n_games=args.eval_games, device=args.device)
             model.train()
             last_eval = total_steps
 

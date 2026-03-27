@@ -113,11 +113,13 @@ def pretrain(data_path="expert_sequences.pkl", device="cpu", epochs=30,
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
 
     best_val = 0
+    accum_steps = 16  # accumulate gradients over N sequences before stepping
     for epoch in range(epochs):
         model.train()
         random.shuffle(train)
         tc = tt = 0
-        for seq in train:
+        opt.zero_grad()
+        for i, seq in enumerate(train):
             obs, acts = seq[0], seq[1]
             n = min(len(obs), len(acts), max_seq)
             if n < 2:
@@ -131,12 +133,18 @@ def pretrain(data_path="expert_sequences.pkl", device="cpu", epochs=30,
                 ).unsqueeze(0)
             logits, _ = model(obs_t, mask_t)
             logits = logits.squeeze(0)
-            loss = F.cross_entropy(logits, act_t)
-            opt.zero_grad()
+            loss = F.cross_entropy(logits, act_t) / accum_steps
             loss.backward()
-            opt.step()
             tc += (logits.argmax(1) == act_t).sum().item()
             tt += n
+            if (i + 1) % accum_steps == 0:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                opt.step()
+                opt.zero_grad()
+        # final step for remaining gradients
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        opt.step()
+        opt.zero_grad()
 
         model.eval()
         vc = vt = 0

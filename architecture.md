@@ -277,6 +277,40 @@ alone, and training on search outputs distills that reasoning into the network.
 | 45  | imitation   | LSTM pre-train + RL      | 63.2%          | 52.7%         | faster to plateau, same ceiling |
 | -   | + 1-ply     | lookahead search         | **69%**        | **61%**       | broke Smart ceiling |
 | -   | + 2-ply     | deeper search            | **92%**        | **94%**       | crushes heuristic bots |
+| 47  | attn v1     | hindsight rewards        | -              | -             | degraded from pre-trained start |
+| -   | transformer | imitation (Smart data)   | 55%            | **45.5%**     | zero-shot, no RL needed |
+| -   | transformer | imitation (search data)  | 41%            | 40%           | harder patterns, lower accuracy |
+| -   | transformer | PPO from scratch (GPU)   | 15%            | 10%           | too slow to learn without seq bias |
+| -   | transformer | PPO fine-tune (GPU)      | 30%            | 20%           | degrades pre-trained weights |
+
+### Transformer Architecture Results
+
+Pre-trained on SmartAgent game sequences using PyTorch built-in TransformerEncoder
+(simple Linear embedding, no custom attention extractor). Key finding: lower
+pre-training accuracy (85% vs LSTM's 88%) but **higher zero-shot game performance**
+(55%/45.5% vs LSTM's 45%/32%). The transformer's direct attention to game history
+gives better strategic decisions on hard turns.
+
+However, PPO fine-tuning consistently degrades both architectures. All attempts
+to improve beyond the imitation baseline failed:
+- High LR (3e-4): catastrophic forgetting within 50k steps
+- Low LR (1e-5): oscillates without consistent improvement
+- Frozen backbone: 6.5% trainable params, still degrades
+- PPO from scratch: learns 3-5x slower than LSTM from RL
+
+**Conclusion**: Transformer excels at imitation, LSTM excels at RL from scratch.
+Neither can be improved by PPO fine-tuning from a pre-trained start. The raw
+policy ceiling is architectural -- search at inference is the path to stronger play.
+
+### Search Distillation Attempts (all failed)
+
+Every attempt to transfer search knowledge into the raw policy degraded it:
+- Supervised cross-entropy on search actions (catastrophic forgetting)
+- Frozen backbone + head-only training (slight degradation)
+- ExIt PPO with search action overrides (KL explosion)
+- Dual policy+value training with game outcomes (still degraded)
+- Feedforward value network for search leaf eval (97.8% sign accuracy but
+  saturated at leaves, 18% vs Smart -- worse than heuristic's 84%)
 
 ### PBT Results
 
