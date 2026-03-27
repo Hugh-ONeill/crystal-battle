@@ -642,6 +642,25 @@ fn search_2ply(
     crate::batch::search_2ply(&state.inner, &p1_actions, &opp_actions_d1, &opp_actions_d2, base_seed)
 }
 
+/// 3-ply lookahead search entirely in Rust (heuristic eval).
+/// Returns list of (action_int, expected_value) sorted best-first.
+#[pyfunction]
+#[pyo3(signature = (state, p1_actions, opp_actions_d1, opp_actions_d2, opp_actions_d3, base_seed=0))]
+fn search_3ply(
+    state: &PyBattleState,
+    p1_actions: Vec<u8>,
+    opp_actions_d1: Vec<(u8, f32)>,
+    opp_actions_d2: Vec<(u8, f32)>,
+    opp_actions_d3: Vec<(u8, f32)>,
+    base_seed: u64,
+) -> Vec<(u8, f32)> {
+    crate::batch::search_3ply(
+        &state.inner, &p1_actions,
+        &opp_actions_d1, &opp_actions_d2, &opp_actions_d3,
+        base_seed,
+    )
+}
+
 /// 1-ply search with NN eval: Rust sims all branches, returns obs batch,
 /// Python evals, Rust aggregates. Single FFI round trip.
 /// evaluator_fn(obs_batch, mask_batch) -> (values, priors)
@@ -1122,6 +1141,7 @@ pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(batch_resolve, m)?)?;
     m.add_function(wrap_pyfunction!(search_1ply, m)?)?;
     m.add_function(wrap_pyfunction!(search_2ply, m)?)?;
+    m.add_function(wrap_pyfunction!(search_3ply, m)?)?;
     m.add_function(wrap_pyfunction!(search_1ply_nn, m)?)?;
     m.add_function(wrap_pyfunction!(search_2ply_nn, m)?)?;
     m.add_function(wrap_pyfunction!(evaluate_position, m)?)?;

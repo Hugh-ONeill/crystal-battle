@@ -392,7 +392,14 @@ def play_search_games(
 
                 search_seed = game_seed * 1000 + turn
 
-                if depth >= 2 and eval_callback is not None:
+                if depth >= 3:
+                    # 3-ply heuristic
+                    ranked = ce.search_3ply(
+                        rs_battle, p1_valid,
+                        opp_actions, opp_actions, opp_actions,
+                        base_seed=search_seed,
+                    )
+                elif depth >= 2 and eval_callback is not None:
                     # 2-ply with NN leaf eval, static opp weights
                     ranked = ce.search_2ply_nn(
                         rs_battle, p1_valid, opp_actions,

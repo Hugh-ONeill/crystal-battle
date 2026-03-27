@@ -278,6 +278,151 @@ pub fn search_2ply(
     ranked
 }
 
+// ============================================================
+// 3-PLY SEARCH
+// ============================================================
+
+/// Full 3-ply lookahead: for each valid P1 action at depth 1, simulate
+/// against opponent samples, then for each resulting state do a 2-ply
+/// search to get the best continuation value.
+///
+/// Parallelism: depth-1 combos run in parallel via rayon.
+/// Depth-2 and depth-3 run sequentially within each rayon task.
+///
+/// With ~5 P1 actions, ~5 opp samples: ~5*5 = 25 d1 combos (parallel),
+/// each expanding ~5*5 = 25 d2 combos, each expanding ~5*5 = 25 d3 combos.
+/// Total: ~15,625 leaf evaluations. At ~440k sims/sec = ~35ms.
+pub fn search_3ply(
+    root: &BattleState,
+    p1_actions: &[u8],
+    opp_actions_d1: &[(u8, f32)],
+    opp_actions_d2: &[(u8, f32)],
+    opp_actions_d3: &[(u8, f32)],
+    base_seed: u64,
+) -> Vec<(u8, f32)> {
+    let combos: Vec<(u8, u8, f32)> = p1_actions
+        .iter()
+        .flat_map(|&a1| {
+            opp_actions_d1.iter().map(move |&(a2, w)| (a1, a2, w))
+        })
+        .collect();
+
+    let results: Vec<(u8, f32, f32)> = combos
+        .par_iter()
+        .enumerate()
+        .map(|(i, &(a1, a2, weight))| {
+            let mut state = root.clone();
+
+            turn_engine::resolve_turn(&mut state, decode_action(a1), decode_action(a2));
+            handle_forced_switches(&mut state);
+
+            if state.is_over() {
+                let val = evaluate_position(&state);
+                return (a1, val * weight, weight);
+            }
+
+            let p1_mask = state.p1.valid_action_mask_filtered(Some(&state.p2), true);
+            let d2_actions: Vec<u8> = (0..10).filter(|&j| p1_mask[j as usize]).collect();
+
+            if d2_actions.is_empty() {
+                let val = evaluate_position(&state);
+                return (a1, val * weight, weight);
+            }
+
+            // sequential 2-ply from this state
+            let d2_seed = base_seed.wrapping_add((i as u64 + 1) * 1000003);
+            let d2_ranked = search_2ply_seq(
+                &state, &d2_actions, opp_actions_d2, opp_actions_d3, d2_seed,
+            );
+
+            let best_val = d2_ranked.first().map(|&(_, v)| v).unwrap_or(0.0);
+            (a1, best_val * weight, weight)
+        })
+        .collect();
+
+    // aggregate by d1 action
+    let mut action_totals: Vec<(f32, f32)> = vec![(0.0, 0.0); 10];
+    for &(a1, weighted_val, weight) in &results {
+        action_totals[a1 as usize].0 += weighted_val;
+        action_totals[a1 as usize].1 += weight;
+    }
+
+    let mut ranked: Vec<(u8, f32)> = p1_actions
+        .iter()
+        .map(|&a| {
+            let (total_val, total_weight) = action_totals[a as usize];
+            let avg = if total_weight > 0.0 {
+                total_val / total_weight
+            } else {
+                -1.0
+            };
+            (a, avg)
+        })
+        .collect();
+
+    ranked.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    ranked
+}
+
+/// Sequential 2-ply search (used within a rayon task for 3-ply)
+fn search_2ply_seq(
+    root: &BattleState,
+    p1_actions: &[u8],
+    opp_actions_d1: &[(u8, f32)],
+    opp_actions_d2: &[(u8, f32)],
+    base_seed: u64,
+) -> Vec<(u8, f32)> {
+    let mut action_totals: Vec<(f32, f32)> = vec![(0.0, 0.0); 10];
+    let mut combo_idx = 0u64;
+
+    for &a1 in p1_actions {
+        for &(a2, weight) in opp_actions_d1 {
+            let mut state = root.clone();
+            combo_idx += 1;
+
+            turn_engine::resolve_turn(&mut state, decode_action(a1), decode_action(a2));
+            handle_forced_switches(&mut state);
+
+            if state.is_over() {
+                let val = evaluate_position(&state);
+                action_totals[a1 as usize].0 += val * weight;
+                action_totals[a1 as usize].1 += weight;
+                continue;
+            }
+
+            // get depth-2 valid actions
+            let p1_mask = state.p1.valid_action_mask_filtered(Some(&state.p2), true);
+            let d2_valid: Vec<u8> = (0..10).filter(|&j| p1_mask[j as usize]).collect();
+
+            if d2_valid.is_empty() {
+                let val = evaluate_position(&state);
+                action_totals[a1 as usize].0 += val * weight;
+                action_totals[a1 as usize].1 += weight;
+                continue;
+            }
+
+            // 1-ply at depth 2 to find best continuation
+            let d2_seed = base_seed.wrapping_add(combo_idx * 7919);
+            let d2_ranked = search_1ply_seq(&state, &d2_valid, opp_actions_d2, d2_seed);
+            let best_val = d2_ranked.first().map(|&(_, v)| v).unwrap_or(0.0);
+
+            action_totals[a1 as usize].0 += best_val * weight;
+            action_totals[a1 as usize].1 += weight;
+        }
+    }
+
+    let mut ranked: Vec<(u8, f32)> = p1_actions
+        .iter()
+        .map(|&a| {
+            let (tv, tw) = action_totals[a as usize];
+            (a, if tw > 0.0 { tv / tw } else { -1.0 })
+        })
+        .collect();
+
+    ranked.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+    ranked
+}
+
 /// Sequential 1-ply search (used within a rayon task to avoid nested parallelism)
 fn search_1ply_seq(
     root: &BattleState,
