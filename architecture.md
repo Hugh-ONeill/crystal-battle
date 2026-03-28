@@ -299,8 +299,52 @@ to improve beyond the imitation baseline failed:
 - PPO from scratch: learns 3-5x slower than LSTM from RL
 
 **Conclusion**: Transformer excels at imitation, LSTM excels at RL from scratch.
-Neither can be improved by PPO fine-tuning from a pre-trained start. The raw
-policy ceiling is architectural -- search at inference is the path to stronger play.
+Neither can be improved by PPO fine-tuning from a pre-trained start.
+
+## Offline RL (Current Direction)
+
+Inspired by "Human-Level Competitive Pokemon via Scalable Offline RL with
+Transformers" (arXiv:2504.04395, April 2025). Key insights from that paper:
+
+- **Offline RL, not PPO**: Train on pre-collected game data without environment
+  interaction. Avoids the degradation spiral of online PPO fine-tuning.
+- **Scale matters**: They used 475k human games + 5M self-play trajectories.
+  Our initial 5k games was far too few. Current: 50k 3-ply search games.
+- **Binary advantage weighting**: Only train strongly on actions from
+  above-average games. Below-average games get 10% weight.
+- **Turn encoder**: Each timestep includes (obs, prev_action, prev_reward, rtg).
+  Previous action and reward help the transformer track game flow.
+- **Model scale**: Their small model is 15M params, large is 200M. Ours is 2M.
+- **Multi-generation**: They train one model across Gens 1-4 simultaneously.
+
+### Our Offline RL Implementation (`offline_rl.py`)
+
+```
+Input per timestep:
+  obs (1052) + prev_action (10 one-hot) + prev_reward (1) + reward-to-go (1)
+  = 1064 features
+
+Architecture:
+  Linear(1064->256->256) embedding
+  + positional embedding
+  + 3-layer causal TransformerEncoder (256d, 4 heads, 512 FFN)
+  + policy head (256->256->10)
+  + value head (256->256->1->tanh)
+
+Training:
+  - Data: 50k games from Rust 3-ply search (~100% vs Smart)
+  - Filter: win-only (only train on winning play)
+  - Loss: cross_entropy(policy) + 0.5 * mse(value) weighted by advantage
+  - Gradient accumulation over 16 sequences
+  - RTG conditioning: +1 at inference = "play like a winner"
+```
+
+### Potential Scaling Path
+- **More data**: Generate 200k+ games with search (Rust 3-ply is fast)
+- **Bigger model**: 512d, 6 layers (~15M params like the paper's "small")
+- **Self-play augmentation**: Use the trained model to generate diverse
+  trajectories, add to training data, retrain (the paper's V1→V2 loop)
+- **Showdown replay data**: Scrape Gen 2 OU replays for human diversity
 
 ### Search Distillation Attempts (all failed)
 

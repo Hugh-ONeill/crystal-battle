@@ -27,16 +27,25 @@ from gym_env.obs_builder import OBS_SIZE
 class OfflineTransformerPolicy(nn.Module):
     """Transformer policy trained via offline RL.
 
-    Optionally conditions on reward-to-go: each timestep gets an
-    extra scalar input indicating how much future reward is expected.
-    At inference, we set reward-to-go to +1 (asking for winning play).
+    Features inspired by "Human-Level Competitive Pokemon via Offline RL":
+    - reward-to-go conditioning (set to +1 at inference for winning play)
+    - previous action input (10-dim one-hot, helps track game flow)
+    - previous reward input (scalar, signals momentum)
+    - configurable model size (d_model, n_layers for scaling)
     """
 
     def __init__(self, obs_dim=OBS_SIZE, d_model=256, n_heads=4, n_layers=3,
-                 max_seq=64, use_rtg=True):
+                 max_seq=64, use_rtg=True, use_prev_action=True):
         super().__init__()
         self.use_rtg = use_rtg
-        input_dim = obs_dim + (1 if use_rtg else 0)
+        self.use_prev_action = use_prev_action
+        # input: obs + optional rtg + optional prev_action (10) + prev_reward (1)
+        extra = 0
+        if use_rtg:
+            extra += 1
+        if use_prev_action:
+            extra += 11  # 10-dim one-hot action + 1 reward
+        input_dim = obs_dim + extra
 
         self.embed = nn.Sequential(
             nn.Linear(input_dim, d_model),
@@ -58,27 +67,41 @@ class OfflineTransformerPolicy(nn.Module):
         )
         self.max_seq = max_seq
 
-    def forward(self, obs_seq, rtg=None, mask=None):
+    def forward(self, obs_seq, rtg=None, mask=None, prev_actions=None, prev_rewards=None):
         """
         Args:
             obs_seq: (batch, seq_len, obs_dim)
             rtg: (batch, seq_len, 1) reward-to-go per timestep, or None
             mask: (batch, seq_len, 10) action masks, or None
+            prev_actions: (batch, seq_len) int previous actions, or None
+            prev_rewards: (batch, seq_len) float previous rewards, or None
         Returns:
             logits: (batch, seq_len, 10)
             values: (batch, seq_len, 1)
         """
         b, t, _ = obs_seq.shape
+        parts = [obs_seq]
 
-        if self.use_rtg and rtg is not None:
-            x = torch.cat([obs_seq, rtg], dim=-1)
-        else:
-            # at inference without rtg, append +1 (ask for winning play)
-            if self.use_rtg:
-                ones = torch.ones(b, t, 1, device=obs_seq.device)
-                x = torch.cat([obs_seq, ones], dim=-1)
+        # reward-to-go
+        if self.use_rtg:
+            if rtg is not None:
+                parts.append(rtg)
             else:
-                x = obs_seq
+                parts.append(torch.ones(b, t, 1, device=obs_seq.device))
+
+        # previous action (one-hot) + reward
+        if self.use_prev_action:
+            if prev_actions is not None:
+                prev_onehot = F.one_hot(prev_actions.long(), num_classes=10).float()
+                parts.append(prev_onehot)
+            else:
+                parts.append(torch.zeros(b, t, 10, device=obs_seq.device))
+            if prev_rewards is not None:
+                parts.append(prev_rewards.unsqueeze(-1))
+            else:
+                parts.append(torch.zeros(b, t, 1, device=obs_seq.device))
+
+        x = torch.cat(parts, dim=-1)
 
         x = self.embed(x)
         x = x + self.pos(torch.arange(t, device=x.device))
@@ -90,20 +113,34 @@ class OfflineTransformerPolicy(nn.Module):
         values = self.value_head(x)
         return logits, values
 
-    def predict_action(self, obs_buffer, action_mask, deterministic=True):
-        """Predict action from observation buffer (for inference)."""
+    def predict_action(self, obs_buffer, action_mask, prev_actions=None,
+                       prev_rewards=None, deterministic=True):
+        """Predict action from observation buffer (for inference).
+
+        prev_actions: list of int (previous actions taken)
+        prev_rewards: list of float (previous rewards received)
+        """
         with torch.no_grad():
-            obs_t = torch.tensor(np.array(obs_buffer), dtype=torch.float32).unsqueeze(0)
-            if next(self.parameters()).is_cuda:
-                obs_t = obs_t.cuda()
+            dev = next(self.parameters()).device
+            obs_t = torch.tensor(np.array(obs_buffer), dtype=torch.float32, device=dev).unsqueeze(0)
+            t = obs_t.shape[1]
             mask_t = None
             if action_mask is not None:
-                mask_t = torch.tensor(action_mask, dtype=torch.float32)
-                mask_t = mask_t.unsqueeze(0).unsqueeze(0).expand(-1, obs_t.shape[1], -1)
-                if next(self.parameters()).is_cuda:
-                    mask_t = mask_t.cuda()
-            # rtg=None triggers the +1 conditioning (ask for winning play)
-            logits, _ = self.forward(obs_t, rtg=None, mask=mask_t)
+                mask_t = torch.tensor(action_mask, dtype=torch.float32, device=dev)
+                mask_t = mask_t.unsqueeze(0).unsqueeze(0).expand(-1, t, -1)
+
+            pa_t = None
+            pr_t = None
+            if self.use_prev_action and prev_actions is not None:
+                # pad to match seq length
+                padded_a = [0] * (t - len(prev_actions)) + list(prev_actions[-t:])
+                pa_t = torch.tensor(padded_a, dtype=torch.long, device=dev).unsqueeze(0)
+            if self.use_prev_action and prev_rewards is not None:
+                padded_r = [0.0] * (t - len(prev_rewards)) + list(prev_rewards[-t:])
+                pr_t = torch.tensor(padded_r, dtype=torch.float32, device=dev).unsqueeze(0)
+
+            logits, _ = self.forward(obs_t, rtg=None, mask=mask_t,
+                                     prev_actions=pa_t, prev_rewards=pr_t)
             last_logits = logits[0, -1, :]
             if deterministic:
                 return last_logits.argmax().item()
@@ -170,12 +207,20 @@ def prepare_data(data_path, win_only=False, min_outcome=0.0):
 
         rtg = compute_rtg_for_game(n, outcome)
 
+        # compute previous actions and rewards for turn encoder
+        prev_actions = np.zeros(n, dtype=np.int64)
+        prev_actions[1:] = act_seq[:n-1]  # shift right by 1
+        # previous rewards are 0 for all intermediate steps (reward only at end)
+        prev_rewards = np.zeros(n, dtype=np.float32)
+
         processed.append({
             "obs": obs_seq[:n],
             "actions": act_seq[:n],
             "masks": mask_seq[:n],
             "rtg": rtg,
             "outcome": outcome,
+            "prev_actions": prev_actions,
+            "prev_rewards": prev_rewards,
         })
 
     print(f"  Outcomes: {wins} wins, {losses} losses, {draws} draws")
@@ -185,10 +230,27 @@ def prepare_data(data_path, win_only=False, min_outcome=0.0):
 
 def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
           lr=1e-3, max_seq=64, n_layers=3, save_path="offline_policy.pt",
-          win_only=True, use_rtg=True, accum_steps=16):
-    """Train offline RL transformer."""
+          win_only=True, use_rtg=True, use_prev_action=True,
+          advantage_weight=True, accum_steps=16, d_model=256):
+    """Train offline RL transformer.
+
+    advantage_weight: if True, weight loss by binary advantage
+        (games above average outcome get weight 1, below get weight 0.1)
+    """
 
     data = prepare_data(data_path, win_only=win_only)
+
+    # compute advantage weights per the paper's "Binary" method
+    if advantage_weight and not win_only:
+        outcomes = [d["outcome"] for d in data]
+        avg_outcome = np.mean(outcomes)
+        for d in data:
+            d["weight"] = 1.0 if d["outcome"] >= avg_outcome else 0.1
+        print(f"  Advantage weighting: avg_outcome={avg_outcome:.3f}, "
+              f"{sum(1 for d in data if d['weight']==1.0)} above avg")
+    else:
+        for d in data:
+            d["weight"] = 1.0
 
     random.seed(42)
     random.shuffle(data)
@@ -197,8 +259,8 @@ def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
     train_data = data[val_size:]
 
     model = OfflineTransformerPolicy(
-        d_model=256, n_heads=4, n_layers=n_layers,
-        max_seq=max_seq, use_rtg=use_rtg,
+        d_model=d_model, n_heads=4, n_layers=n_layers,
+        max_seq=max_seq, use_rtg=use_rtg, use_prev_action=use_prev_action,
     ).to(device)
     params = sum(p.numel() for p in model.parameters())
     print(f"  {params:,} parameters, use_rtg={use_rtg}")
@@ -219,6 +281,7 @@ def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
             acts = sample["actions"]
             masks = sample["masks"]
             rtg = sample["rtg"]
+            weight = sample["weight"]
 
             n = min(len(obs), max_seq)
             obs_t = torch.tensor(obs[:n], dtype=torch.float32, device=device).unsqueeze(0)
@@ -228,13 +291,20 @@ def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
             rtg_t = None
             if use_rtg:
                 rtg_t = torch.tensor(rtg[:n], dtype=torch.float32, device=device)
-                rtg_t = rtg_t.unsqueeze(0).unsqueeze(-1)  # (1, n, 1)
+                rtg_t = rtg_t.unsqueeze(0).unsqueeze(-1)
 
-            logits, values = model(obs_t, rtg=rtg_t, mask=mask_t)
+            pa_t = None
+            pr_t = None
+            if use_prev_action:
+                pa_t = torch.tensor(sample["prev_actions"][:n], dtype=torch.long, device=device).unsqueeze(0)
+                pr_t = torch.tensor(sample["prev_rewards"][:n], dtype=torch.float32, device=device).unsqueeze(0)
+
+            logits, values = model(obs_t, rtg=rtg_t, mask=mask_t,
+                                   prev_actions=pa_t, prev_rewards=pr_t)
             logits = logits.squeeze(0)
 
-            # policy loss: cross-entropy on expert actions
-            policy_loss = F.cross_entropy(logits, act_t)
+            # policy loss: weighted cross-entropy on expert actions
+            policy_loss = F.cross_entropy(logits, act_t) * weight
 
             # value loss: predict outcome
             value_target = torch.full((n,), sample["outcome"], device=device)
@@ -275,8 +345,14 @@ def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
                 if use_rtg:
                     rtg_t = torch.tensor(rtg[:n], dtype=torch.float32, device=device)
                     rtg_t = rtg_t.unsqueeze(0).unsqueeze(-1)
+                pa_t = None
+                pr_t = None
+                if use_prev_action:
+                    pa_t = torch.tensor(sample["prev_actions"][:n], dtype=torch.long, device=device).unsqueeze(0)
+                    pr_t = torch.tensor(sample["prev_rewards"][:n], dtype=torch.float32, device=device).unsqueeze(0)
 
-                logits, _ = model(obs_t, rtg=rtg_t, mask=mask_t)
+                logits, _ = model(obs_t, rtg=rtg_t, mask=mask_t,
+                                  prev_actions=pa_t, prev_rewards=pr_t)
                 logits = logits.squeeze(0)
                 vc += (logits.argmax(1) == act_t).sum().item()
                 vt += n
@@ -295,7 +371,8 @@ def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
 
 
 def evaluate(model_path="offline_policy.pt", device="cpu", n_games=100,
-             max_seq=64, n_layers=3, use_rtg=True):
+             max_seq=64, n_layers=3, use_rtg=True, use_prev_action=True,
+             d_model=256):
     """Evaluate offline RL policy vs baselines."""
     from engine.types import TypeChart
     from engine.data_loader import DataStore
@@ -311,8 +388,8 @@ def evaluate(model_path="offline_policy.pt", device="cpu", n_games=100,
     data = DataStore()
 
     model = OfflineTransformerPolicy(
-        d_model=256, n_heads=4, n_layers=n_layers,
-        max_seq=max_seq, use_rtg=use_rtg,
+        d_model=d_model, n_heads=4, n_layers=n_layers,
+        max_seq=max_seq, use_rtg=use_rtg, use_prev_action=use_prev_action,
     ).to(device)
     model.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
     model.eval()
@@ -329,6 +406,8 @@ def evaluate(model_path="offline_policy.pt", device="cpu", n_games=100,
                 rng=random.Random(i + 2000))
 
             obs_buffer = []
+            action_history = []
+            reward_history = []
             for turn in range(100):
                 if battle.is_over:
                     break
@@ -340,8 +419,15 @@ def evaluate(model_path="offline_policy.pt", device="cpu", n_games=100,
                 obs_buffer.append(obs)
                 if len(obs_buffer) > max_seq:
                     obs_buffer = obs_buffer[-max_seq:]
+                    action_history = action_history[-(max_seq-1):]
+                    reward_history = reward_history[-(max_seq-1):]
 
-                action_int = model.predict_action(obs_buffer, mask, deterministic=True)
+                action_int = model.predict_action(
+                    obs_buffer, mask,
+                    prev_actions=action_history if action_history else None,
+                    prev_rewards=reward_history if reward_history else None,
+                    deterministic=True,
+                )
 
                 if action_int < 4:
                     active = battle.p1.active
@@ -359,8 +445,10 @@ def evaluate(model_path="offline_policy.pt", device="cpu", n_games=100,
                 else:
                     p1_action = Switch(team_index=action_int - 4)
 
+                action_history.append(action_int)
                 p2_action = bl.act(battle.p2, battle.p1)
                 resolve_turn(battle, p1_action, p2_action, tc)
+                reward_history.append(0.0)  # intermediate reward
 
                 sw1 = sw2 = None
                 if battle.p1.must_switch:
@@ -412,16 +500,24 @@ if __name__ == "__main__":
                         help="Only train on games the search agent won")
     parser.add_argument("--no-rtg", action="store_true",
                         help="Disable reward-to-go conditioning")
+    parser.add_argument("--no-prev-action", action="store_true",
+                        help="Disable previous action/reward input")
+    parser.add_argument("--no-advantage", action="store_true",
+                        help="Disable binary advantage weighting")
+    parser.add_argument("--d-model", type=int, default=256,
+                        help="Transformer hidden dimension")
     args = parser.parse_args()
 
     if args.train:
         train(args.data, args.device, args.epochs, lr=args.lr,
               max_seq=args.seq_len, n_layers=args.n_layers,
               save_path=args.model, win_only=args.win_only,
-              use_rtg=not args.no_rtg)
+              use_rtg=not args.no_rtg, use_prev_action=not args.no_prev_action,
+              advantage_weight=not args.no_advantage, d_model=args.d_model)
     elif args.evaluate:
         evaluate(args.model, args.device, args.n_games,
                  max_seq=args.seq_len, n_layers=args.n_layers,
-                 use_rtg=not args.no_rtg)
+                 use_rtg=not args.no_rtg, use_prev_action=not args.no_prev_action,
+                 d_model=args.d_model)
     else:
         print("Use --train or --evaluate")
