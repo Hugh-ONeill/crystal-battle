@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import argparse
+import concurrent.futures
 import sys
 from pathlib import Path
 
@@ -284,8 +285,9 @@ class PokeEnginePlayer(Player):
         super().__init__(**kwargs)
         self._translator = PokeEngineTranslator()
         self._search_ms = search_ms
+        self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
 
-    def choose_move(self, battle):
+    async def choose_move(self, battle):
         if battle.turn <= 1:
             self._translator.new_battle()
 
@@ -300,8 +302,13 @@ class PokeEnginePlayer(Player):
         # translate state for poke-engine
         try:
             pe_state = self._translator.translate(battle)
-            # run MCTS (blocks, but poke-env handles this)
-            result = pe.monte_carlo_tree_search(pe_state, duration_ms=self._search_ms)
+            # run MCTS in thread pool so async event loop stays responsive
+            loop = asyncio.get_event_loop()
+            result = await loop.run_in_executor(
+                self._executor,
+                pe.monte_carlo_tree_search,
+                pe_state, self._search_ms,
+            )
         except Exception as e:
             print(f"  Search error: {e}")
             return self.choose_random_move(battle)
