@@ -18,6 +18,7 @@ from poke_env.player import Player
 from poke_env import AccountConfiguration, ServerConfiguration
 
 from showdown.name_mapping import NameMapper, _normalize, STATUS_FROM_SHOWDOWN, STAT_FROM_SHOWDOWN
+from showdown.usage_stats import predict_opponent_team, get_likely_moveset, get_likely_item
 
 
 # ============================================================
@@ -117,7 +118,9 @@ class PokeEngineTranslator:
         # active first, bench after
         active_mon = None
         bench = []
+        revealed_names = set()
         for mon in opp_mons:
+            revealed_names.add(_normalize(mon.species))
             if mon.active:
                 active_mon = mon
             else:
@@ -129,11 +132,68 @@ class PokeEngineTranslator:
         for mon in bench:
             pokemon.append(self._translate_pokemon(mon, is_opponent=True))
 
+        # unrevealed slots: fainted dummies
+        # (usage-predicted fills hurt MCTS -- the wrong predictions mislead search
+        # more than empty slots do, because MCTS explores switching into them)
         while len(pokemon) < 6:
             pokemon.append(pe.Pokemon.create_fainted())
 
         side = pe.Side(pokemon=pokemon[:6])
         return side
+
+    _gen2_pokedex = None
+
+    def _build_predicted_pokemon(self, species_norm: str) -> pe.Pokemon:
+        """Build a poke-engine Pokemon from usage stats prediction."""
+        if PokeEngineTranslator._gen2_pokedex is None:
+            from poke_env.data.gen_data import GenData
+            PokeEngineTranslator._gen2_pokedex = GenData.from_gen(2).pokedex
+        pokedex = PokeEngineTranslator._gen2_pokedex
+
+        # get base stats from poke-env's pokedex
+        poke_data = pokedex.get(species_norm, {})
+        base_stats = poke_data.get("baseStats", {})
+
+        # compute gen2 stats at level 100 with perfect DVs
+        def calc(base, is_hp=False):
+            core = ((base + 15) * 2 + 64) * 100 // 100
+            return core + 110 if is_hp else core + 5
+
+        hp_stat = calc(base_stats.get("hp", 80), is_hp=True)
+        atk_stat = calc(base_stats.get("atk", 80))
+        def_stat = calc(base_stats.get("def", 80))
+        spa_stat = calc(base_stats.get("spa", 80))
+        spd_stat = calc(base_stats.get("spd", 80))
+        spe_stat = calc(base_stats.get("spe", 80))
+
+        # types
+        types_list = poke_data.get("types", ["Normal"])
+        types = tuple(t.lower() for t in types_list)
+        if len(types) < 2:
+            types = (types[0], "typeless")
+
+        # moves from usage stats
+        move_names = get_likely_moveset(species_norm)
+        moves = []
+        for mname in move_names[:4]:
+            moves.append(pe.Move(id=mname, pp=16))
+        while len(moves) < 4:
+            moves.append(pe.Move(id="splash", pp=1))
+
+        item = get_likely_item(species_norm)
+
+        return pe.Pokemon(
+            id=species_norm, level=100,
+            hp=hp_stat, maxhp=hp_stat,
+            attack=atk_stat, defense=def_stat,
+            special_attack=spa_stat, special_defense=spd_stat,
+            speed=spe_stat,
+            types=types,
+            ability="noability",
+            item=item,
+            status="none",
+            moves=moves,
+        )
 
     def _translate_pokemon(self, poke_mon, is_opponent: bool) -> pe.Pokemon:
         species = _normalize(poke_mon.species)
@@ -232,7 +292,6 @@ class PokeEnginePlayer(Player):
         # forced switch: pick best available
         if battle.force_switch:
             if battle.available_switches:
-                # pick healthiest switch target
                 best = max(battle.available_switches,
                            key=lambda p: p.current_hp_fraction)
                 return self.create_order(best)
@@ -241,6 +300,7 @@ class PokeEnginePlayer(Player):
         # translate state for poke-engine
         try:
             pe_state = self._translator.translate(battle)
+            # run MCTS (blocks, but poke-env handles this)
             result = pe.monte_carlo_tree_search(pe_state, duration_ms=self._search_ms)
         except Exception as e:
             print(f"  Search error: {e}")
