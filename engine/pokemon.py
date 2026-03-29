@@ -133,6 +133,7 @@ class Pokemon:
     stats: dict[str, int] = field(default_factory=dict)
     current_hp: int = -1
     move_slots: list[MoveSlot] = field(default_factory=list)
+    item: str | None = None  # held item ("leftovers", "thickclub", etc.)
     status: str | None = None
     status_turns: int = 0
     confusion_turns: int = 0

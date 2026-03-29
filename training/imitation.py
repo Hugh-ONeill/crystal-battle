@@ -160,7 +160,247 @@ def generate_sequences(
 
 
 # ============================================================
-# SEQUENCE PRE-TRAINING (full LSTM)
+# LEAN LSTM PRE-TRAINING (simple MLP encoder, no attention)
+# ============================================================
+
+def pretrain_lean(
+    data_path: str = "search_3ply_data.pkl",
+    save_path: str = "lean_lstm",
+    epochs: int = 30,
+    lr: float = 1e-3,
+    device: str = "cpu",
+    embed_dim: int = 512,
+    lstm_hidden: int = 512,
+    max_games: int = 0,
+):
+    """Pre-train lean LSTM on search data.
+
+    Simple MLP encoder -> LSTM -> linear head. No attention extractor.
+    """
+    print(f"Loading sequences from {data_path}...")
+    with open(data_path, "rb") as f:
+        sequences = pickle.load(f)
+    if max_games > 0 and len(sequences) > max_games:
+        sequences = sequences[:max_games]
+        print(f"  Capped to {max_games} games")
+    total_steps = sum(len(s[0]) for s in sequences)
+    print(f"  {len(sequences)} sequences, {total_steps} total steps")
+
+    rng = random.Random(42)
+    rng.shuffle(sequences)
+    val_size = max(1, len(sequences) // 10)
+    val_seqs = sequences[:val_size]
+    train_seqs = sequences[val_size:]
+
+    encoder = nn.Sequential(
+        nn.Linear(OBS_SIZE, embed_dim),
+        nn.ReLU(),
+        nn.Linear(embed_dim, embed_dim),
+        nn.ReLU(),
+    ).to(device)
+    lstm = nn.LSTM(embed_dim, lstm_hidden, num_layers=1, batch_first=True).to(device)
+    head = nn.Linear(lstm_hidden, 10).to(device)
+
+    all_params = list(encoder.parameters()) + list(lstm.parameters()) + list(head.parameters())
+    params_total = sum(p.numel() for p in all_params)
+    print(f"  {params_total:,} parameters (embed={embed_dim}, lstm={lstm_hidden})")
+
+    optimizer = torch.optim.Adam(all_params, lr=lr)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
+
+    accum_steps = 16
+
+    def run_epoch(seqs, train=True):
+        encoder.train(train); lstm.train(train); head.train(train)
+        total_loss = total_correct = total_count = 0
+        indices = list(range(len(seqs)))
+        if train:
+            random.shuffle(indices)
+        optimizer.zero_grad()
+
+        for batch_start in range(0, len(indices), accum_steps):
+            batch_idx = indices[batch_start:batch_start + accum_steps]
+            batch_loss = 0
+
+            for idx in batch_idx:
+                obs_seq, act_seq = seqs[idx][0], seqs[idx][1]
+                mask_seq = seqs[idx][2] if len(seqs[idx]) >= 3 else \
+                    np.ones((len(act_seq), 10), dtype=np.float32)
+                n = len(obs_seq)
+
+                obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=device)
+                act_t = torch.tensor(act_seq, dtype=torch.long, device=device)
+                mask_t = torch.tensor(mask_seq, dtype=torch.float32, device=device)
+
+                with torch.set_grad_enabled(train):
+                    emb = encoder(obs_t).unsqueeze(0)
+                    out, _ = lstm(emb)
+                    logits = head(out.squeeze(0))
+                    logits = logits + (1 - mask_t) * -1e9
+                    loss = F.cross_entropy(logits, act_t)
+                    batch_loss = batch_loss + loss / len(batch_idx)
+
+                    total_correct += (logits.argmax(1) == act_t).sum().item()
+                    total_count += n
+                    total_loss += loss.item() * n
+
+            if train:
+                batch_loss.backward()
+                torch.nn.utils.clip_grad_norm_(all_params, 1.0)
+                optimizer.step()
+                optimizer.zero_grad()
+
+        return total_loss / total_count, total_correct / total_count
+
+    print(f"Training for {epochs} epochs ({len(train_seqs)} train, {len(val_seqs)} val)...")
+    best_val = 0
+    for epoch in range(epochs):
+        train_loss, train_acc = run_epoch(train_seqs, train=True)
+        with torch.no_grad():
+            val_loss, val_acc = run_epoch(val_seqs, train=False)
+        scheduler.step()
+
+        marker = ""
+        if val_acc > best_val:
+            best_val = val_acc
+            torch.save({
+                "encoder": encoder.state_dict(),
+                "lstm": lstm.state_dict(),
+                "head": head.state_dict(),
+                "embed_dim": embed_dim,
+                "lstm_hidden": lstm_hidden,
+            }, f"{save_path}.pt")
+            marker = " *best*"
+
+        print(f"  Epoch {epoch+1:2d}: train={train_acc:.3f} loss={train_loss:.4f} "
+              f"val={val_acc:.3f}{marker}")
+
+    print(f"Best val: {best_val:.3f}, saved to {save_path}.pt")
+
+
+def evaluate_lean(
+    model_path: str = "lean_lstm.pt",
+    device: str = "cpu",
+    n_games: int = 200,
+):
+    """Evaluate lean LSTM vs baselines."""
+    from engine.types import TypeChart
+    from engine.data_loader import DataStore
+    from engine.battle_state import BattleState
+    from engine.player_state import PlayerState
+    from engine.turn_engine import resolve_turn, resolve_forced_switches
+    from engine.actions import Switch, UseMove, Struggle
+    from training.baselines import SmartAgent, MaxDamageAgent
+    from gym_env.team_builder import build_team
+    from gym_env.obs_builder import build_observation
+
+    tc = TypeChart.load()
+    data = DataStore()
+
+    checkpoint = torch.load(model_path, map_location=device, weights_only=True)
+    embed_dim = checkpoint["embed_dim"]
+    lstm_hidden = checkpoint["lstm_hidden"]
+
+    encoder = nn.Sequential(
+        nn.Linear(OBS_SIZE, embed_dim), nn.ReLU(),
+        nn.Linear(embed_dim, embed_dim), nn.ReLU(),
+    ).to(device)
+    lstm = nn.LSTM(embed_dim, lstm_hidden, num_layers=1, batch_first=True).to(device)
+    head = nn.Linear(lstm_hidden, 10).to(device)
+
+    encoder.load_state_dict(checkpoint["encoder"])
+    lstm.load_state_dict(checkpoint["lstm"])
+    head.load_state_dict(checkpoint["head"])
+    encoder.eval(); lstm.eval(); head.eval()
+
+    def predict(obs_buffer, mask):
+        with torch.no_grad():
+            obs_t = torch.tensor(np.array(obs_buffer), dtype=torch.float32, device=device).unsqueeze(0)
+            mask_t = torch.tensor(mask, dtype=torch.float32, device=device)
+            emb = encoder(obs_t)
+            out, _ = lstm(emb)
+            logits = head(out[0, -1, :])
+            logits = logits + (1 - mask_t) * -1e9
+            return logits.argmax().item()
+
+    for bl_name, bl_cls in [("max_damage", MaxDamageAgent), ("smart", SmartAgent)]:
+        bl = bl_cls(tc, seed=99) if bl_name == "smart" else bl_cls(tc)
+        wins = 0
+        for i in range(n_games):
+            rng = random.Random(i)
+            t1 = build_team(data, rng=rng, tier="ou")
+            t2 = build_team(data, rng=random.Random(i + 1000), tier="ou")
+            battle = BattleState(
+                p1=PlayerState(team=t1), p2=PlayerState(team=t2),
+                rng=random.Random(i + 2000))
+
+            obs_buffer = []
+            for turn in range(100):
+                if battle.is_over:
+                    break
+                obs = build_observation(battle.p1, battle.p2, tc, turn=battle.turn,
+                                        weather=battle.weather,
+                                        weather_turns=battle.weather_turns)
+                mask = np.array(battle.p1.valid_action_mask(battle.p2, type_chart=tc),
+                                dtype=np.float32)
+                obs_buffer.append(obs)
+                if len(obs_buffer) > 32:
+                    obs_buffer = obs_buffer[-32:]
+
+                action_int = predict(obs_buffer, mask)
+
+                if action_int < 4:
+                    active = battle.p1.active
+                    if not active.has_any_pp():
+                        p1_action = Struggle()
+                    elif action_int < len(active.move_slots) and active.move_slots[action_int].has_pp:
+                        p1_action = UseMove(slot_index=action_int)
+                    else:
+                        for j, slot in enumerate(active.move_slots):
+                            if slot.has_pp:
+                                p1_action = UseMove(slot_index=j); break
+                        else:
+                            p1_action = Struggle()
+                else:
+                    p1_action = Switch(team_index=action_int - 4)
+
+                p2_action = bl.act(battle.p2, battle.p1)
+                resolve_turn(battle, p1_action, p2_action, tc)
+
+                sw1 = sw2 = None
+                if battle.p1.must_switch:
+                    sw_obs = build_observation(battle.p1, battle.p2, tc, turn=battle.turn,
+                                                weather=battle.weather,
+                                                weather_turns=battle.weather_turns)
+                    sw_mask = np.array(battle.p1.valid_action_mask(battle.p2, type_chart=tc),
+                                        dtype=np.float32)
+                    obs_buffer.append(sw_obs)
+                    if len(obs_buffer) > 32:
+                        obs_buffer = obs_buffer[-32:]
+                    sw_int = predict(obs_buffer, sw_mask)
+                    if sw_int >= 4:
+                        sw1 = Switch(team_index=sw_int - 4)
+                    if sw1 is None:
+                        for j, p in enumerate(battle.p1.team):
+                            if j != battle.p1.active_index and not p.is_fainted:
+                                sw1 = Switch(team_index=j); break
+                if battle.p2.must_switch:
+                    sw2_a = bl.act(battle.p2, battle.p1)
+                    sw2 = sw2_a if isinstance(sw2_a, Switch) else None
+                    if sw2 is None:
+                        for j, p in enumerate(battle.p2.team):
+                            if j != battle.p2.active_index and not p.is_fainted:
+                                sw2 = Switch(team_index=j); break
+                if sw1 or sw2:
+                    resolve_forced_switches(battle, sw1, sw2)
+
+            if battle.winner == 1:
+                wins += 1
+        print(f"  vs {bl_name:12s}: {wins}/{n_games} ({wins/n_games*100:.1f}%)")
+
+
+# ============================================================
+# SEQUENCE PRE-TRAINING (full LSTM with attention extractor)
 # ============================================================
 
 def pretrain_sequential(
@@ -401,12 +641,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Imitation learning pipeline")
     parser.add_argument("--generate", action="store_true")
     parser.add_argument("--pretrain", action="store_true")
+    parser.add_argument("--lean", action="store_true",
+                        help="Lean LSTM training (simple MLP encoder, no attention)")
+    parser.add_argument("--evaluate-lean", action="store_true",
+                        help="Evaluate lean LSTM vs baselines")
     parser.add_argument("--init-ppo", action="store_true")
     parser.add_argument("--n-games", type=int, default=5000)
+    parser.add_argument("--max-games", type=int, default=0,
+                        help="Cap number of sequences to load (0 = all)")
     parser.add_argument("--data", type=str, default="expert_sequences.pkl")
     parser.add_argument("--model", type=str, default="imitation_seq")
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--device", type=str, default="cpu")
+    parser.add_argument("--embed-dim", type=int, default=512)
+    parser.add_argument("--lstm-hidden", type=int, default=512)
     parser.add_argument("--opponent", type=str, default="mixed",
                         choices=["mixed", "smart", "maxdmg"])
     args = parser.parse_args()
@@ -414,6 +662,18 @@ if __name__ == "__main__":
     if args.generate:
         generate_sequences(
             n_games=args.n_games, out_path=args.data, opponent=args.opponent,
+        )
+    elif args.lean:
+        pretrain_lean(
+            data_path=args.data, save_path=args.model,
+            epochs=args.epochs, device=args.device,
+            embed_dim=args.embed_dim, lstm_hidden=args.lstm_hidden,
+            max_games=args.max_games,
+        )
+    elif args.evaluate_lean:
+        evaluate_lean(
+            model_path=f"{args.model}.pt", device=args.device,
+            n_games=args.n_games,
         )
     elif args.pretrain:
         pretrain_sequential(

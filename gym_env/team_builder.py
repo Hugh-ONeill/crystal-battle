@@ -203,13 +203,13 @@ TEMPLATES = [
         (205, [92, 191, 237, 156]), # Forretress: Toxic, Spikes, HP, Rest
         (91, [92, 191, 57, 58]),    # Cloyster: Toxic, Spikes, Surf, Ice Beam
     ],
-    [  # 3: Ho-Oh Offense -- Sacred Fire burns cripple physicals (ubers)
-        (250, [221, 89, 105, 237]), # Ho-Oh: Sacred Fire, EQ, Recover, HP
-        (150, [94, 58, 85, 126]),   # Mewtwo: Psychic, Ice Beam, Tbolt, Fire Blast
-        (248, [242, 89, 157, 126]), # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
-        (68, [238, 89, 157, 126]),  # Machamp: Cross Chop, EQ, Rock Slide, Fire Blast
-        (149, [58, 126, 85, 57]),   # Dragonite: Ice Beam, Fire Blast, Tbolt, Surf
-        (121, [57, 94, 85, 58]),    # Starmie: Surf, Psychic, Tbolt, Ice Beam
+    [  # 3: Entei Offense -- Sacred Fire burns cripple physicals
+        (244, [221, 89, 216, 237]),  # Entei: Sacred Fire, EQ, Return, HP
+        (248, [242, 89, 157, 126]),  # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
+        (68, [238, 89, 157, 126]),   # Machamp: Cross Chop, EQ, Rock Slide, Fire Blast
+        (149, [58, 126, 85, 57]),    # Dragonite: Ice Beam, Fire Blast, Tbolt, Surf
+        (121, [57, 94, 85, 58]),     # Starmie: Surf, Psychic, Tbolt, Ice Beam
+        (242, [92, 135, 58, 85]),    # Blissey: Toxic, Soft-Boiled, Ice Beam, Tbolt
     ],
     [  # 4: Ghost Disruption -- Hypnosis + Confuse Ray, Normal/Fighting immunity
         (94, [95, 247, 85, 109]),   # Gengar: Hypnosis, Shadow Ball, Tbolt, Confuse Ray
@@ -233,7 +233,7 @@ TEMPLATES = [
         (248, [242, 89, 157, 126]), # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
         (24, [137, 188, 89, 216]),  # Arbok: Glare, Sludge Bomb, EQ, Return
         (112, [89, 58, 126, 231]),  # Rhydon: EQ, Ice Beam, Fire Blast, Iron Tail
-        (217, [216, 89, 14, 157]),  # Ursaring: Return, EQ, Swords Dance, Rock Slide
+        (217, [216, 89, 7, 157]),   # Ursaring: Return, EQ, Fire Punch, Rock Slide
     ],
     [  # 7: Venusaur Sleep Stall -- Sleep Powder + Spore + Toxic + Spikes attrition
         (3, [79, 73, 202, 237]),    # Venusaur: Sleep Powder, Leech Seed, Giga Drain, HP
@@ -316,7 +316,7 @@ TEMPLATES = [
         (227, [191, 65, 92, 156]),  # Skarmory: Spikes, Drill Peck, Toxic, Rest
     ],
     [  # 17: Growth Vaporeon -- Growth behind screens + bulky waters
-        (134, [74, 57, 58, 156]),   # Vaporeon: Growth, Surf, Ice Beam, Rest
+        (134, [151, 57, 58, 156]),  # Vaporeon: Acid Armor, Surf, Ice Beam, Rest
         (245, [57, 58, 115, 156]),  # Suicune: Surf, Ice Beam, Reflect, Rest
         (242, [113, 135, 58, 85]),  # Blissey: Light Screen, Soft-Boiled, Ice Beam, Tbolt
         (248, [242, 89, 157, 126]), # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
@@ -339,14 +339,6 @@ TEMPLATES = [
         (248, [242, 89, 157, 126]),   # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
         (145, [86, 85, 65, 237]),     # Zapdos: TW, Tbolt, Drill Peck, HP
     ],
-    [  # 19: Agility Sweep -- Agility + coverage for late-game cleanup
-        (196, [97, 94, 237, 247]),  # Espeon: Agility, Psychic, HP, Shadow Ball
-        (135, [97, 85, 237, 58]),   # Jolteon: Agility, Tbolt, HP, Ice Beam
-        (68, [238, 89, 157, 126]),  # Machamp: Cross Chop, EQ, Rock Slide, Fire Blast
-        (242, [92, 135, 58, 85]),   # Blissey: Toxic, Soft-Boiled, Ice Beam, Tbolt
-        (248, [242, 89, 157, 126]), # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
-        (227, [191, 65, 92, 156]),  # Skarmory: Spikes, Drill Peck, Toxic, Rest
-    ],
 ]
 
 
@@ -359,14 +351,14 @@ OFFENSIVE_TEMPLATES = [
         (248, [242, 89, 157, 126]),  # Tyranitar: Crunch, EQ, Rock Slide, Fire Blast
         (121, [57, 94, 85, 58]),     # Starmie: Surf, Psychic, Tbolt, Ice Beam
         (68, [238, 89, 157, 126]),   # Machamp: Cross Chop, EQ, Rock Slide, Fire Blast
-        (94, [247, 85, 188, 58]),    # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Beam
+        (94, [247, 85, 188, 8]),     # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Punch
         (214, [224, 89, 216, 157]),  # Heracross: Megahorn, EQ, Return, Rock Slide
         (149, [58, 126, 85, 57]),    # Dragonite: Ice Beam, Fire Blast, Tbolt, Surf
     ],
     [  # 1: Special Blitz -- fast special sweepers
-        (65, [94, 58, 85, 247]),     # Alakazam: Psychic, Ice Beam, Tbolt, Shadow Ball
+        (65, [94, 8, 9, 247]),       # Alakazam: Psychic, Ice Punch, Thunder Punch, Shadow Ball
         (121, [57, 94, 85, 58]),     # Starmie: Surf, Psychic, Tbolt, Ice Beam
-        (94, [247, 85, 188, 58]),    # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Beam
+        (94, [247, 85, 188, 8]),     # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Punch
         (145, [85, 65, 237, 58]),    # Zapdos: Tbolt, Drill Peck, HP, Ice Beam (via event)
         (196, [94, 237, 247, 58]),   # Espeon: Psychic, HP, Shadow Ball, Ice Beam (coverage)
         (34, [89, 58, 85, 126]),     # Nidoking: EQ, Ice Beam, Tbolt, Fire Blast
@@ -381,11 +373,11 @@ OFFENSIVE_TEMPLATES = [
     ],
     [  # 3: Speed Offense -- fast attackers that outspeed and 2HKO
         (121, [57, 94, 85, 58]),     # Starmie: Surf, Psychic, Tbolt, Ice Beam
-        (65, [94, 58, 85, 247]),     # Alakazam: Psychic, Ice Beam, Tbolt, Shadow Ball
-        (135, [85, 237, 58, 247]),   # Jolteon: Tbolt, HP, Ice Beam (coverage), Shadow Ball
+        (65, [94, 8, 9, 247]),       # Alakazam: Psychic, Ice Punch, Thunder Punch, Shadow Ball
+        (135, [85, 237, 247, 216]),  # Jolteon: Tbolt, HP, Shadow Ball, Return
         (142, [216, 89, 157, 58]),   # Aerodactyl: Return, EQ, Rock Slide, Ice Beam
-        (94, [247, 85, 188, 58]),    # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Beam
-        (124, [94, 58, 237, 188]),   # Jynx: Psychic, Ice Beam, HP, Sludge Bomb
+        (94, [247, 85, 188, 8]),     # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Punch
+        (124, [94, 58, 237, 247]),   # Jynx: Psychic, Ice Beam, HP, Shadow Ball
     ],
     [  # 4: Dragon Core -- Dragonite + coverage partners
         (149, [58, 126, 85, 57]),    # Dragonite: Ice Beam, Fire Blast, Tbolt, Surf
@@ -393,7 +385,7 @@ OFFENSIVE_TEMPLATES = [
         (121, [57, 94, 85, 58]),     # Starmie: Surf, Psychic, Tbolt, Ice Beam
         (214, [224, 89, 216, 157]),  # Heracross: Megahorn, EQ, Return, Rock Slide
         (34, [89, 58, 85, 126]),     # Nidoking: EQ, Ice Beam, Tbolt, Fire Blast
-        (94, [247, 85, 188, 58]),    # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Beam
+        (94, [247, 85, 188, 8]),     # Gengar: Shadow Ball, Tbolt, Sludge Bomb, Ice Punch
     ],
     [  # 5: Anti-Stall Offense -- broad coverage to break walls
         (68, [238, 89, 157, 126]),   # Machamp: Cross Chop, EQ, Rock Slide, Fire Blast

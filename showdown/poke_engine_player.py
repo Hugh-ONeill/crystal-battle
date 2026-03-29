@@ -1,0 +1,358 @@
+# poke-env Player powered by poke-engine MCTS search
+# uses poke-engine for accurate Gen 2 battle simulation with items
+#
+# Usage:
+#   python showdown/poke_engine_player.py --local --search-ms 1000
+
+from __future__ import annotations
+
+import asyncio
+import argparse
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import poke_engine as pe
+from poke_env.player import Player
+from poke_env import AccountConfiguration, ServerConfiguration
+
+from showdown.name_mapping import NameMapper, _normalize, STATUS_FROM_SHOWDOWN, STAT_FROM_SHOWDOWN
+
+
+# ============================================================
+# SERVER CONFIGURATIONS
+# ============================================================
+
+LOCAL_SERVER = ServerConfiguration(
+    "ws://localhost:8000/showdown/websocket",
+    "https://play.pokemonshowdown.com/action.php?",
+)
+
+POKEAGENT_SERVER = ServerConfiguration(
+    "wss://pokeagentshowdown.com/showdown/websocket",
+    "https://play.pokemonshowdown.com/action.php?",
+)
+
+
+# ============================================================
+# STATE TRANSLATION (poke-env -> poke-engine)
+# ============================================================
+
+class PokeEngineTranslator:
+    """Translates poke-env Battle objects to poke-engine State."""
+
+    def __init__(self):
+        self._my_team_order: dict[str, int] = {}
+        self._opp_team_order: dict[str, int] = {}
+        self._opp_next_slot: int = 0
+
+    def new_battle(self):
+        self._my_team_order = {}
+        self._opp_team_order = {}
+        self._opp_next_slot = 0
+
+    def translate(self, battle) -> pe.State:
+        """Convert poke-env Battle to poke-engine State."""
+        side_one = self._translate_my_side(battle)
+        side_two = self._translate_opp_side(battle)
+
+        weather = pe.Weather.NONE
+        if battle.weather:
+            for w in battle.weather:
+                wname = w.name if hasattr(w, "name") else str(w)
+                wname = wname.upper()
+                if "SUN" in wname:
+                    weather = pe.Weather.SUN
+                elif "RAIN" in wname:
+                    weather = pe.Weather.RAIN
+                elif "SAND" in wname:
+                    weather = pe.Weather.SAND
+                elif "HAIL" in wname:
+                    weather = pe.Weather.HAIL
+            weather_turns = 5  # approximate
+        else:
+            weather_turns = 0
+
+        return pe.State(
+            side_one=side_one, side_two=side_two,
+            weather=weather, weather_turns_remaining=weather_turns,
+            terrain=pe.Terrain.NONE, terrain_turns_remaining=0,
+            trick_room=False, trick_room_turns_remaining=0,
+            team_preview=False,
+        )
+
+    def _translate_my_side(self, battle) -> pe.Side:
+        team_mons = list(battle.team.values())
+        if not self._my_team_order:
+            for i, mon in enumerate(team_mons):
+                self._my_team_order[mon.species] = i
+
+        # active pokemon must be at index 0 (active_index is read-only)
+        active_mon = None
+        bench = []
+        for mon in team_mons:
+            if mon.active:
+                active_mon = mon
+            else:
+                bench.append(mon)
+
+        pokemon = []
+        if active_mon:
+            pokemon.append(self._translate_pokemon(active_mon, is_opponent=False))
+        for mon in bench:
+            pokemon.append(self._translate_pokemon(mon, is_opponent=False))
+
+        while len(pokemon) < 6:
+            pokemon.append(pe.Pokemon.create_fainted())
+
+        side = pe.Side(pokemon=pokemon[:6])
+        # note: boosts and side conditions are read-only on Side object
+        # they default to 0 -- for accurate mid-game state we'd need from_string()
+        return side
+
+    def _translate_opp_side(self, battle) -> pe.Side:
+        opp_mons = list(battle.opponent_team.values())
+
+        # active first, bench after
+        active_mon = None
+        bench = []
+        for mon in opp_mons:
+            if mon.active:
+                active_mon = mon
+            else:
+                bench.append(mon)
+
+        pokemon = []
+        if active_mon:
+            pokemon.append(self._translate_pokemon(active_mon, is_opponent=True))
+        for mon in bench:
+            pokemon.append(self._translate_pokemon(mon, is_opponent=True))
+
+        while len(pokemon) < 6:
+            pokemon.append(pe.Pokemon.create_fainted())
+
+        side = pe.Side(pokemon=pokemon[:6])
+        return side
+
+    def _translate_pokemon(self, poke_mon, is_opponent: bool) -> pe.Pokemon:
+        species = _normalize(poke_mon.species)
+        if poke_mon.fainted:
+            return pe.Pokemon.create_fainted()
+
+        # moves
+        moves = []
+        for move_id, move_obj in poke_mon.moves.items():
+            mid = _normalize(move_id)
+            pp = move_obj.current_pp if not is_opponent else move_obj.max_pp
+            moves.append(pe.Move(id=mid, pp=pp))
+        while len(moves) < 4:
+            moves.append(pe.Move(id="splash", pp=1))
+
+        # stats
+        if is_opponent:
+            # estimate stats from base stats at level 100
+            # poke-env gives base_stats, we need computed stats
+            bs = poke_mon.base_stats
+            hp_stat = ((bs.get("hp", 80) + 15) * 2 + 64) + 110
+            atk_stat = ((bs.get("atk", 80) + 15) * 2 + 64) + 5
+            def_stat = ((bs.get("def", 80) + 15) * 2 + 64) + 5
+            spa_stat = ((bs.get("spa", 80) + 15) * 2 + 64) + 5
+            spd_stat = ((bs.get("spd", 80) + 15) * 2 + 64) + 5
+            spe_stat = ((bs.get("spe", 80) + 15) * 2 + 64) + 5
+            current_hp = max(1, int(poke_mon.current_hp_fraction * hp_stat))
+        else:
+            hp_stat = poke_mon.max_hp or 300
+            current_hp = poke_mon.current_hp or 0
+            stats = poke_mon.stats or {}
+            atk_stat = stats.get("atk", 200)
+            def_stat = stats.get("def", 200)
+            spa_stat = stats.get("spa", 200)
+            spd_stat = stats.get("spd", 200)
+            spe_stat = stats.get("spe", 200)
+
+        # types
+        types = []
+        if poke_mon.type_1:
+            types.append(poke_mon.type_1.name.lower())
+        if poke_mon.type_2:
+            types.append(poke_mon.type_2.name.lower())
+        if not types:
+            types = ["normal"]
+        while len(types) < 2:
+            types.append("typeless")
+
+        # status -- poke-engine needs full lowercase names
+        _STATUS_MAP = {
+            "BRN": "burn", "PAR": "paralysis", "SLP": "sleep",
+            "FRZ": "freeze", "PSN": "poison", "TOX": "toxic",
+        }
+        status = "none"
+        if poke_mon.status:
+            status = _STATUS_MAP.get(poke_mon.status.name, "none")
+
+        # item (opponent: guess leftovers, us: use actual)
+        item = "none"
+        if not is_opponent:
+            if poke_mon.item:
+                item = _normalize(poke_mon.item)
+        else:
+            item = "leftovers"  # safe default for gen2 OU
+
+        return pe.Pokemon(
+            id=species, level=100,
+            hp=current_hp, maxhp=hp_stat,
+            attack=atk_stat, defense=def_stat,
+            special_attack=spa_stat, special_defense=spd_stat,
+            speed=spe_stat,
+            types=tuple(types),
+            ability="noability",
+            item=item,
+            status=status,
+            moves=moves[:4],
+        )
+
+
+# ============================================================
+# POKE-ENGINE SEARCH PLAYER
+# ============================================================
+
+class PokeEnginePlayer(Player):
+    """poke-env Player using poke-engine MCTS for decisions."""
+
+    def __init__(self, search_ms: int = 1000, **kwargs):
+        super().__init__(**kwargs)
+        self._translator = PokeEngineTranslator()
+        self._search_ms = search_ms
+
+    def choose_move(self, battle):
+        if battle.turn <= 1:
+            self._translator.new_battle()
+
+        # forced switch: pick best available
+        if battle.force_switch:
+            if battle.available_switches:
+                # pick healthiest switch target
+                best = max(battle.available_switches,
+                           key=lambda p: p.current_hp_fraction)
+                return self.create_order(best)
+            return self.choose_default_move()
+
+        # translate state for poke-engine
+        try:
+            pe_state = self._translator.translate(battle)
+            result = pe.monte_carlo_tree_search(pe_state, duration_ms=self._search_ms)
+        except Exception as e:
+            print(f"  Search error: {e}")
+            return self.choose_random_move(battle)
+
+        # find best move from MCTS results
+        best = max(result.side_one, key=lambda x: x.visits)
+        move_choice = best.move_choice
+
+        # map poke-engine move choice back to poke-env order
+        return self._map_move_to_order(move_choice, battle)
+
+    def _map_move_to_order(self, move_choice: str, battle):
+        """Map poke-engine move name to poke-env BattleOrder."""
+        choice_norm = _normalize(move_choice)
+
+        # check if it's a switch
+        if choice_norm.startswith("switch"):
+            # poke-engine returns "switch <pokemon_id>"
+            # extract the pokemon name
+            parts = move_choice.split()
+            if len(parts) >= 2:
+                target_species = _normalize(parts[1])
+                for mon in battle.available_switches:
+                    if _normalize(mon.species) == target_species:
+                        return self.create_order(mon)
+            # fallback
+            if battle.available_switches:
+                return self.create_order(battle.available_switches[0])
+
+        # it's a move -- match by normalized name
+        for move in battle.available_moves:
+            if _normalize(move.id) == choice_norm:
+                return self.create_order(move)
+
+        # fuzzy fallback
+        for move in battle.available_moves:
+            if choice_norm in _normalize(move.id) or _normalize(move.id) in choice_norm:
+                return self.create_order(move)
+
+        # give up, pick random
+        return self.choose_random_move(battle)
+
+
+# ============================================================
+# CLI
+# ============================================================
+
+async def main():
+    parser = argparse.ArgumentParser(description="poke-engine Search Bot")
+    parser.add_argument("--local", action="store_true")
+    parser.add_argument("--server", type=str, default="local",
+                        choices=["local", "pokeagent", "showdown"])
+    parser.add_argument("--username", type=str, default="PokeEngBot")
+    parser.add_argument("--password", type=str, default="")
+    parser.add_argument("--format", type=str, default="gen2ou")
+    parser.add_argument("--search-ms", type=int, default=1000)
+    parser.add_argument("--n-games", type=int, default=10)
+    parser.add_argument("--challenge", type=str, default=None)
+    parser.add_argument("--vs-smart", action="store_true",
+                        help="Play against SmartAgent wrapper")
+    args = parser.parse_args()
+
+    if args.local or args.server == "local":
+        server_config = LOCAL_SERVER
+    elif args.server == "pokeagent":
+        server_config = POKEAGENT_SERVER
+    else:
+        from poke_env import ShowdownServerConfiguration
+        server_config = ShowdownServerConfiguration
+
+    from showdown.sample_teams import SAMPLE_TEAMS
+    import random as rng_mod
+    team_str = rng_mod.choice(SAMPLE_TEAMS)
+    print(f"Search time: {args.search_ms}ms per turn\n")
+
+    player = PokeEnginePlayer(
+        search_ms=args.search_ms,
+        account_configuration=AccountConfiguration(args.username, args.password),
+        server_configuration=server_config,
+        battle_format=args.format,
+        team=team_str,
+    )
+
+    if args.vs_smart:
+        from showdown.player import HeuristicPlayer
+        opp = HeuristicPlayer(
+            agent_type="smart",
+            account_configuration=AccountConfiguration("SmartOpp2", ""),
+            server_configuration=server_config,
+            battle_format=args.format,
+            team=rng_mod.choice(SAMPLE_TEAMS),
+        )
+        print(f"Playing {args.n_games} games vs SmartAgent...")
+        await player.battle_against(opp, n_battles=args.n_games)
+    elif args.challenge:
+        await player.send_challenges(args.challenge, n_challenges=args.n_games)
+    else:
+        from poke_env.player import RandomPlayer
+        opp = RandomPlayer(
+            account_configuration=AccountConfiguration("RandOpp2", ""),
+            server_configuration=server_config,
+            battle_format=args.format,
+            team=rng_mod.choice(SAMPLE_TEAMS),
+        )
+        print(f"Playing {args.n_games} games vs RandomPlayer...")
+        await player.battle_against(opp, n_battles=args.n_games)
+
+    wins = sum(1 for b in player.battles.values() if b.won)
+    total = len(player.battles)
+    print(f"\nResults: {wins}/{total} ({wins/total*100:.1f}%)")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

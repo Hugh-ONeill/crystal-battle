@@ -978,6 +978,37 @@ def _end_of_turn(state: BattleState) -> list[Event]:
             if pokemon.is_fainted:
                 events.append(FaintEvent(player=player_num, pokemon_name=pokemon.name))
 
+    # ---- Leftovers healing ----
+    for player_num, ps in [(1, state.p1), (2, state.p2)]:
+        pokemon = ps.active
+        if pokemon.is_fainted:
+            continue
+        if pokemon.item == "leftovers" and pokemon.current_hp < pokemon.max_hp:
+            heal_amt = max(pokemon.max_hp // 16, 1)
+            actual = pokemon.heal(heal_amt)
+            if actual > 0:
+                events.append(HealEvent(
+                    player=player_num, pokemon_name=pokemon.name, amount=actual,
+                ))
+
+    # ---- Berry items (consume on use) ----
+    for player_num, ps in [(1, state.p1), (2, state.p2)]:
+        pokemon = ps.active
+        if pokemon.is_fainted:
+            continue
+        if pokemon.item == "miracleberry" and pokemon.status is not None:
+            pokemon.clear_status()
+            pokemon.item = None
+            events.append(StatusCuredEvent(
+                player=player_num, pokemon_name=pokemon.name, status="cured",
+            ))
+        elif pokemon.item == "mintberry" and pokemon.status == "slp":
+            pokemon.clear_status()
+            pokemon.item = None
+            events.append(StatusCuredEvent(
+                player=player_num, pokemon_name=pokemon.name, status="slp",
+            ))
+
     # ---- Weather countdown ----
     if state.weather is not None:
         state.weather_turns -= 1

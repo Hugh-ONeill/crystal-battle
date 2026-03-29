@@ -55,8 +55,8 @@ class OfflineTransformerPolicy(nn.Module):
         )
         self.pos = nn.Embedding(max_seq, d_model)
         layer = nn.TransformerEncoderLayer(
-            d_model, n_heads, dim_feedforward=512,
-            batch_first=True, dropout=0.1,
+            d_model, n_heads, dim_feedforward=max(512, d_model * 2),
+            batch_first=True, dropout=0.0,
         )
         self.transformer = nn.TransformerEncoder(layer, n_layers)
         self.policy_head = nn.Sequential(
@@ -306,11 +306,7 @@ def train(data_path="search_3ply_data.pkl", device="cpu", epochs=30,
             # policy loss: weighted cross-entropy on expert actions
             policy_loss = F.cross_entropy(logits, act_t) * weight
 
-            # value loss: predict outcome
-            value_target = torch.full((n,), sample["outcome"], device=device)
-            value_loss = F.mse_loss(values.squeeze(0).squeeze(-1), value_target)
-
-            loss = (policy_loss + 0.5 * value_loss) / accum_steps
+            loss = policy_loss / accum_steps
             loss.backward()
 
             tc += (logits.argmax(1) == act_t).sum().item()
@@ -494,7 +490,7 @@ if __name__ == "__main__":
     parser.add_argument("--data", type=str, default="search_3ply_data.pkl")
     parser.add_argument("--model", type=str, default="offline_policy.pt")
     parser.add_argument("--n-layers", type=int, default=3)
-    parser.add_argument("--seq-len", type=int, default=64)
+    parser.add_argument("--seq-len", type=int, default=32)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--win-only", action="store_true",
                         help="Only train on games the search agent won")

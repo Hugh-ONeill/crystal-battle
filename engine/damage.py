@@ -13,6 +13,28 @@ if TYPE_CHECKING:
     from .player_state import SideConditions
     from .pokemon import Pokemon
 
+# Gen 2 type-boosting held items -> type they boost (1.1x damage)
+_ITEM_TYPE_BOOST: dict[str | None, str] = {
+    "charcoal": "fire",
+    "mysticwater": "water",
+    "magnet": "electric",
+    "miracleseed": "grass",
+    "nevermeltice": "ice",
+    "blackbelt": "fighting",
+    "poisonbarb": "poison",
+    "softsand": "ground",
+    "sharpbeak": "flying",
+    "twistedspoon": "psychic",
+    "silverpowder": "bug",
+    "hardstone": "rock",
+    "spelltag": "ghost",
+    "dragonfang": "dragon",
+    "blackglasses": "dark",
+    "metalcoat": "steel",
+    "pinkbow": "normal",
+    "polkadotbow": "normal",
+}
+
 
 def calc_damage(
     attacker: Pokemon,
@@ -47,6 +69,15 @@ def calc_damage(
 
     atk = attacker.stats[atk_stat]
     dfn = defender.stats[dfn_stat]
+
+    # ---- Item-based attack boosts ----
+    item = attacker.item
+    if item == "thickclub" and move.damage_class == "physical":
+        if attacker.species.name in ("Marowak", "Cubone"):
+            atk *= 2
+    elif item == "lightball" and move.damage_class == "special":
+        if attacker.species.name == "Pikachu":
+            atk *= 2
 
     # sandstorm: Rock types get 1.5x SpDef
     if weather == "sandstorm" and dfn_stat == "special_defense":
@@ -95,6 +126,11 @@ def calc_damage(
 
     # ---- STAB ----
     stab = 1.5 if move.type in attacker.types else 1.0
+
+    # ---- Type-boosting held items (1.1x) ----
+    item_boost = _ITEM_TYPE_BOOST.get(attacker.item, None)
+    if item_boost is not None and move.type == item_boost:
+        stab *= 1.1  # stacks with STAB
 
     # ---- Weather modifier ----
     # sun: fire 1.5x, water 0.5x | rain: water 1.5x, fire 0.5x
@@ -181,6 +217,15 @@ def calc_expected_damage(
     atk = attacker.stats[atk_stat]
     dfn = defender.stats[dfn_stat]
 
+    # item-based attack boosts
+    item = attacker.item
+    if item == "thickclub" and move.damage_class == "physical":
+        if attacker.species.name in ("Marowak", "Cubone"):
+            atk *= 2
+    elif item == "lightball" and move.damage_class == "special":
+        if attacker.species.name == "Pikachu":
+            atk *= 2
+
     # sandstorm: Rock types get 1.5x SpDef
     if weather == "sandstorm" and dfn_stat == "special_defense":
         if "rock" in defender.types:
@@ -203,6 +248,11 @@ def calc_expected_damage(
     base = ((2 * level // 5 + 2) * move.power * atk // dfn) // 50 + 2
 
     stab = 1.5 if move.type in attacker.types else 1.0
+
+    # type-boosting items
+    item_boost = _ITEM_TYPE_BOOST.get(attacker.item, None)
+    if item_boost is not None and move.type == item_boost:
+        stab *= 1.1
 
     # weather modifier
     weather_mult = 1.0
