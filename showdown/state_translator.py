@@ -20,6 +20,7 @@ import random as _random
 from .name_mapping import (
     NameMapper, _normalize, STATUS_FROM_SHOWDOWN, WEATHER_FROM_SHOWDOWN, STAT_FROM_SHOWDOWN,
 )
+from .usage_stats import predict_opponent_team, get_likely_moveset, get_likely_item
 
 
 # dummy species for unrevealed opponent slots
@@ -250,38 +251,50 @@ class StateTranslator:
         return _DUMMY_MOVE
 
     def _get_fill_pokemon(self, revealed_species: set[int | None]) -> list[Pokemon]:
-        """Build a list of common OU Pokemon to fill unrevealed opponent slots.
+        """Fill unrevealed opponent slots with likely Pokemon from usage stats.
 
-        Excludes species already revealed. Cached per battle so the guesses
-        are consistent across turns.
+        Uses Smogon usage data + teammate correlations to predict what the
+        opponent probably has based on what's been revealed so far.
         """
-        if self._opp_fill_cache is not None:
-            # filter out any that have since been revealed
-            return [p for p in self._opp_fill_cache
-                    if p.species.id not in revealed_species]
+        # convert revealed species IDs to normalized names
+        revealed_names = set()
+        for sid in revealed_species:
+            if sid is not None:
+                name = self._mapper.species_name(sid)
+                if name:
+                    revealed_names.add(_normalize(name))
 
-        # pick from common pool, excluding revealed species
-        pool = [entry for entry in _COMMON_OU_POOL
-                if entry[0] not in revealed_species]
-        self._opp_fill_rng.shuffle(pool)
+        # predict likely unrevealed Pokemon
+        predicted = predict_opponent_team(revealed_names, n_fill=6 - len(revealed_names))
 
         fill = []
-        for species_id, move_ids, item in pool[:5]:
-            pkmn_data = self._mapper.pokemon_data(species_id)
+        for species_norm in predicted:
+            # find species ID from normalized name
+            sid = self._mapper.species_id(species_norm)
+            if sid is None:
+                continue
+            pkmn_data = self._mapper.pokemon_data(sid)
             if pkmn_data is None:
                 continue
+
             species = PokemonSpecies.from_dict(pkmn_data)
+
+            # get likely moveset from usage stats
+            move_names = get_likely_moveset(species_norm)
             move_slots = []
-            for mid in move_ids:
-                mdata = self._mapper.move_data(mid)
-                if mdata:
-                    move_slots.append(MoveSlot(template=MoveTemplate.from_dict(mdata)))
+            for mname in move_names:
+                mid = self._mapper.move_id(mname)
+                if mid is not None:
+                    mdata = self._mapper.move_data(mid)
+                    if mdata:
+                        move_slots.append(MoveSlot(template=MoveTemplate.from_dict(mdata)))
             while len(move_slots) < 4:
                 move_slots.append(MoveSlot(template=_DUMMY_MOVE))
-            mon = Pokemon(species=species, move_slots=move_slots, item=item)
+
+            item = get_likely_item(species_norm)
+            mon = Pokemon(species=species, move_slots=move_slots[:4], item=item)
             fill.append(mon)
 
-        self._opp_fill_cache = fill
         return fill
 
     def _make_dummy_fainted(self) -> Pokemon:
