@@ -988,7 +988,8 @@ def _end_of_turn(state: BattleState) -> list[Event]:
             actual = pokemon.heal(heal_amt)
             if actual > 0:
                 events.append(HealEvent(
-                    player=player_num, pokemon_name=pokemon.name, amount=actual,
+                    player=player_num, pokemon_name=pokemon.name,
+                    amount=actual, source="leftovers",
                 ))
 
     # ---- Berry items (consume on use) ----
