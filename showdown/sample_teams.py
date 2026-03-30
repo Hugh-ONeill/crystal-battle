@@ -388,4 +388,42 @@ IVs: 26 Def
 - Hidden Power [Ice]
 - Rest
 - Sleep Talk""",
+
+    # ---- 10: MCTS Strategic -- designed for maximum decision diversity ----
+    """Snorlax @ Leftovers
+- Curse
+- Rest
+- Sleep Talk
+- Double-Edge
+
+Cloyster @ Leftovers
+- Spikes
+- Toxic
+- Surf
+- Explosion
+
+Skarmory @ Leftovers
+- Whirlwind
+- Drill Peck
+- Rest
+- Curse
+
+Starmie @ Leftovers
+- Rapid Spin
+- Surf
+- Psychic
+- Recover
+
+Gengar @ Leftovers
+- Hypnosis
+- Thunderbolt
+- Ice Punch
+- Explosion
+
+Zapdos @ Leftovers
+IVs: 26 Def
+- Thunder
+- Hidden Power [Ice]
+- Rest
+- Sleep Talk""",
 ]
