@@ -353,6 +353,171 @@ class PokeEnginePlayer(Player):
 
 
 # ============================================================
+# MULTI-SAMPLE SEARCH PLAYER
+# ============================================================
+
+class MultiSamplePlayer(Player):
+    """poke-env Player that runs MCTS over multiple sampled opponent teams.
+
+    For each decision, generates N plausible opponent teams (varying the
+    unrevealed slots using usage stats), runs MCTS on each, and picks
+    the move with the best average performance across all samples.
+    """
+
+    def __init__(self, search_ms: int = 500, n_samples: int = 3, **kwargs):
+        super().__init__(**kwargs)
+        self._translator = PokeEngineTranslator()
+        self._search_ms = search_ms
+        self._n_samples = n_samples
+        self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+        self._rng = __import__("random").Random(42)
+
+    async def choose_move(self, battle):
+        if battle.turn <= 1:
+            self._translator.new_battle()
+
+        if battle.force_switch:
+            if battle.available_switches:
+                best = max(battle.available_switches,
+                           key=lambda p: p.current_hp_fraction)
+                return self.create_order(best)
+            return self.choose_default_move()
+
+        try:
+            # build our side (same every sample)
+            my_side = self._translator._translate_my_side(battle)
+
+            # get revealed opponent mons
+            opp_mons = list(battle.opponent_team.values())
+            revealed_names = {_normalize(mon.species) for mon in opp_mons}
+
+            # translate revealed mons
+            active_mon = None
+            bench_mons = []
+            for mon in opp_mons:
+                pe_mon = self._translator._translate_pokemon(mon, is_opponent=True)
+                if mon.active:
+                    active_mon = pe_mon
+                else:
+                    bench_mons.append(pe_mon)
+
+            n_revealed = (1 if active_mon else 0) + len(bench_mons)
+            n_fill = 6 - n_revealed
+
+            # generate multiple opponent team samples
+            states = []
+            for _ in range(self._n_samples):
+                opp_pokemon = []
+                if active_mon:
+                    opp_pokemon.append(active_mon)
+                opp_pokemon.extend(bench_mons)
+
+                # fill with random sample from usage pool
+                if n_fill > 0:
+                    fill = self._sample_fill(revealed_names, n_fill)
+                    opp_pokemon.extend(fill)
+
+                while len(opp_pokemon) < 6:
+                    opp_pokemon.append(pe.Pokemon.create_fainted())
+
+                opp_side = pe.Side(pokemon=opp_pokemon[:6])
+
+                weather = pe.Weather.NONE
+                weather_turns = 0
+                if battle.weather:
+                    for w in battle.weather:
+                        wname = w.name if hasattr(w, "name") else str(w)
+                        wname = wname.upper()
+                        if "SUN" in wname:
+                            weather = pe.Weather.SUN
+                        elif "RAIN" in wname:
+                            weather = pe.Weather.RAIN
+                        elif "SAND" in wname:
+                            weather = pe.Weather.SAND
+                    weather_turns = 5
+
+                state = pe.State(
+                    side_one=my_side, side_two=opp_side,
+                    weather=weather, weather_turns_remaining=weather_turns,
+                    terrain=pe.Terrain.NONE, terrain_turns_remaining=0,
+                    trick_room=False, trick_room_turns_remaining=0,
+                    team_preview=False,
+                )
+                states.append(state)
+
+            # run MCTS on each sample
+            loop = asyncio.get_event_loop()
+            move_scores = {}  # move_choice -> (total_score, total_visits)
+
+            for state in states:
+                try:
+                    result = await loop.run_in_executor(
+                        self._executor,
+                        pe.monte_carlo_tree_search,
+                        state, self._search_ms // self._n_samples,
+                    )
+                    for r in result.side_one:
+                        key = r.move_choice
+                        if key not in move_scores:
+                            move_scores[key] = [0.0, 0]
+                        move_scores[key][0] += r.total_score
+                        move_scores[key][1] += r.visits
+                except Exception as e:
+                    pass  # skip failed samples
+
+            if not move_scores:
+                return self.choose_random_move(battle)
+
+            # pick move with highest average score (total_score / visits)
+            best_move = max(move_scores.keys(),
+                            key=lambda k: move_scores[k][0] / max(move_scores[k][1], 1))
+
+        except Exception as e:
+            print(f"  Multi-sample error: {e}")
+            return self.choose_random_move(battle)
+
+        return self._map_move_to_order(best_move, battle)
+
+    def _sample_fill(self, revealed_names: set[str], n_fill: int) -> list:
+        """Sample unrevealed Pokemon from usage pool with randomization."""
+        predicted = predict_opponent_team(revealed_names, n_fill=n_fill + 3)
+        # shuffle and take n_fill to get different samples each call
+        candidates = list(predicted)
+        self._rng.shuffle(candidates)
+        fill = []
+        for species_norm in candidates[:n_fill]:
+            try:
+                fill.append(self._translator._build_predicted_pokemon(species_norm))
+            except Exception:
+                continue
+        return fill
+
+    def _map_move_to_order(self, move_choice: str, battle):
+        """Map poke-engine move name to poke-env BattleOrder."""
+        choice_norm = _normalize(move_choice)
+
+        if choice_norm.startswith("switch"):
+            parts = move_choice.split()
+            if len(parts) >= 2:
+                target_species = _normalize(parts[1])
+                for mon in battle.available_switches:
+                    if _normalize(mon.species) == target_species:
+                        return self.create_order(mon)
+            if battle.available_switches:
+                return self.create_order(battle.available_switches[0])
+
+        for move in battle.available_moves:
+            if _normalize(move.id) == choice_norm:
+                return self.create_order(move)
+
+        for move in battle.available_moves:
+            if choice_norm in _normalize(move.id) or _normalize(move.id) in choice_norm:
+                return self.create_order(move)
+
+        return self.choose_random_move(battle)
+
+
+# ============================================================
 # CLI
 # ============================================================
 
@@ -366,6 +531,8 @@ async def main():
     parser.add_argument("--format", type=str, default="gen2ou")
     parser.add_argument("--search-ms", type=int, default=1000)
     parser.add_argument("--n-games", type=int, default=10)
+    parser.add_argument("--n-samples", type=int, default=1,
+                        help="Number of opponent team samples (1=single, 3+=multi-sample)")
     parser.add_argument("--challenge", type=str, default=None)
     parser.add_argument("--vs-smart", action="store_true",
                         help="Play against SmartAgent wrapper")
@@ -384,13 +551,24 @@ async def main():
     team_str = rng_mod.choice(SAMPLE_TEAMS)
     print(f"Search time: {args.search_ms}ms per turn\n")
 
-    player = PokeEnginePlayer(
-        search_ms=args.search_ms,
-        account_configuration=AccountConfiguration(args.username, args.password),
-        server_configuration=server_config,
-        battle_format=args.format,
-        team=team_str,
-    )
+    if args.n_samples > 1:
+        player = MultiSamplePlayer(
+            search_ms=args.search_ms,
+            n_samples=args.n_samples,
+            account_configuration=AccountConfiguration(args.username, args.password),
+            server_configuration=server_config,
+            battle_format=args.format,
+            team=team_str,
+        )
+        print(f"Multi-sample mode: {args.n_samples} samples\n")
+    else:
+        player = PokeEnginePlayer(
+            search_ms=args.search_ms,
+            account_configuration=AccountConfiguration(args.username, args.password),
+            server_configuration=server_config,
+            battle_format=args.format,
+            team=team_str,
+        )
 
     if args.vs_smart:
         from showdown.player import HeuristicPlayer

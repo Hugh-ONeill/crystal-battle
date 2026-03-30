@@ -27,21 +27,31 @@ NAMES = [
 ]
 
 
-async def run_matchup(bot_team, opp_team, bot_id, n_games, search_ms, timeout_per):
+async def run_matchup(bot_team, opp_team, bot_id, n_games, search_ms, timeout_per,
+                      opp_type="smart"):
+    from poke_env.player import RandomPlayer as PokeEnvRandom
     bot = PokeEnginePlayer(
         search_ms=search_ms,
-        account_configuration=AccountConfiguration(f"B{bot_id}", ""),
+        account_configuration=AccountConfiguration(f"MB{bot_id}", ""),
         server_configuration=LOCAL,
         battle_format="gen2ou",
         team=bot_team,
     )
-    opp = HeuristicPlayer(
-        agent_type="smart",
-        account_configuration=AccountConfiguration(f"S{bot_id}", ""),
-        server_configuration=LOCAL,
-        battle_format="gen2ou",
-        team=opp_team,
-    )
+    if opp_type == "random":
+        opp = PokeEnvRandom(
+            account_configuration=AccountConfiguration(f"MO{bot_id}", ""),
+            server_configuration=LOCAL,
+            battle_format="gen2ou",
+            team=opp_team,
+        )
+    else:
+        opp = HeuristicPlayer(
+            agent_type=opp_type,
+            account_configuration=AccountConfiguration(f"MO{bot_id}", ""),
+            server_configuration=LOCAL,
+            battle_format="gen2ou",
+            team=opp_team,
+        )
     try:
         await asyncio.wait_for(
             bot.battle_against(opp, n_battles=n_games),
@@ -60,8 +70,10 @@ async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--games-per", type=int, default=2)
     parser.add_argument("--search-ms", type=int, default=500)
-    parser.add_argument("--timeout-per", type=int, default=40,
+    parser.add_argument("--timeout-per", type=int, default=50,
                         help="timeout per game in seconds")
+    parser.add_argument("--opp", type=str, default="smart",
+                        choices=["smart", "maxdmg", "random"])
     args = parser.parse_args()
 
     n_teams = len(SAMPLE_TEAMS)
@@ -84,6 +96,7 @@ async def main():
             wins, total = await run_matchup(
                 SAMPLE_TEAMS[i], SAMPLE_TEAMS[j],
                 match_id, args.games_per, args.search_ms, args.timeout_per,
+                opp_type=args.opp,
             )
             match_id += 1
             results[(i, j)] = (wins, total)
