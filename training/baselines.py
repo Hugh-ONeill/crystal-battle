@@ -194,26 +194,6 @@ class SmartAgent:
         if mv.name in ("Protect", "Detect") and them.leech_seeded:
             bonus += 2.0  # drain while safe
 
-        # ---- Rapid Spin: clear opponent's Spikes ----
-        if mv.name == "Rapid Spin" and my_state.side.spikes:
-            alive_bench = sum(1 for p in my_state.team
-                              if not p.is_fainted and p is not me)
-            bonus += 4.0 + alive_bench * 1.5  # more valuable with more bench mons
-
-        # ---- Explosion: Gen 2's best trading move ----
-        if mv.name in ("Explosion", "Self-Destruct", "Selfdestruct"):
-            # value explosion as a trade when we're low and can take something out
-            frac = self._move_dmg_frac(me, them, mv, opp_state.side)
-            if frac >= them.hp_frac and me.hp_frac < 0.35:
-                bonus += 6.0  # low HP + guaranteed KO = great trade
-            elif frac >= them.hp_frac * 0.7 and me.hp_frac < 0.25:
-                bonus += 3.0  # near-KO while nearly dead
-
-        # ---- Thick Club Marowak awareness ----
-        if mv.name == "Swords Dance" and me.item == "thickclub":
-            if me.species.name in ("Marowak", "Cubone"):
-                bonus += 3.0  # SD + Thick Club = devastating
-
         # ---- Endgame: last mon vs last mon, be aggressive ----
         my_alive = sum(1 for p in my_state.team if not p.is_fainted)
         opp_alive = sum(1 for p in opp_state.team if not p.is_fainted)
@@ -372,13 +352,9 @@ class SmartAgent:
         if mv.name == "Light Screen":
             return -10.0 if my_state.side.light_screen_turns > 0 else (6.0 if me.hp_frac > 0.5 else 2.0)
 
-        # ---- Spikes (best move in Gen 2 OU) ----
+        # ---- Spikes ----
         if mv.name == "Spikes":
-            if opp_state.side.spikes:
-                return -10.0  # already up
-            opp_alive = sum(1 for p in opp_state.team if not p.is_fainted)
-            # spikes are more valuable early when opponent has more mons to switch
-            return 9.0 + opp_alive * 0.5 if me.hp_frac > 0.4 else 3.0
+            return -10.0 if opp_state.side.spikes else (5.0 if me.hp_frac > 0.5 else 1.0)
 
         # ---- Leech Seed ----
         if mv.name == "Leech Seed":
@@ -429,17 +405,6 @@ class SmartAgent:
         if opp_best_frac >= me.hp_frac:
             matchup += 4.0  # we're dead anyway, switch cost is low
 
-        # item awareness
-        if hasattr(p, 'item') and p.item:
-            # Thick Club Marowak: save for late game sweep, don't throw in early
-            if p.item == "thickclub" and p.species.name in ("Marowak", "Cubone"):
-                opp_alive = sum(1 for q in opp_state.team if not q.is_fainted)
-                if opp_alive >= 4:
-                    matchup -= 2.0  # save Marowak for endgame
-            # Leftovers: slightly prefer switching to mons with passive recovery
-            if p.item == "leftovers":
-                matchup += 0.5
-
         return matchup
 
     def act(self, my_state: PlayerState, opp_state: PlayerState) -> Action:
@@ -456,9 +421,6 @@ class SmartAgent:
         # opponent's best damage against me (for context)
         _, opp_best_frac = self._best_move(them, me, my_state.side)
 
-        # preserve key endgame mons: don't let Snorlax die unnecessarily
-        self._endgame_mons = {"Snorlax"}  # mons to protect for late game
-
         # score all actions
         best_score = -999.0
         best_action: Action = Struggle()
@@ -473,16 +435,10 @@ class SmartAgent:
                 best_action = UseMove(slot_index=i)
 
         # score switches
-        # bonus for switching out endgame-critical mons that are in danger
-        switch_urgency = 0.0
-        if me.name in self._endgame_mons and opp_best_frac >= 0.35 and me.hp_frac > 0.4:
-            switch_urgency = 2.0  # preserve key mon
-
         for i, p in enumerate(my_state.team):
             if i == my_state.active_index or p.is_fainted:
                 continue
             score = self._score_switch_to(i, me, them, my_state, opp_state, opp_best_frac)
-            score += switch_urgency
             if score > best_score:
                 best_score = score
                 best_action = Switch(team_index=i)

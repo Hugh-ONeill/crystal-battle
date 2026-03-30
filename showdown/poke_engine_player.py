@@ -303,10 +303,10 @@ class PokeEnginePlayer(Player):
         # translate state for poke-engine
         try:
             pe_state = self._translator.translate(battle)
-            # run MCTS in thread pool so async event loop stays responsive
+            # run MCTS in default thread pool so event loop stays responsive
             loop = asyncio.get_event_loop()
             result = await loop.run_in_executor(
-                self._executor,
+                None,
                 pe.monte_carlo_tree_search,
                 pe_state, self._search_ms,
             )
@@ -370,7 +370,6 @@ class MultiSamplePlayer(Player):
         self._translator = PokeEngineTranslator()
         self._search_ms = search_ms
         self._n_samples = n_samples
-        self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
         self._rng = __import__("random").Random(42)
         self._chaos = ChaosStats()
 
@@ -451,12 +450,11 @@ class MultiSamplePlayer(Player):
                 )
                 states.append(state)
 
-            # run root-parallel MCTS over all sampled states at once
-            # single search tree, round-robin through states each batch
-            loop = asyncio.get_event_loop()
+            # run root-parallel MCTS in thread pool
             try:
+                loop = asyncio.get_event_loop()
                 result = await loop.run_in_executor(
-                    self._executor,
+                    None,
                     pe.monte_carlo_tree_search_multi,
                     states, self._search_ms,
                 )
