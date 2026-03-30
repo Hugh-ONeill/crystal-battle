@@ -440,3 +440,82 @@ crystal_engine/
     data.rs           JSON loader for pokemon.json / moves.json
     pybridge.rs       PyO3 bindings for all public types + functions
 ```
+
+## Showdown Integration (showdown/)
+
+Connects our bot to Pokemon Showdown via poke-env for competitive play.
+
+### Architecture
+
+```
+Pokemon Showdown (websocket)
+    |
+    v
+poke-env (protocol handling, battle state)
+    |
+    v
+PokeEnginePlayer / MultiSamplePlayer
+    |-- translates poke-env Battle -> poke-engine State
+    |-- runs poke-engine MCTS (Rust, ~800k sims in 500ms)
+    |-- maps result back to poke-env BattleOrder
+    |
+    +-- ChaosStats: Smogon usage data for opponent prediction
+    +-- UsageStats: teammate correlations, moveset narrowing
+```
+
+### Key files
+
+```
+showdown/
+  poke_engine_player.py   Main bot: PokeEnginePlayer (single MCTS) + MultiSamplePlayer
+  player.py               Python search player (SearchPlayer, HeuristicPlayer)
+  state_translator.py     poke-env Battle -> our engine BattleState
+  chaos_stats.py          Smogon chaos JSON parser (65 Pokemon, moves, items, teammates)
+  usage_stats.py          Hand-coded usage stats (simpler, superseded by chaos_stats)
+  evaluate.py             Rich Gen 2 eval for Python engine
+  sample_teams.py         10 Smogon-legal GSC OU teams
+  team_export.py          Our teams -> Showdown paste format (IVs for HP typing)
+  name_mapping.py         Bidirectional name normalization (Showdown <-> our engine)
+  matchup_test.py         Full 10x10 MCTS vs Smart matrix test
+  smart_vs_smart.py       Baseline team strength matrix (any bot type)
+  gen2ou_chaos.json       Raw Smogon stats (Oct 2025, 1760+ rating)
+```
+
+### poke-engine (forked)
+
+Using poke-engine (Foul Play's Rust battle engine) for accurate Gen 2 simulation with items.
+Fork at `~/Developer/grimoire/poke-engine` with two patches on branch `fix/normalize-status-aliases`:
+1. Status alias normalization (slp->SLEEP, brn->BURN, etc.) -- fixes panic in Python bindings
+2. Gen 2 eval tuning: ALIVE 30->60, SPIKES -7->-12, Sleep Talk awareness
+
+Built with: `PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1 pip install -e ".[gen2]" --config-settings="build-args=--features poke-engine/gen2 --no-default-features"`
+
+### Item support
+
+Python engine (`engine/damage.py`, `engine/turn_engine.py`):
+- Leftovers: 1/16 HP heal end-of-turn
+- Thick Club: 2x Attack for Marowak/Cubone
+- Light Ball: 2x SpA for Pikachu
+- Type-boosting items: 1.1x damage (Charcoal, Mystic Water, etc.)
+- Miracle Berry / Mint Berry: status curing end-of-turn
+
+poke-engine handles all Gen 2 items natively.
+
+### Performance results (MCTS 500ms vs SmartAgent, 10x10 matrix)
+
+Overall average: 44% win rate across all team matchups.
+
+Best teams for MCTS:
+- NidoMachamp: 75% (strong team regardless of pilot)
+- VapExplosion: 65% (biggest MCTS value-add over Smart baseline)
+- JynxGengar: 55%
+
+MCTS adds value to positional/strategic teams (Explosions, Spikes, setup).
+MCTS adds nothing to pure aggro teams where "pick highest damage" is optimal.
+
+### Key findings
+
+- Single MCTS with fainted dummy opponents > multi-sample with predicted opponents
+- poke-engine `apply_instructions` broken in Gen 2 build (can't build custom search on top)
+- poke-engine MCTS (70% mirror) >> Python 2-ply search (10-20%) due to items + simulation accuracy
+- PokeAgent server down post-NeurIPS; public Showdown needs registered account
