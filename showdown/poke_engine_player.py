@@ -495,13 +495,9 @@ class MultiSamplePlayer(Player):
         predicted = self._chaos.predict_team(revealed, n_fill=n_fill + 4)
         candidates = [p for p in predicted]
 
-        # randomize: swap some top picks with deeper ones
+        # randomize: shuffle candidates to get different samples each call
         if len(candidates) > n_fill:
-            # randomly drop 0-2 from top and shuffle
-            n_drop = self._rng.randint(0, min(2, len(candidates) - n_fill))
-            if n_drop > 0:
-                drop_indices = self._rng.sample(range(min(n_fill, len(candidates))), n_drop)
-                candidates = [c for i, c in enumerate(candidates) if i not in drop_indices]
+            self._rng.shuffle(candidates)
 
         fill = []
         for pred in candidates[:n_fill]:
