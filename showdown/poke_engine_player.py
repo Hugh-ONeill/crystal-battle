@@ -451,32 +451,24 @@ class MultiSamplePlayer(Player):
                 )
                 states.append(state)
 
-            # run MCTS on each sample
+            # run root-parallel MCTS over all sampled states at once
+            # single search tree, round-robin through states each batch
             loop = asyncio.get_event_loop()
-            move_scores = {}  # move_choice -> (total_score, total_visits)
-
-            for state in states:
-                try:
-                    result = await loop.run_in_executor(
-                        self._executor,
-                        pe.monte_carlo_tree_search,
-                        state, self._search_ms // self._n_samples,
-                    )
-                    for r in result.side_one:
-                        key = r.move_choice
-                        if key not in move_scores:
-                            move_scores[key] = [0.0, 0]
-                        move_scores[key][0] += r.total_score
-                        move_scores[key][1] += r.visits
-                except Exception as e:
-                    pass  # skip failed samples
-
-            if not move_scores:
+            try:
+                result = await loop.run_in_executor(
+                    self._executor,
+                    pe.monte_carlo_tree_search_multi,
+                    states, self._search_ms,
+                )
+            except Exception as e:
+                print(f"  MCTS multi error: {e}")
                 return self.choose_random_move(battle)
 
-            # pick move with highest average score (total_score / visits)
-            best_move = max(move_scores.keys(),
-                            key=lambda k: move_scores[k][0] / max(move_scores[k][1], 1))
+            if not result.side_one:
+                return self.choose_random_move(battle)
+
+            # pick move with most visits
+            best_move = max(result.side_one, key=lambda x: x.visits).move_choice
 
         except Exception as e:
             print(f"  Multi-sample error: {e}")
