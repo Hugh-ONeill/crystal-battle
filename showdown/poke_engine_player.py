@@ -20,6 +20,7 @@ from poke_env import AccountConfiguration, ServerConfiguration
 
 from showdown.name_mapping import NameMapper, _normalize, STATUS_FROM_SHOWDOWN, STAT_FROM_SHOWDOWN
 from showdown.usage_stats import predict_opponent_team, get_likely_moveset, get_likely_item
+from showdown.chaos_stats import ChaosStats, RevealedMon
 
 
 # ============================================================
@@ -371,6 +372,7 @@ class MultiSamplePlayer(Player):
         self._n_samples = n_samples
         self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
         self._rng = __import__("random").Random(42)
+        self._chaos = ChaosStats()
 
     async def choose_move(self, battle):
         if battle.turn <= 1:
@@ -387,14 +389,19 @@ class MultiSamplePlayer(Player):
             # build our side (same every sample)
             my_side = self._translator._translate_my_side(battle)
 
-            # get revealed opponent mons
+            # get revealed opponent mons and build RevealedMon objects
             opp_mons = list(battle.opponent_team.values())
-            revealed_names = {_normalize(mon.species) for mon in opp_mons}
-
-            # translate revealed mons
+            revealed = {}
             active_mon = None
             bench_mons = []
             for mon in opp_mons:
+                norm = _normalize(mon.species)
+                known_moves = [_normalize(m) for m in mon.moves.keys()]
+                known_item = _normalize(mon.item) if mon.item else None
+                revealed[norm] = RevealedMon(
+                    norm, known_moves=known_moves,
+                    known_item=known_item, hp_frac=mon.current_hp_fraction,
+                )
                 pe_mon = self._translator._translate_pokemon(mon, is_opponent=True)
                 if mon.active:
                     active_mon = pe_mon
@@ -412,9 +419,8 @@ class MultiSamplePlayer(Player):
                     opp_pokemon.append(active_mon)
                 opp_pokemon.extend(bench_mons)
 
-                # fill with random sample from usage pool
                 if n_fill > 0:
-                    fill = self._sample_fill(revealed_names, n_fill)
+                    fill = self._sample_fill(revealed, n_fill)
                     opp_pokemon.extend(fill)
 
                 while len(opp_pokemon) < 6:
@@ -478,16 +484,31 @@ class MultiSamplePlayer(Player):
 
         return self._map_move_to_order(best_move, battle)
 
-    def _sample_fill(self, revealed_names: set[str], n_fill: int) -> list:
-        """Sample unrevealed Pokemon from usage pool with randomization."""
-        predicted = predict_opponent_team(revealed_names, n_fill=n_fill + 3)
-        # shuffle and take n_fill to get different samples each call
-        candidates = list(predicted)
-        self._rng.shuffle(candidates)
+    def _sample_fill(self, revealed: dict[str, RevealedMon], n_fill: int) -> list:
+        """Sample unrevealed Pokemon from chaos stats with randomization.
+
+        Each call produces a slightly different team by:
+        1. Getting top candidates from chaos stats (weighted by teammates)
+        2. Randomly dropping 1-2 from the top and pulling from deeper in the pool
+        3. Varying movesets using chaos move probabilities
+        """
+        predicted = self._chaos.predict_team(revealed, n_fill=n_fill + 4)
+        candidates = [p for p in predicted]
+
+        # randomize: swap some top picks with deeper ones
+        if len(candidates) > n_fill:
+            # randomly drop 0-2 from top and shuffle
+            n_drop = self._rng.randint(0, min(2, len(candidates) - n_fill))
+            if n_drop > 0:
+                drop_indices = self._rng.sample(range(min(n_fill, len(candidates))), n_drop)
+                candidates = [c for i, c in enumerate(candidates) if i not in drop_indices]
+
         fill = []
-        for species_norm in candidates[:n_fill]:
+        for pred in candidates[:n_fill]:
             try:
-                fill.append(self._translator._build_predicted_pokemon(species_norm))
+                # use chaos stats for moveset (with some randomization)
+                mon = self._translator._build_predicted_pokemon(pred.species)
+                fill.append(mon)
             except Exception:
                 continue
         return fill
