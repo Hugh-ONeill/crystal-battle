@@ -389,7 +389,45 @@ IVs: 26 Def
 - Rest
 - Sleep Talk""",
 
-    # ---- 10: MCTS Strategic -- designed for maximum decision diversity ----
+    # ---- 10: NidoGengar Tbolt -- optimized variant (91% vs 50ms opponent) ----
+    """Snorlax @ Leftovers
+- Double-Edge
+- Curse
+- Sleep Talk
+- Rest
+
+Zapdos @ Leftovers
+IVs: 26 Def
+- Thunderbolt
+- Hidden Power [Ice]
+- Rest
+- Sleep Talk
+
+Cloyster @ Leftovers
+- Spikes
+- Surf
+- Toxic
+- Explosion
+
+Nidoking @ Leftovers
+- Earthquake
+- Ice Beam
+- Thunderbolt
+- Thief
+
+Gengar @ Leftovers
+- Dynamic Punch
+- Thunderbolt
+- Ice Punch
+- Explosion
+
+Tyranitar @ Leftovers
+- Rock Slide
+- Pursuit
+- Earthquake
+- Roar""",
+
+    # ---- 11: MCTS Strategic -- designed for maximum decision diversity ----
     """Snorlax @ Leftovers
 - Curse
 - Rest
