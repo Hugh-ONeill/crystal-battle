@@ -282,11 +282,20 @@ class PokeEngineTranslator:
 class PokeEnginePlayer(Player):
     """poke-env Player using poke-engine MCTS for decisions."""
 
-    def __init__(self, search_ms: int = 1000, **kwargs):
+    def __init__(self, search_ms: int = 1000, policy_net_path: str | None = None, **kwargs):
         super().__init__(**kwargs)
         self._translator = PokeEngineTranslator()
         self._search_ms = search_ms
-        self._executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+        self._policy_net = None
+
+        if policy_net_path:
+            import torch
+            from showdown.policy_train import PolicyNet
+            checkpoint = torch.load(policy_net_path, map_location="cpu", weights_only=True)
+            self._policy_net = PolicyNet(
+                state_dim=checkpoint["state_dim"], hidden=checkpoint["hidden"])
+            self._policy_net.load_state_dict(checkpoint["model"])
+            self._policy_net.eval()
 
     async def choose_move(self, battle):
         if battle.turn <= 1:
@@ -303,13 +312,27 @@ class PokeEnginePlayer(Player):
         # translate state for poke-engine
         try:
             pe_state = self._translator.translate(battle)
-            # run MCTS in default thread pool so event loop stays responsive
-            loop = asyncio.get_event_loop()
-            result = await loop.run_in_executor(
-                None,
-                pe.monte_carlo_tree_search,
-                pe_state, self._search_ms,
-            )
+
+            if self._policy_net is not None:
+                # get priors from policy net
+                from showdown.policy_train import parse_state_string
+                features = parse_state_string(pe_state.to_string())
+                probs = self._policy_net.predict(features)[0]
+                n = len(probs)
+
+                loop = asyncio.get_event_loop()
+                result = await loop.run_in_executor(
+                    None,
+                    pe.monte_carlo_tree_search_with_priors,
+                    pe_state, probs.tolist(), [1.0 / n] * n, self._search_ms,
+                )
+            else:
+                loop = asyncio.get_event_loop()
+                result = await loop.run_in_executor(
+                    None,
+                    pe.monte_carlo_tree_search,
+                    pe_state, self._search_ms,
+                )
         except Exception as e:
             print(f"  Search error: {e}")
             return self.choose_random_move(battle)
