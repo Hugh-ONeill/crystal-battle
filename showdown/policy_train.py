@@ -101,9 +101,12 @@ def parse_pokemon(fields: list[str]) -> np.ndarray:
 # per pokemon: 1 (hp) + 1 (alive) + 18 (types) + 5 (stats) + 7 (status) + 11 (item) + 4 (pp) = 47
 POKEMON_FEATURES = 47
 
+# side extras: 7 (boosts) + 3 (spikes/reflect/light_screen) = 10
+SIDE_EXTRAS = 10
 
-def parse_side(pokemon_strs: list[str], boosts_str: str = "") -> np.ndarray:
-    """Parse a side (6 pokemon + boosts) into features."""
+
+def parse_side(pokemon_strs: list[str], side_parts: list[str] = None) -> np.ndarray:
+    """Parse a side (6 pokemon + boosts + hazards) into features."""
     features = []
     for pstr in pokemon_strs:
         fields = pstr.split(",")
@@ -116,14 +119,34 @@ def parse_side(pokemon_strs: list[str], boosts_str: str = "") -> np.ndarray:
     while len(features) < 6:
         features.append(np.zeros(POKEMON_FEATURES, dtype=np.float32))
 
-    # boosts (7 values from side data)
-    boost_vec = np.zeros(7, dtype=np.float32)  # atk/def/spa/spd/spe/eva/acc
+    extras = np.zeros(SIDE_EXTRAS, dtype=np.float32)
 
-    return np.concatenate(features[:6] + [boost_vec])
+    if side_parts and len(side_parts) >= 18:
+        # boosts at =-split indices 11-17: atk/def/spa/spd/spe/acc/eva
+        # normalize to [-1, 1] range (max boost is +/-6)
+        for i in range(7):
+            try:
+                extras[i] = int(side_parts[11 + i]) / 6.0
+            except (ValueError, IndexError):
+                pass
+
+        # side_conditions at =-split index 7, semicolon-separated
+        # spikes is field 12 in the semicolon list (0-3 layers)
+        # reflect is field 10, light_screen is field 3
+        try:
+            sc_fields = side_parts[7].split(";")
+            if len(sc_fields) >= 13:
+                extras[7] = int(sc_fields[12]) / 3.0   # spikes (0-3)
+                extras[8] = float(int(sc_fields[10]) > 0)  # reflect
+                extras[9] = float(int(sc_fields[3]) > 0)   # light screen
+        except (ValueError, IndexError):
+            pass
+
+    return np.concatenate(features[:6] + [extras])
 
 
-# side features: 6 * 47 + 7 = 289
-SIDE_FEATURES = 6 * POKEMON_FEATURES + 7
+# side features: 6 * 47 + 10 = 292
+SIDE_FEATURES = 6 * POKEMON_FEATURES + SIDE_EXTRAS
 
 
 def parse_state_string(state_str: str) -> np.ndarray:
@@ -131,43 +154,32 @@ def parse_state_string(state_str: str) -> np.ndarray:
     # format: side_one/side_two/weather/terrain/trick_room/team_preview
     major_parts = state_str.split("/")
     if len(major_parts) < 2:
-        return np.zeros(SIDE_FEATURES * 2 + 5, dtype=np.float32)
+        return np.zeros(SIDE_FEATURES * 2 + 3, dtype=np.float32)
 
-    # each side: p0=p1=p2=p3=p4=p5=active_idx=side_conditions=...
-    side1_str = major_parts[0]
-    side2_str = major_parts[1]
-
-    # split pokemon by '=' separator
-    s1_parts = side1_str.split("=")
-    s2_parts = side2_str.split("=")
+    # each side: p0=p1=p2=p3=p4=p5=active_idx=side_conditions=...=boosts...
+    s1_parts = major_parts[0].split("=")
+    s2_parts = major_parts[1].split("=")
 
     # first 6 are pokemon
-    s1_pokemon = s1_parts[:6]
-    s2_pokemon = s2_parts[:6]
+    s1_features = parse_side(s1_parts[:6], s1_parts)
+    s2_features = parse_side(s2_parts[:6], s2_parts)
 
-    s1_features = parse_side(s1_pokemon)
-    s2_features = parse_side(s2_pokemon)
-
-    # weather (simple encoding)
-    weather_vec = np.zeros(5, dtype=np.float32)  # none/sun/rain/sand/hail
+    # weather (gen2: none/sun/rain/sand -- 3 one-hot, skip none)
+    weather_vec = np.zeros(3, dtype=np.float32)  # sun/rain/sand
     if len(major_parts) > 2:
         weather_str = major_parts[2].upper()
         if "SUN" in weather_str:
-            weather_vec[1] = 1.0
-        elif "RAIN" in weather_str:
-            weather_vec[2] = 1.0
-        elif "SAND" in weather_str:
-            weather_vec[3] = 1.0
-        elif "HAIL" in weather_str:
-            weather_vec[4] = 1.0
-        else:
             weather_vec[0] = 1.0
+        elif "RAIN" in weather_str:
+            weather_vec[1] = 1.0
+        elif "SAND" in weather_str:
+            weather_vec[2] = 1.0
 
     return np.concatenate([s1_features, s2_features, weather_vec])
 
 
-# total features: 289 + 289 + 5 = 583
-STATE_FEATURES = SIDE_FEATURES * 2 + 5
+# total features: 292 + 292 + 3 = 587
+STATE_FEATURES = SIDE_FEATURES * 2 + 3
 
 # action space: 4 moves + 5 switches = 9
 # but poke-engine returns move names, need to map to indices
@@ -236,31 +248,72 @@ def visits_to_policy(visits: list[tuple[str, int]], side_pokemon: list[str]) -> 
 # DATA PREPARATION
 # ============================================================
 
-def prepare_data(data_path: str) -> tuple[np.ndarray, np.ndarray]:
-    """Load recorded games and prepare (state_features, policy_targets) arrays."""
+def prepare_data(data_path: str, use_v2: bool = False) -> tuple[np.ndarray, np.ndarray]:
+    """Load training data in either format:
+    - MCTS: list of (winner, [(state_str, s1_move, s1_visits, s2_move[, s2_visits]), ...])
+    - Human: (features_array, policies_array) tuple
+    """
+    if use_v2:
+        from showdown.features_v2 import parse_state_v2 as feature_fn
+        print(f"Using v2 features (579 dims)")
+    else:
+        feature_fn = parse_state_string
+        print(f"Using v1 features (587 dims)")
+
     print(f"Loading {data_path}...")
     with open(data_path, "rb") as f:
         results = pickle.load(f)
 
+    # detect format
+    if isinstance(results, tuple) and len(results) == 2:
+        # human replay format: (features, policies) arrays
+        states, policies = results
+        if use_v2 and states.shape[1] != 579:
+            print(f"  WARNING: pre-computed features are dim {states.shape[1]}, "
+                  f"not 579. Re-extracting not supported for human format.")
+        print(f"  {len(states)} samples (human replay format), "
+              f"state_dim={states.shape[1]}, action_dim={policies.shape[1]}")
+        return states, policies
+
+    # MCTS format: list of (winner, turns)
+    # turns are either 4-tuples (old) or 5-tuples (new, with s2_visits)
     states = []
     policies = []
 
     for winner, turns in results:
-        for state_str, s1_move, s1_visits, s2_move in turns:
-            # parse state
-            features = parse_state_string(state_str)
+        for turn_data in turns:
+            state_str = turn_data[0]
+            s1_visits = turn_data[2]
+
+            # side one: parse state as-is
+            features = feature_fn(state_str)
             states.append(features)
 
-            # parse policy target from visit distribution
             side1_parts = state_str.split("/")[0].split("=")
             side1_pokemon = side1_parts[:6]
             policy = visits_to_policy(s1_visits, side1_pokemon)
             policies.append(policy)
 
+            # side two: if s2_visits present, flip sides for s2 perspective
+            if len(turn_data) >= 5 and turn_data[4]:
+                s2_visits = turn_data[4]
+                major_parts = state_str.split("/")
+                if len(major_parts) >= 2:
+                    # flip: s2 becomes s1 from their perspective
+                    flipped = "/".join([major_parts[1], major_parts[0]]
+                                       + major_parts[2:])
+                    features_s2 = feature_fn(flipped)
+                    states.append(features_s2)
+
+                    side2_parts = major_parts[1].split("=")
+                    side2_pokemon = side2_parts[:6]
+                    policy_s2 = visits_to_policy(s2_visits, side2_pokemon)
+                    policies.append(policy_s2)
+
     states = np.array(states, dtype=np.float32)
     policies = np.array(policies, dtype=np.float32)
 
-    print(f"  {len(states)} samples, state_dim={states.shape[1]}, "
+    print(f"  {len(states)} samples (MCTS format), state_dim={states.shape[1]}, "
           f"action_dim={policies.shape[1]}")
     return states, policies
 
@@ -272,7 +325,7 @@ def prepare_data(data_path: str) -> tuple[np.ndarray, np.ndarray]:
 class PolicyNet(nn.Module):
     """Simple MLP policy network.
 
-    Input: state features (583 dim)
+    Input: state features (587 dim)
     Output: action probabilities (9 dim)
     """
 
@@ -307,10 +360,10 @@ class PolicyNet(nn.Module):
 
 def train(data_path: str, save_path: str = "policy_net.pt",
           epochs: int = 30, lr: float = 1e-3, hidden: int = 256,
-          batch_size: int = 256, device: str = "cpu"):
+          batch_size: int = 256, device: str = "cpu", use_v2: bool = False):
     """Train policy net on MCTS self-play data."""
 
-    states, policies = prepare_data(data_path)
+    states, policies = prepare_data(data_path, use_v2=use_v2)
 
     # shuffle and split
     n = len(states)
@@ -392,6 +445,19 @@ def train(data_path: str, save_path: str = "policy_net.pt",
 
     print(f"\nBest val loss: {best_val:.4f}, saved to {save_path}")
 
+    # export to ONNX
+    onnx_path = save_path.replace(".pt", ".onnx")
+    ckpt = torch.load(save_path, weights_only=True)
+    export_model = PolicyNet(state_dim=ckpt["state_dim"], hidden=ckpt["hidden"])
+    export_model.load_state_dict(ckpt["model"])
+    export_model.eval()
+    dummy = torch.randn(1, ckpt["state_dim"])
+    torch.onnx.export(export_model, dummy, onnx_path,
+                      input_names=["state"], output_names=["logits"],
+                      dynamic_axes={"state": {0: "batch"}, "logits": {0: "batch"}},
+                      dynamo=False)
+    print(f"ONNX exported to {onnx_path}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Policy net training")
@@ -402,7 +468,9 @@ if __name__ == "__main__":
     parser.add_argument("--hidden", type=int, default=256)
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--device", type=str, default="cpu")
+    parser.add_argument("--features-v2", action="store_true",
+                        help="use v2 feature extraction (579 dims, move-aware)")
     args = parser.parse_args()
 
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
-          args.batch_size, args.device)
+          args.batch_size, args.device, use_v2=args.features_v2)

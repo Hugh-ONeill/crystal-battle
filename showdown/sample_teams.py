@@ -464,4 +464,80 @@ IVs: 26 Def
 - Hidden Power [Ice]
 - Rest
 - Sleep Talk""",
+
+    # ---- 12: NidoGengar Hybrid -- Hypnosis + Starmie spin ----
+    """Snorlax @ Leftovers
+- Double-Edge
+- Curse
+- Sleep Talk
+- Rest
+
+Zapdos @ Leftovers
+IVs: 26 Def
+- Thunderbolt
+- Hidden Power [Ice]
+- Rest
+- Sleep Talk
+
+Cloyster @ Leftovers
+- Spikes
+- Surf
+- Toxic
+- Explosion
+
+Starmie @ Leftovers
+- Rapid Spin
+- Surf
+- Psychic
+- Recover
+
+Gengar @ Leftovers
+- Hypnosis
+- Thunderbolt
+- Ice Punch
+- Explosion
+
+Tyranitar @ Leftovers
+- Rock Slide
+- Pursuit
+- Earthquake
+- Roar""",
+
+    # ---- 13: NidoGengar Hypnosis -- just swap DPunch for Hypnosis ----
+    """Snorlax @ Leftovers
+- Double-Edge
+- Curse
+- Sleep Talk
+- Rest
+
+Zapdos @ Leftovers
+IVs: 26 Def
+- Thunderbolt
+- Hidden Power [Ice]
+- Rest
+- Sleep Talk
+
+Cloyster @ Leftovers
+- Spikes
+- Surf
+- Toxic
+- Explosion
+
+Nidoking @ Leftovers
+- Earthquake
+- Ice Beam
+- Thunderbolt
+- Thief
+
+Gengar @ Leftovers
+- Hypnosis
+- Thunderbolt
+- Ice Punch
+- Explosion
+
+Tyranitar @ Leftovers
+- Rock Slide
+- Pursuit
+- Earthquake
+- Roar""",
 ]

@@ -8,6 +8,9 @@ __pycache__/
 *.npz
 *.pkl
 *.pt
+*.onnx
+*.onnx.data
+*.tsv
 crystal_battle_ppo*
 imitation_ppo*
 search_policy*
@@ -16,6 +19,7 @@ test_best*
 # training logs and replays
 tb_logs/
 replays/
+showdown/replays/
 pbt_runs/
 pbt_history.csv
 eval_history.csv

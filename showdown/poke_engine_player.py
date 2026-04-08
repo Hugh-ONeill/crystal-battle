@@ -276,16 +276,75 @@ class PokeEngineTranslator:
 
 
 # ============================================================
+# SWITCH SCORING
+# ============================================================
+
+def _score_switch_in(mon, battle) -> float:
+    """Score a pokemon for switch-in considering matchup, HP, and status."""
+    score = 0.0
+
+    # base: HP fraction (0-2)
+    score += mon.current_hp_fraction * 2.0
+
+    if mon.current_hp_fraction <= 0:
+        return -100.0
+
+    # penalty for status
+    if mon.status:
+        score -= 0.5
+
+    opp = battle.opponent_active_pokemon
+    if opp is None:
+        return score
+
+    # defensive: do we resist their STAB types?
+    opp_types = [t for t in [opp.type_1, opp.type_2] if t]
+    mon_types = [t for t in [mon.type_1, mon.type_2] if t]
+
+    for opp_t in opp_types:
+        for mon_t in mon_types:
+            try:
+                eff = mon_t.damage_multiplier(opp_t)
+                if eff < 1.0:
+                    score += 0.8  # resist
+                elif eff == 0.0:
+                    score += 2.0  # immune
+                elif eff > 1.0:
+                    score -= 0.8  # weak
+            except Exception:
+                pass
+
+    # offensive: can we hit them super effectively?
+    for move in mon.moves.values():
+        if move.base_power and move.base_power > 0:
+            try:
+                total_eff = 1.0
+                for opp_t in opp_types:
+                    total_eff *= opp_t.damage_multiplier(move.type)
+                if total_eff > 1.0:
+                    score += 1.5
+                    break  # one SE move is enough
+                elif total_eff == 0.0:
+                    pass  # immune, not helpful
+            except Exception:
+                pass
+
+    return score
+
+
+# ============================================================
 # POKE-ENGINE SEARCH PLAYER
 # ============================================================
 
 class PokeEnginePlayer(Player):
-    """poke-env Player using poke-engine MCTS for decisions."""
+    """poke-env Player using poke-engine search for decisions."""
 
-    def __init__(self, search_ms: int = 1000, policy_net_path: str | None = None, **kwargs):
+    def __init__(self, search_ms: int = 1000, search_type: str = "mcts",
+                 policy_net_path: str | None = None, **kwargs):
         super().__init__(**kwargs)
         self._translator = PokeEngineTranslator()
         self._search_ms = search_ms
+        self._search_type = search_type
         self._policy_net = None
 
         if policy_net_path:
@@ -301,48 +360,52 @@ class PokeEnginePlayer(Player):
         if battle.turn <= 1:
             self._translator.new_battle()
 
-        # forced switch: pick best available
+        # forced switch: pick best available considering matchup
         if battle.force_switch:
             if battle.available_switches:
                 best = max(battle.available_switches,
-                           key=lambda p: p.current_hp_fraction)
+                           key=lambda p: _score_switch_in(p, battle))
                 return self.create_order(best)
             return self.choose_default_move()
 
         # translate state for poke-engine
         try:
             pe_state = self._translator.translate(battle)
+            loop = asyncio.get_event_loop()
 
-            if self._policy_net is not None:
-                # get priors from policy net
-                from showdown.policy_train import parse_state_string
-                features = parse_state_string(pe_state.to_string())
-                probs = self._policy_net.predict(features)[0]
-                n = len(probs)
-
-                loop = asyncio.get_event_loop()
+            if self._search_type == "emm":
+                # expectiminimax -- deeper search, better strategic decisions
                 result = await loop.run_in_executor(
-                    None,
-                    pe.monte_carlo_tree_search_with_priors,
-                    pe_state, probs.tolist(), [1.0 / n] * n, self._search_ms,
+                    None, pe.id, pe_state, self._search_ms,
                 )
+                if result.s1:
+                    move_choice = result.s1[0]  # best move is first
+                    print(f"  T{battle.turn} EMM depth={result.depth_searched}: {move_choice}")
+                    return self._map_move_to_order(move_choice, battle)
+                return self.choose_random_move(battle)
             else:
-                loop = asyncio.get_event_loop()
-                result = await loop.run_in_executor(
-                    None,
-                    pe.monte_carlo_tree_search,
-                    pe_state, self._search_ms,
-                )
+                # MCTS
+                if self._policy_net is not None:
+                    from showdown.policy_train import parse_state_string
+                    features = parse_state_string(pe_state.to_string())
+                    probs = self._policy_net.predict(features)[0]
+                    n = len(probs)
+                    result = await loop.run_in_executor(
+                        None, pe.mcts_with_priors,
+                        pe_state, probs.tolist(), [1.0 / n] * n, self._search_ms,
+                    )
+                else:
+                    result = await loop.run_in_executor(
+                        None, pe.mcts, pe_state, self._search_ms,
+                    )
+
+                best = max(result.side_one, key=lambda x: x.visits)
+                move_choice = best.move_choice
+                return self._map_move_to_order(move_choice, battle)
+
         except Exception as e:
             print(f"  Search error: {e}")
             return self.choose_random_move(battle)
-
-        # find best move from MCTS results
-        best = max(result.side_one, key=lambda x: x.visits)
-        move_choice = best.move_choice
-
-        # map poke-engine move choice back to poke-env order
-        return self._map_move_to_order(move_choice, battle)
 
     def _map_move_to_order(self, move_choice: str, battle):
         """Map poke-engine move name to poke-env BattleOrder."""
@@ -560,10 +623,17 @@ async def main():
     parser.add_argument("--password", type=str, default="")
     parser.add_argument("--format", type=str, default="gen2ou")
     parser.add_argument("--search-ms", type=int, default=1000)
+    parser.add_argument("--search", type=str, default="mcts",
+                        choices=["mcts", "emm"],
+                        help="Search algorithm: mcts or emm (expectiminimax)")
     parser.add_argument("--n-games", type=int, default=10)
     parser.add_argument("--n-samples", type=int, default=1,
                         help="Number of opponent team samples (1=single, 3+=multi-sample)")
     parser.add_argument("--challenge", type=str, default=None)
+    parser.add_argument("--wait", action="store_true",
+                        help="Accept incoming challenges (for human-vs-bot)")
+    parser.add_argument("--team-index", type=int, default=13,
+                        help="Team index from SAMPLE_TEAMS (default: 13 = Hypnosis)")
     parser.add_argument("--vs-smart", action="store_true",
                         help="Play against SmartAgent wrapper")
     args = parser.parse_args()
@@ -577,8 +647,8 @@ async def main():
         server_config = ShowdownServerConfiguration
 
     from showdown.sample_teams import SAMPLE_TEAMS
-    import random as rng_mod
-    team_str = rng_mod.choice(SAMPLE_TEAMS)
+    team_str = SAMPLE_TEAMS[args.team_index]
+    print(f"Team index: {args.team_index}")
     print(f"Search time: {args.search_ms}ms per turn\n")
 
     if args.n_samples > 1:
@@ -594,14 +664,25 @@ async def main():
     else:
         player = PokeEnginePlayer(
             search_ms=args.search_ms,
+            search_type=args.search,
             account_configuration=AccountConfiguration(args.username, args.password),
             server_configuration=server_config,
             battle_format=args.format,
             team=team_str,
         )
 
-    if args.vs_smart:
+    if args.wait:
+        print(f"Waiting for challenges as '{args.username}'...")
+        print(f"Connect to http://localhost:8000 and challenge '{args.username}' in {args.format}")
+        print("Press Ctrl+C to stop.\n")
+        await player.accept_challenges(None, args.n_games)
+        wins = sum(1 for b in player.battles.values() if b.won)
+        total = len(player.battles)
+        if total > 0:
+            print(f"\nResults: {wins}/{total} ({wins/total*100:.1f}%)")
+    elif args.vs_smart:
         from showdown.player import HeuristicPlayer
+        import random as rng_mod
         opp = HeuristicPlayer(
             agent_type="smart",
             account_configuration=AccountConfiguration("SmartOpp2", ""),
@@ -611,10 +692,17 @@ async def main():
         )
         print(f"Playing {args.n_games} games vs SmartAgent...")
         await player.battle_against(opp, n_battles=args.n_games)
+        wins = sum(1 for b in player.battles.values() if b.won)
+        total = len(player.battles)
+        print(f"\nResults: {wins}/{total} ({wins/total*100:.1f}%)")
     elif args.challenge:
         await player.send_challenges(args.challenge, n_challenges=args.n_games)
+        wins = sum(1 for b in player.battles.values() if b.won)
+        total = len(player.battles)
+        print(f"\nResults: {wins}/{total} ({wins/total*100:.1f}%)")
     else:
         from poke_env.player import RandomPlayer
+        import random as rng_mod
         opp = RandomPlayer(
             account_configuration=AccountConfiguration("RandOpp2", ""),
             server_configuration=server_config,
@@ -623,10 +711,9 @@ async def main():
         )
         print(f"Playing {args.n_games} games vs RandomPlayer...")
         await player.battle_against(opp, n_battles=args.n_games)
-
-    wins = sum(1 for b in player.battles.values() if b.won)
-    total = len(player.battles)
-    print(f"\nResults: {wins}/{total} ({wins/total*100:.1f}%)")
+        wins = sum(1 for b in player.battles.values() if b.won)
+        total = len(player.battles)
+        print(f"\nResults: {wins}/{total} ({wins/total*100:.1f}%)")
 
 
 if __name__ == "__main__":
