@@ -340,12 +340,14 @@ class PokeEnginePlayer(Player):
     """poke-env Player using poke-engine search for decisions."""
 
     def __init__(self, search_ms: int = 1000, search_type: str = "mcts",
-                 policy_net_path: str | None = None, **kwargs):
+                 policy_net_path: str | None = None,
+                 value_net_path: str | None = None, **kwargs):
         super().__init__(**kwargs)
         self._translator = PokeEngineTranslator()
         self._search_ms = search_ms
         self._search_type = search_type
         self._policy_net = None
+        self._value_net = None
 
         if policy_net_path:
             import torch
@@ -355,6 +357,11 @@ class PokeEnginePlayer(Player):
                 state_dim=checkpoint["state_dim"], hidden=checkpoint["hidden"])
             self._policy_net.load_state_dict(checkpoint["model"])
             self._policy_net.eval()
+
+        if value_net_path:
+            # Loads ONNX into the Rust-side ort session once; reused per turn.
+            self._value_net = pe.ValueNet(value_net_path)
+            print(f"Loaded value net from {value_net_path}")
 
     async def choose_move(self, battle):
         if battle.turn <= 1:
@@ -384,19 +391,37 @@ class PokeEnginePlayer(Player):
                     return self._map_move_to_order(move_choice, battle)
                 return self.choose_random_move(battle)
             else:
-                # MCTS
+                # MCTS — dispatch by which models are loaded:
+                #   value+policy  -> mcts_with_value(state, vn, ms, s1, s2)
+                #   value only    -> mcts_with_value(state, vn, ms)
+                #   policy only   -> mcts_with_priors(state, s1, s2, ms)
+                #   neither       -> mcts(state, ms)
+                s1_priors = None
+                s2_priors = None
                 if self._policy_net is not None:
                     from showdown.policy_train import parse_state_string
                     features = parse_state_string(pe_state.to_string())
                     probs = self._policy_net.predict(features)[0]
                     n = len(probs)
+                    s1_priors = probs.tolist()
+                    s2_priors = [1.0 / n] * n
+
+                if self._value_net is not None:
                     result = await loop.run_in_executor(
-                        None, pe.mcts_with_priors,
-                        pe_state, probs.tolist(), [1.0 / n] * n, self._search_ms,
+                        None,
+                        lambda: pe.monte_carlo_tree_search_with_value(
+                            pe_state, self._value_net, self._search_ms,
+                            s1_priors, s2_priors,
+                        ),
+                    )
+                elif s1_priors is not None:
+                    result = await loop.run_in_executor(
+                        None, pe.monte_carlo_tree_search_with_priors,
+                        pe_state, s1_priors, s2_priors, self._search_ms,
                     )
                 else:
                     result = await loop.run_in_executor(
-                        None, pe.mcts, pe_state, self._search_ms,
+                        None, pe.monte_carlo_tree_search, pe_state, self._search_ms,
                     )
 
                 best = max(result.side_one, key=lambda x: x.visits)
@@ -636,6 +661,10 @@ async def main():
                         help="Team index from SAMPLE_TEAMS (default: 13 = Hypnosis)")
     parser.add_argument("--vs-smart", action="store_true",
                         help="Play against SmartAgent wrapper")
+    parser.add_argument("--policy-net-path", type=str, default=None,
+                        help="path to a trained policy net .pt (used as PUCT priors)")
+    parser.add_argument("--value-net-path", type=str, default=None,
+                        help="path to a trained value net .onnx (used as MCTS leaf eval)")
     args = parser.parse_args()
 
     if args.local or args.server == "local":
@@ -665,6 +694,8 @@ async def main():
         player = PokeEnginePlayer(
             search_ms=args.search_ms,
             search_type=args.search,
+            policy_net_path=args.policy_net_path,
+            value_net_path=args.value_net_path,
             account_configuration=AccountConfiguration(args.username, args.password),
             server_configuration=server_config,
             battle_format=args.format,
