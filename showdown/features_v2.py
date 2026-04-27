@@ -9,11 +9,11 @@ import numpy as np
 # GEN2 TYPE SYSTEM
 # ============================================================
 
-# 16 gen2 types (no fairy/stellar)
+# 17 gen2 types (Steel was added in gen2; no fairy/stellar)
 TYPES_V2 = [
     "NORMAL", "FIRE", "WATER", "ELECTRIC", "GRASS", "ICE",
     "FIGHTING", "POISON", "GROUND", "FLYING", "PSYCHIC", "BUG",
-    "ROCK", "GHOST", "DRAGON", "DARK",
+    "ROCK", "GHOST", "DRAGON", "DARK", "STEEL",
 ]
 TYPE_IDX_V2 = {t: i for i, t in enumerate(TYPES_V2)}
 N_TYPES = len(TYPES_V2)
@@ -22,25 +22,26 @@ N_TYPES = len(TYPES_V2)
 PHYSICAL_TYPES = {"NORMAL", "FIGHTING", "FLYING", "POISON", "GROUND", "ROCK", "BUG", "GHOST", "STEEL"}
 
 # gen2 type chart [attacker][defender] -> multiplier
-# order matches TYPES_V2
+# order matches TYPES_V2 (17x17 with Steel)
 TYPE_CHART = [
-    #          NOR  FIR  WAT  ELE  GRA  ICE  FIG  POI  GRO  FLY  PSY  BUG  ROC  GHO  DRA  DAR
-    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.0, 1.0, 1.0],  # NORMAL
-    [1.0, 0.5, 0.5, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 0.5, 1.0],  # FIRE
-    [1.0, 2.0, 0.5, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0],  # WATER
-    [1.0, 1.0, 2.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.0, 2.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0],  # ELECTRIC
-    [1.0, 0.5, 2.0, 1.0, 0.5, 1.0, 1.0, 0.5, 2.0, 0.5, 1.0, 0.5, 2.0, 1.0, 0.5, 1.0],  # GRASS
-    [1.0, 0.5, 0.5, 1.0, 2.0, 0.5, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0],  # ICE
-    [2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 0.5, 0.5, 0.5, 2.0, 0.0, 1.0, 2.0],  # FIGHTING
-    [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0],  # POISON
-    [1.0, 2.0, 1.0, 2.0, 0.5, 1.0, 1.0, 2.0, 1.0, 0.0, 1.0, 0.5, 2.0, 1.0, 1.0, 1.0],  # GROUND
-    [1.0, 1.0, 1.0, 0.5, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0],  # FLYING
-    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 0.0],  # PSYCHIC
-    [1.0, 0.5, 1.0, 1.0, 2.0, 1.0, 0.5, 0.5, 1.0, 0.5, 2.0, 1.0, 1.0, 0.5, 1.0, 2.0],  # BUG
-    [1.0, 2.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 0.5, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0],  # ROCK
-    [0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5],  # GHOST
-    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0],  # DRAGON
-    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5],  # DARK
+    #     NOR  FIR  WAT  ELE  GRA  ICE  FIG  POI  GRO  FLY  PSY  BUG  ROC  GHO  DRA  DAR  STE
+    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.0, 1.0, 1.0, 0.5],  # NORMAL
+    [1.0, 0.5, 0.5, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 0.5, 1.0, 2.0],  # FIRE
+    [1.0, 2.0, 0.5, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 1.0],  # WATER
+    [1.0, 1.0, 2.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.0, 2.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0],  # ELECTRIC
+    [1.0, 0.5, 2.0, 1.0, 0.5, 1.0, 1.0, 0.5, 2.0, 0.5, 1.0, 0.5, 2.0, 1.0, 0.5, 1.0, 0.5],  # GRASS
+    [1.0, 0.5, 0.5, 1.0, 2.0, 0.5, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5],  # ICE
+    [2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 0.5, 0.5, 0.5, 2.0, 0.0, 1.0, 2.0, 2.0],  # FIGHTING
+    [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 0.0],  # POISON
+    [1.0, 2.0, 1.0, 2.0, 0.5, 1.0, 1.0, 2.0, 1.0, 0.0, 1.0, 0.5, 2.0, 1.0, 1.0, 1.0, 2.0],  # GROUND
+    [1.0, 1.0, 1.0, 0.5, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 0.5],  # FLYING
+    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 0.0, 0.5],  # PSYCHIC
+    [1.0, 0.5, 1.0, 1.0, 2.0, 1.0, 0.5, 0.5, 1.0, 0.5, 2.0, 1.0, 1.0, 0.5, 1.0, 2.0, 0.5],  # BUG
+    [1.0, 2.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 0.5, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 0.5],  # ROCK
+    [0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0],  # GHOST
+    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5],  # DRAGON
+    [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0],  # DARK
+    [1.0, 0.5, 0.5, 0.5, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 0.5],  # STEEL
 ]
 
 
@@ -165,18 +166,20 @@ def apply_boost(stat: int, stage: int) -> float:
 # V2 FEATURE EXTRACTION
 # ============================================================
 
-# per move: type(16) + power(1) + accuracy(1) + physical(1) + status(1) + stab(1) + pp(1) + effectiveness(1) + effects(7) = 30
-MOVE_FEATURES = 30
-# per pokemon: hp(1) + alive(1) + types(16) + stats(5) + status(7) + item(7) = 37
-POKEMON_FEATURES_V2 = 37
-# side extras: spikes(1) + reflect(1) + light_screen(1) + has_sleeping_target(1) + num_alive(1) = 5
-SIDE_EXTRAS_V2 = 5
+# per move: type(17) + power(1) + accuracy(1) + physical(1) + status(1) + stab(1) + pp(1) + effectiveness(1) + effects(7) = 31
+MOVE_FEATURES = 31
+# per pokemon: hp(1) + alive(1) + types(17) + stats(5) + status(7) + item(7) = 38
+POKEMON_FEATURES_V2 = 38
+# side extras: spikes(1) + reflect(1) + light_screen(1) + has_sleeping_target(1) + num_alive(1)
+#   + active vol statuses (sub/encore/disable/recharge/partial_trap = 5)
+#   + active sleep_turns/7 + rest_turns/2 = 12
+SIDE_EXTRAS_V2 = 12
 
-# active moves: 4 * 30 = 120
-# pokemon: 6 * 37 * 2 = 444
-# side extras: 5 * 2 = 10
+# active moves: 4 * 31 = 124
+# pokemon: 6 * 38 * 2 = 456
+# side extras: 12 * 2 = 24
 # global: weather(3) + speed_cmp(1) + priority_cmp(1) = 5
-# total: 120 + 444 + 10 + 5 = 579
+# total: 124 + 456 + 24 + 5 = 609
 STATE_FEATURES_V2 = 4 * MOVE_FEATURES + 6 * POKEMON_FEATURES_V2 * 2 + SIDE_EXTRAS_V2 * 2 + 5
 N_ACTIONS = 9
 
@@ -297,8 +300,54 @@ def parse_pokemon_v2(fields: list[str], boosts: list[int] = None,
     return features
 
 
+def _parse_volatile_statuses(side_part_8: str) -> set:
+    """Parse colon-separated volatile statuses from a side's serialized form."""
+    if not side_part_8:
+        return set()
+    return {x.strip().upper() for x in side_part_8.split(":") if x.strip()}
+
+
+def _write_side_extras(out, idx, my_parts, opp_parts, my_active_fields):
+    """Write 12 side extras starting at out[idx]: spikes/reflect/lightscreen/
+    has_sleeping_target/num_alive + 5 active vol statuses + sleep_turns + rest_turns.
+    """
+    if len(my_parts) >= 18:
+        try:
+            sc = my_parts[7].split(";")
+            out[idx] = int(sc[12]) / 3.0 if len(sc) > 12 else 0.0       # spikes
+            out[idx + 1] = float(int(sc[10]) > 0) if len(sc) > 10 else 0.0  # reflect
+            out[idx + 2] = float(int(sc[3]) > 0) if len(sc) > 3 else 0.0    # light screen
+        except (ValueError, IndexError):
+            pass
+    # has sleeping target on opp
+    for p in range(6):
+        pf = opp_parts[p].split(",") if p < len(opp_parts) else []
+        if len(pf) > 18 and pf[18].upper() == "SLEEP":
+            out[idx + 3] = 1.0
+            break
+    # num alive / 6
+    alive = sum(1 for p in range(6)
+                for pf in [my_parts[p].split(",")]
+                if len(pf) > 6 and int(pf[6]) > 0)
+    out[idx + 4] = alive / 6.0
+    # active volatile statuses (5 binary bits)
+    vs = _parse_volatile_statuses(my_parts[8] if len(my_parts) > 8 else "")
+    out[idx + 5] = 1.0 if "SUBSTITUTE" in vs else 0.0
+    out[idx + 6] = 1.0 if "ENCORE" in vs else 0.0
+    out[idx + 7] = 1.0 if "DISABLE" in vs else 0.0
+    out[idx + 8] = 1.0 if "MUSTRECHARGE" in vs else 0.0
+    out[idx + 9] = 1.0 if "PARTIALLYTRAPPED" in vs else 0.0
+    # active sleep_turns/7 + rest_turns/2
+    if len(my_active_fields) > 20:
+        try:
+            out[idx + 10] = max(0.0, min(1.0, int(my_active_fields[20]) / 7.0))  # sleep_turns
+            out[idx + 11] = max(0.0, min(1.0, int(my_active_fields[19]) / 2.0))  # rest_turns
+        except ValueError:
+            pass
+
+
 def parse_state_v2(state_str: str) -> np.ndarray:
-    """Extract 579-dim v2 feature vector from a state string."""
+    """Extract 609-dim v2 feature vector from a state string."""
     features = np.zeros(STATE_FEATURES_V2, dtype=np.float32)
     idx = 0
 
@@ -358,46 +407,12 @@ def parse_state_v2(state_str: str) -> np.ndarray:
                 pfields, s2_boosts if is_active else None, is_active)
         idx += POKEMON_FEATURES_V2
 
-    # ---- side 1 extras (5) ----
-    if len(s1_parts) >= 18:
-        try:
-            sc = s1_parts[7].split(";")
-            features[idx] = int(sc[12]) / 3.0 if len(sc) > 12 else 0.0      # spikes
-            features[idx + 1] = float(int(sc[10]) > 0) if len(sc) > 10 else 0.0  # reflect
-            features[idx + 2] = float(int(sc[3]) > 0) if len(sc) > 3 else 0.0    # light screen
-        except (ValueError, IndexError):
-            pass
-        # has sleeping target (sleep clause)
-        for p in range(6):
-            pf = s2_parts[p].split(",") if p < len(s2_parts) else []
-            if len(pf) > 18 and pf[18].upper() == "SLEEP":
-                features[idx + 3] = 1.0
-                break
-        # num alive / 6
-        alive = sum(1 for p in range(6)
-                    for pf in [s1_parts[p].split(",")]
-                    if len(pf) > 6 and int(pf[6]) > 0)
-        features[idx + 4] = alive / 6.0
+    # ---- side 1 extras (12) ----
+    _write_side_extras(features, idx, s1_parts, s2_parts, s1_active_fields)
     idx += SIDE_EXTRAS_V2
 
-    # ---- side 2 extras (5) ----
-    if len(s2_parts) >= 18:
-        try:
-            sc = s2_parts[7].split(";")
-            features[idx] = int(sc[12]) / 3.0 if len(sc) > 12 else 0.0
-            features[idx + 1] = float(int(sc[10]) > 0) if len(sc) > 10 else 0.0
-            features[idx + 2] = float(int(sc[3]) > 0) if len(sc) > 3 else 0.0
-        except (ValueError, IndexError):
-            pass
-        for p in range(6):
-            pf = s1_parts[p].split(",") if p < len(s1_parts) else []
-            if len(pf) > 18 and pf[18].upper() == "SLEEP":
-                features[idx + 3] = 1.0
-                break
-        alive = sum(1 for p in range(6)
-                    for pf in [s2_parts[p].split(",")]
-                    if len(pf) > 6 and int(pf[6]) > 0)
-        features[idx + 4] = alive / 6.0
+    # ---- side 2 extras (12) ----
+    _write_side_extras(features, idx, s2_parts, s1_parts, s2_active_fields)
     idx += SIDE_EXTRAS_V2
 
     # ---- global (5) ----
