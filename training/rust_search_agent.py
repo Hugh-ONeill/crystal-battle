@@ -129,6 +129,11 @@ class _RustPokemonAdapter:
         return self._rs.name
 
     @property
+    def item(self):
+        # crystal_engine doesn't track items; damage calc treats None as "no item"
+        return None
+
+    @property
     def species(self):
         return self  # obs_builder accesses species.types, species.base_stats
 
