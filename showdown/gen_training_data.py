@@ -26,6 +26,8 @@ def main():
                         help="games per opponent")
     parser.add_argument("--s1-ms", type=int, default=500)
     parser.add_argument("--s2-ms", type=int, default=500)
+    parser.add_argument("--max-turns", type=int, default=500,
+                        help="hard turn cap; 200 was too short and produced 70 percent draws")
     parser.add_argument("--out", type=str, required=True)
     args = parser.parse_args()
 
@@ -37,7 +39,7 @@ def main():
         print(f"Self-play: {args.self_play} games, {args.s1_ms}ms/{args.s2_ms}ms...")
         results = pe.run_games_recorded(
             state, n_games=args.self_play,
-            s1_search_ms=args.s1_ms, s2_search_ms=args.s2_ms, max_turns=200,
+            s1_search_ms=args.s1_ms, s2_search_ms=args.s2_ms, max_turns=args.max_turns,
         )
         turns = sum(len(r[1]) for r in results)
         print(f"  {len(results)} games, {turns} turns")
@@ -50,7 +52,7 @@ def main():
             print(f"vs team {opp_idx}: {args.diverse} games, {args.s1_ms}ms/{args.s2_ms}ms...")
             results = pe.run_games_recorded(
                 state, n_games=args.diverse,
-                s1_search_ms=args.s1_ms, s2_search_ms=args.s2_ms, max_turns=200,
+                s1_search_ms=args.s1_ms, s2_search_ms=args.s2_ms, max_turns=args.max_turns,
             )
             turns = sum(len(r[1]) for r in results)
             print(f"  {len(results)} games, {turns} turns")
