@@ -10,6 +10,8 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import multiprocessing as mp
+import os
 import random
 import sys
 import time
@@ -22,6 +24,11 @@ import poke_engine_ref as pe_ref
 
 from showdown.local_battle import build_pe_state
 from showdown.sample_teams import SAMPLE_TEAMS
+
+
+def _engine_for(eid: str):
+    """Module lookup so workers can resolve engines from a string id."""
+    return pe_dev if eid == "dev" else pe_ref
 
 
 def _strip_switch_prefix(m: str) -> str:
@@ -95,28 +102,48 @@ def play_engine_game(team1_str: str, team2_str: str, search_ms: int,
     return 0
 
 
-def run_half(p1_engine, p2_engine, n_games: int, search_ms: int,
-             team1: str, team2: str, seed_base: int | None) -> tuple[int, int, int, float]:
-    wins = losses = draws = 0
-    t0 = time.time()
+def _worker_play(task):
+    """Pool worker: resolve engines from string ids, seed, run one game.
+    Returns (half_label, result) so the caller can demux per-half stats."""
+    half_label, team1, team2, search_ms, p1_id, p2_id, seed = task
+    if seed is not None:
+        random.seed(seed)
+    r = play_engine_game(team1, team2, search_ms,
+                         _engine_for(p1_id), _engine_for(p2_id))
+    return half_label, r
+
+
+def run_both_halves(n_games: int, search_ms: int, team1: str, team2: str,
+                    seed_base: int | None, workers: int):
+    """Submit both halves' games into a single pool to overlap tail latency.
+    Returns dict mapping half_label -> (wins, losses, draws)."""
+    tasks = []
     for i in range(n_games):
-        if seed_base is not None:
-            random.seed(seed_base + i)
-        r = play_engine_game(team1, team2, search_ms, p1_engine, p2_engine)
-        if r == 1:
-            wins += 1
-            print("W", end="", flush=True)
-        elif r == 2:
-            losses += 1
-            print("L", end="", flush=True)
-        else:
-            draws += 1
-            print("D", end="", flush=True)
+        seed = (seed_base + i) if seed_base is not None else None
+        tasks.append(("A", team1, team2, search_ms, "dev", "ref", seed))
+        tasks.append(("B", team1, team2, search_ms, "ref", "dev", seed))
+
+    stats = {"A": [0, 0, 0], "B": [0, 0, 0]}  # [W, L, D] per half
+
+    def record(label, r):
+        idx = 0 if r == 1 else (1 if r == 2 else 2)
+        stats[label][idx] += 1
+        print({0: "W", 1: "L", 2: "D"}[idx], end="", flush=True)
+
+    if workers <= 1:
+        for task in tasks:
+            label, r = _worker_play(task)
+            record(label, r)
+    else:
+        with mp.Pool(processes=workers) as pool:
+            for label, r in pool.imap_unordered(_worker_play, tasks):
+                record(label, r)
     print()
-    return wins, losses, draws, time.time() - t0
+    return stats
 
 
 def main():
+    default_workers = max(1, (os.cpu_count() or 4) - 2)
     parser = argparse.ArgumentParser(description="Counterbalanced engine-vs-engine MCTS bench")
     parser.add_argument("--games", type=int, default=30, help="games per half (total = 2x)")
     parser.add_argument("--search-ms", type=int, default=300)
@@ -124,30 +151,32 @@ def main():
     parser.add_argument("--team2", type=int, default=0)
     parser.add_argument("--seed", type=int, default=None,
                         help="per-game seed base; same seed across halves for paired comparison")
+    parser.add_argument("--workers", type=int, default=default_workers,
+                        help=f"parallel game workers (default: cpu_count-2 = {default_workers})")
     args = parser.parse_args()
 
     team1 = SAMPLE_TEAMS[args.team1]
     team2 = SAMPLE_TEAMS[args.team2]
 
-    print(f"=== half A: dev=P1 vs ref=P2 ({args.games} games, {args.search_ms}ms) ===")
-    a_w, a_l, a_d, a_t = run_half(pe_dev, pe_ref, args.games, args.search_ms,
-                                   team1, team2, args.seed)
-    print(f"  dev(P1) vs ref(P2): {a_w}W {a_l}L {a_d}D in {a_t:.0f}s")
+    print(f"=== {2 * args.games} games ({args.games}/half), {args.search_ms}ms, {args.workers} workers ===")
+    t0 = time.time()
+    stats = run_both_halves(args.games, args.search_ms, team1, team2,
+                            args.seed, args.workers)
+    elapsed = time.time() - t0
 
-    print(f"=== half B: ref=P1 vs dev=P2 ({args.games} games, {args.search_ms}ms) ===")
-    b_w, b_l, b_d, b_t = run_half(pe_ref, pe_dev, args.games, args.search_ms,
-                                   team1, team2, args.seed)
-    # in half B, "wins" mean ref won, so flip for dev's perspective
-    print(f"  ref(P1) vs dev(P2): {b_w}W {b_l}L {b_d}D in {b_t:.0f}s")
+    a_w, a_l, a_d = stats["A"]
+    b_w, b_l, b_d = stats["B"]
+    print(f"  dev(P1) vs ref(P2): {a_w}W {a_l}L {a_d}D")
+    print(f"  ref(P1) vs dev(P2): {b_w}W {b_l}L {b_d}D")
 
-    # dev's total record: half A wins (dev=P1) + half B losses (dev=P2)
+    # dev's record: half A wins (dev=P1) + half B losses (dev=P2)
     dev_wins = a_w + b_l
     dev_losses = a_l + b_w
     draws = a_d + b_d
     total = dev_wins + dev_losses
     pct = dev_wins / total * 100 if total > 0 else 0
     print()
-    print(f"DEV vs REF (counterbalanced, {2 * args.games} games): "
+    print(f"DEV vs REF (counterbalanced, {2 * args.games} games, {elapsed:.0f}s): "
           f"{dev_wins}W {dev_losses}L {draws}D ({pct:.1f}%)")
 
 
