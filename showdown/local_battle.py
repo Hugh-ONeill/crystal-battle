@@ -258,37 +258,19 @@ def smart_pick_move(state: pe.State, side: str = "s2") -> str:
 # GAME DRIVER
 # ============================================================
 
-def _find_move_index(side_results, move_choice: str) -> int:
-    """Find the index of a move_choice in a list of MctsSideResult; -1 if not found.
-    Tries exact match, then 'switch <name>' form for switch targets."""
-    for i, r in enumerate(side_results):
-        if r.move_choice == move_choice:
-            return i
-    switch_form = f"switch {move_choice}"
-    for i, r in enumerate(side_results):
-        if r.move_choice == switch_form:
-            return i
-    return -1
-
-
 def play_game(team1_str: str, team2_str: str, search_ms: int = 500,
               n_samples: int = 1, verbose: bool = False,
               policy_net=None, value_net=None, alpha: float = 1.0,
-              max_turns: int = 250, p2_mode: str = "mcts",
-              tree_reuse: bool = False) -> int:
+              max_turns: int = 250, p2_mode: str = "mcts") -> int:
     """Play one game: MCTS (P1) vs P2 (mode-controlled).
 
     policy_net: optional PolicyNet instance (Python). When set, used for PUCT priors.
     value_net: optional pe.ValueNet instance. When set, used for MCTS leaf eval.
     p2_mode: "mcts" (50ms MCTS, default) or "smart" (smart_pick_move heuristic).
-    tree_reuse: if True, persist the MCTS tree across turns (plain MCTS only).
 
     Returns: 1 if P1 wins, 2 if P2 wins, 0 if draw/timeout.
     """
     state = build_pe_state(team1_str, team2_str)
-    # tree_reuse only supported for plain MCTS (no priors / no value net) for now
-    use_tree = tree_reuse and policy_net is None and value_net is None
-    tree = None  # pe.MctsTree | None
 
     for turn in range(max_turns):
         # check if battle is over
@@ -307,12 +289,8 @@ def play_game(team1_str: str, team2_str: str, search_ms: int = 500,
             s1_priors = None
             s2_priors = None
             if policy_net is not None:
-                if policy_net.state_dim == 609:
-                    from showdown.features_v2 import parse_state_v2
-                    features = parse_state_v2(s_str)
-                else:
-                    from showdown.policy_train import parse_state_string
-                    features = parse_state_string(s_str)
+                from showdown.policy_train import parse_state_string
+                features = parse_state_string(s_str)
                 probs = policy_net.predict(features)[0]
                 n = len(probs)
                 s1_priors = probs.tolist()
@@ -322,24 +300,13 @@ def play_game(team1_str: str, team2_str: str, search_ms: int = 500,
                 result = pe.monte_carlo_tree_search_with_value(
                     state, value_net, search_ms, s1_priors, s2_priors, alpha,
                 )
-                p1_move = max(result.side_one, key=lambda x: x.visits).move_choice
             elif s1_priors is not None:
                 result = pe.monte_carlo_tree_search_with_priors(
                     state, s1_priors, s2_priors, search_ms,
                 )
-                p1_move = max(result.side_one, key=lambda x: x.visits).move_choice
-            elif use_tree:
-                if tree is None:
-                    tree = pe.MctsTree(state, search_ms)
-                else:
-                    tree.search(state, search_ms)
-                # raw result has .s1/.s2 (not .side_one/.side_two)
-                tree_res = tree.result(state)
-                p1_idx = max(range(len(tree_res.s1)), key=lambda i: tree_res.s1[i].visits)
-                p1_move = tree_res.s1[p1_idx].move_choice
             else:
                 result = pe.monte_carlo_tree_search(state, duration_ms=search_ms)
-                p1_move = max(result.side_one, key=lambda x: x.visits).move_choice
+            p1_move = max(result.side_one, key=lambda x: x.visits).move_choice
         except Exception as e:
             if verbose:
                 print(f"  MCTS error: {e}")
@@ -403,21 +370,7 @@ def play_game(team1_str: str, team2_str: str, search_ms: int = 500,
                 chosen = inst
                 break
 
-        new_state = state.apply_instructions(chosen)
-
-        # tree reuse: rebase the search tree to the realized child
-        if use_tree and tree is not None:
-            # find s2 index in tree's option list (smart returns move id or species)
-            s2_idx = _find_move_index(tree_res.s2,
-                                      p2_move if p2_move != "none" else "none")
-            if s2_idx >= 0:
-                ok = tree.rebase(p1_idx, s2_idx, chosen, new_state)
-                if not ok:
-                    tree = None  # rebuild next turn
-            else:
-                tree = None  # couldn't locate p2's move in tree options
-
-        state = new_state
+        state = state.apply_instructions(chosen)
 
     # timeout = draw
     return 0
@@ -442,8 +395,6 @@ def main():
     parser.add_argument("--p2", choices=["mcts", "smart"], default="mcts",
                         help="P2 opponent: 'mcts' (50ms MCTS) or 'smart' "
                              "(damage-maximizing heuristic).")
-    parser.add_argument("--tree-reuse", action="store_true",
-                        help="Persist MCTS tree across turns (plain MCTS only).")
     parser.add_argument("--seed", type=int, default=None,
                         help="Per-game seed base; game i uses random.seed(seed+i). "
                              "Use the same seed across A/B runs for paired comparison.")
@@ -461,7 +412,6 @@ def main():
         policy_net = PolicyNet(state_dim=ckpt["state_dim"], hidden=ckpt["hidden"])
         policy_net.load_state_dict(ckpt["model"])
         policy_net.eval()
-        policy_net.state_dim = ckpt["state_dim"]
         print(f"Loaded policy net from {args.policy_net_path}")
 
     value_net = None
@@ -478,7 +428,7 @@ def main():
                            n_samples=args.n_samples, verbose=args.verbose,
                            policy_net=policy_net, value_net=value_net,
                            alpha=args.alpha, max_turns=args.max_turns,
-                           p2_mode=args.p2, tree_reuse=args.tree_reuse)
+                           p2_mode=args.p2)
         if result == 1:
             wins += 1
             print("W", end="", flush=True)
