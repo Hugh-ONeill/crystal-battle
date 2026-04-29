@@ -444,6 +444,9 @@ def main():
                              "(damage-maximizing heuristic).")
     parser.add_argument("--tree-reuse", action="store_true",
                         help="Persist MCTS tree across turns (plain MCTS only).")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Per-game seed base; game i uses random.seed(seed+i). "
+                             "Use the same seed across A/B runs for paired comparison.")
     args = parser.parse_args()
 
     from showdown.sample_teams import SAMPLE_TEAMS
@@ -469,6 +472,8 @@ def main():
     t0 = time.time()
     wins = losses = draws = 0
     for i in range(args.games):
+        if args.seed is not None:
+            random.seed(args.seed + i)
         result = play_game(team1, team2, search_ms=args.search_ms,
                            n_samples=args.n_samples, verbose=args.verbose,
                            policy_net=policy_net, value_net=value_net,
