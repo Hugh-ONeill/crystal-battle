@@ -40,7 +40,7 @@ def _normalize_no_move(m: str) -> str:
 
 
 def play_engine_game(team1_str: str, team2_str: str, search_ms: int,
-                     p1_engine, p2_engine, max_turns: int = 250) -> int:
+                     p1_engine, p2_engine, max_turns: int = 120) -> int:
     """One game with each engine controlling its own side. State is owned by
     pe_dev (canonical resolver); both engines round-trip from string for their
     own search to keep types compatible. Returns 1 if P1 wins, 2 if P2 wins,
