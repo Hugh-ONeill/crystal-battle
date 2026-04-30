@@ -22,8 +22,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import poke_engine as pe_dev
 import poke_engine_ref as pe_ref
 
-from showdown.local_battle import build_pe_state
+from showdown.local_battle import build_pe_state, build_pe_state_gen9
 from showdown.sample_teams import SAMPLE_TEAMS
+from showdown.sample_teams_gen9 import SAMPLE_TEAMS_GEN9
 
 
 def _engine_for(eid: str):
@@ -40,12 +41,14 @@ def _normalize_no_move(m: str) -> str:
 
 
 def play_engine_game(team1_str: str, team2_str: str, search_ms: int,
-                     p1_engine, p2_engine, max_turns: int = 120) -> int:
+                     p1_engine, p2_engine, max_turns: int = 120,
+                     gen: int = 2) -> int:
     """One game with each engine controlling its own side. State is owned by
     pe_dev (canonical resolver); both engines round-trip from string for their
     own search to keep types compatible. Returns 1 if P1 wins, 2 if P2 wins,
     0 on draw/timeout."""
-    state = build_pe_state(team1_str, team2_str)
+    builder = build_pe_state_gen9 if gen == 9 else build_pe_state
+    state = builder(team1_str, team2_str)
 
     for _ in range(max_turns):
         s1_alive = sum(1 for p in state.side_one.pokemon if p.hp > 0)
@@ -105,23 +108,23 @@ def play_engine_game(team1_str: str, team2_str: str, search_ms: int,
 def _worker_play(task):
     """Pool worker: resolve engines from string ids, seed, run one game.
     Returns (half_label, result) so the caller can demux per-half stats."""
-    half_label, team1, team2, search_ms, p1_id, p2_id, seed = task
+    half_label, team1, team2, search_ms, p1_id, p2_id, seed, gen = task
     if seed is not None:
         random.seed(seed)
     r = play_engine_game(team1, team2, search_ms,
-                         _engine_for(p1_id), _engine_for(p2_id))
+                         _engine_for(p1_id), _engine_for(p2_id), gen=gen)
     return half_label, r
 
 
 def run_both_halves(n_games: int, search_ms: int, team1: str, team2: str,
-                    seed_base: int | None, workers: int):
+                    seed_base: int | None, workers: int, gen: int = 2):
     """Submit both halves' games into a single pool to overlap tail latency.
     Returns dict mapping half_label -> (wins, losses, draws)."""
     tasks = []
     for i in range(n_games):
         seed = (seed_base + i) if seed_base is not None else None
-        tasks.append(("A", team1, team2, search_ms, "dev", "ref", seed))
-        tasks.append(("B", team1, team2, search_ms, "ref", "dev", seed))
+        tasks.append(("A", team1, team2, search_ms, "dev", "ref", seed, gen))
+        tasks.append(("B", team1, team2, search_ms, "ref", "dev", seed, gen))
 
     stats = {"A": [0, 0, 0], "B": [0, 0, 0]}  # [W, L, D] per half
 
@@ -153,15 +156,19 @@ def main():
                         help="per-game seed base; same seed across halves for paired comparison")
     parser.add_argument("--workers", type=int, default=default_workers,
                         help=f"parallel game workers (default: cpu_count-2 = {default_workers})")
+    parser.add_argument("--gen", type=int, default=2, choices=[2, 9],
+                        help="generation: 2 for gen2 SAMPLE_TEAMS, 9 for gen9 SAMPLE_TEAMS_GEN9")
     args = parser.parse_args()
 
-    team1 = SAMPLE_TEAMS[args.team1]
-    team2 = SAMPLE_TEAMS[args.team2]
+    teams = SAMPLE_TEAMS_GEN9 if args.gen == 9 else SAMPLE_TEAMS
+    team1 = teams[args.team1]
+    team2 = teams[args.team2]
 
-    print(f"=== {2 * args.games} games ({args.games}/half), {args.search_ms}ms, {args.workers} workers ===")
+    print(f"=== gen{args.gen}: {2 * args.games} games ({args.games}/half), "
+          f"{args.search_ms}ms, {args.workers} workers ===")
     t0 = time.time()
     stats = run_both_halves(args.games, args.search_ms, team1, team2,
-                            args.seed, args.workers)
+                            args.seed, args.workers, gen=args.gen)
     elapsed = time.time() - t0
 
     a_w, a_l, a_d = stats["A"]
