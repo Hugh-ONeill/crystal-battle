@@ -26,8 +26,36 @@ from showdown.features_v2 import get_move_props, type_effectiveness
 # TEAM BUILDING (from sample team strings -> poke-engine State)
 # ============================================================
 
+_STAT_KEY = {"hp": "hp", "atk": "atk", "def": "def", "spa": "spa", "spd": "spd", "spe": "spe"}
+
+
+def _parse_stat_line(s: str, default: int) -> dict[str, int]:
+    """Parse 'EVs: 252 HP / 4 SpD / 252 Spe' into {'hp':252, 'spd':4, 'spe':252}, others default."""
+    out = {k: default for k in ("hp", "atk", "def", "spa", "spd", "spe")}
+    body = s.split(":", 1)[1] if ":" in s else s
+    for chunk in body.split("/"):
+        chunk = chunk.strip()
+        if not chunk:
+            continue
+        parts = chunk.split()
+        if len(parts) != 2:
+            continue
+        amount, stat = parts[0], parts[1].lower()
+        key = _STAT_KEY.get(stat)
+        if key is not None:
+            try:
+                out[key] = int(amount)
+            except ValueError:
+                pass
+    return out
+
+
 def parse_showdown_team(team_str: str) -> list[dict]:
-    """Parse a Showdown paste into a list of mon dicts."""
+    """Parse a Showdown paste into a list of mon dicts.
+
+    Captures the optional gen9 fields (Ability, Tera Type, EVs, IVs, Nature) when
+    present so the same parser feeds both the gen2 and gen9 builders.
+    """
     mons = []
     current = None
     for line in team_str.strip().split("\n"):
@@ -38,7 +66,12 @@ def parse_showdown_team(team_str: str) -> list[dict]:
             current = None
             continue
         if current is None:
-            current = {"moves": [], "item": "leftovers", "ivs": {}}
+            current = {
+                "moves": [], "item": "leftovers",
+                "ability": None, "tera_type": None, "nature": "Serious",
+                "evs": {k: 0 for k in ("hp", "atk", "def", "spa", "spd", "spe")},
+                "ivs": {k: 31 for k in ("hp", "atk", "def", "spa", "spd", "spe")},
+            }
             if "@" in line:
                 parts = line.split("@")
                 current["species"] = _normalize(parts[0].split("(")[0].strip())
@@ -47,12 +80,19 @@ def parse_showdown_team(team_str: str) -> list[dict]:
                 current["species"] = _normalize(line.split("(")[0].strip())
         elif line.startswith("- "):
             move = _normalize(line[2:].split("[")[0].strip())
-            # handle Hidden Power [Type]
             if "hiddenpower" in _normalize(line[2:]):
                 move = _normalize(line[2:].replace("[", "").replace("]", "").strip())
             current["moves"].append(move)
+        elif line.startswith("Ability:"):
+            current["ability"] = _normalize(line.split(":", 1)[1].strip())
+        elif line.startswith("Tera Type:"):
+            current["tera_type"] = _normalize(line.split(":", 1)[1].strip())
+        elif line.endswith("Nature"):
+            current["nature"] = line.replace("Nature", "").strip()
+        elif line.startswith("EVs:"):
+            current["evs"] = _parse_stat_line(line, default=0)
         elif line.startswith("IVs:"):
-            pass  # skip IV line for now
+            current["ivs"] = _parse_stat_line(line, default=31)
     if current:
         mons.append(current)
     return mons
@@ -94,6 +134,109 @@ def build_pe_state(team1_str: str, team2_str: str) -> pe.State:
                 types=types, ability="noability",
                 item=md.get("item", "leftovers"),
                 status="none", moves=moves,
+            ))
+        while len(pokemon) < 6:
+            pokemon.append(pe.Pokemon.create_fainted())
+        return pe.Side(pokemon=pokemon[:6])
+
+    side1 = build_side(team1_str)
+    side2 = build_side(team2_str)
+    return pe.State(
+        side_one=side1, side_two=side2,
+        weather=pe.Weather.NONE, weather_turns_remaining=0,
+        terrain=pe.Terrain.NONE, terrain_turns_remaining=0,
+        trick_room=False, trick_room_turns_remaining=0,
+        team_preview=False,
+    )
+
+
+# Gen 3+ nature multipliers: name -> (boosted_stat, nerfed_stat). Neutral natures absent.
+_NATURE_TABLE = {
+    "Adamant": ("atk", "spa"), "Modest": ("spa", "atk"),
+    "Jolly": ("spe", "spa"),   "Timid": ("spe", "atk"),
+    "Bold": ("def", "atk"),    "Calm": ("spd", "atk"),
+    "Impish": ("def", "spa"),  "Careful": ("spd", "spa"),
+    "Relaxed": ("def", "spe"), "Quiet": ("spa", "spe"),
+    "Brave": ("atk", "spe"),   "Sassy": ("spd", "spe"),
+    "Naughty": ("atk", "spd"), "Lonely": ("atk", "def"),
+    "Hasty": ("spe", "def"),   "Naive": ("spe", "spd"),
+    "Rash": ("spa", "spd"),    "Mild": ("spa", "def"),
+    "Gentle": ("spd", "def"),  "Lax": ("def", "spd"),
+}
+
+
+def _calc_stat_modern(base: int, iv: int, ev: int, level: int, nature_mult: float, is_hp: bool) -> int:
+    """Gen 3+ stat formula. nature_mult is 1.1 / 1.0 / 0.9 (ignored for HP)."""
+    inner = (2 * base + iv + ev // 4) * level // 100
+    if is_hp:
+        return inner + level + 10
+    return int((inner + 5) * nature_mult)
+
+
+def build_pe_state_gen9(team1_str: str, team2_str: str) -> pe.State:
+    """Build a poke-engine State from two Showdown team pastes for gen9 OU.
+
+    Differences from build_pe_state (gen2):
+      - gen9 pokedex via poke_env.GenData.from_gen(9)
+      - gen 3+ stat formula with EVs/IVs/nature applied
+      - ability set from the team paste (not hardcoded)
+      - tera_type / terastallized fields populated
+    """
+    from poke_env.data.gen_data import GenData
+    gd = GenData.from_gen(9)
+    pokedex = gd.pokedex
+
+    def build_side(team_str):
+        mons_data = parse_showdown_team(team_str)
+        pokemon = []
+        for md in mons_data:
+            entry = pokedex.get(md["species"], {})
+            bs = entry.get("baseStats", {})
+            types_list = entry.get("types", ["Normal"])
+            base_types = tuple(t.lower() for t in types_list)
+            if len(base_types) < 2:
+                base_types = (base_types[0], "typeless")
+
+            nature_pair = _NATURE_TABLE.get(md.get("nature", "Serious"))
+            def stat_mult(stat: str) -> float:
+                if nature_pair is None:
+                    return 1.0
+                if stat == nature_pair[0]:
+                    return 1.1
+                if stat == nature_pair[1]:
+                    return 0.9
+                return 1.0
+
+            evs = md["evs"]
+            ivs = md["ivs"]
+
+            def s(stat: str, is_hp: bool = False) -> int:
+                return _calc_stat_modern(
+                    bs.get(stat, 80), ivs[stat], evs[stat], 100, stat_mult(stat), is_hp
+                )
+
+            hp_val = s("hp", is_hp=True)
+
+            moves = [pe.Move(id=m, pp=16) for m in md["moves"][:4]]
+            while len(moves) < 4:
+                moves.append(pe.Move(id="splash", pp=1))
+
+            ability = md.get("ability") or "noability"
+            tera = md.get("tera_type") or base_types[0]
+
+            pokemon.append(pe.Pokemon(
+                id=md["species"], level=100,
+                hp=hp_val, maxhp=hp_val,
+                attack=s("atk"), defense=s("def"),
+                special_attack=s("spa"), special_defense=s("spd"),
+                speed=s("spe"),
+                types=base_types, base_types=base_types,
+                ability=ability, base_ability=ability,
+                item=md.get("item", "leftovers"),
+                nature=md.get("nature", "Serious").lower(),
+                evs=(evs["hp"], evs["atk"], evs["def"], evs["spa"], evs["spd"], evs["spe"]),
+                status="none", moves=moves,
+                terastallized=False, tera_type=tera,
             ))
         while len(pokemon) < 6:
             pokemon.append(pe.Pokemon.create_fainted())
