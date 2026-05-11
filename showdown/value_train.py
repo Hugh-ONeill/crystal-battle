@@ -20,6 +20,7 @@ import torch.nn.functional as F
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from showdown.features_v2 import parse_state_v2, STATE_FEATURES_V2
 from showdown.features_v3 import parse_state_v3, STATE_V3_FEATURES
+from showdown.features_bo import parse_state_bo, STATE_BO_FEATURES
 
 
 # ============================================================
@@ -41,6 +42,7 @@ def _h_baseline(state_str: str) -> float:
 def prepare_value_data(data_path: str, use_v2: bool = False,
                        filter_draws: bool = False,
                        use_v3: bool = False,
+                       use_bo: bool = False,
                        residual: bool = False,
                        ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Load recorded games and prepare (state_features, win_label, turns_remaining).
@@ -54,14 +56,17 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
     game ends. Used at training time for gamma-discount of far-from-terminal
     labels (anti-saturation).
     """
-    if use_v3:
+    if use_bo:
+        feature_fn = parse_state_bo
+        feat_name = f"bo ({STATE_BO_FEATURES}, gen9 BO-locked)"
+    elif use_v3:
         feature_fn = parse_state_v3
         feat_name = f"v3 ({STATE_V3_FEATURES}, gen9)"
     elif use_v2:
         feature_fn = parse_state_v2
         feat_name = "v2 (gen2-flavored)"
     else:
-        raise ValueError("must pass --features-v2 or --features-v3")
+        raise ValueError("must pass --features-v2, --features-v3, or --features-bo")
     print(f"Using {feat_name} features")
 
     print(f"Loading {data_path}...")
@@ -127,7 +132,11 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
             # for v3 — gen9 replays only record p1-perspective states so we need
             # the augmentation to teach the model symmetry; otherwise it learns
             # a +30pp bias toward whichever side appears in slot 0.
-            do_flip = (len(turn_data) >= 5 and turn_data[4]) or use_v3
+            # Skipped for BO features: parse_state_bo auto-orients (BO always
+            # encoded BO-first), so flipping would duplicate samples with
+            # identical features and opposite labels.
+            do_flip = ((len(turn_data) >= 5 and turn_data[4])
+                       or (use_v3 and not use_bo))
             if do_flip:
                 major_parts = state_str.split("/")
                 if len(major_parts) >= 2:
@@ -203,7 +212,8 @@ def train(data_path: str, save_path: str = "value_net.pt",
           epochs: int = 30, lr: float = 1e-3, hidden: int = 256,
           batch_size: int = 256, device: str = "cpu", use_v2: bool = False,
           gamma: float = 1.0, filter_draws: bool = False,
-          use_v3: bool = False, residual: bool = False):
+          use_v3: bool = False, use_bo: bool = False,
+          residual: bool = False):
     """Train the value net.
 
     gamma: discount applied to the win/loss target via gamma^turns_remaining.
@@ -219,7 +229,7 @@ def train(data_path: str, save_path: str = "value_net.pt",
         print(f"  RESIDUAL MODE: target = (V - h + 1) / 2, h = sigmoid(eval/{RESIDUAL_EVAL_SCALE})")
     states, raw_labels, turns_remaining = prepare_value_data(
         data_path, use_v2=use_v2, filter_draws=filter_draws, use_v3=use_v3,
-        residual=residual)
+        use_bo=use_bo, residual=residual)
 
     # gamma-discount: pull mid-game labels toward 0.5 (uncertainty).
     # Skipped in residual mode — residual targets aren't outcome probs.
@@ -340,6 +350,10 @@ if __name__ == "__main__":
     parser.add_argument("--features-v2", action="store_true")
     parser.add_argument("--features-v3", action="store_true",
                         help="Use gen9-aware featurizer (1250 dims).")
+    parser.add_argument("--features-bo", action="store_true",
+                        help=f"Use BO-locked featurizer ({STATE_BO_FEATURES} "
+                             "dims). Auto-orients regardless of which side "
+                             "holds the BO team in the recorded data.")
     parser.add_argument("--gamma", type=float, default=1.0,
                         help="discount: target_prob = 0.5 + (raw - 0.5) * "
                              "gamma^turns_remaining. <1 fights saturation; "
@@ -358,4 +372,5 @@ if __name__ == "__main__":
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
           args.batch_size, args.device, use_v2=args.features_v2,
           gamma=args.gamma, filter_draws=args.filter_draws,
-          use_v3=args.features_v3, residual=args.residual)
+          use_v3=args.features_v3, use_bo=args.features_bo,
+          residual=args.residual)
