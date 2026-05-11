@@ -138,6 +138,21 @@ CANONICAL_MATCHUPS = [
     ("Rain-TR", 4, 5),
 ]
 
+# BO-locked eval: dev side is always team 1 (Bulky Offense). The two
+# holdouts (Sun=0, KingambitHO=9) are kept out of training data; BO-Balance
+# is an in-distribution sanity check so a holdout win at the cost of
+# training-pool regression is visible.
+BO_HOLDOUT_MATCHUPS = [
+    ("BO-Sun", 1, 0),
+    ("BO-GambitHO", 1, 9),
+    ("BO-Balance", 1, 2),
+]
+
+MATCHUP_SETS = {
+    "general": CANONICAL_MATCHUPS,
+    "bo_holdout": BO_HOLDOUT_MATCHUPS,
+}
+
 
 def _strip_switch_prefix(m: str) -> str:
     return m[7:] if m.startswith("switch ") else m
@@ -290,7 +305,13 @@ def main() -> int:
     ap.add_argument("--qnet-as-policy", type=str, default=None,
                     help="path to a Q-net .material file used as policy "
                          "(softmax of per-action Q vector). Replaces --policy-net.")
+    ap.add_argument("--matchup-set", choices=list(MATCHUP_SETS.keys()),
+                    default="general",
+                    help="'general' = legacy 4 mixed matchups; "
+                         "'bo_holdout' = BO vs Sun/GambitHO holdouts + "
+                         "BO-Balance in-distribution sanity.")
     args = ap.parse_args()
+    matchups = MATCHUP_SETS[args.matchup_set]
 
     alphas = [float(a) for a in args.alphas.split(",")]
 
@@ -304,8 +325,10 @@ def main() -> int:
     elif args.policy_net:
         print(f"loading policy net: {args.policy_net}")
         policy_net = PolicyOnnx(args.policy_net)
-    print(f"alphas: {alphas}, {args.games}/half × 4 matchups × {len(alphas)} alphas "
-          f"= {2 * args.games * 4 * len(alphas)} total games at {args.search_ms}ms")
+    print(f"alphas: {alphas}, {args.games}/half × {len(matchups)} matchups "
+          f"× {len(alphas)} alphas = "
+          f"{2 * args.games * len(matchups) * len(alphas)} total games "
+          f"at {args.search_ms}ms ({args.matchup_set})")
     print()
 
     t0 = time.time()
@@ -314,7 +337,7 @@ def main() -> int:
 
     for alpha in alphas:
         print(f"=== α = {alpha} ===")
-        for name, t1_idx, t2_idx in CANONICAL_MATCHUPS:
+        for name, t1_idx, t2_idx in matchups:
             print(f"  {name} ({t1_idx} vs {t2_idx}): ", end="", flush=True)
             t1 = SAMPLE_TEAMS_GEN9[t1_idx]
             t2 = SAMPLE_TEAMS_GEN9[t2_idx]
@@ -332,11 +355,11 @@ def main() -> int:
     elapsed = time.time() - t0
     print()
     print(f"=== summary (n={2 * args.games} per matchup, {elapsed:.0f}s total) ===")
-    print(f"{'alpha':>6}  " + "  ".join(f"{name:>12}" for name, _, _ in CANONICAL_MATCHUPS) + "  |   avg")
+    print(f"{'alpha':>6}  " + "  ".join(f"{name:>12}" for name, _, _ in matchups) + "  |   avg")
     for alpha in alphas:
         cells = []
         wins = total = 0
-        for name, _, _ in CANONICAL_MATCHUPS:
+        for name, _, _ in matchups:
             w, l, d = results[alpha][name]
             t = w + l
             wins += w
