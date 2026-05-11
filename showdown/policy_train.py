@@ -1,434 +1,155 @@
 #!/usr/bin/env python3
-# policy net training on MCTS self-play data
-# trains a small net to predict MCTS visit distributions from game state
-#
-# Usage:
-#   .venv/bin/python showdown/policy_train.py --data policy_training_data.pkl --epochs 30
+"""Train a policy net on per-turn MCTS visit distributions (gen9 / v3 features).
+
+Reads a self-play pickle in the new 4-tuple schema:
+    [(winner_int, [(state_str, v_p1, s1_pi9, s2_pi9), ...]), ...]
+
+Each turn produces two training samples (state, π):
+    1. (parse_state_v3(state_str),         s1_pi9)
+    2. (parse_state_v3(side-flipped state), s2_pi9)
+
+Loss: cross-entropy with soft targets, equivalent to KL up to a constant.
+
+Architecture matches value_train.py: n_layers × hidden trunk, output 9 logits
+(matches Rust policy::N_ACTIONS). Exports to ONNX so it can be loaded as
+priors for `pe.mcts_with_value`.
+"""
+
+from __future__ import annotations
 
 import argparse
 import pickle
-import random
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.optim as optim
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-
-# ============================================================
-# STATE PARSING
-# ============================================================
-
-# gen2 types for one-hot encoding
-TYPES = ["bug", "dark", "dragon", "electric", "fighting", "fire", "flying",
-         "ghost", "grass", "ground", "ice", "normal", "poison", "psychic",
-         "rock", "steel", "water", "typeless"]
-TYPE_IDX = {t.upper(): i for i, t in enumerate(TYPES)}
-
-# known items
-ITEMS = ["leftovers", "thickclub", "lightball", "miracleberry", "mintberry",
-         "charcoal", "mysticwater", "magnet", "nevermeltice", "scopelens", "none"]
-ITEM_IDX = {i.upper(): idx for idx, i in enumerate(ITEMS)}
-
-# status
-STATUSES = ["none", "burn", "sleep", "freeze", "paralyze", "poison", "toxic"]
-STATUS_IDX = {s.upper(): i for i, s in enumerate(STATUSES)}
-
-# moves: we'll use a fixed vocabulary of known Gen 2 moves
-# build this dynamically from the training data
+from showdown.features_v3 import parse_state_v3, STATE_V3_FEATURES
 
 
-def parse_pokemon(fields: list[str]) -> np.ndarray:
-    """Parse 28 fields of a pokemon into a feature vector."""
-    features = []
-
-    # hp fraction
-    hp = int(fields[6])
-    maxhp = int(fields[7])
-    features.append(hp / max(maxhp, 1))  # hp_frac
-    features.append(1.0 if hp > 0 else 0.0)  # alive
-
-    # types (one-hot, 18 dims)
-    type_vec = [0.0] * len(TYPES)
-    t1 = fields[2].upper()
-    t2 = fields[3].upper()
-    if t1 in TYPE_IDX:
-        type_vec[TYPE_IDX[t1]] = 1.0
-    if t2 in TYPE_IDX:
-        type_vec[TYPE_IDX[t2]] = 1.0
-    features.extend(type_vec)
-
-    # stats (normalized by 500)
-    features.append(int(fields[13]) / 500.0)  # attack
-    features.append(int(fields[14]) / 500.0)  # defense
-    features.append(int(fields[15]) / 500.0)  # spa
-    features.append(int(fields[16]) / 500.0)  # spd
-    features.append(int(fields[17]) / 500.0)  # speed
-
-    # status (one-hot, 7 dims)
-    status_vec = [0.0] * len(STATUSES)
-    status = fields[18].upper()
-    if status in STATUS_IDX:
-        status_vec[STATUS_IDX[status]] = 1.0
-    features.extend(status_vec)
-
-    # item (one-hot, 11 dims)
-    item_vec = [0.0] * len(ITEMS)
-    item = fields[10].upper()
-    if item in ITEM_IDX:
-        item_vec[ITEM_IDX[item]] = 1.0
-    else:
-        item_vec[ITEM_IDX["NONE"]] = 1.0
-    features.extend(item_vec)
-
-    # move pp fractions (4 moves)
-    for i in range(4):
-        move_field = fields[22 + i]
-        parts = move_field.split(";")
-        if len(parts) >= 3:
-            pp = int(parts[2])
-            features.append(min(pp / 32.0, 1.0))  # pp fraction
-        else:
-            features.append(0.0)
-
-    return np.array(features, dtype=np.float32)
-
-
-# per pokemon: 1 (hp) + 1 (alive) + 18 (types) + 5 (stats) + 7 (status) + 11 (item) + 4 (pp) = 47
-POKEMON_FEATURES = 47
-
-# side extras: 7 (boosts) + 3 (spikes/reflect/light_screen) = 10
-SIDE_EXTRAS = 10
-
-
-def parse_side(pokemon_strs: list[str], side_parts: list[str] = None) -> np.ndarray:
-    """Parse a side (6 pokemon + boosts + hazards) into features."""
-    features = []
-    for pstr in pokemon_strs:
-        fields = pstr.split(",")
-        if len(fields) >= 28:
-            features.append(parse_pokemon(fields))
-        else:
-            features.append(np.zeros(POKEMON_FEATURES, dtype=np.float32))
-
-    # pad to 6 pokemon
-    while len(features) < 6:
-        features.append(np.zeros(POKEMON_FEATURES, dtype=np.float32))
-
-    extras = np.zeros(SIDE_EXTRAS, dtype=np.float32)
-
-    if side_parts and len(side_parts) >= 18:
-        # boosts at =-split indices 11-17: atk/def/spa/spd/spe/acc/eva
-        # normalize to [-1, 1] range (max boost is +/-6)
-        for i in range(7):
-            try:
-                extras[i] = int(side_parts[11 + i]) / 6.0
-            except (ValueError, IndexError):
-                pass
-
-        # side_conditions at =-split index 7, semicolon-separated
-        # spikes is field 12 in the semicolon list (0-3 layers)
-        # reflect is field 10, light_screen is field 3
-        try:
-            sc_fields = side_parts[7].split(";")
-            if len(sc_fields) >= 13:
-                extras[7] = int(sc_fields[12]) / 3.0   # spikes (0-3)
-                extras[8] = float(int(sc_fields[10]) > 0)  # reflect
-                extras[9] = float(int(sc_fields[3]) > 0)   # light screen
-        except (ValueError, IndexError):
-            pass
-
-    return np.concatenate(features[:6] + [extras])
-
-
-# side features: 6 * 47 + 10 = 292
-SIDE_FEATURES = 6 * POKEMON_FEATURES + SIDE_EXTRAS
-
-
-def parse_state_string(state_str: str) -> np.ndarray:
-    """Parse a full state string into a feature vector."""
-    # format: side_one/side_two/weather/terrain/trick_room/team_preview
-    major_parts = state_str.split("/")
-    if len(major_parts) < 2:
-        return np.zeros(SIDE_FEATURES * 2 + 3, dtype=np.float32)
-
-    # each side: p0=p1=p2=p3=p4=p5=active_idx=side_conditions=...=boosts...
-    s1_parts = major_parts[0].split("=")
-    s2_parts = major_parts[1].split("=")
-
-    # first 6 are pokemon
-    s1_features = parse_side(s1_parts[:6], s1_parts)
-    s2_features = parse_side(s2_parts[:6], s2_parts)
-
-    # weather (gen2: none/sun/rain/sand -- 3 one-hot, skip none)
-    weather_vec = np.zeros(3, dtype=np.float32)  # sun/rain/sand
-    if len(major_parts) > 2:
-        weather_str = major_parts[2].upper()
-        if "SUN" in weather_str:
-            weather_vec[0] = 1.0
-        elif "RAIN" in weather_str:
-            weather_vec[1] = 1.0
-        elif "SAND" in weather_str:
-            weather_vec[2] = 1.0
-
-    return np.concatenate([s1_features, s2_features, weather_vec])
-
-
-# total features: 292 + 292 + 3 = 587
-STATE_FEATURES = SIDE_FEATURES * 2 + 3
-
-# action space: 4 moves + 5 switches = 9
-# but poke-engine returns move names, need to map to indices
 N_ACTIONS = 9
 
 
-def visits_to_policy(visits: list[tuple[str, int]], side_pokemon: list[str]) -> np.ndarray:
-    """Convert MCTS visit counts to a policy probability vector.
-
-    Maps move names to action indices:
-      0-3: moves (in order of the active pokemon's moveset)
-      4-8: switches (to pokemon 1-5, i.e. non-active)
-    """
-    policy = np.zeros(N_ACTIONS, dtype=np.float32)
-
-    # get active pokemon's move names from first pokemon string
-    active_fields = side_pokemon[0].split(",") if side_pokemon else []
-    move_names = []
-    for i in range(4):
-        if 22 + i < len(active_fields):
-            parts = active_fields[22 + i].split(";")
-            move_names.append(parts[0].upper())
-        else:
-            move_names.append("NONE")
-
-    # get bench pokemon names
-    bench_names = []
-    for i in range(1, 6):
-        if i < len(side_pokemon):
-            fields = side_pokemon[i].split(",")
-            if fields:
-                bench_names.append(fields[0].upper())
-            else:
-                bench_names.append("")
-        else:
-            bench_names.append("")
-
-    total_visits = sum(v for _, v in visits)
-    if total_visits == 0:
-        return policy
-
-    for move_name, visit_count in visits:
-        name_upper = move_name.upper()
-        prob = visit_count / total_visits
-
-        # check if it's a move
-        matched = False
-        for i, mn in enumerate(move_names):
-            if name_upper == mn:
-                policy[i] = prob
-                matched = True
-                break
-
-        if not matched:
-            # check if it's a switch
-            for i, bn in enumerate(bench_names):
-                if name_upper == bn:
-                    policy[4 + i] = prob
-                    matched = True
-                    break
-
-    return policy
-
-
-# ============================================================
-# DATA PREPARATION
-# ============================================================
-
-def prepare_data(data_path: str, use_v2: bool = False) -> tuple[np.ndarray, np.ndarray]:
-    """Load training data in either format:
-    - MCTS: list of (winner, [(state_str, s1_move, s1_visits, s2_move[, s2_visits]), ...])
-    - Human: (features_array, policies_array) tuple
-    """
-    if use_v2:
-        from showdown.features_v2 import parse_state_v2 as feature_fn
-        print(f"Using v2 features (579 dims)")
-    else:
-        feature_fn = parse_state_string
-        print(f"Using v1 features (587 dims)")
-
+def prepare_policy_data(data_path: str):
     print(f"Loading {data_path}...")
     with open(data_path, "rb") as f:
-        results = pickle.load(f)
+        data = pickle.load(f)
 
-    # detect format
-    if isinstance(results, tuple) and len(results) == 2:
-        # human replay format: (features, policies) arrays
-        states, policies = results
-        if use_v2 and states.shape[1] != 579:
-            print(f"  WARNING: pre-computed features are dim {states.shape[1]}, "
-                  f"not 579. Re-extracting not supported for human format.")
-        print(f"  {len(states)} samples (human replay format), "
-              f"state_dim={states.shape[1]}, action_dim={policies.shape[1]}")
-        return states, policies
+    states: list[np.ndarray] = []
+    targets: list[np.ndarray] = []
+    n_skipped = 0
 
-    # MCTS format: list of (winner, turns)
-    # turns are either 4-tuples (old) or 5-tuples (new, with s2_visits)
-    states = []
-    policies = []
-
-    for winner, turns in results:
+    for game in data:
+        if not (isinstance(game, tuple) and len(game) == 2):
+            n_skipped += 1
+            continue
+        _, turns = game
         for turn_data in turns:
+            if len(turn_data) < 4:
+                n_skipped += 1
+                continue
             state_str = turn_data[0]
-            s1_visits = turn_data[2]
+            s1_pi = np.asarray(turn_data[2], dtype=np.float32)
+            s2_pi = np.asarray(turn_data[3], dtype=np.float32)
+            if s1_pi.shape != (N_ACTIONS,) or s2_pi.shape != (N_ACTIONS,):
+                n_skipped += 1
+                continue
+            # side-one perspective
+            states.append(parse_state_v3(state_str))
+            targets.append(s1_pi)
+            # side-two perspective via state flip
+            major = state_str.split("/")
+            if len(major) >= 2:
+                flipped = "/".join([major[1], major[0]] + major[2:])
+                states.append(parse_state_v3(flipped))
+                targets.append(s2_pi)
 
-            # side one: parse state as-is
-            features = feature_fn(state_str)
-            states.append(features)
+    states_arr = np.asarray(states, dtype=np.float32)
+    targets_arr = np.asarray(targets, dtype=np.float32)
+    print(f"  {len(states)} samples, state_dim={states_arr.shape[1]}, "
+          f"skipped={n_skipped}")
+    flat = targets_arr.flatten()
+    print(f"  target stats: mean={targets_arr.mean():.4f} (uniform=1/9≈0.111), "
+          f"zero-frac={(flat == 0).sum() / flat.size:.1%}, "
+          f"one-frac={(flat == 1).sum() / flat.size:.2%}")
+    return states_arr, targets_arr
 
-            side1_parts = state_str.split("/")[0].split("=")
-            side1_pokemon = side1_parts[:6]
-            policy = visits_to_policy(s1_visits, side1_pokemon)
-            policies.append(policy)
-
-            # side two: if s2_visits present, flip sides for s2 perspective
-            if len(turn_data) >= 5 and turn_data[4]:
-                s2_visits = turn_data[4]
-                major_parts = state_str.split("/")
-                if len(major_parts) >= 2:
-                    # flip: s2 becomes s1 from their perspective
-                    flipped = "/".join([major_parts[1], major_parts[0]]
-                                       + major_parts[2:])
-                    features_s2 = feature_fn(flipped)
-                    states.append(features_s2)
-
-                    side2_parts = major_parts[1].split("=")
-                    side2_pokemon = side2_parts[:6]
-                    policy_s2 = visits_to_policy(s2_visits, side2_pokemon)
-                    policies.append(policy_s2)
-
-    states = np.array(states, dtype=np.float32)
-    policies = np.array(policies, dtype=np.float32)
-
-    print(f"  {len(states)} samples (MCTS format), state_dim={states.shape[1]}, "
-          f"action_dim={policies.shape[1]}")
-    return states, policies
-
-
-# ============================================================
-# MODEL
-# ============================================================
 
 class PolicyNet(nn.Module):
-    """Simple MLP policy network.
-
-    Input: state features (587 dim)
-    Output: action probabilities (9 dim)
-    """
-
-    def __init__(self, state_dim=STATE_FEATURES, action_dim=N_ACTIONS,
-                 hidden=256, n_layers=3):
+    def __init__(self, state_dim: int, hidden: int = 256, n_layers: int = 3):
         super().__init__()
         layers = []
         in_dim = state_dim
         for _ in range(n_layers):
             layers.extend([nn.Linear(in_dim, hidden), nn.ReLU()])
             in_dim = hidden
-        layers.append(nn.Linear(hidden, action_dim))
+        layers.append(nn.Linear(hidden, N_ACTIONS))
         self.net = nn.Sequential(*layers)
 
     def forward(self, x):
         return self.net(x)
 
-    def predict(self, state_features: np.ndarray) -> np.ndarray:
-        """Predict action probabilities from state features."""
-        with torch.no_grad():
-            x = torch.tensor(state_features, dtype=torch.float32)
-            if x.dim() == 1:
-                x = x.unsqueeze(0)
-            logits = self.forward(x)
-            probs = F.softmax(logits, dim=-1)
-            return probs.numpy()
 
+def soft_cross_entropy(logits: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+    log_probs = F.log_softmax(logits, dim=-1)
+    return -(target * log_probs).sum(dim=-1).mean()
 
-# ============================================================
-# TRAINING
-# ============================================================
 
 def train(data_path: str, save_path: str = "policy_net.pt",
           epochs: int = 30, lr: float = 1e-3, hidden: int = 256,
-          batch_size: int = 256, device: str = "cpu", use_v2: bool = False):
-    """Train policy net on MCTS self-play data."""
-
-    states, policies = prepare_data(data_path, use_v2=use_v2)
-
-    # shuffle and split
+          n_layers: int = 3, batch_size: int = 512, device: str = "cpu"):
+    states, targets = prepare_policy_data(data_path)
     n = len(states)
-    indices = list(range(n))
-    random.seed(42)
-    random.shuffle(indices)
-    val_size = n // 10
-    val_idx = indices[:val_size]
-    train_idx = indices[val_size:]
+    rng = np.random.default_rng(0)
+    perm = rng.permutation(n)
+    states, targets = states[perm], targets[perm]
+    cut = int(n * 0.95)
+    X_train = torch.from_numpy(states[:cut]).to(device)
+    Y_train = torch.from_numpy(targets[:cut]).to(device)
+    X_val = torch.from_numpy(states[cut:]).to(device)
+    Y_val = torch.from_numpy(targets[cut:]).to(device)
+    print(f"  train={len(X_train)}, val={len(X_val)}")
 
-    train_states = torch.tensor(states[train_idx], device=device)
-    train_policies = torch.tensor(policies[train_idx], device=device)
-    val_states = torch.tensor(states[val_idx], device=device)
-    val_policies = torch.tensor(policies[val_idx], device=device)
+    model = PolicyNet(state_dim=states.shape[1], hidden=hidden,
+                      n_layers=n_layers).to(device)
+    n_params = sum(p.numel() for p in model.parameters())
+    print(f"  {n_params:,} parameters")
+    print(f"  uniform-policy CE baseline: {-np.log(1 / N_ACTIONS):.4f}")
 
-    model = PolicyNet(state_dim=states.shape[1], hidden=hidden).to(device)
-    params = sum(p.numel() for p in model.parameters())
-    print(f"  {params:,} parameters\n")
-
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
+    opt = optim.Adam(model.parameters(), lr=lr)
+    sched = optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
 
     best_val = float("inf")
+    t0 = time.time()
     for epoch in range(epochs):
         model.train()
-        perm = torch.randperm(len(train_states))
-        total_loss = 0
-        n_batches = 0
-
-        for i in range(0, len(train_states), batch_size):
-            batch_idx = perm[i:i + batch_size]
-            batch_s = train_states[batch_idx]
-            batch_p = train_policies[batch_idx]
-
-            logits = model(batch_s)
-            # KL divergence loss: train on soft MCTS targets
-            log_probs = F.log_softmax(logits, dim=-1)
-            # avoid log(0) in targets
-            batch_p_safe = batch_p.clamp(min=1e-8)
-            loss = F.kl_div(log_probs, batch_p_safe, reduction="batchmean",
-                            log_target=False)
-
-            optimizer.zero_grad()
+        perm = torch.randperm(len(X_train))
+        total = 0.0
+        nb = 0
+        for i in range(0, len(X_train), batch_size):
+            idx = perm[i:i + batch_size]
+            xb, yb = X_train[idx], Y_train[idx]
+            opt.zero_grad()
+            loss = soft_cross_entropy(model(xb), yb)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-            optimizer.step()
+            opt.step()
+            total += loss.item()
+            nb += 1
+        sched.step()
 
-            total_loss += loss.item()
-            n_batches += 1
-
-        # validate
         model.eval()
         with torch.no_grad():
-            val_logits = model(val_states)
-            val_log_probs = F.log_softmax(val_logits, dim=-1)
-            val_p_safe = val_policies.clamp(min=1e-8)
-            val_loss = F.kl_div(val_log_probs, val_p_safe, reduction="batchmean",
-                                log_target=False).item()
-
-            # top-1 accuracy: does the predicted argmax match the MCTS choice?
-            pred_actions = val_logits.argmax(dim=-1)
-            true_actions = val_policies.argmax(dim=-1)
-            accuracy = (pred_actions == true_actions).float().mean().item()
-
-        scheduler.step()
+            val_logits = model(X_val)
+            val_loss = soft_cross_entropy(val_logits, Y_val).item()
+            top1 = (val_logits.argmax(-1) == Y_val.argmax(-1)).float().mean().item()
 
         marker = ""
         if val_loss < best_val:
@@ -437,18 +158,19 @@ def train(data_path: str, save_path: str = "policy_net.pt",
                 "model": model.state_dict(),
                 "state_dim": states.shape[1],
                 "hidden": hidden,
+                "n_layers": n_layers,
             }, save_path)
             marker = " *best*"
+        print(f"  Epoch {epoch + 1:2d}: train={total / max(nb, 1):.4f} "
+              f"val={val_loss:.4f} top1={top1:.3f}{marker}")
 
-        print(f"  Epoch {epoch + 1:2d}: train_loss={total_loss / n_batches:.4f} "
-              f"val_loss={val_loss:.4f} acc={accuracy:.3f}{marker}")
+    print(f"\nBest val CE: {best_val:.4f}, saved to {save_path} "
+          f"({time.time() - t0:.0f}s)")
 
-    print(f"\nBest val loss: {best_val:.4f}, saved to {save_path}")
-
-    # export to ONNX
     onnx_path = save_path.replace(".pt", ".onnx")
     ckpt = torch.load(save_path, weights_only=True)
-    export_model = PolicyNet(state_dim=ckpt["state_dim"], hidden=ckpt["hidden"])
+    export_model = PolicyNet(state_dim=ckpt["state_dim"], hidden=ckpt["hidden"],
+                             n_layers=ckpt.get("n_layers", 3))
     export_model.load_state_dict(ckpt["model"])
     export_model.eval()
     dummy = torch.randn(1, ckpt["state_dim"])
@@ -459,18 +181,20 @@ def train(data_path: str, save_path: str = "policy_net.pt",
     print(f"ONNX exported to {onnx_path}")
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Policy net training")
-    parser.add_argument("--data", type=str, default="policy_training_data.pkl")
-    parser.add_argument("--model", type=str, default="policy_net.pt")
-    parser.add_argument("--epochs", type=int, default=30)
-    parser.add_argument("--lr", type=float, default=1e-3)
-    parser.add_argument("--hidden", type=int, default=256)
-    parser.add_argument("--batch-size", type=int, default=256)
-    parser.add_argument("--device", type=str, default="cpu")
-    parser.add_argument("--features-v2", action="store_true",
-                        help="use v2 feature extraction (579 dims, move-aware)")
-    args = parser.parse_args()
-
+def main():
+    ap = argparse.ArgumentParser(description="Policy net training (gen9 / v3)")
+    ap.add_argument("--data", required=True)
+    ap.add_argument("--model", default="policy_net.pt")
+    ap.add_argument("--epochs", type=int, default=30)
+    ap.add_argument("--lr", type=float, default=1e-3)
+    ap.add_argument("--hidden", type=int, default=256)
+    ap.add_argument("--n-layers", type=int, default=3)
+    ap.add_argument("--batch-size", type=int, default=512)
+    ap.add_argument("--device", default="cpu")
+    args = ap.parse_args()
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
-          args.batch_size, args.device, use_v2=args.features_v2)
+          args.n_layers, args.batch_size, args.device)
+
+
+if __name__ == "__main__":
+    main()
