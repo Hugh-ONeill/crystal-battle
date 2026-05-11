@@ -1,6 +1,8 @@
-# Gen 9 OU sample teams from Smogon's official sample teams thread (post Tera Blast ban, April 2026).
+# Gen 9 OU sample teams from Smogon's official sample teams thread.
 # source: https://www.smogon.com/forums/threads/sv-ou-sample-teams-new-samples-added-post-scl-and-olt.3712513/
 # Each team is a different archetype to give the bench coverage across the meta.
+# Mixed eras (pre/post Tera Blast ban, pre/post Gouging Fire ban) — bench targets
+# eval behavior, not metagame legality.
 
 SAMPLE_TEAMS_GEN9 = [
     # ---- 0: Sun Offense (Venusaur + Walking Wake) ----
@@ -388,4 +390,459 @@ Adamant Nature
 - Iron Head
 - Sucker Punch
 - Swords Dance""",
+
+    # ---- 6: Screens Hyper Offense (Deoxys-Speed + Kingambit) ----
+    """Deoxys-Speed @ Light Clay
+Ability: Pressure
+Tera Type: Dark
+EVs: 248 HP / 8 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+- Taunt
+- Light Screen
+- Reflect
+- Psycho Boost
+
+Enamorus @ Choice Scarf
+Ability: Contrary
+Tera Type: Stellar
+EVs: 4 Def / 252 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+- Moonblast
+- Earth Power
+- Healing Wish
+- Mystical Fire
+
+Latias @ Leftovers
+Ability: Levitate
+Tera Type: Poison
+EVs: 248 HP / 244 Def / 16 Spe
+Timid Nature
+IVs: 0 Atk
+- Calm Mind
+- Agility
+- Stored Power
+- Aura Sphere
+
+Gouging Fire @ Booster Energy
+Ability: Protosynthesis
+Tera Type: Fairy
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+- Dragon Dance
+- Outrage
+- Flare Blitz
+- Morning Sun
+
+Hatterene @ Leftovers
+Ability: Magic Bounce
+Tera Type: Steel
+EVs: 248 HP / 252 Def / 8 SpD
+Bold Nature
+- Nuzzle
+- Calm Mind
+- Draining Kiss
+- Stored Power
+
+Kingambit @ Air Balloon
+Ability: Supreme Overlord
+Tera Type: Fire
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+- Swords Dance
+- Kowtow Cleave
+- Iron Head
+- Sucker Punch""",
+
+    # ---- 7: Sand (Tyranitar + Excadrill core) ----
+    """Tyranitar @ Smooth Rock
+Ability: Sand Stream
+Tera Type: Flying
+EVs: 248 HP / 16 Def / 24 SpA / 216 SpD / 4 Spe
+Sassy Nature
+- Knock Off
+- Ice Beam
+- Thunder Wave
+- Stealth Rock
+
+Hydrapple @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Poison
+EVs: 208 HP / 172 Def / 88 SpA / 40 Spe
+Bold Nature
+IVs: 0 Atk
+- Nasty Plot
+- Giga Drain
+- Fickle Beam
+- Earth Power
+
+Moltres @ Heavy-Duty Boots
+Ability: Flame Body
+Tera Type: Fairy
+EVs: 248 HP / 248 Def / 12 Spe
+Bold Nature
+- Flamethrower
+- U-turn
+- Roost
+- Roar
+
+Zamazenta @ Leftovers
+Ability: Dauntless Shield
+Tera Type: Fire
+EVs: 4 Atk / 252 Def / 252 Spe
+Jolly Nature
+- Body Press
+- Crunch
+- Iron Defense
+- Roar
+
+Slowking-Galar @ Assault Vest
+Ability: Regenerator
+Tera Type: Grass
+EVs: 248 HP / 184 Def / 28 SpA / 48 Spe
+Bold Nature
+IVs: 0 Atk
+- Psyshock
+- Sludge Bomb
+- Flamethrower
+- Ice Beam
+
+Excadrill @ Air Balloon
+Ability: Sand Rush
+Tera Type: Fire
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Earthquake
+- Iron Head
+- Rapid Spin
+- Swords Dance""",
+
+    # ---- 8: Sticky Web HO (Ribombee + Manaphy + Roaring Moon) ----
+    """Ribombee @ Focus Sash
+Ability: Shield Dust
+Tera Type: Ghost
+EVs: 8 HP / 136 Def / 196 SpA / 168 Spe
+Timid Nature
+IVs: 0 Atk
+- Sticky Web
+- Moonblast
+- Stun Spore
+- Psychic Noise
+
+Glimmora @ Power Herb
+Ability: Toxic Debris
+Tera Type: Fairy
+EVs: 16 Def / 240 SpA / 252 Spe
+Modest Nature
+IVs: 0 Atk
+- Sludge Bomb
+- Meteor Beam
+- Earth Power
+- Dazzling Gleam
+
+Manaphy @ Leftovers
+Ability: Hydration
+Tera Type: Fairy
+EVs: 112 HP / 216 SpA / 180 Spe
+Modest Nature
+IVs: 0 Atk
+- Surf
+- Stored Power
+- Acid Armor
+- Tail Glow
+
+Zamazenta @ Mirror Herb
+Ability: Dauntless Shield
+Tera Type: Fire
+EVs: 8 HP / 60 Atk / 252 Def / 188 Spe
+Jolly Nature
+- Body Press
+- Iron Head
+- Stone Edge
+- Iron Defense
+
+Gholdengo @ Air Balloon
+Ability: Good as Gold
+Tera Type: Fairy
+EVs: 248 HP / 16 Def / 72 SpA / 172 Spe
+Modest Nature
+IVs: 0 Atk
+- Make It Rain
+- Hex
+- Recover
+- Thunder Wave
+
+Roaring Moon @ Booster Energy
+Ability: Protosynthesis
+Tera Type: Flying
+EVs: 252 Atk / 4 Def / 252 Spe
+Adamant Nature
+- Knock Off
+- Earthquake
+- Acrobatics
+- Dragon Dance""",
+
+    # ---- 9: Kingambit Hyper Offense (Cresselia + SD wincon) ----
+    """Kingambit @ Lum Berry
+Ability: Supreme Overlord
+Tera Type: Fairy
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+- Swords Dance
+- Kowtow Cleave
+- Sucker Punch
+- Iron Head
+
+Iron Valiant @ Booster Energy
+Ability: Quark Drive
+Tera Type: Dark
+EVs: 24 Atk / 232 SpA / 252 Spe
+Naive Nature
+- Moonblast
+- Close Combat
+- Destiny Bond
+- Encore
+
+Cresselia @ Leftovers
+Ability: Levitate
+Tera Type: Poison
+EVs: 252 HP / 172 Def / 64 Spe
+Bold Nature
+IVs: 0 Atk
+- Calm Mind
+- Stored Power
+- Moonblast
+- Moonlight
+
+Samurott-Hisui @ Focus Sash
+Ability: Sharpness
+Tera Type: Water
+EVs: 232 Atk / 24 Def / 252 Spe
+Jolly Nature
+- Ceaseless Edge
+- Razor Shell
+- Aqua Jet
+- Sacred Sword
+
+Great Tusk @ Booster Energy
+Ability: Protosynthesis
+Tera Type: Ice
+EVs: 252 HP / 4 Atk / 252 Spe
+Jolly Nature
+- Bulk Up
+- Ice Spinner
+- Headlong Rush
+- Close Combat
+
+Sneasler @ Air Balloon
+Ability: Unburden
+Tera Type: Flying
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+- Swords Dance
+- Close Combat
+- Acrobatics
+- Night Slash""",
 ]
+
+# Indices into SAMPLE_TEAMS_GEN9 that are "specialty" archetypes — they distort
+# round-robin standings because they produce mostly draws against the engine
+# at typical search budgets. Exclude from default round-robin standings;
+# include only when explicitly testing wallbreaking.
+#   3 (Stall): 82% draw rate vs the rest of the pool at 200ms / 120 max-turns.
+SPECIALTY_TEAM_INDICES = {3}
+
+
+# Gen 9 Ubers sample teams — used as "neutrally strong opponents" yardstick.
+# Source: https://www.smogon.com/forums/threads/sv-ubers-sample-teams.3736089/
+# These contain restricted legendaries and are not legal in OU. Use them as a
+# fixed strong-opponent gauntlet to compare how OU teams hold up.
+UBERS_TEAMS_GEN9 = [
+    # ---- 0: Specs Miraidon Balance (Miraidon + Giratina-O + Ho-Oh) ----
+    """Miraidon @ Choice Specs
+Ability: Hadron Engine
+Tera Type: Fairy
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- U-turn
+- Electro Drift
+- Draco Meteor
+- Overheat
+
+Ho-Oh @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Fairy
+EVs: 248 HP / 240 Def / 20 Spe
+Impish Nature
+- Sacred Fire
+- Brave Bird
+- Whirlwind
+- Recover
+
+Giratina-Origin @ Griseous Core
+Ability: Levitate
+Tera Type: Steel
+EVs: 248 HP / 200 Atk / 60 Spe
+Adamant Nature
+- Poltergeist
+- Defog
+- Shadow Sneak
+- Dragon Tail
+
+Necrozma-Dusk-Mane @ Heavy-Duty Boots
+Ability: Prism Armor
+Tera Type: Dark
+EVs: 252 HP / 4 Atk / 252 Def
+Impish Nature
+- Sunsteel Strike
+- Knock Off
+- Stealth Rock
+- Moonlight
+
+Ting-Lu @ Leftovers
+Ability: Vessel of Ruin
+Tera Type: Steel
+EVs: 248 HP / 252 SpD / 4 Spe
+Careful Nature
+- Earthquake
+- Ruination
+- Spikes
+- Whirlwind
+
+Koraidon @ Choice Scarf
+Ability: Orichalcum Pulse
+Tera Type: Fire
+EVs: 72 HP / 252 Atk / 4 Def / 180 Spe
+Adamant Nature
+- Low Kick
+- Dragon Claw
+- U-turn
+- Flare Blitz""",
+
+    # ---- 1: Kyogre+Groudon Balance (weather + Zacian + Arceus core) ----
+    """Koraidon @ Heavy-Duty Boots
+Ability: Orichalcum Pulse
+Tera Type: Fire
+EVs: 252 Atk / 4 SpD / 252 Spe
+Adamant Nature
+- Swords Dance
+- Flame Charge
+- Low Kick
+- Outrage
+
+Arceus @ Heavy-Duty Boots
+Ability: Multitype
+Tera Type: Fire
+EVs: 184 HP / 252 Atk / 72 Spe
+Adamant Nature
+- Swords Dance
+- Extreme Speed
+- Earthquake
+- Recover
+
+Ho-Oh @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Grass
+EVs: 248 HP / 252 Def / 8 Spe
+Impish Nature
+- Sacred Fire
+- Brave Bird
+- Whirlwind
+- Recover
+
+Zacian-Crowned @ Rusted Sword
+Ability: Intrepid Sword
+Tera Type: Dark
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Swords Dance
+- Behemoth Blade
+- Wild Charge
+- Crunch
+
+Groudon @ Leftovers
+Ability: Drought
+Tera Type: Ghost
+EVs: 248 HP / 244 Def / 16 Spe
+Impish Nature
+- Spikes
+- Stealth Rock
+- Precipice Blades
+- Will-O-Wisp
+
+Kyogre @ Heavy-Duty Boots
+Ability: Drizzle
+Tera Type: Fairy
+EVs: 248 HP / 164 Def / 56 SpA / 20 SpD / 20 Spe
+Bold Nature
+IVs: 0 Atk
+- Thunder Wave
+- Origin Pulse
+- Ice Beam
+- Thunder""",
+
+    # ---- 2: Double Priority Hyper Offense (Deoxys-S lead + Espeed/Sucker) ----
+    """Deoxys-Speed @ Mental Herb
+Ability: Pressure
+Tera Type: Ghost
+EVs: 248 HP / 144 Def / 116 Spe
+Timid Nature
+IVs: 0 Atk
+- Spikes
+- Taunt
+- Thunder Wave
+- Skill Swap
+
+Koraidon @ Loaded Dice
+Ability: Orichalcum Pulse
+Tera Type: Fire
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Swords Dance
+- Flare Blitz
+- Scale Shot
+- Taunt
+
+Zacian-Crowned @ Rusted Sword
+Ability: Intrepid Sword
+Tera Type: Fighting
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Swords Dance
+- Behemoth Blade
+- Close Combat
+- Wild Charge
+
+Arceus @ Life Orb
+Ability: Multitype
+Tera Type: Normal
+EVs: 68 HP / 252 Atk / 188 Spe
+Adamant Nature
+- Swords Dance
+- Extreme Speed
+- Shadow Claw
+- Double-Edge
+
+Lunala @ Power Herb
+Ability: Shadow Shield
+Tera Type: Ghost
+EVs: 4 Def / 252 SpA / 252 Spe
+Timid Nature
+IVs: 0 Atk
+- Agility
+- Moongeist Beam
+- Psyshock
+- Meteor Beam
+
+Kingambit @ Black Glasses
+Ability: Supreme Overlord
+Tera Type: Fire
+EVs: 240 HP / 252 Atk / 16 Spe
+Adamant Nature
+- Swords Dance
+- Sucker Punch
+- Kowtow Cleave
+- Iron Head""",
+]
+
