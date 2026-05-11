@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# scrape gen2ou replays from Pokemon Showdown
+# scrape ranked-ladder + tournament replays from Pokemon Showdown
 #
 # Usage:
-#   .venv/bin/python showdown/scrape_replays.py --pages 50 --min-rating 1200
+#   .venv/bin/python showdown/scrape_replays.py --format gen9ou --pages 100 --min-rating 1300 --download
 
 import argparse
 import json
@@ -12,9 +12,9 @@ from pathlib import Path
 
 import urllib.request
 
-SEARCH_URL = "https://replay.pokemonshowdown.com/search.json?format=gen2ou"
+SEARCH_URL_TMPL = "https://replay.pokemonshowdown.com/search.json?format={fmt}"
 REPLAY_URL = "https://replay.pokemonshowdown.com/{}.json"
-OUT_DIR = Path(__file__).parent / "replays"
+REPLAYS_ROOT = Path(__file__).parent / "replays"
 
 
 def fetch_json(url: str) -> dict | list:
@@ -23,13 +23,14 @@ def fetch_json(url: str) -> dict | list:
         return json.loads(resp.read())
 
 
-def scrape_replay_list(pages: int = 50, min_rating: int = 0) -> list[dict]:
+def scrape_replay_list(fmt: str, pages: int = 50, min_rating: int = 0) -> list[dict]:
     """Paginate through search results, collecting replay metadata."""
     all_replays = []
     before = None
+    base_url = SEARCH_URL_TMPL.format(fmt=fmt)
 
     for page in range(pages):
-        url = SEARCH_URL
+        url = base_url
         if before:
             url += f"&before={before}"
 
@@ -172,7 +173,9 @@ def parse_replay_log(log: str) -> list[dict]:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Scrape Gen 2 OU replays")
+    parser = argparse.ArgumentParser(description="Scrape Pokemon Showdown replays by format")
+    parser.add_argument("--format", default="gen9ou",
+                        help="Showdown format slug (e.g. gen9ou, gen2ou)")
     parser.add_argument("--pages", type=int, default=50)
     parser.add_argument("--min-rating", type=int, default=1200)
     parser.add_argument("--download", action="store_true",
@@ -181,14 +184,15 @@ def main():
                         help="Parse downloaded replays and show stats")
     args = parser.parse_args()
 
+    out_dir = REPLAYS_ROOT / args.format
+
     if args.parse:
-        replay_dir = OUT_DIR
-        if not replay_dir.exists():
-            print("No replays downloaded yet. Run with --download first.")
+        if not out_dir.exists():
+            print(f"No replays in {out_dir}. Run with --download first.")
             return
 
-        files = list(replay_dir.glob("*.json"))
-        print(f"Parsing {len(files)} replays...")
+        files = list(out_dir.glob("*.json"))
+        print(f"Parsing {len(files)} {args.format} replays...")
 
         total_turns = 0
         total_games = 0
@@ -204,8 +208,8 @@ def main():
         print(f"  avg {total_turns / max(total_games, 1):.1f} turns/game")
         return
 
-    print(f"Scraping gen2ou replays (min rating: {args.min_rating})...")
-    replays = scrape_replay_list(pages=args.pages, min_rating=args.min_rating)
+    print(f"Scraping {args.format} replays (min rating: {args.min_rating})...")
+    replays = scrape_replay_list(args.format, pages=args.pages, min_rating=args.min_rating)
     print(f"\nFound {len(replays)} replays")
 
     if replays:
@@ -216,9 +220,9 @@ def main():
         print(f"Tournament replays: {len(tours)}")
 
     if args.download and replays:
-        print(f"\nDownloading {len(replays)} replays...")
-        n = download_replays(replays, OUT_DIR)
-        print(f"Downloaded {n} replays to {OUT_DIR}")
+        print(f"\nDownloading {len(replays)} replays to {out_dir}...")
+        n = download_replays(replays, out_dir)
+        print(f"Downloaded {n} replays")
 
 
 if __name__ == "__main__":
