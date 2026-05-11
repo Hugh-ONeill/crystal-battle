@@ -221,6 +221,15 @@ def main() -> int:
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--n-teams", type=int, default=10,
                     help="use first N teams from SAMPLE_TEAMS_GEN9 for matchup sampling")
+    ap.add_argument("--lock-team-idx", type=int, default=None,
+                    help="if set, one side is always this team idx; opponent "
+                         "sampled from --opp-pool. Side assignment alternates "
+                         "across games so the locked team appears on both p1 "
+                         "and p2 in the dataset.")
+    ap.add_argument("--opp-pool", type=str, default=None,
+                    help="comma-separated opponent team indices used when "
+                         "--lock-team-idx is set (e.g. '2,4,5,6,7,8'). "
+                         "Defaults to [0, n_teams) minus the locked idx.")
     ap.add_argument("--value-net", type=str, default=None,
                     help="if set, drive both sides via mcts_with_value with this ONNX")
     ap.add_argument("--alpha", type=float, default=1.0,
@@ -240,13 +249,33 @@ def main() -> int:
 
     rng = random.Random(args.seed)
     tasks = []
-    for g in range(args.games):
-        seed = args.seed + g
-        t1 = rng.randrange(args.n_teams)
-        t2 = rng.randrange(args.n_teams)
-        tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
-                      args.value_net, args.alpha, args.policy_net,
-                      args.early_temp, args.early_temp_turns))
+    if args.lock_team_idx is not None:
+        if args.opp_pool is not None:
+            opp_pool = [int(x) for x in args.opp_pool.split(",")]
+        else:
+            opp_pool = [i for i in range(args.n_teams) if i != args.lock_team_idx]
+        if not opp_pool:
+            raise SystemExit("--opp-pool resolved to an empty list")
+        for g in range(args.games):
+            seed = args.seed + g
+            opp = rng.choice(opp_pool)
+            if g % 2 == 0:
+                t1, t2 = args.lock_team_idx, opp
+            else:
+                t1, t2 = opp, args.lock_team_idx
+            tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
+                          args.value_net, args.alpha, args.policy_net,
+                          args.early_temp, args.early_temp_turns))
+        print(f"team-lock mode: side1=side2={args.lock_team_idx} (alternating), "
+              f"opp pool={opp_pool}")
+    else:
+        for g in range(args.games):
+            seed = args.seed + g
+            t1 = rng.randrange(args.n_teams)
+            t2 = rng.randrange(args.n_teams)
+            tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
+                          args.value_net, args.alpha, args.policy_net,
+                          args.early_temp, args.early_temp_turns))
 
     print(f"generating {args.games} self-play games "
           f"({args.search_ms} ms × ~25 turns × 2 sides ≈ "
