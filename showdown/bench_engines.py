@@ -49,6 +49,8 @@ def play_engine_game(team1_str: str, team2_str: str, search_ms: int,
     0 on draw/timeout."""
     builder = build_pe_state_gen9 if gen == 9 else build_pe_state
     state = builder(team1_str, team2_str)
+    prev_str = ""
+    stuck_turns = 0
 
     for _ in range(max_turns):
         s1_alive = sum(1 for p in state.side_one.pokemon if p.hp > 0)
@@ -101,6 +103,18 @@ def play_engine_game(team1_str: str, team2_str: str, search_ms: int,
                 break
 
         state = state.apply_instructions(chosen)
+
+        # Engine has a no-op edge case where both sides' moves resolve to zero
+        # instructions (e.g. failed Sucker Punch + maxed-stage boost move). The
+        # state never advances. Bail with draw after a few stuck turns.
+        cur_str = state.to_string()
+        if cur_str == prev_str:
+            stuck_turns += 1
+            if stuck_turns >= 3:
+                return 0
+        else:
+            stuck_turns = 0
+        prev_str = cur_str
 
     return 0
 
