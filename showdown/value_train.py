@@ -18,16 +18,30 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from showdown.policy_train import parse_state_string
 from showdown.features_v2 import parse_state_v2, STATE_FEATURES_V2
+from showdown.features_v3 import parse_state_v3, STATE_V3_FEATURES
 
 
 # ============================================================
 # DATA PREPARATION
 # ============================================================
 
+RESIDUAL_EVAL_SCALE = 150.0  # mirrors poke_engine::mcts::RESIDUAL_EVAL_SCALE
+
+
+def _h_baseline(state_str: str) -> float:
+    """Hand-coded eval expressed in [0,1] via sigmoid(eval/SCALE)."""
+    import math
+    import poke_engine as pe
+    from poke_engine import State
+    s = State.from_string(state_str)
+    return 1.0 / (1.0 + math.exp(-pe.evaluate(s) / RESIDUAL_EVAL_SCALE))
+
+
 def prepare_value_data(data_path: str, use_v2: bool = False,
                        filter_draws: bool = False,
+                       use_v3: bool = False,
+                       residual: bool = False,
                        ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Load recorded games and prepare (state_features, win_label, turns_remaining).
 
@@ -40,8 +54,14 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
     game ends. Used at training time for gamma-discount of far-from-terminal
     labels (anti-saturation).
     """
-    feature_fn = parse_state_v2 if use_v2 else parse_state_string
-    feat_name = "v2 (579)" if use_v2 else "v1 (587)"
+    if use_v3:
+        feature_fn = parse_state_v3
+        feat_name = f"v3 ({STATE_V3_FEATURES}, gen9)"
+    elif use_v2:
+        feature_fn = parse_state_v2
+        feat_name = "v2 (gen2-flavored)"
+    else:
+        raise ValueError("must pass --features-v2 or --features-v3")
     print(f"Using {feat_name} features")
 
     print(f"Loading {data_path}...")
@@ -77,21 +97,54 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
             # before the game ends. The last position has turns_remaining=1.
             tr = n_turns - i
 
+            # Distillation format: turn_data[1] is a per-state MCTS-derived V(s)
+            # in [0, 1] — use it as the regression target instead of the per-game
+            # outcome label. Lets the model learn from continuous mid-game values
+            # rather than collapsing every state in a winning game to 1.0.
+            if len(turn_data) >= 2 and isinstance(turn_data[1], float):
+                sample_label = turn_data[1]
+            else:
+                sample_label = s1_label
+
+            # In residual mode, the model is trained to predict a centered
+            # delta from h(s) = sigmoid(eval(s)/SCALE). We map the delta back
+            # into [0,1] for the existing BCE training loop:
+            #   delta = V - h ∈ [-1, 1]
+            #   bce_target = (delta + 1) / 2
+            # At inference, Rust reverses this: leaf = h + α*(2*v - 1).
+            if residual:
+                h = _h_baseline(state_str)
+                sample_label = (sample_label - h + 1.0) / 2.0
+
             # side one perspective
             features = feature_fn(state_str)
             states.append(features)
-            labels.append(s1_label)
+            labels.append(sample_label)
             turns_remaining.append(tr)
 
-            # side two perspective (flip sides, flip label)
-            if len(turn_data) >= 5 and turn_data[4]:
+            # side two perspective (flip sides, flip label).
+            # Trigger either via legacy 5-tuple s2_visits flag, or unconditionally
+            # for v3 — gen9 replays only record p1-perspective states so we need
+            # the augmentation to teach the model symmetry; otherwise it learns
+            # a +30pp bias toward whichever side appears in slot 0.
+            do_flip = (len(turn_data) >= 5 and turn_data[4]) or use_v3
+            if do_flip:
                 major_parts = state_str.split("/")
                 if len(major_parts) >= 2:
                     flipped = "/".join([major_parts[1], major_parts[0]]
                                        + major_parts[2:])
                     features_s2 = feature_fn(flipped)
                     states.append(features_s2)
-                    labels.append(1.0 - s1_label)
+                    if residual:
+                        # V_flipped = 1 - V_original; h_flipped from flipped state
+                        v_flipped = 1.0 - (turn_data[1]
+                                           if (len(turn_data) >= 2
+                                               and isinstance(turn_data[1], float))
+                                           else s1_label)
+                        h_flipped = _h_baseline(flipped)
+                        labels.append((v_flipped - h_flipped + 1.0) / 2.0)
+                    else:
+                        labels.append(1.0 - sample_label)
                     turns_remaining.append(tr)
 
     states = np.array(states, dtype=np.float32)
@@ -149,19 +202,28 @@ class ValueNet(nn.Module):
 def train(data_path: str, save_path: str = "value_net.pt",
           epochs: int = 30, lr: float = 1e-3, hidden: int = 256,
           batch_size: int = 256, device: str = "cpu", use_v2: bool = False,
-          gamma: float = 1.0, filter_draws: bool = False):
+          gamma: float = 1.0, filter_draws: bool = False,
+          use_v3: bool = False, residual: bool = False):
     """Train the value net.
 
     gamma: discount applied to the win/loss target via gamma^turns_remaining.
     target = 0.5 + (raw_label - 0.5) * gamma^turns_remaining, so far-from-
     terminal labels are pulled toward the 0.5 prior. gamma<1 fixes the
     saturation pathology seen with raw ±1 outcome labels.
-    """
-    states, raw_labels, turns_remaining = prepare_value_data(
-        data_path, use_v2=use_v2, filter_draws=filter_draws)
 
-    # gamma-discount: pull mid-game labels toward 0.5 (uncertainty)
-    if gamma != 1.0:
+    residual: if True, the model is trained to predict a centered residual
+    from sigmoid(eval/SCALE). At inference, the Rust side reverses the
+    encoding (leaf = h + α*(2v − 1)).
+    """
+    if residual:
+        print(f"  RESIDUAL MODE: target = (V - h + 1) / 2, h = sigmoid(eval/{RESIDUAL_EVAL_SCALE})")
+    states, raw_labels, turns_remaining = prepare_value_data(
+        data_path, use_v2=use_v2, filter_draws=filter_draws, use_v3=use_v3,
+        residual=residual)
+
+    # gamma-discount: pull mid-game labels toward 0.5 (uncertainty).
+    # Skipped in residual mode — residual targets aren't outcome probs.
+    if gamma != 1.0 and not residual:
         delta = raw_labels - 0.5
         discount = gamma ** turns_remaining.astype(np.float32)
         labels = 0.5 + delta * discount
@@ -276,6 +338,8 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--device", type=str, default="cpu")
     parser.add_argument("--features-v2", action="store_true")
+    parser.add_argument("--features-v3", action="store_true",
+                        help="Use gen9-aware featurizer (1250 dims).")
     parser.add_argument("--gamma", type=float, default=1.0,
                         help="discount: target_prob = 0.5 + (raw - 0.5) * "
                              "gamma^turns_remaining. <1 fights saturation; "
@@ -284,8 +348,14 @@ if __name__ == "__main__":
                         help="drop games with winner=0 (timeouts) before "
                              "training. Useful when data has many max_turns "
                              "timeouts that would dominate BCE as label=0.5.")
+    parser.add_argument("--residual", action="store_true",
+                        help="train as a residual on top of the engine eval. "
+                             "Targets are (V - h + 1)/2 with h = sigmoid(eval/SCALE). "
+                             "At inference Rust uses leaf = clamp(h + α(2v-1), 0, 1). "
+                             "Disables --gamma; requires --features-v3.")
     args = parser.parse_args()
 
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
           args.batch_size, args.device, use_v2=args.features_v2,
-          gamma=args.gamma, filter_draws=args.filter_draws)
+          gamma=args.gamma, filter_draws=args.filter_draws,
+          use_v3=args.features_v3, residual=args.residual)
