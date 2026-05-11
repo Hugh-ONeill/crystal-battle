@@ -18,9 +18,9 @@ def _normalize_name(name: str) -> str:
 class ChaosStats:
     """Parsed Smogon chaos statistics for opponent prediction."""
 
-    def __init__(self, path: str | Path | None = None):
+    def __init__(self, path: str | Path | None = None, format: str = "gen2ou"):
         if path is None:
-            path = Path(__file__).parent / "gen2ou_chaos.json"
+            path = Path(__file__).parent / f"{format}_chaos.json"
         with open(path) as f:
             raw = json.load(f)
 
@@ -130,6 +130,36 @@ class PokemonStats:
             if isinstance(vals, list) and len(vals) >= 2:
                 self._counters[norm] = vals[1]  # KO/switch rate
 
+        # abilities (gen3+) — names already lowercase ids in chaos JSON
+        ab_total = sum(raw.get("Abilities", {}).values())
+        self._abilities = {a: w / ab_total if ab_total > 0 else 0
+                           for a, w in raw.get("Abilities", {}).items() if w > 0}
+
+        # tera types (gen9) — chaos keys are lowercase type names
+        tt_total = sum(raw.get("Tera Types", {}).values())
+        self._tera_types = {t: w / tt_total if tt_total > 0 else 0
+                            for t, w in raw.get("Tera Types", {}).items() if w > 0}
+
+        # spreads — "Nature:hp/atk/def/spa/spd/spe" -> weight
+        # store as sorted list of (nature, evs_dict, prob) so callers can pick top.
+        sp_total = sum(raw.get("Spreads", {}).values())
+        self._spreads: list[tuple[str, dict[str, int], float]] = []
+        for spread, weight in raw.get("Spreads", {}).items():
+            if weight <= 0 or ":" not in spread:
+                continue
+            nature, ev_str = spread.split(":", 1)
+            parts = ev_str.split("/")
+            if len(parts) != 6:
+                continue
+            try:
+                ev_vals = [int(x) for x in parts]
+            except ValueError:
+                continue
+            evs = dict(zip(("hp", "atk", "def", "spa", "spd", "spe"), ev_vals))
+            prob = weight / sp_total if sp_total > 0 else 0
+            self._spreads.append((nature, evs, prob))
+        self._spreads.sort(key=lambda x: -x[2])
+
     def move_probs(self) -> dict[str, float]:
         """Get move probabilities (P(mon has this move))."""
         return dict(self._moves)
@@ -153,6 +183,23 @@ class PokemonStats:
 
     def counter_score(self, species: str) -> float:
         return self._counters.get(_normalize_name(species), 0)
+
+    def top_ability(self) -> str | None:
+        if not self._abilities:
+            return None
+        return max(self._abilities.keys(), key=lambda k: self._abilities[k])
+
+    def top_tera_type(self) -> str | None:
+        if not self._tera_types:
+            return None
+        return max(self._tera_types.keys(), key=lambda k: self._tera_types[k])
+
+    def top_spread(self) -> tuple[str, dict[str, int]] | None:
+        """Return (nature, evs_dict) of the most-frequent spread, or None."""
+        if not self._spreads:
+            return None
+        nature, evs, _ = self._spreads[0]
+        return nature, evs
 
 
 class RevealedMon:
