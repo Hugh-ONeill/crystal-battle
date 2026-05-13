@@ -20,7 +20,7 @@ import torch.nn.functional as F
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from showdown.features_v2 import parse_state_v2, STATE_FEATURES_V2
 from showdown.features_v3 import parse_state_v3, STATE_V3_FEATURES
-from showdown.features_bo import parse_state_bo, STATE_BO_FEATURES
+from showdown.features_bo import parse_state_bo, STATE_BO_FEATURES, _detect_bo_side
 
 
 # ============================================================
@@ -120,6 +120,14 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
             if residual:
                 h = _h_baseline(state_str)
                 sample_label = (sample_label - h + 1.0) / 2.0
+
+            # BO featurizer auto-orients BO-first, but the recorded label is
+            # p1-perspective. When BO is on p2, flip the label so the target
+            # is BO-perspective (matches the BO-oriented features). Rust
+            # mcts_with_value inverts the model output symmetrically on the
+            # inference side when BO is on p2.
+            if use_bo and _detect_bo_side(state_str) == 1:
+                sample_label = 1.0 - sample_label
 
             # side one perspective
             features = feature_fn(state_str)
