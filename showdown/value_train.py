@@ -44,6 +44,7 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
                        use_v3: bool = False,
                        use_bo: bool = False,
                        residual: bool = False,
+                       no_distill: bool = False,
                        ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Load recorded games and prepare (state_features, win_label, turns_remaining).
 
@@ -106,7 +107,10 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
             # in [0, 1] — use it as the regression target instead of the per-game
             # outcome label. Lets the model learn from continuous mid-game values
             # rather than collapsing every state in a winning game to 1.0.
-            if len(turn_data) >= 2 and isinstance(turn_data[1], float):
+            # --no-distill forces outcome labels (s1_label) regardless. Useful
+            # when distillation targets are weak (e.g. shallow-search self-play).
+            if (not no_distill and len(turn_data) >= 2
+                    and isinstance(turn_data[1], float)):
                 sample_label = turn_data[1]
             else:
                 sample_label = s1_label
@@ -221,7 +225,7 @@ def train(data_path: str, save_path: str = "value_net.pt",
           batch_size: int = 256, device: str = "cpu", use_v2: bool = False,
           gamma: float = 1.0, filter_draws: bool = False,
           use_v3: bool = False, use_bo: bool = False,
-          residual: bool = False):
+          residual: bool = False, no_distill: bool = False):
     """Train the value net.
 
     gamma: discount applied to the win/loss target via gamma^turns_remaining.
@@ -237,7 +241,7 @@ def train(data_path: str, save_path: str = "value_net.pt",
         print(f"  RESIDUAL MODE: target = (V - h + 1) / 2, h = sigmoid(eval/{RESIDUAL_EVAL_SCALE})")
     states, raw_labels, turns_remaining = prepare_value_data(
         data_path, use_v2=use_v2, filter_draws=filter_draws, use_v3=use_v3,
-        use_bo=use_bo, residual=residual)
+        use_bo=use_bo, residual=residual, no_distill=no_distill)
 
     # gamma-discount: pull mid-game labels toward 0.5 (uncertainty).
     # Skipped in residual mode — residual targets aren't outcome probs.
@@ -375,10 +379,15 @@ if __name__ == "__main__":
                              "Targets are (V - h + 1)/2 with h = sigmoid(eval/SCALE). "
                              "At inference Rust uses leaf = clamp(h + α(2v-1), 0, 1). "
                              "Disables --gamma; requires --features-v3.")
+    parser.add_argument("--no-distill", action="store_true",
+                        help="force outcome labels (s1_label from game winner) "
+                             "instead of per-state MCTS distillation. Useful when "
+                             "distillation targets are weak (low-budget self-play "
+                             "labels approach the hand-coded eval).")
     args = parser.parse_args()
 
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
           args.batch_size, args.device, use_v2=args.features_v2,
           gamma=args.gamma, filter_draws=args.filter_draws,
           use_v3=args.features_v3, use_bo=args.features_bo,
-          residual=args.residual)
+          residual=args.residual, no_distill=args.no_distill)
