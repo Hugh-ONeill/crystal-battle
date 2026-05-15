@@ -32,15 +32,24 @@ import torch.optim as optim
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from showdown.features_v3 import parse_state_v3, STATE_V3_FEATURES
+from showdown.features_bo import parse_state_bo, STATE_BO_FEATURES, _detect_bo_side
 
 
 N_ACTIONS = 9
 
 
-def prepare_policy_data(data_path: str):
+def prepare_policy_data(data_path: str, use_bo: bool = False):
     print(f"Loading {data_path}...")
     with open(data_path, "rb") as f:
         data = pickle.load(f)
+
+    if use_bo:
+        feature_fn = parse_state_bo
+        feat_name = f"bo ({STATE_BO_FEATURES}, gen9 BO-locked)"
+    else:
+        feature_fn = parse_state_v3
+        feat_name = f"v3 ({STATE_V3_FEATURES}, gen9)"
+    print(f"  features: {feat_name}")
 
     states: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -61,15 +70,25 @@ def prepare_policy_data(data_path: str):
             if s1_pi.shape != (N_ACTIONS,) or s2_pi.shape != (N_ACTIONS,):
                 n_skipped += 1
                 continue
-            # side-one perspective
-            states.append(parse_state_v3(state_str))
-            targets.append(s1_pi)
-            # side-two perspective via state flip
-            major = state_str.split("/")
-            if len(major) >= 2:
-                flipped = "/".join([major[1], major[0]] + major[2:])
-                states.append(parse_state_v3(flipped))
-                targets.append(s2_pi)
+            if use_bo:
+                # BO featurizer auto-orients BO-first. Target must be BO's
+                # visit distribution, not p1's: pick s1_pi when BO is on p1,
+                # s2_pi when BO is on p2. No flip augmentation (auto-orient
+                # would duplicate samples with identical features).
+                states.append(feature_fn(state_str))
+                if _detect_bo_side(state_str) == 1:
+                    targets.append(s2_pi)
+                else:
+                    targets.append(s1_pi)
+            else:
+                # v3 path: train both perspectives with state flip augment.
+                states.append(feature_fn(state_str))
+                targets.append(s1_pi)
+                major = state_str.split("/")
+                if len(major) >= 2:
+                    flipped = "/".join([major[1], major[0]] + major[2:])
+                    states.append(feature_fn(flipped))
+                    targets.append(s2_pi)
 
     states_arr = np.asarray(states, dtype=np.float32)
     targets_arr = np.asarray(targets, dtype=np.float32)
@@ -104,8 +123,9 @@ def soft_cross_entropy(logits: torch.Tensor, target: torch.Tensor) -> torch.Tens
 
 def train(data_path: str, save_path: str = "policy_net.pt",
           epochs: int = 30, lr: float = 1e-3, hidden: int = 256,
-          n_layers: int = 3, batch_size: int = 512, device: str = "cpu"):
-    states, targets = prepare_policy_data(data_path)
+          n_layers: int = 3, batch_size: int = 512, device: str = "cpu",
+          use_bo: bool = False):
+    states, targets = prepare_policy_data(data_path, use_bo=use_bo)
     n = len(states)
     rng = np.random.default_rng(0)
     perm = rng.permutation(n)
@@ -191,9 +211,13 @@ def main():
     ap.add_argument("--n-layers", type=int, default=3)
     ap.add_argument("--batch-size", type=int, default=512)
     ap.add_argument("--device", default="cpu")
+    ap.add_argument("--features-bo", action="store_true",
+                    help=f"Use BO-locked featurizer ({STATE_BO_FEATURES} dims). "
+                         "Targets are picked per state: s1_pi9 when BO is on "
+                         "p1, s2_pi9 when BO is on p2. No side-flip aug.")
     args = ap.parse_args()
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
-          args.n_layers, args.batch_size, args.device)
+          args.n_layers, args.batch_size, args.device, use_bo=args.features_bo)
 
 
 if __name__ == "__main__":

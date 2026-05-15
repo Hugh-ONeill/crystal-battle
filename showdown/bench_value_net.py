@@ -61,11 +61,16 @@ class PolicyOnnx:
 
     p1 priors come from the raw state; p2 priors come from the side-flipped
     state (the policy net was trained from p1's POV with side-flip augment).
+
+    If the checkpoint's state_dim matches STATE_BO_FEATURES, switches into BO
+    mode: the net is BO-specific and returns priors only for whichever side
+    holds the BO team; the opposite side receives uniform priors.
     """
 
     def __init__(self, path: str):
         import torch
         from showdown.policy_train import PolicyNet
+        from showdown.features_bo import STATE_BO_FEATURES, _detect_bo_side, parse_state_bo
         ckpt = torch.load(path, weights_only=True, map_location="cpu")
         self.model = PolicyNet(state_dim=ckpt["state_dim"],
                                hidden=ckpt["hidden"],
@@ -73,6 +78,12 @@ class PolicyOnnx:
         self.model.load_state_dict(ckpt["model"])
         self.model.eval()
         self._torch = torch
+        self._use_bo = ckpt["state_dim"] == STATE_BO_FEATURES
+        if self._use_bo:
+            self._parse = parse_state_bo
+            self._detect_bo = _detect_bo_side
+        else:
+            self._parse = parse_state_v3
 
     def _logits(self, feats: np.ndarray) -> np.ndarray:
         with self._torch.no_grad():
@@ -86,6 +97,15 @@ class PolicyOnnx:
         return e / e.sum()
 
     def priors(self, state_str: str) -> tuple[list[float], list[float]]:
+        if self._use_bo:
+            # BO net only models BO's policy; the other side gets uniform
+            # priors (no bias, PUCT falls back to plain exploration).
+            bo_prior = self._softmax(self._logits(self._parse(state_str))).tolist()
+            uniform = [1.0 / 9] * 9
+            if self._detect_bo(state_str) == 1:
+                return uniform, bo_prior
+            else:
+                return bo_prior, uniform
         s1 = self._softmax(self._logits(parse_state_v3(state_str)))
         s2 = self._softmax(self._logits(parse_state_v3(_flipped_state_str(state_str))))
         return s1.tolist(), s2.tolist()
