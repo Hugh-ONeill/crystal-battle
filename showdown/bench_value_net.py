@@ -208,12 +208,19 @@ def play_value_vs_ref_game(team1: str, team2: str, value_net,
                            max_turns: int = 120,
                            policy_net: "PolicyOnnx | None" = None,
                            residual: bool = False,
-                           batch_size: int = 1) -> int:
+                           batch_size: int = 1,
+                           dev_search_ms: int | None = None) -> int:
     """One game. dev_side=1 → dev (value-net) plays p1; dev_side=2 → dev plays p2.
-    Returns 1 if p1 wins, 2 if p2 wins, 0 on draw/timeout."""
+    Returns 1 if p1 wins, 2 if p2 wins, 0 on draw/timeout.
+
+    dev_search_ms (default = search_ms): per-turn time budget for the dev
+    side. Setting it higher than search_ms lets the value-net side compensate
+    for per-leaf inference overhead so both trees reach similar rollout depth.
+    """
     state = build_pe_state_gen9(team1, team2)
     prev_str = ""
     stuck_turns = 0
+    dev_ms = dev_search_ms if dev_search_ms is not None else search_ms
 
     for _ in range(max_turns):
         s1_alive = sum(1 for p in state.side_one.pokemon if p.hp > 0)
@@ -225,11 +232,11 @@ def play_value_vs_ref_game(team1: str, team2: str, value_net,
 
         try:
             if dev_side == 1:
-                p1_move = _dev_pick(state, value_net, search_ms, alpha, "p1", policy_net, residual, batch_size)
+                p1_move = _dev_pick(state, value_net, dev_ms, alpha, "p1", policy_net, residual, batch_size)
                 p2_move = _ref_pick(state, search_ms, "p2")
             else:
                 p1_move = _ref_pick(state, search_ms, "p1")
-                p2_move = _dev_pick(state, value_net, search_ms, alpha, "p2", policy_net, residual, batch_size)
+                p2_move = _dev_pick(state, value_net, dev_ms, alpha, "p2", policy_net, residual, batch_size)
         except Exception as e:
             print(f"\n  search error: {e}")
             break
@@ -276,7 +283,8 @@ def run_matchup(team1: str, team2: str, value_net, search_ms: int,
                 alpha: float, n_games: int, seed_base: int | None,
                 policy_net: "PolicyOnnx | None" = None,
                 residual: bool = False,
-                batch_size: int = 1) -> tuple[int, int, int]:
+                batch_size: int = 1,
+                dev_search_ms: int | None = None) -> tuple[int, int, int]:
     """Run n_games counterbalanced halves. Returns (dev_wins, dev_losses, draws)."""
     dev_w = dev_l = draws = 0
     for i in range(n_games):
@@ -285,7 +293,8 @@ def run_matchup(team1: str, team2: str, value_net, search_ms: int,
         # Half A: dev controls p1
         r = play_value_vs_ref_game(team1, team2, value_net, search_ms, alpha,
                                    dev_side=1, policy_net=policy_net,
-                                   residual=residual, batch_size=batch_size)
+                                   residual=residual, batch_size=batch_size,
+                                   dev_search_ms=dev_search_ms)
         if r == 1: dev_w += 1
         elif r == 2: dev_l += 1
         else: draws += 1
@@ -296,7 +305,8 @@ def run_matchup(team1: str, team2: str, value_net, search_ms: int,
         # Half B: dev controls p2
         r = play_value_vs_ref_game(team1, team2, value_net, search_ms, alpha,
                                    dev_side=2, policy_net=policy_net,
-                                   residual=residual, batch_size=batch_size)
+                                   residual=residual, batch_size=batch_size,
+                                   dev_search_ms=dev_search_ms)
         if r == 2: dev_w += 1
         elif r == 1: dev_l += 1
         else: draws += 1
@@ -313,6 +323,11 @@ def main() -> int:
     ap.add_argument("--games", type=int, default=10,
                     help="games per matchup per half (total per matchup = 2x)")
     ap.add_argument("--search-ms", type=int, default=300)
+    ap.add_argument("--dev-search-ms", type=int, default=None,
+                    help="asymmetric search budget for the dev side; ref side "
+                         "stays at --search-ms. Use to equalize tree depth "
+                         "when the value-net's per-leaf inference cost would "
+                         "otherwise leave the dev tree shallower than ref's.")
     ap.add_argument("--alphas", type=str, default="0.0,0.3,0.5,0.7,1.0",
                     help="comma-separated α values to sweep")
     ap.add_argument("--seed", type=int, default=1000)
@@ -364,7 +379,8 @@ def main() -> int:
             wld = run_matchup(t1, t2, value_net, args.search_ms, alpha,
                               args.games, args.seed, policy_net=policy_net,
                               residual=args.residual,
-                              batch_size=args.batch_size)
+                              batch_size=args.batch_size,
+                              dev_search_ms=args.dev_search_ms)
             results[alpha][name] = wld
             w, l, d = wld
             total = w + l
