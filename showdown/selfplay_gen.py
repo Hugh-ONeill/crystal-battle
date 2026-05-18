@@ -84,14 +84,30 @@ def _play_game(args: tuple):
     """
     (seed, team1_idx, team2_idx, search_ms, max_turns,
      value_net_path, alpha, policy_net_path,
-     early_temp, early_temp_turns) = args
+     early_temp, early_temp_turns,
+     dirichlet_alpha, dirichlet_eps) = args
     random.seed(seed)
 
     # Imports local to worker (forkserver clones with modules imported in parent
     # but engine handles must be re-bound for some PyO3 patterns).
+    import numpy as np
     import poke_engine as pe
     from showdown.local_battle import build_pe_state_gen9
     from showdown.sample_teams_gen9 import SAMPLE_TEAMS_GEN9
+
+    rng = np.random.default_rng(seed)
+
+    def _noised(priors):
+        """Apply Dirichlet exploration noise to root priors:
+            prior_noisy = (1 - ε) * prior + ε * noise,   noise ~ Dir(α)
+        Used during AZ-style self-play to broaden the trajectory
+        distribution beyond what the current policy net already prefers.
+        Pass-through when disabled."""
+        if dirichlet_eps <= 0.0 or dirichlet_alpha <= 0.0:
+            return priors
+        noise = rng.dirichlet([dirichlet_alpha] * len(priors))
+        return [(1.0 - dirichlet_eps) * p + dirichlet_eps * float(n)
+                for p, n in zip(priors, noise)]
 
     team1 = SAMPLE_TEAMS_GEN9[team1_idx]
     team2 = SAMPLE_TEAMS_GEN9[team2_idx]
@@ -145,6 +161,8 @@ def _play_game(args: tuple):
             s1_priors = s2_priors = None
             if use_policy:
                 s1_priors, s2_priors = policy_net.priors(state.to_string())
+                s1_priors = _noised(s1_priors)
+                s2_priors = _noised(s2_priors)
             if use_value:
                 r = pe.mcts_with_value(state, value_net, search_ms,
                                        s1_priors=s1_priors, s2_priors=s2_priors,
@@ -245,6 +263,13 @@ def main() -> int:
     ap.add_argument("--early-temp-turns", type=int, default=10,
                     help="number of early turns that use temperature "
                          "sampling; later turns use argmax")
+    ap.add_argument("--dirichlet-alpha", type=float, default=0.0,
+                    help="α for Dirichlet root-prior noise during self-play. "
+                         "AZ defaults: 0.3 for chess (9 actions ~ similar). "
+                         "0 disables (matches pre-AZ behavior).")
+    ap.add_argument("--dirichlet-eps", type=float, default=0.0,
+                    help="mixing weight ε for Dirichlet noise: "
+                         "prior_used = (1-ε)*prior + ε*noise. AZ uses ε=0.25.")
     args = ap.parse_args()
 
     rng = random.Random(args.seed)
@@ -265,7 +290,8 @@ def main() -> int:
                 t1, t2 = opp, args.lock_team_idx
             tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
                           args.value_net, args.alpha, args.policy_net,
-                          args.early_temp, args.early_temp_turns))
+                          args.early_temp, args.early_temp_turns,
+                          args.dirichlet_alpha, args.dirichlet_eps))
         print(f"team-lock mode: side1=side2={args.lock_team_idx} (alternating), "
               f"opp pool={opp_pool}")
     else:
@@ -275,7 +301,8 @@ def main() -> int:
             t2 = rng.randrange(args.n_teams)
             tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
                           args.value_net, args.alpha, args.policy_net,
-                          args.early_temp, args.early_temp_turns))
+                          args.early_temp, args.early_temp_turns,
+                          args.dirichlet_alpha, args.dirichlet_eps))
 
     print(f"generating {args.games} self-play games "
           f"({args.search_ms} ms × ~25 turns × 2 sides ≈ "
@@ -290,6 +317,9 @@ def main() -> int:
         print(f"  driver: mcts_with_priors({args.policy_net})")
     else:
         print(f"  driver: plain MCTS (hand-coded v3 eval)")
+    if args.policy_net and args.dirichlet_alpha > 0 and args.dirichlet_eps > 0:
+        print(f"  root-prior noise: Dirichlet(α={args.dirichlet_alpha}, "
+              f"ε={args.dirichlet_eps})")
 
     t0 = time.time()
     results: list[tuple[int, list[tuple[str, float]]]] = []
