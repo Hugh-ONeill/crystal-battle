@@ -576,6 +576,289 @@ IVs: 0 Atk
 
 
 # ============================================================
+# MULTI-TURN / MULTI-HIT / PIVOT / FIELD
+# ============================================================
+
+def test_outrage_lockin() -> Result:
+    """Outrage should apply a LOCKEDMOVE volatile to the user and disable
+    the user's other moves for the lock duration."""
+    team1 = """Garchomp @ Life Orb
+Ability: Rough Skin
+Tera Type: Steel
+EVs: 252 Atk / 252 Spe
+Jolly Nature
+- Outrage
+- Earthquake
+- Stone Edge
+- Swords Dance"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "outrage", "softboiled")
+    reprs = _instr_reprs(instr)
+    has_lockedmove = any("LOCKEDMOVE" in r and "ApplyVolatileStatus SideOne" in r
+                         for r in reprs)
+    has_disables = sum(1 for r in reprs if r.startswith("DisableMove SideOne"))
+    if has_lockedmove and has_disables >= 3:
+        return Result("Outrage lock-in", "PASS",
+                      f"LOCKEDMOVE volatile applied + {has_disables} moves disabled")
+    if has_lockedmove:
+        return Result("Outrage lock-in", "PARTIAL",
+                      f"LOCKEDMOVE applied but only {has_disables} moves disabled")
+    return Result("Outrage lock-in", "SILENT",
+                  f"no LOCKEDMOVE volatile; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+def test_solar_beam_charging() -> Result:
+    """Solar Beam without sun should charge turn 1 (apply SOLARBEAM volatile,
+    deal no damage), then fire turn 2. Verify turn-1 produces the charge
+    volatile and no Damage SideTwo."""
+    team1 = """Venusaur @ Life Orb
+Ability: Chlorophyll
+Tera Type: Fire
+EVs: 252 SpA / 4 SpD / 252 Spe
+Modest Nature
+IVs: 0 Atk
+- Solar Beam"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "solarbeam", "softboiled")
+    reprs = _instr_reprs(instr)
+    has_charge = any("SOLARBEAM" in r and "ApplyVolatileStatus SideOne" in r
+                     for r in reprs)
+    dealt_damage = any(r.startswith("Damage SideTwo") for r in reprs)
+    if has_charge and not dealt_damage:
+        return Result("Solar Beam charging", "PASS",
+                      "SOLARBEAM charge volatile applied, no turn-1 damage")
+    if dealt_damage and not has_charge:
+        return Result("Solar Beam charging", "SILENT",
+                      "fired immediately without charging (sun-only behaviour leaked)")
+    return Result("Solar Beam charging", "PARTIAL",
+                  f"unexpected pattern: charge={has_charge} damage={dealt_damage}")
+
+
+def test_bullet_seed_multihit() -> Result:
+    """Multi-hit moves should emit multiple Damage SideTwo instructions
+    per branch (one per hit) and have probabilistic branches by hit count."""
+    team1 = """Breloom @ Life Orb
+Ability: Technician
+Tera Type: Grass
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Bullet Seed"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    branches = pe.generate_instructions(state, "bulletseed", "softboiled")
+    hit_counts = []
+    for br in branches:
+        hits = sum(1 for op in br.instruction_list if repr(op).startswith("Damage SideTwo"))
+        hit_counts.append(hits)
+    max_hits = max(hit_counts) if hit_counts else 0
+    if len(branches) >= 2 and max_hits >= 2:
+        return Result("Bullet Seed multi-hit", "PASS",
+                      f"{len(branches)} branches with hit counts {hit_counts}")
+    if max_hits == 1:
+        return Result("Bullet Seed multi-hit", "SILENT",
+                      "single-hit only — multi-hit logic absent")
+    return Result("Bullet Seed multi-hit", "PARTIAL",
+                  f"{len(branches)} branches, hit_counts={hit_counts}")
+
+
+def test_sticky_web_set() -> Result:
+    """Sticky Web should emit ChangeSideCondition StickyWeb on the
+    opponent's side."""
+    team1 = """Smeargle @ Focus Sash
+Ability: Own Tempo
+Tera Type: Ghost
+EVs: 252 HP / 4 Def / 252 Spe
+Timid Nature
+- Sticky Web"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "stickyweb", "softboiled")
+    reprs = _instr_reprs(instr)
+    if any("StickyWeb" in r and "ChangeSideCondition SideTwo" in r for r in reprs):
+        return Result("Sticky Web", "PASS",
+                      "StickyWeb side condition set on opponent")
+    return Result("Sticky Web", "SILENT",
+                  f"no StickyWeb side condition; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+def test_uturn_pivot() -> Result:
+    """U-turn should deal damage AND trigger a force-switch on the user's
+    side (ToggleSideOneForceSwitch). Requires a switch target on the bench."""
+    team1 = """Tornadus-Therian @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Steel
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- U-turn
+
+Garchomp @ Life Orb
+Ability: Rough Skin
+Tera Type: Steel
+EVs: 252 Atk / 252 Spe
+Jolly Nature
+- Earthquake"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "uturn", "softboiled")
+    reprs = _instr_reprs(instr)
+    has_damage = any(r.startswith("Damage SideTwo") for r in reprs)
+    has_force_switch = any("ToggleSideOneForceSwitch" in r for r in reprs)
+    if has_damage and has_force_switch:
+        return Result("U-turn pivot", "PASS",
+                      "damage dealt + ToggleSideOneForceSwitch emitted")
+    if has_damage and not has_force_switch:
+        return Result("U-turn pivot", "SILENT",
+                      "damage only — pivot effect missing")
+    return Result("U-turn pivot", "PARTIAL",
+                  f"damage={has_damage} switch={has_force_switch}")
+
+
+def test_wonder_room() -> Result:
+    """Wonder Room should swap Def and SpD for all mons while active.
+    Engine has no dedicated instruction for it — look for ANY state change
+    in the instruction list beyond trivial bookkeeping."""
+    team1 = """Slowking @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Water
+EVs: 252 HP / 4 Def / 252 SpD
+Calm Nature
+IVs: 0 Atk
+- Wonder Room"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "wonderroom", "softboiled")
+    reprs = _instr_reprs(instr)
+    # Anything that mentions wonder room, or any swap of def/spd stats
+    has_wonder_signal = any(
+        "WonderRoom" in r or "WONDERROOM" in r or "wonderroom" in r
+        for r in reprs
+    )
+    if has_wonder_signal:
+        return Result("Wonder Room", "PASS",
+                      "Wonder Room state change emitted")
+    # If the only effects are opponent's move + tail bookkeeping, the
+    # engine treated Wonder Room as a no-op.
+    only_passive = all(
+        ("Heal" in r) or ("ChangeStatus" in r) or ("DecrementPP" in r)
+        or ("SetLastUsedMove" in r) or ("Damage" in r and "SideTwo" not in r)
+        for r in reprs
+    )
+    status = "SILENT" if only_passive else "PARTIAL"
+    return Result("Wonder Room", status,
+                  f"no Wonder-Room state change; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+def test_belly_drum() -> Result:
+    """Belly Drum should deal 50% maxhp self-damage and set Attack to +6."""
+    team1 = """Azumarill @ Sitrus Berry
+Ability: Huge Power
+Tera Type: Water
+EVs: 252 HP / 252 Atk
+Adamant Nature
+- Belly Drum"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    maxhp = state.side_one.pokemon[0].maxhp
+    expected_self_dmg = maxhp // 2
+    instr = pe.generate_instructions(state, "bellydrum", "softboiled")
+    reprs = _instr_reprs(instr)
+    self_dmg = None
+    for r in reprs:
+        if r.startswith("Damage SideOne"):
+            try:
+                self_dmg = int(r.split(":")[-1].strip())
+                break
+            except ValueError:
+                pass
+    has_max_boost = any("Boost SideOne Attack: 6" in r for r in reprs)
+    if has_max_boost and self_dmg is not None and abs(self_dmg - expected_self_dmg) <= 2:
+        return Result("Belly Drum", "PASS",
+                      f"dmg={self_dmg} (~maxhp/2={expected_self_dmg}) + Attack +6")
+    if has_max_boost:
+        return Result("Belly Drum", "PARTIAL",
+                      f"+6 boost applied but self-damage={self_dmg} (expected {expected_self_dmg})")
+    return Result("Belly Drum", "SILENT",
+                  f"no +6 Attack boost; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+def test_substitute() -> Result:
+    """Substitute should deal 25% maxhp self-damage, set substitute health,
+    and apply the SUBSTITUTE volatile."""
+    team1 = """Garchomp @ Leftovers
+Ability: Rough Skin
+Tera Type: Steel
+EVs: 252 Atk / 4 Def / 252 Spe
+Jolly Nature
+- Substitute"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    maxhp = state.side_one.pokemon[0].maxhp
+    expected_sub_hp = maxhp // 4
+    instr = pe.generate_instructions(state, "substitute", "softboiled")
+    reprs = _instr_reprs(instr)
+    has_volatile = any("SUBSTITUTE" in r and "ApplyVolatileStatus SideOne" in r
+                       for r in reprs)
+    sub_hp = None
+    for r in reprs:
+        if r.startswith("ChangeSubstituteHealth SideOne"):
+            try:
+                sub_hp = int(r.split(":")[-1].strip())
+                break
+            except ValueError:
+                pass
+    if has_volatile and sub_hp is not None and abs(sub_hp - expected_sub_hp) <= 2:
+        return Result("Substitute", "PASS",
+                      f"volatile + sub_hp={sub_hp} (~maxhp/4={expected_sub_hp})")
+    if has_volatile:
+        return Result("Substitute", "PARTIAL",
+                      f"volatile applied but sub_hp={sub_hp} (expected {expected_sub_hp})")
+    return Result("Substitute", "SILENT",
+                  f"no SUBSTITUTE volatile; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+# ============================================================
 # DRIVER
 # ============================================================
 
@@ -597,6 +880,15 @@ TESTS = [
     # field / ability-suppression
     ("Trick Room", test_trick_room),
     ("Mold Breaker", test_mold_breaker),
+    # multi-turn / multi-hit / pivot / field
+    ("Outrage lock-in", test_outrage_lockin),
+    ("Solar Beam charging", test_solar_beam_charging),
+    ("Bullet Seed multi-hit", test_bullet_seed_multihit),
+    ("Sticky Web", test_sticky_web_set),
+    ("U-turn pivot", test_uturn_pivot),
+    ("Wonder Room", test_wonder_room),
+    ("Belly Drum", test_belly_drum),
+    ("Substitute", test_substitute),
 ]
 
 
