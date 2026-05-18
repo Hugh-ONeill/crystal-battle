@@ -322,7 +322,8 @@ Jolly Nature
 
 def test_magic_coat() -> Result:
     """User uses Magic Coat, opp uses Toxic. Expected: the Toxic status
-    ends up on the opp (reflected) instead of the user."""
+    ends up on the opp (reflected) instead of the user. Use a non-
+    Poison/Steel opp so the reflected Toxic isn't no-op'd by immunity."""
     team1 = """Smeargle @ Focus Sash
 Ability: Own Tempo
 Tera Type: Ghost
@@ -330,13 +331,13 @@ EVs: 252 HP / 4 Def / 252 Spe
 Timid Nature
 - Magic Coat
 - Spore"""
-    team2 = """Toxapex @ Black Sludge
-Ability: Regenerator
+    team2 = """Garchomp @ Black Sludge
+Ability: Rough Skin
 Tera Type: Steel
 EVs: 252 HP / 252 Def
-Bold Nature
+Impish Nature
 - Toxic
-- Recover"""
+- Earthquake"""
     state = build_pe_state_gen9(team1, team2)
     instr = pe.generate_instructions(state, "magiccoat", "toxic")
     reprs = _instr_reprs(instr)
