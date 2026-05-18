@@ -196,10 +196,25 @@ def _dev_pick(state: pe.State, value_net, search_ms: int, alpha: float, side: st
     return max(side_results, key=lambda x: x.visits).move_choice
 
 
-def _ref_pick(state: pe.State, search_ms: int, side: str) -> str:
-    """Run plain MCTS, return the highest-visit move_choice for given side."""
-    r = pe.monte_carlo_tree_search(state, duration_ms=search_ms)
-    side_results = r.side_one if side == "p1" else r.side_two
+def _ref_pick(state: pe.State, search_ms: int, side: str,
+              value_net=None,
+              ref_policy_net: "PolicyOnnx | None" = None) -> str:
+    """Pick the highest-visit move for `side` using the ref agent.
+
+    Default: plain MCTS (hand-coded eval, no priors).
+    With `ref_policy_net`: PUCT priors at α=0 via mcts_with_value, mirroring
+    how the dev side consumes priors. Used for head-to-head policy-net
+    comparisons (e.g. AZ round-N vs round-(N-1)).
+    """
+    if ref_policy_net is None:
+        r = pe.monte_carlo_tree_search(state, duration_ms=search_ms)
+        side_results = r.side_one if side == "p1" else r.side_two
+        return max(side_results, key=lambda x: x.visits).move_choice
+    s1_priors, s2_priors = ref_policy_net.priors(state.to_string())
+    r = pe.mcts_with_value(state, value_net, search_ms,
+                           s1_priors=s1_priors, s2_priors=s2_priors,
+                           alpha=0.0)
+    side_results = r.s1 if side == "p1" else r.s2
     return max(side_results, key=lambda x: x.visits).move_choice
 
 
@@ -209,7 +224,8 @@ def play_value_vs_ref_game(team1: str, team2: str, value_net,
                            policy_net: "PolicyOnnx | None" = None,
                            residual: bool = False,
                            batch_size: int = 1,
-                           dev_search_ms: int | None = None) -> int:
+                           dev_search_ms: int | None = None,
+                           ref_policy_net: "PolicyOnnx | None" = None) -> int:
     """One game. dev_side=1 → dev (value-net) plays p1; dev_side=2 → dev plays p2.
     Returns 1 if p1 wins, 2 if p2 wins, 0 on draw/timeout.
 
@@ -233,9 +249,11 @@ def play_value_vs_ref_game(team1: str, team2: str, value_net,
         try:
             if dev_side == 1:
                 p1_move = _dev_pick(state, value_net, dev_ms, alpha, "p1", policy_net, residual, batch_size)
-                p2_move = _ref_pick(state, search_ms, "p2")
+                p2_move = _ref_pick(state, search_ms, "p2",
+                                    value_net=value_net, ref_policy_net=ref_policy_net)
             else:
-                p1_move = _ref_pick(state, search_ms, "p1")
+                p1_move = _ref_pick(state, search_ms, "p1",
+                                    value_net=value_net, ref_policy_net=ref_policy_net)
                 p2_move = _dev_pick(state, value_net, dev_ms, alpha, "p2", policy_net, residual, batch_size)
         except Exception as e:
             print(f"\n  search error: {e}")
@@ -284,7 +302,8 @@ def run_matchup(team1: str, team2: str, value_net, search_ms: int,
                 policy_net: "PolicyOnnx | None" = None,
                 residual: bool = False,
                 batch_size: int = 1,
-                dev_search_ms: int | None = None) -> tuple[int, int, int]:
+                dev_search_ms: int | None = None,
+                ref_policy_net: "PolicyOnnx | None" = None) -> tuple[int, int, int]:
     """Run n_games counterbalanced halves. Returns (dev_wins, dev_losses, draws)."""
     dev_w = dev_l = draws = 0
     for i in range(n_games):
@@ -294,7 +313,8 @@ def run_matchup(team1: str, team2: str, value_net, search_ms: int,
         r = play_value_vs_ref_game(team1, team2, value_net, search_ms, alpha,
                                    dev_side=1, policy_net=policy_net,
                                    residual=residual, batch_size=batch_size,
-                                   dev_search_ms=dev_search_ms)
+                                   dev_search_ms=dev_search_ms,
+                                   ref_policy_net=ref_policy_net)
         if r == 1: dev_w += 1
         elif r == 2: dev_l += 1
         else: draws += 1
@@ -306,7 +326,8 @@ def run_matchup(team1: str, team2: str, value_net, search_ms: int,
         r = play_value_vs_ref_game(team1, team2, value_net, search_ms, alpha,
                                    dev_side=2, policy_net=policy_net,
                                    residual=residual, batch_size=batch_size,
-                                   dev_search_ms=dev_search_ms)
+                                   dev_search_ms=dev_search_ms,
+                                   ref_policy_net=ref_policy_net)
         if r == 2: dev_w += 1
         elif r == 1: dev_l += 1
         else: draws += 1
@@ -320,6 +341,11 @@ def main() -> int:
     ap.add_argument("--value-net", type=str, default="showdown/gen9_value_net.onnx")
     ap.add_argument("--policy-net", type=str, default=None,
                     help="optional policy net ONNX (priors via PUCT in mcts_with_value)")
+    ap.add_argument("--ref-policy-net", type=str, default=None,
+                    help="if set, ref side also runs policy priors (via "
+                         "mcts_with_value α=0). Used for head-to-head bench: "
+                         "dev policy vs ref policy. Without this, ref is "
+                         "plain MCTS with hand-coded eval.")
     ap.add_argument("--games", type=int, default=10,
                     help="games per matchup per half (total per matchup = 2x)")
     ap.add_argument("--search-ms", type=int, default=300)
@@ -360,6 +386,10 @@ def main() -> int:
     elif args.policy_net:
         print(f"loading policy net: {args.policy_net}")
         policy_net = PolicyOnnx(args.policy_net)
+    ref_policy_net = None
+    if args.ref_policy_net:
+        print(f"loading ref policy net: {args.ref_policy_net}")
+        ref_policy_net = PolicyOnnx(args.ref_policy_net)
     print(f"alphas: {alphas}, {args.games}/half × {len(matchups)} matchups "
           f"× {len(alphas)} alphas = "
           f"{2 * args.games * len(matchups) * len(alphas)} total games "
@@ -380,7 +410,8 @@ def main() -> int:
                               args.games, args.seed, policy_net=policy_net,
                               residual=args.residual,
                               batch_size=args.batch_size,
-                              dev_search_ms=args.dev_search_ms)
+                              dev_search_ms=args.dev_search_ms,
+                              ref_policy_net=ref_policy_net)
             results[alpha][name] = wld
             w, l, d = wld
             total = w + l
