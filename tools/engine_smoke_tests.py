@@ -13,7 +13,13 @@ Sections:
     Disguise, Ice Face.
   - MOVE-EFFECT HANDLERS: Magic Coat, Encore, Sucker Punch (twin: vs status
     and vs attack), Future Sight, Knock Off.
-  - FIELD / ABILITY-SUPPRESSION: Trick Room, Gravity, Mold Breaker.
+  - FIELD / ABILITY-SUPPRESSION: Trick Room, Mold Breaker.
+  - MULTI-TURN / MULTI-HIT / PIVOT / FIELD: Outrage lock-in, Solar Beam
+    charge, Bullet Seed multi-hit, Sticky Web, U-turn pivot, Wonder Room,
+    Belly Drum, Substitute.
+  - CHOICE / TRAP / SLEEP / SWITCH-PHASE: Gravity, Choice-item locking,
+    Whirlpool partial trap, Rest sleep timer, Yawn delayed sleep, Pursuit
+    on switch.
 
 Status legend in output:
   PASS     — engine produced the expected mechanic-specific effect
@@ -859,6 +865,216 @@ Bold Nature
 
 
 # ============================================================
+# CHOICE / TRAP / SLEEP / SWITCH-PHASE
+# ============================================================
+
+def test_gravity() -> Result:
+    """Gravity should boost accuracy and make Ground hit Flying-types.
+    Engine has no dedicated state instruction, so we check for any
+    state-change emission. SILENT if the move is a complete no-op."""
+    team1 = """Slowking @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Water
+EVs: 252 HP / 252 SpA
+Modest Nature
+- Gravity"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "gravity", "softboiled")
+    reprs = _instr_reprs(instr)
+    has_gravity_signal = any(
+        "Gravity" in r or "GRAVITY" in r or "gravity" in r.lower()
+        for r in reprs if "DecrementPP" not in r and "SetLastUsedMove" not in r
+    )
+    # Filter out passive bookkeeping from the opp's Soft-Boiled
+    user_side_ops = [r for r in reprs if "SideOne" in r]
+    if has_gravity_signal:
+        return Result("Gravity", "PASS",
+                      "Gravity state change emitted")
+    if not user_side_ops:
+        return Result("Gravity", "SILENT",
+                      "no user-side instructions; Gravity is a complete no-op")
+    return Result("Gravity", "PARTIAL",
+                  f"user-side ops without gravity signal: {user_side_ops}")
+
+
+def test_choice_locking() -> Result:
+    """A Choice-item user that picks one move should have its other move
+    slots disabled (DisableMove instructions) so it's locked into the
+    chosen one for as long as it stays in."""
+    team1 = """Garchomp @ Choice Scarf
+Ability: Rough Skin
+Tera Type: Steel
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Earthquake
+- Outrage
+- Stone Edge
+- Iron Head"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "earthquake", "softboiled")
+    reprs = _instr_reprs(instr)
+    n_disables = sum(1 for r in reprs if r.startswith("DisableMove SideOne"))
+    if n_disables >= 3:
+        return Result("Choice-item locking", "PASS",
+                      f"{n_disables} other moves disabled after Choice user attacked")
+    if n_disables > 0:
+        return Result("Choice-item locking", "PARTIAL",
+                      f"only {n_disables} moves disabled (expected 3)")
+    return Result("Choice-item locking", "SILENT",
+                  "no moves disabled — Choice lock missing")
+
+
+def test_whirlpool_partial_trap() -> Result:
+    """Whirlpool should apply a PARTIALLYTRAPPED volatile to the target and
+    deal damage. The trap prevents switching out for several turns plus
+    chip damage."""
+    team1 = """Suicune @ Leftovers
+Ability: Pressure
+Tera Type: Water
+EVs: 252 HP / 252 Def
+Bold Nature
+- Whirlpool"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    branches = pe.generate_instructions(state, "whirlpool", "softboiled")
+    reprs = _instr_reprs(branches)
+    has_trap = any("PARTIALLYTRAPPED" in r and "ApplyVolatileStatus SideTwo" in r
+                   for r in reprs)
+    has_damage = any(r.startswith("Damage SideTwo") for r in reprs)
+    if has_trap and has_damage:
+        return Result("Whirlpool partial trap", "PASS",
+                      "PARTIALLYTRAPPED volatile + damage")
+    if has_damage and not has_trap:
+        return Result("Whirlpool partial trap", "SILENT",
+                      "damage only — trap effect missing")
+    return Result("Whirlpool partial trap", "PARTIAL",
+                  f"trap={has_trap} damage={has_damage}")
+
+
+def test_rest_sleep_timer() -> Result:
+    """Rest puts the user to sleep for 3 turns and fully heals HP. Verify
+    ChangeStatus to SLEEP + SetRestTurns: 3."""
+    team1 = """Garchomp @ Leftovers
+Ability: Rough Skin
+Tera Type: Steel
+EVs: 252 HP / 252 Def
+Impish Nature
+- Rest"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "rest", "softboiled")
+    reprs = _instr_reprs(instr)
+    sleep_set = any("ChangeStatus SideOne" in r and "SLEEP" in r for r in reprs)
+    rest_timer = any("SetRestTurns SideOne" in r for r in reprs)
+    if sleep_set and rest_timer:
+        return Result("Rest sleep timer", "PASS",
+                      "ChangeStatus to SLEEP + SetRestTurns emitted")
+    if sleep_set:
+        return Result("Rest sleep timer", "PARTIAL",
+                      "Sleep status set but no rest-turn timer")
+    return Result("Rest sleep timer", "SILENT",
+                  f"no rest mechanics; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+def test_yawn_delayed_sleep() -> Result:
+    """Yawn applies a YAWN volatile to the target; on the next turn the
+    target falls asleep. Verify YAWN volatile + duration applied."""
+    team1 = """Slowking @ Heavy-Duty Boots
+Ability: Regenerator
+Tera Type: Water
+EVs: 252 HP / 252 SpA
+Modest Nature
+- Yawn"""
+    team2 = """Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "yawn", "softboiled")
+    reprs = _instr_reprs(instr)
+    has_yawn = any("YAWN" in r and "ApplyVolatileStatus SideTwo" in r
+                   for r in reprs)
+    has_duration = any("YAWN" in r and "VolatileStatusDuration" in r
+                       for r in reprs)
+    if has_yawn and has_duration:
+        return Result("Yawn delayed sleep", "PASS",
+                      "YAWN volatile + duration on opp")
+    if has_yawn:
+        return Result("Yawn delayed sleep", "PARTIAL",
+                      "YAWN applied but no duration timer")
+    return Result("Yawn delayed sleep", "SILENT",
+                  f"no YAWN volatile; ops: {[r.split(':')[0] for r in reprs]}")
+
+
+def test_pursuit_on_switch() -> Result:
+    """Pursuit should fire BEFORE the opponent's switch instruction when
+    opp picks a switch, and deal damage. Verify Damage SideTwo precedes
+    Switch SideTwo in the instruction list."""
+    team1 = """Tyranitar @ Choice Band
+Ability: Sand Stream
+Tera Type: Dark
+EVs: 252 Atk / 4 Def / 252 Spe
+Adamant Nature
+- Pursuit"""
+    team2 = """Gengar @ Life Orb
+Ability: Cursed Body
+Tera Type: Ghost
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Shadow Ball
+
+Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+Tera Type: Normal
+EVs: 252 HP / 252 Def
+Bold Nature
+- Soft-Boiled"""
+    state = build_pe_state_gen9(team1, team2)
+    instr = pe.generate_instructions(state, "pursuit", "blissey")
+    reprs = _instr_reprs(instr)
+    # Find earliest indices for Damage SideTwo and Switch SideTwo
+    dmg_idx = next((i for i, r in enumerate(reprs)
+                    if r.startswith("Damage SideTwo")), None)
+    switch_idx = next((i for i, r in enumerate(reprs)
+                       if r.startswith("Switch SideTwo")), None)
+    if dmg_idx is not None and switch_idx is not None and dmg_idx < switch_idx:
+        return Result("Pursuit on switch", "PASS",
+                      f"Damage at idx {dmg_idx} fired before Switch at {switch_idx}")
+    if dmg_idx is not None and switch_idx is not None:
+        return Result("Pursuit on switch", "PARTIAL",
+                      f"Damage at {dmg_idx} AFTER Switch at {switch_idx} (wrong order)")
+    if switch_idx is not None and dmg_idx is None:
+        return Result("Pursuit on switch", "SILENT",
+                      "switch happened but no Pursuit damage")
+    return Result("Pursuit on switch", "PARTIAL",
+                  f"dmg={dmg_idx} switch={switch_idx}; ops: {reprs}")
+
+
+# ============================================================
 # DRIVER
 # ============================================================
 
@@ -889,6 +1105,13 @@ TESTS = [
     ("Wonder Room", test_wonder_room),
     ("Belly Drum", test_belly_drum),
     ("Substitute", test_substitute),
+    # choice / trap / sleep / switch-phase
+    ("Gravity", test_gravity),
+    ("Choice-item locking", test_choice_locking),
+    ("Whirlpool partial trap", test_whirlpool_partial_trap),
+    ("Rest sleep timer", test_rest_sleep_timer),
+    ("Yawn delayed sleep", test_yawn_delayed_sleep),
+    ("Pursuit on switch", test_pursuit_on_switch),
 ]
 
 
