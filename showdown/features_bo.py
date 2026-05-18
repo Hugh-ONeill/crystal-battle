@@ -227,13 +227,6 @@ def _types(fields: list[str]) -> tuple[str, str]:
     return t1, t2
 
 
-def _terastallized(fields: list[str]) -> bool:
-    """fields[26] is "true"/"false" per features_v3 schema."""
-    if len(fields) < 27:
-        return False
-    return fields[26].lower() == "true"
-
-
 def _speed(fields: list[str]) -> float:
     if len(fields) < 18:
         return 0.0
@@ -337,8 +330,7 @@ N_BO_SIDE = (
     + 6         # active idx one-hot (in canonical BO order)
     + 5         # active boosts
     + 1         # Tusk Booster-consumed (= Proto online)
-    + 6         # per-BO-mon terastallized flag (canonical order)
-)  # = 36
+)  # = 30
 
 
 def _encode_bo_side(side_str: str) -> np.ndarray:
@@ -352,7 +344,6 @@ def _encode_bo_side(side_str: str) -> np.ndarray:
     slot_to_canon = {}
     tusk_canon_alive = False
     tusk_item = ""
-    teraed_canon = []   # canonical slots of any terastallized BO mons
     for slot, fields in enumerate(mons):
         mid = _mon_id(fields)
         if mid in BO_SLOT_OF:
@@ -365,8 +356,6 @@ def _encode_bo_side(side_str: str) -> np.ndarray:
             if mid == "GREATTUSK":
                 tusk_canon_alive = _alive(fields) > 0.5
                 tusk_item = _item(fields)
-            if _terastallized(fields):
-                teraed_canon.append(canon)
 
     # Active idx one-hot (canonical).
     active_slot = _active_idx(parts)
@@ -380,11 +369,6 @@ def _encode_bo_side(side_str: str) -> np.ndarray:
     # Tusk Booster-consumed → Protosynthesis online. Tusk must be alive AND
     # have lost its Booster Energy item.
     out[29] = 1.0 if (tusk_canon_alive and tusk_item != "BOOSTERENERGY") else 0.0
-
-    # Per-BO-mon terastallized flag (canonical order). At most one fires per
-    # game since each side gets a single tera; the all-zero state = tera unused.
-    for canon in teraed_canon:
-        out[30 + canon] = 1.0
     return out
 
 
@@ -400,8 +384,7 @@ N_OPP_SIDE = (
     + 5                    # opp active boosts
     + N_ITEM_FLAGS         # opp active item flags
     + 4                    # opp active move-disabled flags
-    + 6                    # per-opp-slot terastallized flag (slot order)
-)  # = 18 + 36 + 50 + 6 + 5 + 7 + 4 + 6 = 132
+)  # = 18 + 36 + 50 + 6 + 5 + 7 + 4 = 126
 
 
 def _encode_opp_side(side_str: str) -> np.ndarray:
@@ -456,12 +439,6 @@ def _encode_opp_side(side_str: str) -> np.ndarray:
     if active < len(mons):
         for i, v in enumerate(_move_disabled_flags(mons[active])):
             out[122 + i] = v
-
-    # 126..131: per-opp-slot terastallized flag (slot order). At most one
-    # fires per game (single tera per side); all-zero state = tera unused.
-    for slot, fields in enumerate(mons[:6]):
-        if _terastallized(fields):
-            out[126 + slot] = 1.0
 
     return out
 
