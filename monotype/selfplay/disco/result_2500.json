@@ -1,0 +1,10 @@
+{
+  "wins": 19,
+  "losses": 14,
+  "draws": 7,
+  "decided": 33,
+  "winrate": 0.5757575757575758,
+  "lift_vs_50pct": 7.57575757575758,
+  "ckpt_games": 2500,
+  "bench_time_sec": 417.2537884712219
+}

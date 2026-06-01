@@ -85,7 +85,8 @@ def _play_game(args: tuple):
     (seed, team1_idx, team2_idx, search_ms, max_turns,
      value_net_path, alpha, policy_net_path,
      early_temp, early_temp_turns,
-     dirichlet_alpha, dirichlet_eps) = args
+     dirichlet_alpha, dirichlet_eps,
+     teams_file) = args
     random.seed(seed)
 
     # Imports local to worker (forkserver clones with modules imported in parent
@@ -93,7 +94,16 @@ def _play_game(args: tuple):
     import numpy as np
     import poke_engine as pe
     from showdown.local_battle import build_pe_state_gen9
-    from showdown.sample_teams_gen9 import SAMPLE_TEAMS_GEN9
+
+    # Source of truth for the team list: either a monotype-style paste file
+    # (loaded via load_teams) or the default SAMPLE_TEAMS_GEN9 list.
+    if teams_file:
+        from showdown.bench_monotype import load_teams
+        from pathlib import Path as _Path
+        _team_pairs = load_teams(_Path(teams_file))
+        TEAMS_LIST = [body for _name, body in _team_pairs]
+    else:
+        from showdown.sample_teams_gen9 import SAMPLE_TEAMS_GEN9 as TEAMS_LIST
 
     rng = np.random.default_rng(seed)
 
@@ -109,8 +119,8 @@ def _play_game(args: tuple):
         return [(1.0 - dirichlet_eps) * p + dirichlet_eps * float(n)
                 for p, n in zip(priors, noise)]
 
-    team1 = SAMPLE_TEAMS_GEN9[team1_idx]
-    team2 = SAMPLE_TEAMS_GEN9[team2_idx]
+    team1 = TEAMS_LIST[team1_idx]
+    team2 = TEAMS_LIST[team2_idx]
 
     value_net = None
     use_value = value_net_path is not None
@@ -237,6 +247,11 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=default_workers)
     ap.add_argument("--max-turns", type=int, default=120)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--teams-file", type=str, default=None,
+                    help="path to a Showdown paste file (e.g. "
+                         "monotype/teams/teams_v6.txt). If set, replaces "
+                         "SAMPLE_TEAMS_GEN9 with the paste's teams in order. "
+                         "--lock-team-idx and --opp-pool then index into this list")
     ap.add_argument("--n-teams", type=int, default=10,
                     help="use first N teams from SAMPLE_TEAMS_GEN9 for matchup sampling")
     ap.add_argument("--lock-team-idx", type=int, default=None,
@@ -291,7 +306,8 @@ def main() -> int:
             tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
                           args.value_net, args.alpha, args.policy_net,
                           args.early_temp, args.early_temp_turns,
-                          args.dirichlet_alpha, args.dirichlet_eps))
+                          args.dirichlet_alpha, args.dirichlet_eps,
+                          args.teams_file))
         print(f"team-lock mode: side1=side2={args.lock_team_idx} (alternating), "
               f"opp pool={opp_pool}")
     else:
@@ -302,7 +318,8 @@ def main() -> int:
             tasks.append((seed, t1, t2, args.search_ms, args.max_turns,
                           args.value_net, args.alpha, args.policy_net,
                           args.early_temp, args.early_temp_turns,
-                          args.dirichlet_alpha, args.dirichlet_eps))
+                          args.dirichlet_alpha, args.dirichlet_eps,
+                          args.teams_file))
 
     print(f"generating {args.games} self-play games "
           f"({args.search_ms} ms × ~25 turns × 2 sides ≈ "

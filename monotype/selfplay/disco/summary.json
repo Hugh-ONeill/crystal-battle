@@ -1,0 +1,42 @@
+[
+  {
+    "wins": 15,
+    "losses": 18,
+    "draws": 7,
+    "decided": 33,
+    "winrate": 0.45454545454545453,
+    "lift_vs_50pct": -4.545454545454547,
+    "ckpt_games": 500,
+    "bench_time_sec": 428.08028507232666
+  },
+  {
+    "wins": 18,
+    "losses": 14,
+    "draws": 8,
+    "decided": 32,
+    "winrate": 0.5625,
+    "lift_vs_50pct": 6.25,
+    "ckpt_games": 1000,
+    "bench_time_sec": 461.7880127429962
+  },
+  {
+    "wins": 19,
+    "losses": 14,
+    "draws": 7,
+    "decided": 33,
+    "winrate": 0.5757575757575758,
+    "lift_vs_50pct": 7.57575757575758,
+    "ckpt_games": 2500,
+    "bench_time_sec": 417.2537884712219
+  },
+  {
+    "wins": 17,
+    "losses": 19,
+    "draws": 4,
+    "decided": 36,
+    "winrate": 0.4722222222222222,
+    "lift_vs_50pct": -2.777777777777779,
+    "ckpt_games": 5000,
+    "bench_time_sec": 495.80027174949646
+  }
+]
