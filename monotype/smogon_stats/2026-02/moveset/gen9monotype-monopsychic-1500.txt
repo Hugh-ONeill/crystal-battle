@@ -1,0 +1,3493 @@
+ +----------------------------------------+ 
+ | Hatterene                              | 
+ +----------------------------------------+ 
+ | Raw count: 4682                        | 
+ | Avg. weight: 0.5903758926991705        | 
+ | Viability Ceiling: 88                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Magic Bounce 99.547%                   | 
+ | Healer  0.339%                         | 
+ | Anticipation  0.114%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 51.192%                      | 
+ | Rocky Helmet 19.268%                   | 
+ | Assault Vest  7.276%                   | 
+ | Life Orb  7.107%                       | 
+ | Heavy-Duty Boots  4.383%               | 
+ | Focus Sash  3.388%                     | 
+ | Choice Specs  1.604%                   | 
+ | Eject Button  1.453%                   | 
+ | Other  4.331%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:252/0/204/0/0/52 31.305%          | 
+ | Quiet:252/0/0/252/4/0 15.053%          | 
+ | Bold:184/0/252/36/0/36 14.188%         | 
+ | Modest:252/0/0/252/4/0 13.103%         | 
+ | Quiet:252/4/0/252/0/0  5.416%          | 
+ | Bold:252/0/252/0/4/0  3.152%           | 
+ | Other 17.783%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Draining Kiss 81.313%                  | 
+ | Calm Mind 65.703%                      | 
+ | Nuzzle 57.367%                         | 
+ | Psyshock 51.295%                       | 
+ | Mystical Fire 47.720%                  | 
+ | Trick Room 19.678%                     | 
+ | Dazzling Gleam 18.727%                 | 
+ | Expanding Force 12.731%                | 
+ | Future Sight 11.857%                   | 
+ | Giga Drain  9.256%                     | 
+ | Psychic  5.984%                        | 
+ | Other 18.368%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hoopa-Unbound 56.176%                  | 
+ | Iron Boulder 48.009%                   | 
+ | Gallade 39.676%                        | 
+ | Latios 39.038%                         | 
+ | Indeedee 35.963%                       | 
+ | Deoxys-Speed 35.871%                   | 
+ | Slowking-Galar 30.950%                 | 
+ | Slowbro 20.893%                        | 
+ | Armarouge 19.463%                      | 
+ | Bronzong 17.855%                       | 
+ | Metagross 17.358%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Hoopa-Unbound                          | 
+ +----------------------------------------+ 
+ | Raw count: 3134                        | 
+ | Avg. weight: 0.6847700096400813        | 
+ | Viability Ceiling: 88                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Magician 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Band 37.717%                    | 
+ | Assault Vest 24.863%                   | 
+ | Choice Scarf 18.128%                   | 
+ | Psychic Seed  9.606%                   | 
+ | Choice Specs  2.318%                   | 
+ | Blunder Policy  1.459%                 | 
+ | Life Orb  1.039%                       | 
+ | Other  4.869%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Adamant:0/248/0/0/8/252 11.163%        | 
+ | Jolly:0/248/0/0/60/200 10.890%         | 
+ | Hasty:0/4/0/252/0/252  8.756%          | 
+ | Adamant:0/252/0/0/60/196  7.608%       | 
+ | Mild:240/0/0/16/156/96  6.982%         | 
+ | Quiet:248/0/160/100/0/0  6.520%        | 
+ | Other 48.082%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Hyperspace Fury 68.974%                | 
+ | Drain Punch 50.966%                    | 
+ | Zen Headbutt 45.681%                   | 
+ | Focus Blast 40.056%                    | 
+ | Thunderbolt 31.734%                    | 
+ | Expanding Force 25.255%                | 
+ | Knock Off 21.781%                      | 
+ | Thunder Punch 19.801%                  | 
+ | Psychic 16.849%                        | 
+ | Trick 13.501%                          | 
+ | Dark Pulse 13.390%                     | 
+ | Gunk Shot 12.059%                      | 
+ | Trick Room 10.482%                     | 
+ | Psyshock  7.008%                       | 
+ | Psychic Noise  5.391%                  | 
+ | Other 17.071%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 72.358%                      | 
+ | Iron Boulder 49.285%                   | 
+ | Latios 47.059%                         | 
+ | Indeedee 40.260%                       | 
+ | Deoxys-Speed 37.267%                   | 
+ | Gallade 33.448%                        | 
+ | Slowbro 27.680%                        | 
+ | Jirachi 19.491%                        | 
+ | Armarouge 17.926%                      | 
+ | Metagross 15.278%                      | 
+ | Slowking-Galar 14.585%                 | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Iron Boulder                           | 
+ +----------------------------------------+ 
+ | Raw count: 2696                        | 
+ | Avg. weight: 0.7003932510529122        | 
+ | Viability Ceiling: 88                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Quark Drive 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 68.869%                   | 
+ | Air Balloon  9.897%                    | 
+ | Choice Band  8.294%                    | 
+ | Focus Sash  4.091%                     | 
+ | Life Orb  3.483%                       | 
+ | Assault Vest  2.592%                   | 
+ | Other  2.774%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Jolly:0/252/0/0/4/252 57.967%          | 
+ | Jolly:4/252/0/0/0/252 14.186%          | 
+ | Jolly:0/252/8/0/0/248 11.745%          | 
+ | Jolly:0/252/0/0/8/248  9.429%          | 
+ | Jolly:0/252/4/0/0/252  3.300%          | 
+ | Other  3.373%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Mighty Cleave 99.073%                  | 
+ | Earthquake 88.818%                     | 
+ | Close Combat 85.219%                   | 
+ | Zen Headbutt 45.352%                   | 
+ | Psycho Cut 21.017%                     | 
+ | Swords Dance 17.493%                   | 
+ | Megahorn 13.306%                       | 
+ | Throat Chop  7.836%                    | 
+ | Sacred Sword  6.566%                   | 
+ | Other 15.320%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 70.276%                      | 
+ | Hoopa-Unbound 56.009%                  | 
+ | Deoxys-Speed 50.848%                   | 
+ | Latios 44.472%                         | 
+ | Indeedee 44.076%                       | 
+ | Slowbro 29.306%                        | 
+ | Gallade 28.033%                        | 
+ | Iron Crown 18.937%                     | 
+ | Metagross 17.940%                      | 
+ | Armarouge 16.561%                      | 
+ | Slowking-Galar 16.241%                 | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Indeedee                               | 
+ +----------------------------------------+ 
+ | Raw count: 2780                        | 
+ | Avg. weight: 0.6339927055436052        | 
+ | Viability Ceiling: 88                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Psychic Surge 99.851%                  | 
+ | Inner Focus  0.130%                    | 
+ | Synchronize  0.020%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Terrain Extender 47.364%               | 
+ | Choice Scarf 42.273%                   | 
+ | Choice Specs  5.059%                   | 
+ | Focus Sash  1.342%                     | 
+ | Other  3.961%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 68.114%          | 
+ | Bold:252/0/252/0/4/0  9.651%           | 
+ | Timid:4/0/0/252/0/252  8.124%          | 
+ | Quiet:252/0/0/252/4/0  3.101%          | 
+ | Timid:0/0/20/236/0/252  2.576%         | 
+ | Modest:0/0/0/252/4/252  2.114%         | 
+ | Other  6.321%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Expanding Force 99.158%                | 
+ | Healing Wish 75.086%                   | 
+ | Dazzling Gleam 69.198%                 | 
+ | Encore 38.436%                         | 
+ | Trick 36.206%                          | 
+ | Shadow Ball 24.078%                    | 
+ | Hyper Voice 21.895%                    | 
+ | Trick Room 16.704%                     | 
+ | Other 19.239%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 56.404%                      | 
+ | Hoopa-Unbound 49.021%                  | 
+ | Gallade 48.860%                        | 
+ | Iron Boulder 47.225%                   | 
+ | Armarouge 35.150%                      | 
+ | Deoxys-Speed 31.593%                   | 
+ | Iron Crown 27.361%                     | 
+ | Slowking-Galar 24.983%                 | 
+ | Slowbro 20.538%                        | 
+ | Metagross 19.558%                      | 
+ | Latios 15.776%                         | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Gallade                                | 
+ +----------------------------------------+ 
+ | Raw count: 2941                        | 
+ | Avg. weight: 0.5659799473518707        | 
+ | Viability Ceiling: 85                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Sharpness 91.840%                      | 
+ | Justified  8.003%                      | 
+ | Steadfast  0.158%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Assault Vest 15.618%                   | 
+ | Heavy-Duty Boots 14.861%               | 
+ | Life Orb 14.305%                       | 
+ | Focus Sash 13.512%                     | 
+ | Scope Lens 12.844%                     | 
+ | Choice Scarf 11.667%                   | 
+ | Choice Band  8.183%                    | 
+ | Lum Berry  3.828%                      | 
+ | Expert Belt  1.653%                    | 
+ | Other  3.529%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Jolly:0/252/0/0/4/252 21.211%          | 
+ | Adamant:4/252/0/0/0/252 13.625%        | 
+ | Adamant:0/252/0/0/4/252 11.714%        | 
+ | Jolly:4/252/0/0/0/252  9.571%          | 
+ | Brave:176/252/80/0/0/0  8.739%         | 
+ | Adamant:56/228/0/0/128/96  6.505%      | 
+ | Other 28.636%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Sacred Sword 84.319%                   | 
+ | Psycho Cut 80.694%                     | 
+ | Night Slash 44.056%                    | 
+ | Shadow Sneak 42.821%                   | 
+ | Knock Off 24.740%                      | 
+ | Aqua Cutter 23.316%                    | 
+ | Leaf Blade 19.004%                     | 
+ | Agility 16.282%                        | 
+ | Swords Dance 14.556%                   | 
+ | Drain Punch 11.493%                    | 
+ | Trick Room 10.475%                     | 
+ | X-Scissor  5.205%                      | 
+ | Bulk Up  4.812%                        | 
+ | Other 18.228%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 65.883%                      | 
+ | Indeedee 51.732%                       | 
+ | Hoopa-Unbound 43.120%                  | 
+ | Slowking-Galar 33.236%                 | 
+ | Iron Boulder 31.800%                   | 
+ | Armarouge 29.260%                      | 
+ | Bronzong 23.870%                       | 
+ | Slowbro 19.647%                        | 
+ | Deoxys-Speed 18.371%                   | 
+ | Metagross 16.419%                      | 
+ | Espeon 16.374%                         | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Deoxys-Speed                           | 
+ +----------------------------------------+ 
+ | Raw count: 2141                        | 
+ | Avg. weight: 0.6527107652815267        | 
+ | Viability Ceiling: 88                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Pressure 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Focus Sash 52.354%                     | 
+ | Expert Belt 16.815%                    | 
+ | Light Clay  8.523%                     | 
+ | Choice Specs  5.516%                   | 
+ | Rocky Helmet  5.327%                   | 
+ | Life Orb  5.245%                       | 
+ | Choice Scarf  1.036%                   | 
+ | Power Herb  0.943%                     | 
+ | Other  4.242%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 28.900%          | 
+ | Jolly:0/252/0/0/4/252 14.131%          | 
+ | Naive:0/28/0/248/0/232  9.297%         | 
+ | Timid:4/0/0/252/0/252  7.963%          | 
+ | Timid:248/0/0/0/8/252  6.807%          | 
+ | Timid:0/16/0/252/4/236  4.562%         | 
+ | Other 28.340%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Stealth Rock 60.637%                   | 
+ | Ice Beam 41.957%                       | 
+ | Psycho Boost 41.471%                   | 
+ | Taunt 40.737%                          | 
+ | Expanding Force 35.074%                | 
+ | Spikes 29.512%                         | 
+ | Extreme Speed 27.838%                  | 
+ | Thunderbolt 24.503%                    | 
+ | Nasty Plot 22.477%                     | 
+ | Knock Off 20.568%                      | 
+ | Reflect  8.606%                        | 
+ | Light Screen  8.531%                   | 
+ | Focus Blast  7.828%                    | 
+ | Superpower  4.754%                     | 
+ | Low Kick  4.288%                       | 
+ | Thunder Wave  2.466%                   | 
+ | Other 18.753%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 70.950%                      | 
+ | Iron Boulder 68.707%                   | 
+ | Hoopa-Unbound 57.226%                  | 
+ | Latios 42.240%                         | 
+ | Indeedee 39.842%                       | 
+ | Iron Crown 24.971%                     | 
+ | Slowking-Galar 22.361%                 | 
+ | Slowbro 22.262%                        | 
+ | Gallade 21.882%                        | 
+ | Armarouge 18.343%                      | 
+ | Metagross 17.246%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Latios                                 | 
+ +----------------------------------------+ 
+ | Raw count: 2561                        | 
+ | Avg. weight: 0.5344079000769625        | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Specs 68.686%                   | 
+ | Soul Dew 20.047%                       | 
+ | Choice Scarf  4.198%                   | 
+ | Expert Belt  3.488%                    | 
+ | Other  3.581%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 46.489%          | 
+ | Timid:0/0/8/248/0/252 19.140%          | 
+ | Timid:0/0/4/252/0/252 11.211%          | 
+ | Timid:0/0/0/248/8/252 10.073%          | 
+ | Modest:252/0/0/252/4/0  5.607%         | 
+ | Timid:4/0/0/252/0/252  1.550%          | 
+ | Other  5.931%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Luster Purge 90.528%                   | 
+ | Draco Meteor 86.106%                   | 
+ | Ice Beam 61.692%                       | 
+ | Thunderbolt 42.435%                    | 
+ | Aura Sphere 32.052%                    | 
+ | Surf 16.985%                           | 
+ | Calm Mind 16.478%                      | 
+ | Energy Ball 12.948%                    | 
+ | Trick  9.527%                          | 
+ | Flip Turn  6.108%                      | 
+ | Dragon Pulse  4.714%                   | 
+ | Psychic  4.221%                        | 
+ | Other 16.207%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 78.840%                      | 
+ | Hoopa-Unbound 73.785%                  | 
+ | Iron Boulder 61.358%                   | 
+ | Deoxys-Speed 43.130%                   | 
+ | Jirachi 23.827%                        | 
+ | Slowbro 23.773%                        | 
+ | Indeedee 20.315%                       | 
+ | Slowking-Galar 20.171%                 | 
+ | Metagross 17.400%                      | 
+ | Gallade 16.017%                        | 
+ | Slowking 13.129%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Slowking-Galar                         | 
+ +----------------------------------------+ 
+ | Raw count: 2331                        | 
+ | Avg. weight: 0.487969625099489         | 
+ | Viability Ceiling: 79                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Regenerator 98.028%                    | 
+ | Curious Medicine  1.319%               | 
+ | Own Tempo  0.653%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Black Sludge 38.201%                   | 
+ | Heavy-Duty Boots 27.372%               | 
+ | Assault Vest 14.011%                   | 
+ | Leftovers  7.332%                      | 
+ | Life Orb  6.701%                       | 
+ | Colbur Berry  2.280%                   | 
+ | Other  4.105%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Sassy:252/0/16/0/240/0 19.648%         | 
+ | Calm:252/0/4/0/252/0 18.051%           | 
+ | Calm:252/0/0/4/252/0 17.731%           | 
+ | Modest:252/0/0/252/4/0 10.332%         | 
+ | Sassy:252/0/0/4/252/0  6.081%          | 
+ | Sassy:252/0/4/0/252/0  5.875%          | 
+ | Other 22.282%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Sludge Bomb 70.236%                    | 
+ | Flamethrower 46.805%                   | 
+ | Slack Off 42.281%                      | 
+ | Chilly Reception 40.730%               | 
+ | Trick Room 29.064%                     | 
+ | Future Sight 26.571%                   | 
+ | Yawn 19.795%                           | 
+ | Toxic Spikes 17.298%                   | 
+ | Ice Beam 16.869%                       | 
+ | Thunder Wave 15.192%                   | 
+ | Sludge Wave 13.882%                    | 
+ | Toxic 11.899%                          | 
+ | Psychic  7.034%                        | 
+ | Nasty Plot  6.726%                     | 
+ | Earthquake  4.761%                     | 
+ | Expanding Force  4.420%                | 
+ | Psychic Noise  3.131%                  | 
+ | Eerie Spell  2.805%                    | 
+ | Power Gem  2.388%                      | 
+ | Other 18.114%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 75.208%                      | 
+ | Gallade 48.636%                        | 
+ | Indeedee 38.708%                       | 
+ | Bronzong 32.527%                       | 
+ | Hoopa-Unbound 27.515%                  | 
+ | Deoxys-Speed 27.471%                   | 
+ | Iron Boulder 26.961%                   | 
+ | Latios 24.271%                         | 
+ | Metagross 23.000%                      | 
+ | Espeon 21.434%                         | 
+ | Iron Crown 19.429%                     | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Armarouge                              | 
+ +----------------------------------------+ 
+ | Raw count: 1818                        | 
+ | Avg. weight: 0.5330783330011251        | 
+ | Viability Ceiling: 85                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Weak Armor 94.812%                     | 
+ | Flash Fire  5.188%                     | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Weakness Policy 73.442%                | 
+ | Heavy-Duty Boots  7.620%               | 
+ | Power Herb  6.245%                     | 
+ | Focus Sash  5.502%                     | 
+ | Life Orb  1.573%                       | 
+ | Choice Specs  1.308%                   | 
+ | Other  4.310%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 23.996%          | 
+ | Timid:4/0/0/252/0/252 16.829%          | 
+ | Modest:0/0/0/252/4/252 12.105%         | 
+ | Timid:0/0/76/180/0/252 11.172%         | 
+ | Modest:252/0/0/252/4/0  7.796%         | 
+ | Timid:200/0/0/56/0/252  6.405%         | 
+ | Other 21.697%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Armor Cannon 72.346%                   | 
+ | Endure 51.516%                         | 
+ | Expanding Force 50.992%                | 
+ | Aura Sphere 37.621%                    | 
+ | Calm Mind 32.493%                      | 
+ | Focus Blast 27.101%                    | 
+ | Stored Power 24.979%                   | 
+ | Flamethrower 21.390%                   | 
+ | Energy Ball 13.708%                    | 
+ | Psyshock 13.404%                       | 
+ | Iron Defense 11.585%                   | 
+ | Dark Pulse  9.217%                     | 
+ | Psychic  7.595%                        | 
+ | Lava Plume  6.623%                     | 
+ | Other 19.430%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Indeedee 63.920%                       | 
+ | Hatterene 55.511%                      | 
+ | Gallade 50.255%                        | 
+ | Hoopa-Unbound 39.693%                  | 
+ | Iron Boulder 32.268%                   | 
+ | Deoxys-Speed 26.450%                   | 
+ | Metagross 26.398%                      | 
+ | Iron Crown 26.079%                     | 
+ | Bronzong 17.085%                       | 
+ | Gardevoir 11.193%                      | 
+ | Slowbro  9.959%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Iron Crown                             | 
+ +----------------------------------------+ 
+ | Raw count: 1516                        | 
+ | Avg. weight: 0.5732843438253642        | 
+ | Viability Ceiling: 80                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Quark Drive 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Weakness Policy 48.924%                | 
+ | Choice Specs 14.363%                   | 
+ | Life Orb 13.370%                       | 
+ | Assault Vest  6.627%                   | 
+ | Leftovers  5.182%                      | 
+ | Choice Scarf  4.811%                   | 
+ | Rocky Helmet  2.745%                   | 
+ | Other  3.977%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 56.773%          | 
+ | Modest:84/0/0/252/0/172 10.634%        | 
+ | Timid:200/0/0/80/0/228  7.142%         | 
+ | Modest:0/0/0/252/4/252  6.687%         | 
+ | Timid:4/0/0/252/0/252  3.927%          | 
+ | Timid:84/0/0/172/0/252  2.756%         | 
+ | Other 12.080%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Tachyon Cutter 98.682%                 | 
+ | Agility 63.932%                        | 
+ | Calm Mind 53.906%                      | 
+ | Stored Power 48.628%                   | 
+ | Volt Switch 44.009%                    | 
+ | Focus Blast 23.128%                    | 
+ | Psychic 20.765%                        | 
+ | Expanding Force 20.594%                | 
+ | Air Slash  8.440%                      | 
+ | Other 17.915%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Indeedee 55.483%                       | 
+ | Iron Boulder 41.143%                   | 
+ | Deoxys-Speed 40.151%                   | 
+ | Hatterene 39.877%                      | 
+ | Hoopa-Unbound 31.723%                  | 
+ | Gallade 31.057%                        | 
+ | Armarouge 29.081%                      | 
+ | Slowking-Galar 25.429%                 | 
+ | Mew 24.995%                            | 
+ | Necrozma 21.965%                       | 
+ | Munkidori 19.105%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Slowbro                                | 
+ +----------------------------------------+ 
+ | Raw count: 1292                        | 
+ | Avg. weight: 0.6428253134368709        | 
+ | Viability Ceiling: 88                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Regenerator 98.865%                    | 
+ | Oblivious  1.135%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 27.845%                      | 
+ | Weakness Policy 20.583%                | 
+ | Rocky Helmet 16.850%                   | 
+ | Colbur Berry 15.211%                   | 
+ | Choice Specs  6.975%                   | 
+ | Nothing  4.171%                        | 
+ | Heavy-Duty Boots  3.406%               | 
+ | Other  4.960%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Relaxed:252/0/68/188/0/0 20.583%       | 
+ | Bold:252/0/200/56/0/0 18.765%          | 
+ | Bold:252/0/252/4/0/0 17.704%           | 
+ | Bold:248/0/252/0/8/0  9.037%           | 
+ | Bold:248/0/252/8/0/0  7.368%           | 
+ | Modest:252/0/4/252/0/0  7.020%         | 
+ | Other 19.524%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Scald 65.369%                          | 
+ | Slack Off 57.988%                      | 
+ | Flamethrower 39.009%                   | 
+ | Body Press 33.767%                     | 
+ | Trick Room 28.524%                     | 
+ | Ice Beam 27.291%                       | 
+ | Future Sight 24.255%                   | 
+ | Hydro Pump 20.740%                     | 
+ | Thunder Wave 19.814%                   | 
+ | Focus Blast 14.662%                    | 
+ | Expanding Force 14.328%                | 
+ | Psychic Noise 10.022%                  | 
+ | Psyshock  8.172%                       | 
+ | Surf  8.158%                           | 
+ | Shadow Ball  6.766%                    | 
+ | Iron Defense  6.149%                   | 
+ | Other 14.985%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hoopa-Unbound 71.531%                  | 
+ | Hatterene 69.546%                      | 
+ | Iron Boulder 66.641%                   | 
+ | Indeedee 43.589%                       | 
+ | Gallade 39.383%                        | 
+ | Latios 39.183%                         | 
+ | Deoxys-Speed 37.464%                   | 
+ | Slowking-Galar 18.726%                 | 
+ | Jirachi 16.002%                        | 
+ | Armarouge 11.623%                      | 
+ | Metagross 11.406%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Metagross                              | 
+ +----------------------------------------+ 
+ | Raw count: 1920                        | 
+ | Avg. weight: 0.434514816564862         | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Clear Body 99.364%                     | 
+ | Light Metal  0.636%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Weakness Policy 28.453%                | 
+ | Choice Band 27.730%                    | 
+ | Leftovers 19.200%                      | 
+ | Assault Vest 13.252%                   | 
+ | Air Balloon  4.242%                    | 
+ | Life Orb  3.261%                       | 
+ | Other  3.862%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Adamant:252/252/0/0/4/0 25.375%        | 
+ | Adamant:0/252/0/0/4/252 13.841%        | 
+ | Adamant:252/160/0/0/0/96 10.291%       | 
+ | Adamant:4/252/0/0/0/252  7.625%        | 
+ | Adamant:160/252/0/0/0/96  5.456%       | 
+ | Brave:252/252/0/0/4/0  4.264%          | 
+ | Other 33.148%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Earthquake 71.909%                     | 
+ | Bullet Punch 69.683%                   | 
+ | Psychic Fangs 55.171%                  | 
+ | Knock Off 39.253%                      | 
+ | Heavy Slam 38.411%                     | 
+ | Agility 28.477%                        | 
+ | Meteor Mash 21.386%                    | 
+ | Stealth Rock 17.046%                   | 
+ | Zen Headbutt 10.192%                   | 
+ | Iron Head  8.591%                      | 
+ | Ice Punch  8.442%                      | 
+ | Body Press  5.967%                     | 
+ | Hammer Arm  4.784%                     | 
+ | Iron Defense  3.645%                   | 
+ | Other 17.043%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 57.509%                      | 
+ | Indeedee 41.315%                       | 
+ | Iron Boulder 40.604%                   | 
+ | Hoopa-Unbound 39.298%                  | 
+ | Gallade 32.759%                        | 
+ | Slowking-Galar 31.359%                 | 
+ | Armarouge 30.665%                      | 
+ | Deoxys-Speed 28.888%                   | 
+ | Latios 28.545%                         | 
+ | Espeon 14.215%                         | 
+ | Malamar 13.764%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Bronzong                               | 
+ +----------------------------------------+ 
+ | Raw count: 927                         | 
+ | Avg. weight: 0.6697146210833603        | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 96.549%                       | 
+ | Heatproof  1.871%                      | 
+ | Heavy Metal  1.580%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 90.387%                      | 
+ | Rocky Helmet  3.128%                   | 
+ | Colbur Berry  3.001%                   | 
+ | Other  3.485%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Relaxed:252/0/252/0/4/0 54.119%        | 
+ | Careful:248/0/36/0/224/0 20.615%       | 
+ | Sassy:252/0/140/0/116/0  6.121%        | 
+ | Impish:248/0/252/0/8/0  5.606%         | 
+ | Sassy:252/4/0/0/252/0  3.775%          | 
+ | Relaxed:252/4/252/0/0/0  1.482%        | 
+ | Other  8.283%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Body Press 96.060%                     | 
+ | Stealth Rock 92.420%                   | 
+ | Gyro Ball 61.677%                      | 
+ | Trick Room 42.387%                     | 
+ | Iron Defense 35.902%                   | 
+ | Heavy Slam 28.990%                     | 
+ | Hypnosis 15.019%                       | 
+ | Shadow Ball  6.433%                    | 
+ | Body Slam  5.720%                      | 
+ | Other 15.393%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 79.496%                      | 
+ | Gallade 63.999%                        | 
+ | Slowking-Galar 59.595%                 | 
+ | Hoopa-Unbound 43.486%                  | 
+ | Indeedee 42.198%                       | 
+ | Espeon 37.992%                         | 
+ | Wyrdeer 35.420%                        | 
+ | Armarouge 26.671%                      | 
+ | Latios 15.655%                         | 
+ | Iron Boulder 12.566%                   | 
+ | Gardevoir 10.591%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Jirachi                                | 
+ +----------------------------------------+ 
+ | Raw count: 999                         | 
+ | Avg. weight: 0.5729147058463426        | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Serene Grace 100.000%                  | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 49.294%                   | 
+ | Leftovers 25.765%                      | 
+ | Colbur Berry 17.978%                   | 
+ | Power Herb  2.168%                     | 
+ | Other  4.794%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Jolly:0/252/0/0/4/252 43.110%          | 
+ | Careful:252/0/0/0/160/96 12.743%       | 
+ | Impish:240/16/252/0/0/0  9.002%        | 
+ | Impish:236/20/252/0/0/0  8.211%        | 
+ | Jolly:0/252/4/0/0/252  3.709%          | 
+ | Careful:248/0/28/0/216/16  2.621%      | 
+ | Other 20.604%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Iron Head 82.331%                      | 
+ | U-turn 78.379%                         | 
+ | Stealth Rock 56.431%                   | 
+ | Healing Wish 38.825%                   | 
+ | Fire Punch 21.847%                     | 
+ | Wish 19.047%                           | 
+ | Body Slam 16.410%                      | 
+ | Zen Headbutt 15.290%                   | 
+ | Thunder Wave 11.710%                   | 
+ | Trick 10.459%                          | 
+ | Protect  9.900%                        | 
+ | Ice Punch  6.025%                      | 
+ | Drain Punch  3.868%                    | 
+ | Trick Room  3.537%                     | 
+ | Doom Desire  3.175%                    | 
+ | Psychic Noise  3.038%                  | 
+ | Other 19.730%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hoopa-Unbound 73.078%                  | 
+ | Hatterene 64.243%                      | 
+ | Latios 56.976%                         | 
+ | Iron Boulder 53.075%                   | 
+ | Gallade 33.364%                        | 
+ | Slowking 25.193%                       | 
+ | Indeedee 24.360%                       | 
+ | Slowbro 23.217%                        | 
+ | Deoxys-Speed 19.180%                   | 
+ | Reuniclus 10.262%                      | 
+ | Armarouge  9.145%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Espeon                                 | 
+ +----------------------------------------+ 
+ | Raw count: 783                         | 
+ | Avg. weight: 0.6047787893879348        | 
+ | Viability Ceiling: 73                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Magic Bounce 97.007%                   | 
+ | Synchronize  2.993%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 71.447%                   | 
+ | Choice Specs 13.699%                   | 
+ | Focus Sash  6.199%                     | 
+ | Expert Belt  1.839%                    | 
+ | Assault Vest  1.439%                   | 
+ | Leftovers  1.240%                      | 
+ | Other  4.138%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 82.948%          | 
+ | Timid:0/0/0/252/0/252  6.975%          | 
+ | Timid:4/0/0/252/0/252  3.177%          | 
+ | Timid:0/0/0/248/8/252  2.245%          | 
+ | Other  4.655%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Alluring Voice 79.937%                 | 
+ | Trick 78.243%                          | 
+ | Shadow Ball 77.688%                    | 
+ | Psychic 61.785%                        | 
+ | Expanding Force 26.873%                | 
+ | Psyshock 14.290%                       | 
+ | Power Gem 12.139%                      | 
+ | Calm Mind 10.901%                      | 
+ | Dazzling Gleam  9.667%                 | 
+ | Grass Knot  9.198%                     | 
+ | Other 19.279%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Gallade 57.557%                        | 
+ | Hatterene 53.531%                      | 
+ | Slowking-Galar 51.485%                 | 
+ | Bronzong 49.809%                       | 
+ | Wyrdeer 46.273%                        | 
+ | Indeedee 26.224%                       | 
+ | Iron Boulder 25.644%                   | 
+ | Metagross 25.043%                      | 
+ | Armarouge 19.496%                      | 
+ | Deoxys-Speed 17.412%                   | 
+ | Hoopa-Unbound 13.561%                  | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Necrozma                               | 
+ +----------------------------------------+ 
+ | Raw count: 560                         | 
+ | Avg. weight: 0.6749993156321932        | 
+ | Viability Ceiling: 85                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Prism Armor 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Heavy-Duty Boots 44.638%               | 
+ | Weakness Policy 24.844%                | 
+ | Leftovers 16.507%                      | 
+ | Colbur Berry  6.441%                   | 
+ | Rocky Helmet  2.709%                   | 
+ | Other  4.861%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:248/0/252/0/8/0 43.938%           | 
+ | Jolly:0/252/0/0/4/252 11.398%          | 
+ | Adamant:132/116/68/0/0/192  5.835%     | 
+ | Jolly:4/252/0/0/0/252  5.025%          | 
+ | Brave:252/252/0/4/0/0  4.232%          | 
+ | Relaxed:252/4/252/0/0/0  3.945%        | 
+ | Other 25.628%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Photon Geyser 86.600%                  | 
+ | Trick Room 53.177%                     | 
+ | Heat Wave 52.759%                      | 
+ | Morning Sun 46.939%                    | 
+ | Earthquake 32.013%                     | 
+ | Dragon Dance 31.051%                   | 
+ | X-Scissor 18.472%                      | 
+ | Knock Off 16.031%                      | 
+ | Moonlight 12.276%                      | 
+ | Psychic Fangs  6.557%                  | 
+ | Earth Power  5.713%                    | 
+ | Brick Break  5.182%                    | 
+ | Calm Mind  4.989%                      | 
+ | Swords Dance  4.492%                   | 
+ | Stealth Rock  3.842%                   | 
+ | Other 19.908%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Iron Crown 50.503%                     | 
+ | Hoopa-Unbound 44.744%                  | 
+ | Munkidori 43.872%                      | 
+ | Veluza 43.448%                         | 
+ | Mew 42.857%                            | 
+ | Hatterene 33.791%                      | 
+ | Indeedee 27.414%                       | 
+ | Deoxys-Speed 20.892%                   | 
+ | Gallade 18.999%                        | 
+ | Armarouge 16.851%                      | 
+ | Indeedee-F 14.441%                     | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Mew                                    | 
+ +----------------------------------------+ 
+ | Raw count: 746                         | 
+ | Avg. weight: 0.5069218997914046        | 
+ | Viability Ceiling: 83                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Synchronize 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Red Card 38.692%                       | 
+ | Leftovers 29.838%                      | 
+ | Weakness Policy  7.927%                | 
+ | Focus Sash  4.314%                     | 
+ | Life Orb  4.042%                       | 
+ | Terrain Extender  3.818%               | 
+ | Rocky Helmet  2.944%                   | 
+ | Colbur Berry  1.957%                   | 
+ | Choice Scarf  1.630%                   | 
+ | Other  4.838%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:252/0/252/0/4/0 37.293%           | 
+ | Bold:248/0/124/40/0/96  7.927%         | 
+ | Sassy:252/0/160/0/96/0  6.273%         | 
+ | Bold:248/0/252/0/8/0  6.178%           | 
+ | Timid:0/0/0/252/4/252  5.368%          | 
+ | Jolly:0/252/0/0/4/252  3.891%          | 
+ | Other 33.070%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Stealth Rock 53.816%                   | 
+ | Transform 44.588%                      | 
+ | Vacuum Wave 42.306%                    | 
+ | Thunder Wave 39.511%                   | 
+ | Will-O-Wisp 16.626%                    | 
+ | Toxic Spikes 14.502%                   | 
+ | Draining Kiss 11.062%                  | 
+ | Calm Mind  9.678%                      | 
+ | Knock Off  9.101%                      | 
+ | Spikes  9.061%                         | 
+ | Iron Defense  8.949%                   | 
+ | Stored Power  8.412%                   | 
+ | Encore  7.694%                         | 
+ | Reflect  7.617%                        | 
+ | Trick Room  7.017%                     | 
+ | Misty Explosion  6.402%                | 
+ | Foul Play  6.082%                      | 
+ | Imprison  5.764%                       | 
+ | Flamethrower  4.983%                   | 
+ | Nasty Plot  4.832%                     | 
+ | Psychic  4.832%                        | 
+ | Earthquake  4.823%                     | 
+ | Toxic  4.724%                          | 
+ | Body Press  4.457%                     | 
+ | U-turn  4.223%                         | 
+ | Psychic Fangs  4.200%                  | 
+ | Haze  3.974%                           | 
+ | Electric Terrain  3.818%               | 
+ | Nothing  3.759%                        | 
+ | Curse  3.730%                          | 
+ | Ice Beam  3.177%                       | 
+ | Roar  2.855%                           | 
+ | Dragon Tail  2.378%                    | 
+ | Taunt  2.256%                          | 
+ | Trick  2.096%                          | 
+ | Aura Sphere  1.973%                    | 
+ | Close Combat  1.910%                   | 
+ | Earth Power  1.636%                    | 
+ | Volt Switch  1.422%                    | 
+ | Other 19.755%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Iron Crown 57.443%                     | 
+ | Necrozma 42.839%                       | 
+ | Veluza 38.755%                         | 
+ | Munkidori 37.494%                      | 
+ | Hatterene 33.359%                      | 
+ | Indeedee 30.780%                       | 
+ | Hoopa-Unbound 22.912%                  | 
+ | Latios 22.223%                         | 
+ | Armarouge 19.682%                      | 
+ | Deoxys-Speed 17.011%                   | 
+ | Malamar 15.902%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Malamar                                | 
+ +----------------------------------------+ 
+ | Raw count: 1060                        | 
+ | Avg. weight: 0.3715391189903525        | 
+ | Viability Ceiling: 76                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Contrary 99.629%                       | 
+ | Infiltrator  0.306%                    | 
+ | Suction Cups  0.065%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 64.114%                      | 
+ | Focus Sash 10.898%                     | 
+ | Choice Scarf  8.133%                   | 
+ | Assault Vest  7.753%                   | 
+ | Figy Berry  6.854%                     | 
+ | Other  2.248%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Adamant:252/252/0/0/4/0 16.833%        | 
+ | Hardy:252/252/0/0/4/0 15.458%          | 
+ | Brave:248/252/0/0/8/0 15.349%          | 
+ | Brave:252/252/0/0/4/0 10.710%          | 
+ | Careful:252/0/0/0/184/72 10.138%       | 
+ | Adamant:248/252/0/0/8/0 10.085%        | 
+ | Other 21.427%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Superpower 99.137%                     | 
+ | Knock Off 70.528%                      | 
+ | Psycho Cut 54.327%                     | 
+ | Trick Room 48.555%                     | 
+ | Liquidation 21.762%                    | 
+ | Topsy-Turvy 21.749%                    | 
+ | Throat Chop 21.527%                    | 
+ | Rest 17.091%                           | 
+ | Sleep Talk 17.050%                     | 
+ | Destiny Bond  6.752%                   | 
+ | Facade  6.362%                         | 
+ | Other 15.160%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 64.665%                      | 
+ | Gallade 48.021%                        | 
+ | Slowking-Galar 41.352%                 | 
+ | Indeedee 39.176%                       | 
+ | Metagross 29.157%                      | 
+ | Iron Boulder 20.203%                   | 
+ | Deoxys-Speed 17.498%                   | 
+ | Armarouge 17.160%                      | 
+ | Hoopa-Unbound 17.121%                  | 
+ | Iron Crown 16.087%                     | 
+ | Mew 15.269%                            | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Gardevoir                              | 
+ +----------------------------------------+ 
+ | Raw count: 710                         | 
+ | Avg. weight: 0.4371688464750923        | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Trace 94.357%                          | 
+ | Synchronize  5.167%                    | 
+ | Telepathy  0.476%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 63.788%                   | 
+ | Choice Specs 10.935%                   | 
+ | Focus Sash  9.727%                     | 
+ | Leftovers  9.317%                      | 
+ | Life Orb  2.244%                       | 
+ | Other  3.988%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 42.901%          | 
+ | Timid:4/0/0/252/0/252 23.173%          | 
+ | Quiet:252/0/0/252/0/0  8.073%          | 
+ | Calm:252/0/0/4/252/0  7.066%           | 
+ | Modest:0/0/0/252/4/252  5.397%         | 
+ | Modest:16/0/0/252/0/240  3.544%        | 
+ | Other  9.846%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Moonblast 77.195%                      | 
+ | Focus Blast 49.041%                    | 
+ | Expanding Force 48.017%                | 
+ | Healing Wish 35.307%                   | 
+ | Psychic 21.487%                        | 
+ | Trick 18.489%                          | 
+ | Vacuum Wave 14.832%                    | 
+ | Draining Kiss 13.466%                  | 
+ | Psyshock 12.761%                       | 
+ | Shadow Ball 12.506%                    | 
+ | Mystical Fire 11.975%                  | 
+ | Energy Ball 11.163%                    | 
+ | Destiny Bond 10.220%                   | 
+ | Trick Room 10.077%                     | 
+ | Misty Explosion  8.992%                | 
+ | Protect  7.767%                        | 
+ | Teleport  7.294%                       | 
+ | Wish  7.140%                           | 
+ | Aura Sphere  4.722%                    | 
+ | Other 17.549%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Indeedee 57.608%                       | 
+ | Gallade 52.792%                        | 
+ | Hoopa-Unbound 46.211%                  | 
+ | Iron Boulder 38.396%                   | 
+ | Armarouge 34.949%                      | 
+ | Iron Crown 29.671%                     | 
+ | Metagross 22.676%                      | 
+ | Bronzong 21.183%                       | 
+ | Hatterene 20.306%                      | 
+ | Deoxys-Speed 15.222%                   | 
+ | Slowking 15.119%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Slowking                               | 
+ +----------------------------------------+ 
+ | Raw count: 437                         | 
+ | Avg. weight: 0.631623804736599         | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Regenerator 99.051%                    | 
+ | Oblivious  0.917%                      | 
+ | Own Tempo  0.032%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Heavy-Duty Boots 41.428%               | 
+ | Kasib Berry 24.513%                    | 
+ | Eject Button 13.003%                   | 
+ | Colbur Berry  8.103%                   | 
+ | Nothing  5.479%                        | 
+ | Assault Vest  2.768%                   | 
+ | Other  4.706%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:252/0/252/0/4/0 62.584%           | 
+ | Relaxed:252/0/252/0/4/0 19.747%        | 
+ | Bold:252/0/252/4/0/0  6.726%           | 
+ | Sassy:252/0/240/0/16/0  3.078%         | 
+ | Modest:4/0/0/252/252/0  1.688%         | 
+ | Modest:252/0/0/252/4/0  1.669%         | 
+ | Other  4.509%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Scald 94.791%                          | 
+ | Chilly Reception 88.986%               | 
+ | Thunder Wave 86.097%                   | 
+ | Slack Off 85.239%                      | 
+ | Future Sight 12.251%                   | 
+ | Flamethrower  6.245%                   | 
+ | Psychic  3.381%                        | 
+ | Surf  3.225%                           | 
+ | Other 19.786%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hoopa-Unbound 79.586%                  | 
+ | Hatterene 68.358%                      | 
+ | Latios 65.100%                         | 
+ | Jirachi 52.240%                        | 
+ | Iron Boulder 51.637%                   | 
+ | Deoxys-Speed 22.004%                   | 
+ | Gallade 20.561%                        | 
+ | Metagross 18.431%                      | 
+ | Gardevoir 17.001%                      | 
+ | Indeedee 13.936%                       | 
+ | Espeon 12.821%                         | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Wyrdeer                                | 
+ +----------------------------------------+ 
+ | Raw count: 328                         | 
+ | Avg. weight: 0.7362748018432645        | 
+ | Viability Ceiling: 61                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Intimidate 100.000%                    | 
+ | Sap Sipper  0.000%                     | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Heavy-Duty Boots 92.542%               | 
+ | Light Clay  4.954%                     | 
+ | Other  2.504%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Adamant:252/252/0/0/4/0 95.030%        | 
+ | Other  4.970%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Earthquake 97.806%                     | 
+ | Throat Chop 94.497%                    | 
+ | Body Slam 94.365%                      | 
+ | Trick Room 92.542%                     | 
+ | Psyshield Bash  7.445%                 | 
+ | Other 13.345%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 92.412%                      | 
+ | Slowking-Galar 91.205%                 | 
+ | Bronzong 91.055%                       | 
+ | Espeon 90.735%                         | 
+ | Gallade 90.591%                        | 
+ | Iron Crown  6.621%                     | 
+ | Armarouge  6.615%                      | 
+ | Hoopa-Unbound  5.097%                  | 
+ | Deoxys-Speed  4.956%                   | 
+ | Deoxys-Speed  4.956%                   | | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Latias                                 | 
+ +----------------------------------------+ 
+ | Raw count: 626                         | 
+ | Avg. weight: 0.35589939892485467       | 
+ | Viability Ceiling: 84                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 31.659%                   | 
+ | Leftovers 27.432%                      | 
+ | Soul Dew 17.147%                       | 
+ | Choice Specs  8.352%                   | 
+ | Weakness Policy  8.011%                | 
+ | Rocky Helmet  2.909%                   | 
+ | Other  4.490%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/248/8/252 26.330%          | 
+ | Bold:252/0/252/4/0/0 16.624%           | 
+ | Timid:0/0/0/252/4/252 14.812%          | 
+ | Timid:252/0/4/0/0/252  7.621%          | 
+ | Bold:252/0/252/0/0/4  5.667%           | 
+ | Modest:4/0/0/252/0/252  4.871%         | 
+ | Other 24.075%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Calm Mind 53.359%                      | 
+ | Draco Meteor 42.397%                   | 
+ | Psychic 36.218%                        | 
+ | Recover 34.938%                        | 
+ | Trick 32.389%                          | 
+ | Dragon Pulse 29.659%                   | 
+ | Healing Wish 28.256%                   | 
+ | Aura Sphere 26.146%                    | 
+ | Stored Power 24.302%                   | 
+ | Mist Ball 14.543%                      | 
+ | Psyshock 12.390%                       | 
+ | Ice Beam 12.369%                       | 
+ | Protect  7.427%                        | 
+ | Wish  7.367%                           | 
+ | Agility  6.946%                        | 
+ | Alluring Voice  5.082%                 | 
+ | Draining Kiss  4.600%                  | 
+ | Shadow Ball  3.357%                    | 
+ | Other 18.255%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 49.299%                      | 
+ | Deoxys-Speed 46.660%                   | 
+ | Iron Crown 35.127%                     | 
+ | Gallade 31.217%                        | 
+ | Metagross 29.655%                      | 
+ | Hoopa-Unbound 27.752%                  | 
+ | Iron Boulder 27.671%                   | 
+ | Slowking-Galar 23.394%                 | 
+ | Malamar 19.608%                        | 
+ | Indeedee 16.167%                       | 
+ | Armarouge 15.962%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Reuniclus                              | 
+ +----------------------------------------+ 
+ | Raw count: 383                         | 
+ | Avg. weight: 0.5166368775073336        | 
+ | Viability Ceiling: 74                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Magic Guard 86.452%                    | 
+ | Regenerator 12.960%                    | 
+ | Overcoat  0.588%                       | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Life Orb 43.240%                       | 
+ | Leftovers 33.240%                      | 
+ | Covert Cloak 12.489%                   | 
+ | Nothing  3.096%                        | 
+ | Assault Vest  2.189%                   | 
+ | Heavy-Duty Boots  2.109%               | 
+ | Other  3.637%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Quiet:252/0/0/252/4/0 34.828%          | 
+ | Bold:252/0/212/0/0/44 32.539%          | 
+ | Calm:252/0/0/4/252/0 11.988%           | 
+ | Quiet:248/0/0/252/8/0  5.665%          | 
+ | Modest:252/0/0/252/4/0  5.514%         | 
+ | Modest:248/0/0/252/8/0  1.638%         | 
+ | Other  7.827%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Shadow Ball 57.023%                    | 
+ | Calm Mind 51.325%                      | 
+ | Recover 49.563%                        | 
+ | Focus Blast 48.141%                    | 
+ | Acid Armor 41.745%                     | 
+ | Trick Room 39.357%                     | 
+ | Expanding Force 37.797%                | 
+ | Stored Power 29.999%                   | 
+ | Psyshock 10.300%                       | 
+ | Energy Ball 10.162%                    | 
+ | Psychic  6.683%                        | 
+ | Other 17.903%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Iron Boulder 58.086%                   | 
+ | Hatterene 55.592%                      | 
+ | Indeedee 34.176%                       | 
+ | Armarouge 32.306%                      | 
+ | Hoopa-Unbound 32.148%                  | 
+ | Metagross 31.577%                      | 
+ | Latios 30.833%                         | 
+ | Jirachi 29.682%                        | 
+ | Espeon 25.759%                         | 
+ | Malamar 19.926%                        | 
+ | Iron Crown 16.328%                     | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Munkidori                              | 
+ +----------------------------------------+ 
+ | Raw count: 301                         | 
+ | Avg. weight: 0.6121670425010541        | 
+ | Viability Ceiling: 60                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Toxic Chain 99.659%                    | 
+ | Frisk  0.341%                          | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 96.822%                   | 
+ | Other  3.178%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 97.317%          | 
+ | Other  2.683%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Shadow Ball 98.376%                    | 
+ | U-turn 97.209%                         | 
+ | Sludge Wave 97.110%                    | 
+ | Psychic 96.754%                        | 
+ | Other 10.550%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Iron Crown 90.112%                     | 
+ | Necrozma 90.001%                       | 
+ | Veluza 88.737%                         | 
+ | Mew 76.949%                            | 
+ | Hoopa-Unbound 42.514%                  | 
+ | Indeedee 36.749%                       | 
+ | Gardevoir 14.157%                      | 
+ | Farigiraf 12.651%                      | 
+ | Metagross  6.165%                      | 
+ | Armarouge  5.261%                      | 
+ | Braviary-Hisui  5.145%                 | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Veluza                                 | 
+ +----------------------------------------+ 
+ | Raw count: 286                         | 
+ | Avg. weight: 0.638650760637694         | 
+ | Viability Ceiling: 74                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Sharpness 100.000%                     | 
+ | Mold Breaker  0.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Sitrus Berry 97.354%                   | 
+ | Other  2.646%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Adamant:4/252/0/0/0/252 91.387%        | 
+ | Jolly:4/252/0/0/0/252  5.273%          | 
+ | Other  3.340%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Aqua Cutter 99.764%                    | 
+ | Psycho Cut 98.512%                     | 
+ | Fillet Away 97.367%                    | 
+ | Aqua Jet 91.805%                       | 
+ | Other 12.551%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Necrozma 89.915%                       | 
+ | Iron Crown 89.686%                     | 
+ | Munkidori 89.518%                      | 
+ | Mew 80.238%                            | 
+ | Indeedee 38.891%                       | 
+ | Hoopa-Unbound 35.909%                  | 
+ | Gardevoir 13.906%                      | 
+ | Farigiraf 12.763%                      | 
+ | Hoopa  4.917%                          | 
+ | Latias  4.717%                         | 
+ | Deoxys-Speed  4.515%                   | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Cresselia                              | 
+ +----------------------------------------+ 
+ | Raw count: 397                         | 
+ | Avg. weight: 0.46387030369115634       | 
+ | Viability Ceiling: 78                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Colbur Berry 40.556%                   | 
+ | Leftovers 29.664%                      | 
+ | Iron Ball 11.974%                      | 
+ | Light Clay  6.848%                     | 
+ | Eject Button  4.759%                   | 
+ | Mental Herb  3.031%                    | 
+ | Other  3.167%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:200/0/252/56/0/0 21.160%          | 
+ | Bold:144/0/196/0/168/0 11.974%         | 
+ | Modest:252/0/0/252/4/0 10.487%         | 
+ | Bold:200/0/220/88/0/0  9.227%          | 
+ | Bold:252/0/252/0/4/0  5.188%           | 
+ | Calm:252/0/52/0/204/0  4.658%          | 
+ | Other 37.306%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Moonlight 67.346%                      | 
+ | Thunder Wave 65.416%                   | 
+ | Moonblast 52.056%                      | 
+ | Thunderbolt 38.745%                    | 
+ | Lunar Dance 23.117%                    | 
+ | Reflect 20.641%                        | 
+ | Light Screen 20.641%                   | 
+ | Calm Mind 19.662%                      | 
+ | Trick Room 19.259%                     | 
+ | Psyshock 14.909%                       | 
+ | Ice Beam 12.517%                       | 
+ | Trick 11.974%                          | 
+ | Psychic 10.374%                        | 
+ | Grass Knot  7.657%                     | 
+ | Other 15.687%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 68.185%                      | 
+ | Hoopa-Unbound 59.093%                  | 
+ | Latios 47.393%                         | 
+ | Iron Boulder 45.852%                   | 
+ | Deoxys-Speed 45.199%                   | 
+ | Slowking-Galar 24.107%                 | 
+ | Gallade 23.953%                        | 
+ | Metagross 21.911%                      | 
+ | Armarouge 13.339%                      | 
+ | Indeedee 12.748%                       | 
+ | Espeon 12.229%                         | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Deoxys-Defense                         | 
+ +----------------------------------------+ 
+ | Raw count: 351                         | 
+ | Avg. weight: 0.49441629733666925       | 
+ | Viability Ceiling: 79                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Pressure 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 54.622%                      | 
+ | Rocky Helmet 20.607%                   | 
+ | Heavy-Duty Boots 10.638%               | 
+ | Assault Vest  3.405%                   | 
+ | Sitrus Berry  2.861%                   | 
+ | Nothing  2.839%                        | 
+ | Twisted Spoon  1.323%                  | 
+ | Other  3.706%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Calm:248/0/0/8/252/0 13.415%           | 
+ | Bold:248/0/252/0/8/0 10.593%           | 
+ | Bold:248/0/252/8/0/0  9.061%           | 
+ | Bold:248/0/84/0/0/176  5.815%          | 
+ | Calm:252/0/4/0/252/0  5.789%           | 
+ | Calm:252/0/0/4/252/0  5.212%           | 
+ | Other 50.116%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Recover 79.472%                        | 
+ | Stored Power 36.364%                   | 
+ | Night Shade 34.615%                    | 
+ | Spikes 29.614%                         | 
+ | Cosmic Power 28.050%                   | 
+ | Calm Mind 22.891%                      | 
+ | Teleport 20.504%                       | 
+ | Stealth Rock 18.526%                   | 
+ | Taunt 16.706%                          | 
+ | Thunder Wave 16.094%                   | 
+ | Iron Defense 15.566%                   | 
+ | Knock Off 14.303%                      | 
+ | Shadow Ball 11.521%                    | 
+ | Focus Blast  8.427%                    | 
+ | Trick Room  6.267%                     | 
+ | Psycho Boost  4.895%                   | 
+ | Psychic Noise  4.361%                  | 
+ | Reflect  4.170%                        | 
+ | Expanding Force  3.405%                | 
+ | Dark Pulse  3.405%                     | 
+ | Rest  3.298%                           | 
+ | Other 17.546%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hoopa-Unbound 50.494%                  | 
+ | Hatterene 45.822%                      | 
+ | Latios 41.381%                         | 
+ | Indeedee 39.214%                       | 
+ | Iron Boulder 38.070%                   | 
+ | Armarouge 35.148%                      | 
+ | Gallade 33.917%                        | 
+ | Metagross 33.502%                      | 
+ | Jirachi 28.384%                        | 
+ | Braviary-Hisui 18.419%                 | 
+ | Bronzong 12.241%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Indeedee-F                             | 
+ +----------------------------------------+ 
+ | Raw count: 483                         | 
+ | Avg. weight: 0.360158452455327         | 
+ | Viability Ceiling: 65                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Psychic Surge 99.250%                  | 
+ | Own Tempo  0.750%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Terrain Extender 79.031%               | 
+ | Choice Scarf  3.744%                   | 
+ | Focus Sash  3.440%                     | 
+ | Rocky Helmet  2.677%                   | 
+ | Weakness Policy  2.394%                | 
+ | Heavy-Duty Boots  2.183%               | 
+ | Psychic Seed  1.924%                   | 
+ | Other  4.607%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 34.824%          | 
+ | Timid:252/0/0/4/0/252 21.784%          | 
+ | Sassy:204/0/136/140/28/0  7.269%       | 
+ | Quiet:248/0/0/252/8/0  5.540%          | 
+ | Sassy:252/0/4/0/252/0  4.150%          | 
+ | Bold:252/0/252/0/4/0  3.855%           | 
+ | Other 22.579%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Healing Wish 73.396%                   | 
+ | Psyshock 58.905%                       | 
+ | Reflect 40.720%                        | 
+ | Light Screen 39.680%                   | 
+ | Hyper Voice 37.608%                    | 
+ | Shadow Ball 35.565%                    | 
+ | Psychic 29.172%                        | 
+ | Trick Room 22.928%                     | 
+ | Trick 11.828%                          | 
+ | Draining Kiss 11.622%                  | 
+ | Alluring Voice  7.754%                 | 
+ | Dazzling Gleam  7.749%                 | 
+ | Calm Mind  4.725%                      | 
+ | Other 18.347%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 79.156%                      | 
+ | Hoopa-Unbound 61.677%                  | 
+ | Gallade 48.779%                        | 
+ | Necrozma 31.379%                       | 
+ | Slowbro-Galar 31.023%                  | 
+ | Armarouge 29.922%                      | 
+ | Iron Crown 19.052%                     | 
+ | Slowking-Galar 17.182%                 | 
+ | Rabsca 12.574%                         | 
+ | Metagross 12.223%                      | 
+ | Slowbro 10.261%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Meloetta                               | 
+ +----------------------------------------+ 
+ | Raw count: 315                         | 
+ | Avg. weight: 0.47129463490077633       | 
+ | Viability Ceiling: 87                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Serene Grace 100.000%                  | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Assault Vest 35.069%                   | 
+ | Choice Specs 30.995%                   | 
+ | Throat Spray 13.081%                   | 
+ | Life Orb 11.862%                       | 
+ | Expert Belt  2.055%                    | 
+ | Heavy-Duty Boots  1.989%               | 
+ | Other  4.948%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 35.122%          | 
+ | Sassy:248/0/0/8/252/0 15.493%          | 
+ | Calm:252/0/0/4/252/0 10.140%           | 
+ | Hasty:0/4/0/252/0/252  9.606%          | 
+ | Quiet:252/0/0/252/4/0  4.712%          | 
+ | Hasty:0/252/0/4/0/252  4.110%          | 
+ | Other 20.817%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Shadow Ball 57.483%                    | 
+ | Psyshock 55.980%                       | 
+ | Hyper Voice 37.376%                    | 
+ | Alluring Voice 32.093%                 | 
+ | Relic Song 31.853%                     | 
+ | U-turn 31.661%                         | 
+ | Psychic 27.942%                        | 
+ | Knock Off 22.096%                      | 
+ | Thunder 20.597%                        | 
+ | Close Combat 17.851%                   | 
+ | Focus Blast 15.418%                    | 
+ | Thunderbolt 10.555%                    | 
+ | Acrobatics  8.369%                     | 
+ | Energy Ball  7.324%                    | 
+ | Trick Room  4.712%                     | 
+ | Other 18.689%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Slowbro 59.804%                        | 
+ | Hatterene 53.447%                      | 
+ | Iron Boulder 52.523%                   | 
+ | Latios 38.393%                         | 
+ | Slowking-Galar 36.215%                 | 
+ | Bronzong 33.303%                       | 
+ | Jirachi 24.259%                        | 
+ | Mew 15.903%                            | 
+ | Gallade 15.522%                        | 
+ | Indeedee 15.079%                       | 
+ | Deoxys-Speed 15.000%                   | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Delphox                                | 
+ +----------------------------------------+ 
+ | Raw count: 722                         | 
+ | Avg. weight: 0.2250611896194714        | 
+ | Viability Ceiling: 73                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Blaze 64.616%                          | 
+ | Magician 35.384%                       | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Focus Sash 47.162%                     | 
+ | Air Balloon  7.274%                    | 
+ | Mirror Herb  7.237%                    | 
+ | Eject Pack  5.858%                     | 
+ | Heavy-Duty Boots  4.923%               | 
+ | Wide Lens  4.708%                      | 
+ | Assault Vest  4.443%                   | 
+ | Nothing  4.034%                        | 
+ | Choice Scarf  3.591%                   | 
+ | Power Herb  2.995%                     | 
+ | Blunder Policy  2.503%                 | 
+ | Choice Specs  1.741%                   | 
+ | Other  3.532%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/0/252 46.465%          | 
+ | Timid:0/0/0/252/4/252 32.276%          | 
+ | Timid:4/0/0/252/0/252 14.054%          | 
+ | Modest:0/0/0/252/4/252  4.241%         | 
+ | Other  2.963%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Flamethrower 73.127%                   | 
+ | Psychic 64.256%                        | 
+ | Scorching Sands 53.101%                | 
+ | Calm Mind 50.441%                      | 
+ | Overheat 15.165%                       | 
+ | Grass Knot 13.128%                     | 
+ | Shadow Ball 12.372%                    | 
+ | Fire Blast 11.857%                     | 
+ | Will-O-Wisp  9.930%                    | 
+ | Flame Charge  8.667%                   | 
+ | Solar Beam  8.636%                     | 
+ | Dazzling Gleam  8.389%                 | 
+ | Focus Blast  8.162%                    | 
+ | Hex  7.679%                            | 
+ | Expanding Force  7.563%                | 
+ | Future Sight  6.121%                   | 
+ | Sunny Day  5.641%                      | 
+ | Nasty Plot  4.862%                     | 
+ | Encore  4.609%                         | 
+ | Agility  3.491%                        | 
+ | Hypnosis  3.250%                       | 
+ | Other 19.553%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Gallade 58.715%                        | 
+ | Hatterene 58.033%                      | 
+ | Latios 47.810%                         | 
+ | Slowking-Galar 39.905%                 | 
+ | Malamar 30.509%                        | 
+ | Metagross 15.875%                      | 
+ | Hoopa-Unbound 15.623%                  | 
+ | Espeon 14.906%                         | 
+ | Indeedee 14.167%                       | 
+ | Iron Boulder 13.753%                   | 
+ | Armarouge 11.980%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Braviary-Hisui                         | 
+ +----------------------------------------+ 
+ | Raw count: 403                         | 
+ | Avg. weight: 0.34086004263734854       | 
+ | Viability Ceiling: 78                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Tinted Lens 56.485%                    | 
+ | Sheer Force 42.310%                    | 
+ | Keen Eye  1.205%                       | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Heavy-Duty Boots 58.564%               | 
+ | Life Orb 26.194%                       | 
+ | Weakness Policy  7.103%                | 
+ | Choice Specs  4.542%                   | 
+ | Other  3.598%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Modest:248/0/0/252/8/0 17.591%         | 
+ | Quiet:64/0/96/252/96/0  9.205%         | 
+ | Bold:248/0/252/8/0/0  8.213%           | 
+ | Modest:0/0/0/252/4/252  7.770%         | 
+ | Timid:0/0/4/252/0/252  7.346%          | 
+ | Timid:4/0/0/252/0/252  7.236%          | 
+ | Other 42.638%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Defog 65.275%                          | 
+ | Esper Wing 56.584%                     | 
+ | Hurricane 40.108%                      | 
+ | Heat Wave 35.973%                      | 
+ | Air Slash 31.442%                      | 
+ | Shadow Ball 25.343%                    | 
+ | Roost 24.426%                          | 
+ | Vacuum Wave 16.992%                    | 
+ | U-turn 16.597%                         | 
+ | Dazzling Gleam 15.794%                 | 
+ | Psyshock 13.484%                       | 
+ | Psychic 12.333%                        | 
+ | Psychic Noise 12.283%                  | 
+ | Expanding Force 12.076%                | 
+ | Agility  9.204%                        | 
+ | Other 12.086%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 63.021%                      | 
+ | Indeedee 39.898%                       | 
+ | Armarouge 39.739%                      | 
+ | Hoopa-Unbound 39.432%                  | 
+ | Jirachi 29.216%                        | 
+ | Metagross 25.831%                      | 
+ | Gallade 25.049%                        | 
+ | Deoxys-Defense 23.269%                 | 
+ | Slowking-Galar 22.343%                 | 
+ | Iron Crown 17.268%                     | 
+ | Slowbro 13.769%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Scream Tail                            | 
+ +----------------------------------------+ 
+ | Raw count: 266                         | 
+ | Avg. weight: 0.48082045171490717       | 
+ | Viability Ceiling: 78                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Protosynthesis 100.000%                | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Light Clay 40.277%                     | 
+ | Heavy-Duty Boots 28.440%               | 
+ | Leftovers 21.347%                      | 
+ | Mental Herb  2.055%                    | 
+ | Rocky Helmet  1.498%                   | 
+ | Weakness Policy  1.343%                | 
+ | Covert Cloak  1.310%                   | 
+ | Other  3.731%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:252/0/4/0/0/252 28.902%          | 
+ | Timid:252/0/0/0/4/252 18.956%          | 
+ | Timid:252/0/0/4/0/252 13.974%          | 
+ | Timid:252/0/88/0/0/168  6.536%         | 
+ | Jolly:252/4/0/0/0/252  6.416%          | 
+ | Jolly:0/252/0/0/4/252  4.659%          | 
+ | Other 20.558%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Encore 71.966%                         | 
+ | Wish 52.913%                           | 
+ | Dazzling Gleam 50.120%                 | 
+ | Light Screen 40.277%                   | 
+ | Stealth Rock 38.015%                   | 
+ | Reflect 36.756%                        | 
+ | Thunder Wave 26.805%                   | 
+ | Protect 21.228%                        | 
+ | Play Rough 11.998%                     | 
+ | Psychic Noise  7.005%                  | 
+ | Drain Punch  5.986%                    | 
+ | Bulk Up  5.450%                        | 
+ | Psychic Fangs  4.659%                  | 
+ | Calm Mind  4.270%                      | 
+ | Boomburst  3.790%                      | 
+ | Other 18.759%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 55.263%                      | 
+ | Indeedee 47.971%                       | 
+ | Iron Boulder 39.867%                   | 
+ | Gallade 38.695%                        | 
+ | Deoxys-Speed 37.210%                   | 
+ | Iron Crown 33.147%                     | 
+ | Metagross 31.455%                      | 
+ | Hoopa-Unbound 30.507%                  | 
+ | Armarouge 27.207%                      | 
+ | Latios 21.773%                         | 
+ | Latias 16.050%                         | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Iron Leaves                            | 
+ +----------------------------------------+ 
+ | Raw count: 271                         | 
+ | Avg. weight: 0.46113169507666507       | 
+ | Viability Ceiling: 74                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Quark Drive 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Life Orb 40.543%                       | 
+ | Focus Sash 15.841%                     | 
+ | Choice Scarf 15.325%                   | 
+ | Choice Band  5.547%                    | 
+ | Heavy-Duty Boots  4.822%               | 
+ | Expert Belt  3.557%                    | 
+ | Liechi Berry  3.343%                   | 
+ | Assault Vest  2.669%                   | 
+ | Leftovers  2.329%                      | 
+ | Scope Lens  2.167%                     | 
+ | Other  3.857%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Jolly:0/252/0/0/4/252 46.830%          | 
+ | Adamant:0/252/0/0/4/252 12.095%        | 
+ | Jolly:0/252/0/0/0/252 11.185%          | 
+ | Jolly:96/160/0/0/0/252  9.293%         | 
+ | Adamant:4/252/0/0/0/252  7.195%        | 
+ | Lonely:248/252/0/8/0/0  4.630%         | 
+ | Other  8.773%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Psyblade 73.603%                       | 
+ | Leaf Blade 64.633%                     | 
+ | Close Combat 54.239%                   | 
+ | Swords Dance 51.513%                   | 
+ | Trailblaze 32.739%                     | 
+ | Wild Charge 27.205%                    | 
+ | Sacred Sword 18.488%                   | 
+ | X-Scissor 16.409%                      | 
+ | Brick Break 11.923%                    | 
+ | Night Slash 10.622%                    | 
+ | Giga Drain  7.021%                     | 
+ | Agility  7.017%                        | 
+ | Calm Mind  4.722%                      | 
+ | Other 19.868%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Iron Boulder 50.249%                   | 
+ | Armarouge 38.540%                      | 
+ | Hatterene 37.966%                      | 
+ | Latios 37.611%                         | 
+ | Deoxys-Speed 35.113%                   | 
+ | Indeedee 27.748%                       | 
+ | Mew 26.131%                            | 
+ | Espeon 22.156%                         | 
+ | Iron Crown 21.856%                     | 
+ | Gallade 18.855%                        | 
+ | Metagross 18.393%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Farigiraf                              | 
+ +----------------------------------------+ 
+ | Raw count: 181                         | 
+ | Avg. weight: 0.46277558345062836       | 
+ | Viability Ceiling: 79                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Armor Tail 51.313%                     | 
+ | Sap Sipper 28.289%                     | 
+ | Cud Chew 20.398%                       | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 39.073%                      | 
+ | Choice Specs 13.976%                   | 
+ | Salac Berry 12.462%                    | 
+ | Focus Sash 10.815%                     | 
+ | Light Clay 10.029%                     | 
+ | Custap Berry  5.505%                   | 
+ | Twisted Spoon  2.350%                  | 
+ | Life Orb  1.543%                       | 
+ | Other  4.246%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:252/0/252/0/4/0 24.675%           | 
+ | Timid:4/0/0/252/0/252 22.328%          | 
+ | Modest:252/0/0/248/0/8 11.939%         | 
+ | Modest:252/0/0/252/4/0 11.600%         | 
+ | Timid:0/0/0/252/4/252  9.980%          | 
+ | Calm:252/0/16/0/240/0  6.724%          | 
+ | Other 12.755%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Hyper Voice 51.498%                    | 
+ | Nasty Plot 40.565%                     | 
+ | Wish 37.778%                           | 
+ | Dazzling Gleam 31.739%                 | 
+ | Protect 25.593%                        | 
+ | Shadow Ball 25.070%                    | 
+ | Psychic Noise 24.702%                  | 
+ | Thunderbolt 20.105%                    | 
+ | Endure 19.069%                         | 
+ | Agility 17.179%                        | 
+ | Psychic 16.043%                        | 
+ | Psyshock 14.451%                       | 
+ | Trick Room 12.044%                     | 
+ | Tera Blast 10.424%                     | 
+ | Reflect 10.029%                        | 
+ | Light Screen 10.029%                   | 
+ | Night Shade  6.724%                    | 
+ | Roar  5.766%                           | 
+ | Twin Beam  4.631%                      | 
+ | Other 16.562%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 50.509%                      | 
+ | Hoopa-Unbound 34.143%                  | 
+ | Gardevoir 30.712%                      | 
+ | Metagross 29.918%                      | 
+ | Iron Crown 29.264%                     | 
+ | Mew 28.998%                            | 
+ | Necrozma 27.868%                       | 
+ | Munkidori 27.831%                      | 
+ | Veluza 27.831%                         | 
+ | Slowking-Galar 22.376%                 | 
+ | Slowking 21.926%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Azelf                                  | 
+ +----------------------------------------+ 
+ | Raw count: 161                         | 
+ | Avg. weight: 0.5044526485106832        | 
+ | Viability Ceiling: 69                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 47.874%                   | 
+ | Focus Sash 31.950%                     | 
+ | Choice Band 11.641%                    | 
+ | Light Clay  4.736%                     | 
+ | Other  3.799%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Modest:0/0/0/252/0/252 27.157%         | 
+ | Timid:0/0/0/252/4/252 25.010%          | 
+ | Jolly:0/252/0/0/4/252 14.385%          | 
+ | Naive:4/252/0/0/0/252 10.333%          | 
+ | Jolly:0/252/4/0/0/252  5.326%          | 
+ | Adamant:4/252/0/0/0/252  4.425%        | 
+ | Other 13.365%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Flamethrower 49.431%                   | 
+ | Psychic 42.735%                        | 
+ | Explosion 31.791%                      | 
+ | Thunderbolt 30.571%                    | 
+ | Energy Ball 27.157%                    | 
+ | U-turn 26.311%                         | 
+ | Knock Off 23.064%                      | 
+ | Trick 20.661%                          | 
+ | Stealth Rock 20.518%                   | 
+ | Taunt 18.607%                          | 
+ | Reflect 12.038%                        | 
+ | Zen Headbutt 10.280%                   | 
+ | Thunder Wave  9.054%                   | 
+ | Play Rough  8.651%                     | 
+ | Light Screen  8.395%                   | 
+ | Magic Room  7.302%                     | 
+ | Dazzling Gleam  6.987%                 | 
+ | Expanding Force  6.945%                | 
+ | Fire Blast  5.589%                     | 
+ | Nasty Plot  5.561%                     | 
+ | Shadow Ball  5.330%                    | 
+ | Mystical Power  5.153%                 | 
+ | Other 17.868%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 67.164%                      | 
+ | Espeon 38.826%                         | 
+ | Hatterene 34.626%                      | 
+ | Latias 31.595%                         | 
+ | Cresselia 27.616%                      | 
+ | Armarouge 26.840%                      | 
+ | Hoopa-Unbound 25.523%                  | 
+ | Necrozma 24.491%                       | 
+ | Slowking-Galar 23.258%                 | 
+ | Latios 23.205%                         | 
+ | Bronzong 15.551%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Slowbro-Galar                          | 
+ +----------------------------------------+ 
+ | Raw count: 218                         | 
+ | Avg. weight: 0.3534298727479901        | 
+ | Viability Ceiling: 69                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Quick Draw 75.326%                     | 
+ | Regenerator 24.574%                    | 
+ | Own Tempo  0.100%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Psychic Seed 59.168%                   | 
+ | Leftovers 14.012%                      | 
+ | Rocky Helmet 11.847%                   | 
+ | Assault Vest  5.702%                   | 
+ | Heavy-Duty Boots  2.706%               | 
+ | Razor Claw  2.551%                     | 
+ | Other  4.014%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Modest:252/0/0/252/4/0 71.299%         | 
+ | Relaxed:252/4/252/0/0/0  7.186%        | 
+ | Brave:252/252/4/0/0/0  6.317%          | 
+ | Brave:128/110/118/0/152/0  5.971%      | 
+ | Impish:252/0/252/0/4/0  2.569%         | 
+ | Adamant:252/252/0/0/4/0  2.553%        | 
+ | Other  4.104%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Flamethrower 70.671%                   | 
+ | Toxic 65.139%                          | 
+ | Expanding Force 61.090%                | 
+ | Sludge Wave 59.168%                    | 
+ | Shell Side Arm 33.317%                 | 
+ | Slack Off 15.457%                      | 
+ | Earthquake 14.347%                     | 
+ | Drain Punch 13.152%                    | 
+ | Trick Room 12.389%                     | 
+ | Ice Punch 11.440%                      | 
+ | Psychic  9.378%                        | 
+ | Zen Headbutt  6.926%                   | 
+ | Belly Drum  5.122%                     | 
+ | Ice Beam  5.118%                       | 
+ | Other 17.285%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 78.268%                      | 
+ | Gallade 71.547%                        | 
+ | Indeedee-F 70.044%                     | 
+ | Hoopa-Unbound 65.654%                  | 
+ | Necrozma 55.838%                       | 
+ | Indeedee 13.737%                       | 
+ | Rabsca 12.873%                         | 
+ | Reuniclus 11.882%                      | 
+ | Iron Crown 10.658%                     | 
+ | Slowking-Galar 10.605%                 | 
+ | Latias  9.190%                         | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Meowstic                               | 
+ +----------------------------------------+ 
+ | Raw count: 260                         | 
+ | Avg. weight: 0.25548629446045645       | 
+ | Viability Ceiling: 74                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Prankster 90.894%                      | 
+ | Infiltrator  8.507%                    | 
+ | Keen Eye  0.546%                       | 
+ | Competitive  0.054%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Light Clay 90.910%                     | 
+ | Meadow Plate  3.624%                   | 
+ | Focus Sash  3.314%                     | 
+ | Other  2.152%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:252/0/152/0/0/104 40.612%        | 
+ | Modest:252/0/0/252/0/0 10.760%         | 
+ | Bold:252/0/252/0/0/4 10.469%           | 
+ | Modest:4/0/0/252/0/252  6.553%         | 
+ | Calm:176/0/252/0/80/0  3.905%          | 
+ | Calm:248/0/0/8/252/0  3.012%           | 
+ | Other 24.689%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Reflect 93.253%                        | 
+ | Light Screen 93.249%                   | 
+ | Thunder Wave 86.081%                   | 
+ | Charm 53.982%                          | 
+ | Psychic Noise 19.318%                  | 
+ | Psychic  7.502%                        | 
+ | Expanding Force  6.773%                | 
+ | Nasty Plot  6.553%                     | 
+ | Trick Room  5.729%                     | 
+ | Psychic Terrain  4.941%                | 
+ | Alluring Voice  3.985%                 | 
+ | Other 18.635%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Deoxys-Speed 54.912%                   | 
+ | Malamar 53.671%                        | 
+ | Mew 46.807%                            | 
+ | Hatterene 27.863%                      | 
+ | Armarouge 24.459%                      | 
+ | Latias 23.874%                         | 
+ | Metagross 23.743%                      | 
+ | Necrozma 21.368%                       | 
+ | Indeedee 20.844%                       | 
+ | Gallade 19.376%                        | 
+ | Gardevoir 17.390%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Rabsca                                 | 
+ +----------------------------------------+ 
+ | Raw count: 106                         | 
+ | Avg. weight: 0.3836421201386077        | 
+ | Viability Ceiling: 64                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Synchronize 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leppa Berry 60.096%                    | 
+ | Heavy-Duty Boots 23.845%               | 
+ | Focus Sash  5.614%                     | 
+ | Leftovers  4.870%                      | 
+ | Life Orb  2.757%                       | 
+ | Other  2.819%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Quiet:72/0/192/68/176/0 31.094%        | 
+ | Quiet:252/0/0/252/4/0 21.641%          | 
+ | Modest:252/0/0/252/4/0 14.472%         | 
+ | Sassy:252/0/128/0/128/0 11.969%        | 
+ | Bold:252/0/252/0/4/0  3.765%           | 
+ | Quiet:252/0/252/4/0/0  2.512%          | 
+ | Other 14.547%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Revival Blessing 99.593%               | 
+ | Bug Buzz 97.056%                       | 
+ | Trick Room 55.595%                     | 
+ | Expanding Force 41.059%                | 
+ | Psychic 26.021%                        | 
+ | Memento 13.929%                        | 
+ | Calm Mind 12.472%                      | 
+ | Dazzling Gleam 11.650%                 | 
+ | Recover 10.506%                        | 
+ | Earth Power  5.444%                    | 
+ | Psychic Noise  5.395%                  | 
+ | Energy Ball  4.420%                    | 
+ | Other 16.861%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 84.275%                      | 
+ | Indeedee-F 53.789%                     | 
+ | Hoopa-Unbound 53.697%                  | 
+ | Malamar 44.353%                        | 
+ | Braviary-Hisui 30.170%                 | 
+ | Armarouge 25.138%                      | 
+ | Reuniclus 25.087%                      | 
+ | Slowbro-Galar 24.390%                  | 
+ | Gallade 18.403%                        | 
+ | Indeedee 17.967%                       | 
+ | Metagross 16.548%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Medicham                               | 
+ +----------------------------------------+ 
+ | Raw count: 166                         | 
+ | Avg. weight: 0.2602329077908398        | 
+ | Viability Ceiling: 85                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Pure Power 100.000%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Band 25.999%                    | 
+ | Iron Ball 24.033%                      | 
+ | Life Orb 16.095%                       | 
+ | Focus Sash 11.310%                     | 
+ | Choice Scarf  7.202%                   | 
+ | Fist Plate  6.945%                     | 
+ | Assault Vest  2.578%                   | 
+ | Blunder Policy  2.334%                 | 
+ | Other  3.504%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Brave:252/252/0/0/4/0 39.202%          | 
+ | Jolly:0/252/0/0/4/252 14.986%          | 
+ | Jolly:4/252/0/0/0/252 13.953%          | 
+ | Adamant:4/252/0/0/0/252 12.650%        | 
+ | Jolly:0/252/4/0/0/252 11.310%          | 
+ | Brave:252/252/0/0/0/0  2.500%          | 
+ | Other  5.399%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Zen Headbutt 82.855%                   | 
+ | Close Combat 70.062%                   | 
+ | Ice Punch 38.255%                      | 
+ | Trick Room 35.323%                     | 
+ | High Jump Kick 25.512%                 | 
+ | Bullet Punch 24.864%                   | 
+ | Fling 20.154%                          | 
+ | Brick Break 20.143%                    | 
+ | Fire Punch 19.279%                     | 
+ | Trailblaze 17.587%                     | 
+ | Poison Jab  9.749%                     | 
+ | Psycho Cut  8.551%                     | 
+ | Drain Punch  5.739%                    | 
+ | Trick  3.707%                          | 
+ | Other 18.221%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Indeedee 48.790%                       | 
+ | Hatterene 34.436%                      | 
+ | Iron Boulder 28.607%                   | 
+ | Armarouge 27.791%                      | 
+ | Metagross 26.198%                      | 
+ | Reuniclus 25.957%                      | 
+ | Gardevoir 23.420%                      | 
+ | Jirachi 20.823%                        | 
+ | Malamar 20.580%                        | 
+ | Slowking-Galar 20.224%                 | 
+ | Meowstic 18.918%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Uxie                                   | 
+ +----------------------------------------+ 
+ | Raw count: 79                          | 
+ | Avg. weight: 0.312398208630088         | 
+ | Viability Ceiling: 65                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Leftovers 39.623%                      | 
+ | Light Clay 35.705%                     | 
+ | Sitrus Berry 14.561%                   | 
+ | Choice Band  7.224%                    | 
+ | Other  2.887%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Careful:252/0/4/0/252/0 16.483%        | 
+ | Bold:252/0/128/0/128/0 14.561%         | 
+ | Impish:252/0/252/0/4/0 12.720%         | 
+ | Bold:252/0/252/4/0/0 11.464%           | 
+ | Careful:252/4/0/0/252/0  8.308%        | 
+ | Jolly:252/4/0/0/0/252  7.848%          | 
+ | Other 28.616%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Thunder Wave 59.710%                   | 
+ | Stealth Rock 52.341%                   | 
+ | Light Screen 50.265%                   | 
+ | Reflect 50.265%                        | 
+ | Knock Off 43.013%                      | 
+ | U-turn 34.531%                         | 
+ | Memento 29.272%                        | 
+ | Psychic Noise 11.464%                  | 
+ | Pain Split  8.308%                     | 
+ | Trick Room  7.712%                     | 
+ | Expanding Force  7.712%                | 
+ | Play Rough  7.224%                     | 
+ | Psycho Cut  7.224%                     | 
+ | Draining Kiss  5.348%                  | 
+ | Psyshock  5.049%                       | 
+ | Mystical Power  5.037%                 | 
+ | Other 15.522%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Latios 41.789%                         | 
+ | Azelf 28.016%                          | 
+ | Iron Crown 27.540%                     | 
+ | Indeedee 26.751%                       | 
+ | Latias 25.081%                         | 
+ | Gallade 24.837%                        | 
+ | Slowking-Galar 20.721%                 | 
+ | Hoopa-Unbound 20.637%                  | 
+ | Metagross 20.479%                      | 
+ | Braviary-Hisui 19.616%                 | 
+ | Meloetta 18.854%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Raichu-Alola                           | 
+ +----------------------------------------+ 
+ | Raw count: 255                         | 
+ | Avg. weight: 0.08041971311776112       | 
+ | Viability Ceiling: 59                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Surge Surfer 100.000%                  | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Life Orb 38.662%                       | 
+ | Focus Sash  9.486%                     | 
+ | Terrain Extender  7.312%               | 
+ | Leftovers  6.962%                      | 
+ | Air Balloon  6.595%                    | 
+ | Choice Scarf  5.305%                   | 
+ | Heavy-Duty Boots  4.881%               | 
+ | Electric Seed  4.453%                  | 
+ | Assault Vest  4.027%                   | 
+ | Magnet  3.902%                         | 
+ | Nothing  3.063%                        | 
+ | Salac Berry  2.386%                    | 
+ | Other  2.967%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 49.936%          | 
+ | Modest:0/0/0/252/4/252 20.373%         | 
+ | Hardy:156/96/124/40/40/52  5.501%      | 
+ | Hardy:4/0/0/252/0/252  4.265%          | 
+ | Hardy:96/92/64/100/32/124  4.027%      | 
+ | Lax:60/85/60/110/85/110  3.902%        | 
+ | Other 11.997%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Thunderbolt 54.015%                    | 
+ | Psychic 47.429%                        | 
+ | Surf 42.491%                           | 
+ | Nasty Plot 39.099%                     | 
+ | Volt Switch 36.398%                    | 
+ | Discharge 28.656%                      | 
+ | Expanding Force 27.572%                | 
+ | Focus Blast 22.288%                    | 
+ | Electric Terrain 19.929%               | 
+ | Draining Kiss 13.138%                  | 
+ | Thunder  9.533%                        | 
+ | Psyshock  8.642%                       | 
+ | Calm Mind  6.859%                      | 
+ | Alluring Voice  5.252%                 | 
+ | Fake Out  4.797%                       | 
+ | Grass Knot  4.600%                     | 
+ | Focus Punch  4.027%                    | 
+ | Dig  3.199%                            | 
+ | Hyper Beam  3.199%                     | 
+ | Other 18.879%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 52.731%                      | 
+ | Iron Crown 38.644%                     | 
+ | Latios 38.136%                         | 
+ | Gallade 34.852%                        | 
+ | Iron Leaves 33.946%                    | 
+ | Hatterene 27.095%                      | 
+ | Mew 26.995%                            | 
+ | Armarouge 26.107%                      | 
+ | Indeedee 21.898%                       | 
+ | Gardevoir 17.417%                      | 
+ | Iron Boulder 16.950%                   | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Articuno-Galar                         | 
+ +----------------------------------------+ 
+ | Raw count: 197                         | 
+ | Avg. weight: 0.10130396805760146       | 
+ | Viability Ceiling: 62                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Competitive 100.000%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Heavy-Duty Boots 21.928%               | 
+ | Life Orb 16.577%                       | 
+ | Shell Bell 12.064%                     | 
+ | Weakness Policy 10.091%                | 
+ | Leftovers  7.866%                      | 
+ | Iron Ball  7.035%                      | 
+ | Choice Specs  7.004%                   | 
+ | Colbur Berry  4.010%                   | 
+ | Psychic Seed  3.754%                   | 
+ | Assault Vest  2.460%                   | 
+ | Throat Spray  2.073%                   | 
+ | Focus Sash  1.770%                     | 
+ | Other  3.367%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 21.335%          | 
+ | Modest:0/0/0/252/4/252 12.084%         | 
+ | Modest:252/0/4/0/0/252 12.064%         | 
+ | Quiet:252/0/4/252/0/0 10.757%          | 
+ | Bold:248/0/252/8/0/0  7.564%           | 
+ | Modest:0/0/4/252/0/252  7.354%         | 
+ | Other 28.842%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Freezing Glare 76.499%                 | 
+ | Air Slash 62.151%                      | 
+ | Agility 38.701%                        | 
+ | Shadow Ball 38.477%                    | 
+ | Recover 36.655%                        | 
+ | Calm Mind 35.888%                      | 
+ | Hurricane 19.057%                      | 
+ | Expanding Force 14.310%                | 
+ | Stored Power 13.765%                   | 
+ | Hyper Voice  9.977%                    | 
+ | Psyshock  8.946%                       | 
+ | U-turn  8.851%                         | 
+ | Psychic  5.779%                        | 
+ | Light Screen  5.518%                   | 
+ | Reflect  5.518%                        | 
+ | Other 19.911%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatterene 52.111%                      | 
+ | Gallade 43.805%                        | 
+ | Meowstic 31.678%                       | 
+ | Indeedee 30.593%                       | 
+ | Iron Crown 26.539%                     | 
+ | Slowking-Galar 25.500%                 | 
+ | Scream Tail 25.415%                    | 
+ | Deoxys-Speed 23.198%                   | 
+ | Metagross 19.105%                      | 
+ | Slowbro 18.116%                        | 
+ | Jirachi 16.426%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Hoopa                                  | 
+ +----------------------------------------+ 
+ | Raw count: 83                          | 
+ | Avg. weight: 0.21552029941857181       | 
+ | Viability Ceiling: 65                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Magician 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Specs 68.245%                   | 
+ | Choice Scarf 24.924%                   | 
+ | Blunder Policy  4.515%                 | 
+ | Other  2.315%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 44.557%          | 
+ | Quiet:252/0/0/252/0/0 40.871%          | 
+ | Modest:0/0/0/252/4/252  9.108%         | 
+ | Hasty:0/0/0/252/0/252  3.143%          | 
+ | Other  2.321%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Shadow Ball 91.447%                    | 
+ | Energy Ball 67.175%                    | 
+ | Focus Blast 56.812%                    | 
+ | Thunderbolt 49.979%                    | 
+ | Psyshock 47.700%                       | 
+ | Hyperspace Hole 40.871%                | 
+ | Trick 18.960%                          | 
+ | Expanding Force 11.422%                | 
+ | Other 15.634%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Veluza 50.208%                         | 
+ | Iron Crown 42.949%                     | 
+ | Gardevoir 42.949%                      | 
+ | Munkidori 40.871%                      | 
+ | Necrozma 40.871%                       | 
+ | Meloetta 40.048%                       | 
+ | Latias 35.413%                         | 
+ | Jirachi 32.117%                        | 
+ | Latios 24.229%                         | 
+ | Deoxys-Speed 24.226%                   | 
+ | Azelf 15.816%                          | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Oricorio-Pa'u                          | 
+ +----------------------------------------+ 
+ | Raw count: 47                          | 
+ | Avg. weight: 0.3741777695997085        | 
+ | Viability Ceiling: 61                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Dancer 100.000%                        | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Psychic Seed 68.028%                   | 
+ | Heavy-Duty Boots 15.363%               | 
+ | Leftovers 12.145%                      | 
+ | Other  4.464%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:248/0/120/0/0/140 68.028%        | 
+ | Timid:4/0/0/252/0/252 11.994%          | 
+ | Timid:252/0/56/0/0/200  8.562%         | 
+ | Timid:0/0/0/252/4/252  4.943%          | 
+ | Modest:0/0/0/252/4/252  4.464%         | 
+ | Other  2.009%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Quiver Dance 98.478%                   | 
+ | Defog 86.865%                          | 
+ | Roost 82.401%                          | 
+ | Air Slash 76.740%                      | 
+ | Hurricane 20.845%                      | 
+ | Revelation Dance 19.839%               | 
+ | Other 14.831%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hoopa-Unbound 83.386%                  | 
+ | Deoxys-Speed 71.750%                   | 
+ | Armarouge 68.028%                      | 
+ | Iron Crown 68.028%                     | 
+ | Wyrdeer 68.028%                        | 
+ | Hatterene 17.923%                      | 
+ | Indeedee 13.505%                       | 
+ | Slowking-Galar 10.737%                 | 
+ | Jirachi 10.415%                        | 
+ | Meloetta 10.415%                       | 
+ | Deoxys-Defense 10.415%                 | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Bruxish                                | 
+ +----------------------------------------+ 
+ | Raw count: 131                         | 
+ | Avg. weight: 0.1247117168385407        | 
+ | Viability Ceiling: 59                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Strong Jaw 90.866%                     | 
+ | Dazzling  5.118%                       | 
+ | Wonder Skin  4.016%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 36.203%                   | 
+ | Choice Band 28.342%                    | 
+ | Life Orb 22.887%                       | 
+ | Focus Sash  5.898%                     | 
+ | Expert Belt  3.300%                    | 
+ | Other  3.369%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Jolly:0/252/0/0/4/252 35.412%          | 
+ | Adamant:0/252/0/0/4/252 29.285%        | 
+ | Jolly:4/252/0/0/0/252 14.735%          | 
+ | Adamant:4/252/0/0/0/252  5.552%        | 
+ | Brave:252/252/0/0/4/0  4.878%          | 
+ | Careful:0/0/0/68/48/0  4.016%          | 
+ | Other  6.123%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Psychic Fangs 95.984%                  | 
+ | Crunch 83.167%                         | 
+ | Ice Fang 78.558%                       | 
+ | Wave Crash 35.830%                     | 
+ | Waterfall 25.163%                      | 
+ | Agility 19.414%                        | 
+ | Liquidation 14.735%                    | 
+ | Aqua Jet 14.543%                       | 
+ | Flip Turn 13.973%                      | 
+ | Other 18.632%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 44.818%                      | 
+ | Bronzong 41.871%                       | 
+ | Indeedee 35.812%                       | 
+ | Hatterene 27.892%                      | 
+ | Uxie 27.365%                           | 
+ | Latios 27.293%                         | 
+ | Iron Crown 25.298%                     | 
+ | Jirachi 23.789%                        | 
+ | Delphox 22.689%                        | 
+ | Iron Leaves 22.517%                    | 
+ | Deoxys-Speed 22.431%                   | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Exeggutor                              | 
+ +----------------------------------------+ 
+ | Raw count: 122                         | 
+ | Avg. weight: 0.11333382687636874       | 
+ | Viability Ceiling: 61                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Harvest 86.534%                        | 
+ | Chlorophyll 13.466%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Sitrus Berry 31.772%                   | 
+ | Custap Berry 19.101%                   | 
+ | Chesto Berry 14.863%                   | 
+ | Life Orb 14.236%                       | 
+ | Leftovers 10.727%                      | 
+ | Salac Berry  3.993%                    | 
+ | Iapapa Berry  2.569%                   | 
+ | Other  2.739%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Quiet:252/0/0/252/4/0 20.090%          | 
+ | Timid:0/0/128/252/128/0 14.863%        | 
+ | Adamant:252/252/4/0/0/0 13.338%        | 
+ | Bold:252/0/120/56/80/0  9.856%         | 
+ | Calm:184/0/164/4/156/0  6.822%         | 
+ | Modest:252/0/4/252/0/0  5.767%         | 
+ | Other 29.264%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Giga Drain 44.270%                     | 
+ | Leech Seed 40.993%                     | 
+ | Sludge Bomb 33.891%                    | 
+ | Calm Mind 30.957%                      | 
+ | Energy Ball 28.271%                    | 
+ | Expanding Force 24.132%                | 
+ | Protect 20.256%                        | 
+ | Trick Room 20.090%                     | 
+ | Endure 19.101%                         | 
+ | Earthquake 18.809%                     | 
+ | Substitute 18.073%                     | 
+ | Psychic 15.687%                        | 
+ | Swords Dance 13.338%                   | 
+ | Seed Bomb 13.338%                      | 
+ | Sunny Day  9.917%                      | 
+ | Future Sight  9.856%                   | 
+ | Leaf Storm  9.418%                     | 
+ | Psychic Noise  7.106%                  | 
+ | Body Slam  5.471%                      | 
+ | Other 17.026%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 58.808%                      | 
+ | Armarouge 55.041%                      | 
+ | Gallade 50.456%                        | 
+ | Hatterene 34.921%                      | 
+ | Hoopa-Unbound 32.916%                  | 
+ | Bronzong 24.223%                       | 
+ | Iron Boulder 23.261%                   | 
+ | Gardevoir 20.483%                      | 
+ | Farigiraf 19.999%                      | 
+ | Iron Crown 19.101%                     | 
+ | Indeedee 17.569%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Chimecho                               | 
+ +----------------------------------------+ 
+ | Raw count: 59                          | 
+ | Avg. weight: 0.16628986057232198       | 
+ | Viability Ceiling: 63                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Mental Herb 40.710%                    | 
+ | Leftovers 39.997%                      | 
+ | Light Clay 10.733%                     | 
+ | Focus Sash  4.857%                     | 
+ | Other  3.703%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Sassy:104/0/176/0/228/0 40.710%        | 
+ | Calm:252/0/4/0/252/0 33.929%           | 
+ | Modest:252/0/0/252/0/4 10.733%         | 
+ | Modest:0/0/172/152/184/0  5.994%       | 
+ | Bold:252/0/124/0/132/0  4.857%         | 
+ | Other  3.778%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Encore 80.632%                         | 
+ | Healing Wish 79.495%                   | 
+ | Psychic Noise 45.566%                  | 
+ | Trick Room 40.710%                     | 
+ | Heal Bell 38.786%                      | 
+ | Wish 36.926%                           | 
+ | Draining Kiss 12.319%                  | 
+ | Light Screen 12.318%                   | 
+ | Reflect 12.318%                        | 
+ | Grass Knot 10.733%                     | 
+ | Calm Mind  5.995%                      | 
+ | Shadow Ball  5.994%                    | 
+ | Other 18.207%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 41.302%                      | 
+ | Hatterene 38.786%                      | 
+ | Braviary-Hisui 36.132%                 | 
+ | Indeedee 34.634%                       | 
+ | Deoxys-Speed 33.930%                   | 
+ | Necrozma 33.930%                       | 
+ | Cresselia 32.121%                      | 
+ | Gallade 30.537%                        | 
+ | Hoopa-Unbound 30.537%                  | 
+ | Slowbro 30.537%                        | 
+ | Slowking-Galar 17.003%                 | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Gothitelle                             | 
+ +----------------------------------------+ 
+ | Raw count: 52                          | 
+ | Avg. weight: 0.15505389193348573       | 
+ | Viability Ceiling: 58                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Competitive 69.075%                    | 
+ | Frisk 30.925%                          | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Band 25.549%                    | 
+ | Assault Vest 22.040%                   | 
+ | Leftovers 13.802%                      | 
+ | Choice Scarf 13.770%                   | 
+ | Twisted Spoon  9.006%                  | 
+ | Zoom Lens  8.476%                      | 
+ | Choice Specs  7.281%                   | 
+ | Other  0.076%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Modest:242/0/14/252/0/0 25.549%        | 
+ | Modest:248/0/0/252/8/0 22.086%         | 
+ | Modest:0/0/0/252/4/252 13.745%         | 
+ | Modest:228/0/0/252/28/0  9.006%        | 
+ | Bold:4/0/252/0/252/0  8.733%           | 
+ | Hardy:124/28/0/112/76/148  8.476%      | 
+ | Other 12.405%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Psychic 63.976%                        | 
+ | Thunderbolt 60.872%                    | 
+ | Dark Pulse 49.508%                     | 
+ | Trick 46.529%                          | 
+ | Shadow Ball 35.731%                    | 
+ | Nasty Plot 34.329%                     | 
+ | Hypnosis 31.406%                       | 
+ | Focus Blast 17.255%                    | 
+ | Psyshock 13.745%                       | 
+ | Expanding Force 13.713%                | 
+ | Calm Mind  8.566%                      | 
+ | Thunder Wave  8.552%                   | 
+ | Other 15.817%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Gallade 69.280%                        | 
+ | Metagross 68.653%                      | 
+ | Hatterene 66.646%                      | 
+ | Indeedee 39.915%                       | 
+ | Gardevoir 35.495%                      | 
+ | Slowking-Galar 34.701%                 | 
+ | Farigiraf 22.115%                      | 
+ | Veluza 17.219%                         | 
+ | Reuniclus 16.242%                      | 
+ | Bronzong 16.019%                       | 
+ | Malamar 13.901%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Hypno                                  | 
+ +----------------------------------------+ 
+ | Raw count: 54                          | 
+ | Avg. weight: 0.08333271425533147       | 
+ | Viability Ceiling: 55                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Insomnia 74.404%                       | 
+ | Inner Focus 25.596%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Rocky Helmet 53.501%                   | 
+ | Life Orb 18.099%                       | 
+ | Focus Sash 17.263%                     | 
+ | Leftovers  8.247%                      | 
+ | Other  2.890%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:252/0/252/0/0/4 53.501%          | 
+ | Careful:252/4/0/0/252/0 18.099%        | 
+ | Brave:252/252/0/0/0/0  9.767%          | 
+ | Brave:252/252/0/0/4/0  8.222%          | 
+ | Careful:252/252/0/0/0/0  7.496%        | 
+ | Other  2.915%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Swagger 53.501%                        | 
+ | Reflect 53.501%                        | 
+ | Light Screen 53.501%                   | 
+ | Rest 53.501%                           | 
+ | Encore 35.362%                         | 
+ | Psycho Cut 33.863%                     | 
+ | Thunder Wave 25.596%                   | 
+ | Foul Play 25.596%                      | 
+ | Trick Room 17.989%                     | 
+ | Knock Off  9.812%                      | 
+ | Disable  9.767%                        | 
+ | Drain Punch  8.268%                    | 
+ | Other 19.744%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Mew 53.547%                            | 
+ | Espeon 53.547%                         | 
+ | Jirachi 53.547%                        | 
+ | Articuno-Galar 53.501%                 | 
+ | Meowstic 53.501%                       | 
+ | Slowking 28.465%                       | 
+ | Hoopa 25.596%                          | 
+ | Veluza 25.596%                         | 
+ | Latias 25.596%                         | 
+ | Hatterene 25.596%                      | 
+ | Exeggutor 20.858%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Mesprit                                | 
+ +----------------------------------------+ 
+ | Raw count: 11                          | 
+ | Avg. weight: 0.2745512048747845        | 
+ | Viability Ceiling: 65                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Levitate 100.000%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Assault Vest 93.682%                   | 
+ | Leftovers  6.318%                      | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Timid:0/0/0/252/4/252 99.999%          | 
+ | Other  0.001%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Thunderbolt 93.683%                    | 
+ | Ice Beam 93.682%                       | 
+ | U-turn 93.682%                         | 
+ | Dazzling Gleam 93.682%                 | 
+ | Copycat  6.317%                        | 
+ | Other 18.955%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Meloetta 93.683%                       | 
+ | Hoopa 93.682%                          | 
+ | Azelf 93.682%                          | 
+ | Uxie 93.682%                           | 
+ | Cresselia 93.682%                      | 
+ | Indeedee  6.318%                       | 
+ | Metagross  6.318%                      | 
+ | Metagross  6.318%                      | | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Oranguru                               | 
+ +----------------------------------------+ 
+ | Raw count: 42                          | 
+ | Avg. weight: 0.07590871630437637       | 
+ | Viability Ceiling: 45                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Inner Focus 76.671%                    | 
+ | Telepathy 23.329%                      | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Focus Sash 64.311%                     | 
+ | Air Balloon 23.329%                    | 
+ | Twisted Spoon  7.831%                  | 
+ | Other  4.530%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Calm:0/0/0/0/196/0 64.311%             | 
+ | Quiet:248/8/0/252/0/0 23.329%          | 
+ | Timid:100/0/80/183/80/65  7.831%       | 
+ | Other  4.530%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Endeavor 64.311%                       | 
+ | Pain Split 64.311%                     | 
+ | Chilling Water 64.311%                 | 
+ | Yawn 64.311%                           | 
+ | Brick Break 23.852%                    | 
+ | Energy Ball 23.329%                    | 
+ | Expanding Force 23.329%                | 
+ | Earthquake 23.329%                     | 
+ | Calm Mind 11.815%                      | 
+ | Psychic  8.364%                        | 
+ | Protect  7.854%                        | 
+ | Psychic Terrain  7.831%                | 
+ | Other 13.056%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 87.790%                      | 
+ | Mew 76.056%                            | 
+ | Slowking-Galar 75.975%                 | 
+ | Indeedee 64.392%                       | 
+ | Uxie 64.311%                           | 
+ | Gardevoir 23.479%                      | 
+ | Gallade 11.745%                        | 
+ | Exeggutor  7.831%                      | 
+ | Slowbro  7.831%                        | 
+ | Espeon  7.831%                         | 
+ | Armarouge  4.065%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Gothorita                              | 
+ +----------------------------------------+ 
+ | Raw count: 4                           | 
+ | Avg. weight: 0.4162884796612105        | 
+ | Viability Ceiling: 49                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Frisk 77.612%                          | 
+ | Competitive 22.388%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Heavy-Duty Boots 100.000%              | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Calm:252/0/0/4/252/0 100.000%          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Expanding Force 100.000%               | 
+ | Mirror Coat 100.000%                   | 
+ | Light Screen 100.000%                  | 
+ | Thunder Wave 100.000%                  | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Deoxys-Defense 100.000%                | 
+ | Hoopa-Unbound 100.000%                 | 
+ | Indeedee 100.000%                      | 
+ | Slowking-Galar 100.000%                | 
+ | Iron Boulder 100.000%                  | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Cosmoem                                | 
+ +----------------------------------------+ 
+ | Raw count: 16                          | 
+ | Avg. weight: 0.09761194043192296       | 
+ | Viability Ceiling: 51                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Sturdy 100.000%                        | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Eviolite 100.000%                      | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Bold:252/0/252/0/4/0 64.560%           | 
+ | Relaxed:4/0/252/0/252/0 35.440%        | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Teleport 100.000%                      | 
+ | Cosmic Power 100.000%                  | 
+ | Splash 100.000%                        | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Farigiraf 62.632%                      | 
+ | Girafarig 62.632%                      | 
+ | Medicham 62.632%                       | 
+ | Mew 62.632%                            | 
+ | Iron Leaves 62.632%                    | 
+ | Indeedee-F 35.440%                     | 
+ | Armarouge 35.440%                      | 
+ | Iron Crown 35.440%                     | 
+ | Azelf 35.440%                          | 
+ | Metagross 35.440%                      | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Grumpig                                | 
+ +----------------------------------------+ 
+ | Raw count: 20                          | 
+ | Avg. weight: 0.06721514803739403       | 
+ | Viability Ceiling: 40                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Thick Fat 100.000%                     | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Light Clay 89.847%                     | 
+ | Nothing  9.604%                        | 
+ | Other  0.550%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Calm:252/0/4/0/252/0 89.847%           | 
+ | Mild:0/0/0/252/252/4  9.604%           | 
+ | Other  0.550%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Psychic 100.000%                       | 
+ | Reflect 89.847%                        | 
+ | Light Screen 89.847%                   | 
+ | Mirror Coat 89.847%                    | 
+ | Flash Cannon 10.140%                   | 
+ | Dazzling Gleam  9.604%                 | 
+ | Other 10.716%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Metagross 84.722%                      | 
+ | Gallade 84.489%                        | 
+ | Deoxys-Speed 84.489%                   | 
+ | Farigiraf 84.489%                      | 
+ | Latias 84.489%                         | 
+ | Bronzong  9.906%                       | 
+ | Slowking  9.604%                       | 
+ | Hypno  9.604%                          | 
+ | Exeggutor  9.604%                      | 
+ | Delphox  9.604%                        | 
+ | Bruxish  0.550%                        | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Girafarig                              | 
+ +----------------------------------------+ 
+ | Raw count: 15                          | 
+ | Avg. weight: 0.067219305807854         | 
+ | Viability Ceiling: 44                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Early Bird 100.000%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Eviolite 100.000%                      | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Modest:4/0/252/0/252/0 100.000%        | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Rest 100.000%                          | 
+ | Calm Mind 100.000%                     | 
+ | Reflect 100.000%                       | 
+ | Hyper Voice 100.000%                   | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Farigiraf 97.014%                      | 
+ | Cosmoem 97.014%                        | 
+ | Medicham 97.014%                       | 
+ | Mew 97.014%                            | 
+ | Iron Leaves 97.014%                    | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Ralts                                  | 
+ +----------------------------------------+ 
+ | Raw count: 10                          | 
+ | Avg. weight: 0.06561764541393544       | 
+ | Viability Ceiling: 43                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Trace 99.986%                          | 
+ | Synchronize  0.014%                    | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Focus Sash 99.986%                     | 
+ | Other  0.014%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Lax:0/36/52/0/0/16 99.986%             | 
+ | Other  0.014%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Destiny Bond 99.986%                   | 
+ | Protect 99.986%                        | 
+ | Trick 99.986%                          | 
+ | Metronome 74.576%                      | 
+ | Alluring Voice 25.410%                 | 
+ | Other  0.057%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Hatenna 99.995%                        | 
+ | Flittle 99.995%                        | 
+ | Drowzee 99.986%                        | 
+ | Bruxish 99.986%                        | 
+ | Raichu-Alola 99.986%                   | 
+ | Raichu-Alola 99.986%                   | | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Hatenna                                | 
+ +----------------------------------------+ 
+ | Raw count: 10                          | 
+ | Avg. weight: 0.06561764541393544       | 
+ | Viability Ceiling: 43                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Magic Bounce 99.986%                   | 
+ | Healer  0.014%                         | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Band 74.576%                    | 
+ | Choice Scarf 25.424%                   | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Quiet:0/188/92/152/0/76 99.986%        | 
+ | Other  0.014%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Future Sight 99.986%                   | 
+ | Thunder Wave 99.986%                   | 
+ | Nuzzle 99.986%                         | 
+ | Substitute 99.986%                     | 
+ | Other  0.057%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Ralts 99.995%                          | 
+ | Flittle 99.995%                        | 
+ | Drowzee 99.986%                        | 
+ | Bruxish 99.986%                        | 
+ | Raichu-Alola 99.986%                   | 
+ | Raichu-Alola 99.986%                   | | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Flittle                                | 
+ +----------------------------------------+ 
+ | Raw count: 10                          | 
+ | Avg. weight: 0.06561764541393544       | 
+ | Viability Ceiling: 43                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Frisk 99.986%                          | 
+ | Anticipation  0.014%                   | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Rocky Helmet 99.986%                   | 
+ | Other  0.014%                          | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Naughty:0/116/132/36/224/0 99.986%     | 
+ | Other  0.014%                          | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Zen Headbutt 99.986%                   | 
+ | Confusion 99.986%                      | 
+ | U-turn 99.986%                         | 
+ | Roost 99.986%                          | 
+ | Other  0.057%                          | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Ralts 99.995%                          | 
+ | Hatenna 99.995%                        | 
+ | Drowzee 99.986%                        | 
+ | Bruxish 99.986%                        | 
+ | Raichu-Alola 99.986%                   | 
+ | Raichu-Alola 99.986%                   | | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 
+ +----------------------------------------+ 
+ | Drowzee                                | 
+ +----------------------------------------+ 
+ | Raw count: 5                           | 
+ | Avg. weight: 0.13121652085363716       | 
+ | Viability Ceiling: 43                  | 
+ +----------------------------------------+ 
+ | Abilities                              | 
+ | Inner Focus 88.019%                    | 
+ | Forewarn 11.981%                       | 
+ +----------------------------------------+ 
+ | Items                                  | 
+ | Choice Scarf 74.586%                   | 
+ | Eviolite 25.414%                       | 
+ +----------------------------------------+ 
+ | Spreads                                | 
+ | Quiet:20/32/32/52/0/40 100.000%        | 
+ +----------------------------------------+ 
+ | Moves                                  | 
+ | Disable 100.000%                       | 
+ | Calm Mind 100.000%                     | 
+ | Thief 100.000%                         | 
+ | Poison Gas 100.000%                    | 
+ +----------------------------------------+ 
+ | Tera Types                             | 
+ | Nothing 100.000%                       | 
+ +----------------------------------------+ 
+ | Teammates                              | 
+ | Ralts 100.000%                         | 
+ | Bruxish 100.000%                       | 
+ | Flittle 100.000%                       | 
+ | Raichu-Alola 100.000%                  | 
+ | Hatenna 100.000%                       | 
+ +----------------------------------------+ 
+ | Checks and Counters                    | 
+ +----------------------------------------+ 

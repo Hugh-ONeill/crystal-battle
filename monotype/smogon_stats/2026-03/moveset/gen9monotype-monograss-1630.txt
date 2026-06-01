@@ -1,0 +1,2727 @@
++----------------------------------------+
+| Meowscarada                            |
++----------------------------------------+
+| Raw count: 10515                       |
+| Avg. weight: 0.15890424356454202       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Protean 84.999%                        |
+| Overgrow 15.001%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 76.380%                   |
+| Focus Sash 14.725%                     |
+| Choice Band 6.993%                     |
+| Other 1.901%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 69.427%          |
+| Adamant:0/252/0/0/4/252 15.145%        |
+| Hasty:0/252/0/4/0/252 9.665%           |
+| Jolly:4/252/0/0/0/252 1.303%           |
+| Other 4.461%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 97.738%                      |
+| Triple Axel 88.776%                    |
+| Flower Trick 66.839%                   |
+| U-turn 57.766%                         |
+| Play Rough 42.973%                     |
+| Sucker Punch 16.025%                   |
+| Power Gem 11.194%                      |
+| Other 18.688%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 85.518%            |
+| Sinistcha 60.705%                      |
+| Brambleghast 57.895%                   |
+| Amoonguss 53.956%                      |
+| Breloom 37.413%                        |
+| Whimsicott 30.559%                     |
+| Rillaboom 27.952%                      |
+| Torterra 27.876%                       |
+| Hydrapple 16.018%                      |
+| Lilligant-Hisui 12.912%                |
++----------------------------------------+
++----------------------------------------+
+| Ogerpon-Hearthflame                    |
++----------------------------------------+
+| Raw count: 8125                        |
+| Avg. weight: 0.1952041560953532        |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Mold Breaker 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Hearthflame Mask 100.000%              |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 79.536%          |
+| Jolly:152/96/4/0/4/252 14.755%         |
+| Jolly:4/252/0/0/0/252 2.733%           |
+| Other 2.976%                           |
++----------------------------------------+
+| Moves                                  |
+| Ivy Cudgel 99.999%                     |
+| Swords Dance 94.540%                   |
+| Horn Leech 44.159%                     |
+| Play Rough 35.331%                     |
+| Rock Tomb 21.271%                      |
+| Power Whip 20.966%                     |
+| Trailblaze 16.934%                     |
+| Substitute 16.737%                     |
+| Superpower 15.992%                     |
+| Knock Off 14.202%                      |
+| Other 19.870%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 90.019%                    |
+| Brambleghast 62.193%                   |
+| Sinistcha 58.315%                      |
+| Amoonguss 55.763%                      |
+| Breloom 38.228%                        |
+| Torterra 31.395%                       |
+| Whimsicott 31.363%                     |
+| Rillaboom 25.035%                      |
+| Hydrapple 15.874%                      |
+| Lilligant-Hisui 14.035%                |
++----------------------------------------+
++----------------------------------------+
+| Sinistcha                              |
++----------------------------------------+
+| Raw count: 6023                        |
+| Avg. weight: 0.1819922359770032        |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Heatproof 99.765%                      |
+| Hospitality 0.235%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 68.868%                      |
+| Grassy Seed 10.905%                    |
+| Rocky Helmet 8.208%                    |
+| Heavy-Duty Boots 6.290%                |
+| Kasib Berry 3.721%                     |
+| Other 2.009%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/160/0/0/96 37.407%          |
+| Calm:252/0/0/0/24/232 10.573%          |
+| Bold:252/0/252/0/4/0 10.209%           |
+| Modest:252/0/52/112/92/0 8.209%        |
+| Bold:252/0/156/0/0/100 7.021%          |
+| Bold:252/0/160/0/96/0 5.635%           |
+| Other 20.945%                          |
++----------------------------------------+
+| Moves                                  |
+| Calm Mind 98.850%                      |
+| Strength Sap 90.677%                   |
+| Matcha Gotcha 75.683%                  |
+| Shadow Ball 73.128%                    |
+| Substitute 19.466%                     |
+| Hex 15.058%                            |
+| Stun Spore 14.335%                     |
+| Other 12.803%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 92.536%                    |
+| Ogerpon-Hearthflame 84.448%            |
+| Brambleghast 49.262%                   |
+| Amoonguss 44.851%                      |
+| Whimsicott 40.063%                     |
+| Rillaboom 30.028%                      |
+| Breloom 29.110%                        |
+| Lilligant-Hisui 16.244%                |
+| Hydrapple 12.824%                      |
+| Serperior 11.773%                      |
++----------------------------------------+
++----------------------------------------+
+| Brambleghast                           |
++----------------------------------------+
+| Raw count: 4041                        |
+| Avg. weight: 0.27244814521496524       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Wind Rider 98.590%                     |
+| Infiltrator 1.410%                     |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 36.125%                     |
+| Heavy-Duty Boots 28.089%               |
+| Choice Band 16.133%                    |
+| Rocky Helmet 8.560%                    |
+| Spell Tag 5.303%                       |
+| Weakness Policy 2.147%                 |
+| Other 3.642%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:252/0/0/0/0/252 21.251%          |
+| Jolly:0/252/0/0/4/252 18.854%          |
+| Jolly:0/252/4/0/0/252 11.115%          |
+| Jolly:0/252/12/0/0/244 8.281%          |
+| Adamant:0/252/0/0/4/252 7.673%         |
+| Jolly:252/0/4/0/0/252 6.904%           |
+| Other 25.922%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 96.640%                     |
+| Poltergeist 91.668%                    |
+| Spikes 66.649%                         |
+| Shadow Sneak 54.099%                   |
+| Strength Sap 42.690%                   |
+| Power Whip 36.339%                     |
+| Other 11.916%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 89.573%            |
+| Meowscarada 87.771%                    |
+| Amoonguss 63.633%                      |
+| Sinistcha 48.993%                      |
+| Torterra 40.355%                       |
+| Breloom 34.928%                        |
+| Whimsicott 33.177%                     |
+| Rillaboom 14.081%                      |
+| Hydrapple 13.457%                      |
+| Lilligant-Hisui 10.442%                |
++----------------------------------------+
++----------------------------------------+
+| Amoonguss                              |
++----------------------------------------+
+| Raw count: 4906                        |
+| Avg. weight: 0.204073748265311         |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Regenerator 99.227%                    |
+| Effect Spore 0.773%                    |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 77.205%                   |
+| Eject Pack 13.406%                     |
+| Black Sludge 4.345%                    |
+| Eject Button 2.263%                    |
+| Other 2.782%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:248/0/0/4/252/4 23.423%           |
+| Bold:240/0/252/0/16/0 16.659%          |
+| Calm:240/0/164/0/104/0 15.161%         |
+| Relaxed:252/0/252/0/0/0 8.773%         |
+| Calm:252/0/84/0/172/0 7.917%           |
+| Relaxed:252/0/252/0/4/0 5.036%         |
+| Other 23.030%                          |
++----------------------------------------+
+| Moves                                  |
+| Spore 96.740%                          |
+| Sludge Bomb 91.456%                    |
+| Foul Play 56.127%                      |
+| Synthesis 50.832%                      |
+| Giga Drain 34.099%                     |
+| Clear Smog 27.465%                     |
+| Leaf Storm 13.711%                     |
+| Hex 10.204%                            |
+| Other 19.363%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 90.161%                    |
+| Ogerpon-Hearthflame 88.520%            |
+| Brambleghast 70.137%                   |
+| Sinistcha 49.165%                      |
+| Torterra 39.288%                       |
+| Whimsicott 28.960%                     |
+| Breloom 26.375%                        |
+| Rillaboom 23.991%                      |
+| Hydrapple 14.781%                      |
+| Lilligant-Hisui 11.815%                |
++----------------------------------------+
++----------------------------------------+
+| Breloom                                |
++----------------------------------------+
+| Raw count: 3229                        |
+| Avg. weight: 0.20154367637245274       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Technician 99.082%                     |
+| Poison Heal 0.796%                     |
+| Effect Spore 0.122%                    |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 79.398%                     |
+| Choice Band 12.580%                    |
+| Loaded Dice 5.530%                     |
+| Other 2.491%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/4/0/0/252 36.890%          |
+| Adamant:0/252/0/0/4/252 32.597%        |
+| Adamant:0/252/4/0/0/252 13.305%        |
+| Adamant:252/252/0/0/4/0 6.726%         |
+| Jolly:0/252/0/0/4/252 5.783%           |
+| Other 4.699%                           |
++----------------------------------------+
+| Moves                                  |
+| Mach Punch 99.334%                     |
+| Spore 76.135%                          |
+| Rock Tomb 70.533%                      |
+| Bulldoze 58.901%                       |
+| Bullet Seed 47.030%                    |
+| Swords Dance 27.859%                   |
+| Close Combat 13.748%                   |
+| Other 6.460%                           |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 95.885%                    |
+| Ogerpon-Hearthflame 93.073%            |
+| Brambleghast 59.046%                   |
+| Sinistcha 48.941%                      |
+| Torterra 45.499%                       |
+| Amoonguss 40.451%                      |
+| Rillaboom 23.512%                      |
+| Whimsicott 23.053%                     |
+| Serperior 17.520%                      |
+| Electrode-Hisui 14.574%                |
++----------------------------------------+
++----------------------------------------+
+| Whimsicott                             |
++----------------------------------------+
+| Raw count: 3983                        |
+| Avg. weight: 0.14191164828996278       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 97.640%                      |
+| Infiltrator 2.090%                     |
+| Chlorophyll 0.270%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 33.934%               |
+| Choice Specs 20.706%                   |
+| Leftovers 16.456%                      |
+| Pixie Plate 11.239%                    |
+| Focus Sash 3.746%                      |
+| Lagging Tail 3.674%                    |
+| Rocky Helmet 3.059%                    |
+| Heat Rock 2.860%                       |
+| Other 4.324%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 41.070%          |
+| Timid:48/0/0/252/0/208 17.095%         |
+| Timid:4/0/0/252/0/252 14.683%          |
+| Timid:40/0/0/252/0/216 5.388%          |
+| Timid:0/0/0/252/0/252 4.859%           |
+| Timid:252/0/0/4/0/252 4.328%           |
+| Other 12.578%                          |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 98.801%                      |
+| U-turn 66.909%                         |
+| Tailwind 49.145%                       |
+| Encore 45.321%                         |
+| Switcheroo 23.034%                     |
+| Stun Spore 21.070%                     |
+| Psychic 18.215%                        |
+| Energy Ball 16.288%                    |
+| Memento 14.839%                        |
+| Substitute 13.577%                     |
+| Leech Seed 13.555%                     |
+| Other 19.245%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 90.286%                    |
+| Ogerpon-Hearthflame 88.027%            |
+| Sinistcha 77.648%                      |
+| Brambleghast 64.655%                   |
+| Amoonguss 51.204%                      |
+| Breloom 26.576%                        |
+| Rillaboom 16.442%                      |
+| Serperior 12.653%                      |
+| Hydrapple 11.417%                      |
+| Ogerpon-Cornerstone 6.918%             |
++----------------------------------------+
++----------------------------------------+
+| Rillaboom                              |
++----------------------------------------+
+| Raw count: 7295                        |
+| Avg. weight: 0.07992357098821547       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Grassy Surge 99.707%                   |
+| Overgrow 0.293%                        |
++----------------------------------------+
+| Items                                  |
+| Choice Band 56.321%                    |
+| Terrain Extender 25.641%               |
+| Life Orb 5.887%                        |
+| Assault Vest 4.302%                    |
+| Grassy Seed 2.990%                     |
+| Other 4.859%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 37.501%        |
+| Jolly:0/252/0/0/4/252 19.095%          |
+| Adamant:252/236/0/0/20/0 15.444%       |
+| Adamant:0/252/4/0/0/252 7.952%         |
+| Adamant:4/252/0/0/0/252 3.069%         |
+| Adamant:252/252/0/0/4/0 2.503%         |
+| Other 14.436%                          |
++----------------------------------------+
+| Moves                                  |
+| Grassy Glide 98.977%                   |
+| U-turn 70.146%                         |
+| Wood Hammer 61.130%                    |
+| Knock Off 50.713%                      |
+| High Horsepower 45.244%                |
+| Bulk Up 15.818%                        |
+| Substitute 15.558%                     |
+| Swords Dance 9.790%                    |
+| Low Kick 9.176%                        |
+| Drain Punch 7.691%                     |
+| Other 15.758%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 80.159%                    |
+| Ogerpon-Hearthflame 68.203%            |
+| Sinistcha 56.490%                      |
+| Amoonguss 41.172%                      |
+| Hydrapple 36.366%                      |
+| Brambleghast 26.636%                   |
+| Breloom 26.309%                        |
+| Electrode-Hisui 21.393%                |
+| Ogerpon-Cornerstone 18.592%            |
+| Whimsicott 15.959%                     |
++----------------------------------------+
++----------------------------------------+
+| Torterra                               |
++----------------------------------------+
+| Raw count: 3586                        |
+| Avg. weight: 0.15578629715510306       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Shell Armor 66.213%                    |
+| Overgrow 33.787%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 46.701%                      |
+| Focus Sash 30.302%                     |
+| Loaded Dice 15.021%                    |
+| White Herb 2.513%                      |
+| Rocky Helmet 2.353%                    |
+| Other 3.110%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:248/4/248/0/4/4 41.908%         |
+| Naughty:0/252/0/4/0/252 22.046%        |
+| Adamant:0/252/0/0/4/252 11.671%        |
+| Jolly:0/252/0/0/4/252 10.117%          |
+| Jolly:4/252/0/0/0/252 2.826%           |
+| Adamant:252/252/0/0/4/0 1.989%         |
+| Other 9.444%                           |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 59.861%                   |
+| Earthquake 50.774%                     |
+| Shell Smash 48.275%                    |
+| Synthesis 47.253%                      |
+| Headlong Rush 46.684%                  |
+| Leech Seed 42.638%                     |
+| Heavy Slam 26.712%                     |
+| Leaf Storm 20.562%                     |
+| Rock Blast 19.119%                     |
+| Bullet Seed 15.762%                    |
+| Stone Edge 7.879%                      |
+| Other 14.480%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 89.168%            |
+| Meowscarada 83.340%                    |
+| Brambleghast 79.581%                   |
+| Amoonguss 70.293%                      |
+| Breloom 53.077%                        |
+| Sinistcha 21.087%                      |
+| Rillaboom 14.274%                      |
+| Hydrapple 11.309%                      |
+| Shaymin 11.303%                        |
+| Serperior 9.211%                       |
++----------------------------------------+
++----------------------------------------+
+| Hydrapple                              |
++----------------------------------------+
+| Raw count: 3966                        |
+| Avg. weight: 0.09388348848764048       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Regenerator 98.948%                    |
+| Supersweet Syrup 1.042%                |
+| Sticky Hold 0.010%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 32.280%               |
+| Assault Vest 21.130%                   |
+| Leftovers 13.066%                      |
+| Haban Berry 12.489%                    |
+| Choice Specs 7.843%                    |
+| Eject Pack 4.960%                      |
+| Eject Button 3.398%                    |
+| Other 4.833%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 25.979%         |
+| Bold:208/0/160/0/0/140 20.161%         |
+| Quiet:248/8/0/252/0/0 6.837%           |
+| Modest:252/0/0/252/0/0 5.015%          |
+| Calm:252/0/0/4/252/0 4.442%            |
+| Bold:252/0/252/4/0/0 4.099%            |
+| Other 33.467%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 89.100%                    |
+| Fickle Beam 65.514%                    |
+| Nasty Plot 63.713%                     |
+| Giga Drain 58.324%                     |
+| Draco Meteor 37.213%                   |
+| Substitute 21.491%                     |
+| Leaf Storm 16.684%                     |
+| Hydro Pump 11.418%                     |
+| Dragon Tail 11.159%                    |
+| Energy Ball 5.940%                     |
+| Other 19.446%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 71.966%                    |
+| Ogerpon-Hearthflame 67.755%            |
+| Rillaboom 56.977%                      |
+| Brambleghast 39.882%                   |
+| Amoonguss 39.743%                      |
+| Sinistcha 37.799%                      |
+| Lilligant-Hisui 20.465%                |
+| Ogerpon-Cornerstone 19.319%            |
+| Whimsicott 17.362%                     |
+| Torterra 16.996%                       |
++----------------------------------------+
++----------------------------------------+
+| Lilligant-Hisui                        |
++----------------------------------------+
+| Raw count: 2509                        |
+| Avg. weight: 0.10360219808355556       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Hustle 79.156%                         |
+| Chlorophyll 20.843%                    |
+| Leaf Guard 0.001%                      |
++----------------------------------------+
+| Items                                  |
+| Wide Lens 75.118%                      |
+| Choice Band 6.007%                     |
+| Lum Berry 5.403%                       |
+| Life Orb 4.490%                        |
+| Choice Scarf 3.569%                    |
+| Focus Sash 2.243%                      |
+| Other 3.169%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 79.161%          |
+| Adamant:0/252/0/0/4/252 16.508%        |
+| Other 4.330%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 93.145%                   |
+| Victory Dance 88.636%                  |
+| Ice Spinner 77.982%                    |
+| Sleep Powder 57.659%                   |
+| Leaf Blade 31.065%                     |
+| Triple Axel 19.154%                    |
+| Axe Kick 6.873%                        |
+| Healing Wish 5.457%                    |
+| Solar Blade 4.881%                     |
+| Other 15.148%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 85.583%            |
+| Meowscarada 82.883%                    |
+| Sinistcha 68.404%                      |
+| Amoonguss 45.384%                      |
+| Brambleghast 44.211%                   |
+| Hydrapple 29.237%                      |
+| Abomasnow 20.999%                      |
+| Toedscruel 18.426%                     |
+| Rillaboom 17.653%                      |
+| Whimsicott 13.866%                     |
++----------------------------------------+
++----------------------------------------+
+| Serperior                              |
++----------------------------------------+
+| Raw count: 4216                        |
+| Avg. weight: 0.0515831441366585        |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Contrary 99.784%                       |
+| Overgrow 0.216%                        |
++----------------------------------------+
+| Items                                  |
+| Leftovers 43.196%                      |
+| Wide Lens 28.567%                      |
+| Light Clay 6.479%                      |
+| Heavy-Duty Boots 5.327%                |
+| Choice Scarf 4.852%                    |
+| Focus Sash 4.274%                      |
+| Life Orb 4.103%                        |
+| Other 3.202%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 37.539%          |
+| Timid:4/0/0/252/0/252 34.127%          |
+| Timid:248/0/0/8/0/252 9.988%           |
+| Timid:252/0/0/4/0/252 7.841%           |
+| Timid:0/0/4/252/0/252 2.697%           |
+| Timid:80/0/0/176/0/252 1.860%          |
+| Other 5.948%                           |
++----------------------------------------+
+| Moves                                  |
+| Leaf Storm 99.823%                     |
+| Substitute 75.198%                     |
+| Dragon Pulse 71.055%                   |
+| Glare 59.946%                          |
+| Leech Seed 57.239%                     |
+| Giga Drain 10.571%                     |
+| Light Screen 6.547%                    |
+| Other 19.621%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 80.848%                    |
+| Ogerpon-Hearthflame 76.409%            |
+| Sinistcha 59.388%                      |
+| Breloom 52.566%                        |
+| Rillaboom 34.104%                      |
+| Whimsicott 32.931%                     |
+| Torterra 23.690%                       |
+| Brambleghast 15.243%                   |
+| Hydrapple 14.127%                      |
+| Amoonguss 13.936%                      |
++----------------------------------------+
++----------------------------------------+
+| Ogerpon-Cornerstone                    |
++----------------------------------------+
+| Raw count: 2520                        |
+| Avg. weight: 0.06959848291113306       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Sturdy 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Cornerstone Mask 100.000%              |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 79.586%          |
+| Jolly:4/252/0/0/0/252 17.109%          |
+| Other 3.305%                           |
++----------------------------------------+
+| Moves                                  |
+| Ivy Cudgel 99.996%                     |
+| Swords Dance 81.045%                   |
+| Horn Leech 72.052%                     |
+| Trailblaze 35.158%                     |
+| Superpower 19.347%                     |
+| Play Rough 13.347%                     |
+| U-turn 13.315%                         |
+| Power Whip 11.684%                     |
+| Knock Off 10.410%                      |
+| Taunt 9.507%                           |
+| Low Kick 9.028%                        |
+| Spiky Shield 8.270%                    |
+| Other 16.842%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 75.821%                    |
+| Sinistcha 64.091%                      |
+| Rillaboom 61.948%                      |
+| Hydrapple 41.084%                      |
+| Brambleghast 31.564%                   |
+| Amoonguss 28.332%                      |
+| Whimsicott 22.374%                     |
+| Torterra 19.558%                       |
+| Serperior 14.051%                      |
+| Decidueye-Hisui 13.381%                |
++----------------------------------------+
++----------------------------------------+
+| Electrode-Hisui                        |
++----------------------------------------+
+| Raw count: 1300                        |
+| Avg. weight: 0.12049405056189835       |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Static 81.975%                         |
+| Soundproof 12.728%                     |
+| Aftermath 5.297%                       |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 58.128%                     |
+| Leftovers 19.586%                      |
+| Life Orb 9.823%                        |
+| Choice Specs 7.183%                    |
+| Heavy-Duty Boots 3.036%                |
+| Other 2.244%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 75.401%          |
+| Bold:240/0/252/16/0/0 9.582%           |
+| Timid:248/0/0/8/0/252 5.805%           |
+| Timid:252/0/0/0/4/252 2.416%           |
+| Modest:0/0/0/252/4/252 1.650%          |
+| Modest:0/0/0/252/0/200 1.419%          |
+| Other 3.728%                           |
++----------------------------------------+
+| Moves                                  |
+| Thunderbolt 72.436%                    |
+| Taunt 68.291%                          |
+| Thunder Wave 66.652%                   |
+| Energy Ball 61.649%                    |
+| Volt Switch 22.147%                    |
+| Giga Drain 19.771%                     |
+| Leech Seed 17.390%                     |
+| Substitute 15.397%                     |
+| Discharge 14.308%                      |
+| Chloroblast 12.671%                    |
+| Leaf Storm 11.034%                     |
+| Other 18.256%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 83.079%                    |
+| Rillaboom 79.492%                      |
+| Ogerpon-Hearthflame 77.789%            |
+| Sinistcha 71.238%                      |
+| Breloom 60.595%                        |
+| Hydrapple 17.284%                      |
+| Ogerpon-Cornerstone 14.457%            |
+| Whimsicott 13.349%                     |
+| Brambleghast 12.575%                   |
+| Lilligant-Hisui 10.733%                |
++----------------------------------------+
++----------------------------------------+
+| Arboliva                               |
++----------------------------------------+
+| Raw count: 980                         |
+| Avg. weight: 0.10750790737767314       |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Seed Sower 89.749%                     |
+| Harvest 10.251%                        |
++----------------------------------------+
+| Items                                  |
+| Heat Rock 45.351%                      |
+| Rocky Helmet 14.959%                   |
+| Sitrus Berry 12.047%                   |
+| Light Clay 9.313%                      |
+| Leftovers 4.762%                       |
+| Eject Button 3.455%                    |
+| Eject Pack 3.442%                      |
+| Assault Vest 3.267%                    |
+| Other 3.405%                           |
++----------------------------------------+
+| Spreads                                |
+| Sassy:252/0/0/0/252/0 65.550%          |
+| Calm:248/0/0/8/252/0 14.007%           |
+| Modest:252/0/0/252/0/4 3.442%          |
+| Bold:248/0/252/0/8/0 3.432%            |
+| Modest:248/0/0/252/8/0 2.843%          |
+| Modest:252/0/0/252/4/0 2.583%          |
+| Other 8.144%                           |
++----------------------------------------+
+| Moves                                  |
+| Encore 80.677%                         |
+| Mirror Coat 76.931%                    |
+| Sunny Day 46.467%                      |
+| Giga Drain 39.709%                     |
+| Earth Power 30.365%                    |
+| Memento 25.827%                        |
+| Strength Sap 17.483%                   |
+| Alluring Voice 14.004%                 |
+| Weather Ball 12.835%                   |
+| Hyper Voice 11.487%                    |
+| Leech Seed 11.017%                     |
+| Reflect 9.332%                         |
+| Light Screen 9.315%                    |
+| Other 14.549%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 88.377%            |
+| Meowscarada 77.838%                    |
+| Sinistcha 71.291%                      |
+| Brambleghast 48.491%                   |
+| Venusaur 45.887%                       |
+| Amoonguss 34.358%                      |
+| Torterra 17.850%                       |
+| Iron Leaves 15.376%                    |
+| Hydrapple 14.476%                      |
+| Rillaboom 11.307%                      |
++----------------------------------------+
++----------------------------------------+
+| Abomasnow                              |
++----------------------------------------+
+| Raw count: 597                         |
+| Avg. weight: 0.16553497443659282       |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Snow Warning 99.609%                   |
+| Soundproof 0.391%                      |
++----------------------------------------+
+| Items                                  |
+| Light Clay 80.537%                     |
+| Heavy-Duty Boots 9.550%                |
+| Choice Specs 6.005%                    |
+| Other 3.908%                           |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:248/0/252/0/8/0 34.224%        |
+| Sassy:248/0/20/0/236/0 33.513%         |
+| Sassy:248/0/8/0/252/0 7.388%           |
+| Modest:248/0/0/252/8/0 6.732%          |
+| Modest:252/20/0/72/0/164 5.719%        |
+| Jolly:0/252/0/0/0/252 3.200%           |
+| Other 9.222%                           |
++----------------------------------------+
+| Moves                                  |
+| Blizzard 93.479%                       |
+| Aurora Veil 92.952%                    |
+| Ice Shard 87.548%                      |
+| Earthquake 37.084%                     |
+| Body Press 28.128%                     |
+| Giga Drain 14.747%                     |
+| Leech Seed 14.353%                     |
+| Earth Power 8.375%                     |
+| Focus Blast 5.999%                     |
+| Other 17.335%                          |
++----------------------------------------+
+| Teammates                              |
+| Sinistcha 89.330%                      |
+| Ogerpon-Hearthflame 87.711%            |
+| Meowscarada 65.027%                    |
+| Lilligant-Hisui 55.211%                |
+| Hydrapple 31.063%                      |
+| Serperior 27.376%                      |
+| Torterra 25.407%                       |
+| Toedscruel 22.466%                     |
+| Brambleghast 20.595%                   |
+| Rillaboom 13.430%                      |
++----------------------------------------+
++----------------------------------------+
+| Toedscruel                             |
++----------------------------------------+
+| Raw count: 475                         |
+| Avg. weight: 0.18221448383367364       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Mycelium Might 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 39.451%               |
+| Assault Vest 23.430%                   |
+| Rocky Helmet 10.491%                   |
+| Focus Sash 9.851%                      |
+| Leftovers 8.993%                       |
+| Choice Specs 4.298%                    |
+| Other 3.487%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/4/252/252 25.335%          |
+| Mild:252/4/0/252/0/0 17.365%           |
+| Timid:0/0/0/252/4/252 12.283%          |
+| Timid:180/0/64/12/0/252 10.899%        |
+| Hasty:0/4/0/252/0/252 9.808%           |
+| Calm:252/0/0/4/252/0 5.857%            |
+| Other 18.454%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 95.642%                     |
+| Earth Power 92.959%                    |
+| Spore 44.290%                          |
+| Giga Drain 36.394%                     |
+| Pain Split 30.051%                     |
+| Knock Off 24.945%                      |
+| Spikes 17.864%                         |
+| Toxic Spikes 11.678%                   |
+| Leaf Storm 10.023%                     |
+| Acid Spray 8.742%                      |
+| Leech Seed 7.551%                      |
+| Other 19.861%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 75.002%                    |
+| Sinistcha 69.765%                      |
+| Ogerpon-Hearthflame 68.343%            |
+| Lilligant-Hisui 55.431%                |
+| Rillaboom 30.595%                      |
+| Abomasnow 25.706%                      |
+| Ogerpon-Cornerstone 20.572%            |
+| Whimsicott 19.830%                     |
+| Amoonguss 18.737%                      |
+| Electrode-Hisui 17.140%                |
++----------------------------------------+
++----------------------------------------+
+| Shaymin                                |
++----------------------------------------+
+| Raw count: 209                         |
+| Avg. weight: 0.3927025319174362        |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Natural Cure 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 71.377%                     |
+| Rocky Helmet 11.099%                   |
+| Choice Specs 9.747%                    |
+| Heat Rock 6.694%                       |
+| Other 1.083%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/0/252 59.811%          |
+| Timid:0/0/0/252/4/252 30.509%          |
+| Timid:252/0/0/0/0/252 8.600%           |
+| Other 1.079%                           |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 99.999%                    |
+| Seed Flare 92.605%                     |
+| Tailwind 89.182%                       |
+| Healing Wish 89.167%                   |
+| Psychic 10.813%                        |
+| Other 18.235%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 98.391%                    |
+| Brambleghast 97.325%                   |
+| Ogerpon-Hearthflame 88.647%            |
+| Amoonguss 81.948%                      |
+| Torterra 76.827%                       |
+| Sinistcha 20.501%                      |
+| Ogerpon-Cornerstone 9.748%             |
+| Leavanny 9.747%                        |
++----------------------------------------+
++----------------------------------------+
+| Venusaur                               |
++----------------------------------------+
+| Raw count: 1728                        |
+| Avg. weight: 0.043971777057552786      |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 88.428%                    |
+| Overgrow 11.572%                       |
++----------------------------------------+
+| Items                                  |
+| Black Sludge 72.826%                   |
+| Life Orb 9.750%                        |
+| Rocky Helmet 8.381%                    |
+| Leftovers 3.778%                       |
+| Heat Rock 3.217%                       |
+| Other 2.048%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 74.310%          |
+| Modest:0/0/0/252/4/252 10.416%         |
+| Adamant:252/0/120/96/20/20 2.922%      |
+| Lonely:0/252/0/4/0/252 2.657%          |
+| Timid:0/0/4/252/0/252 2.329%           |
+| Calm:252/0/0/4/252/0 0.803%            |
+| Other 6.561%                           |
++----------------------------------------+
+| Moves                                  |
+| Weather Ball 86.926%                   |
+| Earth Power 85.460%                    |
+| Growth 80.791%                         |
+| Sleep Powder 74.479%                   |
+| Sludge Bomb 17.949%                    |
+| Giga Drain 13.037%                     |
+| Synthesis 7.397%                       |
+| Sunny Day 6.611%                       |
+| Leaf Storm 4.670%                      |
+| Earthquake 4.438%                      |
+| Other 18.241%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 84.932%                    |
+| Ogerpon-Hearthflame 80.369%            |
+| Brambleghast 66.557%                   |
+| Arboliva 63.627%                       |
+| Sinistcha 61.034%                      |
+| Torterra 19.345%                       |
+| Rillaboom 16.103%                      |
+| Whimsicott 13.980%                     |
+| Ogerpon-Cornerstone 8.107%             |
+| Shaymin 7.231%                         |
++----------------------------------------+
++----------------------------------------+
+| Rotom-Mow                              |
++----------------------------------------+
+| Raw count: 806                         |
+| Avg. weight: 0.09226229099378347       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Life Orb 34.452%                       |
+| Choice Scarf 31.963%                   |
+| Leftovers 18.144%                      |
+| Rocky Helmet 7.192%                    |
+| Choice Specs 4.780%                    |
+| Other 3.469%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 62.406%          |
+| Bold:252/0/252/0/0/4 7.192%            |
+| Timid:4/0/0/252/0/252 7.179%           |
+| Timid:248/0/0/8/0/252 4.201%           |
+| Calm:248/0/8/0/252/0 3.206%            |
+| Calm:248/0/0/8/252/0 2.843%            |
+| Other 12.972%                          |
++----------------------------------------+
+| Moves                                  |
+| Leaf Storm 90.434%                     |
+| Volt Switch 88.210%                    |
+| Will-O-Wisp 65.447%                    |
+| Thunderbolt 62.344%                    |
+| Trick 35.690%                          |
+| Discharge 13.417%                      |
+| Pain Split 9.599%                      |
+| Substitute 8.231%                      |
+| Thunder Wave 7.864%                    |
+| Other 18.765%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 78.987%                    |
+| Ogerpon-Hearthflame 68.922%            |
+| Sinistcha 38.676%                      |
+| Brambleghast 38.091%                   |
+| Leavanny 37.824%                       |
+| Rillaboom 36.492%                      |
+| Hydrapple 36.055%                      |
+| Breloom 30.923%                        |
+| Amoonguss 23.579%                      |
+| Torterra 18.717%                       |
++----------------------------------------+
++----------------------------------------+
+| Leavanny                               |
++----------------------------------------+
+| Raw count: 981                         |
+| Avg. weight: 0.06780941586726331       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Swarm 78.191%                          |
+| Overcoat 16.024%                       |
+| Chlorophyll 5.785%                     |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 79.334%                     |
+| Eject Pack 8.474%                      |
+| Choice Band 5.523%                     |
+| Eject Button 4.755%                    |
+| Other 1.915%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:160/84/0/0/12/252 39.134%        |
+| Jolly:0/252/0/0/4/252 22.197%          |
+| Jolly:252/4/0/0/0/252 15.428%          |
+| Adamant:0/252/0/0/4/252 8.443%         |
+| Timid:252/0/0/0/4/252 8.194%           |
+| Jolly:0/252/4/0/0/252 4.649%           |
+| Other 1.955%                           |
++----------------------------------------+
+| Moves                                  |
+| Sticky Web 93.850%                     |
+| Lunge 69.586%                          |
+| Triple Axel 56.679%                    |
+| Light Screen 52.300%                   |
+| Knock Off 38.310%                      |
+| Leaf Blade 15.788%                     |
+| Reflect 15.448%                        |
+| Fell Stinger 10.923%                   |
+| Leaf Storm 8.828%                      |
+| Bug Buzz 8.204%                        |
+| Pounce 5.630%                          |
+| Low Kick 5.406%                        |
+| Other 19.049%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 87.653%                    |
+| Ogerpon-Hearthflame 66.229%            |
+| Brambleghast 54.718%                   |
+| Rotom-Mow 42.126%                      |
+| Breloom 37.018%                        |
+| Torterra 34.582%                       |
+| Sinistcha 30.969%                      |
+| Rillaboom 28.929%                      |
+| Ogerpon-Cornerstone 23.480%            |
+| Lilligant-Hisui 12.263%                |
++----------------------------------------+
++----------------------------------------+
+| Chesnaught                             |
++----------------------------------------+
+| Raw count: 956                         |
+| Avg. weight: 0.052909210654862655      |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Bulletproof 85.718%                    |
+| Overgrow 14.282%                       |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 42.327%                   |
+| Sitrus Berry 30.246%                   |
+| Leftovers 24.854%                      |
+| Other 2.573%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:28/252/0/0/0/228 14.254%       |
+| Adamant:252/252/0/0/4/0 14.107%        |
+| Impish:252/4/252/0/0/0 13.948%         |
+| Impish:252/0/188/0/0/68 13.839%        |
+| Bold:252/0/252/0/4/0 11.131%           |
+| Careful:252/4/0/0/252/0 7.183%         |
+| Other 25.539%                          |
++----------------------------------------+
+| Moves                                  |
+| Body Press 58.277%                     |
+| Spikes 57.376%                         |
+| Knock Off 54.754%                      |
+| Drain Punch 39.858%                    |
+| Belly Drum 32.949%                     |
+| Grassy Glide 32.397%                   |
+| Synthesis 31.523%                      |
+| Leech Seed 30.944%                     |
+| Iron Defense 17.995%                   |
+| Spiky Shield 17.647%                   |
+| Super Fang 6.658%                      |
+| Other 19.623%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 92.882%                    |
+| Rillaboom 61.742%                      |
+| Ogerpon-Hearthflame 52.347%            |
+| Sinistcha 50.511%                      |
+| Ogerpon-Cornerstone 35.945%            |
+| Hydrapple 24.269%                      |
+| Brambleghast 24.267%                   |
+| Amoonguss 23.802%                      |
+| Whimsicott 17.090%                     |
+| Serperior 16.016%                      |
++----------------------------------------+
++----------------------------------------+
+| Decidueye-Hisui                        |
++----------------------------------------+
+| Raw count: 382                         |
+| Avg. weight: 0.09459126090984728       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Scrappy 99.194%                        |
+| Overgrow 0.806%                        |
++----------------------------------------+
+| Items                                  |
+| Black Belt 57.405%                     |
+| Heavy-Duty Boots 29.466%               |
+| Leftovers 4.195%                       |
+| Choice Scarf 2.974%                    |
+| Choice Band 2.866%                     |
+| Other 3.095%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 58.754%          |
+| Adamant:252/252/0/0/4/0 20.630%        |
+| Careful:252/4/0/0/252/0 12.563%        |
+| Jolly:72/252/0/0/4/180 2.762%          |
+| Brave:252/252/0/4/0/0 2.303%           |
+| Other 2.988%                           |
++----------------------------------------+
+| Moves                                  |
+| Triple Arrows 69.674%                  |
+| Trailblaze 59.740%                     |
+| Sucker Punch 58.576%                   |
+| Swords Dance 58.357%                   |
+| Brave Bird 34.166%                     |
+| Defog 33.930%                          |
+| Close Combat 30.408%                   |
+| Roost 23.418%                          |
+| U-turn 16.393%                         |
+| Other 15.336%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 88.750%                    |
+| Sinistcha 70.992%                      |
+| Ogerpon-Cornerstone 64.642%            |
+| Brambleghast 62.561%                   |
+| Whimsicott 58.292%                     |
+| Rillaboom 34.139%                      |
+| Ogerpon-Hearthflame 30.005%            |
+| Serperior 26.006%                      |
+| Amoonguss 24.510%                      |
+| Wo-Chien 9.547%                        |
++----------------------------------------+
++----------------------------------------+
+| Iron Leaves                            |
++----------------------------------------+
+| Raw count: 1000                        |
+| Avg. weight: 0.036151124018746914      |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Leftovers 42.334%                      |
+| Life Orb 32.371%                       |
+| Expert Belt 8.856%                     |
+| Assault Vest 6.234%                    |
+| Choice Scarf 5.800%                    |
+| Other 4.406%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 68.494%          |
+| Timid:4/252/0/0/0/252 20.022%          |
+| Adamant:4/252/0/0/0/252 2.696%         |
+| Adamant:0/252/0/0/4/252 2.609%         |
+| Careful:252/4/0/0/252/0 2.481%         |
+| Other 3.698%                           |
++----------------------------------------+
+| Moves                                  |
+| Psyblade 99.968%                       |
+| Swords Dance 81.040%                   |
+| Sacred Sword 53.719%                   |
+| Taunt 41.456%                          |
+| Leaf Blade 40.968%                     |
+| X-Scissor 28.458%                      |
+| Close Combat 24.949%                   |
+| Wild Charge 11.579%                    |
+| Other 17.862%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 88.983%                    |
+| Ogerpon-Hearthflame 79.822%            |
+| Sinistcha 55.724%                      |
+| Amoonguss 54.768%                      |
+| Arboliva 44.811%                       |
+| Serperior 26.391%                      |
+| Breloom 24.792%                        |
+| Rillaboom 22.895%                      |
+| Torterra 22.684%                       |
+| Hydrapple 16.100%                      |
++----------------------------------------+
++----------------------------------------+
+| Ogerpon-Wellspring                     |
++----------------------------------------+
+| Raw count: 1329                        |
+| Avg. weight: 0.023332361294043025      |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Wellspring Mask 100.000%               |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 59.106%          |
+| Jolly:4/252/0/0/0/252 13.385%          |
+| Jolly:0/252/4/0/0/252 7.016%           |
+| Adamant:248/252/0/0/8/0 6.578%         |
+| Jolly:252/4/0/0/0/252 4.200%           |
+| Adamant:0/252/0/0/36/160 2.174%        |
+| Other 7.541%                           |
++----------------------------------------+
+| Moves                                  |
+| Ivy Cudgel 99.847%                     |
+| Horn Leech 73.148%                     |
+| Swords Dance 70.665%                   |
+| Play Rough 34.606%                     |
+| U-turn 24.732%                         |
+| Stomping Tantrum 20.629%               |
+| Knock Off 15.246%                      |
+| Power Whip 10.481%                     |
+| Substitute 9.676%                      |
+| Synthesis 7.447%                       |
+| Spikes 5.894%                          |
+| Low Kick 5.620%                        |
+| Encore 5.148%                          |
+| Other 16.861%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 73.556%                    |
+| Rillaboom 67.514%                      |
+| Hydrapple 49.278%                      |
+| Sinistcha 42.611%                      |
+| Amoonguss 39.215%                      |
+| Electrode-Hisui 24.179%                |
+| Serperior 23.126%                      |
+| Torterra 15.459%                       |
+| Iron Leaves 14.036%                    |
+| Zarude 12.514%                         |
++----------------------------------------+
++----------------------------------------+
+| Wo-Chien                               |
++----------------------------------------+
+| Raw count: 697                         |
+| Avg. weight: 0.04049688638535219       |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Tablets of Ruin 100.000%               |
++----------------------------------------+
+| Items                                  |
+| Leftovers 82.722%                      |
+| Rocky Helmet 9.225%                    |
+| Eject Pack 4.758%                      |
+| Other 3.295%                           |
++----------------------------------------+
+| Spreads                                |
+| Sassy:252/4/0/0/252/0 20.874%          |
+| Bold:252/0/252/0/0/0 20.008%           |
+| Sassy:252/0/244/0/12/0 15.983%         |
+| Careful:248/0/8/0/252/0 10.659%        |
+| Calm:252/0/0/4/252/0 10.294%           |
+| Careful:252/4/0/0/252/0 7.131%         |
+| Other 15.052%                          |
++----------------------------------------+
+| Moves                                  |
+| Leech Seed 78.133%                     |
+| Knock Off 63.957%                      |
+| Ruination 58.659%                      |
+| Protect 44.835%                        |
+| Stun Spore 32.912%                     |
+| Substitute 29.863%                     |
+| Foul Play 23.232%                      |
+| Sunny Day 22.295%                      |
+| Body Press 18.183%                     |
+| Giga Drain 5.676%                      |
+| Leaf Storm 4.758%                      |
+| Other 17.497%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 52.923%                    |
+| Ogerpon-Hearthflame 52.765%            |
+| Rillaboom 47.890%                      |
+| Sinistcha 40.009%                      |
+| Ogerpon-Cornerstone 33.820%            |
+| Hydrapple 32.229%                      |
+| Chesnaught 22.677%                     |
+| Lilligant-Hisui 22.209%                |
+| Venusaur 18.174%                       |
+| Sceptile 17.112%                       |
++----------------------------------------+
++----------------------------------------+
+| Shiftry                                |
++----------------------------------------+
+| Raw count: 195                         |
+| Avg. weight: 0.13581395905694896       |
+| Viability Ceiling: 76                  |
++----------------------------------------+
+| Abilities                              |
+| Wind Rider 98.713%                     |
+| Chlorophyll 1.287%                     |
+| Pickpocket 0.000%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 56.292%                     |
+| Rocky Helmet 28.060%                   |
+| Choice Specs 9.407%                    |
+| Black Glasses 2.910%                   |
+| Other 3.331%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/0/0/0/252 37.914%        |
+| Hasty:0/252/0/4/0/252 28.060%          |
+| Jolly:0/252/0/0/4/252 18.489%          |
+| Timid:0/0/0/252/4/252 9.407%           |
+| Adamant:0/252/0/0/4/252 4.567%         |
+| Other 1.562%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 56.601%                      |
+| Tailwind 56.306%                       |
+| Explosion 52.988%                      |
+| Defog 42.263%                          |
+| Leaf Blade 39.098%                     |
+| Heat Wave 38.755%                      |
+| Sucker Punch 36.223%                   |
+| Rock Slide 35.686%                     |
+| Dark Pulse 10.694%                     |
+| Vacuum Wave 9.407%                     |
+| Endeavor 7.500%                        |
+| Other 14.480%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 93.722%                    |
+| Ogerpon-Hearthflame 86.530%            |
+| Brambleghast 56.835%                   |
+| Amoonguss 50.263%                      |
+| Torterra 49.443%                       |
+| Hydrapple 46.113%                      |
+| Sinistcha 40.828%                      |
+| Whimsicott 39.246%                     |
+| Lilligant-Hisui 11.697%                |
+| Ogerpon 7.500%                         |
++----------------------------------------+
++----------------------------------------+
+| Brute Bonnet                           |
++----------------------------------------+
+| Raw count: 489                         |
+| Avg. weight: 0.0540803983910927        |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Life Orb 39.659%                       |
+| Coba Berry 30.549%                     |
+| Heavy-Duty Boots 25.400%               |
+| Other 4.392%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 40.729%        |
+| Adamant:32/252/0/0/4/220 31.344%       |
+| Adamant:88/252/0/0/0/168 14.644%       |
+| Hardy:88/252/0/0/0/168 10.756%         |
+| Other 2.527%                           |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 99.415%                   |
+| Close Combat 84.491%                   |
+| Seed Bomb 66.488%                      |
+| Zen Headbutt 39.720%                   |
+| Crunch 33.245%                         |
+| Spore 32.400%                          |
+| Sunny Day 27.270%                      |
+| Other 16.971%                          |
++----------------------------------------+
+| Teammates                              |
+| Serperior 65.205%                      |
+| Ogerpon-Cornerstone 57.823%            |
+| Meowscarada 41.734%                    |
+| Rillaboom 40.232%                      |
+| Breloom 39.726%                        |
+| Ogerpon-Hearthflame 39.711%            |
+| Hydrapple 30.802%                      |
+| Whimsicott 30.598%                     |
+| Lilligant-Hisui 30.362%                |
+| Scovillain 30.214%                     |
++----------------------------------------+
++----------------------------------------+
+| Zarude                                 |
++----------------------------------------+
+| Raw count: 642                         |
+| Avg. weight: 0.028885922370982423      |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Leaf Guard 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 24.848%                      |
+| Choice Band 24.167%                    |
+| Life Orb 22.618%                       |
+| Choice Scarf 13.326%                   |
+| Black Glasses 8.045%                   |
+| Assault Vest 5.420%                    |
+| Other 1.576%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 37.613%          |
+| Jolly:4/252/0/0/0/252 23.482%          |
+| Adamant:4/252/0/0/0/252 20.783%        |
+| Adamant:252/252/0/0/4/0 11.052%        |
+| Adamant:0/252/0/0/4/252 3.177%         |
+| Other 3.893%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 78.716%                      |
+| U-turn 59.684%                         |
+| Power Whip 55.708%                     |
+| Close Combat 53.592%                   |
+| Drain Punch 33.867%                    |
+| Bulk Up 24.180%                        |
+| Grassy Glide 23.111%                   |
+| Crunch 19.790%                         |
+| Swords Dance 10.741%                   |
+| Rock Slide 9.910%                      |
+| Petal Blizzard 8.127%                  |
+| Jungle Healing 7.071%                  |
+| Other 15.503%                          |
++----------------------------------------+
+| Teammates                              |
+| Rillaboom 77.223%                      |
+| Meowscarada 56.285%                    |
+| Ogerpon-Hearthflame 50.691%            |
+| Hydrapple 33.866%                      |
+| Sinistcha 27.050%                      |
+| Breloom 26.081%                        |
+| Amoonguss 24.329%                      |
+| Arboliva 23.622%                       |
+| Serperior 23.158%                      |
+| Ogerpon-Wellspring 20.925%             |
++----------------------------------------+
++----------------------------------------+
+| Scovillain                             |
++----------------------------------------+
+| Raw count: 963                         |
+| Avg. weight: 0.016747283852831297      |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 97.763%                    |
+| Insomnia 2.237%                        |
++----------------------------------------+
+| Items                                  |
+| Life Orb 75.609%                       |
+| Choice Specs 11.875%                   |
+| Heavy-Duty Boots 5.269%                |
+| Heat Rock 2.514%                       |
+| Other 4.733%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 78.136%         |
+| Mild:0/4/0/252/0/252 6.795%            |
+| Modest:0/0/4/252/0/252 4.989%          |
+| Naive:0/32/0/252/0/224 3.973%          |
+| Timid:0/0/0/252/4/252 2.405%           |
+| Other 3.703%                           |
++----------------------------------------+
+| Moves                                  |
+| Flamethrower 86.733%                   |
+| Overheat 63.052%                       |
+| Energy Ball 59.455%                    |
+| Leaf Storm 50.490%                     |
+| Giga Drain 34.135%                     |
+| Solar Beam 29.925%                     |
+| Sunny Day 25.589%                      |
+| Fire Blast 14.568%                     |
+| Stomping Tantrum 12.717%               |
+| Growth 10.792%                         |
+| Other 12.544%                          |
++----------------------------------------+
+| Teammates                              |
+| Whimsicott 75.341%                     |
+| Lilligant-Hisui 61.289%                |
+| Hydrapple 57.794%                      |
+| Ogerpon-Cornerstone 49.907%            |
+| Brute Bonnet 49.594%                   |
+| Meowscarada 31.563%                    |
+| Ogerpon-Hearthflame 30.381%            |
+| Brambleghast 27.170%                   |
+| Venusaur 19.971%                       |
+| Wo-Chien 10.637%                       |
++----------------------------------------+
++----------------------------------------+
+| Vileplume                              |
++----------------------------------------+
+| Raw count: 926                         |
+| Avg. weight: 0.015198473055694358      |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Effect Spore 82.455%                   |
+| Chlorophyll 17.545%                    |
++----------------------------------------+
+| Items                                  |
+| Black Sludge 68.485%                   |
+| Rocky Helmet 16.489%                   |
+| Leftovers 7.670%                       |
+| Assault Vest 2.079%                    |
+| Heat Rock 1.741%                       |
+| Other 3.536%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:252/0/72/0/0/184 49.738%         |
+| Bold:252/0/252/0/4/0 13.449%           |
+| Calm:252/0/0/4/252/0 8.236%            |
+| Modest:252/0/0/252/4/0 7.005%          |
+| Bold:248/0/252/0/8/0 5.476%            |
+| Bold:252/0/252/0/0/4 3.953%            |
+| Other 12.142%                          |
++----------------------------------------+
+| Moves                                  |
+| Strength Sap 93.540%                   |
+| Sludge Bomb 88.200%                    |
+| Giga Drain 69.483%                     |
+| Sleep Powder 56.678%                   |
+| Leech Seed 30.551%                     |
+| Protect 23.339%                        |
+| Moonblast 12.572%                      |
+| Stun Spore 4.556%                      |
+| Weather Ball 3.820%                    |
+| Other 17.260%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 77.566%                    |
+| Sinistcha 70.681%                      |
+| Ogerpon-Hearthflame 65.092%            |
+| Chesnaught 50.432%                     |
+| Whimsicott 31.483%                     |
+| Rillaboom 27.053%                      |
+| Wo-Chien 22.170%                       |
+| Torterra 17.077%                       |
+| Brambleghast 15.490%                   |
+| Hydrapple 13.938%                      |
++----------------------------------------+
++----------------------------------------+
+| Sceptile                               |
++----------------------------------------+
+| Raw count: 883                         |
+| Avg. weight: 0.014479177027495386      |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Unburden 84.954%                       |
+| Overgrow 15.046%                       |
++----------------------------------------+
+| Items                                  |
+| Throat Spray 60.005%                   |
+| Heat Rock 10.334%                      |
+| Sitrus Berry 9.405%                    |
+| Mirror Herb 9.007%                     |
+| Grassy Seed 4.642%                     |
+| Leftovers 3.126%                       |
+| Other 3.481%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 56.761%         |
+| Jolly:0/252/0/0/4/252 10.347%          |
+| Adamant:252/252/0/0/0/4 8.518%         |
+| Lonely:0/252/0/0/0/252 7.165%          |
+| Adamant:0/252/0/0/4/252 3.335%         |
+| Mild:0/4/0/252/0/252 3.314%            |
+| Other 10.560%                          |
++----------------------------------------+
+| Moves                                  |
+| Roar 60.194%                           |
+| Dragon Pulse 59.187%                   |
+| Focus Blast 57.832%                    |
+| Energy Ball 56.638%                    |
+| Drain Punch 23.403%                    |
+| Earthquake 22.148%                     |
+| Acrobatics 14.358%                     |
+| Swords Dance 13.583%                   |
+| Substitute 12.913%                     |
+| Giga Drain 10.463%                     |
+| Sunny Day 10.334%                      |
+| Solar Blade 10.333%                    |
+| Rock Slide 7.424%                      |
+| Upper Hand 7.165%                      |
+| Leaf Blade 6.753%                      |
+| Solar Beam 4.239%                      |
+| Throat Chop 3.808%                     |
+| Other 19.222%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 82.536%            |
+| Meowscarada 77.723%                    |
+| Hydrapple 55.818%                      |
+| Wo-Chien 37.671%                       |
+| Lilligant-Hisui 37.110%                |
+| Rillaboom 28.200%                      |
+| Whimsicott 21.018%                     |
+| Brambleghast 17.260%                   |
+| Serperior 15.600%                      |
+| Sinistcha 12.912%                      |
++----------------------------------------+
++----------------------------------------+
+| Ludicolo                               |
++----------------------------------------+
+| Raw count: 945                         |
+| Avg. weight: 0.012981266800199282      |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Swift Swim 83.943%                     |
+| Own Tempo 14.780%                      |
+| Rain Dish 1.276%                       |
++----------------------------------------+
+| Items                                  |
+| Life Orb 48.287%                       |
+| Heavy-Duty Boots 19.154%               |
+| Leftovers 12.245%                      |
+| Focus Sash 10.349%                     |
+| Assault Vest 7.377%                    |
+| Other 2.588%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 23.620%          |
+| Modest:0/0/0/252/4/252 22.177%         |
+| Calm:248/0/0/8/252/0 14.974%           |
+| Hardy:0/0/160/192/156/0 10.864%        |
+| Mild:0/208/0/192/0/108 6.854%          |
+| Modest:0/0/56/252/0/200 4.704%         |
+| Other 16.807%                          |
++----------------------------------------+
+| Moves                                  |
+| Ice Beam 78.497%                       |
+| Giga Drain 75.501%                     |
+| Rain Dance 53.659%                     |
+| Hydro Pump 43.982%                     |
+| Weather Ball 23.706%                   |
+| Surf 20.665%                           |
+| Leech Seed 15.247%                     |
+| Encore 15.067%                         |
+| Substitute 14.987%                     |
+| Focus Blast 11.550%                    |
+| Synthesis 10.943%                      |
+| Thunder Punch 10.881%                  |
+| Energy Ball 7.773%                     |
+| Other 17.543%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 66.796%                    |
+| Rillaboom 63.976%                      |
+| Amoonguss 42.929%                      |
+| Ogerpon-Hearthflame 33.455%            |
+| Brambleghast 32.808%                   |
+| Electrode-Hisui 30.237%                |
+| Ogerpon-Wellspring 25.595%             |
+| Hydrapple 22.197%                      |
+| Sinistcha 21.784%                      |
+| Serperior 21.433%                      |
++----------------------------------------+
++----------------------------------------+
+| Tsareena                               |
++----------------------------------------+
+| Raw count: 477                         |
+| Avg. weight: 0.022072131277289544      |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Queenly Majesty 90.989%                |
+| Leaf Guard 6.516%                      |
+| Sweet Veil 2.495%                      |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 27.818%                   |
+| Heavy-Duty Boots 23.203%               |
+| Figy Berry 17.948%                     |
+| Leftovers 14.345%                      |
+| Wide Lens 9.621%                       |
+| Rocky Helmet 3.491%                    |
+| Other 3.574%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 25.054%        |
+| Adamant:252/0/72/0/184/0 17.948%       |
+| Impish:252/0/32/0/224/0 11.543%        |
+| Impish:252/4/252/0/0/0 10.922%         |
+| Jolly:0/252/0/0/4/252 9.963%           |
+| Adamant:24/252/0/0/4/228 6.743%        |
+| Other 17.828%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 92.038%                     |
+| U-turn 56.998%                         |
+| Knock Off 49.644%                      |
+| High Jump Kick 48.207%                 |
+| Power Whip 42.148%                     |
+| Triple Axel 32.995%                    |
+| Synthesis 20.015%                      |
+| Trop Kick 16.507%                      |
+| Play Rough 15.805%                     |
+| Petal Blizzard 12.579%                 |
+| Other 13.064%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 75.401%                    |
+| Ogerpon-Hearthflame 72.496%            |
+| Rillaboom 63.516%                      |
+| Hydrapple 48.781%                      |
+| Sinistcha 35.668%                      |
+| Amoonguss 33.614%                      |
+| Torterra 18.935%                       |
+| Whimsicott 16.230%                     |
+| Chesnaught 12.903%                     |
+| Serperior 12.176%                      |
++----------------------------------------+
++----------------------------------------+
+| Decidueye                              |
++----------------------------------------+
+| Raw count: 539                         |
+| Avg. weight: 0.017244048933052425      |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Long Reach 88.388%                     |
+| Overgrow 11.612%                       |
++----------------------------------------+
+| Items                                  |
+| Spooky Plate 37.782%                   |
+| Choice Band 37.750%                    |
+| Focus Sash 12.978%                     |
+| Heavy-Duty Boots 9.974%                |
+| Other 1.516%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/0/4 37.629%        |
+| Adamant:4/252/0/0/0/252 34.912%        |
+| Adamant:248/252/0/0/8/0 9.498%         |
+| Careful:252/4/0/0/252/0 6.584%         |
+| Hardy:68/72/88/152/28/100 3.697%       |
+| Relaxed:252/0/252/4/0/0 3.064%         |
+| Other 4.616%                           |
++----------------------------------------+
+| Moves                                  |
+| Leaf Blade 88.695%                     |
+| Poltergeist 72.712%                    |
+| Swords Dance 46.710%                   |
+| Sucker Punch 44.014%                   |
+| Shadow Sneak 42.354%                   |
+| Brave Bird 38.274%                     |
+| Spirit Shackle 18.840%                 |
+| Defog 9.975%                           |
+| Roost 9.736%                           |
+| Knock Off 9.610%                       |
+| Other 19.079%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 87.927%                    |
+| Ogerpon-Hearthflame 84.736%            |
+| Hydrapple 41.560%                      |
+| Rillaboom 41.528%                      |
+| Whimsicott 41.341%                     |
+| Sinistcha 38.423%                      |
+| Rotom-Mow 38.225%                      |
+| Chesnaught 37.989%                     |
+| Torterra 9.777%                        |
+| Electrode-Hisui 8.591%                 |
++----------------------------------------+
++----------------------------------------+
+| Appletun                               |
++----------------------------------------+
+| Raw count: 663                         |
+| Avg. weight: 0.010320745836264559      |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Thick Fat 99.970%                      |
+| Ripen 0.030%                           |
++----------------------------------------+
+| Items                                  |
+| Leftovers 55.227%                      |
+| Heavy-Duty Boots 35.382%               |
+| Eviolite 6.373%                        |
+| Other 3.019%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:16/0/80/252/80/80 34.865%       |
+| Calm:252/0/124/0/132/0 19.399%         |
+| Bold:252/0/40/0/216/0 17.760%          |
+| Calm:252/0/0/4/252/0 7.947%            |
+| Sassy:248/8/0/0/252/0 6.409%           |
+| Calm:252/0/4/0/252/0 3.497%            |
+| Other 10.123%                          |
++----------------------------------------+
+| Moves                                  |
+| Leech Seed 96.187%                     |
+| Apple Acid 92.200%                     |
+| Dragon Pulse 48.382%                   |
+| Dragon Tail 42.413%                    |
+| Draco Meteor 37.183%                   |
+| Recover 25.150%                        |
+| Protect 22.796%                        |
+| Giga Drain 21.812%                     |
+| Other 13.878%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 64.301%                    |
+| Breloom 51.237%                        |
+| Chesnaught 49.949%                     |
+| Serperior 42.914%                      |
+| Ogerpon-Hearthflame 36.559%            |
+| Sinistcha 27.953%                      |
+| Rotom-Mow 27.300%                      |
+| Ogerpon-Cornerstone 26.915%            |
+| Wo-Chien 20.761%                       |
+| Electrode-Hisui 19.433%                |
++----------------------------------------+
++----------------------------------------+
+| Dipplin                                |
++----------------------------------------+
+| Raw count: 78                          |
+| Avg. weight: 0.08205534665736886       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Sticky Hold 94.446%                    |
+| Gluttony 5.554%                        |
+| Supersweet Syrup 0.000%                |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
+| Other 0.000%                           |
++----------------------------------------+
+| Spreads                                |
+| Naive:252/0/128/0/128/0 68.068%        |
+| Bold:252/0/4/0/252/0 14.011%           |
+| Relaxed:252/4/252/0/0/0 5.066%         |
+| Modest:252/0/0/252/4/0 3.818%          |
+| Sassy:252/0/252/4/0/0 3.138%           |
+| Relaxed:252/0/252/0/4/0 2.466%         |
+| Other 3.433%                           |
++----------------------------------------+
+| Moves                                  |
+| Recover 97.764%                        |
+| Giga Drain 92.581%                     |
+| Infestation 90.635%                    |
+| Dragon Breath 69.851%                  |
+| Dragon Tail 25.598%                    |
+| Dragon Pulse 7.689%                    |
+| Other 15.882%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 77.383%                    |
+| Torterra 62.436%                       |
+| Rillaboom 60.280%                      |
+| Ogerpon-Cornerstone 53.853%            |
+| Toedscruel 47.873%                     |
+| Sinistcha 18.926%                      |
+| Iron Leaves 15.882%                    |
+| Vileplume 14.011%                      |
+| Serperior 11.549%                      |
+| Ogerpon-Hearthflame 7.266%             |
++----------------------------------------+
++----------------------------------------+
+| Dartrix                                |
++----------------------------------------+
+| Raw count: 6                           |
+| Avg. weight: 0.8038504931439642        |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Long Reach 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/4/0/252/0 100.000%       |
++----------------------------------------+
+| Moves                                  |
+| Defog 100.000%                         |
+| Roost 100.000%                         |
+| Brave Bird 100.000%                    |
+| Knock Off 82.499%                      |
+| Other 17.501%                          |
++----------------------------------------+
+| Teammates                              |
+| Torterra 100.000%                      |
+| Ogerpon-Hearthflame 100.000%           |
+| Sinistcha 100.000%                     |
+| Amoonguss 100.000%                     |
+| Meowscarada 100.000%                   |
++----------------------------------------+
++----------------------------------------+
+| Exeggutor-Alola                        |
++----------------------------------------+
+| Raw count: 425                         |
+| Avg. weight: 0.012341758512292727      |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Harvest 90.439%                        |
+| Frisk 9.561%                           |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 80.935%                   |
+| Leftovers 7.716%                       |
+| Custap Berry 7.315%                    |
+| Other 4.034%                           |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:252/4/252/0/0/0 62.351%        |
+| Modest:252/0/4/0/252/0 18.304%         |
+| Modest:252/0/0/252/4/0 14.813%         |
+| Other 4.532%                           |
++----------------------------------------+
+| Moves                                  |
+| Calm Mind 94.839%                      |
+| Flamethrower 82.722%                   |
+| Earthquake 63.250%                     |
+| Psychic Noise 62.351%                  |
+| Giga Drain 28.069%                     |
+| Dragon Pulse 18.508%                   |
+| Draco Meteor 16.090%                   |
+| Extrasensory 7.714%                    |
+| Leaf Storm 7.660%                      |
+| Other 18.796%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 85.693%                    |
+| Torterra 71.892%                       |
+| Amoonguss 69.471%                      |
+| Sinistcha 65.212%                      |
+| Ogerpon-Cornerstone 46.861%            |
+| Ogerpon-Hearthflame 26.570%            |
+| Rillaboom 17.115%                      |
+| Ogerpon-Wellspring 16.086%             |
+| Serperior 10.753%                      |
+| Breloom 9.566%                         |
++----------------------------------------+
++----------------------------------------+
+| Trevenant                              |
++----------------------------------------+
+| Raw count: 292                         |
+| Avg. weight: 0.01535958545543866       |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Harvest 97.953%                        |
+| Natural Cure 2.042%                    |
+| Frisk 0.005%                           |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 99.383%                   |
+| Other 0.617%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/0/252/0/4/0 46.073%         |
+| Brave:252/252/0/0/4/0 27.165%          |
+| Careful:252/0/4/0/252/0 20.848%        |
+| Adamant:252/252/4/0/0/0 3.325%         |
+| Other 2.588%                           |
++----------------------------------------+
+| Moves                                  |
+| Leech Seed 69.264%                     |
+| Substitute 64.571%                     |
+| Horn Leech 53.035%                     |
+| Poltergeist 48.562%                    |
+| Protect 43.698%                        |
+| Drain Punch 31.030%                    |
+| Trick Room 27.166%                     |
+| Knock Off 25.732%                      |
+| Will-O-Wisp 23.796%                    |
+| Other 13.146%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 57.838%                    |
+| Torterra 54.056%                       |
+| Rillaboom 38.602%                      |
+| Ogerpon-Hearthflame 34.083%            |
+| Exeggutor 22.347%                      |
+| Arboliva 22.346%                       |
+| Amoonguss 22.005%                      |
+| Ogerpon-Cornerstone 21.992%            |
+| Tropius 21.840%                        |
+| Abomasnow 21.827%                      |
++----------------------------------------+
++----------------------------------------+
+| Cacturne                               |
++----------------------------------------+
+| Raw count: 83                          |
+| Avg. weight: 0.04375187513674969       |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Life Orb 99.849%                       |
+| Other 0.151%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/0/4 99.917%        |
+| Other 0.083%                           |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 99.945%                   |
+| Stomping Tantrum 99.850%               |
+| Fell Stinger 99.849%                   |
+| Grassy Glide 99.849%                   |
+| Other 0.506%                           |
++----------------------------------------+
+| Teammates                              |
+| Breloom 84.202%                        |
+| Ogerpon-Hearthflame 84.174%            |
+| Rillaboom 84.139%                      |
+| Zarude 84.106%                         |
+| Arboliva 84.106%                       |
++----------------------------------------+
++----------------------------------------+
+| Ogerpon                                |
++----------------------------------------+
+| Raw count: 80                          |
+| Avg. weight: 0.035046185411840555      |
+| Viability Ceiling: 76                  |
++----------------------------------------+
+| Abilities                              |
+| Defiant 100.000%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Band 46.639%                    |
+| Choice Scarf 43.043%                   |
+| Heavy-Duty Boots 7.036%                |
+| Other 3.281%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 89.204%          |
+| Naughty:0/252/0/0/0/252 4.832%         |
+| Adamant:0/252/0/0/4/252 3.155%         |
+| Other 2.808%                           |
++----------------------------------------+
+| Moves                                  |
+| Ivy Cudgel 88.183%                     |
+| U-turn 86.084%                         |
+| Superpower 84.812%                     |
+| Play Rough 84.011%                     |
+| Knock Off 16.824%                      |
+| Swords Dance 10.197%                   |
+| Horn Leech 7.037%                      |
+| Stomping Tantrum 6.226%                |
+| Other 16.627%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 84.138%                    |
+| Hydrapple 73.765%                      |
+| Brambleghast 72.020%                   |
+| Shiftry 70.843%                        |
+| Lilligant-Hisui 70.843%                |
+| Rillaboom 19.372%                      |
+| Wo-Chien 13.008%                       |
+| Chesnaught 12.177%                     |
+| Torterra 9.268%                        |
+| Sinistcha 8.952%                       |
++----------------------------------------+
++----------------------------------------+
+| Tropius                                |
++----------------------------------------+
+| Raw count: 157                         |
+| Avg. weight: 0.015040621933516117      |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Harvest 50.924%                        |
+| Solar Power 49.074%                    |
+| Chlorophyll 0.002%                     |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 50.687%                   |
+| Life Orb 48.843%                       |
+| Other 0.470%                           |
++----------------------------------------+
+| Spreads                                |
+| Brave:252/252/0/0/4/0 48.843%          |
+| Careful:252/4/0/0/252/0 38.795%        |
+| Careful:244/12/0/0/252/0 4.223%        |
+| Hardy:4/0/252/0/252/0 3.110%           |
+| Calm:252/0/0/4/252/0 2.554%            |
+| Other 2.476%                           |
++----------------------------------------+
+| Moves                                  |
+| Leech Seed 99.609%                     |
+| Dual Wingbeat 49.046%                  |
+| Earthquake 48.966%                     |
+| Solar Blade 48.843%                    |
+| U-turn 39.026%                         |
+| Dragon Tail 38.918%                    |
+| Tailwind 38.798%                       |
+| Protect 11.972%                        |
+| Substitute 11.433%                     |
+| Other 13.389%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 46.363%            |
+| Torterra 46.000%                       |
+| Meowscarada 45.821%                    |
+| Arboliva 41.571%                       |
+| Trevenant 41.480%                      |
+| Abomasnow 41.448%                      |
+| Exeggutor 41.448%                      |
+| Sceptile 38.798%                       |
+| Brambleghast 38.796%                   |
+| Amoonguss 20.486%                      |
++----------------------------------------+
++----------------------------------------+
+| Sawsbuck                               |
++----------------------------------------+
+| Raw count: 113                         |
+| Avg. weight: 0.01718592179370159       |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Serene Grace 100.000%                  |
+| Sap Sipper 0.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 97.838%                   |
+| Other 2.162%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 99.799%          |
+| Other 0.201%                           |
++----------------------------------------+
+| Moves                                  |
+| Headbutt 99.727%                       |
+| High Horsepower 97.907%                |
+| Play Rough 97.797%                     |
+| Throat Chop 97.797%                    |
+| Other 6.771%                           |
++----------------------------------------+
+| Teammates                              |
+| Hydrapple 99.053%                      |
+| Serperior 98.974%                      |
+| Meowscarada 98.840%                    |
+| Ogerpon-Cornerstone 98.650%            |
+| Breloom 98.566%                        |
++----------------------------------------+
++----------------------------------------+
+| Swadloon                               |
++----------------------------------------+
+| Raw count: 35                          |
+| Avg. weight: 0.06490851921823905       |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Overcoat 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Eviolite 93.724%                       |
+| Toxic Orb 6.276%                       |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:248/0/252/0/8/0 89.793%        |
+| Relaxed:0/0/152/0/252/56 6.276%        |
+| Other 3.931%                           |
++----------------------------------------+
+| Moves                                  |
+| Sticky Web 100.000%                    |
+| Skitter Smack 93.724%                  |
+| Lunge 89.793%                          |
+| Electroweb 89.793%                     |
+| Substitute 6.276%                      |
+| Switcheroo 6.276%                      |
+| Other 14.139%                          |
++----------------------------------------+
+| Teammates                              |
+| Sinistcha 71.527%                      |
+| Torterra 71.527%                       |
+| Ogerpon-Wellspring 67.596%             |
+| Hydrapple 67.596%                      |
+| Rotom-Mow 67.596%                      |
+| Ogerpon-Hearthflame 7.816%             |
+| Meowscarada 7.816%                     |
+| Breloom 3.931%                         |
+| Lilligant 3.885%                       |
+| Venusaur 3.885%                        |
++----------------------------------------+
++----------------------------------------+
+| Exeggutor                              |
++----------------------------------------+
+| Raw count: 546                         |
+| Avg. weight: 0.0028903785756432456     |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Harvest 84.352%                        |
+| Chlorophyll 15.648%                    |
++----------------------------------------+
+| Items                                  |
+| Chesto Berry 73.083%                   |
+| Sitrus Berry 11.269%                   |
+| Assault Vest 8.426%                    |
+| Choice Specs 4.505%                    |
+| Other 2.718%                           |
++----------------------------------------+
+| Spreads                                |
+| Quiet:252/0/0/252/4/0 73.448%          |
+| Calm:72/0/0/252/184/0 8.426%           |
+| Quiet:4/0/252/0/252/0 8.194%           |
+| Modest:4/0/0/252/0/252 2.981%          |
+| Modest:252/0/0/252/0/0 2.342%          |
+| Other 4.609%                           |
++----------------------------------------+
+| Moves                                  |
+| Giga Drain 84.503%                     |
+| Trick Room 81.799%                     |
+| Extrasensory 73.141%                   |
+| Rest 73.083%                           |
+| Psychic 21.769%                        |
+| Sludge Bomb 21.381%                    |
+| Energy Ball 12.958%                    |
+| Future Sight 9.954%                    |
+| Psyshock 4.870%                        |
+| Other 16.543%                          |
++----------------------------------------+
+| Teammates                              |
+| Arboliva 72.150%                       |
+| Trevenant 63.510%                      |
+| Abomasnow 62.319%                      |
+| Torterra 62.026%                       |
+| Tropius 62.018%                        |
+| Rillaboom 19.024%                      |
+| Ogerpon-Hearthflame 13.829%            |
+| Whimsicott 11.772%                     |
+| Serperior 11.179%                      |
+| Vileplume 10.136%                      |
++----------------------------------------+
++----------------------------------------+
+| Gloom                                  |
++----------------------------------------+
+| Raw count: 8                           |
+| Avg. weight: 0.1678760973518837        |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Stench 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Loaded Dice 99.911%                    |
+| Other 0.089%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:252/0/0/0/0/252 93.946%          |
+| Careful:252/4/0/0/252/0 5.965%         |
+| Other 0.089%                           |
++----------------------------------------+
+| Moves                                  |
+| Leech Seed 100.000%                    |
+| Bullet Seed 99.911%                    |
+| Strength Sap 94.035%                   |
+| Trailblaze 93.946%                     |
+| Other 12.107%                          |
++----------------------------------------+
+| Teammates                              |
+| Hydrapple 94.035%                      |
+| Torterra 93.946%                       |
+| Arboliva 93.946%                       |
+| Brambleghast 93.946%                   |
+| Electrode-Hisui 93.946%                |
++----------------------------------------+
++----------------------------------------+
+| Bellossom                              |
++----------------------------------------+
+| Raw count: 616                         |
+| Avg. weight: 0.0018132658729980696     |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 99.521%                    |
+| Healer 0.479%                          |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 52.198%                   |
+| Leftovers 43.487%                      |
+| Other 4.315%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/4/0/0 52.074%           |
+| Modest:252/0/0/96/0/160 25.979%        |
+| Modest:0/0/0/252/4/252 15.381%         |
+| Modest:0/0/0/252/0/252 3.177%          |
+| Other 3.389%                           |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 97.131%                   |
+| Sludge Bomb 81.712%                    |
+| Moonblast 80.257%                      |
+| Strength Sap 69.833%                   |
+| Giga Drain 43.653%                     |
+| Weather Ball 13.753%                   |
+| Other 13.661%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 80.466%                    |
+| Venusaur 54.293%                       |
+| Sinistcha 52.655%                      |
+| Amoonguss 52.337%                      |
+| Ludicolo 52.337%                       |
+| Ogerpon-Hearthflame 37.379%            |
+| Rillaboom 27.571%                      |
+| Decidueye-Hisui 23.208%                |
+| Chesnaught 18.532%                     |
+| Hydrapple 16.810%                      |
++----------------------------------------+
++----------------------------------------+
+| Cacnea                                 |
++----------------------------------------+
+| Raw count: 2                           |
+| Avg. weight: 0.3127173065285168        |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Calm:248/0/0/8/252/0 100.000%          |
++----------------------------------------+
+| Moves                                  |
+| Destiny Bond 100.000%                  |
+| Leech Seed 100.000%                    |
+| Protect 100.000%                       |
+| Giga Drain 100.000%                    |
++----------------------------------------+
+| Teammates                              |
+| Rillaboom 100.000%                     |
+| Ogerpon-Hearthflame 100.000%           |
+| Meowscarada 100.000%                   |
+| Hydrapple 100.000%                     |
+| Brambleghast 100.000%                  |
++----------------------------------------+
++----------------------------------------+
+| Sunflora                               |
++----------------------------------------+
+| Raw count: 88                          |
+| Avg. weight: 0.006320047719501817      |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 93.002%                    |
+| Solar Power 6.274%                     |
+| Early Bird 0.725%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 61.290%                   |
+| Focus Sash 15.894%                     |
+| Life Orb 10.866%                       |
+| Leftovers 5.579%                       |
+| Heat Rock 4.952%                       |
+| Other 1.420%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 61.290%          |
+| Modest:0/0/60/252/40/156 15.894%       |
+| Timid:0/0/0/252/4/252 11.038%          |
+| Hardy:252/0/0/252/4/0 5.579%           |
+| Modest:0/0/0/252/0/252 4.323%          |
+| Other 1.878%                           |
++----------------------------------------+
+| Moves                                  |
+| Weather Ball 99.253%                   |
+| Earth Power 82.757%                    |
+| Sludge Bomb 78.350%                    |
+| Solar Beam 76.953%                     |
+| Sunny Day 28.072%                      |
+| Giga Drain 16.709%                     |
+| Other 17.907%                          |
++----------------------------------------+
+| Teammates                              |
+| Hydrapple 84.386%                      |
+| Whimsicott 67.568%                     |
+| Lilligant-Hisui 61.480%                |
+| Shiftry 61.332%                        |
+| Ogerpon-Cornerstone 61.290%            |
+| Ogerpon-Hearthflame 23.606%            |
+| Meowscarada 19.565%                    |
+| Ludicolo 16.653%                       |
+| Torterra 16.107%                       |
+| Breloom 12.971%                        |
++----------------------------------------+
++----------------------------------------+
+| Leafeon                                |
++----------------------------------------+
+| Raw count: 305                         |
+| Avg. weight: 0.0016449739663769332     |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 92.102%                    |
+| Leaf Guard 7.898%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Band 35.493%                    |
+| Focus Sash 21.739%                     |
+| Heat Rock 15.906%                      |
+| Lum Berry 9.921%                       |
+| Leftovers 6.605%                       |
+| Rocky Helmet 5.089%                    |
+| Expert Belt 2.519%                     |
+| Other 2.727%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 36.473%        |
+| Adamant:0/252/4/0/0/252 21.321%        |
+| Adamant:0/252/252/0/0/4 15.608%        |
+| Jolly:0/252/4/0/0/252 9.921%           |
+| Impish:252/0/252/0/4/0 5.088%          |
+| Bold:240/0/252/16/0/0 3.641%           |
+| Other 7.949%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 91.934%                      |
+| Solar Blade 50.479%                    |
+| Leaf Blade 48.804%                     |
+| X-Scissor 42.452%                      |
+| Swords Dance 39.179%                   |
+| Quick Attack 35.648%                   |
+| Sunny Day 26.706%                      |
+| Double Kick 21.321%                    |
+| Body Slam 7.280%                       |
+| Synthesis 5.090%                       |
+| Giga Drain 4.181%                      |
+| Wish 3.720%                            |
+| Calm Mind 3.641%                       |
+| Other 19.566%                          |
++----------------------------------------+
+| Teammates                              |
+| Whimsicott 60.079%                     |
+| Scovillain 45.543%                     |
+| Leavanny 45.417%                       |
+| Meowscarada 37.171%                    |
+| Ogerpon-Wellspring 36.253%             |
+| Lilligant-Hisui 35.493%                |
+| Sceptile 25.563%                       |
+| Rillaboom 25.131%                      |
+| Trevenant 21.474%                      |
+| Decidueye-Hisui 21.321%                |
++----------------------------------------+
++----------------------------------------+
+| Lurantis                               |
++----------------------------------------+
+| Raw count: 273                         |
+| Avg. weight: 0.0016373539273821622     |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Contrary 98.605%                       |
+| Leaf Guard 1.395%                      |
++----------------------------------------+
+| Items                                  |
+| Lum Berry 37.433%                      |
+| Heavy-Duty Boots 32.651%               |
+| Assault Vest 15.603%                   |
+| Sitrus Berry 7.251%                    |
+| Expert Belt 3.404%                     |
+| Other 3.658%                           |
++----------------------------------------+
+| Spreads                                |
+| Brave:248/252/0/8/0/0 45.354%          |
+| Brave:252/0/4/0/252/0 37.433%          |
+| Naughty:120/36/0/100/0/252 7.251%      |
+| Sassy:248/8/0/0/252/0 1.989%           |
+| Relaxed:0/0/252/8/248/0 1.976%         |
+| Adamant:252/252/0/0/0/4 1.194%         |
+| Other 4.802%                           |
++----------------------------------------+
+| Moves                                  |
+| Superpower 98.509%                     |
+| Leaf Storm 97.673%                     |
+| Knock Off 82.013%                      |
+| Leech Life 53.642%                     |
+| Defog 37.814%                          |
+| Giga Drain 9.283%                      |
+| Poison Jab 8.790%                      |
+| Other 12.275%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 94.598%                    |
+| Amoonguss 70.649%                      |
+| Ogerpon-Cornerstone 48.691%            |
+| Sinistcha 47.437%                      |
+| Rillaboom 44.364%                      |
+| Ogerpon-Hearthflame 38.546%            |
+| Ludicolo 38.238%                       |
+| Serperior 32.585%                      |
+| Whimsicott 10.593%                     |
+| Lilligant-Hisui 10.088%                |
++----------------------------------------+
++----------------------------------------+
+| Jumpluff                               |
++----------------------------------------+
+| Raw count: 241                         |
+| Avg. weight: 0.0017309042623372842     |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Infiltrator 52.924%                    |
+| Chlorophyll 47.076%                    |
+| Leaf Guard 0.000%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 73.614%                      |
+| Heat Rock 13.258%                      |
+| Nothing 10.912%                        |
+| Other 2.217%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:252/0/4/0/0/252 37.623%          |
+| Jolly:252/0/0/0/4/252 32.570%          |
+| Timid:252/0/0/4/0/252 17.682%          |
+| Jolly:252/4/0/0/0/252 10.104%          |
+| Other 2.020%                           |
++----------------------------------------+
+| Moves                                  |
+| U-turn 83.209%                         |
+| Encore 48.086%                         |
+| Sunny Day 41.455%                      |
+| Reflect 37.624%                        |
+| Light Screen 37.623%                   |
+| Stun Spore 27.514%                     |
+| Synthesis 24.116%                      |
+| Strength Sap 22.720%                   |
+| Tailwind 15.957%                       |
+| Solar Beam 13.258%                     |
+| Acrobatics 11.430%                     |
+| Sleep Powder 10.536%                   |
+| Leech Seed 4.689%                      |
+| Giga Drain 4.492%                      |
+| Other 17.290%                          |
++----------------------------------------+
+| Teammates                              |
+| Sinistcha 56.983%                      |
+| Ogerpon-Hearthflame 52.120%            |
+| Venusaur 50.832%                       |
+| Meowscarada 49.312%                    |
+| Torterra 47.617%                       |
+| Whimsicott 42.763%                     |
+| Rillaboom 41.769%                      |
+| Lilligant-Hisui 29.508%                |
+| Scovillain 28.190%                     |
+| Iron Leaves 16.905%                    |
++----------------------------------------+
++----------------------------------------+
+| Flapple                                |
++----------------------------------------+
+| Raw count: 117                         |
+| Avg. weight: 0.0037458706903802106     |
+| Viability Ceiling: 58                  |
++----------------------------------------+
+| Abilities                              |
+| Hustle 94.352%                         |
+| Ripen 5.648%                           |
+| Gluttony 0.000%                        |
++----------------------------------------+
+| Items                                  |
+| Wide Lens 73.015%                      |
+| Life Orb 19.527%                       |
+| Choice Band 3.438%                     |
+| Other 4.020%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 75.123%        |
+| Jolly:0/252/0/0/4/252 21.282%          |
+| Other 3.596%                           |
++----------------------------------------+
+| Moves                                  |
+| Outrage 98.088%                        |
+| Grav Apple 96.562%                     |
+| Dragon Dance 76.877%                   |
+| Fly 73.015%                            |
+| Sucker Punch 24.618%                   |
+| U-turn 19.527%                         |
+| Other 11.313%                          |
++----------------------------------------+
+| Teammates                              |
+| Rillaboom 68.423%                      |
+| Serperior 66.831%                      |
+| Torterra 66.376%                       |
+| Meowscarada 49.552%                    |
+| Ogerpon-Cornerstone 46.849%            |
+| Lilligant-Hisui 22.965%                |
+| Scovillain 19.527%                     |
+| Ogerpon-Hearthflame 6.439%             |
+| Zarude 3.438%                          |
+| Arboliva 3.438%                        |
++----------------------------------------+
++----------------------------------------+
+| Lilligant                              |
++----------------------------------------+
+| Raw count: 155                         |
+| Avg. weight: 0.0018586888176569938     |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 86.386%                    |
+| Own Tempo 7.207%                       |
+| Leaf Guard 6.406%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 55.392%                      |
+| Focus Sash 31.310%                     |
+| Mirror Herb 6.406%                     |
+| Choice Specs 2.917%                    |
+| Other 3.975%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:20/0/0/252/0/236 49.492%        |
+| Modest:0/0/0/252/4/252 45.619%         |
+| Other 4.889%                           |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 93.706%                   |
+| Pollen Puff 54.650%                    |
+| Sleep Powder 51.183%                   |
+| Leech Seed 49.492%                     |
+| Weather Ball 42.553%                   |
+| Solar Beam 37.265%                     |
+| Giga Drain 31.413%                     |
+| Alluring Voice 15.107%                 |
+| Petal Dance 6.651%                     |
+| Other 17.980%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 39.346%                    |
+| Ogerpon-Hearthflame 39.114%            |
+| Serperior 37.049%                      |
+| Venusaur 33.201%                       |
+| Swadloon 30.634%                       |
+| Sinistcha 28.775%                      |
+| Rillaboom 18.902%                      |
+| Tsareena 16.943%                       |
+| Dipplin 16.386%                        |
+| Wo-Chien 16.386%                       |
++----------------------------------------+
++----------------------------------------+
+| Meganium                               |
++----------------------------------------+
+| Raw count: 82                          |
+| Avg. weight: 0.0025295855761023815     |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Leaf Guard 98.480%                     |
+| Overgrow 1.520%                        |
++----------------------------------------+
+| Items                                  |
+| Leftovers 62.907%                      |
+| Terrain Extender 28.195%               |
+| Heavy-Duty Boots 8.898%                |
+| Other 0.000%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/60/100/96/0 60.742%         |
+| Bold:252/0/88/0/168/0 28.195%          |
+| Timid:0/0/0/252/4/252 8.898%           |
+| Other 2.165%                           |
++----------------------------------------+
+| Moves                                  |
+| Sunny Day 89.600%                      |
+| Weather Ball 89.583%                   |
+| Ancient Power 88.939%                  |
+| Leech Seed 71.802%                     |
+| Grassy Terrain 28.195%                 |
+| Giga Drain 9.841%                      |
+| Earthquake 9.472%                      |
+| Other 12.567%                          |
++----------------------------------------+
+| Teammates                              |
+| Lilligant-Hisui 90.156%                |
+| Whimsicott 89.838%                     |
+| Torterra 89.582%                       |
+| Ogerpon-Hearthflame 89.582%            |
+| Abomasnow 89.582%                      |
+| Serperior 9.493%                       |
+| Jumpluff 9.472%                        |
+| Brambleghast 8.898%                    |
++----------------------------------------+

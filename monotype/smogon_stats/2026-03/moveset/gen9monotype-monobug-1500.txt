@@ -1,0 +1,1686 @@
++----------------------------------------+
+| Volcarona                              |
++----------------------------------------+
+| Raw count: 22758                       |
+| Avg. weight: 0.554924628377802         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 96.942%                     |
+| Swarm 3.058%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 86.135%               |
+| Leftovers 5.194%                       |
+| Life Orb 1.861%                        |
+| Focus Sash 1.847%                      |
+| Other 4.964%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 26.022%         |
+| Timid:0/0/0/252/4/252 21.324%          |
+| Timid:0/0/4/252/0/252 9.596%           |
+| Timid:252/0/176/28/52/0 7.027%         |
+| Timid:4/0/0/252/0/252 3.948%           |
+| Modest:140/0/132/96/0/140 3.490%       |
+| Other 28.592%                          |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 97.110%                   |
+| Fiery Dance 71.314%                    |
+| Psychic 61.364%                        |
+| Giga Drain 54.165%                     |
+| Bug Buzz 37.055%                       |
+| Morning Sun 32.627%                    |
+| Flamethrower 23.685%                   |
+| Fire Blast 4.752%                      |
+| Other 17.928%                          |
++----------------------------------------+
+| Teammates                              |
+| Scizor 76.452%                         |
+| Araquanid 72.768%                      |
+| Kleavor 71.504%                        |
+| Forretress 61.502%                     |
+| Lokix 60.373%                          |
+| Yanmega 22.873%                        |
+| Ribombee 19.100%                       |
+| Slither Wing 18.811%                   |
+| Galvantula 17.869%                     |
+| Heracross 17.517%                      |
++----------------------------------------+
++----------------------------------------+
+| Scizor                                 |
++----------------------------------------+
+| Raw count: 19118                       |
+| Avg. weight: 0.560223006116193         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Technician 98.746%                     |
+| Swarm 1.111%                           |
+| Light Metal 0.143%                     |
++----------------------------------------+
+| Items                                  |
+| Metal Coat 28.413%                     |
+| Choice Band 19.109%                    |
+| Leftovers 12.651%                      |
+| Life Orb 12.148%                       |
+| Metronome 8.569%                       |
+| Heavy-Duty Boots 4.949%                |
+| Focus Sash 2.650%                      |
+| Assault Vest 1.667%                    |
+| Expert Belt 1.468%                     |
+| Occa Berry 1.367%                      |
+| Air Balloon 1.149%                     |
+| Sitrus Berry 1.070%                    |
+| Other 4.791%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/252/0/0/8/0 25.061%        |
+| Adamant:56/252/0/0/0/200 8.389%        |
+| Adamant:80/252/0/0/0/176 7.890%        |
+| Adamant:24/252/0/0/0/232 7.560%        |
+| Adamant:252/252/0/0/4/0 6.559%         |
+| Adamant:40/252/0/0/0/216 4.095%        |
+| Other 40.446%                          |
++----------------------------------------+
+| Moves                                  |
+| Bullet Punch 99.309%                   |
+| Swords Dance 69.689%                   |
+| Close Combat 60.430%                   |
+| Knock Off 57.666%                      |
+| Dual Wingbeat 36.716%                  |
+| U-turn 29.459%                         |
+| Trailblaze 12.505%                     |
+| Bug Bite 12.124%                       |
+| Defog 9.160%                           |
+| Other 12.942%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 90.139%                      |
+| Kleavor 72.326%                        |
+| Araquanid 71.710%                      |
+| Lokix 58.487%                          |
+| Forretress 58.456%                     |
+| Yanmega 21.214%                        |
+| Ribombee 19.910%                       |
+| Slither Wing 17.885%                   |
+| Heracross 16.185%                      |
+| Galvantula 15.594%                     |
++----------------------------------------+
++----------------------------------------+
+| Araquanid                              |
++----------------------------------------+
+| Raw count: 18918                       |
+| Avg. weight: 0.548272433182577         |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Water Bubble 99.382%                   |
+| Water Absorb 0.618%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 46.301%               |
+| Leftovers 20.988%                      |
+| Assault Vest 11.440%                   |
+| Custap Berry 5.739%                    |
+| Choice Band 3.263%                     |
+| Mystic Water 2.308%                    |
+| Rocky Helmet 1.350%                    |
+| Chesto Berry 1.267%                    |
+| Focus Sash 1.221%                      |
+| Sitrus Berry 0.980%                    |
+| Light Clay 0.881%                      |
+| Other 4.262%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:248/0/252/0/8/0 18.260%         |
+| Adamant:248/252/0/0/8/0 17.518%        |
+| Impish:248/64/168/0/0/28 7.147%        |
+| Sassy:252/4/0/0/252/0 4.380%           |
+| Adamant:252/252/0/0/4/0 3.754%         |
+| Careful:252/4/0/0/252/0 2.574%         |
+| Other 46.369%                          |
++----------------------------------------+
+| Moves                                  |
+| Liquidation 91.803%                    |
+| Sticky Web 79.005%                     |
+| Mirror Coat 58.551%                    |
+| Leech Life 46.890%                     |
+| Infestation 32.725%                    |
+| Poison Jab 15.900%                     |
+| Crunch 9.612%                          |
+| Surf 9.254%                            |
+| Endeavor 8.096%                        |
+| Lunge 6.370%                           |
+| Reflect 4.515%                         |
+| Protect 4.487%                         |
+| Endure 3.728%                          |
+| Trailblaze 3.195%                      |
+| Ice Beam 2.953%                        |
+| Rain Dance 2.585%                      |
+| Hydro Pump 2.211%                      |
+| Other 18.120%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 88.600%                      |
+| Scizor 74.055%                         |
+| Kleavor 71.602%                        |
+| Forretress 63.155%                     |
+| Lokix 57.899%                          |
+| Yanmega 22.652%                        |
+| Slither Wing 18.585%                   |
+| Galvantula 17.072%                     |
+| Heracross 15.358%                      |
+| Ribombee 11.066%                       |
++----------------------------------------+
++----------------------------------------+
+| Kleavor                                |
++----------------------------------------+
+| Raw count: 17760                       |
+| Avg. weight: 0.5642906092486306        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Sharpness 97.464%                      |
+| Swarm 1.733%                           |
+| Sheer Force 0.803%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 79.609%                   |
+| Focus Sash 4.870%                      |
+| Assault Vest 4.105%                    |
+| Heavy-Duty Boots 2.705%                |
+| Choice Band 2.630%                     |
+| Life Orb 2.165%                        |
+| Other 3.916%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 67.612%          |
+| Jolly:0/252/4/0/0/252 10.888%          |
+| Adamant:0/252/0/0/4/252 7.516%         |
+| Jolly:4/252/0/0/0/252 3.459%           |
+| Adamant:4/252/0/0/0/252 2.097%         |
+| Adamant:0/252/0/0/0/252 0.714%         |
+| Other 7.714%                           |
++----------------------------------------+
+| Moves                                  |
+| Stone Axe 99.271%                      |
+| Close Combat 79.198%                   |
+| U-turn 77.274%                         |
+| Night Slash 71.109%                    |
+| X-Scissor 39.023%                      |
+| Swords Dance 5.443%                    |
+| Defog 4.870%                           |
+| Aerial Ace 3.574%                      |
+| Trailblaze 3.248%                      |
+| Other 16.991%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 90.111%                      |
+| Scizor 77.306%                         |
+| Araquanid 74.110%                      |
+| Lokix 60.358%                          |
+| Forretress 59.388%                     |
+| Yanmega 23.080%                        |
+| Slither Wing 19.320%                   |
+| Ribombee 16.656%                       |
+| Galvantula 11.894%                     |
+| Heracross 11.263%                      |
++----------------------------------------+
++----------------------------------------+
+| Forretress                             |
++----------------------------------------+
+| Raw count: 15045                       |
+| Avg. weight: 0.5781577727857394        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Sturdy 95.731%                         |
+| Overcoat 4.269%                        |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 48.683%                   |
+| Heavy-Duty Boots 23.931%               |
+| Leftovers 16.921%                      |
+| Custap Berry 6.271%                    |
+| Other 4.194%                           |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:252/0/252/0/4/0 29.018%        |
+| Impish:252/4/252/0/0/0 16.016%         |
+| Bold:252/0/252/0/4/0 14.689%           |
+| Relaxed:252/4/252/0/0/0 13.290%        |
+| Impish:252/0/252/0/4/0 4.491%          |
+| Careful:252/0/4/0/252/0 1.350%         |
+| Other 21.146%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 95.499%                     |
+| Volt Switch 67.623%                    |
+| Spikes 55.274%                         |
+| Body Press 34.148%                     |
+| Ice Spinner 32.852%                    |
+| Stealth Rock 26.836%                   |
+| Thunder Wave 26.383%                   |
+| Gyro Ball 22.548%                      |
+| Toxic Spikes 12.846%                   |
+| Explosion 5.919%                       |
+| Iron Defense 4.087%                    |
+| Other 15.985%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 89.308%                      |
+| Araquanid 75.321%                      |
+| Scizor 71.996%                         |
+| Kleavor 68.432%                        |
+| Lokix 57.224%                          |
+| Yanmega 23.346%                        |
+| Heracross 16.433%                      |
+| Galvantula 15.016%                     |
+| Slither Wing 14.725%                   |
+| Ribombee 13.288%                       |
++----------------------------------------+
++----------------------------------------+
+| Lokix                                  |
++----------------------------------------+
+| Raw count: 15209                       |
+| Avg. weight: 0.5669463535089877        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Tinted Lens 98.787%                    |
+| Swarm 1.213%                           |
++----------------------------------------+
+| Items                                  |
+| Life Orb 51.382%                       |
+| Heavy-Duty Boots 18.076%               |
+| Black Glasses 10.998%                  |
+| Choice Band 10.793%                    |
+| Silver Powder 2.811%                   |
+| Focus Sash 1.671%                      |
+| Other 4.268%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 53.708%          |
+| Adamant:0/252/0/0/4/252 21.398%        |
+| Jolly:0/252/4/0/0/252 10.239%          |
+| Adamant:4/252/0/0/0/252 4.746%         |
+| Jolly:4/252/0/0/0/252 3.003%           |
+| Adamant:0/252/4/0/0/252 1.477%         |
+| Other 5.429%                           |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 87.230%                   |
+| Knock Off 84.542%                      |
+| First Impression 71.610%               |
+| U-turn 49.612%                         |
+| Swords Dance 40.303%                   |
+| Leech Life 31.712%                     |
+| Axe Kick 14.007%                       |
+| Taunt 5.381%                           |
+| Other 15.604%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 88.429%                      |
+| Scizor 72.659%                         |
+| Kleavor 70.153%                        |
+| Araquanid 69.652%                      |
+| Forretress 57.721%                     |
+| Ribombee 20.634%                       |
+| Yanmega 17.607%                        |
+| Slither Wing 16.328%                   |
+| Galvantula 15.322%                     |
+| Heracross 15.281%                      |
++----------------------------------------+
++----------------------------------------+
+| Yanmega                                |
++----------------------------------------+
+| Raw count: 7331                        |
+| Avg. weight: 0.4650901346841971        |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Speed Boost 59.529%                    |
+| Tinted Lens 40.416%                    |
+| Frisk 0.055%                           |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 47.410%                   |
+| Throat Spray 18.206%                   |
+| Focus Sash 11.043%                     |
+| Life Orb 8.987%                        |
+| Heavy-Duty Boots 7.238%                |
+| Leftovers 2.260%                       |
+| Other 4.856%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 39.008%         |
+| Timid:0/0/0/252/4/252 33.413%          |
+| Modest:4/0/0/252/0/252 10.396%         |
+| Modest:0/0/4/252/0/252 2.103%          |
+| Timid:0/0/4/252/0/252 1.941%           |
+| Timid:4/0/0/252/0/252 1.356%           |
+| Other 11.783%                          |
++----------------------------------------+
+| Moves                                  |
+| Air Slash 92.104%                      |
+| Bug Buzz 90.112%                       |
+| Giga Drain 65.702%                     |
+| U-turn 37.523%                         |
+| Protect 31.938%                        |
+| Shadow Ball 19.499%                    |
+| Ancient Power 14.357%                  |
+| Psychic Noise 12.891%                  |
+| Psychic 9.158%                         |
+| Detect 6.405%                          |
+| Tailwind 4.594%                        |
+| Other 15.718%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 84.671%                      |
+| Araquanid 68.870%                      |
+| Kleavor 67.798%                        |
+| Scizor 66.607%                         |
+| Forretress 59.515%                     |
+| Lokix 44.498%                          |
+| Galvantula 17.054%                     |
+| Slither Wing 14.214%                   |
+| Ribombee 13.161%                       |
+| Heracross 11.249%                      |
++----------------------------------------+
++----------------------------------------+
+| Ribombee                               |
++----------------------------------------+
+| Raw count: 6384                        |
+| Avg. weight: 0.4398246468211551        |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Shield Dust 91.700%                    |
+| Sweet Veil 6.471%                      |
+| Honey Gather 1.829%                    |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 57.550%                     |
+| Choice Specs 20.377%                   |
+| Heavy-Duty Boots 8.000%                |
+| Choice Scarf 4.234%                    |
+| Leftovers 2.966%                       |
+| Life Orb 1.325%                        |
+| Light Clay 0.918%                      |
+| Other 4.629%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 41.378%          |
+| Modest:0/0/0/252/4/252 24.212%         |
+| Timid:248/0/0/8/0/252 8.815%           |
+| Timid:4/0/0/252/0/252 6.717%           |
+| Timid:0/0/4/252/0/252 4.830%           |
+| Timid:0/0/0/252/0/252 2.462%           |
+| Other 11.587%                          |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 92.059%                      |
+| Sticky Web 70.029%                     |
+| Quiver Dance 45.816%                   |
+| Stun Spore 37.787%                     |
+| Psychic 21.503%                        |
+| Bug Buzz 21.034%                       |
+| U-turn 17.289%                         |
+| Psychic Noise 17.121%                  |
+| Trick 17.013%                          |
+| Energy Ball 12.835%                    |
+| Tailwind 7.688%                        |
+| Draining Kiss 7.002%                   |
+| Stored Power 4.973%                    |
+| Switcheroo 4.008%                      |
+| Light Screen 3.573%                    |
+| Alluring Voice 3.214%                  |
+| Other 17.056%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 85.878%                      |
+| Scizor 75.930%                         |
+| Lokix 63.341%                          |
+| Kleavor 59.427%                        |
+| Forretress 41.143%                     |
+| Araquanid 40.863%                      |
+| Heracross 25.079%                      |
+| Galvantula 18.766%                     |
+| Slither Wing 16.696%                   |
+| Yanmega 15.986%                        |
++----------------------------------------+
++----------------------------------------+
+| Slither Wing                           |
++----------------------------------------+
+| Raw count: 5133                        |
+| Avg. weight: 0.5449536635247116        |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Life Orb 32.540%                       |
+| Heavy-Duty Boots 25.990%               |
+| Assault Vest 14.435%                   |
+| Choice Band 11.352%                    |
+| Leftovers 6.711%                       |
+| Choice Scarf 3.572%                    |
+| Rocky Helmet 1.315%                    |
+| Other 4.084%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 37.862%          |
+| Adamant:0/252/0/0/4/252 23.147%        |
+| Careful:192/68/0/0/188/60 6.460%       |
+| Jolly:0/216/0/0/68/224 4.842%          |
+| Adamant:252/252/0/0/4/0 3.045%         |
+| Adamant:252/252/0/0/0/4 2.706%         |
+| Other 21.940%                          |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 87.098%                   |
+| Earthquake 75.814%                     |
+| First Impression 66.657%               |
+| U-turn 43.197%                         |
+| Flare Blitz 27.628%                    |
+| Wild Charge 18.677%                    |
+| Leech Life 15.837%                     |
+| Morning Sun 15.690%                    |
+| Will-O-Wisp 14.163%                    |
+| Bulk Up 7.504%                         |
+| Flame Charge 5.591%                    |
+| Trailblaze 5.472%                      |
+| Other 16.672%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 84.919%                      |
+| Kleavor 69.207%                        |
+| Araquanid 68.908%                      |
+| Scizor 68.481%                         |
+| Lokix 50.324%                          |
+| Forretress 45.778%                     |
+| Galvantula 17.870%                     |
+| Yanmega 17.334%                        |
+| Ribombee 16.763%                       |
+| Frosmoth 11.728%                       |
++----------------------------------------+
++----------------------------------------+
+| Galvantula                             |
++----------------------------------------+
+| Raw count: 6688                        |
+| Avg. weight: 0.407575120163731         |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Compound Eyes 95.939%                  |
+| Swarm 3.438%                           |
+| Unnerve 0.624%                         |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 53.440%                     |
+| Choice Specs 16.430%                   |
+| Life Orb 10.445%                       |
+| Heavy-Duty Boots 7.660%                |
+| Leftovers 2.705%                       |
+| Air Balloon 2.287%                     |
+| Choice Scarf 1.387%                    |
+| Expert Belt 1.138%                     |
+| Other 4.507%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 69.008%          |
+| Timid:4/0/0/252/0/252 11.718%          |
+| Modest:4/0/0/252/0/252 3.284%          |
+| Timid:0/0/0/252/0/252 2.056%           |
+| Modest:0/0/0/252/4/252 1.620%          |
+| Timid:0/0/4/252/0/252 1.575%           |
+| Other 10.740%                          |
++----------------------------------------+
+| Moves                                  |
+| Thunder 87.362%                        |
+| Bug Buzz 72.653%                       |
+| Sticky Web 71.001%                     |
+| Volt Switch 47.949%                    |
+| Energy Ball 47.729%                    |
+| Thunder Wave 30.603%                   |
+| Giga Drain 21.226%                     |
+| Thunderbolt 3.713%                     |
+| Other 17.765%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 82.729%                      |
+| Araquanid 64.913%                      |
+| Scizor 61.233%                         |
+| Lokix 48.429%                          |
+| Forretress 47.875%                     |
+| Kleavor 43.694%                        |
+| Heracross 29.056%                      |
+| Yanmega 21.328%                        |
+| Ribombee 19.323%                       |
+| Slither Wing 18.327%                   |
++----------------------------------------+
++----------------------------------------+
+| Heracross                              |
++----------------------------------------+
+| Raw count: 5785                        |
+| Avg. weight: 0.44993655309538094       |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 61.163%                          |
+| Guts 38.047%                           |
+| Swarm 0.790%                           |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 41.438%                   |
+| Flame Orb 34.666%                      |
+| Muscle Band 6.359%                     |
+| Heavy-Duty Boots 5.399%                |
+| Loaded Dice 4.244%                     |
+| Life Orb 1.818%                        |
+| Assault Vest 1.660%                    |
+| Other 4.416%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 73.041%          |
+| Adamant:0/252/0/0/4/252 9.896%         |
+| Jolly:4/252/0/0/0/252 5.026%           |
+| Jolly:0/252/0/0/0/252 2.262%           |
+| Adamant:4/252/0/0/0/252 1.970%         |
+| Jolly:0/252/4/0/0/252 1.484%           |
+| Other 6.322%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 95.746%                   |
+| Earthquake 66.899%                     |
+| Knock Off 41.719%                      |
+| Stone Edge 38.861%                     |
+| Megahorn 38.791%                       |
+| Facade 28.833%                         |
+| Trailblaze 20.072%                     |
+| Rock Slide 17.722%                     |
+| Swords Dance 13.850%                   |
+| Lunge 8.699%                           |
+| Rock Blast 4.724%                      |
+| Protect 3.621%                         |
+| Pin Missile 2.506%                     |
+| Other 17.956%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 84.963%                      |
+| Scizor 66.580%                         |
+| Araquanid 61.179%                      |
+| Forretress 54.888%                     |
+| Lokix 50.601%                          |
+| Kleavor 43.350%                        |
+| Galvantula 30.440%                     |
+| Ribombee 27.053%                       |
+| Yanmega 14.739%                        |
+| Vikavolt 9.173%                        |
++----------------------------------------+
++----------------------------------------+
+| Frosmoth                               |
++----------------------------------------+
+| Raw count: 3598                        |
+| Avg. weight: 0.4780822561579792        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Scales 95.818%                     |
+| Shield Dust 4.182%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 79.044%               |
+| Leftovers 6.055%                       |
+| Focus Sash 4.315%                      |
+| Rocky Helmet 1.999%                    |
+| Lum Berry 1.632%                       |
+| Choice Specs 1.350%                    |
+| Assault Vest 1.256%                    |
+| Other 4.347%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 38.983%         |
+| Timid:0/0/0/252/4/252 27.248%          |
+| Modest:0/0/4/252/0/252 6.854%          |
+| Bold:0/0/252/252/0/0 4.205%            |
+| Modest:220/0/60/188/4/36 2.674%        |
+| Hasty:0/0/0/252/4/252 2.316%           |
+| Other 17.722%                          |
++----------------------------------------+
+| Moves                                  |
+| Ice Beam 96.444%                       |
+| Quiver Dance 93.224%                   |
+| Giga Drain 73.414%                     |
+| Bug Buzz 40.198%                       |
+| Substitute 35.754%                     |
+| Hurricane 17.640%                      |
+| Dazzling Gleam 13.553%                 |
+| Defog 6.366%                           |
+| Blizzard 4.713%                        |
+| Other 18.695%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 79.337%                      |
+| Scizor 71.956%                         |
+| Kleavor 65.141%                        |
+| Araquanid 64.056%                      |
+| Lokix 54.439%                          |
+| Forretress 42.556%                     |
+| Slither Wing 19.069%                   |
+| Galvantula 18.335%                     |
+| Ribombee 13.119%                       |
+| Heracross 10.594%                      |
++----------------------------------------+
++----------------------------------------+
+| Rabsca                                 |
++----------------------------------------+
+| Raw count: 1438                        |
+| Avg. weight: 0.549548754574889         |
+| Viability Ceiling: 71                  |
++----------------------------------------+
+| Abilities                              |
+| Synchronize 98.759%                    |
+| Telepathy 1.241%                       |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 54.424%                     |
+| Choice Specs 12.659%                   |
+| Heavy-Duty Boots 8.994%                |
+| Leppa Berry 8.883%                     |
+| Sitrus Berry 5.204%                    |
+| Leftovers 3.655%                       |
+| Aguav Berry 1.312%                     |
+| Other 4.870%                           |
++----------------------------------------+
+| Spreads                                |
+| Quiet:252/0/0/252/4/0 40.576%          |
+| Modest:252/0/0/252/4/0 26.670%         |
+| Bold:252/0/252/0/4/0 7.413%            |
+| Modest:252/0/0/252/0/4 6.916%          |
+| Calm:252/0/0/4/252/0 2.754%            |
+| Quiet:144/0/180/0/184/0 2.076%         |
+| Other 13.595%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 66.358%                    |
+| Revival Blessing 58.071%               |
+| Energy Ball 55.238%                    |
+| Trick Room 44.912%                     |
+| Psyshock 44.688%                       |
+| Dazzling Gleam 20.152%                 |
+| Psychic 18.147%                        |
+| Future Sight 16.536%                   |
+| Memento 13.297%                        |
+| Bug Buzz 9.749%                        |
+| Psychic Noise 6.010%                   |
+| Recover 5.671%                         |
+| Struggle Bug 5.164%                    |
+| Protect 5.142%                         |
+| Trick 5.121%                           |
+| Speed Swap 4.854%                      |
+| Calm Mind 3.601%                       |
+| Other 17.290%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 89.788%                      |
+| Araquanid 78.584%                      |
+| Kleavor 71.316%                        |
+| Forretress 64.636%                     |
+| Lokix 62.443%                          |
+| Scizor 43.005%                         |
+| Heracross 12.459%                      |
+| Yanmega 11.259%                        |
+| Slither Wing 10.410%                   |
+| Ribombee 8.772%                        |
++----------------------------------------+
++----------------------------------------+
+| Vikavolt                               |
++----------------------------------------+
+| Raw count: 1856                        |
+| Avg. weight: 0.42485639888186716       |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 42.236%                   |
+| Life Orb 22.115%                       |
+| Assault Vest 7.066%                    |
+| Expert Belt 5.319%                     |
+| Focus Sash 4.866%                      |
+| Heavy-Duty Boots 3.137%                |
+| Leftovers 3.110%                       |
+| Eject Button 2.083%                    |
+| Occa Berry 2.045%                      |
+| Aguav Berry 1.933%                     |
+| Choice Scarf 1.148%                    |
+| Other 4.944%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:252/0/0/252/4/0 55.937%         |
+| Quiet:252/4/0/252/0/0 6.113%           |
+| Modest:72/0/0/252/4/180 5.719%         |
+| Modest:116/0/84/168/140/0 4.244%       |
+| Timid:0/0/0/252/4/252 4.091%           |
+| Modest:252/0/4/252/0/0 3.971%          |
+| Other 19.926%                          |
++----------------------------------------+
+| Moves                                  |
+| Bug Buzz 92.120%                       |
+| Energy Ball 85.207%                    |
+| Thunderbolt 61.372%                    |
+| Flash Cannon 52.229%                   |
+| Volt Switch 38.902%                    |
+| Discharge 28.471%                      |
+| Sticky Web 12.001%                     |
+| Thunder 7.549%                         |
+| Air Slash 4.748%                       |
+| Other 17.402%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 84.290%                      |
+| Scizor 78.041%                         |
+| Araquanid 71.548%                      |
+| Kleavor 45.726%                        |
+| Forretress 40.533%                     |
+| Heracross 30.301%                      |
+| Lokix 27.745%                          |
+| Yanmega 19.880%                        |
+| Ribombee 18.133%                       |
+| Slither Wing 15.354%                   |
++----------------------------------------+
++----------------------------------------+
+| Vivillon                               |
++----------------------------------------+
+| Raw count: 1195                        |
+| Avg. weight: 0.4849106213558407        |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Compound Eyes 97.328%                  |
+| Shield Dust 2.073%                     |
+| Friend Guard 0.599%                    |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 73.857%                     |
+| Leftovers 15.432%                      |
+| Heavy-Duty Boots 7.482%                |
+| Other 3.228%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 36.603%          |
+| Modest:0/0/0/252/4/252 25.362%         |
+| Timid:4/0/0/252/0/252 23.505%          |
+| Timid:0/0/0/252/0/252 6.149%           |
+| Timid:252/0/0/4/0/252 1.297%           |
+| Modest:0/0/0/252/0/252 0.944%          |
+| Other 6.141%                           |
++----------------------------------------+
+| Moves                                  |
+| Hurricane 97.505%                      |
+| Sleep Powder 96.957%                   |
+| Quiver Dance 95.286%                   |
+| Giga Drain 34.640%                     |
+| Bug Buzz 32.081%                       |
+| Substitute 17.606%                     |
+| Draining Kiss 7.235%                   |
+| Other 18.690%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 73.703%                      |
+| Scizor 70.240%                         |
+| Forretress 55.790%                     |
+| Araquanid 54.810%                      |
+| Lokix 47.918%                          |
+| Galvantula 32.765%                     |
+| Kleavor 31.525%                        |
+| Heracross 23.518%                      |
+| Frosmoth 19.265%                       |
+| Slither Wing 13.515%                   |
++----------------------------------------+
++----------------------------------------+
+| Scyther                                |
++----------------------------------------+
+| Raw count: 1292                        |
+| Avg. weight: 0.26154928591834187       |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Technician 91.660%                     |
+| Swarm 4.952%                           |
+| Steadfast 3.388%                       |
++----------------------------------------+
+| Items                                  |
+| Eviolite 64.166%                       |
+| Heavy-Duty Boots 16.424%               |
+| Nothing 5.678%                         |
+| Expert Belt 4.302%                     |
+| Choice Band 2.609%                     |
+| Choice Scarf 2.070%                    |
+| Other 4.751%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 50.631%          |
+| Jolly:0/252/0/0/0/252 9.146%           |
+| Jolly:4/252/0/0/0/252 5.240%           |
+| Jolly:0/252/4/0/0/252 4.233%           |
+| Adamant:0/252/0/0/0/252 3.394%         |
+| Adamant:4/252/0/0/0/252 3.387%         |
+| Other 23.969%                          |
++----------------------------------------+
+| Moves                                  |
+| Dual Wingbeat 75.626%                  |
+| Swords Dance 65.335%                   |
+| Bug Bite 45.336%                       |
+| Close Combat 39.623%                   |
+| Trailblaze 29.681%                     |
+| Quick Attack 27.837%                   |
+| U-turn 27.352%                         |
+| Defog 23.408%                          |
+| Aerial Ace 14.160%                     |
+| Acrobatics 10.888%                     |
+| Thief 6.174%                           |
+| Lunge 4.629%                           |
+| X-Scissor 4.528%                       |
+| Tailwind 3.854%                        |
+| Fury Cutter 3.628%                     |
+| Other 17.941%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 77.559%                      |
+| Araquanid 48.121%                      |
+| Forretress 45.218%                     |
+| Kleavor 45.181%                        |
+| Lokix 42.664%                          |
+| Scizor 38.896%                         |
+| Galvantula 28.182%                     |
+| Heracross 25.631%                      |
+| Yanmega 24.108%                        |
+| Ribombee 22.956%                       |
++----------------------------------------+
++----------------------------------------+
+| Venomoth                               |
++----------------------------------------+
+| Raw count: 1148                        |
+| Avg. weight: 0.28229013062773706       |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Tinted Lens 75.265%                    |
+| Wonder Skin 16.557%                    |
+| Shield Dust 8.179%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 23.972%               |
+| Focus Sash 23.180%                     |
+| Leftovers 19.207%                      |
+| Kee Berry 11.981%                      |
+| Black Sludge 6.595%                    |
+| Chesto Berry 5.602%                    |
+| Nothing 2.230%                         |
+| Choice Specs 2.047%                    |
+| Life Orb 1.766%                        |
+| Other 3.420%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 67.413%         |
+| Timid:0/0/0/252/4/252 7.411%           |
+| Modest:0/0/0/140/152/216 5.602%        |
+| Bold:0/0/252/252/4/0 4.257%            |
+| Timid:4/0/0/252/0/252 2.127%           |
+| Bold:252/0/252/0/4/0 1.748%            |
+| Other 11.443%                          |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 93.062%                   |
+| Sludge Wave 64.670%                    |
+| Bug Buzz 60.329%                       |
+| Giga Drain 47.389%                     |
+| Sleep Powder 27.913%                   |
+| Psychic Noise 21.123%                  |
+| Sludge Bomb 16.100%                    |
+| Morning Sun 14.452%                    |
+| Psychic 14.226%                        |
+| Energy Ball 9.090%                     |
+| Rest 5.602%                            |
+| U-turn 4.137%                          |
+| Toxic Spikes 3.471%                    |
+| Other 18.437%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 76.818%                      |
+| Araquanid 73.006%                      |
+| Scizor 50.986%                         |
+| Kleavor 45.740%                        |
+| Forretress 44.961%                     |
+| Heracross 31.304%                      |
+| Galvantula 29.201%                     |
+| Lokix 25.928%                          |
+| Frosmoth 17.518%                       |
+| Yanmega 15.304%                        |
++----------------------------------------+
++----------------------------------------+
+| Illumise                               |
++----------------------------------------+
+| Raw count: 422                         |
+| Avg. weight: 0.4252713674834331        |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 98.703%                      |
+| Tinted Lens 0.668%                     |
+| Oblivious 0.630%                       |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 38.791%               |
+| Leftovers 19.507%                      |
+| Sitrus Berry 13.886%                   |
+| Focus Sash 9.784%                      |
+| Choice Scarf 5.975%                    |
+| Sticky Barb 4.862%                     |
+| Heat Rock 2.824%                       |
+| Other 4.370%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/4/0/252/0 36.360%           |
+| Bold:4/0/252/0/252/0 18.576%           |
+| Impish:0/0/252/0/252/0 9.586%          |
+| Impish:4/0/252/0/252/0 5.812%          |
+| Careful:252/0/4/0/252/0 5.477%         |
+| Sassy:4/0/252/0/252/0 4.601%           |
+| Other 19.588%                          |
++----------------------------------------+
+| Moves                                  |
+| Thunder Wave 87.913%                   |
+| Encore 82.383%                         |
+| Bug Buzz 56.804%                       |
+| Moonlight 31.234%                      |
+| Tailwind 29.971%                       |
+| U-turn 21.959%                         |
+| Trick 13.041%                          |
+| Wish 10.675%                           |
+| Roost 10.063%                          |
+| Skitter Smack 9.889%                   |
+| Light Screen 8.332%                    |
+| Infestation 7.058%                     |
+| Sunny Day 5.420%                       |
+| Protect 4.271%                         |
+| Quick Attack 3.639%                    |
+| Other 17.347%                          |
++----------------------------------------+
+| Teammates                              |
+| Scizor 84.356%                         |
+| Volcarona 76.038%                      |
+| Araquanid 62.778%                      |
+| Lokix 57.973%                          |
+| Kleavor 57.589%                        |
+| Forretress 32.905%                     |
+| Heracross 19.591%                      |
+| Galvantula 17.389%                     |
+| Ribombee 17.270%                       |
+| Vivillon 11.145%                       |
++----------------------------------------+
++----------------------------------------+
+| Volbeat                                |
++----------------------------------------+
+| Raw count: 651                         |
+| Avg. weight: 0.22512136095218657       |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 97.813%                      |
+| Illuminate 2.187%                      |
+| Swarm 0.000%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 46.441%               |
+| Shed Shell 13.803%                     |
+| Black Sludge 7.929%                    |
+| Focus Sash 7.209%                      |
+| Lagging Tail 4.401%                    |
+| Leftovers 2.494%                       |
+| Toxic Orb 2.170%                       |
+| Mirror Herb 2.016%                     |
+| Weakness Policy 1.553%                 |
+| Heat Rock 1.487%                       |
+| Iron Ball 1.147%                       |
+| Aguav Berry 0.966%                     |
+| Eject Button 0.908%                    |
+| Clear Amulet 0.894%                    |
+| Mental Herb 0.848%                     |
+| Sitrus Berry 0.730%                    |
+| Life Orb 0.626%                        |
+| Other 4.379%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/4/0/252/0 24.446%        |
+| Calm:252/0/0/4/252/0 17.212%           |
+| Careful:168/0/252/0/88/0 13.803%       |
+| Calm:252/0/4/0/252/0 9.376%            |
+| Careful:252/4/0/0/252/0 7.283%         |
+| Impish:252/4/252/0/0/0 4.179%          |
+| Other 23.701%                          |
++----------------------------------------+
+| Moves                                  |
+| Encore 85.766%                         |
+| Thunder Wave 81.109%                   |
+| Roost 41.488%                          |
+| U-turn 35.600%                         |
+| Tailwind 25.263%                       |
+| Light Screen 17.926%                   |
+| Trick 16.845%                          |
+| Bug Buzz 16.302%                       |
+| Taunt 15.852%                          |
+| Lunge 12.089%                          |
+| Seismic Toss 11.266%                   |
+| Infestation 7.362%                     |
+| Moonlight 6.193%                       |
+| Sunny Day 5.329%                       |
+| Rain Dance 3.884%                      |
+| Other 17.726%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 81.480%                      |
+| Araquanid 74.660%                      |
+| Kleavor 50.896%                        |
+| Forretress 48.299%                     |
+| Heracross 42.253%                      |
+| Scizor 40.606%                         |
+| Lokix 36.425%                          |
+| Ribombee 21.136%                       |
+| Galvantula 17.607%                     |
+| Slither Wing 17.475%                   |
++----------------------------------------+
++----------------------------------------+
+| Leavanny                               |
++----------------------------------------+
+| Raw count: 659                         |
+| Avg. weight: 0.1843356150951122        |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Swarm 43.567%                          |
+| Chlorophyll 38.987%                    |
+| Overcoat 17.446%                       |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 42.896%                     |
+| Expert Belt 11.932%                    |
+| Heavy-Duty Boots 10.467%               |
+| Life Orb 9.606%                        |
+| Choice Band 5.652%                     |
+| Choice Scarf 4.175%                    |
+| Light Clay 2.887%                      |
+| Heat Rock 2.628%                       |
+| Assault Vest 1.854%                    |
+| Miracle Seed 1.786%                    |
+| Scope Lens 1.772%                      |
+| Other 4.345%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 27.637%          |
+| Adamant:0/252/0/0/4/252 27.395%        |
+| Jolly:0/252/0/0/4/252 18.200%          |
+| Jolly:0/252/4/0/0/252 4.790%           |
+| Jolly:0/252/0/4/0/252 4.285%           |
+| Adamant:4/252/0/0/0/252 3.535%         |
+| Other 14.158%                          |
++----------------------------------------+
+| Moves                                  |
+| Leaf Blade 90.394%                     |
+| Knock Off 49.903%                      |
+| Triple Axel 44.614%                    |
+| Lunge 34.233%                          |
+| Sticky Web 29.349%                     |
+| Fell Stinger 26.706%                   |
+| Poison Jab 24.495%                     |
+| Shadow Claw 15.035%                    |
+| Swords Dance 12.532%                   |
+| Agility 12.217%                        |
+| X-Scissor 12.206%                      |
+| Sunny Day 10.914%                      |
+| Low Kick 6.701%                        |
+| Protect 4.923%                         |
+| Synthesis 4.080%                       |
+| Light Screen 3.768%                    |
+| Other 17.930%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 77.052%                      |
+| Araquanid 67.225%                      |
+| Kleavor 41.608%                        |
+| Forretress 35.378%                     |
+| Lokix 33.743%                          |
+| Scizor 30.422%                         |
+| Yanmega 28.412%                        |
+| Galvantula 26.614%                     |
+| Frosmoth 23.912%                       |
+| Ribombee 16.442%                       |
++----------------------------------------+
++----------------------------------------+
+| Masquerain                             |
++----------------------------------------+
+| Raw count: 433                         |
+| Avg. weight: 0.23312631772619194       |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 98.637%                     |
+| Unnerve 1.363%                         |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 65.212%                     |
+| Heavy-Duty Boots 12.550%               |
+| Choice Scarf 7.297%                    |
+| Leftovers 2.517%                       |
+| Nothing 2.403%                         |
+| Blunder Policy 2.146%                  |
+| Choice Specs 2.063%                    |
+| Wide Lens 1.695%                       |
+| Other 4.116%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 28.602%          |
+| Modest:0/0/0/252/4/252 26.537%         |
+| Timid:248/0/0/8/0/252 15.064%          |
+| Jolly:248/0/0/0/8/252 7.108%           |
+| Hardy:4/0/0/252/0/252 3.943%           |
+| Modest:0/0/4/252/0/252 3.913%          |
+| Other 14.833%                          |
++----------------------------------------+
+| Moves                                  |
+| Sticky Web 49.368%                     |
+| Quiver Dance 41.054%                   |
+| Hurricane 33.737%                      |
+| Stun Spore 32.312%                     |
+| Hydro Pump 31.965%                     |
+| Bug Buzz 31.935%                       |
+| Air Slash 31.605%                      |
+| Giga Drain 24.299%                     |
+| Haze 20.805%                           |
+| Ice Beam 19.705%                       |
+| Tailwind 16.574%                       |
+| U-turn 13.811%                         |
+| Rain Dance 8.971%                      |
+| Chilling Water 8.814%                  |
+| Energy Ball 6.270%                     |
+| Surf 5.265%                            |
+| Shadow Ball 3.898%                     |
+| Other 19.611%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 76.438%                      |
+| Scizor 65.315%                         |
+| Lokix 52.296%                          |
+| Araquanid 43.111%                      |
+| Kleavor 40.395%                        |
+| Slither Wing 34.399%                   |
+| Forretress 28.038%                     |
+| Galvantula 24.273%                     |
+| Heracross 22.319%                      |
+| Yanmega 18.125%                        |
++----------------------------------------+
++----------------------------------------+
+| Spidops                                |
++----------------------------------------+
+| Raw count: 352                         |
+| Avg. weight: 0.28102798556943953       |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Stakeout 87.602%                       |
+| Insomnia 12.398%                       |
++----------------------------------------+
+| Items                                  |
+| Red Card 34.097%                       |
+| Focus Sash 18.144%                     |
+| Leftovers 14.641%                      |
+| Assault Vest 14.284%                   |
+| Heavy-Duty Boots 4.720%                |
+| Rocky Helmet 4.138%                    |
+| Toxic Orb 3.710%                       |
+| Choice Band 3.157%                     |
+| Other 3.108%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:248/0/132/0/128/0 33.605%      |
+| Sassy:4/0/252/0/252/0 12.836%          |
+| Impish:248/8/252/0/0/0 11.687%         |
+| Adamant:248/252/0/0/8/0 10.292%        |
+| Sassy:248/0/252/0/8/0 4.406%           |
+| Impish:252/0/252/0/4/0 3.493%          |
+| Other 23.682%                          |
++----------------------------------------+
+| Moves                                  |
+| Circle Throw 75.590%                   |
+| Sticky Web 63.273%                     |
+| Knock Off 60.891%                      |
+| Toxic Spikes 48.217%                   |
+| Spikes 22.880%                         |
+| Lunge 22.213%                          |
+| Silk Trap 21.039%                      |
+| Brick Break 14.284%                    |
+| U-turn 10.570%                         |
+| Pain Split 9.742%                      |
+| Sucker Punch 8.450%                    |
+| First Impression 5.370%                |
+| Poison Jab 4.609%                      |
+| Low Kick 4.406%                        |
+| Leech Life 4.035%                      |
+| Facade 3.710%                          |
+| Giga Drain 3.710%                      |
+| Other 17.010%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 74.645%                      |
+| Araquanid 70.028%                      |
+| Scizor 67.663%                         |
+| Kleavor 53.105%                        |
+| Forretress 49.408%                     |
+| Lokix 38.337%                          |
+| Galvantula 25.595%                     |
+| Slither Wing 17.996%                   |
+| Yanmega 13.024%                        |
+| Frosmoth 10.247%                       |
++----------------------------------------+
++----------------------------------------+
+| Ariados                                |
++----------------------------------------+
+| Raw count: 541                         |
+| Avg. weight: 0.13369156303110566       |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Sniper 69.105%                         |
+| Insomnia 23.208%                       |
+| Swarm 7.686%                           |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 35.467%                     |
+| Black Sludge 30.936%                   |
+| Heavy-Duty Boots 10.270%               |
+| Scope Lens 5.553%                      |
+| Razor Claw 4.971%                      |
+| Nothing 3.824%                         |
+| Life Orb 3.628%                        |
+| Covert Cloak 1.203%                    |
+| Other 4.149%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/92/0/0/168/0 26.590%       |
+| Adamant:248/252/0/0/8/0 19.073%        |
+| Jolly:252/4/0/0/0/252 14.112%          |
+| Jolly:0/252/0/0/4/252 9.433%           |
+| Adamant:252/252/0/0/4/0 5.168%         |
+| Jolly:80/200/0/0/0/228 4.866%          |
+| Other 20.757%                          |
++----------------------------------------+
+| Moves                                  |
+| Leech Life 43.841%                     |
+| Toxic Spikes 33.909%                   |
+| Cross Poison 33.632%                   |
+| Sticky Web 28.767%                     |
+| Focus Energy 28.145%                   |
+| Substitute 27.398%                     |
+| Poison Jab 24.836%                     |
+| Toxic 20.045%                          |
+| Knock Off 18.601%                      |
+| Foul Play 18.362%                      |
+| Disable 17.505%                        |
+| Sucker Punch 17.397%                   |
+| Shadow Sneak 15.868%                   |
+| X-Scissor 8.813%                       |
+| Pounce 8.177%                          |
+| Megahorn 6.894%                        |
+| Swords Dance 6.728%                    |
+| Night Slash 5.923%                     |
+| Protect 5.354%                         |
+| Lunge 4.919%                           |
+| Agility 4.911%                         |
+| Other 19.974%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 70.596%                      |
+| Araquanid 65.002%                      |
+| Lokix 58.909%                          |
+| Scizor 44.205%                         |
+| Kleavor 41.301%                        |
+| Yanmega 32.298%                        |
+| Forretress 32.184%                     |
+| Galvantula 19.342%                     |
+| Heracross 15.644%                      |
+| Slither Wing 15.279%                   |
++----------------------------------------+
++----------------------------------------+
+| Venonat                                |
++----------------------------------------+
+| Raw count: 314                         |
+| Avg. weight: 0.1956310812208503        |
+| Viability Ceiling: 62                  |
++----------------------------------------+
+| Abilities                              |
+| Compound Eyes 98.198%                  |
+| Run Away 1.260%                        |
+| Tinted Lens 0.542%                     |
++----------------------------------------+
+| Items                                  |
+| Eviolite 97.769%                       |
+| Other 2.231%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:4/0/252/0/252/0 30.196%           |
+| Calm:248/0/0/8/252/0 13.085%           |
+| Timid:252/0/0/0/4/252 9.137%           |
+| Bold:4/0/252/0/252/0 8.986%            |
+| Relaxed:4/0/252/0/252/0 8.753%         |
+| Calm:248/0/8/0/252/0 6.707%            |
+| Other 23.137%                          |
++----------------------------------------+
+| Moves                                  |
+| Sleep Powder 92.154%                   |
+| Toxic Spikes 52.735%                   |
+| Night Shade 45.368%                    |
+| Endeavor 41.050%                       |
+| Toxic 27.179%                          |
+| Protect 22.218%                        |
+| Morning Sun 16.532%                    |
+| Rage Powder 14.363%                    |
+| Bug Buzz 13.664%                       |
+| Struggle Bug 12.666%                   |
+| Stun Spore 9.767%                      |
+| Lunge 9.220%                           |
+| Giga Drain 8.753%                      |
+| Disable 7.472%                         |
+| Psychic 6.571%                         |
+| Sludge Bomb 4.578%                     |
+| Other 15.712%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 66.142%                      |
+| Scizor 56.348%                         |
+| Araquanid 54.784%                      |
+| Kleavor 49.217%                        |
+| Ribombee 48.439%                       |
+| Lokix 39.221%                          |
+| Galvantula 32.736%                     |
+| Heracross 31.775%                      |
+| Forretress 28.090%                     |
+| Yanmega 18.877%                        |
++----------------------------------------+
++----------------------------------------+
+| Vespiquen                              |
++----------------------------------------+
+| Raw count: 289                         |
+| Avg. weight: 0.20003093116928972       |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 72.739%                       |
+| Unnerve 27.261%                        |
++----------------------------------------+
+| Items                                  |
+| Leftovers 37.877%                      |
+| Heavy-Duty Boots 34.171%               |
+| Assault Vest 5.836%                    |
+| Focus Sash 5.632%                      |
+| Salac Berry 3.851%                     |
+| Nothing 3.572%                         |
+| Mirror Herb 2.995%                     |
+| Choice Specs 1.509%                    |
+| Other 4.556%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/0/4/252/0 14.069%           |
+| Sassy:252/4/0/0/252/0 10.379%          |
+| Calm:248/0/8/0/252/0 7.959%            |
+| Impish:252/0/0/0/252/0 7.842%          |
+| Careful:252/0/4/0/252/0 5.753%         |
+| Sassy:248/8/0/0/252/0 5.180%           |
+| Other 48.817%                          |
++----------------------------------------+
+| Moves                                  |
+| Roost 67.894%                          |
+| Attack Order 48.498%                   |
+| Defend Order 45.488%                   |
+| Toxic 39.810%                          |
+| Toxic Spikes 34.606%                   |
+| Spikes 28.458%                         |
+| U-turn 19.220%                         |
+| Psychic Noise 13.587%                  |
+| Protect 13.346%                        |
+| Air Slash 10.111%                      |
+| Power Gem 9.970%                       |
+| Acrobatics 9.835%                      |
+| Lunge 6.978%                           |
+| Fell Stinger 6.656%                    |
+| Dual Wingbeat 5.202%                   |
+| Hurricane 5.029%                       |
+| Destiny Bond 4.496%                    |
+| Bug Buzz 4.245%                        |
+| Hex 3.681%                             |
+| Rest 3.571%                            |
+| Other 19.320%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 61.664%                      |
+| Araquanid 58.451%                      |
+| Lokix 38.051%                          |
+| Kleavor 37.909%                        |
+| Scizor 35.789%                         |
+| Galvantula 25.403%                     |
+| Vivillon 21.953%                       |
+| Forretress 21.616%                     |
+| Heracross 20.294%                      |
+| Ribombee 16.429%                       |
++----------------------------------------+
++----------------------------------------+
+| Kricketune                             |
++----------------------------------------+
+| Raw count: 197                         |
+| Avg. weight: 0.08978572139904882       |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Technician 93.877%                     |
+| Swarm 6.123%                           |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 29.816%                     |
+| Heavy-Duty Boots 25.644%               |
+| Assault Vest 16.219%                   |
+| Leftovers 9.244%                       |
+| Sitrus Berry 6.622%                    |
+| Custap Berry 6.123%                    |
+| Choice Scarf 5.112%                    |
+| Other 1.220%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 53.368%        |
+| Jolly:0/252/0/0/4/252 24.547%          |
+| Jolly:132/0/0/0/124/252 8.799%         |
+| Adamant:252/252/4/0/0/0 6.123%         |
+| Jolly:252/4/0/0/0/252 5.580%           |
+| Other 1.582%                           |
++----------------------------------------+
+| Moves                                  |
+| Taunt 59.670%                          |
+| Aerial Ace 58.480%                     |
+| Fell Stinger 56.762%                   |
+| Sticky Web 53.253%                     |
+| Bug Bite 43.495%                       |
+| Trailblaze 35.250%                     |
+| Knock Off 20.068%                      |
+| Endeavor 18.605%                       |
+| Perish Song 18.235%                    |
+| Pounce 15.961%                         |
+| Protect 9.244%                         |
+| Other 10.975%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 61.194%                      |
+| Forretress 50.669%                     |
+| Yanmega 50.556%                        |
+| Lokix 46.732%                          |
+| Heracross 36.775%                      |
+| Ribombee 36.760%                       |
+| Kleavor 32.657%                        |
+| Slither Wing 29.508%                   |
+| Araquanid 28.903%                      |
+| Scizor 23.495%                         |
++----------------------------------------+
++----------------------------------------+
+| Charjabug                              |
++----------------------------------------+
+| Raw count: 104                         |
+| Avg. weight: 0.07925836757507404       |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Battery 100.000%                       |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/4/252/0/0/0 58.712%         |
+| Relaxed:252/4/252/0/0/0 36.292%        |
+| Other 4.996%                           |
++----------------------------------------+
+| Moves                                  |
+| Lunge 99.898%                          |
+| Thunder Wave 99.740%                   |
+| Volt Switch 58.712%                    |
+| Light Screen 58.712%                   |
+| Sticky Web 41.063%                     |
+| Discharge 36.292%                      |
+| Other 5.583%                           |
++----------------------------------------+
+| Teammates                              |
+| Araquanid 99.515%                      |
+| Lokix 95.004%                          |
+| Yanmega 63.449%                        |
+| Kleavor 63.224%                        |
+| Masquerain 58.712%                     |
+| Volcarona 40.803%                      |
+| Forretress 36.292%                     |
+| Heracross 36.292%                      |
++----------------------------------------+
++----------------------------------------+
+| Larvesta                               |
++----------------------------------------+
+| Raw count: 12                          |
+| Avg. weight: 0.16517665577763185       |
+| Viability Ceiling: 50                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:248/8/252/0/0/0 90.835%        |
+| Impish:0/4/252/0/252/0 9.165%          |
+| Other 0.000%                           |
++----------------------------------------+
+| Moves                                  |
+| Flame Charge 100.000%                  |
+| Morning Sun 90.835%                    |
+| Sunny Day 90.835%                      |
+| Giga Drain 90.835%                     |
+| Zen Headbutt 9.165%                    |
+| Other 18.330%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 98.174%                      |
+| Scizor 98.174%                         |
+| Kleavor 98.174%                        |
+| Slither Wing 90.835%                   |
+| Scyther 90.835%                        |
++----------------------------------------+
++----------------------------------------+
+| Combee                                 |
++----------------------------------------+
+| Raw count: 4                           |
+| Avg. weight: 0.47579421073854067       |
+| Viability Ceiling: 56                  |
++----------------------------------------+
+| Abilities                              |
+| Hustle 92.797%                         |
+| Honey Gather 7.203%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Band 100.000%                   |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/0/252 92.797%          |
+| Hasty:0/252/0/4/0/252 7.203%           |
++----------------------------------------+
+| Moves                                  |
+| Nothing 185.593%                       |
+| Lunge 100.000%                         |
+| Tera Blast 92.797%                     |
+| Bug Bite 7.203%                        |
+| Other 14.407%                          |
++----------------------------------------+
+| Teammates                              |
+| Ribombee 92.797%                       |
+| Vespiquen 92.797%                      |
+| Lokix 92.797%                          |
+| Araquanid 92.797%                      |
+| Volcarona 92.797%                      |
+| Masquerain 7.203%                      |
+| Nymble 7.203%                          |
++----------------------------------------+
++----------------------------------------+
+| Yanma                                  |
++----------------------------------------+
+| Raw count: 30                          |
+| Avg. weight: 0.05406396330532106       |
+| Viability Ceiling: 49                  |
++----------------------------------------+
+| Abilities                              |
+| Compound Eyes 77.456%                  |
+| Speed Boost 22.544%                    |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 69.824%                     |
+| Eviolite 30.175%                       |
+| Other 0.001%                           |
++----------------------------------------+
+| Spreads                                |
+| Naive:0/20/0/236/0/252 66.667%         |
+| Mild:116/0/0/252/0/140 19.129%         |
+| Timid:0/0/0/252/4/252 5.547%           |
+| Jolly:252/4/0/0/0/252 3.414%           |
+| Timid:4/0/0/252/0/252 3.157%           |
+| Other 2.086%                           |
++----------------------------------------+
+| Moves                                  |
+| U-turn 89.209%                         |
+| Air Slash 80.871%                      |
+| Hypnosis 71.909%                       |
+| Psychic Noise 66.667%                  |
+| Bug Buzz 27.834%                       |
+| Protect 22.543%                        |
+| Shadow Ball 19.129%                    |
+| Tailwind 8.657%                        |
+| Other 13.181%                          |
++----------------------------------------+
+| Teammates                              |
+| Heracross 92.368%                      |
+| Scizor 87.881%                         |
+| Galvantula 72.387%                     |
+| Lokix 70.081%                          |
+| Volcarona 66.667%                      |
+| Forretress 24.629%                     |
+| Ariados 19.129%                        |
+| Pineco 19.129%                         |
+| Araquanid 7.548%                       |
+| Ribombee 5.720%                        |
++----------------------------------------+

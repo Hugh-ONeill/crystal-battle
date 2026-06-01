@@ -1,0 +1,1456 @@
++----------------------------------------+
+| Flutter Mane                           |
++----------------------------------------+
+| Raw count: 13758                       |
+| Avg. weight: 0.207389846389393         |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 68.556%                   |
+| Choice Scarf 20.865%                   |
+| Heavy-Duty Boots 4.621%                |
+| Focus Sash 1.782%                      |
+| Other 4.175%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 73.921%          |
+| Timid:0/0/4/252/0/252 12.665%          |
+| Modest:0/0/0/252/4/252 4.181%          |
+| Timid:4/0/0/252/0/252 2.292%           |
+| Timid:0/0/0/252/0/252 1.936%           |
+| Timid:32/0/216/44/0/216 1.601%         |
+| Other 3.405%                           |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 99.110%                    |
+| Moonblast 98.999%                      |
+| Thunderbolt 71.827%                    |
+| Power Gem 62.781%                      |
+| Mystical Fire 25.067%                  |
+| Psyshock 23.188%                       |
+| Other 19.027%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 86.010%                   |
+| Klefki 71.998%                         |
+| Azumarill 65.217%                      |
+| Hatterene 63.916%                      |
+| Primarina 60.641%                      |
+| Tinkaton 32.553%                       |
+| Enamorus 24.479%                       |
+| Weezing-Galar 17.982%                  |
+| Clefable 14.941%                       |
+| Grimmsnarl 10.848%                     |
++----------------------------------------+
++----------------------------------------+
+| Iron Valiant                           |
++----------------------------------------+
+| Raw count: 11990                       |
+| Avg. weight: 0.2201926279051773        |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Life Orb 56.940%                       |
+| Choice Scarf 16.703%                   |
+| Expert Belt 14.158%                    |
+| Choice Band 4.162%                     |
+| Focus Sash 2.314%                      |
+| Assault Vest 1.703%                    |
+| Other 4.019%                           |
++----------------------------------------+
+| Spreads                                |
+| Naive:0/252/0/4/0/252 38.127%          |
+| Jolly:0/252/0/0/4/252 35.007%          |
+| Timid:0/0/0/252/4/252 4.257%           |
+| Naive:0/4/0/252/0/252 4.186%           |
+| Jolly:4/252/0/0/0/252 3.282%           |
+| Jolly:0/252/0/0/0/252 2.531%           |
+| Other 12.611%                          |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 90.958%                   |
+| Ice Punch 54.022%                      |
+| Shadow Sneak 43.013%                   |
+| Knock Off 42.685%                      |
+| Thunderbolt 36.848%                    |
+| Swords Dance 35.163%                   |
+| Moonblast 30.023%                      |
+| Spirit Break 15.438%                   |
+| Trick 7.581%                           |
+| Aura Sphere 6.529%                     |
+| Encore 5.424%                          |
+| Psyshock 3.804%                        |
+| Psychic 3.778%                         |
+| Destiny Bond 3.382%                    |
+| Drain Punch 3.219%                     |
+| Other 18.133%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 92.902%                   |
+| Klefki 71.763%                         |
+| Azumarill 65.326%                      |
+| Hatterene 62.893%                      |
+| Primarina 59.262%                      |
+| Tinkaton 33.787%                       |
+| Enamorus 24.156%                       |
+| Clefable 14.395%                       |
+| Weezing-Galar 14.220%                  |
+| Grimmsnarl 9.969%                      |
++----------------------------------------+
++----------------------------------------+
+| Klefki                                 |
++----------------------------------------+
+| Raw count: 7364                        |
+| Avg. weight: 0.29171596524279725       |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 100.000%                     |
+| Magician 0.000%                        |
++----------------------------------------+
+| Items                                  |
+| Light Clay 89.412%                     |
+| Lagging Tail 5.414%                    |
+| Leftovers 3.210%                       |
+| Other 1.964%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/0/4/0 44.810%           |
+| Bold:252/0/200/0/0/56 13.844%          |
+| Bold:252/0/252/0/0/4 8.480%            |
+| Bold:248/0/204/0/0/56 5.908%           |
+| Relaxed:252/0/252/0/4/0 5.029%         |
+| Bold:200/0/252/0/0/56 3.864%           |
+| Other 18.065%                          |
++----------------------------------------+
+| Moves                                  |
+| Reflect 95.082%                        |
+| Light Screen 90.095%                   |
+| Spikes 87.869%                         |
+| Foul Play 72.451%                      |
+| Thunder Wave 34.067%                   |
+| Switcheroo 6.248%                      |
+| Other 14.188%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 95.584%                   |
+| Iron Valiant 88.206%                   |
+| Azumarill 73.837%                      |
+| Hatterene 67.806%                      |
+| Primarina 64.643%                      |
+| Enamorus 21.757%                       |
+| Tinkaton 20.079%                       |
+| Clefable 15.972%                       |
+| Weezing-Galar 8.748%                   |
+| Fezandipiti 8.158%                     |
++----------------------------------------+
++----------------------------------------+
+| Azumarill                              |
++----------------------------------------+
+| Raw count: 8843                        |
+| Avg. weight: 0.23012603762893183       |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Huge Power 99.238%                     |
+| Sap Sipper 0.665%                      |
+| Thick Fat 0.097%                       |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 89.366%                   |
+| Choice Band 9.910%                     |
+| Other 0.724%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:84/252/0/0/0/172 20.931%       |
+| Adamant:252/252/0/0/4/0 17.792%        |
+| Adamant:4/252/0/0/0/252 16.857%        |
+| Adamant:76/252/0/0/4/176 12.690%       |
+| Adamant:76/252/0/0/0/180 9.401%        |
+| Adamant:100/252/0/0/0/156 5.171%       |
+| Other 17.156%                          |
++----------------------------------------+
+| Moves                                  |
+| Aqua Jet 99.993%                       |
+| Belly Drum 90.218%                     |
+| Play Rough 90.192%                     |
+| Knock Off 71.440%                      |
+| Liquidation 22.721%                    |
+| Superpower 9.242%                      |
+| Other 16.194%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 91.440%                   |
+| Iron Valiant 84.798%                   |
+| Klefki 77.979%                         |
+| Hatterene 71.189%                      |
+| Primarina 51.483%                      |
+| Tinkaton 22.415%                       |
+| Enamorus 22.112%                       |
+| Clefable 17.953%                       |
+| Grimmsnarl 10.227%                     |
+| Weezing-Galar 9.747%                   |
++----------------------------------------+
++----------------------------------------+
+| Hatterene                              |
++----------------------------------------+
+| Raw count: 9026                        |
+| Avg. weight: 0.21372268119524115       |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Magic Bounce 99.829%                   |
+| Healer 0.170%                          |
+| Anticipation 0.000%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 48.072%                      |
+| Rocky Helmet 12.694%                   |
+| Babiri Berry 11.503%                   |
+| Sitrus Berry 8.390%                    |
+| Assault Vest 4.082%                    |
+| Air Balloon 3.348%                     |
+| Heavy-Duty Boots 2.730%                |
+| Eject Button 2.361%                    |
+| Kee Berry 2.250%                       |
+| Other 4.570%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/204/0/0/52 20.160%          |
+| Bold:192/0/252/0/0/64 16.459%          |
+| Modest:252/0/0/252/4/0 8.546%          |
+| Relaxed:252/0/252/0/4/0 7.520%         |
+| Modest:252/0/252/4/0/0 7.197%          |
+| Bold:252/0/252/0/4/0 6.166%            |
+| Other 33.952%                          |
++----------------------------------------+
+| Moves                                  |
+| Draining Kiss 95.571%                  |
+| Calm Mind 80.125%                      |
+| Psyshock 68.071%                       |
+| Mystical Fire 45.293%                  |
+| Nuzzle 33.539%                         |
+| Trick Room 17.949%                     |
+| Psychic Noise 15.463%                  |
+| Healing Wish 13.139%                   |
+| Pain Split 12.545%                     |
+| Other 18.306%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 94.503%                   |
+| Iron Valiant 86.091%                   |
+| Klefki 75.515%                         |
+| Azumarill 75.071%                      |
+| Primarina 61.930%                      |
+| Tinkaton 24.343%                       |
+| Enamorus 19.948%                       |
+| Weezing-Galar 11.207%                  |
+| Grimmsnarl 10.737%                     |
+| Clefable 9.320%                        |
++----------------------------------------+
++----------------------------------------+
+| Primarina                              |
++----------------------------------------+
+| Raw count: 7880                        |
+| Avg. weight: 0.2300060162308459        |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Torrent 85.548%                        |
+| Liquid Voice 14.452%                   |
++----------------------------------------+
+| Items                                  |
+| Leftovers 45.755%                      |
+| Choice Specs 26.248%                   |
+| Assault Vest 23.046%                   |
+| Other 4.951%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/196/0/0/60 21.553%          |
+| Modest:252/0/0/252/4/0 20.442%         |
+| Modest:160/0/0/252/0/96 7.358%         |
+| Bold:248/0/252/0/0/8 5.338%            |
+| Calm:252/0/4/0/252/0 4.150%            |
+| Modest:80/0/0/252/116/60 3.670%        |
+| Other 37.490%                          |
++----------------------------------------+
+| Moves                                  |
+| Surf 79.175%                           |
+| Psychic Noise 75.719%                  |
+| Moonblast 56.248%                      |
+| Draining Kiss 44.514%                  |
+| Calm Mind 44.512%                      |
+| Flip Turn 26.063%                      |
+| Ice Beam 16.382%                       |
+| Psychic 12.063%                        |
+| Hydro Pump 10.963%                     |
+| Substitute 10.011%                     |
+| Energy Ball 8.244%                     |
+| Other 16.106%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 95.449%                   |
+| Iron Valiant 86.358%                   |
+| Klefki 76.640%                         |
+| Hatterene 65.928%                      |
+| Azumarill 57.795%                      |
+| Tinkaton 30.665%                       |
+| Weezing-Galar 17.731%                  |
+| Enamorus 11.377%                       |
+| Clefable 11.263%                       |
+| Fezandipiti 8.364%                     |
++----------------------------------------+
++----------------------------------------+
+| Tinkaton                               |
++----------------------------------------+
+| Raw count: 6596                        |
+| Avg. weight: 0.15864355673848232       |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Mold Breaker 73.615%                   |
+| Pickpocket 26.030%                     |
+| Own Tempo 0.355%                       |
++----------------------------------------+
+| Items                                  |
+| Air Balloon 50.701%                    |
+| Leftovers 40.053%                      |
+| Rocky Helmet 3.587%                    |
+| Focus Sash 2.748%                      |
+| Other 2.911%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 11.127%          |
+| Jolly:0/252/4/0/0/252 10.839%          |
+| Jolly:64/252/0/0/0/192 9.930%          |
+| Jolly:16/252/0/0/0/240 9.741%          |
+| Careful:252/4/0/0/252/0 8.015%         |
+| Jolly:4/252/0/0/0/252 7.276%           |
+| Other 43.072%                          |
++----------------------------------------+
+| Moves                                  |
+| Gigaton Hammer 96.062%                 |
+| Stealth Rock 84.484%                   |
+| Knock Off 59.460%                      |
+| Encore 57.447%                         |
+| Thunder Wave 49.024%                   |
+| Swords Dance 21.229%                   |
+| Play Rough 13.097%                     |
+| Other 19.197%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 88.642%                   |
+| Iron Valiant 85.178%                   |
+| Primarina 53.049%                      |
+| Hatterene 44.833%                      |
+| Azumarill 43.533%                      |
+| Klefki 41.182%                         |
+| Weezing-Galar 24.215%                  |
+| Enamorus 22.106%                       |
+| Fezandipiti 14.439%                    |
+| Mimikyu 13.978%                        |
++----------------------------------------+
++----------------------------------------+
+| Enamorus                               |
++----------------------------------------+
+| Raw count: 4991                        |
+| Avg. weight: 0.1504780423755885        |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Contrary 89.215%                       |
+| Cute Charm 10.785%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 62.029%                   |
+| Expert Belt 12.126%                    |
+| Choice Specs 10.102%                   |
+| Heavy-Duty Boots 6.396%                |
+| Leftovers 6.031%                       |
+| Other 3.316%                           |
++----------------------------------------+
+| Spreads                                |
+| Hasty:0/4/0/252/0/252 41.260%          |
+| Naive:0/4/0/252/0/252 20.526%          |
+| Timid:0/0/0/252/4/252 13.635%          |
+| Modest:0/0/0/252/4/252 4.563%          |
+| Jolly:0/252/0/0/4/252 3.800%           |
+| Naive:0/0/0/252/4/252 3.053%           |
+| Other 13.164%                          |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 91.079%                      |
+| Earth Power 76.768%                    |
+| Superpower 74.076%                     |
+| Healing Wish 40.741%                   |
+| Mystical Fire 33.810%                  |
+| Sludge Bomb 25.159%                    |
+| Psychic 22.800%                        |
+| Play Rough 7.021%                      |
+| Zen Headbutt 6.419%                    |
+| Substitute 5.939%                      |
+| Other 16.188%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 92.943%                   |
+| Iron Valiant 84.911%                   |
+| Klefki 62.222%                         |
+| Azumarill 59.880%                      |
+| Hatterene 51.225%                      |
+| Tinkaton 30.823%                       |
+| Primarina 27.443%                      |
+| Clefable 21.418%                       |
+| Weezing-Galar 13.528%                  |
+| Ribombee 10.437%                       |
++----------------------------------------+
++----------------------------------------+
+| Weezing-Galar                          |
++----------------------------------------+
+| Raw count: 4794                        |
+| Avg. weight: 0.11349681085513845       |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 68.621%                       |
+| Neutralizing Gas 30.152%               |
+| Misty Surge 1.227%                     |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 36.488%                   |
+| Black Sludge 33.756%                   |
+| Heavy-Duty Boots 21.228%               |
+| Leftovers 7.292%                       |
+| Other 1.237%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/4/0/0 21.232%           |
+| Bold:244/0/252/0/0/12 19.278%          |
+| Bold:252/0/252/0/4/0 15.038%           |
+| Relaxed:252/0/252/4/0/0 13.031%        |
+| Bold:0/0/252/252/0/4 6.546%            |
+| Bold:252/0/240/0/0/16 4.692%           |
+| Other 20.183%                          |
++----------------------------------------+
+| Moves                                  |
+| Defog 87.637%                          |
+| Will-O-Wisp 80.051%                    |
+| Strange Steam 68.398%                  |
+| Pain Split 39.358%                     |
+| Flamethrower 35.233%                   |
+| Toxic Spikes 34.326%                   |
+| Sludge Bomb 22.343%                    |
+| Toxic 8.595%                           |
+| Haze 5.281%                            |
+| Other 18.779%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 94.205%                   |
+| Iron Valiant 68.970%                   |
+| Primarina 59.016%                      |
+| Tinkaton 46.587%                       |
+| Hatterene 39.709%                      |
+| Azumarill 36.420%                      |
+| Klefki 34.522%                         |
+| Mimikyu 22.821%                        |
+| Enamorus 18.666%                       |
+| Ribombee 14.466%                       |
++----------------------------------------+
++----------------------------------------+
+| Clefable                               |
++----------------------------------------+
+| Raw count: 4536                        |
+| Avg. weight: 0.11907146415197624       |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Magic Guard 76.152%                    |
+| Unaware 23.603%                        |
+| Cute Charm 0.246%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 55.584%                      |
+| Life Orb 38.478%                       |
+| Rocky Helmet 2.950%                    |
+| Other 2.988%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/132/0/64/60 44.037%         |
+| Bold:252/0/152/0/104/0 13.398%         |
+| Calm:252/0/4/0/252/0 8.510%            |
+| Modest:252/0/0/252/4/0 5.248%          |
+| Calm:252/0/0/4/252/0 5.003%            |
+| Bold:252/0/252/0/4/0 2.942%            |
+| Other 20.863%                          |
++----------------------------------------+
+| Moves                                  |
+| Moonlight 93.940%                      |
+| Moonblast 61.382%                      |
+| Calm Mind 58.700%                      |
+| Thunderbolt 46.878%                    |
+| Flamethrower 32.543%                   |
+| Cosmic Power 21.522%                   |
+| Stored Power 21.464%                   |
+| Fire Blast 16.680%                     |
+| Thunder Wave 13.241%                   |
+| Stealth Rock 9.051%                    |
+| Metronome 8.064%                       |
+| Other 16.535%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 78.993%                   |
+| Iron Valiant 70.461%                   |
+| Azumarill 67.700%                      |
+| Klefki 63.607%                         |
+| Primarina 37.832%                      |
+| Hatterene 33.329%                      |
+| Enamorus 29.826%                       |
+| Tinkaton 24.153%                       |
+| Mimikyu 20.442%                        |
+| Comfey 15.833%                         |
++----------------------------------------+
++----------------------------------------+
+| Grimmsnarl                             |
++----------------------------------------+
+| Raw count: 2880                        |
+| Avg. weight: 0.11219556095288194       |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 99.364%                      |
+| Pickpocket 0.636%                      |
+| Frisk 0.000%                           |
++----------------------------------------+
+| Items                                  |
+| Light Clay 70.037%                     |
+| Leftovers 19.114%                      |
+| Heavy-Duty Boots 5.901%                |
+| Other 4.948%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 34.334%        |
+| Impish:252/0/252/0/4/0 21.260%         |
+| Calm:252/0/4/0/252/0 19.072%           |
+| Careful:252/4/0/0/252/0 9.977%         |
+| Careful:252/4/140/0/112/0 5.701%       |
+| Careful:248/0/4/0/252/0 1.726%         |
+| Other 7.930%                           |
++----------------------------------------+
+| Moves                                  |
+| Parting Shot 74.007%                   |
+| Reflect 69.538%                        |
+| Light Screen 69.494%                   |
+| Spirit Break 59.879%                   |
+| Thunder Wave 38.517%                   |
+| Sucker Punch 23.817%                   |
+| Taunt 17.060%                          |
+| Drain Punch 16.034%                    |
+| Foul Play 8.644%                       |
+| Low Kick 6.521%                        |
+| Other 16.488%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 95.820%                   |
+| Iron Valiant 81.517%                   |
+| Azumarill 64.425%                      |
+| Hatterene 64.141%                      |
+| Tinkaton 38.808%                       |
+| Klefki 29.380%                         |
+| Primarina 27.437%                      |
+| Weezing-Galar 17.251%                  |
+| Comfey 16.154%                         |
+| Enamorus 15.086%                       |
++----------------------------------------+
++----------------------------------------+
+| Mimikyu                                |
++----------------------------------------+
+| Raw count: 3696                        |
+| Avg. weight: 0.08543012898438117       |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Disguise 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Life Orb 55.168%                       |
+| Red Card 25.484%                       |
+| Heavy-Duty Boots 14.875%               |
+| Other 4.473%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 47.281%          |
+| Jolly:4/252/0/0/0/252 25.095%          |
+| Adamant:4/252/0/0/0/252 17.163%        |
+| Adamant:0/252/0/0/4/252 4.210%         |
+| Jolly:0/252/4/0/0/252 1.861%           |
+| Other 4.388%                           |
++----------------------------------------+
+| Moves                                  |
+| Play Rough 98.427%                     |
+| Shadow Sneak 98.333%                   |
+| Swords Dance 97.055%                   |
+| Drain Punch 47.951%                    |
+| Shadow Claw 40.288%                    |
+| Other 17.946%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 70.083%                   |
+| Flutter Mane 67.219%                   |
+| Tinkaton 46.377%                       |
+| Azumarill 42.393%                      |
+| Weezing-Galar 39.357%                  |
+| Clefable 34.932%                       |
+| Primarina 29.563%                      |
+| Comfey 28.512%                         |
+| Klefki 27.162%                         |
+| Ribombee 26.554%                       |
++----------------------------------------+
++----------------------------------------+
+| Ribombee                               |
++----------------------------------------+
+| Raw count: 2445                        |
+| Avg. weight: 0.10215905173479227       |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Shield Dust 74.399%                    |
+| Honey Gather 22.920%                   |
+| Sweet Veil 2.681%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 66.427%                     |
+| Choice Scarf 16.090%                   |
+| Flame Orb 14.221%                      |
+| Other 3.262%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 46.060%          |
+| Timid:4/0/0/252/0/252 29.674%          |
+| Timid:252/0/0/4/0/252 14.222%          |
+| Modest:0/0/0/252/4/252 4.260%          |
+| Timid:248/0/0/8/0/252 3.422%           |
+| Other 2.362%                           |
++----------------------------------------+
+| Moves                                  |
+| Sticky Web 96.424%                     |
+| Moonblast 94.999%                      |
+| Bug Buzz 49.799%                       |
+| Stun Spore 40.191%                     |
+| Quiver Dance 35.387%                   |
+| Trick 18.754%                          |
+| Tailwind 16.255%                       |
+| Psychic 14.057%                        |
+| Skill Swap 12.311%                     |
+| Switcheroo 7.890%                      |
+| Other 13.932%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 94.058%                   |
+| Iron Valiant 79.696%                   |
+| Tinkaton 55.272%                       |
+| Primarina 38.941%                      |
+| Mimikyu 33.513%                        |
+| Weezing-Galar 31.485%                  |
+| Enamorus 31.343%                       |
+| Hatterene 28.335%                      |
+| Azumarill 22.149%                      |
+| Grimmsnarl 18.527%                     |
++----------------------------------------+
++----------------------------------------+
+| Fezandipiti                            |
++----------------------------------------+
+| Raw count: 1923                        |
+| Avg. weight: 0.11490710193078583       |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Toxic Chain 93.421%                    |
+| Technician 6.579%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 69.748%               |
+| Assault Vest 9.301%                    |
+| Babiri Berry 9.058%                    |
+| Black Sludge 6.277%                    |
+| Leftovers 2.011%                       |
+| Other 3.605%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/80/16/0/160/0 60.353%      |
+| Timid:0/0/0/252/4/252 9.410%           |
+| Careful:252/0/0/0/252/0 5.805%         |
+| Timid:252/0/4/0/0/252 3.790%           |
+| Jolly:0/252/0/0/4/252 3.722%           |
+| Careful:252/0/0/0/104/152 3.584%       |
+| Other 13.336%                          |
++----------------------------------------+
+| Moves                                  |
+| U-turn 86.818%                         |
+| Roost 86.214%                          |
+| Beat Up 76.079%                        |
+| Gunk Shot 65.049%                      |
+| Moonblast 17.228%                      |
+| Heat Wave 17.168%                      |
+| Poison Jab 15.483%                     |
+| Calm Mind 9.082%                       |
+| Taunt 5.254%                           |
+| Play Rough 5.247%                      |
+| Other 16.377%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 92.211%                   |
+| Klefki 79.207%                         |
+| Iron Valiant 74.389%                   |
+| Primarina 68.489%                      |
+| Tinkaton 68.345%                       |
+| Azumarill 22.293%                      |
+| Enamorus 21.543%                       |
+| Hatterene 17.444%                      |
+| Weezing-Galar 10.344%                  |
+| Clefable 7.780%                        |
++----------------------------------------+
++----------------------------------------+
+| Comfey                                 |
++----------------------------------------+
+| Raw count: 1568                        |
+| Avg. weight: 0.13005856304758767       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Triage 99.471%                         |
+| Natural Cure 0.503%                    |
+| Flower Veil 0.026%                     |
++----------------------------------------+
+| Items                                  |
+| Big Root 43.205%                       |
+| Leftovers 29.940%                      |
+| Life Orb 13.156%                       |
+| Choice Specs 12.706%                   |
+| Other 0.993%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:132/0/128/140/108/0 37.326%     |
+| Modest:252/0/0/252/0/0 19.386%         |
+| Modest:252/0/4/252/0/0 17.020%         |
+| Timid:0/0/0/252/4/252 8.090%           |
+| Modest:0/0/0/252/4/252 5.587%          |
+| Modest:252/0/0/252/0/4 3.011%          |
+| Other 9.581%                           |
++----------------------------------------+
+| Moves                                  |
+| Draining Kiss 99.500%                  |
+| Calm Mind 97.942%                      |
+| Giga Drain 91.999%                     |
+| Leech Seed 39.411%                     |
+| Stored Power 36.548%                   |
+| Trick 12.638%                          |
+| Taunt 9.303%                           |
+| Other 12.659%                          |
++----------------------------------------+
+| Teammates                              |
+| Azumarill 69.479%                      |
+| Iron Valiant 69.173%                   |
+| Flutter Mane 55.373%                   |
+| Mimikyu 44.528%                        |
+| Clefable 42.253%                       |
+| Tinkaton 37.983%                       |
+| Klefki 26.200%                         |
+| Grimmsnarl 25.806%                     |
+| Primarina 24.108%                      |
+| Weezing-Galar 21.658%                  |
++----------------------------------------+
++----------------------------------------+
+| Ninetales-Alola                        |
++----------------------------------------+
+| Raw count: 1125                        |
+| Avg. weight: 0.07394083207952126       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Snow Warning 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Light Clay 75.237%                     |
+| Choice Specs 18.705%                   |
+| Icy Rock 2.511%                        |
+| Other 3.548%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 76.184%          |
+| Timid:252/0/0/0/4/252 13.791%          |
+| Timid:252/0/4/0/0/252 3.346%           |
+| Timid:252/0/0/4/0/252 2.281%           |
+| Other 4.399%                           |
++----------------------------------------+
+| Moves                                  |
+| Aurora Veil 99.274%                    |
+| Moonblast 89.339%                      |
+| Freeze-Dry 88.832%                     |
+| Blizzard 47.056%                       |
+| Encore 36.937%                         |
+| Nasty Plot 24.575%                     |
+| Other 13.988%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 82.876%                   |
+| Iron Valiant 68.022%                   |
+| Tinkaton 66.736%                       |
+| Primarina 63.598%                      |
+| Hatterene 35.905%                      |
+| Enamorus 24.003%                       |
+| Clefable 23.266%                       |
+| Weezing-Galar 21.909%                  |
+| Klefki 20.099%                         |
+| Fezandipiti 18.341%                    |
++----------------------------------------+
++----------------------------------------+
+| Diancie                                |
++----------------------------------------+
+| Raw count: 1019                        |
+| Avg. weight: 0.07391669074118266       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Clear Body 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 92.370%                      |
+| Power Herb 4.401%                      |
+| Other 3.229%                           |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:252/4/252/0/0/0 56.732%        |
+| Quiet:252/4/0/252/0/0 14.548%          |
+| Bold:0/0/252/4/252/0 5.098%            |
+| Brave:252/252/0/0/4/0 5.015%           |
+| Modest:0/0/0/252/4/252 2.767%          |
+| Adamant:248/252/0/0/8/0 1.854%         |
+| Other 13.986%                          |
++----------------------------------------+
+| Moves                                  |
+| Diamond Storm 91.597%                  |
+| Body Press 87.323%                     |
+| Moonblast 79.657%                      |
+| Stealth Rock 62.438%                   |
+| Earth Power 25.623%                    |
+| Play Rough 9.832%                      |
+| Trick Room 7.538%                      |
+| Calm Mind 5.889%                       |
+| Draining Kiss 5.663%                   |
+| Rock Polish 4.551%                     |
+| Other 19.890%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 90.947%                   |
+| Klefki 72.996%                         |
+| Iron Valiant 63.687%                   |
+| Clefable 61.566%                       |
+| Primarina 58.528%                      |
+| Weezing-Galar 25.165%                  |
+| Azumarill 21.287%                      |
+| Comfey 15.335%                         |
+| Mimikyu 13.290%                        |
+| Tinkaton 12.413%                       |
++----------------------------------------+
++----------------------------------------+
+| Gardevoir                              |
++----------------------------------------+
+| Raw count: 1275                        |
+| Avg. weight: 0.030822902369769787      |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Trace 65.067%                          |
+| Synchronize 34.902%                    |
+| Telepathy 0.031%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 69.283%                      |
+| Choice Scarf 14.115%                   |
+| Choice Specs 12.749%                   |
+| Other 3.854%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/0/0/240/16 64.906%          |
+| Timid:0/0/0/252/4/252 25.020%          |
+| Timid:4/0/0/252/0/252 4.241%           |
+| Modest:0/0/0/252/0/252 3.008%          |
+| Other 2.825%                           |
++----------------------------------------+
+| Moves                                  |
+| Teleport 65.676%                       |
+| Psychic Noise 65.431%                  |
+| Healing Wish 48.808%                   |
+| Vacuum Wave 38.847%                    |
+| Moonblast 31.524%                      |
+| Will-O-Wisp 29.840%                    |
+| Psychic 22.910%                        |
+| Mystical Fire 17.587%                  |
+| Draining Kiss 17.572%                  |
+| Trick 14.333%                          |
+| Psyshock 11.195%                       |
+| Aura Sphere 11.054%                    |
+| Thunderbolt 10.893%                    |
+| Other 14.331%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 81.654%                   |
+| Weezing-Galar 73.514%                  |
+| Azumarill 71.746%                      |
+| Klefki 70.973%                         |
+| Comfey 63.677%                         |
+| Iron Valiant 22.167%                   |
+| Mimikyu 19.144%                        |
+| Ribombee 17.838%                       |
+| Primarina 14.622%                      |
+| Tinkaton 14.088%                       |
++----------------------------------------+
++----------------------------------------+
+| Sylveon                                |
++----------------------------------------+
+| Raw count: 1365                        |
+| Avg. weight: 0.027859315373069012      |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Pixilate 96.693%                       |
+| Cute Charm 3.307%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 64.696%                      |
+| Life Orb 17.813%                       |
+| Choice Specs 12.196%                   |
+| Throat Spray 1.544%                    |
+| Other 3.751%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/0/4/252/0 41.264%           |
+| Bold:252/0/88/4/164/0 20.126%          |
+| Modest:252/0/0/252/4/0 20.059%         |
+| Calm:252/0/0/0/252/0 5.221%            |
+| Adamant:4/252/0/0/0/252 2.591%         |
+| Bold:252/0/252/4/0/0 2.245%            |
+| Other 8.494%                           |
++----------------------------------------+
+| Moves                                  |
+| Hyper Voice 93.249%                    |
+| Protect 64.700%                        |
+| Wish 62.841%                           |
+| Calm Mind 43.066%                      |
+| Charm 38.066%                          |
+| Shadow Ball 29.150%                    |
+| Draining Kiss 21.817%                  |
+| Psychic 12.918%                        |
+| Hyper Beam 9.024%                      |
+| Nothing 5.482%                         |
+| Other 19.688%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 92.230%                   |
+| Azumarill 64.100%                      |
+| Iron Valiant 49.262%                   |
+| Tinkaton 47.690%                       |
+| Weezing-Galar 43.297%                  |
+| Fezandipiti 41.485%                    |
+| Mimikyu 32.664%                        |
+| Hatterene 23.170%                      |
+| Primarina 21.280%                      |
+| Klefki 20.089%                         |
++----------------------------------------+
++----------------------------------------+
+| Scream Tail                            |
++----------------------------------------+
+| Raw count: 494                         |
+| Avg. weight: 0.05880689270778188       |
+| Viability Ceiling: 76                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Terrain Extender 30.945%               |
+| Rocky Helmet 27.998%                   |
+| Light Clay 22.805%                     |
+| Leftovers 7.450%                       |
+| Heavy-Duty Boots 5.934%                |
+| Other 4.868%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:252/0/0/4/0/252 34.465%          |
+| Bold:252/0/160/48/0/48 27.259%         |
+| Timid:252/0/0/0/4/252 22.454%          |
+| Timid:252/0/4/0/0/252 3.064%           |
+| Timid:252/0/0/0/0/252 2.635%           |
+| Timid:80/0/100/252/0/76 2.113%         |
+| Other 8.010%                           |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 57.567%                   |
+| Wish 45.166%                           |
+| Thunder Wave 35.237%                   |
+| Dazzling Gleam 31.220%                 |
+| Psychic Terrain 30.945%                |
+| Misty Terrain 30.945%                  |
+| Misty Explosion 30.945%                |
+| Fire Blast 30.175%                     |
+| Encore 24.872%                         |
+| Light Screen 22.819%                   |
+| Reflect 22.805%                        |
+| Calm Mind 5.064%                       |
+| Psychic Noise 4.683%                   |
+| Psychic 3.476%                         |
+| Boomburst 3.447%                       |
+| Drain Punch 2.754%                     |
+| Other 17.882%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 95.478%                   |
+| Flutter Mane 79.590%                   |
+| Mimikyu 49.113%                        |
+| Tinkaton 43.319%                       |
+| Primarina 34.013%                      |
+| Ribombee 31.100%                       |
+| Klefki 30.220%                         |
+| Fezandipiti 28.676%                    |
+| Azumarill 26.916%                      |
+| Hatterene 26.741%                      |
++----------------------------------------+
++----------------------------------------+
+| Enamorus-Therian                       |
++----------------------------------------+
+| Raw count: 306                         |
+| Avg. weight: 0.04039060124629435       |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Overcoat 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Weakness Policy 36.782%                |
+| Heavy-Duty Boots 33.605%               |
+| Leftovers 16.538%                      |
+| Assault Vest 8.940%                    |
+| Other 4.134%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 24.958%         |
+| Quiet:252/4/0/252/0/0 18.716%          |
+| Modest:252/0/0/252/4/0 17.777%         |
+| Modest:252/0/0/252/0/0 12.994%         |
+| Relaxed:252/0/252/4/0/0 9.145%         |
+| Bold:252/0/252/0/4/0 8.274%            |
+| Other 8.137%                           |
++----------------------------------------+
+| Moves                                  |
+| Draining Kiss 76.750%                  |
+| Earth Power 71.826%                    |
+| Mystical Fire 56.637%                  |
+| Calm Mind 41.068%                      |
+| Agility 36.755%                        |
+| Iron Defense 23.470%                   |
+| Moonblast 19.807%                      |
+| Superpower 18.870%                     |
+| Protect 9.767%                         |
+| Substitute 9.271%                      |
+| Focus Blast 9.250%                     |
+| Torment 9.116%                         |
+| Other 17.413%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 92.452%                   |
+| Iron Valiant 92.032%                   |
+| Tinkaton 70.991%                       |
+| Primarina 37.149%                      |
+| Ribombee 36.444%                       |
+| Weezing-Galar 23.475%                  |
+| Mimikyu 22.661%                        |
+| Dachsbun 20.441%                       |
+| Azumarill 12.294%                      |
+| Klefki 12.222%                         |
++----------------------------------------+
++----------------------------------------+
+| Whimsicott                             |
++----------------------------------------+
+| Raw count: 863                         |
+| Avg. weight: 0.01217947048045185       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 96.325%                      |
+| Chlorophyll 2.640%                     |
+| Infiltrator 1.035%                     |
++----------------------------------------+
+| Items                                  |
+| Pixie Plate 40.221%                    |
+| Big Root 19.033%                       |
+| Leftovers 14.193%                      |
+| Heat Rock 6.581%                       |
+| Heavy-Duty Boots 5.315%                |
+| Focus Sash 4.878%                      |
+| Zoom Lens 3.848%                       |
+| Rocky Helmet 2.878%                    |
+| Other 3.054%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 46.769%          |
+| Bold:248/0/252/0/8/0 19.036%           |
+| Bold:252/0/252/4/0/0 12.289%           |
+| Bold:248/0/252/8/0/0 3.785%            |
+| Modest:252/0/0/72/0/132 3.349%         |
+| Calm:252/0/124/0/132/0 3.303%          |
+| Other 11.469%                          |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 66.209%                      |
+| Encore 59.729%                         |
+| Tailwind 55.527%                       |
+| U-turn 45.599%                         |
+| Leech Seed 36.505%                     |
+| Protect 26.586%                        |
+| Substitute 26.558%                     |
+| Stun Spore 24.672%                     |
+| Taunt 10.034%                          |
+| Energy Ball 7.872%                     |
+| Sunny Day 7.092%                       |
+| Solar Beam 6.656%                      |
+| Hurricane 5.259%                       |
+| Giga Drain 4.872%                      |
+| Other 16.832%                          |
++----------------------------------------+
+| Teammates                              |
+| Primarina 69.335%                      |
+| Iron Valiant 64.274%                   |
+| Flutter Mane 63.118%                   |
+| Klefki 56.716%                         |
+| Hatterene 47.560%                      |
+| Ninetales-Alola 21.984%                |
+| Comfey 16.677%                         |
+| Mimikyu 14.470%                        |
+| Tinkaton 12.480%                       |
+| Weezing-Galar 11.388%                  |
++----------------------------------------+
++----------------------------------------+
+| Florges                                |
++----------------------------------------+
+| Raw count: 508                         |
+| Avg. weight: 0.01870967164673931       |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Flower Veil 99.959%                    |
+| Symbiosis 0.041%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 99.121%                      |
+| Other 0.879%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:220/0/0/108/116/64 66.555%        |
+| Calm:252/0/140/56/60/0 21.519%         |
+| Bold:252/0/160/0/0/96 4.341%           |
+| Calm:248/0/0/8/252/0 1.493%            |
+| Bold:252/0/0/4/252/0 1.228%            |
+| Other 4.864%                           |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 99.616%                      |
+| Wish 71.165%                           |
+| Psychic Noise 69.528%                  |
+| Protect 68.578%                        |
+| Calm Mind 30.485%                      |
+| Synthesis 28.368%                      |
+| Energy Ball 21.805%                    |
+| Other 10.454%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 89.875%                   |
+| Hatterene 88.692%                      |
+| Weezing-Galar 74.578%                  |
+| Flutter Mane 71.487%                   |
+| Ribombee 66.954%                       |
+| Azumarill 28.933%                      |
+| Grimmsnarl 23.395%                     |
+| Enamorus 23.339%                       |
+| Klefki 7.281%                          |
+| Sylveon 6.351%                         |
++----------------------------------------+
++----------------------------------------+
+| Dachsbun                               |
++----------------------------------------+
+| Raw count: 349                         |
+| Avg. weight: 0.010008546085750126      |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Well-Baked Body 100.000%               |
+| Aroma Veil 0.000%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 83.659%                      |
+| Heavy-Duty Boots 8.578%                |
+| Rocky Helmet 5.672%                    |
+| Other 2.091%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/4/252/0/0/0 82.923%         |
+| Bold:252/0/252/0/4/0 8.428%            |
+| Impish:252/104/148/0/0/4 5.671%        |
+| Other 2.978%                           |
++----------------------------------------+
+| Moves                                  |
+| Body Press 98.646%                     |
+| Wish 97.766%                           |
+| Protect 82.393%                        |
+| Stomping Tantrum 56.733%               |
+| Play Rough 30.130%                     |
+| Roar 18.597%                           |
+| Other 15.735%                          |
++----------------------------------------+
+| Teammates                              |
+| Tinkaton 91.073%                       |
+| Weezing-Galar 88.807%                  |
+| Flutter Mane 88.477%                   |
+| Iron Valiant 87.089%                   |
+| Enamorus-Therian 72.093%               |
+| Primarina 25.203%                      |
+| Fezandipiti 13.196%                    |
+| Comfey 9.946%                          |
++----------------------------------------+
++----------------------------------------+
+| Granbull                               |
++----------------------------------------+
+| Raw count: 409                         |
+| Avg. weight: 0.008365772681065841      |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 99.875%                     |
+| Quick Feet 0.125%                      |
+| Rattled 0.000%                         |
++----------------------------------------+
+| Items                                  |
+| Leftovers 31.649%                      |
+| Heavy-Duty Boots 25.394%               |
+| Assault Vest 24.332%                   |
+| Choice Band 9.506%                     |
+| Clear Amulet 5.943%                    |
+| Other 3.176%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/252/0/0/8/0 48.364%        |
+| Impish:252/4/252/0/0/0 30.949%         |
+| Brave:248/252/0/0/8/0 9.506%           |
+| Adamant:0/20/44/72/120/252 8.121%      |
+| Other 3.059%                           |
++----------------------------------------+
+| Moves                                  |
+| Play Rough 76.051%                     |
+| Earthquake 59.304%                     |
+| Close Combat 48.232%                   |
+| Roar 30.953%                           |
+| Rest 30.949%                           |
+| Sleep Talk 30.949%                     |
+| Outrage 23.794%                        |
+| Thunder Wave 18.019%                   |
+| Encore 17.972%                         |
+| Fire Fang 15.781%                      |
+| Ice Punch 12.232%                      |
+| Psychic Fangs 9.688%                   |
+| Trailblaze 8.121%                      |
+| Other 17.954%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 81.192%                   |
+| Hatterene 63.001%                      |
+| Weezing-Galar 58.520%                  |
+| Azumarill 54.932%                      |
+| Iron Valiant 49.683%                   |
+| Tinkaton 39.235%                       |
+| Ribombee 33.642%                       |
+| Klefki 26.738%                         |
+| Primarina 17.539%                      |
+| Comfey 17.316%                         |
++----------------------------------------+
++----------------------------------------+
+| Carbink                                |
++----------------------------------------+
+| Raw count: 153                         |
+| Avg. weight: 0.016344997018227364      |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Clear Body 63.225%                     |
+| Sturdy 36.775%                         |
++----------------------------------------+
+| Items                                  |
+| Leftovers 48.022%                      |
+| Heavy-Duty Boots 35.700%               |
+| Shell Bell 7.360%                      |
+| Eviolite 5.093%                        |
+| Other 3.826%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:248/0/0/8/252/0 46.776%           |
+| Calm:248/0/252/8/0/0 35.153%           |
+| Hardy:0/0/0/0/0/0 7.344%               |
+| Bold:252/0/208/0/48/0 5.093%           |
+| Relaxed:252/0/252/0/4/0 1.312%         |
+| Other 4.323%                           |
++----------------------------------------+
+| Moves                                  |
+| Body Press 92.464%                     |
+| Iron Defense 91.756%                   |
+| Stealth Rock 86.625%                   |
+| Power Gem 61.923%                      |
+| Nothing 22.031%                        |
+| Dazzling Gleam 19.175%                 |
+| Endeavor 7.731%                        |
+| Other 18.296%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 97.803%                   |
+| Iron Valiant 95.385%                   |
+| Primarina 90.023%                      |
+| Hatterene 83.268%                      |
+| Weezing-Galar 54.435%                  |
+| Tinkaton 41.255%                       |
+| Gardevoir 7.303%                       |
+| Ninetales-Alola 7.154%                 |
++----------------------------------------+
++----------------------------------------+
+| Dedenne                                |
++----------------------------------------+
+| Raw count: 161                         |
+| Avg. weight: 0.012191598274037737      |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Cheek Pouch 99.767%                    |
+| Pickup 0.218%                          |
+| Plus 0.015%                            |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 48.872%                   |
+| Focus Sash 25.835%                     |
+| Terrain Extender 22.391%               |
+| Other 2.902%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/4/252/0/0/252 22.307%          |
+| Timid:0/0/0/252/4/252 20.632%          |
+| Jolly:252/4/0/0/0/252 19.613%          |
+| Calm:52/0/200/0/244/12 16.571%         |
+| Hardy:252/0/64/0/64/128 8.698%         |
+| Hasty:0/4/0/252/0/252 5.579%           |
+| Other 6.600%                           |
++----------------------------------------+
+| Moves                                  |
+| Nuzzle 77.357%                         |
+| Super Fang 41.629%                     |
+| Charm 33.565%                          |
+| Electric Terrain 30.769%               |
+| Dazzling Gleam 29.911%                 |
+| Endeavor 27.529%                       |
+| Grass Knot 26.165%                     |
+| U-turn 25.489%                         |
+| Light Screen 20.606%                   |
+| Volt Switch 17.521%                    |
+| Eerie Impulse 16.971%                  |
+| Parabolic Charge 16.788%               |
+| Charge 16.571%                         |
+| Other 19.127%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 70.733%                   |
+| Iron Valiant 53.767%                   |
+| Mimikyu 45.917%                        |
+| Tinkaton 44.498%                       |
+| Diancie 34.714%                        |
+| Primarina 27.823%                      |
+| Comfey 26.293%                         |
+| Hatterene 25.883%                      |
+| Ribombee 25.054%                       |
+| Klefki 23.982%                         |
++----------------------------------------+
++----------------------------------------+
+| Morgrem                                |
++----------------------------------------+
+| Raw count: 15                          |
+| Avg. weight: 0.057405650501959136      |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Light Clay 99.996%                     |
+| Other 0.004%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/4/0/252/0 100.000%          |
++----------------------------------------+
+| Moves                                  |
+| Reflect 99.996%                        |
+| Light Screen 99.996%                   |
+| Thunder Wave 99.996%                   |
+| Foul Play 99.996%                      |
+| Other 0.016%                           |
++----------------------------------------+
+| Teammates                              |
+| Grimmsnarl 89.696%                     |
+| Flutter Mane 89.696%                   |
+| Weezing-Galar 89.692%                  |
+| Klefki 89.692%                         |
+| Primarina 89.692%                      |
++----------------------------------------+
++----------------------------------------+
+| Alcremie                               |
++----------------------------------------+
+| Raw count: 234                         |
+| Avg. weight: 0.0027286211509915136     |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Aroma Veil 98.795%                     |
+| Sweet Veil 1.205%                      |
++----------------------------------------+
+| Items                                  |
+| Chesto Berry 62.502%                   |
+| Choice Specs 25.154%                   |
+| Leftovers 11.695%                      |
+| Other 0.649%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:252/0/0/252/4/0 87.712%         |
+| Bold:252/0/252/0/4/0 6.559%            |
+| Modest:0/0/4/252/252/0 2.044%          |
+| Other 3.686%                           |
++----------------------------------------+
+| Moves                                  |
+| Calm Mind 72.645%                      |
+| Stored Power 72.152%                   |
+| Rest 63.269%                           |
+| Dazzling Gleam 62.503%                 |
+| Draining Kiss 36.019%                  |
+| Alluring Voice 26.625%                 |
+| Psychic 25.889%                        |
+| Energy Ball 25.723%                    |
+| Other 15.175%                          |
++----------------------------------------+
+| Teammates                              |
+| Clefable 88.480%                       |
+| Sylveon 65.415%                        |
+| Grimmsnarl 63.474%                     |
+| Ninetales-Alola 63.403%                |
+| Flutter Mane 63.008%                   |
+| Mimikyu 31.674%                        |
+| Ribombee 30.233%                       |
+| Azumarill 26.178%                      |
+| Comfey 25.535%                         |
+| Hatterene 7.695%                       |
++----------------------------------------+

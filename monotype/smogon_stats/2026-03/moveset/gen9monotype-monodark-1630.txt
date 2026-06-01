@@ -1,0 +1,2021 @@
++----------------------------------------+
+| Meowscarada                            |
++----------------------------------------+
+| Raw count: 13844                       |
+| Avg. weight: 0.26499192563531315       |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Protean 98.854%                        |
+| Overgrow 1.146%                        |
++----------------------------------------+
+| Items                                  |
+| Choice Band 51.749%                    |
+| Choice Scarf 45.007%                   |
+| Other 3.243%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 83.608%          |
+| Jolly:0/252/4/0/0/252 10.953%          |
+| Jolly:4/252/0/0/0/252 2.621%           |
+| Other 2.818%                           |
++----------------------------------------+
+| Moves                                  |
+| Flower Trick 98.062%                   |
+| Triple Axel 84.682%                    |
+| Knock Off 76.289%                      |
+| U-turn 53.589%                         |
+| Play Rough 43.928%                     |
+| Thunder Punch 29.528%                  |
+| Other 13.921%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 76.973%                        |
+| Greninja 72.799%                       |
+| Samurott-Hisui 52.634%                 |
+| Darkrai 43.458%                        |
+| Bisharp 42.914%                        |
+| Sableye 39.960%                        |
+| Mandibuzz 34.770%                      |
+| Hoopa-Unbound 29.182%                  |
+| Roaring Moon 18.468%                   |
+| Muk-Alola 15.998%                      |
++----------------------------------------+
++----------------------------------------+
+| Ting-Lu                                |
++----------------------------------------+
+| Raw count: 11321                       |
+| Avg. weight: 0.2947067057124155        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Vessel of Ruin 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Leftovers 75.047%                      |
+| Rocky Helmet 18.337%                   |
+| Weakness Policy 2.406%                 |
+| Other 4.210%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/4/0/252/0 30.853%        |
+| Careful:252/4/0/0/252/0 11.038%        |
+| Careful:252/0/0/0/252/4 9.864%         |
+| Careful:248/0/8/0/252/0 7.702%         |
+| Impish:252/4/252/0/0/0 5.448%          |
+| Careful:252/0/0/0/132/124 3.658%       |
+| Other 31.436%                          |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 96.652%                   |
+| Earthquake 84.074%                     |
+| Whirlwind 70.377%                      |
+| Spikes 49.031%                         |
+| Heavy Slam 45.499%                     |
+| Ruination 41.473%                      |
+| Other 12.894%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 84.577%                    |
+| Greninja 71.002%                       |
+| Samurott-Hisui 51.453%                 |
+| Darkrai 43.832%                        |
+| Sableye 42.091%                        |
+| Bisharp 37.721%                        |
+| Mandibuzz 35.615%                      |
+| Hoopa-Unbound 29.470%                  |
+| Muk-Alola 16.298%                      |
+| Roaring Moon 15.495%                   |
++----------------------------------------+
++----------------------------------------+
+| Greninja                               |
++----------------------------------------+
+| Raw count: 10828                       |
+| Avg. weight: 0.2766509734316762        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Protean 89.987%                        |
+| Battle Bond 9.805%                     |
+| Torrent 0.208%                         |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 46.288%                   |
+| Choice Specs 40.542%                   |
+| Life Orb 6.484%                        |
+| Expert Belt 2.400%                     |
+| Other 4.285%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 52.313%          |
+| Naive:0/4/0/252/0/252 30.657%          |
+| Timid:0/0/4/252/0/252 4.905%           |
+| Hasty:0/252/0/4/0/252 2.855%           |
+| Hasty:0/4/0/252/0/252 2.822%           |
+| Timid:4/0/0/252/0/252 1.955%           |
+| Other 4.492%                           |
++----------------------------------------+
+| Moves                                  |
+| Ice Beam 96.233%                       |
+| Extrasensory 69.553%                   |
+| Sludge Wave 53.684%                    |
+| Surf 48.379%                           |
+| Hydro Pump 41.480%                     |
+| U-turn 32.799%                         |
+| Gunk Shot 16.353%                      |
+| Dark Pulse 14.442%                     |
+| Water Shuriken 9.838%                  |
+| Other 17.240%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 89.152%                    |
+| Ting-Lu 79.134%                        |
+| Bisharp 48.093%                        |
+| Samurott-Hisui 46.473%                 |
+| Sableye 43.907%                        |
+| Darkrai 40.303%                        |
+| Mandibuzz 33.454%                      |
+| Hoopa-Unbound 22.966%                  |
+| Roaring Moon 19.645%                   |
+| Muk-Alola 14.218%                      |
++----------------------------------------+
++----------------------------------------+
+| Samurott-Hisui                         |
++----------------------------------------+
+| Raw count: 9146                        |
+| Avg. weight: 0.2580207799795548        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Sharpness 99.703%                      |
+| Torrent 0.297%                         |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 55.134%               |
+| Focus Sash 23.611%                     |
+| Black Glasses 12.403%                  |
+| Assault Vest 3.099%                    |
+| Choice Scarf 2.212%                    |
+| Other 3.540%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 32.539%          |
+| Jolly:0/252/4/0/0/252 19.251%          |
+| Adamant:0/252/0/0/4/252 16.605%        |
+| Adamant:160/252/0/0/0/96 14.825%       |
+| Adamant:120/252/40/0/0/96 5.070%       |
+| Adamant:0/252/4/0/0/252 3.124%         |
+| Other 8.587%                           |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 88.598%                   |
+| Ceaseless Edge 68.534%                 |
+| Swords Dance 65.687%                   |
+| Sacred Sword 64.134%                   |
+| Aqua Cutter 60.835%                    |
+| Razor Shell 17.324%                    |
+| Taunt 12.614%                          |
+| Aqua Jet 8.419%                        |
+| Other 13.854%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 81.890%                    |
+| Ting-Lu 72.855%                        |
+| Greninja 59.042%                       |
+| Bisharp 47.720%                        |
+| Sableye 39.638%                        |
+| Darkrai 36.428%                        |
+| Mandibuzz 29.121%                      |
+| Hoopa-Unbound 28.222%                  |
+| Roaring Moon 23.502%                   |
+| Muk-Alola 12.651%                      |
++----------------------------------------+
++----------------------------------------+
+| Darkrai                                |
++----------------------------------------+
+| Raw count: 9415                        |
+| Avg. weight: 0.21659374477288743       |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Bad Dreams 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 37.590%               |
+| Choice Scarf 24.787%                   |
+| Choice Specs 12.089%                   |
+| Leftovers 7.605%                       |
+| Wide Lens 4.634%                       |
+| Life Orb 4.093%                        |
+| Expert Belt 2.747%                     |
+| Roseli Berry 2.397%                    |
+| Other 4.057%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 81.778%          |
+| Timid:0/0/4/252/0/252 3.814%           |
+| Timid:252/0/16/0/0/240 3.607%          |
+| Timid:248/0/20/0/0/240 3.245%          |
+| Timid:4/0/0/252/0/252 2.675%           |
+| Other 4.881%                           |
++----------------------------------------+
+| Moves                                  |
+| Dark Pulse 98.602%                     |
+| Ice Beam 66.355%                       |
+| Nasty Plot 55.809%                     |
+| Psychic 43.874%                        |
+| Sludge Bomb 43.436%                    |
+| Focus Blast 38.213%                    |
+| Hypnosis 11.885%                       |
+| Thunder 10.001%                        |
+| Trick 9.764%                           |
+| Will-O-Wisp 7.137%                     |
+| Other 14.924%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 78.206%                    |
+| Ting-Lu 71.787%                        |
+| Greninja 59.224%                       |
+| Samurott-Hisui 42.134%                 |
+| Mandibuzz 38.399%                      |
+| Hoopa-Unbound 34.264%                  |
+| Roaring Moon 28.208%                   |
+| Bisharp 25.851%                        |
+| Sableye 23.715%                        |
+| Muk-Alola 15.389%                      |
++----------------------------------------+
++----------------------------------------+
+| Bisharp                                |
++----------------------------------------+
+| Raw count: 5792                        |
+| Avg. weight: 0.3006054438041285        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Defiant 99.850%                        |
+| Inner Focus 0.148%                     |
+| Pressure 0.001%                        |
++----------------------------------------+
+| Items                                  |
+| Eviolite 92.343%                       |
+| Black Glasses 6.486%                   |
+| Other 1.171%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 29.238%        |
+| Adamant:40/252/0/0/0/216 19.643%       |
+| Adamant:60/184/0/0/12/252 10.553%      |
+| Adamant:80/232/20/0/0/176 8.523%       |
+| Adamant:80/252/0/0/0/176 6.950%        |
+| Adamant:0/252/4/0/0/252 6.363%         |
+| Other 18.731%                          |
++----------------------------------------+
+| Moves                                  |
+| Iron Head 99.814%                      |
+| Sucker Punch 99.704%                   |
+| Swords Dance 98.679%                   |
+| Throat Chop 85.430%                    |
+| Other 16.373%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 90.449%                    |
+| Greninja 82.772%                       |
+| Ting-Lu 72.357%                        |
+| Samurott-Hisui 64.646%                 |
+| Sableye 61.861%                        |
+| Darkrai 30.276%                        |
+| Roaring Moon 18.461%                   |
+| Mandibuzz 14.918%                      |
+| Hoopa-Unbound 14.022%                  |
+| Moltres-Galar 7.163%                   |
++----------------------------------------+
++----------------------------------------+
+| Sableye                                |
++----------------------------------------+
+| Raw count: 4881                        |
+| Avg. weight: 0.32767146031913147       |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 99.975%                      |
+| Keen Eye 0.020%                        |
+| Stall 0.005%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 82.818%               |
+| Leftovers 8.627%                       |
+| Light Clay 4.856%                      |
+| Other 3.699%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/0/252/0/4/0 34.939%         |
+| Impish:248/0/252/0/8/0 19.145%         |
+| Bold:252/0/252/0/4/0 17.683%           |
+| Bold:248/0/252/0/8/0 12.957%           |
+| Impish:252/0/252/0/0/4 3.869%          |
+| Careful:248/8/0/0/252/0 2.094%         |
+| Other 9.312%                           |
++----------------------------------------+
+| Moves                                  |
+| Recover 94.308%                        |
+| Will-O-Wisp 93.457%                    |
+| Encore 91.422%                         |
+| Knock Off 57.447%                      |
+| Night Shade 37.156%                    |
+| Thunder Wave 10.806%                   |
+| Other 15.403%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 91.551%                    |
+| Ting-Lu 87.763%                        |
+| Greninja 82.141%                       |
+| Bisharp 67.243%                        |
+| Samurott-Hisui 58.369%                 |
+| Darkrai 30.192%                        |
+| Muk-Alola 13.412%                      |
+| Overqwil 9.371%                        |
+| Mandibuzz 9.054%                       |
+| Hydreigon 6.601%                       |
++----------------------------------------+
++----------------------------------------+
+| Mandibuzz                              |
++----------------------------------------+
+| Raw count: 7602                        |
+| Avg. weight: 0.21211288101549486       |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Overcoat 97.106%                       |
+| Big Pecks 2.750%                       |
+| Weak Armor 0.144%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 84.360%               |
+| Rocky Helmet 14.368%                   |
+| Other 1.272%                           |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:248/0/252/0/8/0 31.964%        |
+| Impish:248/0/252/0/8/0 22.099%         |
+| Impish:248/0/244/0/0/16 11.662%        |
+| Bold:248/0/212/0/48/0 4.000%           |
+| Impish:252/0/252/0/4/0 3.922%          |
+| Impish:248/8/252/0/0/0 3.380%          |
+| Other 22.973%                          |
++----------------------------------------+
+| Moves                                  |
+| Roost 99.608%                          |
+| Foul Play 90.971%                      |
+| U-turn 76.252%                         |
+| Defog 60.282%                          |
+| Toxic 56.504%                          |
+| Other 16.383%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 79.124%                    |
+| Ting-Lu 73.761%                        |
+| Greninja 62.166%                       |
+| Hoopa-Unbound 54.875%                  |
+| Darkrai 48.558%                        |
+| Samurott-Hisui 42.594%                 |
+| Muk-Alola 23.092%                      |
+| Roaring Moon 19.207%                   |
+| Bisharp 16.107%                        |
+| Tyranitar 9.423%                       |
++----------------------------------------+
++----------------------------------------+
+| Hoopa-Unbound                          |
++----------------------------------------+
+| Raw count: 5861                        |
+| Avg. weight: 0.23335026566179526       |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Magician 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 58.222%                   |
+| Choice Scarf 8.609%                    |
+| Expert Belt 8.355%                     |
+| Heavy-Duty Boots 8.253%                |
+| Choice Specs 7.545%                    |
+| Choice Band 3.089%                     |
+| Life Orb 2.811%                        |
+| Other 3.116%                           |
++----------------------------------------+
+| Spreads                                |
+| Mild:240/0/0/16/156/96 18.640%         |
+| Gentle:244/0/0/0/168/96 10.617%        |
+| Hasty:0/0/0/248/8/252 7.655%           |
+| Quiet:248/0/8/252/0/0 6.161%           |
+| Hasty:0/4/0/252/0/252 5.905%           |
+| Timid:32/24/84/156/0/212 4.722%        |
+| Other 46.299%                          |
++----------------------------------------+
+| Moves                                  |
+| Thunderbolt 81.572%                    |
+| Focus Blast 65.939%                    |
+| Psychic 57.519%                        |
+| Knock Off 53.404%                      |
+| Psychic Noise 37.421%                  |
+| Dark Pulse 28.715%                     |
+| Hyperspace Fury 23.006%                |
+| Drain Punch 12.968%                    |
+| Gunk Shot 7.850%                       |
+| Trick Room 6.379%                      |
+| Zen Headbutt 6.225%                    |
+| Other 19.001%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 78.392%                    |
+| Ting-Lu 72.049%                        |
+| Mandibuzz 64.777%                      |
+| Darkrai 51.149%                        |
+| Greninja 50.378%                       |
+| Samurott-Hisui 48.729%                 |
+| Roaring Moon 20.886%                   |
+| Bisharp 17.872%                        |
+| Lokix 14.190%                          |
+| Muk-Alola 9.292%                       |
++----------------------------------------+
++----------------------------------------+
+| Roaring Moon                           |
++----------------------------------------+
+| Raw count: 7211                        |
+| Avg. weight: 0.14441856324189584       |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 33.958%                   |
+| Choice Band 26.680%                    |
+| Heavy-Duty Boots 7.505%                |
+| Leftovers 7.349%                       |
+| Lum Berry 6.988%                       |
+| Loaded Dice 5.475%                     |
+| Life Orb 4.413%                        |
+| Focus Sash 2.286%                      |
+| Air Balloon 1.335%                     |
+| Other 4.010%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 63.645%          |
+| Adamant:0/252/0/0/4/252 11.867%        |
+| Jolly:0/252/4/0/0/252 8.395%           |
+| Jolly:4/252/0/0/0/252 5.658%           |
+| Adamant:0/252/4/0/0/252 2.060%         |
+| Jolly:0/220/0/0/36/252 1.457%          |
+| Other 6.917%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 85.672%                      |
+| Earthquake 71.693%                     |
+| Outrage 66.095%                        |
+| U-turn 53.372%                         |
+| Iron Head 41.212%                      |
+| Dragon Dance 38.449%                   |
+| Dragon Claw 8.649%                     |
+| Roost 7.628%                           |
+| Acrobatics 6.209%                      |
+| Crunch 6.084%                          |
+| Other 14.936%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 65.064%                    |
+| Greninja 56.513%                       |
+| Darkrai 55.222%                        |
+| Samurott-Hisui 53.216%                 |
+| Ting-Lu 49.682%                        |
+| Bisharp 30.858%                        |
+| Mandibuzz 29.734%                      |
+| Hoopa-Unbound 27.390%                  |
+| Muk-Alola 20.712%                      |
+| Grimmsnarl 16.636%                     |
++----------------------------------------+
++----------------------------------------+
+| Muk-Alola                              |
++----------------------------------------+
+| Raw count: 5100                        |
+| Avg. weight: 0.17145316222884258       |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Poison Touch 98.224%                   |
+| Gluttony 1.740%                        |
+| Power of Alchemy 0.036%                |
++----------------------------------------+
+| Items                                  |
+| Black Sludge 58.144%                   |
+| Assault Vest 33.413%                   |
+| Choice Band 2.242%                     |
+| Heavy-Duty Boots 1.743%                |
+| Other 4.458%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/4/0/0/252/0 33.017%        |
+| Adamant:252/252/0/0/4/0 15.518%        |
+| Careful:252/0/4/0/252/0 6.046%         |
+| Sassy:252/4/0/0/252/0 4.819%           |
+| Adamant:252/124/128/0/4/0 4.458%       |
+| Careful:252/120/0/0/136/0 4.412%       |
+| Other 31.730%                          |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 98.459%                      |
+| Poison Jab 80.597%                     |
+| Drain Punch 72.085%                    |
+| Protect 40.078%                        |
+| Shadow Sneak 38.204%                   |
+| Curse 18.616%                          |
+| Ice Punch 10.604%                      |
+| Gunk Shot 10.193%                      |
+| Brick Break 4.832%                     |
+| Rest 4.038%                            |
+| Poison Fang 3.711%                     |
+| Other 18.583%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 67.157%                    |
+| Ting-Lu 62.264%                        |
+| Greninja 48.736%                       |
+| Mandibuzz 42.598%                      |
+| Darkrai 35.898%                        |
+| Samurott-Hisui 34.135%                 |
+| Hydreigon 26.842%                      |
+| Roaring Moon 24.679%                   |
+| Sableye 24.574%                        |
+| Moltres-Galar 16.702%                  |
++----------------------------------------+
++----------------------------------------+
+| Lokix                                  |
++----------------------------------------+
+| Raw count: 3570                        |
+| Avg. weight: 0.13252801827637364       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Tinted Lens 99.389%                    |
+| Swarm 0.611%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 39.040%               |
+| Life Orb 34.314%                       |
+| Choice Band 15.109%                    |
+| Silver Powder 5.124%                   |
+| Black Glasses 3.027%                   |
+| Other 3.386%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 44.143%          |
+| Adamant:0/252/0/0/4/252 39.049%        |
+| Adamant:252/252/0/0/0/4 6.064%         |
+| Adamant:4/252/0/0/0/252 4.270%         |
+| Jolly:4/252/0/0/0/252 3.043%           |
+| Other 3.431%                           |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 88.362%                   |
+| Knock Off 75.176%                      |
+| First Impression 74.879%               |
+| Swords Dance 60.410%                   |
+| Leech Life 45.324%                     |
+| U-turn 37.327%                         |
+| Other 18.523%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 67.621%                        |
+| Meowscarada 58.380%                    |
+| Darkrai 56.316%                        |
+| Samurott-Hisui 44.385%                 |
+| Hoopa-Unbound 40.928%                  |
+| Greninja 39.907%                       |
+| Roaring Moon 28.372%                   |
+| Grimmsnarl 23.198%                     |
+| Muk-Alola 18.389%                      |
+| Sableye 17.417%                        |
++----------------------------------------+
++----------------------------------------+
+| Moltres-Galar                          |
++----------------------------------------+
+| Raw count: 3554                        |
+| Avg. weight: 0.1265491160402277        |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Berserk 100.000%                       |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 41.024%               |
+| Weakness Policy 23.143%                |
+| Sitrus Berry 22.885%                   |
+| Leftovers 4.767%                       |
+| Lum Berry 3.023%                       |
+| Choice Specs 1.403%                    |
+| Other 3.755%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 34.074%         |
+| Timid:0/0/0/252/4/252 16.946%          |
+| Modest:40/0/44/164/8/252 14.392%       |
+| Modest:120/0/0/168/4/216 8.696%        |
+| Modest:0/0/4/252/0/252 3.874%          |
+| Modest:128/0/0/248/0/132 3.800%        |
+| Other 18.217%                          |
++----------------------------------------+
+| Moves                                  |
+| Fiery Wrath 99.508%                    |
+| Agility 91.557%                        |
+| Nasty Plot 88.334%                     |
+| Air Slash 59.911%                      |
+| Hurricane 42.406%                      |
+| Other 18.285%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 68.709%                    |
+| Ting-Lu 51.755%                        |
+| Greninja 49.084%                       |
+| Grimmsnarl 35.720%                     |
+| Samurott-Hisui 33.414%                 |
+| Muk-Alola 32.576%                      |
+| Bisharp 27.826%                        |
+| Hoopa-Unbound 27.022%                  |
+| Darkrai 25.225%                        |
+| Roaring Moon 22.858%                   |
++----------------------------------------+
++----------------------------------------+
+| Grimmsnarl                             |
++----------------------------------------+
+| Raw count: 4319                        |
+| Avg. weight: 0.1041326072005158        |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 99.866%                      |
+| Frisk 0.079%                           |
+| Pickpocket 0.055%                      |
++----------------------------------------+
+| Items                                  |
+| Light Clay 90.472%                     |
+| Leftovers 4.429%                       |
+| Heavy-Duty Boots 1.842%                |
+| Other 3.257%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/4/0/0/252/0 25.087%        |
+| Careful:248/8/0/0/252/0 18.699%        |
+| Calm:252/0/4/0/252/0 10.242%           |
+| Impish:252/0/252/0/4/0 8.060%          |
+| Impish:252/0/252/0/0/0 4.770%          |
+| Careful:252/0/140/0/116/0 4.007%       |
+| Other 29.135%                          |
++----------------------------------------+
+| Moves                                  |
+| Light Screen 96.462%                   |
+| Reflect 93.070%                        |
+| Parting Shot 71.722%                   |
+| Spirit Break 55.994%                   |
+| Thunder Wave 35.729%                   |
+| Taunt 27.805%                          |
+| Other 19.218%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 56.213%                        |
+| Meowscarada 52.338%                    |
+| Samurott-Hisui 50.133%                 |
+| Darkrai 42.117%                        |
+| Roaring Moon 38.502%                   |
+| Moltres-Galar 35.571%                  |
+| Greninja 32.883%                       |
+| Hoopa-Unbound 25.642%                  |
+| Muk-Alola 25.045%                      |
+| Lokix 24.412%                          |
++----------------------------------------+
++----------------------------------------+
+| Hydreigon                              |
++----------------------------------------+
+| Raw count: 3491                        |
+| Avg. weight: 0.10721516625486442       |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 35.029%                   |
+| Leftovers 33.948%                      |
+| Life Orb 11.500%                       |
+| Choice Scarf 8.938%                    |
+| Black Glasses 7.185%                   |
+| Other 3.400%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 53.052%          |
+| Timid:4/0/0/252/0/252 11.203%          |
+| Timid:112/0/0/144/0/252 10.566%        |
+| Modest:4/0/0/252/0/252 8.353%          |
+| Timid:12/0/0/240/4/252 7.872%          |
+| Timid:0/0/4/252/0/252 5.611%           |
+| Other 3.343%                           |
++----------------------------------------+
+| Moves                                  |
+| Dark Pulse 95.241%                     |
+| Draco Meteor 63.069%                   |
+| Flamethrower 60.337%                   |
+| Nasty Plot 40.194%                     |
+| Earth Power 38.262%                    |
+| Flash Cannon 37.490%                   |
+| Substitute 27.985%                     |
+| Dragon Pulse 10.697%                   |
+| Fire Blast 7.638%                      |
+| Other 19.087%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 75.730%                    |
+| Muk-Alola 62.952%                      |
+| Ting-Lu 47.037%                        |
+| Samurott-Hisui 43.458%                 |
+| Greninja 32.346%                       |
+| Mandibuzz 30.161%                      |
+| Sableye 28.364%                        |
+| Bisharp 25.138%                        |
+| Darkrai 18.646%                        |
+| Hoopa-Unbound 18.346%                  |
++----------------------------------------+
++----------------------------------------+
+| Overqwil                               |
++----------------------------------------+
+| Raw count: 1956                        |
+| Avg. weight: 0.1846575781200984        |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 99.151%                     |
+| Poison Point 0.749%                    |
+| Swift Swim 0.101%                      |
++----------------------------------------+
+| Items                                  |
+| Black Sludge 88.234%                   |
+| Heavy-Duty Boots 2.638%                |
+| Rocky Helmet 2.064%                    |
+| Life Orb 1.859%                        |
+| Choice Scarf 1.593%                    |
+| Other 3.611%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/4/252/0/0/0 68.263%         |
+| Impish:248/0/252/0/0/8 8.089%          |
+| Jolly:0/252/0/0/4/252 4.725%           |
+| Adamant:148/252/0/0/0/108 3.912%       |
+| Adamant:252/252/0/0/4/0 2.972%         |
+| Jolly:0/252/0/0/164/92 2.275%          |
+| Other 9.766%                           |
++----------------------------------------+
+| Moves                                  |
+| Crunch 89.217%                         |
+| Barb Barrage 88.906%                   |
+| Toxic Spikes 83.717%                   |
+| Spikes 65.838%                         |
+| Destiny Bond 16.468%                   |
+| Aqua Jet 12.145%                       |
+| Swords Dance 9.858%                    |
+| Poison Jab 7.051%                      |
+| Taunt 5.118%                           |
+| Liquidation 4.779%                     |
+| Other 16.903%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 87.446%                        |
+| Meowscarada 84.726%                    |
+| Greninja 82.043%                       |
+| Darkrai 72.366%                        |
+| Sableye 41.498%                        |
+| Lokix 21.437%                          |
+| Roaring Moon 14.318%                   |
+| Samurott-Hisui 13.122%                 |
+| Moltres-Galar 12.111%                  |
+| Hoopa-Unbound 10.279%                  |
++----------------------------------------+
++----------------------------------------+
+| Tyranitar                              |
++----------------------------------------+
+| Raw count: 3301                        |
+| Avg. weight: 0.08004500775709675       |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Sand Stream 99.488%                    |
+| Unnerve 0.512%                         |
++----------------------------------------+
+| Items                                  |
+| Leftovers 37.001%                      |
+| Assault Vest 31.891%                   |
+| Choice Band 16.595%                    |
+| Life Orb 4.641%                        |
+| Heavy-Duty Boots 2.050%                |
+| Weakness Policy 1.681%                 |
+| Chople Berry 1.467%                    |
+| Other 4.676%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:248/8/0/0/252/0 11.901%        |
+| Adamant:252/136/0/0/120/0 11.728%      |
+| Adamant:16/252/0/0/92/148 9.845%       |
+| Adamant:252/68/0/0/188/0 8.870%        |
+| Impish:252/0/252/0/4/0 6.829%          |
+| Adamant:252/252/0/0/4/0 5.822%         |
+| Other 45.004%                          |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 68.210%                      |
+| Stone Edge 66.895%                     |
+| Heavy Slam 47.219%                     |
+| Earthquake 41.989%                     |
+| Stealth Rock 39.858%                   |
+| Thunder Wave 36.252%                   |
+| Brick Break 13.727%                    |
+| Low Kick 13.270%                       |
+| Dragon Tail 12.996%                    |
+| Rock Blast 11.506%                     |
+| Dragon Dance 9.674%                    |
+| Crunch 8.003%                          |
+| Ice Punch 7.889%                       |
+| Rock Slide 5.485%                      |
+| Other 17.029%                          |
++----------------------------------------+
+| Teammates                              |
+| Greninja 58.255%                       |
+| Mandibuzz 57.624%                      |
+| Meowscarada 53.782%                    |
+| Ting-Lu 34.310%                        |
+| Samurott-Hisui 32.516%                 |
+| Darkrai 30.120%                        |
+| Roaring Moon 24.951%                   |
+| Hoopa-Unbound 21.495%                  |
+| Hydreigon 20.687%                      |
+| Bisharp 20.473%                        |
++----------------------------------------+
++----------------------------------------+
+| Weavile                                |
++----------------------------------------+
+| Raw count: 2771                        |
+| Avg. weight: 0.0705447474947695        |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 66.940%                       |
+| Pickpocket 33.060%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 50.486%               |
+| Choice Band 24.782%                    |
+| Focus Sash 10.402%                     |
+| Big Nugget 5.981%                      |
+| Choice Scarf 4.645%                    |
+| Other 3.704%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 70.035%          |
+| Jolly:4/252/0/0/0/252 18.238%          |
+| Jolly:0/252/4/0/0/252 8.907%           |
+| Other 2.820%                           |
++----------------------------------------+
+| Moves                                  |
+| Ice Shard 85.899%                      |
+| Knock Off 84.278%                      |
+| Triple Axel 84.056%                    |
+| Swords Dance 57.190%                   |
+| Low Kick 18.706%                       |
+| Poison Jab 15.773%                     |
+| Icicle Crash 13.417%                   |
+| Fling 6.055%                           |
+| Upper Hand 6.033%                      |
+| Brick Break 5.652%                     |
+| Throat Chop 4.393%                     |
+| Other 18.547%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 53.023%                    |
+| Darkrai 50.941%                        |
+| Ting-Lu 48.240%                        |
+| Greninja 41.255%                       |
+| Mandibuzz 39.573%                      |
+| Samurott-Hisui 33.368%                 |
+| Muk-Alola 31.671%                      |
+| Hoopa-Unbound 25.805%                  |
+| Tyranitar 23.748%                      |
+| Sableye 23.321%                        |
++----------------------------------------+
++----------------------------------------+
+| Incineroar                             |
++----------------------------------------+
+| Raw count: 2775                        |
+| Avg. weight: 0.06972802460076091       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 98.777%                     |
+| Blaze 1.223%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 58.999%               |
+| Sitrus Berry 23.243%                   |
+| Leftovers 6.637%                       |
+| Assault Vest 4.873%                    |
+| Rocky Helmet 2.098%                    |
+| Other 4.151%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 21.225%        |
+| Adamant:252/112/0/0/132/12 20.155%     |
+| Careful:196/0/84/0/228/0 13.798%       |
+| Careful:252/4/0/0/252/0 7.565%         |
+| Adamant:248/252/0/0/0/8 5.631%         |
+| Careful:252/0/0/0/252/0 3.532%         |
+| Other 28.095%                          |
++----------------------------------------+
+| Moves                                  |
+| Flare Blitz 83.724%                    |
+| Knock Off 83.511%                      |
+| Parting Shot 72.499%                   |
+| Fake Out 41.614%                       |
+| Will-O-Wisp 32.603%                    |
+| Drain Punch 19.525%                    |
+| Bulk Up 17.895%                        |
+| Close Combat 9.247%                    |
+| Darkest Lariat 7.909%                  |
+| Swords Dance 6.770%                    |
+| U-turn 5.340%                          |
+| Other 19.364%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 66.614%                    |
+| Grimmsnarl 53.977%                     |
+| Moltres-Galar 46.994%                  |
+| Greninja 44.295%                       |
+| Muk-Alola 43.559%                      |
+| Samurott-Hisui 41.784%                 |
+| Ting-Lu 40.774%                        |
+| Darkrai 25.310%                        |
+| Roaring Moon 21.444%                   |
+| Bisharp 18.685%                        |
++----------------------------------------+
++----------------------------------------+
+| Crawdaunt                              |
++----------------------------------------+
+| Raw count: 647                         |
+| Avg. weight: 0.1695533599238211        |
+| Viability Ceiling: 76                  |
++----------------------------------------+
+| Abilities                              |
+| Adaptability 98.608%                   |
+| Hyper Cutter 1.390%                    |
+| Shell Armor 0.002%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Band 73.663%                    |
+| Life Orb 22.478%                       |
+| Other 3.859%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/0/0/0/252 40.087%        |
+| Adamant:0/252/0/0/4/252 27.608%        |
+| Adamant:0/252/4/0/0/252 12.360%        |
+| Adamant:0/252/0/0/0/252 10.288%        |
+| Rash:0/4/0/252/0/252 3.273%            |
+| Jolly:0/252/4/0/0/252 2.177%           |
+| Other 4.207%                           |
++----------------------------------------+
+| Moves                                  |
+| Aqua Jet 99.910%                       |
+| Knock Off 95.671%                      |
+| Crabhammer 84.677%                     |
+| Close Combat 60.619%                   |
+| Dragon Dance 18.545%                   |
+| Switcheroo 13.497%                     |
+| Liquidation 10.418%                    |
+| Other 16.662%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 73.525%                        |
+| Meowscarada 62.046%                    |
+| Roaring Moon 46.326%                   |
+| Mandibuzz 43.166%                      |
+| Hoopa-Unbound 32.940%                  |
+| Grimmsnarl 29.354%                     |
+| Muk-Alola 26.324%                      |
+| Darkrai 18.937%                        |
+| Moltres-Galar 18.533%                  |
+| Hydreigon 17.759%                      |
++----------------------------------------+
++----------------------------------------+
+| Krookodile                             |
++----------------------------------------+
+| Raw count: 2009                        |
+| Avg. weight: 0.04931096414251895       |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 59.691%                          |
+| Intimidate 40.216%                     |
+| Anger Point 0.093%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 48.859%                   |
+| Focus Sash 27.536%                     |
+| Chople Berry 4.691%                    |
+| Leftovers 4.567%                       |
+| Life Orb 4.224%                        |
+| Rocky Helmet 3.921%                    |
+| Expert Belt 2.181%                     |
+| Other 4.022%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 87.088%          |
+| Jolly:0/252/4/0/0/252 3.903%           |
+| Impish:252/0/252/0/4/0 3.858%          |
+| Adamant:208/252/0/0/40/0 1.162%        |
+| Other 3.990%                           |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 99.752%                     |
+| Knock Off 89.306%                      |
+| Stealth Rock 39.805%                   |
+| Close Combat 38.168%                   |
+| Stone Edge 34.357%                     |
+| Taunt 31.932%                          |
+| Gunk Shot 22.035%                      |
+| Crunch 9.814%                          |
+| Scale Shot 5.665%                      |
+| Bulk Up 5.057%                         |
+| Roar 4.163%                            |
+| Other 19.947%                          |
++----------------------------------------+
+| Teammates                              |
+| Darkrai 63.649%                        |
+| Mandibuzz 47.155%                      |
+| Greninja 40.811%                       |
+| Hoopa-Unbound 38.526%                  |
+| Meowscarada 38.209%                    |
+| Muk-Alola 38.195%                      |
+| Tyranitar 35.547%                      |
+| Hydreigon 31.602%                      |
+| Weavile 29.336%                        |
+| Samurott-Hisui 12.594%                 |
++----------------------------------------+
++----------------------------------------+
+| Umbreon                                |
++----------------------------------------+
+| Raw count: 2348                        |
+| Avg. weight: 0.024191865327111244      |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Synchronize 82.843%                    |
+| Inner Focus 17.157%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 87.195%                      |
+| Heavy-Duty Boots 5.897%                |
+| Rocky Helmet 5.543%                    |
+| Other 1.365%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/4/0/252/0 51.031%           |
+| Impish:252/0/104/0/152/0 6.185%        |
+| Careful:252/0/4/0/252/0 6.072%         |
+| Bold:252/0/252/0/4/0 5.374%            |
+| Impish:252/4/252/0/0/0 5.145%          |
+| Calm:252/0/0/4/252/0 4.553%            |
+| Other 21.640%                          |
++----------------------------------------+
+| Moves                                  |
+| Protect 91.923%                        |
+| Wish 91.268%                           |
+| Toxic 87.497%                          |
+| Foul Play 80.706%                      |
+| Roar 11.902%                           |
+| Thunder Wave 9.007%                    |
+| Moonlight 6.961%                       |
+| Alluring Voice 5.857%                  |
+| Other 14.879%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 57.986%                        |
+| Meowscarada 51.741%                    |
+| Mandibuzz 51.531%                      |
+| Darkrai 43.591%                        |
+| Samurott-Hisui 41.108%                 |
+| Roaring Moon 33.392%                   |
+| Muk-Alola 24.832%                      |
+| Greninja 21.832%                       |
+| Hoopa-Unbound 21.148%                  |
+| Bisharp 20.104%                        |
++----------------------------------------+
++----------------------------------------+
+| Spiritomb                              |
++----------------------------------------+
+| Raw count: 871                         |
+| Avg. weight: 0.058817960291051755      |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Infiltrator 76.965%                    |
+| Pressure 23.035%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 60.289%                      |
+| Custap Berry 24.777%                   |
+| Heavy-Duty Boots 3.905%                |
+| Rocky Helmet 2.740%                    |
+| Lagging Tail 2.003%                    |
+| Choice Band 1.951%                     |
+| Other 4.336%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:252/0/4/252/0/0 24.777%         |
+| Calm:248/0/0/8/252/0 18.244%           |
+| Calm:248/0/8/0/252/0 13.835%           |
+| Bold:252/0/252/0/4/0 7.676%            |
+| Impish:252/132/124/0/0/0 5.366%        |
+| Bold:248/0/252/0/8/0 4.164%            |
+| Other 25.936%                          |
++----------------------------------------+
+| Moves                                  |
+| Will-O-Wisp 59.172%                    |
+| Foul Play 52.095%                      |
+| Shadow Ball 41.450%                    |
+| Toxic 32.619%                          |
+| Substitute 31.323%                     |
+| Nasty Plot 26.476%                     |
+| Burning Jealousy 24.820%               |
+| Rest 18.606%                           |
+| Pain Split 15.735%                     |
+| Hex 12.832%                            |
+| Sucker Punch 11.862%                   |
+| Shadow Sneak 10.946%                   |
+| Poltergeist 10.238%                    |
+| Dark Pulse 6.263%                      |
+| Destiny Bond 5.367%                    |
+| Night Shade 5.256%                     |
+| Calm Mind 5.104%                       |
+| Protect 4.889%                         |
+| Sleep Talk 4.512%                      |
+| Psyshock 4.099%                        |
+| Other 16.338%                          |
++----------------------------------------+
+| Teammates                              |
+| Ting-Lu 62.080%                        |
+| Moltres-Galar 52.034%                  |
+| Darkrai 51.899%                        |
+| Samurott-Hisui 36.309%                 |
+| Overqwil 30.211%                       |
+| Roaring Moon 27.044%                   |
+| Crawdaunt 24.634%                      |
+| Hoopa-Unbound 23.689%                  |
+| Tyranitar 20.847%                      |
+| Muk-Alola 20.422%                      |
++----------------------------------------+
++----------------------------------------+
+| Iron Jugulis                           |
++----------------------------------------+
+| Raw count: 644                         |
+| Avg. weight: 0.07507917238065583       |
+| Viability Ceiling: 71                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 36.914%               |
+| Power Herb 26.813%                     |
+| Choice Scarf 23.083%                   |
+| Choice Specs 12.699%                   |
+| Other 0.490%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 76.864%          |
+| Timid:0/0/0/252/0/252 16.357%          |
+| Timid:4/0/0/252/0/252 3.389%           |
+| Other 3.390%                           |
++----------------------------------------+
+| Moves                                  |
+| Hurricane 79.353%                      |
+| Dark Pulse 76.123%                     |
+| Earth Power 75.951%                    |
+| Flamethrower 48.309%                   |
+| Meteor Beam 26.813%                    |
+| Fire Blast 26.641%                     |
+| Protect 18.436%                        |
+| U-turn 16.882%                         |
+| Air Slash 15.413%                      |
+| Other 16.079%                          |
++----------------------------------------+
+| Teammates                              |
+| Samurott-Hisui 52.607%                 |
+| Meowscarada 52.437%                    |
+| Ting-Lu 47.534%                        |
+| Muk-Alola 44.827%                      |
+| Darkrai 39.332%                        |
+| Roaring Moon 31.306%                   |
+| Hoopa-Unbound 25.176%                  |
+| Greninja 22.930%                       |
+| Mandibuzz 21.476%                      |
+| Lokix 20.341%                          |
++----------------------------------------+
++----------------------------------------+
+| Morpeko                                |
++----------------------------------------+
+| Raw count: 725                         |
+| Avg. weight: 0.042437852892739         |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Hunger Switch 100.000%                 |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 70.266%               |
+| Air Balloon 15.541%                    |
+| Focus Sash 5.659%                      |
+| Choice Scarf 4.750%                    |
+| Other 3.784%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 62.660%          |
+| Adamant:0/0/128/0/128/252 7.890%       |
+| Jolly:0/252/0/0/0/252 4.846%           |
+| Jolly:252/0/0/0/4/252 4.644%           |
+| Jolly:248/144/0/0/0/116 3.967%         |
+| Jolly:248/8/0/0/0/252 3.612%           |
+| Other 12.379%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 98.604%                     |
+| Aura Wheel 95.319%                     |
+| Knock Off 42.184%                      |
+| Parting Shot 40.572%                   |
+| Taunt 38.139%                          |
+| Crunch 22.132%                         |
+| Protect 17.234%                        |
+| Thunder Wave 8.273%                    |
+| Volt Switch 7.240%                     |
+| Seed Bomb 7.092%                       |
+| Fake Out 6.662%                        |
+| Other 16.551%                          |
++----------------------------------------+
+| Teammates                              |
+| Samurott-Hisui 47.770%                 |
+| Roaring Moon 46.321%                   |
+| Ting-Lu 41.062%                        |
+| Moltres-Galar 36.249%                  |
+| Tyranitar 35.864%                      |
+| Hoopa-Unbound 32.836%                  |
+| Muk-Alola 29.492%                      |
+| Spiritomb 27.711%                      |
+| Darkrai 27.059%                        |
+| Meowscarada 26.738%                    |
++----------------------------------------+
++----------------------------------------+
+| Wo-Chien                               |
++----------------------------------------+
+| Raw count: 414                         |
+| Avg. weight: 0.07419792176975991       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Tablets of Ruin 100.000%               |
++----------------------------------------+
+| Items                                  |
+| Leftovers 72.977%                      |
+| Lum Berry 9.376%                       |
+| Assault Vest 6.637%                    |
+| Heavy-Duty Boots 6.529%                |
+| Other 4.481%                           |
++----------------------------------------+
+| Spreads                                |
+| Sassy:252/0/244/0/12/0 63.064%         |
+| Relaxed:4/0/252/0/252/0 9.430%         |
+| Relaxed:252/0/244/0/12/0 6.800%        |
+| Bold:252/0/112/0/0/144 6.511%          |
+| Bold:252/0/124/116/4/0 6.044%          |
+| Bold:252/0/132/0/124/0 2.713%          |
+| Other 5.437%                           |
++----------------------------------------+
+| Moves                                  |
+| Giga Drain 87.991%                     |
+| Leech Seed 86.757%                     |
+| Protect 81.849%                        |
+| Foul Play 63.936%                      |
+| Ruination 24.767%                      |
+| Knock Off 20.033%                      |
+| Body Press 13.970%                     |
+| Dark Pulse 6.178%                      |
+| Other 14.521%                          |
++----------------------------------------+
+| Teammates                              |
+| Muk-Alola 86.122%                      |
+| Ting-Lu 84.219%                        |
+| Mandibuzz 70.568%                      |
+| Samurott-Hisui 60.581%                 |
+| Greninja 41.041%                       |
+| Hydreigon 24.125%                      |
+| Darkrai 14.201%                        |
+| Incineroar 12.417%                     |
+| Sableye 11.647%                        |
+| Moltres-Galar 10.388%                  |
++----------------------------------------+
++----------------------------------------+
+| Scrafty                                |
++----------------------------------------+
+| Raw count: 1295                        |
+| Avg. weight: 0.021994259302867088      |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Shed Skin 71.749%                      |
+| Moxie 20.798%                          |
+| Intimidate 7.452%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 70.079%                      |
+| Punching Glove 7.596%                  |
+| Expert Belt 6.714%                     |
+| Life Orb 5.728%                        |
+| Weakness Policy 2.682%                 |
+| Rocky Helmet 2.463%                    |
+| Other 4.738%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/4/0/0/252/0 57.276%        |
+| Jolly:4/252/0/0/0/252 12.001%          |
+| Adamant:212/252/0/0/4/40 3.711%        |
+| Adamant:60/252/0/0/4/192 3.263%        |
+| Adamant:0/156/156/0/4/192 2.883%       |
+| Impish:252/32/224/0/0/0 2.682%         |
+| Other 18.185%                          |
++----------------------------------------+
+| Moves                                  |
+| Drain Punch 96.795%                    |
+| Knock Off 82.455%                      |
+| Bulk Up 65.919%                        |
+| Rest 64.075%                           |
+| Dragon Dance 27.623%                   |
+| Thunder Punch 7.655%                   |
+| Crunch 7.539%                          |
+| Fire Punch 7.521%                      |
+| High Jump Kick 7.295%                  |
+| Poison Jab 6.727%                      |
+| Iron Head 6.224%                       |
+| Taunt 4.513%                           |
+| Other 15.657%                          |
++----------------------------------------+
+| Teammates                              |
+| Roaring Moon 66.630%                   |
+| Hoopa-Unbound 61.864%                  |
+| Greninja 54.700%                       |
+| Moltres-Galar 33.736%                  |
+| Darkrai 32.327%                        |
+| Muk-Alola 25.296%                      |
+| Meowscarada 24.544%                    |
+| Ting-Lu 19.517%                        |
+| Hydreigon 19.000%                      |
+| Samurott-Hisui 15.937%                 |
++----------------------------------------+
++----------------------------------------+
+| Zarude                                 |
++----------------------------------------+
+| Raw count: 432                         |
+| Avg. weight: 0.05269151974576319       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Leaf Guard 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 60.186%               |
+| Choice Band 17.747%                    |
+| Leftovers 13.188%                      |
+| Salac Berry 1.895%                     |
+| Life Orb 1.459%                        |
+| Shell Bell 1.382%                      |
+| Other 4.143%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 82.528%          |
+| Adamant:252/252/0/0/4/0 5.527%         |
+| Jolly:0/104/148/0/4/252 3.754%         |
+| Jolly:4/252/0/0/0/252 2.232%           |
+| Timid:4/0/0/252/0/252 1.640%           |
+| Other 4.319%                           |
++----------------------------------------+
+| Moves                                  |
+| Power Whip 94.537%                     |
+| Knock Off 69.638%                      |
+| Swords Dance 57.254%                   |
+| Trailblaze 54.389%                     |
+| U-turn 28.399%                         |
+| Crunch 21.045%                         |
+| Close Combat 18.866%                   |
+| Drain Punch 13.512%                    |
+| Bulk Up 12.538%                        |
+| Synthesis 7.557%                       |
+| Jungle Healing 7.421%                  |
+| Other 14.845%                          |
++----------------------------------------+
+| Teammates                              |
+| Samurott-Hisui 75.167%                 |
+| Moltres-Galar 72.665%                  |
+| Darkrai 70.499%                        |
+| Ting-Lu 62.616%                        |
+| Bisharp 54.739%                        |
+| Roaring Moon 30.072%                   |
+| Tyranitar 23.793%                      |
+| Grimmsnarl 17.135%                     |
+| Greninja 15.994%                       |
+| Hoopa-Unbound 9.885%                   |
++----------------------------------------+
++----------------------------------------+
+| Honchkrow                              |
++----------------------------------------+
+| Raw count: 633                         |
+| Avg. weight: 0.03845316487918779       |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 70.688%                          |
+| Super Luck 19.556%                     |
+| Insomnia 9.757%                        |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 30.190%               |
+| Mirror Herb 25.324%                    |
+| Power Herb 22.946%                     |
+| Nothing 5.958%                         |
+| Salac Berry 5.592%                     |
+| Leftovers 2.525%                       |
+| Scope Lens 2.238%                      |
+| Liechi Berry 1.524%                    |
+| Other 3.703%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:12/252/0/0/0/244 19.900%       |
+| Jolly:4/252/0/0/0/252 17.238%          |
+| Jolly:0/252/0/0/4/252 16.547%          |
+| Jolly:0/252/4/0/0/252 12.085%          |
+| Adamant:248/252/0/0/8/0 10.519%        |
+| Adamant:212/236/0/0/0/60 7.902%        |
+| Other 15.809%                          |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 99.087%                   |
+| Brave Bird 53.558%                     |
+| Night Slash 46.450%                    |
+| U-turn 44.683%                         |
+| Acrobatics 44.549%                     |
+| Tailwind 26.560%                       |
+| Swagger 25.324%                        |
+| Sky Attack 22.946%                     |
+| Taunt 12.395%                          |
+| Heat Wave 6.381%                       |
+| Other 18.069%                          |
++----------------------------------------+
+| Teammates                              |
+| Darkrai 47.604%                        |
+| Roaring Moon 36.579%                   |
+| Krookodile 35.042%                     |
+| Tyranitar 33.816%                      |
+| Muk-Alola 30.456%                      |
+| Meowscarada 29.862%                    |
+| Samurott-Hisui 24.585%                 |
+| Hoopa-Unbound 21.358%                  |
+| Greninja 21.252%                       |
+| Overqwil 20.372%                       |
++----------------------------------------+
++----------------------------------------+
+| Qwilfish-Hisui                         |
++----------------------------------------+
+| Raw count: 159                         |
+| Avg. weight: 0.10891260658738836       |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 99.968%                     |
+| Poison Point 0.032%                    |
++----------------------------------------+
+| Items                                  |
+| Eviolite 99.027%                       |
+| Other 0.973%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/0/0/252/4 88.402%        |
+| Impish:252/4/252/0/0/0 10.554%         |
+| Other 1.044%                           |
++----------------------------------------+
+| Moves                                  |
+| Barb Barrage 99.958%                   |
+| Toxic Spikes 89.395%                   |
+| Crunch 88.458%                         |
+| Spikes 88.445%                         |
+| Toxic 10.561%                          |
+| Haze 10.551%                           |
+| Other 12.632%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 91.389%                    |
+| Greninja 91.388%                       |
+| Hoopa-Unbound 91.375%                  |
+| Roaring Moon 82.875%                   |
+| Muk-Alola 71.278%                      |
+| Sableye 11.627%                        |
+| Samurott-Hisui 8.542%                  |
+| Ting-Lu 8.506%                         |
++----------------------------------------+
++----------------------------------------+
+| Houndoom                               |
++----------------------------------------+
+| Raw count: 481                         |
+| Avg. weight: 0.027729030070663914      |
+| Viability Ceiling: 71                  |
++----------------------------------------+
+| Abilities                              |
+| Unnerve 53.403%                        |
+| Flash Fire 46.381%                     |
+| Early Bird 0.215%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 56.216%                   |
+| Focus Sash 13.051%                     |
+| Air Balloon 11.262%                    |
+| Heavy-Duty Boots 6.810%                |
+| Blunder Policy 5.885%                  |
+| Charcoal 2.914%                        |
+| Other 3.862%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 94.032%          |
+| Timid:4/0/0/252/0/252 2.605%           |
+| Other 3.363%                           |
++----------------------------------------+
+| Moves                                  |
+| Dark Pulse 98.565%                     |
+| Flamethrower 90.900%                   |
+| Sludge Bomb 88.644%                    |
+| Overheat 57.453%                       |
+| Nasty Plot 34.795%                     |
+| Fire Blast 6.841%                      |
+| Inferno 5.885%                         |
+| Other 16.917%                          |
++----------------------------------------+
+| Teammates                              |
+| Samurott-Hisui 74.055%                 |
+| Roaring Moon 64.942%                   |
+| Lokix 58.279%                          |
+| Darkrai 57.349%                        |
+| Spiritomb 53.518%                      |
+| Moltres-Galar 25.407%                  |
+| Greninja 18.572%                       |
+| Muk-Alola 17.724%                      |
+| Krookodile 15.510%                     |
+| Meowscarada 14.285%                    |
++----------------------------------------+
++----------------------------------------+
+| Malamar                                |
++----------------------------------------+
+| Raw count: 676                         |
+| Avg. weight: 0.01880091835988128       |
+| Viability Ceiling: 71                  |
++----------------------------------------+
+| Abilities                              |
+| Contrary 99.884%                       |
+| Infiltrator 0.116%                     |
+| Suction Cups 0.000%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 39.155%                      |
+| Assault Vest 38.260%                   |
+| Figy Berry 17.202%                     |
+| Chesto Berry 1.981%                    |
+| Other 3.402%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 36.535%        |
+| Brave:248/252/0/0/8/0 17.202%          |
+| Jolly:0/0/4/0/252/252 15.145%          |
+| Brave:252/252/0/0/4/0 13.625%          |
+| Adamant:252/4/0/0/252/0 3.178%         |
+| Adamant:248/252/0/0/8/0 3.158%         |
+| Other 11.156%                          |
++----------------------------------------+
+| Moves                                  |
+| Superpower 99.677%                     |
+| Psycho Cut 90.877%                     |
+| Knock Off 82.780%                      |
+| Tera Blast 32.837%                     |
+| Trick Room 30.853%                     |
+| Rest 25.824%                           |
+| Protect 18.305%                        |
+| Other 18.849%                          |
++----------------------------------------+
+| Teammates                              |
+| Greninja 57.658%                       |
+| Grimmsnarl 52.696%                     |
+| Overqwil 45.381%                       |
+| Meowscarada 43.208%                    |
+| Incineroar 34.668%                     |
+| Samurott-Hisui 29.973%                 |
+| Roaring Moon 25.097%                   |
+| Moltres-Galar 23.228%                  |
+| Crawdaunt 17.272%                      |
+| Lokix 17.187%                          |
++----------------------------------------+
++----------------------------------------+
+| Zoroark                                |
++----------------------------------------+
+| Raw count: 1057                        |
+| Avg. weight: 0.012515217197354902      |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Illusion 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 52.397%                   |
+| Focus Sash 36.378%                     |
+| Choice Specs 4.985%                    |
+| Life Orb 1.420%                        |
+| Other 4.821%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 87.284%          |
+| Timid:4/0/0/252/0/252 4.851%           |
+| Naive:4/0/0/252/0/252 3.656%           |
+| Other 4.209%                           |
++----------------------------------------+
+| Moves                                  |
+| Flamethrower 89.721%                   |
+| Sludge Bomb 47.134%                    |
+| U-turn 39.711%                         |
+| Night Daze 38.996%                     |
+| Focus Blast 36.826%                    |
+| Nasty Plot 33.859%                     |
+| Trick 28.632%                          |
+| Dark Pulse 24.767%                     |
+| Shadow Ball 19.120%                    |
+| Psychic 16.643%                        |
+| Extrasensory 11.408%                   |
+| Other 13.182%                          |
++----------------------------------------+
+| Teammates                              |
+| Roaring Moon 75.091%                   |
+| Meowscarada 47.927%                    |
+| Samurott-Hisui 44.409%                 |
+| Darkrai 43.790%                        |
+| Lokix 30.227%                          |
+| Hoopa-Unbound 29.883%                  |
+| Bisharp 29.373%                        |
+| Ting-Lu 27.041%                        |
+| Umbreon 25.566%                        |
+| Weavile 18.666%                        |
++----------------------------------------+
++----------------------------------------+
+| Brute Bonnet                           |
++----------------------------------------+
+| Raw count: 185                         |
+| Avg. weight: 0.03217436851345798       |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 66.044%                   |
+| Leftovers 21.825%                      |
+| Assault Vest 11.434%                   |
+| Other 0.697%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/84/72/0/100/0 67.949%      |
+| Adamant:252/252/0/0/4/0 23.328%        |
+| Impish:252/152/104/0/0/0 4.922%        |
+| Other 3.800%                           |
++----------------------------------------+
+| Moves                                  |
+| Seed Bomb 97.622%                      |
+| Crunch 96.976%                         |
+| Sucker Punch 92.108%                   |
+| Spore 83.142%                          |
+| Stomping Tantrum 11.433%               |
+| Other 18.719%                          |
++----------------------------------------+
+| Teammates                              |
+| Incineroar 83.715%                     |
+| Muk-Alola 79.437%                      |
+| Moltres-Galar 69.103%                  |
+| Samurott-Hisui 54.340%                 |
+| Tyranitar 47.178%                      |
+| Roaring Moon 26.881%                   |
+| Spiritomb 23.788%                      |
+| Darkrai 16.105%                        |
+| Greninja 15.315%                       |
+| Grimmsnarl 12.398%                     |
++----------------------------------------+
++----------------------------------------+
+| Shiftry                                |
++----------------------------------------+
+| Raw count: 137                         |
+| Avg. weight: 0.02617108301455779       |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Wind Rider 89.542%                     |
+| Chlorophyll 10.458%                    |
+| Pickpocket 0.000%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 77.545%                     |
+| Heavy-Duty Boots 11.127%               |
+| Life Orb 8.752%                        |
+| Other 2.576%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 86.452%          |
+| Adamant:4/252/0/0/0/252 7.749%         |
+| Modest:252/0/84/112/60/0 1.971%        |
+| Other 3.828%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 94.370%                      |
+| Tailwind 86.234%                       |
+| Explosion 78.231%                      |
+| Toxic Spikes 62.479%                   |
+| Taunt 14.485%                          |
+| Leaf Blade 12.903%                     |
+| Defog 12.394%                          |
+| Sunny Day 7.016%                       |
+| Sucker Punch 6.700%                    |
+| Solar Blade 6.482%                     |
+| Other 18.708%                          |
++----------------------------------------+
+| Teammates                              |
+| Hoopa-Unbound 87.341%                  |
+| Ting-Lu 76.374%                        |
+| Meowscarada 75.107%                    |
+| Moltres-Galar 75.044%                  |
+| Lokix 75.043%                          |
+| Darkrai 16.361%                        |
+| Muk-Alola 14.492%                      |
+| Honchkrow 13.047%                      |
+| Grimmsnarl 12.006%                     |
+| Greninja 6.868%                        |
++----------------------------------------+
++----------------------------------------+
+| Cacturne                               |
++----------------------------------------+
+| Raw count: 222                         |
+| Avg. weight: 0.004638890299740971      |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 73.194%                     |
+| Leftovers 17.665%                      |
+| Life Orb 6.193%                        |
+| Other 2.947%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/4/0/0/252 70.929%          |
+| Sassy:248/8/156/0/96/0 12.127%         |
+| Hardy:0/4/0/252/0/252 4.951%           |
+| Sassy:104/56/152/44/152/0 4.424%       |
+| Hardy:0/252/0/252/0/0 2.336%           |
+| Hardy:252/0/4/252/0/0 1.219%           |
+| Other 4.014%                           |
++----------------------------------------+
+| Moves                                  |
+| Spikes 90.092%                         |
+| Sucker Punch 78.167%                   |
+| Seed Bomb 76.999%                      |
+| Destiny Bond 75.354%                   |
+| Dark Pulse 14.167%                     |
+| Knock Off 13.600%                      |
+| Taunt 12.658%                          |
+| Grass Knot 12.127%                     |
+| Giga Drain 7.773%                      |
+| Other 19.063%                          |
++----------------------------------------+
+| Teammates                              |
+| Mandibuzz 76.942%                      |
+| Hydreigon 72.557%                      |
+| Tyranitar 72.545%                      |
+| Bisharp 69.535%                        |
+| Grimmsnarl 68.154%                     |
+| Krookodile 13.206%                     |
+| Darkrai 11.276%                        |
+| Hoopa-Unbound 10.308%                  |
+| Ting-Lu 9.295%                         |
+| Lokix 8.773%                           |
++----------------------------------------+
++----------------------------------------+
+| Persian-Alola                          |
++----------------------------------------+
+| Raw count: 170                         |
+| Avg. weight: 0.005828799629803212      |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Fur Coat 98.934%                       |
+| Technician 1.066%                      |
+| Rattled 0.000%                         |
++----------------------------------------+
+| Items                                  |
+| Leftovers 66.375%                      |
+| Rocky Helmet 21.289%                   |
+| Assault Vest 5.177%                    |
+| Flame Orb 2.957%                       |
+| Other 4.202%                           |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:252/0/200/0/56/0 65.851%       |
+| Timid:252/4/0/0/0/252 10.725%          |
+| Jolly:0/252/0/0/4/252 5.596%           |
+| Timid:252/0/0/0/4/252 5.407%           |
+| Hasty:0/252/0/4/0/252 5.212%           |
+| Timid:252/0/0/0/40/216 4.048%          |
+| Other 3.161%                           |
++----------------------------------------+
+| Moves                                  |
+| Parting Shot 93.373%                   |
+| Foul Play 77.250%                      |
+| Taunt 77.184%                          |
+| U-turn 71.447%                         |
+| Thunder Wave 21.703%                   |
+| Knock Off 16.857%                      |
+| Chilling Water 10.875%                 |
+| Fake Out 5.596%                        |
+| Switcheroo 5.248%                      |
+| Play Rough 5.212%                      |
+| Other 15.254%                          |
++----------------------------------------+
+| Teammates                              |
+| Samurott-Hisui 88.472%                 |
+| Umbreon 75.468%                        |
+| Roaring Moon 66.661%                   |
+| Morpeko 66.026%                        |
+| Tyranitar 65.851%                      |
+| Muk-Alola 19.476%                      |
+| Meowscarada 14.881%                    |
+| Krookodile 14.483%                     |
+| Darkrai 8.363%                         |
+| Incineroar 6.066%                      |
++----------------------------------------+
++----------------------------------------+
+| Skuntank                               |
++----------------------------------------+
+| Raw count: 180                         |
+| Avg. weight: 0.005247684943544437      |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Aftermath 83.239%                      |
+| Stench 16.761%                         |
+| Keen Eye 0.000%                        |
++----------------------------------------+
+| Items                                  |
+| Air Balloon 56.716%                    |
+| Black Sludge 28.690%                   |
+| Rocky Helmet 10.896%                   |
+| Other 3.697%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:20/232/0/0/4/252 56.197%         |
+| Lax:252/4/252/0/0/0 12.545%            |
+| Timid:0/0/0/252/4/252 11.419%          |
+| Jolly:0/252/0/0/4/252 10.858%          |
+| Naive:0/252/0/4/0/252 3.697%           |
+| Modest:252/0/128/0/128/0 3.654%        |
+| Other 1.630%                           |
++----------------------------------------+
+| Moves                                  |
+| Play Rough 70.788%                     |
+| Toxic Spikes 57.350%                   |
+| Gunk Shot 57.348%                      |
+| Knock Off 56.197%                      |
+| Flamethrower 20.450%                   |
+| Dark Pulse 15.072%                     |
+| Nasty Plot 14.554%                     |
+| Haze 13.695%                           |
+| Crunch 12.987%                         |
+| Toxic 12.545%                          |
+| Sucker Punch 12.449%                   |
+| Sludge Bomb 11.419%                    |
+| Poison Jab 11.302%                     |
+| Fire Blast 10.900%                     |
+| Taunt 10.861%                          |
+| Other 12.082%                          |
++----------------------------------------+
+| Teammates                              |
+| Lokix 63.652%                          |
+| Greninja 56.846%                       |
+| Roaring Moon 53.225%                   |
+| Ting-Lu 52.752%                        |
+| Incineroar 37.321%                     |
+| Samurott-Hisui 23.449%                 |
+| Meowscarada 21.569%                    |
+| Krookodile 19.923%                     |
+| Wo-Chien 19.120%                       |
+| Weavile 16.930%                        |
++----------------------------------------+
++----------------------------------------+
+| Murkrow                                |
++----------------------------------------+
+| Raw count: 104                         |
+| Avg. weight: 0.006975031803466134      |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 99.995%                      |
+| Super Luck 0.005%                      |
++----------------------------------------+
+| Items                                  |
+| Eviolite 75.609%                       |
+| Focus Sash 24.391%                     |
+| Other 0.000%                           |
++----------------------------------------+
+| Spreads                                |
+| Hardy:0/0/0/0/0/252 40.812%            |
+| Calm:248/0/8/0/252/0 26.895%           |
+| Hardy:0/252/0/0/0/252 24.391%          |
+| Bold:0/0/252/4/252/0 5.786%            |
+| Other 2.115%                           |
++----------------------------------------+
+| Moves                                  |
+| Tailwind 73.524%                       |
+| Thunder Wave 72.717%                   |
+| Foul Play 51.582%                      |
+| Protect 46.599%                        |
+| Confuse Ray 40.812%                    |
+| Whirlwind 26.378%                      |
+| Rest 26.378%                           |
+| Sleep Talk 26.378%                     |
+| Perish Song 24.484%                    |
+| Other 11.149%                          |
++----------------------------------------+
+| Teammates                              |
+| Meowscarada 62.250%                    |
+| Greninja 60.814%                       |
+| Lokix 60.519%                          |
+| Tyranitar 42.209%                      |
+| Roaring Moon 36.644%                   |
+| Iron Jugulis 26.895%                   |
+| Moltres-Galar 26.378%                  |
+| Honchkrow 26.378%                      |
+| Mandibuzz 26.378%                      |
+| Bombirdier 26.378%                     |
++----------------------------------------+
++----------------------------------------+
+| Mabosstiff                             |
++----------------------------------------+
+| Raw count: 89                          |
+| Avg. weight: 0.005604195392222199      |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Stakeout 93.419%                       |
+| Intimidate 6.581%                      |
+| Guard Dog 0.000%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Band 78.686%                    |
+| Life Orb 21.113%                       |
+| Other 0.201%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 78.368%        |
+| Jolly:0/252/0/0/4/252 16.485%          |
+| Jolly:0/252/0/0/0/252 4.823%           |
+| Other 0.324%                           |
++----------------------------------------+
+| Moves                                  |
+| Psychic Fangs 99.676%                  |
+| Play Rough 94.511%                     |
+| Crunch 84.182%                         |
+| Wild Charge 78.374%                    |
+| Destiny Bond 16.291%                   |
+| Jaw Lock 16.136%                       |
+| Other 10.830%                          |
++----------------------------------------+
+| Teammates                              |
+| Tyranitar 88.562%                      |
+| Krookodile 83.191%                     |
+| Scrafty 78.368%                        |
+| Hydreigon 78.368%                      |
+| Houndoom 78.368%                       |
+| Bisharp 10.542%                        |
+| Meowscarada 10.362%                    |
+| Incineroar 10.174%                     |
+| Samurott-Hisui 10.117%                 |
+| Crawdaunt 4.968%                       |
++----------------------------------------+
