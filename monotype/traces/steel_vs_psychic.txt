@@ -1,0 +1,152 @@
+# seed=42 search_ms=200 max_turns=80 heal_heuristic=False
+P1:  heatran(100%) |  skarmory(100%) |  goodrahisui(100%) |  gholdengo(100%) |  irontreads(100%) |  archaludon(100%)
+P2:  gallade(100%) |  hoopaunbound(100%) |  hatterene(100%) |  metagross(100%) |  cresselia(100%) |  slowbro(100%)
+
+[T1] field=-  eval=-16.0  (alive P1=6 P2=6)
+   P1=heatran(379/379)
+   P2=gallade(277/277)
+   P1 picks: switch skarmory    [switch skarmory(35472), switch gholdengo(22807), stealthrock(9451), switch archaludon(4058), magmastorm(2621)]
+   P2 picks: sacredsword    [sacredsword(40922), nightslash(20929), knockoff(10459), switch hatterene(2163), switch hoopaunbound(2128)]
+   -> applied branch p=95.8% (6 ops)
+
+[T2] field=wx=NONE(0) ter=NONE(0)  eval=-73.4  (alive P1=6 P2=6)
+   P1=SKARMORY(115/333,st=NONE)
+   P2=GALLADE(232/277,st=NONE)
+   P1 picks: switch gholdengo    [switch gholdengo(32402), bodypress(21173), spikes(12375), roost(10116), switch goodrahisui(6803)]
+   P2 picks: sacredsword    [sacredsword(45961), switch hoopaunbound(31633), switch hatterene(4646), switch slowbro(981), switch cresselia(975)]
+   -> applied branch p=100.0% (1 ops)
+
+[T3] field=wx=NONE(0) ter=NONE(0)  eval=-65.2  (alive P1=6 P2=6)
+   P1=GHOLDENGO(363/363,st=NONE)
+   P2=GALLADE(232/277,st=NONE)
+   P1 picks: makeitrain    [makeitrain(44657), shadowball(9455), switch goodrahisui(5061), nastyplot(2030), switch irontreads(1315)]
+   P2 picks: switch hoopaunbound    [switch hoopaunbound(67530), switch metagross(5276), switch slowbro(4754), switch cresselia(1772), sacredsword(1501)]
+   -> applied branch p=95.8% (6 ops)
+
+[T4] field=wx=NONE(0) ter=NONE(0)  eval=-31.8  (alive P1=6 P2=6)
+   P1=GHOLDENGO(363/363,spa-1,st=NONE)
+   P2=HOOPAUNBOUND(110/301,st=NONE)
+   P1 picks: switch goodrahisui    [switch goodrahisui(65881), switch skarmory(6246), makeitrain(1999), recover(1699), nastyplot(1641)]
+   P2 picks: darkpulse    [darkpulse(53123), focusblast(17449), switch gallade(5450), psychic(2238), switch metagross(913)]
+   -> applied branch p=95.8% (7 ops)
+
+[T5] field=wx=NONE(0) ter=NONE(0)  eval=-45.6  (alive P1=6 P2=6)
+   P1=GOODRAHISUI(231/364,st=NONE)
+   P2=HOOPAUNBOUND(110/301,st=NONE)
+   P1 picks: protect    [protect(27248), heavyslam(16271), knockoff(11568), dragontail(6504), switch gholdengo(888)]
+   P2 picks: darkpulse    [darkpulse(68819), switch gallade(5992), switch metagross(3113), switch slowbro(2558), switch cresselia(1103)]
+   -> applied branch p=100.0% (4 ops)
+
+[T6] field=wx=NONE(0) ter=NONE(0)  eval=-38.4  (alive P1=6 P2=6)
+   P1=GOODRAHISUI(253/364,st=NONE)
+   P2=HOOPAUNBOUND(110/301,st=NONE)
+   P1 picks: heavyslam    [heavyslam(59336), knockoff(18463), dragontail(10259), protect(1598), switch skarmory(670)]
+   P2 picks: darkpulse    [darkpulse(84609), switch slowbro(2153), switch metagross(1544), switch cresselia(1011), switch gallade(709)]
+   -> applied branch p=76.7% (4 ops)
+
+[T7] field=wx=NONE(0) ter=NONE(0)  eval=+10.7  (alive P1=6 P2=5)
+   P1=GOODRAHISUI(120/364,st=NONE)
+   P2=HOOPAUNBOUND(0/301,st=NONE)
+   P1 picks: No Move    [No Move(95000)]
+   P2 picks: switch gallade    [switch gallade(76478), switch metagross(14268), switch slowbro(2660), switch cresselia(1481), switch hatterene(1113)]
+   -> applied branch p=100.0% (4 ops)
+
+[T8] field=wx=NONE(0) ter=NONE(0)  eval=-2.7  (alive P1=6 P2=5)
+   P1=GOODRAHISUI(120/364,st=NONE)
+   P2=GALLADE(232/277,st=NONE)
+   P1 picks: protect    [protect(78123), switch skarmory(3979), switch archaludon(3936), switch gholdengo(1383), switch irontreads(1312)]
+   P2 picks: nightslash    [nightslash(37661), knockoff(25384), psychocut(13762), sacredsword(9522), switch metagross(2063)]
+   -> applied branch p=100.0% (7 ops)
+
+[T9] field=wx=NONE(0) ter=NONE(0)  eval=+4.6  (alive P1=6 P2=5)
+   P1=GOODRAHISUI(142/364,st=NONE)
+   P2=GALLADE(232/277,st=NONE)
+   P1 picks: switch archaludon    [switch archaludon(83271), switch skarmory(4360), switch irontreads(2336), protect(1688), heavyslam(1652)]
+   P2 picks: nightslash    [nightslash(90570), switch cresselia(1774), switch hatterene(1682), switch metagross(1399), switch slowbro(1136)]
+   -> applied branch p=87.5% (4 ops)
+
+[T10] field=wx=NONE(0) ter=NONE(0)  eval=-18.3  (alive P1=6 P2=5)
+   P1=ARCHALUDON(223/383,def+1,st=NONE)
+   P2=GALLADE(232/277,st=NONE)
+   P1 picks: flashcannon    [flashcannon(45766), thunderbolt(18239), dracometeor(7960), bodypress(7202), switch gholdengo(2880)]
+   P2 picks: switch cresselia    [switch cresselia(42880), nightslash(41350), switch metagross(5983), switch slowbro(4634), switch hatterene(2607)]
+   -> applied branch p=86.2% (6 ops)
+
+[T11] field=wx=NONE(0) ter=NONE(0)  eval=+17.9  (alive P1=6 P2=5)
+   P1=ARCHALUDON(223/383,def+1,st=NONE)
+   P2=CRESSELIA(341/444,st=NONE)
+   P1 picks: switch gholdengo    [switch gholdengo(31711), flashcannon(14429), thunderbolt(11158), switch goodrahisui(9293), dracometeor(5077)]
+   P2 picks: calmmind    [calmmind(33816), moonblast(20099), moonlight(18304), switch gallade(11108), psyshock(3760)]
+   -> applied branch p=100.0% (5 ops)
+
+[T12] field=wx=NONE(0) ter=NONE(0)  eval=-29.9  (alive P1=6 P2=5)
+   P1=GHOLDENGO(363/363,st=NONE)
+   P2=CRESSELIA(368/444,spa+1,spd+1,st=NONE)
+   P1 picks: nastyplot    [nastyplot(53425), shadowball(39475), makeitrain(2050), switch irontreads(1156), switch heatran(1123)]
+   P2 picks: switch gallade    [switch gallade(23240), moonblast(22323), calmmind(21679), moonlight(17182), psyshock(11659)]
+   -> applied branch p=100.0% (4 ops)
+
+[T13] field=wx=NONE(0) ter=NONE(0)  eval=+52.1  (alive P1=6 P2=5)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=GALLADE(232/277,st=NONE)
+   P1 picks: shadowball    [shadowball(30901), makeitrain(12458), nastyplot(4299), recover(3691), switch skarmory(1675)]
+   P2 picks: sacredsword    [sacredsword(34032), nightslash(26438), knockoff(14231), psychocut(850), switch hatterene(534)]
+   -> applied branch p=100.0% (4 ops)
+
+[T14] field=wx=NONE(0) ter=NONE(0)  eval=+178.9  (alive P1=6 P2=4)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=GALLADE(0/277,st=NONE)
+   P1 picks: No Move    [No Move(114000)]
+   P2 picks: switch cresselia    [switch cresselia(39455), switch slowbro(28313), switch hatterene(25324), switch metagross(21908)]
+   -> applied branch p=100.0% (4 ops)
+
+[T15] field=wx=NONE(0) ter=NONE(0)  eval=+182.3  (alive P1=6 P2=4)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=CRESSELIA(368/444,st=NONE)
+   P1 picks: shadowball    [shadowball(113724), makeitrain(1908), nastyplot(266), recover(182), switch goodrahisui(85)]
+   P2 picks: calmmind    [calmmind(14414), psyshock(14157), moonblast(14091), moonlight(13738), switch slowbro(11858)]
+   -> applied branch p=100.0% (1 ops)
+
+[T16] field=wx=NONE(0) ter=NONE(0)  eval=+300.8  (alive P1=6 P2=3)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=CRESSELIA(0/444,st=NONE)
+   P1 picks: No Move    [No Move(116000)]
+   P2 picks: switch slowbro    [switch slowbro(33492), switch hatterene(30238), switch metagross(25270)]
+   -> applied branch p=100.0% (1 ops)
+
+[T17] field=wx=NONE(0) ter=NONE(0)  eval=+300.8  (alive P1=6 P2=3)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=SLOWBRO(394/394,st=NONE)
+   P1 picks: shadowball    [shadowball(89826), makeitrain(583), nastyplot(294), recover(223), switch archaludon(89)]
+   P2 picks: scald    [scald(11022), futuresight(10956), slackoff(10629), trickroom(10202), switch hatterene(9381)]
+   -> applied branch p=100.0% (1 ops)
+
+[T18] field=wx=NONE(0) ter=NONE(0)  eval=+435.8  (alive P1=6 P2=2)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=SLOWBRO(0/394,st=NONE)
+   P1 picks: No Move    [No Move(251000)]
+   P2 picks: switch hatterene    [switch hatterene(153512), switch metagross(103488)]
+   -> applied branch p=100.0% (1 ops)
+
+[T19] field=wx=NONE(0) ter=NONE(0)  eval=+435.8  (alive P1=6 P2=2)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=HATTERENE(318/318,st=NONE)
+   P1 picks: shadowball    [shadowball(351196), makeitrain(1154), nastyplot(139), recover(117), switch goodrahisui(76)]
+   P2 picks: mysticalfire    [mysticalfire(41797), calmmind(39994), dazzlinggleam(39870), drainingkiss(39292), switch metagross(31948)]
+   -> applied branch p=100.0% (1 ops)
+
+[T20] field=wx=NONE(0) ter=NONE(0)  eval=+574.8  (alive P1=6 P2=1)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=HATTERENE(0/318,st=NONE)
+   P1 picks: No Move    [No Move(754000)]
+   P2 picks: switch metagross    [switch metagross(795000)]
+   -> applied branch p=100.0% (1 ops)
+
+[T21] field=wx=NONE(0) ter=NONE(0)  eval=+574.8  (alive P1=6 P2=1)
+   P1=GHOLDENGO(363/363,spa+2,st=NONE)
+   P2=METAGROSS(364/364,st=NONE)
+   P1 picks: shadowball    [shadowball(580066), makeitrain(2186), nastyplot(156), recover(136), switch skarmory(75)]
+   P2 picks: knockoff    [knockoff(150884), heavyslam(150421), bulletpunch(148052), earthquake(145212)]
+   -> applied branch p=100.0% (1 ops)
+
+[T22] P1 wins (6 alive)

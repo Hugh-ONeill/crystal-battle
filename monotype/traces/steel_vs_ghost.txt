@@ -1,0 +1,277 @@
+# seed=42 search_ms=200 max_turns=80 heal_heuristic=False
+P1:  heatran(100%) |  skarmory(100%) |  goodrahisui(100%) |  gholdengo(100%) |  irontreads(100%) |  archaludon(100%)
+P2:  mimikyu(100%) |  fluttermane(100%) |  gholdengo(100%) |  pecharunt(100%) |  dragapult(100%) |  ceruledge(100%)
+
+[T1] field=-  eval=-17.0  (alive P1=6 P2=6)
+   P1=heatran(379/379)
+   P2=mimikyu(251/251)
+   P1 picks: stealthrock    [stealthrock(65937), switch skarmory(1387), magmastorm(1276), earthpower(1200), powergem(1015)]
+   P2 picks: drainpunch    [drainpunch(45095), swordsdance(16476), shadowsneak(3838), switch fluttermane(2853), playrough(2734)]
+   -> applied branch p=95.8% (4 ops)
+
+[T2] field=wx=NONE(0) ter=NONE(0)  eval=+23.5  (alive P1=6 P2=6)
+   P1=HEATRAN(206/379,st=NONE)
+   P2=MIMIKYU(226/251,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch skarmory    [switch skarmory(49518), switch goodrahisui(8544), magmastorm(5407), switch gholdengo(4305), powergem(4051)]
+   P2 picks: swordsdance    [swordsdance(23306), drainpunch(17541), switch fluttermane(10449), switch gholdengo(10275), playrough(4429)]
+   -> applied branch p=100.0% (2 ops)
+
+[T3] field=wx=NONE(0) ter=NONE(0)  eval=+15.1  (alive P1=6 P2=6)
+   P1=SKARMORY(333/333,st=NONE)
+   P2=MIMIKYU(226/251,atk+2,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: spikes    [spikes(75238), bodypress(7167), switch irontreads(6764), irondefense(3988), roost(3780)]
+   P2 picks: swordsdance    [swordsdance(21939), drainpunch(15504), switch ceruledge(10984), switch fluttermane(9381), switch gholdengo(7989)]
+   -> applied branch p=100.0% (2 ops)
+
+[T4] field=wx=NONE(0) ter=NONE(0)  eval=+52.5  (alive P1=6 P2=6)
+   P1=SKARMORY(333/333,st=NONE)
+   P2=MIMIKYU(226/251,atk+4,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: irondefense    [irondefense(78605), spikes(7062), roost(5221), bodypress(1531), switch archaludon(1420)]
+   P2 picks: drainpunch    [drainpunch(29304), switch gholdengo(15894), playrough(11429), shadowsneak(9674), switch fluttermane(9337)]
+   -> applied branch p=95.8% (5 ops)
+
+[T5] field=wx=NONE(0) ter=NONE(0)  eval=+50.8  (alive P1=6 P2=6)
+   P1=SKARMORY(181/333,def+2,st=NONE)
+   P2=MIMIKYU(185/251,atk+4,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: roost    [roost(79070), spikes(4387), switch goodrahisui(2140), irondefense(1518), bodypress(1203)]
+   P2 picks: switch gholdengo    [switch gholdengo(24610), drainpunch(19409), switch fluttermane(11323), swordsdance(11225), playrough(6713)]
+   -> applied branch p=100.0% (6 ops)
+
+[T6] field=wx=NONE(0) ter=NONE(0)  eval=+127.7  (alive P1=6 P2=6)
+   P1=SKARMORY(333/333,def+2,st=NONE)
+   P2=GHOLDENGO(296/315,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: switch goodrahisui    [switch goodrahisui(74060), spikes(3965), roost(2295), switch heatran(1185), bodypress(1137)]
+   P2 picks: nastyplot    [nastyplot(50003), shadowball(19008), recover(3901), makeitrain(3560), switch ceruledge(3528)]
+   -> applied branch p=100.0% (3 ops)
+
+[T7] field=wx=NONE(0) ter=NONE(0)  eval=+70.0  (alive P1=6 P2=6)
+   P1=GOODRAHISUI(364/364,st=NONE)
+   P2=GHOLDENGO(296/315,spa+2,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: dragontail    [dragontail(47483), knockoff(14473), protect(8684), heavyslam(2923), switch heatran(313)]
+   P2 picks: shadowball    [shadowball(57015), makeitrain(5501), nastyplot(4346), recover(3120), switch fluttermane(1767)]
+   -> applied branch p=3.3% (8 ops)
+
+[T8] field=wx=NONE(0) ter=NONE(0)  eval=+75.0  (alive P1=6 P2=6)
+   P1=GOODRAHISUI(228/364,spd-1,st=NONE)
+   P2=DRAGAPULT(239/317,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: knockoff    [knockoff(17130), protect(15950), switch skarmory(11162), heavyslam(9697), switch archaludon(7110)]
+   P2 picks: phantomforce    [phantomforce(54108), dragondarts(8869), switch gholdengo(4408), switch fluttermane(3365), uturn(2993)]
+   -> applied branch p=100.0% (5 ops)
+
+[T9] field=wx=NONE(0) ter=NONE(0)  eval=+82.1  (alive P1=6 P2=6)
+   P1=GOODRAHISUI(250/364,spd-1,st=NONE)
+   P2=DRAGAPULT(239/317,st=NONE,vol=PHANTOMFORCE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: switch skarmory    [switch skarmory(33804), dragontail(25188), knockoff(19001), heavyslam(5171), switch archaludon(1441)]
+   P2 picks: phantomforce    [phantomforce(91000)]
+   -> applied branch p=95.8% (5 ops)
+
+[T10] field=wx=NONE(0) ter=NONE(0)  eval=+90.8  (alive P1=6 P2=6)
+   P1=SKARMORY(248/333,st=NONE)
+   P2=DRAGAPULT(187/317,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: spikes    [spikes(48710), switch goodrahisui(21535), switch irontreads(11461), irondefense(3905), roost(3845)]
+   P2 picks: switch ceruledge    [switch ceruledge(31277), switch gholdengo(22237), switch fluttermane(19076), phantomforce(17652), switch pecharunt(3228)]
+   -> applied branch p=100.0% (7 ops)
+
+[T11] field=wx=NONE(0) ter=NONE(0)  eval=+170.6  (alive P1=6 P2=6)
+   P1=SKARMORY(248/333,st=NONE)
+   P2=CERULEDGE(183/291,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: switch heatran    [switch heatran(50295), roost(10571), switch irontreads(10505), switch archaludon(10089), spikes(8124)]
+   P2 picks: bitterblade    [bitterblade(57689), swordsdance(30304), closecombat(5800), shadowsneak(2152), switch gholdengo(642)]
+   -> applied branch p=100.0% (2 ops)
+
+[T12] field=wx=NONE(0) ter=NONE(0)  eval=+166.6  (alive P1=6 P2=6)
+   P1=HEATRAN(206/379,st=NONE,vol=FLASHFIRE)
+   P2=CERULEDGE(183/291,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: earthpower    [earthpower(47758), magmastorm(16070), switch archaludon(14542), powergem(4444), switch skarmory(3311)]
+   P2 picks: closecombat    [closecombat(67153), swordsdance(10199), bitterblade(5121), shadowsneak(1866), switch gholdengo(1313)]
+   -> applied branch p=100.0% (3 ops)
+
+[T13] field=wx=NONE(0) ter=NONE(0)  eval=+121.4  (alive P1=5 P2=6)
+   P1=HEATRAN(0/379,st=NONE,vol=FLASHFIRE)
+   P2=CERULEDGE(183/291,def-1,spd-1,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: switch irontreads    [switch irontreads(87637), switch goodrahisui(733), switch archaludon(660), switch gholdengo(530), switch skarmory(440)]
+   P2 picks: No Move    [No Move(92000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T14] field=wx=NONE(0) ter=NONE(0)  eval=+128.8  (alive P1=5 P2=6)
+   P1=IRONTREADS(321/321,st=NONE)
+   P2=CERULEDGE(183/291,def-1,spd-1,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: knockoff    [knockoff(74325), earthquake(12978), switch goodrahisui(1441), switch archaludon(1037), switch skarmory(1013)]
+   P2 picks: shadowsneak    [shadowsneak(56355), bitterblade(7484), swordsdance(6795), switch dragapult(6454), closecombat(6178)]
+   -> applied branch p=95.8% (4 ops)
+
+[T15] field=wx=NONE(0) ter=NONE(0)  eval=+133.2  (alive P1=5 P2=5)
+   P1=IRONTREADS(260/321,st=NONE)
+   P2=CERULEDGE(0/291,def-1,spd-1,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: No Move    [No Move(89000)]
+   P2 picks: switch fluttermane    [switch fluttermane(82395), switch gholdengo(4352), switch mimikyu(2796), switch pecharunt(1769), switch dragapult(1688)]
+   -> applied branch p=100.0% (5 ops)
+
+[T16] field=wx=NONE(0) ter=NONE(0)  eval=+166.5  (alive P1=5 P2=5)
+   P1=IRONTREADS(260/321,st=NONE)
+   P2=FLUTTERMANE(158/251,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: switch goodrahisui    [switch goodrahisui(84971), switch skarmory(1652), earthquake(1493), knockoff(1120), icespinner(1082)]
+   P2 picks: shadowball    [shadowball(69176), moonblast(9758), mysticalfire(2563), thunderbolt(789), switch gholdengo(611)]
+   -> applied branch p=76.7% (6 ops)
+
+[T17] field=wx=NONE(0) ter=NONE(0)  eval=+137.2  (alive P1=5 P2=5)
+   P1=GOODRAHISUI(153/364,st=NONE)
+   P2=FLUTTERMANE(158/251,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: protect    [protect(60335), heavyslam(19714), knockoff(2974), dragontail(574), switch archaludon(376)]
+   P2 picks: shadowball    [shadowball(74281), switch dragapult(7312), switch gholdengo(6909), switch pecharunt(3465), switch mimikyu(2561)]
+   -> applied branch p=100.0% (4 ops)
+
+[T18] field=wx=NONE(0) ter=NONE(0)  eval=+143.9  (alive P1=5 P2=5)
+   P1=GOODRAHISUI(175/364,st=NONE)
+   P2=FLUTTERMANE(158/251,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: heavyslam    [heavyslam(83450), knockoff(6869), protect(865), dragontail(486), switch archaludon(243)]
+   P2 picks: shadowball    [shadowball(91208), switch gholdengo(1802), switch pecharunt(1053), switch mimikyu(581), switch dragapult(532)]
+   -> applied branch p=76.7% (4 ops)
+
+[T19] field=wx=NONE(0) ter=NONE(0)  eval=+196.0  (alive P1=5 P2=4)
+   P1=GOODRAHISUI(78/364,st=NONE)
+   P2=FLUTTERMANE(0/251,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: No Move    [No Move(96000)]
+   P2 picks: switch gholdengo    [switch gholdengo(91986), switch mimikyu(4448), switch dragapult(4297), switch pecharunt(1269)]
+   -> applied branch p=100.0% (5 ops)
+
+[T20] field=wx=NONE(0) ter=NONE(0)  eval=+194.8  (alive P1=5 P2=4)
+   P1=GOODRAHISUI(78/364,st=NONE)
+   P2=GHOLDENGO(240/315,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: dragontail    [dragontail(75935), protect(11650), knockoff(6463), heavyslam(2778), switch irontreads(641)]
+   P2 picks: shadowball    [shadowball(55043), nastyplot(16307), makeitrain(3864), recover(3585), switch dragapult(1375)]
+   -> applied branch p=2.4% (2 ops)
+
+[T21] field=wx=NONE(0) ter=NONE(0)  eval=+178.9  (alive P1=5 P2=4)
+   P1=GOODRAHISUI(25/364,st=NONE)
+   P2=GHOLDENGO(240/315,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: dragontail    [dragontail(80794), knockoff(9389), heavyslam(7616), protect(4429), switch irontreads(928)]
+   P2 picks: shadowball    [shadowball(57217), makeitrain(17317), recover(5806), nastyplot(5172), switch mimikyu(1017)]
+   -> applied branch p=100.0% (1 ops)
+
+[T22] field=wx=NONE(0) ter=NONE(0)  eval=+141.6  (alive P1=4 P2=4)
+   P1=GOODRAHISUI(0/364,st=NONE)
+   P2=GHOLDENGO(240/315,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: switch irontreads    [switch irontreads(103355), switch gholdengo(4800), switch archaludon(512), switch skarmory(333)]
+   P2 picks: No Move    [No Move(104000)]
+   -> applied branch p=100.0% (1 ops)
+
+[T23] field=wx=NONE(0) ter=NONE(0)  eval=+146.3  (alive P1=4 P2=4)
+   P1=IRONTREADS(260/321,st=NONE)
+   P2=GHOLDENGO(240/315,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: knockoff    [knockoff(100660), switch archaludon(1145), icespinner(1117), rapidspin(473), switch skarmory(453)]
+   P2 picks: shadowball    [shadowball(59957), makeitrain(6427), switch dragapult(5383), switch mimikyu(4276), switch pecharunt(3686)]
+   -> applied branch p=73.5% (4 ops)
+
+[T24] field=wx=NONE(0) ter=NONE(0)  eval=+194.0  (alive P1=4 P2=4)
+   P1=IRONTREADS(66/321,st=NONE)
+   P2=GHOLDENGO(22/315,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: knockoff    [knockoff(43466), earthquake(38497), icespinner(19934), rapidspin(661), switch gholdengo(491)]
+   P2 picks: makeitrain    [makeitrain(24800), shadowball(22565), nastyplot(22102), recover(20740), switch mimikyu(5970)]
+   -> applied branch p=100.0% (1 ops)
+
+[T25] field=wx=NONE(0) ter=NONE(0)  eval=+179.3  (alive P1=4 P2=3)
+   P1=IRONTREADS(66/321,st=NONE)
+   P2=GHOLDENGO(0/315,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: No Move    [No Move(101000)]
+   P2 picks: switch pecharunt    [switch pecharunt(50737), switch mimikyu(32488), switch dragapult(17775)]
+   -> applied branch p=100.0% (3 ops)
+
+[T26] field=wx=NONE(0) ter=NONE(0)  eval=+223.6  (alive P1=4 P2=3)
+   P1=IRONTREADS(66/321,st=NONE)
+   P2=PECHARUNT(238/379,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: switch gholdengo    [switch gholdengo(49389), earthquake(27301), knockoff(20470), icespinner(2050), switch archaludon(1775)]
+   P2 picks: recover    [recover(47080), shadowball(29785), malignantchain(1661), switch mimikyu(1341), partingshot(1250)]
+   -> applied branch p=100.0% (2 ops)
+
+[T27] field=wx=NONE(0) ter=NONE(0)  eval=+179.3  (alive P1=4 P2=3)
+   P1=GHOLDENGO(363/363,st=NONE)
+   P2=PECHARUNT(379/379,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: shadowball    [shadowball(61666), nastyplot(10613), makeitrain(2393), switch archaludon(763), recover(705)]
+   P2 picks: shadowball    [shadowball(36887), switch mimikyu(8625), switch dragapult(5120), recover(4305), malignantchain(2282)]
+   -> applied branch p=47.8% (4 ops)
+
+[T28] field=wx=NONE(0) ter=NONE(0)  eval=+225.2  (alive P1=4 P2=3)
+   P1=GHOLDENGO(178/363,st=NONE)
+   P2=PECHARUNT(51/379,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: shadowball    [shadowball(49870), recover(18184), makeitrain(13159), nastyplot(1373), switch skarmory(460)]
+   P2 picks: shadowball    [shadowball(37407), recover(15671), malignantchain(7886), partingshot(7221), switch mimikyu(2902)]
+   -> applied branch p=100.0% (1 ops)
+
+[T29] field=wx=NONE(0) ter=NONE(0)  eval=+227.4  (alive P1=4 P2=2)
+   P1=GHOLDENGO(178/363,st=NONE)
+   P2=PECHARUNT(0/379,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: No Move    [No Move(90000)]
+   P2 picks: switch mimikyu    [switch mimikyu(73756), switch dragapult(13244)]
+   -> applied branch p=100.0% (3 ops)
+
+[T30] field=wx=NONE(0) ter=NONE(0)  eval=+257.4  (alive P1=4 P2=2)
+   P1=GHOLDENGO(178/363,st=NONE)
+   P2=MIMIKYU(92/251,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: switch skarmory    [switch skarmory(72205), shadowball(4767), recover(4300), makeitrain(4273), switch archaludon(1296)]
+   P2 picks: swordsdance    [swordsdance(43079), drainpunch(5959), shadowsneak(4300), playrough(3198), switch dragapult(844)]
+   -> applied branch p=100.0% (2 ops)
+
+[T31] field=wx=NONE(0) ter=NONE(0)  eval=+247.9  (alive P1=4 P2=2)
+   P1=SKARMORY(248/333,st=NONE)
+   P2=MIMIKYU(92/251,atk+2,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: irondefense    [irondefense(80703), roost(2414), bodypress(1284), spikes(847), switch gholdengo(298)]
+   P2 picks: swordsdance    [swordsdance(27446), drainpunch(19537), playrough(3239), shadowsneak(2482), switch dragapult(1111)]
+   -> applied branch p=100.0% (2 ops)
+
+[T32] field=wx=NONE(0) ter=NONE(0)  eval=+270.3  (alive P1=4 P2=2)
+   P1=SKARMORY(248/333,def+2,st=NONE)
+   P2=MIMIKYU(92/251,atk+4,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: irondefense    [irondefense(59052), roost(5237), bodypress(2741), spikes(1516), switch gholdengo(160)]
+   P2 picks: swordsdance    [swordsdance(32346), drainpunch(19174), playrough(4735), shadowsneak(3093), switch dragapult(1708)]
+   -> applied branch p=100.0% (2 ops)
+
+[T33] field=wx=NONE(0) ter=NONE(0)  eval=+283.0  (alive P1=4 P2=2)
+   P1=SKARMORY(248/333,def+4,st=NONE)
+   P2=MIMIKYU(92/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: bodypress    [bodypress(67981), roost(20885), irondefense(1858), spikes(1760), switch gholdengo(111)]
+   P2 picks: swordsdance    [swordsdance(44051), drainpunch(14083), playrough(3177), switch dragapult(2248), shadowsneak(2125)]
+   -> applied branch p=100.0% (2 ops)
+
+[T34] field=wx=NONE(0) ter=NONE(0)  eval=+295.4  (alive P1=4 P2=2)
+   P1=SKARMORY(248/333,def+4,st=NONE)
+   P2=MIMIKYUBUSTED(61/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: roost    [roost(45475), spikes(11906), irondefense(2885), bodypress(1833), switch irontreads(200)]
+   P2 picks: swordsdance    [swordsdance(44497), drainpunch(12420), switch dragapult(1479), playrough(1162), shadowsneak(807)]
+   -> applied branch p=100.0% (3 ops)
+
+[T35] field=wx=NONE(0) ter=NONE(0)  eval=+322.2  (alive P1=4 P2=2)
+   P1=SKARMORY(333/333,def+4,st=NONE)
+   P2=MIMIKYUBUSTED(61/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=2]
+   P1 picks: spikes    [spikes(63290), irondefense(15865), roost(10357), bodypress(3047), switch irontreads(262)]
+   P2 picks: swordsdance    [swordsdance(60794), drainpunch(15704), switch dragapult(1344), playrough(802), shadowsneak(543)]
+   -> applied branch p=100.0% (1 ops)
+
+[T36] field=wx=NONE(0) ter=NONE(0)  eval=+340.2  (alive P1=4 P2=2)
+   P1=SKARMORY(333/333,def+4,st=NONE)
+   P2=MIMIKYUBUSTED(61/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=3]
+   P1 picks: irondefense    [irondefense(61999), roost(12964), spikes(9507), bodypress(8461), switch irontreads(421)]
+   P2 picks: swordsdance    [swordsdance(66112), drainpunch(15534), switch dragapult(804), playrough(549), shadowsneak(426)]
+   -> applied branch p=100.0% (1 ops)
+
+[T37] field=wx=NONE(0) ter=NONE(0)  eval=+344.7  (alive P1=4 P2=2)
+   P1=SKARMORY(333/333,def+6,st=NONE)
+   P2=MIMIKYUBUSTED(61/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=3]
+   P1 picks: roost    [roost(56710), irondefense(14399), bodypress(13847), spikes(11893), switch irontreads(417)]
+   P2 picks: swordsdance    [swordsdance(74942), drainpunch(9494), switch dragapult(802), playrough(541), shadowsneak(443)]
+   -> applied branch p=100.0% (0 ops)
+
+[T38] field=wx=NONE(0) ter=NONE(0)  eval=+344.7  (alive P1=4 P2=2)
+   P1=SKARMORY(333/333,def+6,st=NONE)
+   P2=MIMIKYUBUSTED(61/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=3]
+   P1 picks: roost    [roost(55648), spikes(15015), bodypress(14443), irondefense(12665), switch irontreads(466)]
+   P2 picks: swordsdance    [swordsdance(72354), drainpunch(9411), switch dragapult(806), playrough(520), shadowsneak(402)]
+   -> applied branch p=100.0% (0 ops)
+
+[T39] field=wx=NONE(0) ter=NONE(0)  eval=+344.7  (alive P1=4 P2=2)
+   P1=SKARMORY(333/333,def+6,st=NONE)
+   P2=MIMIKYUBUSTED(61/251,atk+6,st=NONE)  hazards[stealth_rock=1,spikes=3]
+   P1 picks: roost    [roost(54576), bodypress(15997), irondefense(14518), spikes(12606), switch irontreads(390)]
+   P2 picks: swordsdance    [swordsdance(77908), drainpunch(9192), switch dragapult(771), playrough(565), shadowsneak(413)]
+   -> applied branch p=100.0% (0 ops)
+[T39] state frozen; draw

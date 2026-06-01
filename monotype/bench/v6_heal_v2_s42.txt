@@ -1,0 +1,219 @@
+=== monotype round-robin: 18 teams, 153 pairs, 8 games/pair, 200ms search, 22 workers, 1224 total games ===
+  [ 0] Dork Team
+  [ 1] Totally Normal Team
+  [ 2] Spooky Team
+  [ 3] Supa Fitingu
+  [ 4] I Believe In Fairies
+  [ 5] Grounded Grounded Grounded
+  [ 6] Ice Ice Baby
+  [ 7] Heavy Metal
+  [ 8] Stop Bugging Me
+  [ 9] Electric Boogaloo
+  [10] Fly Away Now
+  [11] Toxic Team
+  [12] Rock Hard
+  [13] RuPauls Dragon Race
+  [14] Soft and Wet
+  [15] Your Ass is Grass
+  [16] Brain Blast
+  [17] Disco Inferno
+  [61/1224] 40s
+  [122/1224] 88s
+  [183/1224] 133s
+  [244/1224] 174s
+  [305/1224] 226s
+  [366/1224] 273s
+  [427/1224] 314s
+  [488/1224] 350s
+  [549/1224] 387s
+  [610/1224] 439s
+  [671/1224] 511s
+  [732/1224] 552s
+  [793/1224] 597s
+  [854/1224] 646s
+  [915/1224] 693s
+  [976/1224] 738s
+  [1037/1224] 794s
+  [1098/1224] 854s
+  [1159/1224] 900s
+  [1220/1224] 943s
+
+Done in 958s
+
+=== Per-pair results ===
+               Dork Team vs Totally Normal Team   :   8W   0L   0D (100.0% for Dork Team, 8/8 decided)
+               Dork Team vs Spooky Team           :   1W   7L   0D ( 12.5% for Dork Team, 8/8 decided)
+               Dork Team vs Supa Fitingu          :   0W   8L   0D (  0.0% for Dork Team, 8/8 decided)
+               Dork Team vs I Believe In Fairies  :   0W   8L   0D (  0.0% for Dork Team, 8/8 decided)
+               Dork Team vs Grounded Grounded Gro…:   7W   0L   1D (100.0% for Dork Team, 7/8 decided)
+               Dork Team vs Ice Ice Baby          :   6W   2L   0D ( 75.0% for Dork Team, 8/8 decided)
+               Dork Team vs Heavy Metal           :   2W   1L   5D ( 66.7% for Dork Team, 3/8 decided)
+               Dork Team vs Stop Bugging Me       :   0W   7L   1D (  0.0% for Dork Team, 7/8 decided)
+               Dork Team vs Electric Boogaloo     :   7W   1L   0D ( 87.5% for Dork Team, 8/8 decided)
+               Dork Team vs Fly Away Now          :   6W   2L   0D ( 75.0% for Dork Team, 8/8 decided)
+               Dork Team vs Toxic Team            :   3W   3L   2D ( 50.0% for Dork Team, 6/8 decided)
+               Dork Team vs Rock Hard             :   2W   6L   0D ( 25.0% for Dork Team, 8/8 decided)
+               Dork Team vs RuPauls Dragon Race   :   5W   3L   0D ( 62.5% for Dork Team, 8/8 decided)
+               Dork Team vs Soft and Wet          :   6W   0L   2D (100.0% for Dork Team, 6/8 decided)
+               Dork Team vs Your Ass is Grass     :   7W   1L   0D ( 87.5% for Dork Team, 8/8 decided)
+               Dork Team vs Brain Blast           :   2W   4L   2D ( 33.3% for Dork Team, 6/8 decided)
+               Dork Team vs Disco Inferno         :   1W   7L   0D ( 12.5% for Dork Team, 8/8 decided)
+     Totally Normal Team vs Spooky Team           :   0W   4L   4D (  0.0% for Totally Normal Team, 4/8 decided)
+     Totally Normal Team vs Supa Fitingu          :   0W   8L   0D (  0.0% for Totally Normal Team, 8/8 decided)
+     Totally Normal Team vs I Believe In Fairies  :   0W   6L   2D (  0.0% for Totally Normal Team, 6/8 decided)
+     Totally Normal Team vs Grounded Grounded Gro…:   0W   6L   2D (  0.0% for Totally Normal Team, 6/8 decided)
+     Totally Normal Team vs Ice Ice Baby          :   8W   0L   0D (100.0% for Totally Normal Team, 8/8 decided)
+     Totally Normal Team vs Heavy Metal           :   1W   4L   3D ( 20.0% for Totally Normal Team, 5/8 decided)
+     Totally Normal Team vs Stop Bugging Me       :   2W   5L   1D ( 28.6% for Totally Normal Team, 7/8 decided)
+     Totally Normal Team vs Electric Boogaloo     :   5W   1L   2D ( 83.3% for Totally Normal Team, 6/8 decided)
+     Totally Normal Team vs Fly Away Now          :   6W   0L   2D (100.0% for Totally Normal Team, 6/8 decided)
+     Totally Normal Team vs Toxic Team            :   0W   6L   2D (  0.0% for Totally Normal Team, 6/8 decided)
+     Totally Normal Team vs Rock Hard             :   0W   8L   0D (  0.0% for Totally Normal Team, 8/8 decided)
+     Totally Normal Team vs RuPauls Dragon Race   :   2W   2L   4D ( 50.0% for Totally Normal Team, 4/8 decided)
+     Totally Normal Team vs Soft and Wet          :   0W   3L   5D (  0.0% for Totally Normal Team, 3/8 decided)
+     Totally Normal Team vs Your Ass is Grass     :   0W   7L   1D (  0.0% for Totally Normal Team, 7/8 decided)
+     Totally Normal Team vs Brain Blast           :   0W   0L   8D (  0.0% for Totally Normal Team, 0/8 decided)
+     Totally Normal Team vs Disco Inferno         :   2W   6L   0D ( 25.0% for Totally Normal Team, 8/8 decided)
+             Spooky Team vs Supa Fitingu          :   4W   2L   2D ( 66.7% for Spooky Team, 6/8 decided)
+             Spooky Team vs I Believe In Fairies  :   4W   3L   1D ( 57.1% for Spooky Team, 7/8 decided)
+             Spooky Team vs Grounded Grounded Gro…:   5W   3L   0D ( 62.5% for Spooky Team, 8/8 decided)
+             Spooky Team vs Ice Ice Baby          :   1W   0L   7D (100.0% for Spooky Team, 1/8 decided)
+             Spooky Team vs Heavy Metal           :   3W   3L   2D ( 50.0% for Spooky Team, 6/8 decided)
+             Spooky Team vs Stop Bugging Me       :   1W   7L   0D ( 12.5% for Spooky Team, 8/8 decided)
+             Spooky Team vs Electric Boogaloo     :   8W   0L   0D (100.0% for Spooky Team, 8/8 decided)
+             Spooky Team vs Fly Away Now          :   3W   4L   1D ( 42.9% for Spooky Team, 7/8 decided)
+             Spooky Team vs Toxic Team            :   1W   5L   2D ( 16.7% for Spooky Team, 6/8 decided)
+             Spooky Team vs Rock Hard             :   5W   1L   2D ( 83.3% for Spooky Team, 6/8 decided)
+             Spooky Team vs RuPauls Dragon Race   :   3W   4L   1D ( 42.9% for Spooky Team, 7/8 decided)
+             Spooky Team vs Soft and Wet          :   2W   1L   5D ( 66.7% for Spooky Team, 3/8 decided)
+             Spooky Team vs Your Ass is Grass     :   8W   0L   0D (100.0% for Spooky Team, 8/8 decided)
+             Spooky Team vs Brain Blast           :   4W   1L   3D ( 80.0% for Spooky Team, 5/8 decided)
+             Spooky Team vs Disco Inferno         :   7W   1L   0D ( 87.5% for Spooky Team, 8/8 decided)
+            Supa Fitingu vs I Believe In Fairies  :   2W   6L   0D ( 25.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Grounded Grounded Gro…:   3W   5L   0D ( 37.5% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Ice Ice Baby          :   7W   1L   0D ( 87.5% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Heavy Metal           :   6W   0L   2D (100.0% for Supa Fitingu, 6/8 decided)
+            Supa Fitingu vs Stop Bugging Me       :   8W   0L   0D (100.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Electric Boogaloo     :   8W   0L   0D (100.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Fly Away Now          :   4W   1L   3D ( 80.0% for Supa Fitingu, 5/8 decided)
+            Supa Fitingu vs Toxic Team            :   8W   0L   0D (100.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Rock Hard             :   8W   0L   0D (100.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs RuPauls Dragon Race   :   1W   6L   1D ( 14.3% for Supa Fitingu, 7/8 decided)
+            Supa Fitingu vs Soft and Wet          :   0W   0L   8D (  0.0% for Supa Fitingu, 0/8 decided)
+            Supa Fitingu vs Your Ass is Grass     :   6W   2L   0D ( 75.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Brain Blast           :   8W   0L   0D (100.0% for Supa Fitingu, 8/8 decided)
+            Supa Fitingu vs Disco Inferno         :   0W   8L   0D (  0.0% for Supa Fitingu, 8/8 decided)
+    I Believe In Fairies vs Grounded Grounded Gro…:   8W   0L   0D (100.0% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Ice Ice Baby          :   8W   0L   0D (100.0% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Heavy Metal           :   2W   6L   0D ( 25.0% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Stop Bugging Me       :   7W   1L   0D ( 87.5% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Electric Boogaloo     :   3W   5L   0D ( 37.5% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Fly Away Now          :   0W   0L   8D (  0.0% for I Believe In Fairies, 0/8 decided)
+    I Believe In Fairies vs Toxic Team            :   5W   3L   0D ( 62.5% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Rock Hard             :   8W   0L   0D (100.0% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs RuPauls Dragon Race   :   1W   6L   1D ( 14.3% for I Believe In Fairies, 7/8 decided)
+    I Believe In Fairies vs Soft and Wet          :   0W   7L   1D (  0.0% for I Believe In Fairies, 7/8 decided)
+    I Believe In Fairies vs Your Ass is Grass     :   4W   4L   0D ( 50.0% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Brain Blast           :   6W   2L   0D ( 75.0% for I Believe In Fairies, 8/8 decided)
+    I Believe In Fairies vs Disco Inferno         :   0W   8L   0D (  0.0% for I Believe In Fairies, 8/8 decided)
+  Grounded Grounded Gro… vs Ice Ice Baby          :   3W   4L   1D ( 42.9% for Grounded Grounded Gro…, 7/8 decided)
+  Grounded Grounded Gro… vs Heavy Metal           :   2W   3L   3D ( 40.0% for Grounded Grounded Gro…, 5/8 decided)
+  Grounded Grounded Gro… vs Stop Bugging Me       :   5W   2L   1D ( 71.4% for Grounded Grounded Gro…, 7/8 decided)
+  Grounded Grounded Gro… vs Electric Boogaloo     :   8W   0L   0D (100.0% for Grounded Grounded Gro…, 8/8 decided)
+  Grounded Grounded Gro… vs Fly Away Now          :   1W   2L   5D ( 33.3% for Grounded Grounded Gro…, 3/8 decided)
+  Grounded Grounded Gro… vs Toxic Team            :   6W   1L   1D ( 85.7% for Grounded Grounded Gro…, 7/8 decided)
+  Grounded Grounded Gro… vs Rock Hard             :   2W   2L   4D ( 50.0% for Grounded Grounded Gro…, 4/8 decided)
+  Grounded Grounded Gro… vs RuPauls Dragon Race   :   4W   2L   2D ( 66.7% for Grounded Grounded Gro…, 6/8 decided)
+  Grounded Grounded Gro… vs Soft and Wet          :   2W   0L   6D (100.0% for Grounded Grounded Gro…, 2/8 decided)
+  Grounded Grounded Gro… vs Your Ass is Grass     :   5W   2L   1D ( 71.4% for Grounded Grounded Gro…, 7/8 decided)
+  Grounded Grounded Gro… vs Brain Blast           :   0W   8L   0D (  0.0% for Grounded Grounded Gro…, 8/8 decided)
+  Grounded Grounded Gro… vs Disco Inferno         :   7W   1L   0D ( 87.5% for Grounded Grounded Gro…, 8/8 decided)
+            Ice Ice Baby vs Heavy Metal           :   0W   7L   1D (  0.0% for Ice Ice Baby, 7/8 decided)
+            Ice Ice Baby vs Stop Bugging Me       :   0W   8L   0D (  0.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Electric Boogaloo     :   0W   8L   0D (  0.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Fly Away Now          :   8W   0L   0D (100.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Toxic Team            :   0W   8L   0D (  0.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Rock Hard             :   0W   2L   6D (  0.0% for Ice Ice Baby, 2/8 decided)
+            Ice Ice Baby vs RuPauls Dragon Race   :   2W   6L   0D ( 25.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Soft and Wet          :   4W   1L   3D ( 80.0% for Ice Ice Baby, 5/8 decided)
+            Ice Ice Baby vs Your Ass is Grass     :   4W   4L   0D ( 50.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Brain Blast           :   0W   8L   0D (  0.0% for Ice Ice Baby, 8/8 decided)
+            Ice Ice Baby vs Disco Inferno         :   1W   6L   1D ( 14.3% for Ice Ice Baby, 7/8 decided)
+             Heavy Metal vs Stop Bugging Me       :   4W   4L   0D ( 50.0% for Heavy Metal, 8/8 decided)
+             Heavy Metal vs Electric Boogaloo     :   8W   0L   0D (100.0% for Heavy Metal, 8/8 decided)
+             Heavy Metal vs Fly Away Now          :   3W   1L   4D ( 75.0% for Heavy Metal, 4/8 decided)
+             Heavy Metal vs Toxic Team            :   6W   1L   1D ( 85.7% for Heavy Metal, 7/8 decided)
+             Heavy Metal vs Rock Hard             :   8W   0L   0D (100.0% for Heavy Metal, 8/8 decided)
+             Heavy Metal vs RuPauls Dragon Race   :   4W   1L   3D ( 80.0% for Heavy Metal, 5/8 decided)
+             Heavy Metal vs Soft and Wet          :   0W   0L   8D (  0.0% for Heavy Metal, 0/8 decided)
+             Heavy Metal vs Your Ass is Grass     :   5W   3L   0D ( 62.5% for Heavy Metal, 8/8 decided)
+             Heavy Metal vs Brain Blast           :   2W   5L   1D ( 28.6% for Heavy Metal, 7/8 decided)
+             Heavy Metal vs Disco Inferno         :   0W   8L   0D (  0.0% for Heavy Metal, 8/8 decided)
+         Stop Bugging Me vs Electric Boogaloo     :   2W   5L   1D ( 28.6% for Stop Bugging Me, 7/8 decided)
+         Stop Bugging Me vs Fly Away Now          :   0W   8L   0D (  0.0% for Stop Bugging Me, 8/8 decided)
+         Stop Bugging Me vs Toxic Team            :   3W   5L   0D ( 37.5% for Stop Bugging Me, 8/8 decided)
+         Stop Bugging Me vs Rock Hard             :   3W   5L   0D ( 37.5% for Stop Bugging Me, 8/8 decided)
+         Stop Bugging Me vs RuPauls Dragon Race   :   5W   3L   0D ( 62.5% for Stop Bugging Me, 8/8 decided)
+         Stop Bugging Me vs Soft and Wet          :   1W   4L   3D ( 20.0% for Stop Bugging Me, 5/8 decided)
+         Stop Bugging Me vs Your Ass is Grass     :   7W   1L   0D ( 87.5% for Stop Bugging Me, 8/8 decided)
+         Stop Bugging Me vs Brain Blast           :   3W   4L   1D ( 42.9% for Stop Bugging Me, 7/8 decided)
+         Stop Bugging Me vs Disco Inferno         :   0W   5L   3D (  0.0% for Stop Bugging Me, 5/8 decided)
+       Electric Boogaloo vs Fly Away Now          :   3W   5L   0D ( 37.5% for Electric Boogaloo, 8/8 decided)
+       Electric Boogaloo vs Toxic Team            :   0W   8L   0D (  0.0% for Electric Boogaloo, 8/8 decided)
+       Electric Boogaloo vs Rock Hard             :   0W   8L   0D (  0.0% for Electric Boogaloo, 8/8 decided)
+       Electric Boogaloo vs RuPauls Dragon Race   :   0W   8L   0D (  0.0% for Electric Boogaloo, 8/8 decided)
+       Electric Boogaloo vs Soft and Wet          :   0W   1L   7D (  0.0% for Electric Boogaloo, 1/8 decided)
+       Electric Boogaloo vs Your Ass is Grass     :   3W   5L   0D ( 37.5% for Electric Boogaloo, 8/8 decided)
+       Electric Boogaloo vs Brain Blast           :   0W   8L   0D (  0.0% for Electric Boogaloo, 8/8 decided)
+       Electric Boogaloo vs Disco Inferno         :   0W   8L   0D (  0.0% for Electric Boogaloo, 8/8 decided)
+            Fly Away Now vs Toxic Team            :   1W   1L   6D ( 50.0% for Fly Away Now, 2/8 decided)
+            Fly Away Now vs Rock Hard             :   0W   7L   1D (  0.0% for Fly Away Now, 7/8 decided)
+            Fly Away Now vs RuPauls Dragon Race   :   6W   2L   0D ( 75.0% for Fly Away Now, 8/8 decided)
+            Fly Away Now vs Soft and Wet          :   3W   0L   5D (100.0% for Fly Away Now, 3/8 decided)
+            Fly Away Now vs Your Ass is Grass     :   8W   0L   0D (100.0% for Fly Away Now, 8/8 decided)
+            Fly Away Now vs Brain Blast           :   4W   2L   2D ( 66.7% for Fly Away Now, 6/8 decided)
+            Fly Away Now vs Disco Inferno         :   4W   4L   0D ( 50.0% for Fly Away Now, 8/8 decided)
+              Toxic Team vs Rock Hard             :   7W   0L   1D (100.0% for Toxic Team, 7/8 decided)
+              Toxic Team vs RuPauls Dragon Race   :   0W   8L   0D (  0.0% for Toxic Team, 8/8 decided)
+              Toxic Team vs Soft and Wet          :   0W   0L   8D (  0.0% for Toxic Team, 0/8 decided)
+              Toxic Team vs Your Ass is Grass     :   7W   1L   0D ( 87.5% for Toxic Team, 8/8 decided)
+              Toxic Team vs Brain Blast           :   6W   1L   1D ( 85.7% for Toxic Team, 7/8 decided)
+              Toxic Team vs Disco Inferno         :   0W   8L   0D (  0.0% for Toxic Team, 8/8 decided)
+               Rock Hard vs RuPauls Dragon Race   :   2W   6L   0D ( 25.0% for Rock Hard, 8/8 decided)
+               Rock Hard vs Soft and Wet          :   2W   1L   5D ( 66.7% for Rock Hard, 3/8 decided)
+               Rock Hard vs Your Ass is Grass     :   6W   2L   0D ( 75.0% for Rock Hard, 8/8 decided)
+               Rock Hard vs Brain Blast           :   7W   0L   1D (100.0% for Rock Hard, 7/8 decided)
+               Rock Hard vs Disco Inferno         :   8W   0L   0D (100.0% for Rock Hard, 8/8 decided)
+     RuPauls Dragon Race vs Soft and Wet          :   4W   0L   4D (100.0% for RuPauls Dragon Race, 4/8 decided)
+     RuPauls Dragon Race vs Your Ass is Grass     :   6W   0L   2D (100.0% for RuPauls Dragon Race, 6/8 decided)
+     RuPauls Dragon Race vs Brain Blast           :   4W   1L   3D ( 80.0% for RuPauls Dragon Race, 5/8 decided)
+     RuPauls Dragon Race vs Disco Inferno         :   3W   3L   2D ( 50.0% for RuPauls Dragon Race, 6/8 decided)
+            Soft and Wet vs Your Ass is Grass     :   0W   1L   7D (  0.0% for Soft and Wet, 1/8 decided)
+            Soft and Wet vs Brain Blast           :   0W   0L   8D (  0.0% for Soft and Wet, 0/8 decided)
+            Soft and Wet vs Disco Inferno         :   4W   1L   3D ( 80.0% for Soft and Wet, 5/8 decided)
+       Your Ass is Grass vs Brain Blast           :   8W   0L   0D (100.0% for Your Ass is Grass, 8/8 decided)
+       Your Ass is Grass vs Disco Inferno         :   0W   8L   0D (  0.0% for Your Ass is Grass, 8/8 decided)
+             Brain Blast vs Disco Inferno         :   0W   8L   0D (  0.0% for Brain Blast, 8/8 decided)
+
+=== Per-team standings (Wilson 95% CI on decided games) ===
+                    team    win%           95% CI     W/   L/   D  decided%
+            Supa Fitingu   72.5%     [63.9, 79.7]    87/  33/  16   88.2%
+           Disco Inferno   70.9%     [62.4, 78.1]    90/  37/   9   93.4%
+             Spooky Team   66.0%     [56.6, 74.4]    70/  36/  30   77.9%
+     RuPauls Dragon Race   65.5%     [56.3, 73.6]    74/  39/  23   83.1%
+             Heavy Metal   62.1%     [52.5, 70.9]    64/  39/  33   75.7%
+    I Believe In Fairies   61.0%     [52.1, 69.1]    75/  48/  13   90.4%
+               Rock Hard   55.2%     [46.1, 63.9]    64/  52/  20   85.3%
+              Toxic Team   54.5%     [45.2, 63.4]    61/  51/  24   82.4%
+  Grounded Grounded Gro…   54.1%     [44.8, 63.2]    59/  50/  27   80.1%
+               Dork Team   51.2%     [42.5, 59.9]    63/  60/  13   90.4%
+            Fly Away Now   49.5%     [39.9, 59.2]    49/  50/  37   72.8%
+         Stop Bugging Me   46.4%     [37.9, 55.1]    58/  67/  11   91.9%
+            Soft and Wet   45.8%     [32.6, 59.7]    22/  26/  88   35.3%
+             Brain Blast   41.5%     [32.6, 51.0]    44/  62/  30   77.9%
+       Your Ass is Grass   32.8%     [25.2, 41.4]    41/  84/  11   91.9%
+     Totally Normal Team   26.0%     [18.4, 35.4]    26/  74/  36   73.5%
+            Ice Ice Baby   22.2%     [15.6, 30.6]    26/  91/  19   86.0%
+       Electric Boogaloo   20.6%     [14.5, 28.5]    26/ 100/  10   92.6%
+
+Note: Tera-suppressed (monotype rule). Move choices ending in '-tera' were filtered before each turn.

@@ -1,0 +1,132 @@
+# lead picker [net (monotype/lead_net.pt)]: P1=Ninetales (was Heatran), P2=Archaludon (was Heatran)
+# seed=42 search_ms=200 max_turns=80 heal_heuristic=False
+P1:  ninetales(100%) |  heatran(100%) |  ceruledge(100%) |  cinderace(100%) |  volcarona(100%) |  ogerponheart(100%)
+P2:  archaludon(100%) |  heatran(100%) |  skarmory(100%) |  goodrahisui(100%) |  gholdengo(100%) |  irontreads(100%)
+
+[T1] field=-  eval=+3.0  (alive P1=6 P2=6)
+   P1=ninetales(287/287)
+   P2=archaludon(383/383)
+   P1 picks: switch heatran    [switch heatran(33346), switch cinderace(8442), flamethrower(5242), switch ogerponhearthflame(5094), switch volcarona(4858)]
+   P2 picks: switch heatran    [switch heatran(39811), bodypress(9322), dracometeor(8883), thunderbolt(7641), switch irontreads(6666)]
+   -> applied branch p=100.0% (4 ops)
+
+[T2] field=wx=NONE(0) ter=NONE(0)  eval=+3.0  (alive P1=6 P2=6)
+   P1=HEATRAN(386/386,st=NONE)
+   P2=HEATRAN(379/379,st=NONE)
+   P1 picks: stealthrock    [stealthrock(38897), switch cinderace(6455), switch ogerponhearthflame(4121), taunt(3563), magmastorm(3122)]
+   P2 picks: earthpower    [earthpower(62244), stealthrock(13060), switch irontreads(3289), magmastorm(1854), powergem(1389)]
+   -> applied branch p=86.2% (5 ops)
+
+[T3] field=wx=NONE(0) ter=NONE(0)  eval=+23.7  (alive P1=6 P2=6)
+   P1=HEATRAN(163/386,st=NONE)
+   P2=HEATRAN(379/379,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch cinderace    [switch cinderace(33336), switch ogerponhearthflame(18608), taunt(6664), earthpower(5505), magmastorm(4728)]
+   P2 picks: earthpower    [earthpower(32230), powergem(27819), stealthrock(15952), magmastorm(3423), switch irontreads(673)]
+   -> applied branch p=86.2% (3 ops)
+
+[T4] field=wx=NONE(0) ter=NONE(0)  eval=-38.9  (alive P1=6 P2=6)
+   P1=CINDERACE(78/301,st=NONE)
+   P2=HEATRAN(379/379,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: highjumpkick    [highjumpkick(50159), pyroball(10952), switch ogerponhearthflame(6826), switch volcarona(4836), switch ceruledge(3130)]
+   P2 picks: switch gholdengo    [switch gholdengo(41297), powergem(7109), earthpower(6179), switch skarmory(5765), stealthrock(5619)]
+   -> applied branch p=100.0% (7 ops)
+
+[T5] field=wx=NONE(0) ter=NONE(0)  eval=-97.7  (alive P1=5 P2=6)
+   P1=CINDERACE(0/301,st=NONE,vol=TYPECHANGE)
+   P2=GHOLDENGO(341/363,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch ogerponhearthflame    [switch ogerponhearthflame(81258), switch volcarona(6332), switch ceruledge(3787), switch ninetales(1657), switch heatran(966)]
+   P2 picks: No Move    [No Move(91000)]
+   -> applied branch p=100.0% (4 ops)
+
+[T6] field=wx=NONE(0) ter=NONE(0)  eval=-97.1  (alive P1=5 P2=6)
+   P1=OGERPONHEARTHFLAME(301/301,st=NONE)
+   P2=GHOLDENGO(341/363,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: swordsdance    [swordsdance(47964), ivycudgel(26037), switch volcarona(2092), hornleech(1725), switch ceruledge(1043)]
+   P2 picks: switch archaludon    [switch archaludon(47585), shadowball(13161), switch goodrahisui(8223), makeitrain(6439), switch heatran(5247)]
+   -> applied branch p=100.0% (5 ops)
+
+[T7] field=wx=NONE(0) ter=NONE(0)  eval=-80.2  (alive P1=5 P2=6)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=ARCHALUDON(360/383,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(5122), trailblaze(274), swordsdance(259), hornleech(247), switch volcarona(229)]
+   P2 picks: dracometeor    [dracometeor(14811), bodypress(12061), thunderbolt(10926), flashcannon(10700), switch gholdengo(8670)]
+   -> applied branch p=12.5% (2 ops)
+
+[T8] field=wx=NONE(0) ter=NONE(0)  eval=+33.6  (alive P1=5 P2=5)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=ARCHALUDON(0/383,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(95000)]
+   P2 picks: switch goodrahisui    [switch goodrahisui(36659), switch gholdengo(19066), switch skarmory(15761), switch irontreads(15593), switch heatran(14921)]
+   -> applied branch p=100.0% (3 ops)
+
+[T9] field=wx=NONE(0) ter=NONE(0)  eval=+43.5  (alive P1=5 P2=5)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=GOODRAHISUI(342/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(91447), trailblaze(368), hornleech(349), swordsdance(345), switch ceruledge(186)]
+   P2 picks: protect    [protect(34356), dragontail(6263), switch gholdengo(6201), knockoff(5848), switch skarmory(5721)]
+   -> applied branch p=100.0% (5 ops)
+
+[T10] field=wx=NONE(0) ter=NONE(0)  eval=+37.1  (alive P1=5 P2=5)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(85381), hornleech(353), trailblaze(333), swordsdance(266), switch ceruledge(190)]
+   P2 picks: protect    [protect(21532), switch gholdengo(8589), dragontail(8169), knockoff(7729), switch skarmory(7540)]
+   -> applied branch p=66.7% (1 ops)
+
+[T11] field=wx=NONE(0) ter=NONE(0)  eval=+161.1  (alive P1=5 P2=4)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=GOODRAHISUI(0/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(93000)]
+   P2 picks: switch gholdengo    [switch gholdengo(28339), switch skarmory(23511), switch irontreads(23214), switch heatran(20936)]
+   -> applied branch p=100.0% (3 ops)
+
+[T12] field=wx=NONE(0) ter=NONE(0)  eval=+184.9  (alive P1=5 P2=4)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=GHOLDENGO(319/363,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(93860), trailblaze(304), hornleech(259), swordsdance(188), switch volcarona(131)]
+   P2 picks: nastyplot    [nastyplot(10325), shadowball(10252), recover(9782), makeitrain(9300), switch heatran(7331)]
+   -> applied branch p=100.0% (2 ops)
+
+[T13] field=wx=NONE(0) ter=NONE(0)  eval=+293.5  (alive P1=5 P2=3)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=GHOLDENGO(0/363,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(79000)]
+   P2 picks: switch skarmory    [switch skarmory(28235), switch irontreads(25415), switch heatran(23350)]
+   -> applied branch p=100.0% (3 ops)
+
+[T14] field=wx=NONE(0) ter=NONE(0)  eval=+284.2  (alive P1=5 P2=3)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=SKARMORY(292/333,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(80842), trailblaze(241), hornleech(191), switch volcarona(182), swordsdance(177)]
+   P2 picks: bodypress    [bodypress(10818), irondefense(10330), spikes(10204), roost(10025), switch irontreads(9249)]
+   -> applied branch p=100.0% (1 ops)
+
+[T15] field=wx=NONE(0) ter=NONE(0)  eval=+393.5  (alive P1=5 P2=2)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=SKARMORY(0/333,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(287000)]
+   P2 picks: switch irontreads    [switch irontreads(143079), switch heatran(142921)]
+   -> applied branch p=100.0% (3 ops)
+
+[T16] field=wx=NONE(0) ter=NONE(0)  eval=+445.8  (alive P1=5 P2=2)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=IRONTREADS(311/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(612902), hornleech(155), trailblaze(151), swordsdance(92), switch ceruledge(66)]
+   P2 picks: switch heatran    [switch heatran(71738), earthquake(70238), rapidspin(69216), knockoff(68715), icespinner(68654)]
+   -> applied branch p=100.0% (5 ops)
+
+[T17] field=wx=NONE(0) ter=NONE(0)  eval=+523.0  (alive P1=5 P2=1)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=HEATRAN(0/379,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(1180000)]
+   P2 picks: switch irontreads    [switch irontreads(1163000)]
+   -> applied branch p=100.0% (3 ops)
+
+[T18] field=wx=NONE(0) ter=NONE(0)  eval=+571.5  (alive P1=5 P2=1)
+   P1=OGERPONHEARTHFLAME(301/301,atk+2,st=NONE)
+   P2=IRONTREADS(301/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: ivycudgel    [ivycudgel(856555), hornleech(192), trailblaze(145), swordsdance(106), switch volcarona(83)]
+   P2 picks: earthquake    [earthquake(229611), rapidspin(226422), knockoff(225732), icespinner(223813)]
+   -> applied branch p=100.0% (2 ops)
+
+[T19] P1 wins (5 alive)

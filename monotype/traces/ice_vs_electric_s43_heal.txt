@@ -1,0 +1,244 @@
+# seed=43 search_ms=200 max_turns=80 heal_heuristic=True
+P1:  ninetalesalo(100%) |  mamoswine(100%) |  froslass(100%) |  kyurem(100%) |  dewgong(100%) |  avalugg(100%)
+P2:  pincurchin(100%) |  regieleki(100%) |  ironhands(100%) |  zapdos(100%) |  rotomwash(100%) |  raichualola(100%)
+
+[T1] field=-  eval=+3.0  (alive P1=6 P2=6)
+   P1=ninetalesalola(287/287)
+   P2=pincurchin(300/300)
+   P1 picks: switch kyurem    [switch kyurem(36453), switch mamoswine(24750), moonblast(15623), freezedry(6332), switch avalugg(3478)]
+   P2 picks: switch ironhands    [switch ironhands(70113), switch zapdos(8614), spikes(5817), discharge(5521), switch rotomwash(3140)]
+   -> applied branch p=100.0% (4 ops)
+
+[T2] field=wx=NONE(0) ter=NONE(0)  eval=+3.0  (alive P1=6 P2=6)
+   P1=KYUREM(391/391,st=NONE)
+   P2=IRONHANDS(512/512,st=NONE)
+   P1 picks: switch ninetalesalola    [switch ninetalesalola(84629), earthpower(2947), icebeam(2502), freezedry(1727), switch froslass(1230)]
+   P2 picks: drainpunch    [drainpunch(51284), thunderpunch(18098), earthquake(8850), switch zapdos(3337), icepunch(2044)]
+   -> applied branch p=95.8% (6 ops)
+
+[T3] field=wx=SNOW(4) ter=NONE(0)  eval=-34.6  (alive P1=6 P2=6)
+   P1=NINETALESALOLA(156/287,st=NONE)
+   P2=IRONHANDS(512/512,st=NONE)
+   P1 picks: auroraveil    [auroraveil(55610), moonblast(12832), encore(7548), switch mamoswine(5964), freezedry(5496)]
+   P2 picks: drainpunch    [drainpunch(52321), thunderpunch(7449), earthquake(5382), switch pincurchin(4132), switch rotomwash(3342)]
+   -> applied branch p=95.8% (5 ops)
+
+[T4] field=wx=SNOW(3) ter=NONE(0)  eval=+102.7  (alive P1=6 P2=6)
+   P1=NINETALESALOLA(91/287,st=NONE)  hazards[aurora_veil=4]
+   P2=IRONHANDS(512/512,st=NONE)
+   P1 picks: moonblast    [moonblast(42374), switch mamoswine(14948), switch kyurem(12754), freezedry(7495), switch froslass(4873)]
+   P2 picks: drainpunch    [drainpunch(78450), earthquake(6109), thunderpunch(5057), icepunch(2364), switch regieleki(1363)]
+   -> applied branch p=64.3% (6 ops)
+
+[T5] field=wx=SNOW(2) ter=NONE(0)  eval=+85.8  (alive P1=6 P2=6)
+   P1=NINETALESALOLA(26/287,st=NONE)  hazards[aurora_veil=3]
+   P2=IRONHANDS(317/512,st=NONE)
+   P1 picks: moonblast    [moonblast(66518), freezedry(9074), switch mamoswine(8704), switch kyurem(8254), switch avalugg(1958)]
+   P2 picks: switch regieleki    [switch regieleki(28006), drainpunch(21857), icepunch(11113), earthquake(9107), thunderpunch(8537)]
+   -> applied branch p=28.8% (6 ops)
+
+[T6] field=wx=SNOW(1) ter=NONE(0)  eval=+95.4  (alive P1=6 P2=6)
+   P1=NINETALESALOLA(26/287,st=NONE)  hazards[aurora_veil=2]
+   P2=REGIELEKI(149/363,spa-1,st=NONE)
+   P1 picks: switch mamoswine    [switch mamoswine(89759), switch kyurem(3023), moonblast(2524), freezedry(2113), switch dewgong(1121)]
+   P2 picks: reflect    [reflect(27829), lightscreen(27439), switch rotomwash(16152), voltswitch(9844), switch ironhands(4861)]
+   -> applied branch p=100.0% (8 ops)
+
+[T7] field=wx=NONE(0) ter=NONE(0)  eval=-30.9  (alive P1=6 P2=6)
+   P1=MAMOSWINE(361/361,st=NONE)  hazards[aurora_veil=1]
+   P2=REGIELEKI(149/363,spa-1,st=NONE)  hazards[reflect=4]
+   P1 picks: stealthrock    [stealthrock(93480), earthquake(924), switch ninetalesalola(883), iciclecrash(860), switch kyurem(587)]
+   P2 picks: switch ironhands    [switch ironhands(31438), switch zapdos(21414), lightscreen(19760), switch rotomwash(6356), voltswitch(3544)]
+   -> applied branch p=100.0% (7 ops)
+
+[T8] field=wx=NONE(0) ter=NONE(0)  eval=+46.7  (alive P1=6 P2=6)
+   P1=MAMOSWINE(361/361,st=NONE)
+   P2=IRONHANDS(317/512,st=NONE)  hazards[stealth_rock=1,reflect=3]
+   P1 picks: switch ninetalesalola    [switch ninetalesalola(62261), switch froslass(20105), switch avalugg(11162), earthquake(2197), iciclecrash(1914)]
+   P2 picks: drainpunch    [drainpunch(67525), earthquake(8375), thunderpunch(8367), icepunch(7280), switch zapdos(1023)]
+   -> applied branch p=100.0% (8 ops)
+
+[T9] field=wx=SNOW(4) ter=NONE(0)  eval=+12.5  (alive P1=5 P2=6)
+   P1=NINETALESALOLA(0/287,st=NONE)
+   P2=IRONHANDS(330/512,st=NONE)  hazards[stealth_rock=1,reflect=2]
+   P1 picks: switch kyurem    [switch kyurem(74669), switch avalugg(13909), switch froslass(7235), switch dewgong(3223), switch mamoswine(2964)]
+   P2 picks: No Move    [No Move(103000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T10] field=wx=SNOW(4) ter=NONE(0)  eval=+27.6  (alive P1=5 P2=6)
+   P1=KYUREM(391/391,st=NONE)
+   P2=IRONHANDS(330/512,st=NONE)  hazards[stealth_rock=1,reflect=2]
+   P1 picks: dracometeor    [dracometeor(57465), icebeam(15837), earthpower(8706), switch froslass(3823), freezedry(3645)]
+   P2 picks: drainpunch    [drainpunch(90339), thunderpunch(2248), earthquake(2200), icepunch(1584), switch rotomwash(1103)]
+   -> applied branch p=62.0% (10 ops)
+
+[T11] field=wx=SNOW(3) ter=NONE(0)  eval=-24.5  (alive P1=5 P2=6)
+   P1=KYUREM(164/391,spa-2,st=NONE)
+   P2=IRONHANDS(134/512,st=NONE)  hazards[stealth_rock=1,reflect=1]
+   P1 picks: dracometeor    [dracometeor(78232), switch froslass(8350), switch avalugg(6887), switch mamoswine(2249), switch dewgong(1161)]
+   P2 picks: drainpunch    [drainpunch(73841), switch rotomwash(5178), earthquake(3973), thunderpunch(3780), icepunch(3608)]
+   -> applied branch p=90.0% (4 ops)
+
+[T12] field=wx=SNOW(2) ter=NONE(0)  eval=+0.9  (alive P1=5 P2=5)
+   P1=KYUREM(164/391,spa-4,st=NONE)
+   P2=IRONHANDS(0/512,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(101000)]
+   P2 picks: switch zapdos    [switch zapdos(95294), switch regieleki(1583), switch rotomwash(1414), switch raichualola(982), switch pincurchin(727)]
+   -> applied branch p=100.0% (3 ops)
+
+[T13] field=wx=SNOW(2) ter=NONE(0)  eval=+14.2  (alive P1=5 P2=5)
+   P1=KYUREM(164/391,spa-4,st=NONE)
+   P2=ZAPDOS(241/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: dracometeor    [dracometeor(39827), switch dewgong(37583), switch froslass(10519), switch mamoswine(7841), switch avalugg(2209)]
+   P2 picks: hurricane    [hurricane(87746), heatwave(4464), thunderbolt(3423), voltswitch(872), switch rotomwash(328)]
+   -> applied branch p=70.0% (6 ops)
+
+[T14] field=wx=SNOW(1) ter=NONE(0)  eval=+22.9  (alive P1=4 P2=5)
+   P1=KYUREM(0/391,spa-4,st=NONE)
+   P2=ZAPDOS(241/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch dewgong    [switch dewgong(89947), switch mamoswine(3682), switch avalugg(2887), switch froslass(2484)]
+   P2 picks: No Move    [No Move(99000)]
+   -> applied branch p=100.0% (6 ops)
+
+[T15] field=wx=SNOW(1) ter=NONE(0)  eval=+30.9  (alive P1=4 P2=5)
+   P1=DEWGONG(383/383,st=NONE)
+   P2=ZAPDOS(241/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: knockoff    [knockoff(61642), liquidation(13441), flipturn(6899), switch froslass(6197), aquajet(5316)]
+   P2 picks: hurricane    [hurricane(90708), switch rotomwash(5366), switch regieleki(424), switch pincurchin(422), switch raichualola(236)]
+   -> applied branch p=31.5% (6 ops)
+
+[T16] field=wx=NONE(0) ter=NONE(0)  eval=+4.4  (alive P1=4 P2=5)
+   P1=DEWGONG(186/383,st=NONE)
+   P2=ZAPDOS(144/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: liquidation    [liquidation(70950), flipturn(11711), knockoff(8941), aquajet(7607), switch avalugg(3173)]
+   P2 picks: hurricane    [hurricane(94974), switch rotomwash(11774), switch pincurchin(603), switch regieleki(570), switch raichualola(374)]
+   -> applied branch p=6.9% (3 ops)
+
+[T17] field=wx=NONE(0) ter=NONE(0)  eval=+18.9  (alive P1=4 P2=5)
+   P1=DEWGONG(186/383,st=PARALYZE)
+   P2=ZAPDOS(17/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: aquajet    [aquajet(64114), knockoff(13901), flipturn(12730), liquidation(11880), switch mamoswine(1142)]
+   P2 picks: hurricane    [hurricane(100604), switch rotomwash(5617), switch regieleki(1973), switch pincurchin(1135), switch raichualola(961)]
+   -> applied branch p=75.0% (2 ops)
+
+[T18] field=wx=NONE(0) ter=NONE(0)  eval=+49.5  (alive P1=4 P2=4)
+   P1=DEWGONG(186/383,st=PARALYZE)
+   P2=ZAPDOS(0/321,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(114000)]
+   P2 picks: switch regieleki    [switch regieleki(104817), switch raichualola(5003), switch rotomwash(2364), switch pincurchin(1816)]
+   -> applied branch p=100.0% (6 ops)
+
+[T19] field=wx=NONE(0) ter=NONE(0)  eval=+51.6  (alive P1=4 P2=4)
+   P1=DEWGONG(186/383,st=PARALYZE)
+   P2=REGIELEKI(104/363,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: knockoff    [knockoff(29689), liquidation(23272), aquajet(22473), flipturn(21415), switch mamoswine(9384)]
+   P2 picks: reflect    [reflect(89128), lightscreen(13423), explosion(5214), voltswitch(2704), switch rotomwash(1781)]
+   -> applied branch p=71.9% (6 ops)
+
+[T20] field=wx=NONE(0) ter=NONE(0)  eval=-3.5  (alive P1=4 P2=4)
+   P1=DEWGONG(186/383,st=PARALYZE)
+   P2=REGIELEKI(32/363,st=NONE)  hazards[stealth_rock=1,reflect=4]
+   P1 picks: aquajet    [aquajet(81261), switch froslass(12811), switch avalugg(4910), switch mamoswine(3699), knockoff(3190)]
+   P2 picks: explosion    [explosion(46675), lightscreen(24888), voltswitch(11917), reflect(7471), switch rotomwash(7310)]
+   -> applied branch p=25.0% (5 ops)
+
+[T21] field=wx=NONE(0) ter=NONE(0)  eval=-12.0  (alive P1=3 P2=3)
+   P1=DEWGONG(0/383,st=PARALYZE)
+   P2=REGIELEKI(0/363,st=NONE)  hazards[stealth_rock=1,reflect=3]
+   P1 picks: switch froslass    [switch froslass(43171), switch mamoswine(37967), switch avalugg(35862)]
+   P2 picks: switch rotomwash    [switch rotomwash(84305), switch raichualola(29770), switch pincurchin(1925)]
+   -> applied branch p=100.0% (5 ops)
+
+[T22] field=wx=NONE(0) ter=NONE(0)  eval=+0.2  (alive P1=3 P2=3)
+   P1=FROSLASS(281/281,st=NONE)
+   P2=ROTOMWASH(266/303,st=NONE)  hazards[stealth_rock=1,reflect=3]
+   P1 picks: spikes    [spikes(62659), painsplit(17087), thunderwave(16996), taunt(5282), switch avalugg(4959)]
+   P2 picks: hydropump    [hydropump(104503), voltswitch(3941), willowisp(1969), painsplit(1410), switch raichualola(984)]
+   -> applied branch p=76.7% (6 ops)
+
+[T23] field=wx=NONE(0) ter=NONE(0)  eval=-31.8  (alive P1=3 P2=3)
+   P1=FROSLASS(101/281,st=NONE)
+   P2=ROTOMWASH(284/303,st=NONE)  hazards[stealth_rock=1,spikes=1,reflect=2]
+   P1 picks: painsplit    [painsplit(80100), spikes(9271), thunderwave(4163), switch avalugg(3800), taunt(3109)]
+   P2 picks: hydropump    [hydropump(112690), willowisp(757), voltswitch(675), switch raichualola(602), painsplit(418)]
+   -> applied branch p=62.3% (6 ops)
+
+[T24] field=wx=NONE(0) ter=NONE(0)  eval=-18.3  (alive P1=3 P2=3)
+   P1=FROSLASS(14/281,st=NONE)
+   P2=ROTOMWASH(210/303,st=NONE)  hazards[stealth_rock=1,spikes=1,reflect=1]
+   P1 picks: painsplit    [painsplit(44367), spikes(37318), taunt(10379), thunderwave(9730), switch avalugg(4474)]
+   P2 picks: hydropump    [hydropump(117498), willowisp(1757), painsplit(485), voltswitch(421), switch raichualola(241)]
+   -> applied branch p=80.0% (5 ops)
+
+[T25] field=wx=NONE(0) ter=NONE(0)  eval=-14.9  (alive P1=2 P2=3)
+   P1=FROSLASS(0/281,st=NONE)
+   P2=ROTOMWASH(130/303,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: switch avalugg    [switch avalugg(101525), switch mamoswine(26475)]
+   P2 picks: No Move    [No Move(128000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T26] field=wx=NONE(0) ter=NONE(0)  eval=-14.9  (alive P1=2 P2=3)
+   P1=AVALUGG(394/394,st=NONE)
+   P2=ROTOMWASH(130/303,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: irondefense    [irondefense(29282), recover(24550), rapidspin(21270), bodypress(21047), switch mamoswine(3527)]
+   P2 picks: painsplit    [painsplit(114687), hydropump(6564), willowisp(5945), voltswitch(381), switch raichualola(174)]
+   -> applied branch p=100.0% (6 ops)
+
+[T27] field=wx=NONE(0) ter=NONE(0)  eval=-74.6  (alive P1=2 P2=3)
+   P1=AVALUGG(262/394,def+2,st=NONE)
+   P2=ROTOMWASH(280/303,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: bodypress    [bodypress(56534), recover(14445), rapidspin(12231), irondefense(10754), switch mamoswine(1264)]
+   P2 picks: hydropump    [hydropump(127414), willowisp(3087), painsplit(277), voltswitch(258), switch raichualola(155)]
+   -> applied branch p=64.3% (5 ops)
+
+[T28] field=wx=NONE(0) ter=NONE(0)  eval=-93.2  (alive P1=2 P2=3)
+   P1=AVALUGG(19/394,def+2,st=NONE)
+   P2=ROTOMWASH(112/303,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: bodypress    [bodypress(118489), recover(8799), rapidspin(7116), irondefense(6259), switch mamoswine(948)]
+   P2 picks: hydropump    [hydropump(159811), willowisp(1057), voltswitch(447), painsplit(149), switch raichualola(108)]
+   -> applied branch p=20.0% (1 ops)
+
+[T29] field=wx=NONE(0) ter=NONE(0)  eval=-13.2  (alive P1=2 P2=2)
+   P1=AVALUGG(19/394,def+2,st=NONE)
+   P2=ROTOMWASH(0/303,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: No Move    [No Move(321000)]
+   P2 picks: switch pincurchin    [switch pincurchin(190347), switch raichualola(131653)]
+   -> applied branch p=100.0% (5 ops)
+
+[T30] field=wx=NONE(0) ter=ELECTRICTERRAIN(5)  eval=+9.1  (alive P1=2 P2=2)
+   P1=AVALUGG(19/394,def+2,st=NONE)
+   P2=PINCURCHIN(226/300,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   [heuristic] P1 override: bodypress -> recover
+   P1 picks: recover    [bodypress(911), recover(452), switch mamoswine(386), rapidspin(274), irondefense(211)]
+   P2 picks: discharge    [discharge(72685), spikes(65413), supercellslam(64790), memento(61010), switch raichualola(36416)]
+   -> applied branch p=100.0% (5 ops)
+
+[T31] field=wx=NONE(0) ter=ELECTRICTERRAIN(4)  eval=-75.3  (alive P1=1 P2=2)
+   P1=AVALUGG(0/394,def+2,st=NONE)
+   P2=PINCURCHIN(226/300,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: switch mamoswine    [switch mamoswine(602000)]
+   P2 picks: No Move    [No Move(611000)]
+   -> applied branch p=100.0% (3 ops)
+
+[T32] field=wx=NONE(0) ter=ELECTRICTERRAIN(4)  eval=-62.4  (alive P1=1 P2=2)
+   P1=MAMOSWINE(361/361,st=NONE)
+   P2=PINCURCHIN(226/300,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: earthquake    [earthquake(52891), iciclecrash(696), iceshard(337), stealthrock(269)]
+   P2 picks: discharge    [discharge(75892), supercellslam(74877), memento(71808), spikes(69551), switch raichualola(55930)]
+   -> applied branch p=100.0% (3 ops)
+
+[T33] field=wx=NONE(0) ter=ELECTRICTERRAIN(3)  eval=+32.0  (alive P1=1 P2=1)
+   P1=MAMOSWINE(361/361,st=NONE)
+   P2=PINCURCHIN(0/300,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: No Move    [No Move(1217000)]
+   P2 picks: switch raichualola    [switch raichualola(1224000)]
+   -> applied branch p=100.0% (4 ops)
+
+[T34] field=wx=NONE(0) ter=ELECTRICTERRAIN(3)  eval=+18.5  (alive P1=1 P2=1)
+   P1=MAMOSWINE(361/361,st=NONE)
+   P2=RAICHUALOLA(197/261,st=NONE)  hazards[stealth_rock=1,spikes=1]
+   P1 picks: earthquake    [earthquake(1842558), iceshard(16765), iciclecrash(14418), stealthrock(264)]
+   P2 picks: thunderbolt    [thunderbolt(301419), voltswitch(235277), nastyplot(231492), psyshock(205166)]
+   -> applied branch p=100.0% (3 ops)
+
+[T35] P1 wins (1 alive)

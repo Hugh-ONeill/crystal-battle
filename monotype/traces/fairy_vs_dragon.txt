@@ -1,0 +1,243 @@
+# seed=42 search_ms=200 max_turns=80
+P1:  tinkaton(100%) |  fluttermane(100%) |  primarina(100%) |  ironvaliant(100%) |  azumarill(100%) |  klefki(100%)
+P2:  dragapult(100%) |  archaludon(100%) |  goodrahisui(100%) |  latios(100%) |  ragingbolt(100%) |  roaringmoon(100%)
+
+[T1] field=-  eval=-7.0  (alive P1=6 P2=6)
+   P1=tinkaton(374/374)
+   P2=dragapult(317/317)
+   P1 picks: stealthrock    [stealthrock(47320), knockoff(27133), switch primarina(6983), gigatonhammer(5960), switch azumarill(4810)]
+   P2 picks: flamethrower    [flamethrower(47469), shadowball(45182), switch archaludon(7448), uturn(2245), switch goodrahisui(1241)]
+   -> applied branch p=86.2% (8 ops)
+
+[T2] field=wx=NONE(0) ter=NONE(0)  eval=-21.2  (alive P1=6 P2=6)
+   P1=TINKATON(117/374,st=NONE)
+   P2=DRAGAPULT(317/317,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch primarina    [switch primarina(58079), knockoff(14699), switch klefki(12795), switch azumarill(10647), gigatonhammer(5335)]
+   P2 picks: switch goodrahisui    [switch goodrahisui(62801), flamethrower(33162), switch archaludon(6065), switch ragingbolt(3485), switch roaringmoon(3145)]
+   -> applied branch p=100.0% (9 ops)
+
+[T3] field=wx=NONE(0) ter=NONE(0)  eval=-7.7  (alive P1=6 P2=6)
+   P1=PRIMARINA(301/301,st=NONE)
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch klefki    [switch klefki(58420), flipturn(28719), moonblast(12626), switch azumarill(3870), switch tinkaton(2751)]
+   P2 picks: heavyslam    [heavyslam(94651), switch archaludon(4249), knockoff(3721), protect(3166), switch roaringmoon(1767)]
+   -> applied branch p=95.8% (4 ops)
+
+[T4] field=wx=NONE(0) ter=NONE(0)  eval=-41.7  (alive P1=6 P2=6)
+   P1=KLEFKI(210/318,st=NONE)
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: reflect    [reflect(35677), spikes(27385), switch primarina(13371), lightscreen(12378), foulplay(10995)]
+   P2 picks: switch roaringmoon    [switch roaringmoon(43492), heavyslam(39332), switch archaludon(14335), knockoff(4405), switch ragingbolt(3393)]
+   -> applied branch p=100.0% (4 ops)
+
+[T5] field=wx=NONE(0) ter=NONE(0)  eval=-32.9  (alive P1=6 P2=6)
+   P1=KLEFKI(210/318,st=NONE)
+   P2=ROARINGMOON(308/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch azumarill    [switch azumarill(54958), switch primarina(18064), foulplay(12120), lightscreen(5193), reflect(5131)]
+   P2 picks: ironhead    [ironhead(83236), knockoff(10052), switch archaludon(7083), outrage(3115), uturn(2814)]
+   -> applied branch p=95.8% (7 ops)
+
+[T6] field=wx=NONE(0) ter=NONE(0)  eval=-67.6  (alive P1=6 P2=6)
+   P1=AZUMARILL(241/362,st=NONE)
+   P2=ROARINGMOON(308/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: playrough    [playrough(84356), switch primarina(13725), knockoff(3952), aquajet(1895), switch klefki(1671)]
+   P2 picks: ironhead    [ironhead(64503), switch archaludon(38085), switch goodrahisui(4141), switch dragapult(1512), switch ragingbolt(1230)]
+   -> applied branch p=28.8% (6 ops)
+
+[T7] field=wx=NONE(0) ter=NONE(0)  eval=-83.4  (alive P1=6 P2=6)
+   P1=AZUMARILL(210/362,st=NONE)
+   P2=ROARINGMOON(308/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: playrough    [playrough(74068), switch primarina(8396), switch fluttermane(5909), aquajet(5238), bellydrum(4578)]
+   P2 picks: ironhead    [ironhead(85698), switch archaludon(21391), switch goodrahisui(2913), switch ragingbolt(854), switch latios(588)]
+   -> applied branch p=28.8% (3 ops)
+
+[T8] field=wx=NONE(0) ter=NONE(0)  eval=-121.6  (alive P1=6 P2=6)
+   P1=AZUMARILL(89/362,st=NONE)
+   P2=ROARINGMOON(308/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: knockoff    [knockoff(75025), aquajet(15283), switch primarina(11391), switch klefki(3243), playrough(2098)]
+   P2 picks: ironhead    [ironhead(89827), switch archaludon(18158), switch goodrahisui(1121), switch ragingbolt(876), switch dragapult(574)]
+   -> applied branch p=100.0% (1 ops)
+
+[T9] field=wx=NONE(0) ter=NONE(0)  eval=-165.4  (alive P1=5 P2=6)
+   P1=AZUMARILL(0/362,st=NONE)
+   P2=ROARINGMOON(308/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch primarina    [switch primarina(101643), switch ironvaliant(1628), switch klefki(1404), switch tinkaton(773), switch fluttermane(552)]
+   P2 picks: No Move    [No Move(106000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T10] field=wx=NONE(0) ter=NONE(0)  eval=-165.4  (alive P1=5 P2=6)
+   P1=PRIMARINA(301/301,st=NONE)
+   P2=ROARINGMOON(308/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: moonblast    [moonblast(102585), psychicnoise(969), switch klefki(893), hypervoice(862), flipturn(523)]
+   P2 picks: ironhead    [ironhead(101385), switch goodrahisui(3182), switch archaludon(434), switch ragingbolt(419), switch latios(393)]
+   -> applied branch p=67.1% (6 ops)
+
+[T11] field=wx=NONE(0) ter=NONE(0)  eval=-91.9  (alive P1=5 P2=5)
+   P1=PRIMARINA(174/301,st=NONE)
+   P2=ROARINGMOON(0/351,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(110000)]
+   P2 picks: switch goodrahisui    [switch goodrahisui(99565), switch latios(9892), switch ragingbolt(824), switch dragapult(412), switch archaludon(307)]
+   -> applied branch p=100.0% (6 ops)
+
+[T12] field=wx=NONE(0) ter=NONE(0)  eval=-85.1  (alive P1=5 P2=5)
+   P1=PRIMARINA(174/301,st=NONE)
+   P2=GOODRAHISUI(342/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch klefki    [switch klefki(57123), moonblast(44114), switch tinkaton(9447), switch ironvaliant(651), switch fluttermane(515)]
+   P2 picks: heavyslam    [heavyslam(105470), knockoff(1441), switch archaludon(1120), protect(1039), switch ragingbolt(770)]
+   -> applied branch p=95.8% (8 ops)
+
+[T13] field=wx=NONE(0) ter=NONE(0)  eval=-125.8  (alive P1=5 P2=5)
+   P1=KLEFKI(102/318,st=NONE)
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: reflect    [reflect(89361), lightscreen(7664), spikes(3202), foulplay(1957), switch tinkaton(1211)]
+   P2 picks: heavyslam    [heavyslam(97641), switch archaludon(1918), switch ragingbolt(1848), knockoff(1218), switch dragapult(1161)]
+   -> applied branch p=95.8% (4 ops)
+
+[T14] field=wx=NONE(0) ter=NONE(0)  eval=-62.5  (alive P1=5 P2=5)
+   P1=KLEFKI(49/318,st=NONE)  hazards[reflect=4]
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: lightscreen    [lightscreen(44812), spikes(34711), foulplay(6699), switch primarina(4299), switch ironvaliant(3580)]
+   P2 picks: heavyslam    [heavyslam(96498), switch archaludon(2529), switch ragingbolt(2247), knockoff(2007), protect(1326)]
+   -> applied branch p=100.0% (5 ops)
+
+[T15] field=wx=NONE(0) ter=NONE(0)  eval=-52.9  (alive P1=4 P2=5)
+   P1=KLEFKI(0/318,st=NONE)  hazards[reflect=3,light_screen=4]
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch ironvaliant    [switch ironvaliant(85901), switch primarina(8976), switch tinkaton(5751), switch fluttermane(4372)]
+   P2 picks: No Move    [No Move(108000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T16] field=wx=NONE(0) ter=NONE(0)  eval=-52.9  (alive P1=4 P2=5)
+   P1=IRONVALIANT(290/290,st=NONE)  hazards[reflect=3,light_screen=4]
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: closecombat    [closecombat(48401), knockoff(18743), moonblast(14576), shadowsneak(8561), switch primarina(5263)]
+   P2 picks: protect    [protect(78675), heavyslam(5279), switch archaludon(2868), knockoff(2288), switch dragapult(1501)]
+   -> applied branch p=100.0% (7 ops)
+
+[T17] field=wx=NONE(0) ter=NONE(0)  eval=-92.9  (alive P1=4 P2=5)
+   P1=IRONVALIANT(290/290,st=NONE)  hazards[reflect=2,light_screen=3]
+   P2=GOODRAHISUI(364/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: closecombat    [closecombat(78249), knockoff(9374), moonblast(6468), switch primarina(4640), switch fluttermane(1997)]
+   P2 picks: switch dragapult    [switch dragapult(17045), switch archaludon(6877), heavyslam(6750), protect(6626), switch ragingbolt(4633)]
+   -> applied branch p=100.0% (6 ops)
+
+[T18] field=wx=NONE(0) ter=NONE(0)  eval=-120.6  (alive P1=4 P2=5)
+   P1=IRONVALIANT(290/290,st=NONE)  hazards[reflect=1,light_screen=2]
+   P2=DRAGAPULT(278/317,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: knockoff    [knockoff(65923), moonblast(18283), closecombat(14895), shadowsneak(1679), switch primarina(1386)]
+   P2 picks: uturn    [uturn(27683), switch goodrahisui(25556), shadowball(25529), flamethrower(11478), switch archaludon(11415)]
+   -> applied branch p=95.8% (7 ops)
+
+[T19] field=wx=NONE(0) ter=NONE(0)  eval=-123.1  (alive P1=4 P2=5)
+   P1=IRONVALIANT(284/290,st=NONE)  hazards[reflect=1,light_screen=2]
+   P2=DRAGAPULT(278/317,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: knockoff    [knockoff(113000)]
+   P2 picks: switch archaludon    [switch archaludon(65583), switch goodrahisui(44808), switch ragingbolt(2125), switch latios(484)]
+   -> applied branch p=95.8% (14 ops)
+
+[T20] field=wx=NONE(0) ter=NONE(0)  eval=-137.6  (alive P1=4 P2=5)
+   P1=IRONVALIANT(255/290,st=NONE)  hazards[light_screen=1]
+   P2=ARCHALUDON(239/383,def+1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: closecombat    [closecombat(46456), switch primarina(25890), moonblast(19864), switch fluttermane(2841), knockoff(1859)]
+   P2 picks: flashcannon    [flashcannon(37272), stealthrock(30019), switch dragapult(17095), switch goodrahisui(6921), bodypress(5078)]
+   -> applied branch p=100.0% (6 ops)
+
+[T21] field=wx=NONE(0) ter=NONE(0)  eval=-112.7  (alive P1=4 P2=4)
+   P1=IRONVALIANT(226/290,def-1,spd-1,st=NONE)
+   P2=ARCHALUDON(0/383,def+1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(112000)]
+   P2 picks: switch ragingbolt    [switch ragingbolt(78339), switch dragapult(30788), switch goodrahisui(2942), switch latios(931)]
+   -> applied branch p=100.0% (3 ops)
+
+[T22] field=wx=NONE(0) ter=NONE(0)  eval=-112.7  (alive P1=4 P2=4)
+   P1=IRONVALIANT(226/290,def-1,spd-1,st=NONE)
+   P2=RAGINGBOLT(454/454,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch fluttermane    [switch fluttermane(31509), moonblast(26632), switch tinkaton(15687), closecombat(10009), switch primarina(6965)]
+   P2 picks: thunderbolt    [thunderbolt(67810), thunderclap(21533), switch goodrahisui(8001), calmmind(5933), switch dragapult(2452)]
+   -> applied branch p=86.2% (6 ops)
+
+[T23] field=wx=NONE(0) ter=NONE(0)  eval=-134.9  (alive P1=4 P2=4)
+   P1=FLUTTERMANE(120/251,st=NONE)
+   P2=RAGINGBOLT(454/454,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: moonblast    [moonblast(42537), switch ironvaliant(31681), shadowball(9974), calmmind(6311), substitute(6164)]
+   P2 picks: switch goodrahisui    [switch goodrahisui(99429), thunderclap(3439), thunderbolt(3142), calmmind(2728), switch dragapult(1846)]
+   -> applied branch p=67.1% (7 ops)
+
+[T24] field=wx=NONE(0) ter=NONE(0)  eval=-107.3  (alive P1=4 P2=4)
+   P1=FLUTTERMANE(95/251,st=NONE)
+   P2=GOODRAHISUI(241/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: moonblast    [moonblast(59440), switch ironvaliant(12074), substitute(10723), switch tinkaton(8521), shadowball(7090)]
+   P2 picks: protect    [protect(55286), heavyslam(43152), knockoff(12206), dragontail(2135), switch ragingbolt(1038)]
+   -> applied branch p=100.0% (5 ops)
+
+[T25] field=wx=NONE(0) ter=NONE(0)  eval=-114.0  (alive P1=4 P2=4)
+   P1=FLUTTERMANE(95/251,st=NONE)
+   P2=GOODRAHISUI(263/364,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: moonblast    [moonblast(49755), shadowball(28188), substitute(5457), switch tinkaton(2964), switch ironvaliant(1427)]
+   P2 picks: heavyslam    [heavyslam(86050), knockoff(23512), switch dragapult(3003), protect(2084), dragontail(1539)]
+   -> applied branch p=28.8% (7 ops)
+
+[T26] field=wx=NONE(0) ter=NONE(0)  eval=-166.2  (alive P1=3 P2=4)
+   P1=FLUTTERMANE(0/251,st=NONE)
+   P2=GOODRAHISUI(162/364,spa-1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch primarina    [switch primarina(109022), switch ironvaliant(8085), switch tinkaton(1893)]
+   P2 picks: No Move    [No Move(119000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T27] field=wx=NONE(0) ter=NONE(0)  eval=-159.7  (alive P1=3 P2=4)
+   P1=PRIMARINA(174/301,st=NONE)
+   P2=GOODRAHISUI(162/364,spa-1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: moonblast    [moonblast(17987), switch ironvaliant(1381), hypervoice(1212), psychicnoise(1187), flipturn(1006)]
+   P2 picks: heavyslam    [heavyslam(69613), knockoff(22679), dragontail(22586), protect(2496), switch dragapult(553)]
+   -> applied branch p=20.1% (7 ops)
+
+[T28] field=wx=NONE(0) ter=NONE(0)  eval=-177.3  (alive P1=3 P2=4)
+   P1=PRIMARINA(5/301,st=NONE)
+   P2=GOODRAHISUI(36/364,spa-1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch tinkaton    [switch tinkaton(67154), switch ironvaliant(44545), moonblast(18358)]
+   P2 picks: heavyslam    [heavyslam(136542), knockoff(571), dragontail(540), protect(423), switch dragapult(122)]
+   -> applied branch p=100.0% (7 ops)
+
+[T29] field=wx=NONE(0) ter=NONE(0)  eval=-255.0  (alive P1=2 P2=4)
+   P1=TINKATON(0/374,st=NONE)
+   P2=GOODRAHISUI(58/364,spa-1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch primarina    [switch primarina(122359), switch ironvaliant(111641)]
+   P2 picks: No Move    [No Move(234000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T30] field=wx=NONE(0) ter=NONE(0)  eval=-245.3  (alive P1=2 P2=4)
+   P1=PRIMARINA(5/301,st=NONE)
+   P2=GOODRAHISUI(58/364,spa-1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: psychicnoise    [psychicnoise(57455), flipturn(48644), switch ironvaliant(27214), moonblast(24719), hypervoice(18657)]
+   P2 picks: heavyslam    [heavyslam(293712), knockoff(439), protect(415), dragontail(389), switch ragingbolt(159)]
+   -> applied branch p=52.1% (5 ops)
+
+[T31] field=wx=NONE(0) ter=NONE(0)  eval=-215.1  (alive P1=2 P2=3)
+   P1=PRIMARINA(5/301,st=NONE)
+   P2=GOODRAHISUI(0/364,spa-1,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: No Move    [No Move(630000)]
+   P2 picks: switch dragapult    [switch dragapult(634732), switch ragingbolt(168), switch latios(100)]
+   -> applied branch p=100.0% (4 ops)
+
+[T32] field=wx=NONE(0) ter=NONE(0)  eval=-217.5  (alive P1=2 P2=3)
+   P1=PRIMARINA(5/301,st=NONE)
+   P2=DRAGAPULT(239/317,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch ironvaliant    [switch ironvaliant(379368), psychicnoise(204914)]
+   P2 picks: shadowball    [shadowball(390544), flamethrower(9783), uturn(142), switch ragingbolt(93), switch latios(74)]
+   -> applied branch p=100.0% (10 ops)
+
+[T33] field=wx=NONE(0) ter=NONE(0)  eval=-319.7  (alive P1=1 P2=3)
+   P1=IRONVALIANT(0/290,st=NONE)
+   P2=DRAGAPULT(239/317,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: switch primarina    [switch primarina(1406000)]
+   P2 picks: No Move    [No Move(1457000)]
+   -> applied branch p=100.0% (2 ops)
+
+[T34] field=wx=NONE(0) ter=NONE(0)  eval=-334.4  (alive P1=1 P2=3)
+   P1=PRIMARINA(5/301,st=NONE)
+   P2=DRAGAPULT(239/317,st=NONE)  hazards[stealth_rock=1]
+   P1 picks: flipturn    [flipturn(293048), psychicnoise(287765), hypervoice(284226), moonblast(278660)]
+   P2 picks: shadowball    [shadowball(1131118), switch latios(29436), switch ragingbolt(18338)]
+   -> applied branch p=100.0% (1 ops)
+
+[T35] P2 wins (3 alive)

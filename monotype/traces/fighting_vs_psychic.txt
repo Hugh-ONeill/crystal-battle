@@ -1,0 +1,131 @@
+# seed=42 search_ms=200 max_turns=80
+P1:  urshifurapid(100%) |  greattusk(100%) |  sneasler(100%) |  gallade(100%) |  ironvaliant(100%) |  ironhands(100%)
+P2:  gallade(100%) |  hoopaunbound(100%) |  hatterene(100%) |  metagross(100%) |  cresselia(100%) |  slowbro(100%)
+
+[T1] field=-  eval=+6.0  (alive P1=6 P2=6)
+   P1=urshifurapidstrike(341/341)
+   P2=gallade(277/277)
+   P1 picks: uturn    [uturn(49911), surgingstrikes(22325), switch ironvaliant(11572), switch gallade(3829), switch ironhands(3410)]
+   P2 picks: switch slowbro    [switch slowbro(88279), psychocut(9561), sacredsword(5427), switch cresselia(2072), switch metagross(2019)]
+   -> applied branch p=95.8% (7 ops)
+
+[T2] field=wx=NONE(0) ter=NONE(0)  eval=+54.4  (alive P1=6 P2=6)
+   P1=URSHIFURAPIDSTRIKE(341/341,st=NONE)
+   P2=SLOWBRO(224/394,st=NONE)
+   P1 picks: switch gallade    [switch gallade(86199), switch ironvaliant(12146), switch sneasler(3478), switch ironhands(3214), switch greattusk(2963)]
+   P2 picks: No Move    [No Move(114000)]
+   -> applied branch p=100.0% (5 ops)
+
+[T3] field=wx=NONE(0) ter=NONE(0)  eval=+54.8  (alive P1=6 P2=6)
+   P1=GALLADE(277/277,st=NONE)
+   P2=SLOWBRO(224/394,st=NONE)
+   P1 picks: nightslash    [nightslash(96723), sacredsword(4695), psychocut(1630), shadowsneak(1592), switch urshifurapidstrike(1464)]
+   P2 picks: scald    [scald(85327), futuresight(9584), slackoff(4968), trickroom(2954), switch hatterene(1439)]
+   -> applied branch p=58.7% (6 ops)
+
+[T4] field=wx=NONE(0) ter=NONE(0)  eval=+68.5  (alive P1=6 P2=6)
+   P1=GALLADE(193/277,st=NONE)
+   P2=SLOWBRO(88/394,st=NONE)
+   P1 picks: nightslash    [nightslash(106322), switch urshifurapidstrike(1569), switch ironvaliant(1058), switch ironhands(947), switch greattusk(845)]
+   P2 picks: scald    [scald(42024), slackoff(38805), futuresight(26860), trickroom(2106), switch hatterene(1116)]
+   -> applied branch p=100.0% (1 ops)
+
+[T5] field=wx=NONE(0) ter=NONE(0)  eval=+110.7  (alive P1=6 P2=5)
+   P1=GALLADE(193/277,st=NONE)
+   P2=SLOWBRO(0/394,st=NONE)
+   P1 picks: No Move    [No Move(116000)]
+   P2 picks: switch gallade    [switch gallade(47496), switch hatterene(36242), switch hoopaunbound(28541), switch metagross(1466), switch cresselia(1255)]
+   -> applied branch p=100.0% (1 ops)
+
+[T6] field=wx=NONE(0) ter=NONE(0)  eval=+110.7  (alive P1=6 P2=5)
+   P1=GALLADE(193/277,st=NONE)
+   P2=GALLADE(277/277,st=NONE)
+   P1 picks: nightslash    [nightslash(90740), switch ironhands(8203), switch greattusk(4582), switch urshifurapidstrike(2922), switch ironvaliant(1929)]
+   P2 picks: knockoff    [knockoff(31296), sacredsword(27379), psychocut(26797), nightslash(17628), switch cresselia(2803)]
+   -> applied branch p=50.0% (5 ops)
+
+[T7] field=wx=NONE(0) ter=NONE(0)  eval=-2.0  (alive P1=5 P2=5)
+   P1=GALLADE(0/277,st=NONE)
+   P2=GALLADE(277/277,st=NONE)
+   P1 picks: switch urshifurapidstrike    [switch urshifurapidstrike(112591), switch ironhands(383), switch ironvaliant(368), switch sneasler(333), switch greattusk(325)]
+   P2 picks: No Move    [No Move(110000)]
+   -> applied branch p=100.0% (4 ops)
+
+[T8] field=wx=NONE(0) ter=NONE(0)  eval=-2.0  (alive P1=5 P2=5)
+   P1=URSHIFURAPIDSTRIKE(341/341,st=NONE)
+   P2=GALLADE(277/277,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(107090), uturn(3382), closecombat(1708), aquajet(579), switch greattusk(247)]
+   P2 picks: switch metagross    [switch metagross(32375), switch hoopaunbound(29111), knockoff(25365), switch hatterene(18147), switch cresselia(10155)]
+   -> applied branch p=100.0% (10 ops)
+
+[T9] field=wx=NONE(0) ter=NONE(0)  eval=+80.1  (alive P1=5 P2=5)
+   P1=URSHIFURAPIDSTRIKE(341/341,st=NONE)
+   P2=METAGROSS(115/364,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(116675), switch ironhands(1120), switch greattusk(809), switch sneasler(280), switch ironvaliant(196)]
+   P2 picks: bulletpunch    [bulletpunch(34117), heavyslam(23168), earthquake(22844), knockoff(22773), switch cresselia(1261)]
+   -> applied branch p=95.8% (3 ops)
+
+[T10] field=wx=NONE(0) ter=NONE(0)  eval=+125.3  (alive P1=5 P2=4)
+   P1=URSHIFURAPIDSTRIKE(301/341,st=NONE)
+   P2=METAGROSS(0/364,st=NONE)
+   P1 picks: No Move    [No Move(122000)]
+   P2 picks: switch cresselia    [switch cresselia(118251), switch hoopaunbound(1288), switch gallade(1258), switch hatterene(1203)]
+   -> applied branch p=100.0% (1 ops)
+
+[T11] field=wx=NONE(0) ter=NONE(0)  eval=+125.3  (alive P1=5 P2=4)
+   P1=URSHIFURAPIDSTRIKE(301/341,st=NONE)
+   P2=CRESSELIA(444/444,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(6881), switch ironhands(310), switch greattusk(256), switch sneasler(198), switch ironvaliant(174)]
+   P2 picks: moonblast    [moonblast(33635), psyshock(19727), moonlight(14042), calmmind(7071), switch hoopaunbound(6083)]
+   -> applied branch p=67.1% (5 ops)
+
+[T12] field=wx=NONE(0) ter=NONE(0)  eval=+116.1  (alive P1=5 P2=4)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=CRESSELIA(186/444,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(116346), switch ironhands(129), switch greattusk(126), switch sneasler(120), switch ironvaliant(113)]
+   P2 picks: moonlight    [moonlight(20535), calmmind(20340), psyshock(20323), moonblast(20199), switch gallade(2034)]
+   -> applied branch p=100.0% (2 ops)
+
+[T13] field=wx=NONE(0) ter=NONE(0)  eval=+188.3  (alive P1=5 P2=3)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=CRESSELIA(0/444,st=NONE)
+   P1 picks: No Move    [No Move(119000)]
+   P2 picks: switch hoopaunbound    [switch hoopaunbound(55046), switch gallade(50051), switch hatterene(13903)]
+   -> applied branch p=100.0% (1 ops)
+
+[T14] field=wx=NONE(0) ter=NONE(0)  eval=+188.3  (alive P1=5 P2=3)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=HOOPAUNBOUND(301/301,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(114825), switch sneasler(795), switch ironhands(261), switch ironvaliant(239), switch greattusk(233)]
+   P2 picks: focusblast    [focusblast(19465), psychic(19016), trick(18165), darkpulse(18056), switch gallade(15431)]
+   -> applied branch p=100.0% (2 ops)
+
+[T15] field=wx=NONE(0) ter=NONE(0)  eval=+331.3  (alive P1=5 P2=2)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=HOOPAUNBOUND(0/301,st=NONE)
+   P1 picks: No Move    [No Move(280000)]
+   P2 picks: switch gallade    [switch gallade(221863), switch hatterene(54137)]
+   -> applied branch p=100.0% (1 ops)
+
+[T16] field=wx=NONE(0) ter=NONE(0)  eval=+331.3  (alive P1=5 P2=2)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=GALLADE(277/277,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(323580), switch ironhands(145), switch greattusk(110), switch ironvaliant(99), switch sneasler(88)]
+   P2 picks: psychocut    [psychocut(45144), sacredsword(44534), knockoff(44216), nightslash(44206), switch hatterene(7255)]
+   -> applied branch p=100.0% (2 ops)
+
+[T17] field=wx=NONE(0) ter=NONE(0)  eval=+474.3  (alive P1=5 P2=1)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=GALLADE(0/277,st=NONE)
+   P1 picks: No Move    [No Move(1357000)]
+   P2 picks: switch hatterene    [switch hatterene(1336000)]
+   -> applied branch p=100.0% (1 ops)
+
+[T18] field=wx=NONE(0) ter=NONE(0)  eval=+474.3  (alive P1=5 P2=1)
+   P1=URSHIFURAPIDSTRIKE(42/341,st=NONE)
+   P2=HATTERENE(318/318,st=NONE)
+   P1 picks: surgingstrikes    [surgingstrikes(1047365), switch ironhands(95), switch sneasler(77), switch ironvaliant(53), switch greattusk(50)]
+   P2 picks: dazzlinggleam    [dazzlinggleam(264073), drainingkiss(263384), mysticalfire(262983), calmmind(262829)]
+   -> applied branch p=100.0% (3 ops)
+
+[T19] P1 wins (5 alive)
