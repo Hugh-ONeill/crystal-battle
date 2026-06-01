@@ -10,6 +10,7 @@ __pycache__/
 *.pt
 *.onnx
 *.onnx.data
+*.material
 *.tsv
 crystal_battle_ppo*
 imitation_ppo*
