@@ -1,0 +1,1813 @@
++----------------------------------------+
+| Ogerpon-Hearthflame                    |
++----------------------------------------+
+| Raw count: 10129                       |
+| Avg. weight: 0.1689902753530693        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Mold Breaker 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Hearthflame Mask 100.000%              |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 79.421%          |
+| Jolly:4/0/252/0/0/252 7.818%           |
+| Jolly:252/0/0/0/4/252 4.382%           |
+| Jolly:4/252/0/0/0/252 4.265%           |
+| Other 4.114%                           |
++----------------------------------------+
+| Moves                                  |
+| Ivy Cudgel 99.889%                     |
+| Swords Dance 89.061%                   |
+| Horn Leech 71.637%                     |
+| Play Rough 47.869%                     |
+| Power Whip 24.245%                     |
+| Trailblaze 21.033%                     |
+| Taunt 12.372%                          |
+| Knock Off 9.409%                       |
+| Substitute 8.951%                      |
+| Other 15.534%                          |
++----------------------------------------+
+| Teammates                              |
+| Cinderace 81.418%                      |
+| Ceruledge 65.732%                      |
+| Volcarona 64.935%                      |
+| Heatran 59.556%                        |
+| Volcanion 41.292%                      |
+| Ninetales 37.851%                      |
+| Torkoal 30.452%                        |
+| Talonflame 16.257%                     |
+| Iron Moth 11.864%                      |
+| Incineroar 11.706%                     |
++----------------------------------------+
++----------------------------------------+
+| Cinderace                              |
++----------------------------------------+
+| Raw count: 9760                        |
+| Avg. weight: 0.165393454118479         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Libero 99.676%                         |
+| Blaze 0.324%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 76.788%               |
+| Choice Scarf 14.969%                   |
+| Choice Band 4.951%                     |
+| Other 3.292%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 72.061%          |
+| Jolly:4/252/0/0/0/252 13.258%          |
+| Jolly:0/252/4/0/0/252 9.737%           |
+| Other 4.944%                           |
++----------------------------------------+
+| Moves                                  |
+| Pyro Ball 96.020%                      |
+| Sucker Punch 81.676%                   |
+| Court Change 79.936%                   |
+| High Jump Kick 76.266%                 |
+| U-turn 30.487%                         |
+| Low Kick 12.795%                       |
+| Zen Headbutt 10.018%                   |
+| Other 12.801%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 86.317%            |
+| Ceruledge 68.586%                      |
+| Volcarona 66.946%                      |
+| Heatran 60.400%                        |
+| Volcanion 40.804%                      |
+| Ninetales 39.637%                      |
+| Torkoal 27.905%                        |
+| Rotom-Heat 13.031%                     |
+| Talonflame 12.967%                     |
+| Iron Moth 11.115%                      |
++----------------------------------------+
++----------------------------------------+
+| Ceruledge                              |
++----------------------------------------+
+| Raw count: 9729                        |
+| Avg. weight: 0.1368594146246333        |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Weak Armor 98.741%                     |
+| Flash Fire 1.259%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 88.901%                     |
+| Weakness Policy 7.370%                 |
+| Other 3.729%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 39.113%        |
+| Jolly:0/252/0/0/4/252 38.792%          |
+| Adamant:0/252/232/0/4/20 10.048%       |
+| Jolly:4/252/0/0/0/252 5.345%           |
+| Adamant:0/252/4/0/0/252 1.412%         |
+| Adamant:4/252/0/0/0/252 1.350%         |
+| Other 3.940%                           |
++----------------------------------------+
+| Moves                                  |
+| Bitter Blade 99.500%                   |
+| Shadow Sneak 86.535%                   |
+| Poltergeist 83.257%                    |
+| Swords Dance 79.342%                   |
+| Close Combat 23.556%                   |
+| Destiny Bond 11.304%                   |
+| Other 16.506%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 84.484%            |
+| Cinderace 83.150%                      |
+| Volcarona 75.223%                      |
+| Heatran 58.523%                        |
+| Ninetales 47.111%                      |
+| Volcanion 36.016%                      |
+| Torkoal 18.460%                        |
+| Iron Moth 13.215%                      |
+| Talonflame 10.522%                     |
+| Incineroar 8.167%                      |
++----------------------------------------+
++----------------------------------------+
+| Volcarona                              |
++----------------------------------------+
+| Raw count: 9205                        |
+| Avg. weight: 0.14021732820870308       |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 94.321%                     |
+| Swarm 5.679%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 92.870%               |
+| Leftovers 3.485%                       |
+| Other 3.645%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:248/0/176/0/0/80 15.830%          |
+| Modest:120/0/132/112/0/140 12.859%     |
+| Bold:252/0/252/0/0/4 10.415%           |
+| Modest:0/0/0/252/4/252 8.912%          |
+| Timid:212/0/252/0/0/44 8.638%          |
+| Timid:0/0/0/252/4/252 8.245%           |
+| Other 35.101%                          |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 99.869%                   |
+| Morning Sun 62.444%                    |
+| Fiery Dance 51.540%                    |
+| Psychic 43.414%                        |
+| Flamethrower 42.337%                   |
+| Giga Drain 37.116%                     |
+| Will-O-Wisp 25.664%                    |
+| Bug Buzz 23.694%                       |
+| Other 13.922%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 86.117%            |
+| Cinderace 83.746%                      |
+| Ceruledge 77.618%                      |
+| Heatran 64.218%                        |
+| Ninetales 46.577%                      |
+| Volcanion 28.770%                      |
+| Torkoal 23.031%                        |
+| Iron Moth 11.360%                      |
+| Moltres 10.624%                        |
+| Rotom-Heat 7.458%                      |
++----------------------------------------+
++----------------------------------------+
+| Heatran                                |
++----------------------------------------+
+| Raw count: 6962                        |
+| Avg. weight: 0.168652997037216         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 69.669%                     |
+| Flash Fire 30.331%                     |
++----------------------------------------+
+| Items                                  |
+| Air Balloon 78.655%                    |
+| Leftovers 18.652%                      |
+| Other 2.693%                           |
++----------------------------------------+
+| Spreads                                |
+| Sassy:252/0/0/0/228/28 22.681%         |
+| Calm:152/0/0/0/252/104 17.403%         |
+| Calm:252/0/0/4/252/0 10.108%           |
+| Calm:48/0/0/0/252/208 6.390%           |
+| Sassy:252/4/0/0/252/0 5.648%           |
+| Calm:252/0/0/0/216/40 5.406%           |
+| Other 32.364%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 92.141%                    |
+| Stealth Rock 68.056%                   |
+| Magma Storm 63.073%                    |
+| Heavy Slam 60.094%                     |
+| Lava Plume 33.996%                     |
+| Flash Cannon 19.410%                   |
+| Taunt 16.138%                          |
+| Protect 16.086%                        |
+| Power Gem 7.870%                       |
+| Dragon Pulse 5.672%                    |
+| Other 17.464%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 86.829%            |
+| Cinderace 83.062%                      |
+| Volcarona 70.596%                      |
+| Ceruledge 66.385%                      |
+| Ninetales 51.382%                      |
+| Torkoal 28.622%                        |
+| Volcanion 24.956%                      |
+| Talonflame 17.314%                     |
+| Moltres 8.443%                         |
+| Incineroar 6.944%                      |
++----------------------------------------+
++----------------------------------------+
+| Volcanion                              |
++----------------------------------------+
+| Raw count: 7594                        |
+| Avg. weight: 0.11697914557270046       |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 34.013%                   |
+| Choice Specs 22.567%                   |
+| Heavy-Duty Boots 18.469%               |
+| Expert Belt 11.345%                    |
+| Leftovers 4.097%                       |
+| Air Balloon 3.791%                     |
+| Choice Scarf 3.134%                    |
+| Other 2.583%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 19.893%         |
+| Calm:252/0/0/4/252/0 15.119%           |
+| Modest:160/0/0/252/0/96 8.941%         |
+| Modest:0/0/160/252/0/96 6.959%         |
+| Jolly:0/0/0/200/56/252 6.434%          |
+| Modest:152/0/8/252/0/96 4.382%         |
+| Other 38.271%                          |
++----------------------------------------+
+| Moves                                  |
+| Steam Eruption 99.380%                 |
+| Earth Power 93.950%                    |
+| Flamethrower 76.116%                   |
+| Sludge Wave 48.885%                    |
+| Sludge Bomb 36.666%                    |
+| Solar Beam 11.265%                     |
+| Fire Blast 8.613%                      |
+| Taunt 4.381%                           |
+| Overheat 3.449%                        |
+| Other 17.294%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 79.569%            |
+| Cinderace 74.167%                      |
+| Ceruledge 53.997%                      |
+| Volcarona 41.803%                      |
+| Heatran 32.985%                        |
+| Torkoal 32.022%                        |
+| Talonflame 23.141%                     |
+| Incineroar 22.074%                     |
+| Rotom-Heat 20.597%                     |
+| Iron Moth 18.275%                      |
++----------------------------------------+
++----------------------------------------+
+| Ninetales                              |
++----------------------------------------+
+| Raw count: 4632                        |
+| Avg. weight: 0.15726371761573604       |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Drought 100.000%                       |
+| Flash Fire 0.000%                      |
++----------------------------------------+
+| Items                                  |
+| Heat Rock 94.399%                      |
+| Choice Scarf 2.826%                    |
+| Other 2.775%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:128/0/0/128/0/252 42.289%        |
+| Timid:0/0/4/252/0/252 33.647%          |
+| Timid:0/0/0/252/4/252 7.949%           |
+| Timid:252/0/0/4/0/252 4.174%           |
+| Modest:0/0/0/252/4/252 3.096%          |
+| Timid:0/0/0/252/0/252 2.985%           |
+| Other 5.860%                           |
++----------------------------------------+
+| Moves                                  |
+| Healing Wish 89.557%                   |
+| Encore 86.565%                         |
+| Flamethrower 60.691%                   |
+| Will-O-Wisp 57.654%                    |
+| Solar Beam 44.990%                     |
+| Weather Ball 32.745%                   |
+| Scorching Sands 9.027%                 |
+| Other 18.772%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 88.925%            |
+| Cinderace 87.837%                      |
+| Ceruledge 86.114%                      |
+| Heatran 82.798%                        |
+| Volcarona 82.510%                      |
+| Volcanion 10.474%                      |
+| Talonflame 7.895%                      |
+| Arcanine-Hisui 6.182%                  |
+| Iron Moth 4.481%                       |
+| Torkoal 4.379%                         |
++----------------------------------------+
++----------------------------------------+
+| Torkoal                                |
++----------------------------------------+
+| Raw count: 6538                        |
+| Avg. weight: 0.09772341767045113       |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Drought 99.954%                        |
+| White Smoke 0.037%                     |
+| Shell Armor 0.009%                     |
++----------------------------------------+
+| Items                                  |
+| Heat Rock 79.289%                      |
+| Heavy-Duty Boots 13.065%               |
+| Leftovers 2.653%                       |
+| Other 4.993%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/0/4/0 30.211%           |
+| Bold:248/0/252/8/0/0 19.955%           |
+| Bold:248/0/252/0/8/0 10.395%           |
+| Bold:252/0/152/0/104/0 8.536%          |
+| Relaxed:252/0/252/0/4/0 3.800%         |
+| Calm:248/0/0/8/252/0 2.531%            |
+| Other 24.571%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 93.063%                     |
+| Lava Plume 77.924%                     |
+| Stealth Rock 64.253%                   |
+| Yawn 54.220%                           |
+| Body Press 45.548%                     |
+| Clear Smog 16.237%                     |
+| Solar Beam 10.591%                     |
+| Earth Power 7.801%                     |
+| Will-O-Wisp 7.473%                     |
+| Weather Ball 5.507%                    |
+| Other 17.384%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 81.567%            |
+| Cinderace 70.503%                      |
+| Heatran 52.585%                        |
+| Volcarona 46.516%                      |
+| Volcanion 44.511%                      |
+| Ceruledge 38.470%                      |
+| Rotom-Heat 19.366%                     |
+| Talonflame 14.734%                     |
+| Scovillain 14.614%                     |
+| Moltres 14.150%                        |
++----------------------------------------+
++----------------------------------------+
+| Talonflame                             |
++----------------------------------------+
+| Raw count: 3306                        |
+| Avg. weight: 0.10217720440711597       |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Gale Wings 63.136%                     |
+| Flame Body 36.864%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 92.993%               |
+| Focus Sash 2.898%                      |
+| Other 4.108%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 22.827%          |
+| Jolly:248/8/0/0/0/252 20.490%          |
+| Jolly:128/0/252/0/0/128 14.235%        |
+| Jolly:128/252/0/0/0/128 10.343%        |
+| Jolly:0/252/0/0/4/252 8.945%           |
+| Timid:128/0/252/0/0/128 7.309%         |
+| Other 15.851%                          |
++----------------------------------------+
+| Moves                                  |
+| Defog 83.802%                          |
+| Roost 82.651%                          |
+| Brave Bird 78.755%                     |
+| Will-O-Wisp 73.002%                    |
+| U-turn 17.696%                         |
+| Flare Blitz 13.522%                    |
+| Tailwind 12.088%                       |
+| Dual Wingbeat 8.929%                   |
+| Air Slash 7.388%                       |
+| Swords Dance 5.646%                    |
+| Other 16.521%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 82.362%            |
+| Cinderace 61.967%                      |
+| Volcanion 60.840%                      |
+| Heatran 60.166%                        |
+| Ceruledge 41.476%                      |
+| Incineroar 38.521%                     |
+| Torkoal 27.868%                        |
+| Volcarona 23.745%                      |
+| Ninetales 17.026%                      |
+| Tauros-Paldea-Blaze 17.009%            |
++----------------------------------------+
++----------------------------------------+
+| Rotom-Heat                             |
++----------------------------------------+
+| Raw count: 2696                        |
+| Avg. weight: 0.09455835701954116       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Light Clay 54.060%                     |
+| Heavy-Duty Boots 17.239%               |
+| Leftovers 15.218%                      |
+| Choice Scarf 7.901%                    |
+| Flame Orb 1.824%                       |
+| Other 3.759%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:248/0/0/8/0/252 33.776%          |
+| Timid:252/0/4/0/0/252 10.199%          |
+| Timid:248/0/8/0/0/252 8.899%           |
+| Calm:252/0/0/0/252/0 7.920%            |
+| Calm:248/0/8/0/252/0 6.063%            |
+| Timid:0/0/0/252/4/252 4.964%           |
+| Other 28.179%                          |
++----------------------------------------+
+| Moves                                  |
+| Volt Switch 66.892%                    |
+| Thunder Wave 55.252%                   |
+| Light Screen 54.719%                   |
+| Reflect 54.537%                        |
+| Will-O-Wisp 41.888%                    |
+| Thunderbolt 38.918%                    |
+| Pain Split 30.021%                     |
+| Overheat 27.002%                       |
+| Discharge 7.801%                       |
+| Trick 7.735%                           |
+| Other 15.235%                          |
++----------------------------------------+
+| Teammates                              |
+| Cinderace 82.513%                      |
+| Volcanion 71.753%                      |
+| Ogerpon-Hearthflame 66.906%            |
+| Torkoal 48.535%                        |
+| Ceruledge 39.179%                      |
+| Volcarona 37.750%                      |
+| Incineroar 24.932%                     |
+| Heatran 24.896%                        |
+| Tauros-Paldea-Blaze 17.501%            |
+| Ninetales 9.793%                       |
++----------------------------------------+
++----------------------------------------+
+| Incineroar                             |
++----------------------------------------+
+| Raw count: 2720                        |
+| Avg. weight: 0.09302746455432397       |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 99.897%                     |
+| Blaze 0.103%                           |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 35.841%                   |
+| Heavy-Duty Boots 33.788%               |
+| Weakness Policy 20.620%                |
+| Leftovers 4.687%                       |
+| Life Orb 2.003%                        |
+| Other 3.061%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:200/56/0/0/252/0 24.425%       |
+| Careful:4/0/252/0/252/0 22.582%        |
+| Jolly:252/4/0/0/0/252 20.551%          |
+| Adamant:252/252/0/0/4/0 7.746%         |
+| Adamant:156/40/136/0/176/0 3.925%      |
+| Impish:176/96/192/0/0/44 2.782%        |
+| Other 17.989%                          |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 74.780%                      |
+| Flare Blitz 71.510%                    |
+| Fake Out 40.296%                       |
+| Parting Shot 37.999%                   |
+| U-turn 35.990%                         |
+| Will-O-Wisp 29.005%                    |
+| Drain Punch 21.635%                    |
+| Bulk Up 21.004%                        |
+| Flame Charge 20.794%                   |
+| Power Trip 20.580%                     |
+| Earthquake 7.033%                      |
+| Other 19.373%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 79.174%            |
+| Volcanion 77.475%                      |
+| Cinderace 57.610%                      |
+| Talonflame 51.425%                     |
+| Ceruledge 42.978%                      |
+| Torkoal 34.134%                        |
+| Heatran 32.215%                        |
+| Rotom-Heat 25.119%                     |
+| Tauros-Paldea-Blaze 22.064%            |
+| Volcarona 16.308%                      |
++----------------------------------------+
++----------------------------------------+
+| Iron Moth                              |
++----------------------------------------+
+| Raw count: 2211                        |
+| Avg. weight: 0.11109823692040117       |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 54.559%                     |
+| Choice Scarf 28.716%                   |
+| Choice Specs 6.116%                    |
+| Heavy-Duty Boots 4.740%                |
+| Power Herb 2.129%                      |
+| Other 3.740%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 54.515%          |
+| Timid:0/0/0/252/4/252 29.746%          |
+| Timid:0/0/4/252/0/252 8.245%           |
+| Modest:0/0/0/252/4/252 2.276%          |
+| Modest:0/0/120/132/0/252 1.570%        |
+| Other 3.649%                           |
++----------------------------------------+
+| Moves                                  |
+| Energy Ball 80.672%                    |
+| Discharge 79.859%                      |
+| Psychic 55.662%                        |
+| Fire Blast 54.542%                     |
+| Sludge Wave 36.378%                    |
+| Fiery Dance 35.393%                    |
+| Dazzling Gleam 25.053%                 |
+| Flamethrower 7.116%                    |
+| U-turn 4.970%                          |
+| Overheat 3.847%                        |
+| Other 16.509%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 82.658%            |
+| Cinderace 73.046%                      |
+| Ceruledge 71.633%                      |
+| Volcanion 66.072%                      |
+| Volcarona 59.680%                      |
+| Torkoal 23.152%                        |
+| Ninetales 13.288%                      |
+| Heatran 12.720%                        |
+| Incineroar 9.202%                      |
+| Moltres 6.853%                         |
++----------------------------------------+
++----------------------------------------+
+| Moltres                                |
++----------------------------------------+
+| Raw count: 2084                        |
+| Avg. weight: 0.1126101180601789        |
+| Viability Ceiling: 80                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 99.027%                     |
+| Pressure 0.973%                        |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 95.124%               |
+| Other 4.876%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/244/0/0/12 28.687%          |
+| Bold:252/0/252/0/4/0 23.245%           |
+| Timid:0/0/0/252/4/252 10.169%          |
+| Calm:248/0/0/8/252/0 8.054%            |
+| Bold:248/0/252/8/0/0 7.886%            |
+| Timid:248/0/8/0/0/252 6.125%           |
+| Other 15.834%                          |
++----------------------------------------+
+| Moves                                  |
+| U-turn 87.938%                         |
+| Roost 87.481%                          |
+| Flamethrower 59.355%                   |
+| Will-O-Wisp 51.221%                    |
+| Scorching Sands 49.209%                |
+| Air Slash 40.803%                      |
+| Hurricane 5.673%                       |
+| Other 18.320%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 77.650%            |
+| Cinderace 76.263%                      |
+| Volcarona 58.448%                      |
+| Volcanion 57.169%                      |
+| Ceruledge 43.453%                      |
+| Heatran 42.252%                        |
+| Torkoal 38.542%                        |
+| Skeledirge 15.133%                     |
+| Arcanine-Hisui 14.389%                 |
+| Rotom-Heat 10.541%                     |
++----------------------------------------+
++----------------------------------------+
+| Arcanine-Hisui                         |
++----------------------------------------+
+| Raw count: 3427                        |
+| Avg. weight: 0.044894433633733584      |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Rock Head 92.907%                      |
+| Intimidate 7.071%                      |
+| Flash Fire 0.022%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Band 50.257%                    |
+| Choice Scarf 36.193%                   |
+| Life Orb 5.797%                        |
+| Focus Sash 4.217%                      |
+| Other 3.536%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 60.619%          |
+| Adamant:0/252/0/0/4/252 10.832%        |
+| Jolly:0/252/4/0/0/252 8.958%           |
+| Jolly:4/252/0/0/0/252 8.797%           |
+| Adamant:4/252/0/0/0/252 5.364%         |
+| Jolly:0/252/0/0/0/252 1.943%           |
+| Other 3.487%                           |
++----------------------------------------+
+| Moves                                  |
+| Head Smash 96.089%                     |
+| Flare Blitz 90.276%                    |
+| Extreme Speed 72.579%                  |
+| Wild Charge 46.659%                    |
+| Close Combat 45.507%                   |
+| Double-Edge 13.403%                    |
+| Outrage 9.194%                         |
+| Iron Head 5.832%                       |
+| Stealth Rock 5.077%                    |
+| Other 15.385%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 71.625%            |
+| Ceruledge 55.947%                      |
+| Cinderace 50.075%                      |
+| Volcanion 49.505%                      |
+| Volcarona 46.334%                      |
+| Torkoal 30.650%                        |
+| Heatran 29.885%                        |
+| Ninetales 29.268%                      |
+| Moltres 21.937%                        |
+| Skeledirge 16.530%                     |
++----------------------------------------+
++----------------------------------------+
+| Tauros-Paldea-Blaze                    |
++----------------------------------------+
+| Raw count: 505                         |
+| Avg. weight: 0.24868558430298934       |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 96.602%                     |
+| Cud Chew 3.370%                        |
+| Anger Point 0.028%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Band 59.912%                    |
+| Choice Scarf 26.725%                   |
+| Leftovers 6.428%                       |
+| Liechi Berry 3.213%                    |
+| Other 3.721%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 90.512%          |
+| Adamant:0/252/4/0/0/252 3.070%         |
+| Jolly:0/252/0/0/0/252 1.701%           |
+| Other 4.716%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 96.946%                   |
+| Raging Bull 78.519%                    |
+| Stone Edge 67.230%                     |
+| Zen Headbutt 48.463%                   |
+| Earthquake 46.852%                     |
+| Flare Blitz 21.387%                    |
+| Wild Charge 20.457%                    |
+| Bulk Up 6.593%                         |
+| Other 13.553%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcanion 90.699%                      |
+| Ogerpon-Hearthflame 67.409%            |
+| Heatran 47.553%                        |
+| Talonflame 45.751%                     |
+| Incineroar 44.456%                     |
+| Cinderace 43.145%                      |
+| Rotom-Heat 35.525%                     |
+| Ceruledge 27.865%                      |
+| Torkoal 18.189%                        |
+| Moltres 17.907%                        |
++----------------------------------------+
++----------------------------------------+
+| Skeledirge                             |
++----------------------------------------+
+| Raw count: 2439                        |
+| Avg. weight: 0.044798480791701574      |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Unaware 98.513%                        |
+| Blaze 1.487%                           |
++----------------------------------------+
+| Items                                  |
+| Leftovers 48.376%                      |
+| Heavy-Duty Boots 23.519%               |
+| Choice Scarf 9.843%                    |
+| Colbur Berry 9.154%                    |
+| Throat Spray 2.340%                    |
+| Rocky Helmet 2.064%                    |
+| Other 4.704%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/4/0/0 16.011%           |
+| Modest:252/0/0/252/4/0 13.353%         |
+| Timid:0/0/0/252/4/252 10.207%          |
+| Bold:252/0/252/0/0/0 7.660%            |
+| Bold:252/0/88/0/168/0 7.273%           |
+| Bold:248/0/252/0/8/0 5.979%            |
+| Other 39.517%                          |
++----------------------------------------+
+| Moves                                  |
+| Torch Song 97.335%                     |
+| Slack Off 82.587%                      |
+| Will-O-Wisp 55.871%                    |
+| Shadow Ball 47.654%                    |
+| Hex 40.107%                            |
+| Alluring Voice 38.325%                 |
+| Earth Power 10.745%                    |
+| Blast Burn 9.852%                      |
+| Other 17.524%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 67.906%            |
+| Volcanion 58.509%                      |
+| Ceruledge 49.606%                      |
+| Cinderace 48.003%                      |
+| Torkoal 45.275%                        |
+| Volcarona 44.171%                      |
+| Moltres 32.514%                        |
+| Arcanine-Hisui 23.295%                 |
+| Heatran 23.130%                        |
+| Talonflame 11.448%                     |
++----------------------------------------+
++----------------------------------------+
+| Scovillain                             |
++----------------------------------------+
+| Raw count: 1872                        |
+| Avg. weight: 0.05595186779636297       |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Chlorophyll 99.970%                    |
+| Insomnia 0.030%                        |
++----------------------------------------+
+| Items                                  |
+| Life Orb 62.193%                       |
+| Choice Specs 23.695%                   |
+| Leftovers 6.011%                       |
+| Focus Sash 2.880%                      |
+| Wise Glasses 1.966%                    |
+| Other 3.256%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 43.088%          |
+| Modest:0/0/0/252/4/252 17.854%         |
+| Timid:0/0/4/252/0/252 6.716%           |
+| Mild:0/4/0/252/0/252 4.852%            |
+| Timid:4/0/0/252/0/252 3.897%           |
+| Adamant:0/252/0/0/4/252 3.528%         |
+| Other 20.065%                          |
++----------------------------------------+
+| Moves                                  |
+| Flamethrower 78.838%                   |
+| Giga Drain 73.748%                     |
+| Growth 64.740%                         |
+| Overheat 62.006%                       |
+| Solar Beam 40.178%                     |
+| Stomping Tantrum 21.504%               |
+| Fire Blast 20.673%                     |
+| Seed Bomb 6.401%                       |
+| Temper Flare 4.042%                    |
+| Energy Ball 3.822%                     |
+| Zen Headbutt 3.726%                    |
+| Leech Seed 3.628%                      |
+| Other 16.693%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 89.145%                        |
+| Cinderace 63.379%                      |
+| Heatran 61.421%                        |
+| Ogerpon-Hearthflame 54.327%            |
+| Talonflame 45.793%                     |
+| Volcarona 29.839%                      |
+| Volcanion 26.782%                      |
+| Ceruledge 26.661%                      |
+| Ninetales 13.254%                      |
+| Rotom-Heat 11.285%                     |
++----------------------------------------+
++----------------------------------------+
+| Charizard                              |
++----------------------------------------+
+| Raw count: 1297                        |
+| Avg. weight: 0.054941328850201435      |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Solar Power 91.312%                    |
+| Blaze 8.688%                           |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 77.001%                   |
+| Sitrus Berry 7.350%                    |
+| Heavy-Duty Boots 7.253%                |
+| Choice Specs 6.046%                    |
+| Other 2.349%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 58.909%         |
+| Timid:0/0/0/252/4/252 24.371%          |
+| Jolly:4/252/0/0/0/252 4.542%           |
+| Modest:4/0/0/252/0/252 2.406%          |
+| Hasty:4/0/0/252/0/252 2.022%           |
+| Timid:0/0/0/252/0/252 1.817%           |
+| Other 5.934%                           |
++----------------------------------------+
+| Moves                                  |
+| Air Slash 78.204%                      |
+| Dragon Pulse 74.550%                   |
+| Flamethrower 68.311%                   |
+| Focus Blast 59.726%                    |
+| Solar Beam 26.179%                     |
+| Scorching Sands 22.171%                |
+| Weather Ball 20.633%                   |
+| Overheat 8.063%                        |
+| Acrobatics 6.721%                      |
+| Belly Drum 6.721%                      |
+| Fire Blast 4.797%                      |
+| Flame Charge 4.572%                    |
+| Other 19.354%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 81.235%                        |
+| Volcanion 79.635%                      |
+| Ogerpon-Hearthflame 74.796%            |
+| Cinderace 69.712%                      |
+| Heatran 62.225%                        |
+| Volcarona 19.055%                      |
+| Ninetales 12.775%                      |
+| Ceruledge 12.596%                      |
+| Arcanine-Hisui 9.923%                  |
+| Incineroar 8.450%                      |
++----------------------------------------+
++----------------------------------------+
+| Armarouge                              |
++----------------------------------------+
+| Raw count: 1310                        |
+| Avg. weight: 0.03673637323447815       |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Weak Armor 79.925%                     |
+| Flash Fire 20.075%                     |
++----------------------------------------+
+| Items                                  |
+| Weakness Policy 56.064%                |
+| Power Herb 14.690%                     |
+| Focus Sash 11.154%                     |
+| Air Balloon 4.304%                     |
+| Choice Specs 3.861%                    |
+| Life Orb 3.434%                        |
+| Rocky Helmet 2.558%                    |
+| Other 3.935%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 25.993%          |
+| Timid:252/0/0/4/0/252 15.864%          |
+| Modest:252/0/0/196/4/56 14.084%        |
+| Modest:0/0/0/252/4/252 11.807%         |
+| Modest:252/0/0/252/4/0 6.584%          |
+| Sassy:4/0/252/0/252/0 4.434%           |
+| Other 21.234%                          |
++----------------------------------------+
+| Moves                                  |
+| Armor Cannon 64.490%                   |
+| Aura Sphere 45.076%                    |
+| Calm Mind 43.713%                      |
+| Stored Power 36.854%                   |
+| Endure 31.680%                         |
+| Energy Ball 28.894%                    |
+| Flamethrower 27.452%                   |
+| Psychic 23.344%                        |
+| Taunt 15.864%                          |
+| Psyshock 15.723%                       |
+| Meteor Beam 14.694%                    |
+| Trick Room 10.818%                     |
+| Expanding Force 10.560%                |
+| Dark Pulse 9.167%                      |
+| Iron Defense 6.686%                    |
+| Other 14.984%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 58.374%            |
+| Volcarona 57.899%                      |
+| Cinderace 55.385%                      |
+| Ceruledge 48.774%                      |
+| Heatran 41.831%                        |
+| Torkoal 41.422%                        |
+| Rotom-Heat 26.339%                     |
+| Iron Moth 22.389%                      |
+| Ninetales 16.490%                      |
+| Talonflame 16.361%                     |
++----------------------------------------+
++----------------------------------------+
+| Infernape                              |
++----------------------------------------+
+| Raw count: 1468                        |
+| Avg. weight: 0.029889515700158756      |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Iron Fist 88.347%                      |
+| Blaze 11.653%                          |
++----------------------------------------+
+| Items                                  |
+| Choice Band 26.842%                    |
+| Choice Scarf 24.864%                   |
+| Life Orb 18.084%                       |
+| Focus Sash 14.843%                     |
+| Punching Glove 9.017%                  |
+| Expert Belt 5.010%                     |
+| Other 1.339%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 45.114%          |
+| Jolly:4/252/0/0/0/252 16.040%          |
+| Hasty:0/252/0/4/0/252 9.627%           |
+| Adamant:0/252/4/0/0/252 9.405%         |
+| Jolly:0/252/4/0/0/252 5.859%           |
+| Jolly:0/252/0/0/0/252 3.192%           |
+| Other 10.763%                          |
++----------------------------------------+
+| Moves                                  |
+| Mach Punch 73.270%                     |
+| Close Combat 52.606%                   |
+| Thunder Punch 40.348%                  |
+| Drain Punch 40.297%                    |
+| Flare Blitz 39.446%                    |
+| Fire Punch 38.521%                     |
+| U-turn 29.681%                         |
+| Swords Dance 18.353%                   |
+| Earthquake 11.167%                     |
+| Overheat 9.297%                        |
+| Taunt 6.635%                           |
+| Knock Off 4.374%                       |
+| Rock Slide 4.200%                      |
+| Stealth Rock 3.976%                    |
+| Fake Out 3.737%                        |
+| Flamethrower 3.365%                    |
+| Stone Edge 3.117%                      |
+| Other 17.611%                          |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 68.356%            |
+| Volcarona 60.898%                      |
+| Torkoal 60.688%                        |
+| Rotom-Heat 51.185%                     |
+| Heatran 31.000%                        |
+| Ceruledge 26.639%                      |
+| Volcanion 25.352%                      |
+| Arcanine-Hisui 23.323%                 |
+| Iron Moth 22.563%                      |
+| Ninetales 19.124%                      |
++----------------------------------------+
++----------------------------------------+
+| Entei                                  |
++----------------------------------------+
+| Raw count: 404                         |
+| Avg. weight: 0.05989966301709143       |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Inner Focus 66.588%                    |
+| Pressure 33.412%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Band 74.130%                    |
+| Normal Gem 15.934%                     |
+| Leftovers 4.717%                       |
+| Life Orb 3.772%                        |
+| Other 1.447%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 67.431%          |
+| Adamant:0/252/4/0/0/252 15.934%        |
+| Hardy:0/252/0/0/0/252 5.346%           |
+| Adamant:0/252/0/0/4/252 4.775%         |
+| Adamant:252/252/0/0/4/0 3.937%         |
+| Other 2.576%                           |
++----------------------------------------+
+| Moves                                  |
+| Extreme Speed 99.292%                  |
+| Sacred Fire 99.253%                    |
+| Stone Edge 63.950%                     |
+| Stomping Tantrum 62.692%               |
+| Trailblaze 42.143%                     |
+| Flame Charge 16.292%                   |
+| Other 16.378%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcanion 77.718%                      |
+| Torkoal 76.468%                        |
+| Ogerpon-Hearthflame 67.473%            |
+| Cinderace 66.550%                      |
+| Iron Moth 45.156%                      |
+| Ceruledge 21.750%                      |
+| Rotom-Heat 20.801%                     |
+| Volcarona 18.499%                      |
+| Tauros-Paldea-Blaze 15.934%            |
+| Heatran 14.990%                        |
++----------------------------------------+
++----------------------------------------+
+| Typhlosion-Hisui                       |
++----------------------------------------+
+| Raw count: 673                         |
+| Avg. weight: 0.03730954732053092       |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Frisk 63.890%                          |
+| Blaze 36.110%                          |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 94.122%                   |
+| Choice Specs 4.743%                    |
+| Other 1.135%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 66.326%          |
+| Modest:0/0/0/252/4/252 13.768%         |
+| Hardy:112/0/0/252/0/144 11.782%        |
+| Timid:4/0/0/252/0/252 3.554%           |
+| Other 4.570%                           |
++----------------------------------------+
+| Moves                                  |
+| Eruption 99.559%                       |
+| Shadow Ball 72.886%                    |
+| Flamethrower 42.839%                   |
+| Focus Blast 40.923%                    |
+| Solar Beam 29.939%                     |
+| Fire Blast 28.168%                     |
+| Extrasensory 23.024%                   |
+| Overheat 22.853%                       |
+| Night Shade 19.204%                    |
+| Infernal Parade 6.465%                 |
+| Other 14.140%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 79.558%                        |
+| Ogerpon-Hearthflame 74.300%            |
+| Cinderace 61.563%                      |
+| Volcarona 56.013%                      |
+| Volcanion 36.939%                      |
+| Talonflame 26.595%                     |
+| Moltres 20.463%                        |
+| Incineroar 19.575%                     |
+| Arcanine-Hisui 18.058%                 |
+| Rotom-Heat 16.559%                     |
++----------------------------------------+
++----------------------------------------+
+| Salazzle                               |
++----------------------------------------+
+| Raw count: 670                         |
+| Avg. weight: 0.027763510444200733      |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Corrosion 99.732%                      |
+| Oblivious 0.268%                       |
++----------------------------------------+
+| Items                                  |
+| Black Sludge 42.324%                   |
+| Air Balloon 36.831%                    |
+| Heavy-Duty Boots 7.284%                |
+| Leftovers 6.319%                       |
+| Life Orb 3.627%                        |
+| Other 3.613%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:248/0/0/0/8/252 51.907%          |
+| Timid:248/0/0/8/0/252 24.383%          |
+| Timid:0/0/0/252/4/252 10.317%          |
+| Timid:152/0/0/104/0/252 3.830%         |
+| Hasty:0/4/0/252/0/252 3.164%           |
+| Timid:0/0/0/4/252/252 2.369%           |
+| Other 4.031%                           |
++----------------------------------------+
+| Moves                                  |
+| Toxic 96.104%                          |
+| Substitute 80.287%                     |
+| Protect 79.730%                        |
+| Disable 37.012%                        |
+| Sludge Wave 32.785%                    |
+| Encore 26.044%                         |
+| Flamethrower 21.648%                   |
+| Venoshock 5.743%                       |
+| Sludge Bomb 4.731%                     |
+| Other 15.916%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcanion 88.206%                      |
+| Ogerpon-Hearthflame 82.954%            |
+| Volcarona 65.635%                      |
+| Cinderace 65.170%                      |
+| Moltres 39.743%                        |
+| Ceruledge 29.426%                      |
+| Skeledirge 28.076%                     |
+| Torkoal 22.368%                        |
+| Charizard 20.396%                      |
+| Arcanine-Hisui 9.749%                  |
++----------------------------------------+
++----------------------------------------+
+| Oricorio                               |
++----------------------------------------+
+| Raw count: 393                         |
+| Avg. weight: 0.042098674363023475      |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Dancer 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 97.553%               |
+| Other 2.447%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/0/8 87.551%         |
+| Timid:0/0/0/252/0/252 6.917%           |
+| Modest:0/0/0/252/4/252 2.388%          |
+| Other 3.144%                           |
++----------------------------------------+
+| Moves                                  |
+| Air Slash 96.786%                      |
+| Defog 90.631%                          |
+| Taunt 87.554%                          |
+| Icy Wind 87.551%                       |
+| Revelation Dance 12.439%               |
+| Quiver Dance 11.045%                   |
+| Other 13.993%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 93.385%                      |
+| Ceruledge 92.346%                      |
+| Torkoal 86.981%                        |
+| Ogerpon-Hearthflame 72.780%            |
+| Volcanion 62.112%                      |
+| Ninetales 32.197%                      |
+| Scovillain 22.986%                     |
+| Cinderace 6.677%                       |
+| Arcanine-Hisui 2.285%                  |
+| Skeledirge 1.726%                      |
++----------------------------------------+
++----------------------------------------+
+| Delphox                                |
++----------------------------------------+
+| Raw count: 426                         |
+| Avg. weight: 0.026358410755482925      |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Magician 61.273%                       |
+| Blaze 38.727%                          |
++----------------------------------------+
+| Items                                  |
+| Life Orb 38.913%                       |
+| Focus Sash 20.735%                     |
+| Nothing 11.257%                        |
+| Air Balloon 8.786%                     |
+| White Herb 6.603%                      |
+| Assault Vest 4.005%                    |
+| Heavy-Duty Boots 1.724%                |
+| Red Card 1.384%                        |
+| Light Clay 1.355%                      |
+| Power Herb 1.072%                      |
+| Other 4.167%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 44.468%          |
+| Modest:4/0/0/252/0/252 18.825%         |
+| Timid:4/0/0/252/0/252 17.511%          |
+| Timid:0/0/4/252/0/252 11.254%          |
+| Modest:176/0/0/80/0/252 3.793%         |
+| Other 4.149%                           |
++----------------------------------------+
+| Moves                                  |
+| Flamethrower 81.739%                   |
+| Dazzling Gleam 68.508%                 |
+| Psychic 57.581%                        |
+| Nasty Plot 30.220%                     |
+| Calm Mind 23.814%                      |
+| Shadow Ball 22.788%                    |
+| Encore 21.839%                         |
+| Expanding Force 19.688%                |
+| Fire Blast 12.689%                     |
+| Psyshock 12.517%                       |
+| Focus Blast 11.826%                    |
+| Grass Knot 5.681%                      |
+| Copycat 5.433%                         |
+| Future Sight 3.832%                    |
+| Light Screen 2.739%                    |
+| Other 19.105%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 59.801%                        |
+| Ogerpon-Hearthflame 58.300%            |
+| Volcanion 50.002%                      |
+| Cinderace 43.157%                      |
+| Heatran 37.658%                        |
+| Volcarona 28.920%                      |
+| Infernape 24.429%                      |
+| Chandelure 24.276%                     |
+| Ninetales 21.252%                      |
+| Arcanine-Hisui 20.077%                 |
++----------------------------------------+
++----------------------------------------+
+| Chandelure                             |
++----------------------------------------+
+| Raw count: 736                         |
+| Avg. weight: 0.013034947983631345      |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Flash Fire 66.366%                     |
+| Infiltrator 26.524%                    |
+| Flame Body 7.110%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 29.794%                   |
+| Focus Sash 25.929%                     |
+| Choice Scarf 14.645%                   |
+| Charcoal 11.560%                       |
+| Leftovers 8.406%                       |
+| Air Balloon 4.218%                     |
+| Sitrus Berry 2.110%                    |
+| Other 3.338%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 33.790%          |
+| Modest:0/0/0/252/0/252 22.407%         |
+| Timid:4/0/0/252/0/252 11.581%          |
+| Lax:20/200/0/0/0/200 11.207%           |
+| Timid:0/0/0/252/4/240 4.260%           |
+| Timid:0/0/0/252/0/252 3.143%           |
+| Other 13.611%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 81.113%                    |
+| Energy Ball 50.580%                    |
+| Flamethrower 48.294%                   |
+| Will-O-Wisp 29.195%                    |
+| Overheat 24.980%                       |
+| Dark Pulse 24.565%                     |
+| Fire Blast 24.416%                     |
+| Clear Smog 22.488%                     |
+| Psychic 22.415%                        |
+| Trick 13.452%                          |
+| Poltergeist 11.655%                    |
+| Acid Armor 11.274%                     |
+| Calm Mind 8.458%                       |
+| Hex 7.386%                             |
+| Other 19.730%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 56.646%                        |
+| Ogerpon-Hearthflame 47.700%            |
+| Volcanion 43.561%                      |
+| Cinderace 38.571%                      |
+| Ceruledge 35.034%                      |
+| Delphox 28.413%                        |
+| Rotom-Heat 26.142%                     |
+| Arcanine-Hisui 25.947%                 |
+| Talonflame 24.075%                     |
+| Infernape 15.209%                      |
++----------------------------------------+
++----------------------------------------+
+| Emboar                                 |
++----------------------------------------+
+| Raw count: 287                         |
+| Avg. weight: 0.019708739068871984      |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Reckless 95.290%                       |
+| Blaze 4.710%                           |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 50.717%                   |
+| Assault Vest 25.259%                   |
+| Choice Band 18.039%                    |
+| Fist Plate 3.578%                      |
+| Other 2.407%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 42.062%          |
+| Adamant:248/252/0/0/8/0 21.906%        |
+| Adamant:4/252/0/0/0/252 18.865%        |
+| Adamant:252/252/0/0/4/0 7.286%         |
+| Adamant:0/252/0/0/4/252 6.608%         |
+| Other 3.272%                           |
++----------------------------------------+
+| Moves                                  |
+| Flare Blitz 99.813%                    |
+| Head Smash 75.031%                     |
+| Close Combat 67.094%                   |
+| Sucker Punch 65.325%                   |
+| Drain Punch 32.438%                    |
+| Wild Charge 21.158%                    |
+| Earthquake 15.372%                     |
+| Grass Knot 10.559%                     |
+| Other 13.210%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcanion 66.976%                      |
+| Ceruledge 57.613%                      |
+| Incineroar 42.810%                     |
+| Moltres 37.480%                        |
+| Torkoal 34.697%                        |
+| Volcarona 32.736%                      |
+| Ogerpon-Hearthflame 28.292%            |
+| Armarouge 24.242%                      |
+| Heatran 23.323%                        |
+| Rotom-Heat 23.153%                     |
++----------------------------------------+
++----------------------------------------+
+| Typhlosion                             |
++----------------------------------------+
+| Raw count: 120                         |
+| Avg. weight: 0.035068152937943645      |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Blaze 75.063%                          |
+| Flash Fire 24.937%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 74.430%                   |
+| Choice Specs 20.758%                   |
+| Other 4.811%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 62.311%          |
+| Timid:0/0/0/252/4/252 26.497%          |
+| Modest:4/0/0/252/0/252 6.326%          |
+| Other 4.866%                           |
++----------------------------------------+
+| Moves                                  |
+| Eruption 95.189%                       |
+| Overheat 62.311%                       |
+| Solar Beam 54.160%                     |
+| Extrasensory 53.008%                   |
+| Shadow Ball 44.225%                    |
+| Lava Plume 35.805%                     |
+| Flamethrower 31.107%                   |
+| Scorching Sands 12.502%                |
+| Other 11.693%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 87.349%                        |
+| Cinderace 80.821%                      |
+| Volcarona 61.174%                      |
+| Ceruledge 56.494%                      |
+| Ogerpon-Hearthflame 54.517%            |
+| Scovillain 34.449%                     |
+| Volcanion 24.678%                      |
+| Heatran 22.964%                        |
+| Talonflame 13.885%                     |
+| Emboar 5.818%                          |
++----------------------------------------+
++----------------------------------------+
+| Flareon                                |
++----------------------------------------+
+| Raw count: 288                         |
+| Avg. weight: 0.011893761405927065      |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Guts 65.586%                           |
+| Flash Fire 34.414%                     |
++----------------------------------------+
+| Items                                  |
+| Toxic Orb 90.632%                      |
+| Life Orb 3.934%                        |
+| Choice Band 2.390%                     |
+| Other 3.043%                           |
++----------------------------------------+
+| Spreads                                |
+| Brave:252/252/0/0/0/0 37.674%          |
+| Jolly:4/252/0/0/0/252 33.083%          |
+| Adamant:252/252/0/0/0/4 15.883%        |
+| Hardy:252/252/0/0/4/0 2.592%           |
+| Adamant:252/252/0/0/4/0 2.410%         |
+| Careful:252/4/0/0/252/0 2.143%         |
+| Other 6.215%                           |
++----------------------------------------+
+| Moves                                  |
+| Flare Blitz 96.232%                    |
+| Facade 96.099%                         |
+| Protect 57.738%                        |
+| Trailblaze 42.762%                     |
+| Quick Attack 39.304%                   |
+| Double Kick 37.791%                    |
+| Curse 15.883%                          |
+| Other 14.191%                          |
++----------------------------------------+
+| Teammates                              |
+| Torkoal 74.259%                        |
+| Heatran 70.590%                        |
+| Armarouge 67.342%                      |
+| Charizard 39.838%                      |
+| Ogerpon-Hearthflame 38.203%            |
+| Entei 36.375%                          |
+| Cinderace 30.995%                      |
+| Ceruledge 21.789%                      |
+| Ninetales 21.585%                      |
+| Volcarona 19.100%                      |
++----------------------------------------+
++----------------------------------------+
+| Coalossal                              |
++----------------------------------------+
+| Raw count: 253                         |
+| Avg. weight: 0.013780794872122146      |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 69.511%                     |
+| Steam Engine 30.464%                   |
+| Flash Fire 0.025%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 62.152%               |
+| Passho Berry 14.819%                   |
+| Air Balloon 13.825%                    |
+| Leftovers 7.099%                       |
+| Other 2.104%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/0/252/0/4/0 29.786%         |
+| Impish:156/0/252/0/0/100 14.490%       |
+| Careful:248/8/0/0/252/0 12.930%        |
+| Calm:252/0/0/252/4/0 12.836%           |
+| Impish:252/4/252/0/0/0 10.101%         |
+| Bold:252/0/252/0/4/0 9.396%            |
+| Other 10.461%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 86.336%                     |
+| Body Press 55.284%                     |
+| Will-O-Wisp 51.950%                    |
+| Stealth Rock 31.868%                   |
+| Heavy Slam 30.801%                     |
+| Heat Crash 28.312%                     |
+| Power Gem 22.894%                      |
+| Flamethrower 22.243%                   |
+| Spikes 18.056%                         |
+| Iron Defense 15.786%                   |
+| Stone Edge 13.383%                     |
+| Overheat 10.023%                       |
+| Other 13.063%                          |
++----------------------------------------+
+| Teammates                              |
+| Ceruledge 76.381%                      |
+| Volcanion 58.865%                      |
+| Ogerpon-Hearthflame 51.534%            |
+| Cinderace 49.975%                      |
+| Volcarona 40.840%                      |
+| Ninetales 36.233%                      |
+| Arcanine-Hisui 30.735%                 |
+| Rotom-Heat 23.242%                     |
+| Talonflame 18.278%                     |
+| Moltres 13.880%                        |
++----------------------------------------+
++----------------------------------------+
+| Camerupt                               |
++----------------------------------------+
+| Raw count: 213                         |
+| Avg. weight: 0.012238246996120554      |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Solid Rock 96.434%                     |
+| Anger Point 2.208%                     |
+| Magma Armor 1.357%                     |
++----------------------------------------+
+| Items                                  |
+| Life Orb 82.200%                       |
+| Leftovers 9.708%                       |
+| Weakness Policy 4.981%                 |
+| Other 3.110%                           |
++----------------------------------------+
+| Spreads                                |
+| Quiet:252/0/4/252/0/0 81.860%          |
+| Modest:248/0/0/252/0/8 4.981%          |
+| Careful:252/4/0/0/252/0 3.030%         |
+| Adamant:252/252/0/0/4/0 2.469%         |
+| Calm:252/0/4/0/252/0 1.366%            |
+| Hardy:48/0/76/0/132/252 1.356%         |
+| Other 4.938%                           |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 89.043%                    |
+| Eruption 88.239%                       |
+| Lava Plume 83.226%                     |
+| Solar Beam 82.864%                     |
+| Earthquake 9.079%                      |
+| Rest 4.982%                            |
+| Sleep Talk 4.981%                      |
+| Stealth Rock 4.618%                    |
+| Sunny Day 3.135%                       |
+| Will-O-Wisp 3.030%                     |
+| Trailblaze 2.809%                      |
+| Heat Crash 2.756%                      |
+| Yawn 2.469%                            |
+| Other 18.770%                          |
++----------------------------------------+
+| Teammates                              |
+| Ceruledge 84.707%                      |
+| Volcarona 78.537%                      |
+| Skeledirge 75.858%                     |
+| Armarouge 73.976%                      |
+| Talonflame 73.750%                     |
+| Cinderace 6.994%                       |
+| Volcanion 6.561%                       |
+| Ninetales 6.163%                       |
+| Coalossal 5.203%                       |
+| Incineroar 5.172%                      |
++----------------------------------------+
++----------------------------------------+
+| Arcanine                               |
++----------------------------------------+
+| Raw count: 332                         |
+| Avg. weight: 0.0038097867392557004     |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 74.432%                     |
+| Flash Fire 25.491%                     |
+| Justified 0.078%                       |
++----------------------------------------+
+| Items                                  |
+| Life Orb 52.397%                       |
+| Sitrus Berry 25.285%                   |
+| Air Balloon 9.047%                     |
+| Heavy-Duty Boots 3.197%                |
+| Choice Band 2.678%                     |
+| Expert Belt 2.613%                     |
+| Other 4.783%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 64.148%          |
+| Jolly:4/252/0/0/0/252 25.491%          |
+| Hardy:0/0/252/0/252/4 2.613%           |
+| Adamant:4/252/0/0/0/252 2.067%         |
+| Adamant:0/252/0/0/4/252 1.509%         |
+| Other 4.172%                           |
++----------------------------------------+
+| Moves                                  |
+| Extreme Speed 98.662%                  |
+| Flare Blitz 91.530%                    |
+| Wild Charge 56.373%                    |
+| Psychic Fangs 47.416%                  |
+| Morning Sun 29.998%                    |
+| Will-O-Wisp 28.574%                    |
+| Close Combat 16.779%                   |
+| Iron Head 7.429%                       |
+| Outrage 5.264%                         |
+| Other 17.976%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcarona 63.305%                      |
+| Ceruledge 61.493%                      |
+| Talonflame 51.865%                     |
+| Cinderace 51.451%                      |
+| Salazzle 47.248%                       |
+| Torkoal 43.598%                        |
+| Charizard 39.339%                      |
+| Scovillain 36.459%                     |
+| Ninetales 30.752%                      |
+| Rotom-Heat 27.917%                     |
++----------------------------------------+
++----------------------------------------+
+| Carkol                                 |
++----------------------------------------+
+| Raw count: 32                          |
+| Avg. weight: 0.03719814549014881       |
+| Viability Ceiling: 58                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 98.443%                     |
+| Steam Engine 1.557%                    |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Careful:108/0/148/0/252/0 98.443%      |
+| Other 1.557%                           |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 100.000%                  |
+| Spikes 100.000%                        |
+| Will-O-Wisp 98.443%                    |
+| Explosion 98.443%                      |
+| Other 3.113%                           |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 84.182%            |
+| Heatran 84.182%                        |
+| Torkoal 82.889%                        |
+| Ceruledge 82.889%                      |
+| Arcanine-Hisui 82.889%                 |
+| Cinderace 1.293%                       |
+| Volcarona 1.293%                       |
+| Iron Moth 1.293%                       |
++----------------------------------------+
++----------------------------------------+
+| Magcargo                               |
++----------------------------------------+
+| Raw count: 138                         |
+| Avg. weight: 0.006270166351601575      |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 91.417%                     |
+| Weak Armor 8.583%                      |
+| Magma Armor 0.000%                     |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 77.272%                   |
+| White Herb 10.642%                     |
+| Leftovers 6.805%                       |
+| Focus Sash 4.170%                      |
+| Other 1.111%                           |
++----------------------------------------+
+| Spreads                                |
+| Quiet:252/0/0/252/4/0 77.272%          |
+| Hardy:0/0/0/252/4/252 10.259%          |
+| Modest:0/0/0/252/4/252 5.666%          |
+| Adamant:0/252/0/0/4/252 3.987%         |
+| Other 2.816%                           |
++----------------------------------------+
+| Moves                                  |
+| Power Gem 94.501%                      |
+| Flamethrower 84.077%                   |
+| Gyro Ball 77.604%                      |
+| Clear Smog 77.272%                     |
+| Shell Smash 19.912%                    |
+| Heat Wave 10.260%                      |
+| Protect 10.259%                        |
+| Yawn 4.432%                            |
+| Earthquake 3.987%                      |
+| Other 17.696%                          |
++----------------------------------------+
+| Teammates                              |
+| Volcanion 84.078%                      |
+| Typhlosion-Hisui 81.704%               |
+| Arcanine-Hisui 81.259%                 |
+| Salazzle 77.272%                       |
+| Talonflame 77.272%                     |
+| Ogerpon-Hearthflame 14.736%            |
+| Ceruledge 14.688%                      |
+| Rotom-Heat 11.331%                     |
+| Flareon 11.330%                        |
+| Heatran 10.260%                        |
++----------------------------------------+
++----------------------------------------+
+| Houndoom                               |
++----------------------------------------+
+| Raw count: 149                         |
+| Avg. weight: 0.004378565926957234      |
+| Viability Ceiling: 58                  |
++----------------------------------------+
+| Abilities                              |
+| Unnerve 55.280%                        |
+| Early Bird 22.387%                     |
+| Flash Fire 22.333%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 56.338%               |
+| Charcoal 27.159%                       |
+| Choice Scarf 9.334%                    |
+| Life Orb 3.451%                        |
+| Other 3.718%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 59.848%          |
+| Modest:0/0/0/252/4/252 23.624%         |
+| Modest:4/0/0/252/0/252 7.912%          |
+| Hasty:252/4/0/0/0/252 5.189%           |
+| Other 3.427%                           |
++----------------------------------------+
+| Moves                                  |
+| Dark Pulse 93.929%                     |
+| Nasty Plot 77.497%                     |
+| Fire Blast 58.146%                     |
+| Substitute 53.561%                     |
+| Flamethrower 43.703%                   |
+| Protect 21.264%                        |
+| Sludge Bomb 11.022%                    |
+| Shadow Ball 10.016%                    |
+| Psychic Fangs 5.189%                   |
+| Counter 5.189%                         |
+| Foul Play 5.189%                       |
+| Other 15.295%                          |
++----------------------------------------+
+| Teammates                              |
+| Ceruledge 69.645%                      |
+| Volcanion 64.178%                      |
+| Chandelure 61.527%                     |
+| Rotom-Heat 54.251%                     |
+| Coalossal 53.561%                      |
+| Heatran 15.718%                        |
+| Armarouge 14.810%                      |
+| Torkoal 11.050%                        |
+| Ogerpon-Hearthflame 11.050%            |
+| Volcarona 10.955%                      |
++----------------------------------------+
++----------------------------------------+
+| Pyroar                                 |
++----------------------------------------+
+| Raw count: 47                          |
+| Avg. weight: 0.00492818086759986       |
+| Viability Ceiling: 62                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 80.569%                          |
+| Rivalry 18.817%                        |
+| Unnerve 0.614%                         |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 79.655%                   |
+| Throat Spray 18.817%                   |
+| Other 1.528%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 99.086%          |
+| Other 0.914%                           |
++----------------------------------------+
+| Moves                                  |
+| Hyper Voice 99.086%                    |
+| Dark Pulse 80.270%                     |
+| Flamethrower 79.655%                   |
+| Tera Blast 79.655%                     |
+| Fire Blast 19.431%                     |
+| Roar 18.817%                           |
+| Protect 18.817%                        |
+| Other 4.269%                           |
++----------------------------------------+
+| Teammates                              |
+| Ogerpon-Hearthflame 99.385%            |
+| Skeledirge 80.270%                     |
+| Volcarona 79.655%                      |
+| Cinderace 79.655%                      |
+| Heatran 79.655%                        |
+| Torkoal 19.730%                        |
+| Armarouge 18.817%                      |
+| Ninetales 18.817%                      |
++----------------------------------------+

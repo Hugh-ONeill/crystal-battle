@@ -1,0 +1,1736 @@
++----------------------------------------+
+| Ninetales-Alola                        |
++----------------------------------------+
+| Raw count: 8908                        |
+| Avg. weight: 0.5161188395858978        |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Snow Warning 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Icy Rock 54.766%                       |
+| Light Clay 33.224%                     |
+| Heavy-Duty Boots 6.338%                |
+| Choice Scarf 2.058%                    |
+| Other 3.614%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 42.347%          |
+| Timid:252/0/0/0/4/252 18.252%          |
+| Timid:0/0/0/188/68/252 9.794%          |
+| Timid:4/0/0/252/0/252 7.600%           |
+| Timid:0/0/4/252/0/252 5.196%           |
+| Timid:128/0/0/128/0/252 3.588%         |
+| Other 13.223%                          |
++----------------------------------------+
+| Moves                                  |
+| Aurora Veil 95.397%                    |
+| Moonblast 83.563%                      |
+| Freeze-Dry 80.081%                     |
+| Encore 64.370%                         |
+| Blizzard 25.752%                       |
+| Nasty Plot 13.426%                     |
+| Draining Kiss 11.348%                  |
+| Extrasensory 4.946%                    |
+| Chilling Water 3.291%                  |
+| Other 17.827%                          |
++----------------------------------------+
+| Teammates                              |
+| Mamoswine 73.043%                      |
+| Kyurem 65.257%                         |
+| Weavile 49.636%                        |
+| Cloyster 48.550%                       |
+| Sandslash-Alola 39.525%                |
+| Avalugg 39.518%                        |
+| Froslass 36.595%                       |
+| Cetitan 29.217%                        |
+| Frosmoth 16.684%                       |
+| Rotom-Frost 10.328%                    |
++----------------------------------------+
++----------------------------------------+
+| Mamoswine                              |
++----------------------------------------+
+| Raw count: 6544                        |
+| Avg. weight: 0.5536260157092417        |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Thick Fat 94.184%                      |
+| Oblivious 5.816%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 24.610%                   |
+| Leftovers 19.940%                      |
+| Assault Vest 16.691%                   |
+| Weakness Policy 15.182%                |
+| Choice Band 6.797%                     |
+| Life Orb 5.776%                        |
+| Focus Sash 3.344%                      |
+| Heavy-Duty Boots 3.305%                |
+| Other 4.355%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 35.557%          |
+| Jolly:4/252/0/0/0/252 16.140%          |
+| Adamant:208/220/64/0/0/16 14.005%      |
+| Adamant:0/252/0/0/4/252 6.765%         |
+| Careful:0/168/0/0/236/104 3.845%       |
+| Adamant:252/252/0/0/4/0 2.784%         |
+| Other 20.904%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 99.307%                     |
+| Ice Shard 71.843%                      |
+| Icicle Crash 48.880%                   |
+| Stealth Rock 32.006%                   |
+| Knock Off 31.942%                      |
+| Smack Down 29.848%                     |
+| Trailblaze 18.411%                     |
+| Stone Edge 17.727%                     |
+| Ancient Power 12.703%                  |
+| Iron Head 8.040%                       |
+| Heavy Slam 7.161%                      |
+| Rock Slide 5.233%                      |
+| Other 16.900%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 92.693%                |
+| Kyurem 65.552%                         |
+| Weavile 50.775%                        |
+| Cloyster 50.027%                       |
+| Sandslash-Alola 40.347%                |
+| Avalugg 39.895%                        |
+| Froslass 37.738%                       |
+| Cetitan 26.356%                        |
+| Frosmoth 14.577%                       |
+| Articuno 10.371%                       |
++----------------------------------------+
++----------------------------------------+
+| Kyurem                                 |
++----------------------------------------+
+| Raw count: 6080                        |
+| Avg. weight: 0.5338320504840335        |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 65.803%                   |
+| Loaded Dice 13.207%                    |
+| Choice Scarf 9.825%                    |
+| Leftovers 2.921%                       |
+| Assault Vest 2.898%                    |
+| Heavy-Duty Boots 2.211%                |
+| Other 3.135%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 61.955%          |
+| Modest:0/0/0/252/4/252 7.329%          |
+| Jolly:56/200/0/0/0/252 4.126%          |
+| Lonely:0/252/0/4/0/252 2.975%          |
+| Adamant:0/252/0/0/4/252 2.554%         |
+| Timid:4/0/0/252/0/252 2.448%           |
+| Other 18.614%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 83.059%                    |
+| Draco Meteor 76.958%                   |
+| Freeze-Dry 76.632%                     |
+| Ice Beam 40.136%                       |
+| Blizzard 25.715%                       |
+| Dragon Dance 15.685%                   |
+| Icicle Spear 14.822%                   |
+| Scale Shot 10.594%                     |
+| Substitute 9.783%                      |
+| Flash Cannon 8.392%                    |
+| Focus Blast 6.788%                     |
+| Psychic 6.266%                         |
+| Dragon Pulse 4.070%                    |
+| Shadow Ball 3.933%                     |
+| Other 17.168%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 92.438%                |
+| Mamoswine 73.171%                      |
+| Weavile 47.789%                        |
+| Avalugg 45.800%                        |
+| Cloyster 41.698%                       |
+| Sandslash-Alola 33.390%                |
+| Cetitan 28.708%                        |
+| Froslass 24.292%                       |
+| Frosmoth 16.691%                       |
+| Articuno 11.559%                       |
++----------------------------------------+
++----------------------------------------+
+| Weavile                                |
++----------------------------------------+
+| Raw count: 6353                        |
+| Avg. weight: 0.3929237328775123        |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 79.642%                       |
+| Pickpocket 20.358%                     |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 31.919%                     |
+| Heavy-Duty Boots 26.013%               |
+| Life Orb 12.277%                       |
+| Choice Scarf 8.286%                    |
+| Wide Lens 7.830%                       |
+| Choice Band 7.526%                     |
+| Lum Berry 1.788%                       |
+| Other 4.360%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 69.683%          |
+| Jolly:0/252/4/0/0/252 19.039%          |
+| Jolly:4/252/0/0/0/252 2.866%           |
+| Adamant:4/252/0/0/0/252 2.643%         |
+| Adamant:0/252/0/0/4/252 1.978%         |
+| Other 3.792%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 94.124%                      |
+| Ice Shard 76.494%                      |
+| Swords Dance 66.630%                   |
+| Triple Axel 56.592%                    |
+| Brick Break 26.202%                    |
+| Low Kick 25.258%                       |
+| Icicle Crash 11.808%                   |
+| Fake Out 11.732%                       |
+| Ice Spinner 7.008%                     |
+| Poison Jab 6.759%                      |
+| Other 17.393%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.420%                |
+| Mamoswine 73.694%                      |
+| Kyurem 62.138%                         |
+| Cloyster 52.097%                       |
+| Sandslash-Alola 38.597%                |
+| Froslass 33.329%                       |
+| Avalugg 32.377%                        |
+| Cetitan 22.089%                        |
+| Frosmoth 14.479%                       |
+| Abomasnow 8.171%                       |
++----------------------------------------+
++----------------------------------------+
+| Cloyster                               |
++----------------------------------------+
+| Raw count: 5989                        |
+| Avg. weight: 0.408913624716842         |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Skill Link 96.238%                     |
+| Shell Armor 3.051%                     |
+| Overcoat 0.711%                        |
++----------------------------------------+
+| Items                                  |
+| White Herb 64.799%                     |
+| Focus Sash 24.877%                     |
+| Life Orb 2.089%                        |
+| Loaded Dice 1.705%                     |
+| Never-Melt Ice 1.628%                  |
+| Other 4.901%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 28.023%        |
+| Jolly:0/252/4/0/0/252 22.280%          |
+| Naive:0/132/0/124/0/252 18.387%        |
+| Jolly:0/252/0/0/4/252 5.765%           |
+| Naughty:0/252/0/4/0/252 5.505%         |
+| Jolly:4/252/0/0/0/252 3.498%           |
+| Other 16.542%                          |
++----------------------------------------+
+| Moves                                  |
+| Icicle Spear 98.077%                   |
+| Shell Smash 95.361%                    |
+| Rock Blast 87.838%                     |
+| Ice Shard 29.866%                      |
+| Liquidation 24.627%                    |
+| Surf 19.899%                           |
+| Drill Run 10.647%                      |
+| Hydro Pump 10.263%                     |
+| Waterfall 5.922%                       |
+| Other 17.501%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.147%                |
+| Mamoswine 74.010%                      |
+| Kyurem 55.264%                         |
+| Weavile 53.103%                        |
+| Sandslash-Alola 50.992%                |
+| Froslass 35.291%                       |
+| Avalugg 21.763%                        |
+| Cetitan 21.136%                        |
+| Frosmoth 15.289%                       |
+| Abomasnow 10.410%                      |
++----------------------------------------+
++----------------------------------------+
+| Sandslash-Alola                        |
++----------------------------------------+
+| Raw count: 3716                        |
+| Avg. weight: 0.5361950813727226        |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Slush Rush 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 55.551%               |
+| Life Orb 16.449%                       |
+| Air Balloon 8.143%                     |
+| Choice Band 5.739%                     |
+| Assault Vest 5.065%                    |
+| Loaded Dice 3.360%                     |
+| Leftovers 2.664%                       |
+| Other 3.029%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 39.396%          |
+| Jolly:0/252/0/0/4/252 18.095%          |
+| Adamant:252/252/0/0/4/0 8.169%         |
+| Adamant:0/252/0/0/4/252 6.375%         |
+| Adamant:232/252/0/0/4/20 6.305%        |
+| Adamant:4/252/0/0/0/252 2.817%         |
+| Other 18.844%                          |
++----------------------------------------+
+| Moves                                  |
+| Iron Head 93.009%                      |
+| Rapid Spin 85.637%                     |
+| Earthquake 70.098%                     |
+| Swords Dance 45.187%                   |
+| Knock Off 25.009%                      |
+| Triple Axel 16.331%                    |
+| Stealth Rock 12.693%                   |
+| Ice Spinner 12.156%                    |
+| Ice Shard 9.658%                       |
+| Icicle Crash 8.851%                    |
+| Icicle Spear 3.280%                    |
+| Other 18.091%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.202%                |
+| Mamoswine 73.362%                      |
+| Cloyster 62.672%                       |
+| Kyurem 54.392%                         |
+| Weavile 48.354%                        |
+| Froslass 34.502%                       |
+| Cetitan 18.891%                        |
+| Rotom-Frost 14.165%                    |
+| Frosmoth 12.054%                       |
+| Articuno 11.346%                       |
++----------------------------------------+
++----------------------------------------+
+| Avalugg                                |
++----------------------------------------+
+| Raw count: 4087                        |
+| Avg. weight: 0.46883278243401494       |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Sturdy 58.091%                         |
+| Ice Body 41.436%                       |
+| Own Tempo 0.472%                       |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 73.947%               |
+| Leftovers 17.702%                      |
+| Rocky Helmet 6.311%                    |
+| Other 2.040%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/0/252/0/4/0 25.784%         |
+| Impish:252/4/252/0/0/0 16.730%         |
+| Bold:252/0/252/0/4/0 16.556%           |
+| Impish:252/0/248/0/0/8 7.950%          |
+| Adamant:252/252/0/0/4/0 5.026%         |
+| Calm:252/0/4/0/252/0 4.546%            |
+| Other 23.407%                          |
++----------------------------------------+
+| Moves                                  |
+| Body Press 97.559%                     |
+| Rapid Spin 86.773%                     |
+| Recover 86.309%                        |
+| Iron Defense 61.257%                   |
+| Avalanche 15.509%                      |
+| Earthquake 12.390%                     |
+| Mirror Coat 8.994%                     |
+| Heavy Slam 8.663%                      |
+| Icicle Crash 5.561%                    |
+| Other 16.986%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 94.830%                |
+| Kyurem 77.588%                         |
+| Mamoswine 75.439%                      |
+| Weavile 42.183%                        |
+| Cetitan 37.632%                        |
+| Froslass 37.389%                       |
+| Cloyster 27.817%                       |
+| Frosmoth 13.540%                       |
+| Dewgong 12.973%                        |
+| Sandslash-Alola 11.488%                |
++----------------------------------------+
++----------------------------------------+
+| Froslass                               |
++----------------------------------------+
+| Raw count: 4050                        |
+| Avg. weight: 0.45205043427950203       |
+| Viability Ceiling: 80                  |
++----------------------------------------+
+| Abilities                              |
+| Cursed Body 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 81.657%                     |
+| Choice Scarf 5.795%                    |
+| Choice Specs 3.034%                    |
+| Heavy-Duty Boots 2.242%                |
+| Wide Lens 1.234%                       |
+| Icy Rock 1.082%                        |
+| Other 4.956%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 39.746%          |
+| Timid:4/0/0/252/0/252 27.783%          |
+| Timid:0/0/252/0/4/252 9.460%           |
+| Timid:248/0/0/8/0/252 5.195%           |
+| Jolly:0/252/0/0/4/252 3.574%           |
+| Jolly:248/8/0/0/0/252 3.209%           |
+| Other 11.034%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 64.027%                    |
+| Thunder Wave 59.792%                   |
+| Spikes 51.415%                         |
+| Taunt 44.083%                          |
+| Ice Beam 35.767%                       |
+| Hex 32.485%                            |
+| Destiny Bond 30.250%                   |
+| Will-O-Wisp 19.795%                    |
+| Pain Split 9.756%                      |
+| Poltergeist 7.155%                     |
+| Blizzard 6.382%                        |
+| Thunderbolt 5.283%                     |
+| Psychic 4.690%                         |
+| Trick 4.666%                           |
+| Icy Wind 3.209%                        |
+| Triple Axel 2.530%                     |
+| Other 18.715%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.898%                |
+| Mamoswine 74.678%                      |
+| Cloyster 47.206%                       |
+| Weavile 45.442%                        |
+| Kyurem 43.065%                         |
+| Avalugg 39.128%                        |
+| Sandslash-Alola 37.549%                |
+| Cetitan 17.865%                        |
+| Dewgong 12.509%                        |
+| Frosmoth 12.415%                       |
++----------------------------------------+
++----------------------------------------+
+| Cetitan                                |
++----------------------------------------+
+| Raw count: 2759                        |
+| Avg. weight: 0.5263884055735469        |
+| Viability Ceiling: 86                  |
++----------------------------------------+
+| Abilities                              |
+| Slush Rush 93.228%                     |
+| Sheer Force 3.889%                     |
+| Thick Fat 2.883%                       |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 80.205%                   |
+| Life Orb 5.923%                        |
+| Choice Band 4.710%                     |
+| Heavy-Duty Boots 3.691%                |
+| Assault Vest 1.220%                    |
+| Other 4.252%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 65.022%          |
+| Adamant:4/252/0/0/0/252 6.330%         |
+| Adamant:248/252/0/0/8/0 3.685%         |
+| Adamant:0/252/0/0/4/252 3.529%         |
+| Adamant:0/252/0/0/0/252 3.320%         |
+| Jolly:0/252/0/0/4/252 2.553%           |
+| Other 15.562%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 87.688%                     |
+| Ice Shard 86.808%                      |
+| Belly Drum 84.876%                     |
+| Icicle Crash 59.490%                   |
+| Ice Spinner 29.629%                    |
+| Play Rough 12.408%                     |
+| Liquidation 11.252%                    |
+| Knock Off 6.012%                       |
+| Superpower 4.518%                      |
+| Other 17.319%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 92.493%                |
+| Mamoswine 65.747%                      |
+| Kyurem 64.157%                         |
+| Avalugg 49.645%                        |
+| Weavile 37.966%                        |
+| Cloyster 35.640%                       |
+| Sandslash-Alola 25.918%                |
+| Froslass 22.522%                       |
+| Frosmoth 15.015%                       |
+| Abomasnow 10.294%                      |
++----------------------------------------+
++----------------------------------------+
+| Frosmoth                               |
++----------------------------------------+
+| Raw count: 3165                        |
+| Avg. weight: 0.2657778745514365        |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Scales 95.948%                     |
+| Shield Dust 4.052%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 71.007%               |
+| Focus Sash 9.176%                      |
+| Leftovers 5.642%                       |
+| Air Balloon 4.723%                     |
+| Life Orb 1.951%                        |
+| Weakness Policy 1.755%                 |
+| Assault Vest 1.352%                    |
+| Other 4.394%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 39.061%         |
+| Timid:0/0/0/252/4/252 33.188%          |
+| Calm:248/0/0/8/252/0 4.419%            |
+| Timid:0/0/0/252/0/252 4.298%           |
+| Timid:4/0/0/252/0/252 3.162%           |
+| Timid:0/0/0/212/44/252 1.739%          |
+| Other 14.133%                          |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 92.028%                   |
+| Giga Drain 75.040%                     |
+| Ice Beam 74.268%                       |
+| Bug Buzz 46.460%                       |
+| Substitute 34.441%                     |
+| Blizzard 17.253%                       |
+| Hurricane 14.808%                      |
+| Defog 9.744%                           |
+| Dazzling Gleam 7.000%                  |
+| U-turn 5.723%                          |
+| Stun Spore 4.668%                      |
+| Other 18.567%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.164%                |
+| Kyurem 64.386%                         |
+| Mamoswine 62.766%                      |
+| Cloyster 44.499%                       |
+| Weavile 42.957%                        |
+| Avalugg 30.831%                        |
+| Sandslash-Alola 28.545%                |
+| Froslass 27.014%                       |
+| Cetitan 25.918%                        |
+| Abomasnow 16.003%                      |
++----------------------------------------+
++----------------------------------------+
+| Abomasnow                              |
++----------------------------------------+
+| Raw count: 3508                        |
+| Avg. weight: 0.15598172876968283       |
+| Viability Ceiling: 71                  |
++----------------------------------------+
+| Abilities                              |
+| Snow Warning 99.737%                   |
+| Soundproof 0.263%                      |
++----------------------------------------+
+| Items                                  |
+| Icy Rock 36.331%                       |
+| Light Clay 24.536%                     |
+| Leftovers 15.607%                      |
+| Focus Sash 5.920%                      |
+| Rocky Helmet 3.908%                    |
+| Heavy-Duty Boots 3.641%                |
+| Assault Vest 2.193%                    |
+| Occa Berry 2.185%                      |
+| Sitrus Berry 0.909%                    |
+| Other 4.770%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 16.783%         |
+| Brave:252/252/0/4/0/0 11.183%          |
+| Bold:252/0/252/0/0/4 8.659%            |
+| Modest:40/0/0/252/0/216 7.109%         |
+| Relaxed:248/0/252/0/8/0 4.161%         |
+| Timid:4/0/0/252/0/252 3.527%           |
+| Other 48.578%                          |
++----------------------------------------+
+| Moves                                  |
+| Blizzard 80.367%                       |
+| Aurora Veil 72.678%                    |
+| Giga Drain 41.849%                     |
+| Leech Seed 37.814%                     |
+| Earth Power 28.962%                    |
+| Earthquake 22.386%                     |
+| Wood Hammer 15.943%                    |
+| Ice Shard 15.070%                      |
+| Substitute 10.932%                     |
+| Energy Ball 9.906%                     |
+| Body Press 7.909%                      |
+| Focus Blast 7.182%                     |
+| Chilling Water 6.253%                  |
+| Ice Spinner 5.834%                     |
+| Avalanche 4.564%                       |
+| Swords Dance 4.426%                    |
+| Protect 3.952%                         |
+| Trailblaze 3.026%                      |
+| Rest 2.997%                            |
+| Other 17.949%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 75.074%                |
+| Cloyster 46.551%                       |
+| Kyurem 43.938%                         |
+| Mamoswine 39.673%                      |
+| Weavile 37.246%                        |
+| Sandslash-Alola 33.227%                |
+| Froslass 31.699%                       |
+| Cetitan 27.300%                        |
+| Frosmoth 24.589%                       |
+| Avalugg 15.984%                        |
++----------------------------------------+
++----------------------------------------+
+| Rotom-Frost                            |
++----------------------------------------+
+| Raw count: 1314                        |
+| Avg. weight: 0.3992500259697338        |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 31.402%                   |
+| Leftovers 28.749%                      |
+| Heavy-Duty Boots 24.184%               |
+| Assault Vest 5.081%                    |
+| Choice Specs 3.525%                    |
+| Magnet 2.700%                          |
+| Other 4.360%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 23.530%          |
+| Bold:252/0/164/0/0/92 19.137%          |
+| Bold:252/0/36/0/0/220 17.254%          |
+| Calm:248/0/8/0/252/0 11.380%           |
+| Calm:252/0/0/108/148/0 3.363%          |
+| Modest:0/0/4/252/0/252 3.247%          |
+| Other 22.088%                          |
++----------------------------------------+
+| Moves                                  |
+| Volt Switch 91.921%                    |
+| Blizzard 74.498%                       |
+| Will-O-Wisp 69.480%                    |
+| Pain Split 40.476%                     |
+| Trick 32.773%                          |
+| Thunderbolt 27.799%                    |
+| Thunder Wave 19.027%                   |
+| Discharge 9.317%                       |
+| Dark Pulse 8.043%                      |
+| Reflect 7.602%                         |
+| Other 19.064%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 90.508%                |
+| Kyurem 58.546%                         |
+| Mamoswine 56.807%                      |
+| Sandslash-Alola 53.801%                |
+| Cloyster 33.988%                       |
+| Dewgong 30.337%                        |
+| Froslass 27.104%                       |
+| Cetitan 20.304%                        |
+| Weavile 19.318%                        |
+| Abomasnow 16.027%                      |
++----------------------------------------+
++----------------------------------------+
+| Articuno                               |
++----------------------------------------+
+| Raw count: 1045                        |
+| Avg. weight: 0.4549827710314343        |
+| Viability Ceiling: 78                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 40.207%                      |
+| Heavy-Duty Boots 36.488%               |
+| Weakness Policy 12.947%                |
+| Choice Specs 3.830%                    |
+| Focus Sash 1.271%                      |
+| Rocky Helmet 1.102%                    |
+| Other 4.155%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:240/0/0/248/0/20 16.614%        |
+| Modest:0/0/0/252/4/252 16.193%         |
+| Calm:248/0/0/0/208/52 11.607%          |
+| Modest:248/0/0/8/0/252 9.808%          |
+| Calm:248/0/0/0/252/0 8.462%            |
+| Calm:252/0/0/4/252/0 5.443%            |
+| Other 31.873%                          |
++----------------------------------------+
+| Moves                                  |
+| Freeze-Dry 54.578%                     |
+| Air Slash 52.852%                      |
+| U-turn 47.216%                         |
+| Roost 42.780%                          |
+| Snowscape 36.567%                      |
+| Ice Beam 31.494%                       |
+| Blizzard 30.479%                       |
+| Tailwind 21.111%                       |
+| Haze 17.225%                           |
+| Ancient Power 16.910%                  |
+| Agility 15.231%                        |
+| Substitute 10.882%                     |
+| Hurricane 7.040%                       |
+| Other 15.636%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 93.968%                |
+| Mamoswine 79.024%                      |
+| Kyurem 78.909%                         |
+| Cloyster 51.822%                       |
+| Sandslash-Alola 47.546%                |
+| Avalugg 37.241%                        |
+| Froslass 22.862%                       |
+| Weavile 19.023%                        |
+| Cetitan 10.313%                        |
+| Rotom-Frost 6.230%                     |
++----------------------------------------+
++----------------------------------------+
+| Dewgong                                |
++----------------------------------------+
+| Raw count: 991                         |
+| Avg. weight: 0.4585396888779695        |
+| Viability Ceiling: 80                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Body 53.457%                       |
+| Thick Fat 46.543%                      |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 75.478%                   |
+| Heavy-Duty Boots 18.011%               |
+| Leftovers 5.353%                       |
+| Other 1.157%                           |
++----------------------------------------+
+| Spreads                                |
+| Sassy:252/4/0/0/252/0 33.829%          |
+| Sassy:248/8/0/0/252/0 22.101%          |
+| Adamant:248/252/0/0/8/0 13.739%        |
+| Careful:252/0/4/0/252/0 7.723%         |
+| Careful:252/0/252/0/0/4 5.282%         |
+| Careful:212/108/0/0/188/0 2.421%       |
+| Other 14.906%                          |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 93.947%                      |
+| Flip Turn 84.116%                      |
+| Liquidation 73.542%                    |
+| Aqua Jet 55.913%                       |
+| Fake Out 15.808%                       |
+| Alluring Voice 13.528%                 |
+| Waterfall 12.959%                      |
+| Ice Shard 12.535%                      |
+| Endeavor 9.530%                        |
+| Encore 4.996%                          |
+| Perish Song 3.768%                     |
+| Other 19.358%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 95.070%                |
+| Kyurem 73.482%                         |
+| Mamoswine 57.347%                      |
+| Avalugg 54.697%                        |
+| Froslass 50.400%                       |
+| Sandslash-Alola 35.830%                |
+| Rotom-Frost 35.024%                    |
+| Crabominable 15.409%                   |
+| Abomasnow 15.023%                      |
+| Cloyster 14.579%                       |
++----------------------------------------+
++----------------------------------------+
+| Lapras                                 |
++----------------------------------------+
+| Raw count: 834                         |
+| Avg. weight: 0.31066619924029537       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 84.043%                   |
+| Shell Armor 14.975%                    |
+| Hydration 0.982%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 41.029%                      |
+| Weakness Policy 22.258%                |
+| Assault Vest 22.002%                   |
+| Loaded Dice 3.769%                     |
+| Choice Specs 2.612%                    |
+| Sitrus Berry 1.933%                    |
+| Rocky Helmet 1.579%                    |
+| Other 4.818%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 24.743%         |
+| Modest:60/0/0/252/196/0 16.511%        |
+| Modest:252/0/0/252/4/0 8.286%          |
+| Quiet:252/0/252/0/4/0 4.715%           |
+| Adamant:108/252/56/0/4/88 4.172%       |
+| Calm:252/0/0/112/144/0 2.987%          |
+| Other 38.587%                          |
++----------------------------------------+
+| Moves                                  |
+| Freeze-Dry 73.722%                     |
+| Surf 60.331%                           |
+| Thunderbolt 31.961%                    |
+| Perish Song 28.733%                    |
+| Ice Shard 23.033%                      |
+| Psychic Noise 19.445%                  |
+| Snowscape 15.844%                      |
+| Dragon Dance 12.190%                   |
+| Waterfall 11.323%                      |
+| Icicle Spear 11.231%                   |
+| Earthquake 11.189%                     |
+| Psychic 9.264%                         |
+| Ice Beam 8.752%                        |
+| Haze 8.012%                            |
+| Thunder 7.853%                         |
+| Alluring Voice 7.698%                  |
+| Liquidation 6.175%                     |
+| Hydro Pump 6.157%                      |
+| Iron Head 4.788%                       |
+| Sparkling Aria 4.336%                  |
+| Protect 4.320%                         |
+| Dragon Pulse 4.314%                    |
+| Blizzard 4.058%                        |
+| Ancient Power 3.183%                   |
+| Icy Wind 2.996%                        |
+| Other 19.092%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 89.590%                |
+| Mamoswine 72.507%                      |
+| Weavile 48.906%                        |
+| Froslass 42.411%                       |
+| Avalugg 38.802%                        |
+| Kyurem 38.553%                         |
+| Cetitan 35.222%                        |
+| Crabominable 13.712%                   |
+| Sandslash-Alola 13.020%                |
+| Glaceon 10.425%                        |
++----------------------------------------+
++----------------------------------------+
+| Regice                                 |
++----------------------------------------+
+| Raw count: 571                         |
+| Avg. weight: 0.4309205647394478        |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Body 72.845%                       |
+| Clear Body 27.155%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 57.244%                      |
+| Assault Vest 24.466%                   |
+| Heavy-Duty Boots 12.947%               |
+| Icy Rock 1.581%                        |
+| Other 3.763%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 18.771%         |
+| Calm:252/0/0/4/252/0 10.539%           |
+| Modest:252/0/0/252/4/0 7.673%          |
+| Calm:196/0/0/60/252/0 6.728%           |
+| Careful:252/4/124/0/128/0 6.503%       |
+| Bold:252/0/252/4/0/0 5.941%            |
+| Other 43.846%                          |
++----------------------------------------+
+| Moves                                  |
+| Thunderbolt 73.315%                    |
+| Ice Beam 61.647%                       |
+| Thunder Wave 48.949%                   |
+| Blizzard 34.764%                       |
+| Flash Cannon 34.216%                   |
+| Protect 24.269%                        |
+| Focus Blast 20.943%                    |
+| Body Press 18.023%                     |
+| Curse 16.526%                          |
+| Ancient Power 13.920%                  |
+| Rest 9.902%                            |
+| Avalanche 7.723%                       |
+| Charge Beam 7.340%                     |
+| Snowscape 4.761%                       |
+| Sleep Talk 3.359%                      |
+| Explosion 3.338%                       |
+| Other 17.004%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.060%                |
+| Kyurem 64.648%                         |
+| Mamoswine 52.444%                      |
+| Avalugg 48.086%                        |
+| Weavile 39.348%                        |
+| Cloyster 36.391%                       |
+| Froslass 31.750%                       |
+| Cetitan 20.348%                        |
+| Sandslash-Alola 13.227%                |
+| Avalugg-Hisui 12.383%                  |
++----------------------------------------+
++----------------------------------------+
+| Piloswine                              |
++----------------------------------------+
+| Raw count: 382                         |
+| Avg. weight: 0.59266944471291          |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Thick Fat 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/4/0/252/0 28.076%        |
+| Careful:252/4/0/0/252/0 25.646%        |
+| Careful:252/124/0/0/132/0 13.519%      |
+| Adamant:252/252/0/0/4/0 12.477%        |
+| Careful:252/0/0/0/252/0 4.508%         |
+| Hardy:244/12/0/0/252/0 3.553%          |
+| Other 12.221%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 99.286%                     |
+| Stealth Rock 87.325%                   |
+| Roar 51.552%                           |
+| Ice Shard 39.642%                      |
+| Rock Slide 36.086%                     |
+| Stone Edge 27.421%                     |
+| Icicle Crash 25.139%                   |
+| Rock Tomb 11.591%                      |
+| Curse 7.684%                           |
+| Other 14.274%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 95.526%                |
+| Kyurem 87.739%                         |
+| Avalugg 86.108%                        |
+| Weavile 64.268%                        |
+| Cetitan 62.114%                        |
+| Cloyster 20.512%                       |
+| Froslass 17.583%                       |
+| Eiscue 13.394%                         |
+| Beartic 10.080%                        |
+| Mamoswine 6.069%                       |
++----------------------------------------+
++----------------------------------------+
+| Glastrier                              |
++----------------------------------------+
+| Raw count: 513                         |
+| Avg. weight: 0.37563535024240274       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Chilling Neigh 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 36.180%                   |
+| Leftovers 22.248%                      |
+| Choice Scarf 12.592%                   |
+| Choice Band 9.552%                     |
+| Heavy-Duty Boots 6.169%                |
+| Life Orb 5.771%                        |
+| Chesto Berry 2.303%                    |
+| Clear Amulet 1.717%                    |
+| Other 3.468%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/252/0/0/8/0 16.761%        |
+| Jolly:4/252/0/0/0/252 12.579%          |
+| Jolly:252/16/0/0/0/240 11.778%         |
+| Adamant:236/60/0/0/212/0 9.198%        |
+| Adamant:252/252/0/0/4/0 8.178%         |
+| Adamant:172/252/0/0/8/0 8.051%         |
+| Other 33.455%                          |
++----------------------------------------+
+| Moves                                  |
+| Icicle Crash 74.447%                   |
+| High Horsepower 62.255%                |
+| Close Combat 61.572%                   |
+| Crunch 27.694%                         |
+| Heavy Slam 26.320%                     |
+| Swords Dance 19.780%                   |
+| Avalanche 18.434%                      |
+| Body Press 16.918%                     |
+| Zen Headbutt 15.427%                   |
+| Substitute 14.488%                     |
+| Stomping Tantrum 14.124%               |
+| Outrage 12.771%                        |
+| Facade 9.761%                          |
+| Curse 6.569%                           |
+| Other 19.440%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 84.022%                |
+| Kyurem 69.585%                         |
+| Mamoswine 53.033%                      |
+| Weavile 42.779%                        |
+| Cloyster 39.037%                       |
+| Avalugg 28.435%                        |
+| Sandslash-Alola 27.087%                |
+| Cetitan 23.370%                        |
+| Abomasnow 17.208%                      |
+| Frosmoth 15.617%                       |
++----------------------------------------+
++----------------------------------------+
+| Avalugg-Hisui                          |
++----------------------------------------+
+| Raw count: 686                         |
+| Avg. weight: 0.2783427160890929        |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Sturdy 54.828%                         |
+| Ice Body 34.960%                       |
+| Strong Jaw 10.212%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 30.763%                      |
+| Heavy-Duty Boots 18.110%               |
+| Custap Berry 16.211%                   |
+| Rocky Helmet 7.411%                    |
+| Air Balloon 4.688%                     |
+| Weakness Policy 4.519%                 |
+| Loaded Dice 4.196%                     |
+| Assault Vest 3.420%                    |
+| Choice Scarf 1.872%                    |
+| Focus Sash 1.562%                      |
+| Aguav Berry 1.465%                     |
+| Chople Berry 1.188%                    |
+| Other 4.593%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/4/252/0/0/0 24.253%         |
+| Adamant:252/252/0/0/4/0 13.315%        |
+| Naughty:252/252/0/4/0/0 7.451%         |
+| Impish:252/0/252/0/4/0 7.151%          |
+| Adamant:252/252/4/0/0/0 5.585%         |
+| Relaxed:252/4/252/0/0/0 5.350%         |
+| Other 36.894%                          |
++----------------------------------------+
+| Moves                                  |
+| Body Press 62.784%                     |
+| Rapid Spin 54.523%                     |
+| Stealth Rock 45.755%                   |
+| Earthquake 26.400%                     |
+| Recover 23.151%                        |
+| Stone Edge 21.257%                     |
+| Mountain Gale 20.568%                  |
+| Avalanche 20.521%                      |
+| Aurora Veil 13.142%                    |
+| High Horsepower 12.608%                |
+| Iron Defense 11.035%                   |
+| Ice Spinner 9.129%                     |
+| Snowscape 8.352%                       |
+| Blizzard 7.648%                        |
+| Ice Fang 7.612%                        |
+| Crunch 6.778%                          |
+| Rock Blast 6.769%                      |
+| Icicle Spear 5.691%                    |
+| Gyro Ball 5.583%                       |
+| Mirror Coat 5.251%                     |
+| Rock Slide 4.492%                      |
+| Curse 4.272%                           |
+| Other 16.678%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 82.738%                |
+| Kyurem 62.248%                         |
+| Mamoswine 49.267%                      |
+| Weavile 42.675%                        |
+| Cloyster 34.162%                       |
+| Cetitan 30.789%                        |
+| Frosmoth 29.731%                       |
+| Abomasnow 22.526%                      |
+| Sandslash-Alola 16.126%                |
+| Regice 15.957%                         |
++----------------------------------------+
++----------------------------------------+
+| Glaceon                                |
++----------------------------------------+
+| Raw count: 1924                        |
+| Avg. weight: 0.09516666786443934       |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Body 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 32.887%                      |
+| Choice Specs 23.006%                   |
+| Assault Vest 18.715%                   |
+| Heavy-Duty Boots 11.857%               |
+| Rocky Helmet 3.471%                    |
+| Choice Scarf 3.361%                    |
+| Loaded Dice 2.119%                     |
+| Other 4.585%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:252/0/0/252/4/0 40.014%         |
+| Calm:252/0/0/4/252/0 12.606%           |
+| Bold:236/0/120/16/136/0 5.989%         |
+| Calm:0/0/252/4/252/0 5.956%            |
+| Timid:4/0/0/252/0/252 3.263%           |
+| Modest:0/0/4/252/0/252 2.332%          |
+| Other 29.841%                          |
++----------------------------------------+
+| Moves                                  |
+| Freeze-Dry 69.603%                     |
+| Blizzard 64.416%                       |
+| Shadow Ball 42.039%                    |
+| Alluring Voice 41.151%                 |
+| Wish 34.387%                           |
+| Protect 34.237%                        |
+| Chilling Water 18.983%                 |
+| Calm Mind 15.408%                      |
+| Icy Wind 14.443%                       |
+| Mud Shot 11.042%                       |
+| Charm 7.502%                           |
+| Hyper Voice 7.260%                     |
+| Snowscape 5.940%                       |
+| Ice Beam 5.550%                        |
+| Roar 5.473%                            |
+| Tera Blast 4.455%                      |
+| Other 18.110%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 83.024%                |
+| Mamoswine 55.579%                      |
+| Cetitan 36.639%                        |
+| Froslass 35.252%                       |
+| Kyurem 28.610%                         |
+| Sandslash-Alola 28.588%                |
+| Abomasnow 26.004%                      |
+| Weavile 25.707%                        |
+| Cloyster 23.439%                       |
+| Avalugg 20.275%                        |
++----------------------------------------+
++----------------------------------------+
+| Eiscue                                 |
++----------------------------------------+
+| Raw count: 511                         |
+| Avg. weight: 0.32386518447576246       |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Face 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 32.505%                   |
+| Rocky Helmet 17.455%                   |
+| Light Clay 11.579%                     |
+| Salac Berry 11.365%                    |
+| Leftovers 5.880%                       |
+| Life Orb 4.367%                        |
+| Choice Band 3.325%                     |
+| Aguav Berry 2.816%                     |
+| Icy Rock 2.735%                        |
+| Focus Sash 1.874%                      |
+| Loaded Dice 1.313%                     |
+| Other 4.787%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 29.278%          |
+| Timid:252/0/0/4/0/252 13.789%          |
+| Adamant:0/252/0/0/0/252 11.121%        |
+| Adamant:252/252/0/0/4/0 7.912%         |
+| Jolly:0/252/0/0/0/252 4.697%           |
+| Adamant:248/252/0/0/8/0 3.682%         |
+| Other 29.520%                          |
++----------------------------------------+
+| Moves                                  |
+| Belly Drum 65.508%                     |
+| Liquidation 48.288%                    |
+| Ice Spinner 43.152%                    |
+| Flip Turn 43.008%                      |
+| Snowscape 29.688%                      |
+| Icicle Crash 24.217%                   |
+| Zen Headbutt 21.969%                   |
+| Iron Head 17.307%                      |
+| Aurora Veil 16.879%                    |
+| Freeze-Dry 15.432%                     |
+| Whirlpool 10.695%                      |
+| Substitute 10.218%                     |
+| Icicle Spear 7.757%                    |
+| Avalanche 5.690%                       |
+| Reversal 5.455%                        |
+| Body Slam 5.350%                       |
+| Chilling Water 5.008%                  |
+| Head Smash 4.204%                      |
+| Waterfall 3.604%                       |
+| Other 16.571%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.286%                |
+| Kyurem 52.566%                         |
+| Cloyster 45.489%                       |
+| Mamoswine 38.451%                      |
+| Frosmoth 38.309%                       |
+| Sandslash-Alola 31.485%                |
+| Weavile 30.059%                        |
+| Avalugg 23.075%                        |
+| Piloswine 18.324%                      |
+| Beartic 15.444%                        |
++----------------------------------------+
++----------------------------------------+
+| Crabominable                           |
++----------------------------------------+
+| Raw count: 497                         |
+| Avg. weight: 0.322760683225119         |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Iron Fist 96.429%                      |
+| Anger Point 2.535%                     |
+| Hyper Cutter 1.036%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Band 45.618%                    |
+| Assault Vest 38.486%                   |
+| Leftovers 6.468%                       |
+| Punching Glove 5.336%                  |
+| Other 4.093%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:144/252/52/0/0/60 33.166%      |
+| Adamant:252/252/0/0/4/0 20.706%        |
+| Adamant:192/252/24/0/0/40 9.974%       |
+| Adamant:252/4/84/0/168/0 6.945%        |
+| Adamant:180/252/0/0/64/12 4.824%       |
+| Adamant:252/252/4/0/0/0 4.666%         |
+| Other 19.718%                          |
++----------------------------------------+
+| Moves                                  |
+| Drain Punch 96.669%                    |
+| Ice Hammer 70.127%                     |
+| Earthquake 61.720%                     |
+| Knock Off 51.710%                      |
+| Thunder Punch 49.197%                  |
+| Ice Punch 23.811%                      |
+| Liquidation 10.257%                    |
+| Crabhammer 8.902%                      |
+| Bulk Up 7.017%                         |
+| Gunk Shot 5.004%                       |
+| Other 15.589%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 90.015%                |
+| Kyurem 58.021%                         |
+| Sandslash-Alola 52.279%                |
+| Rotom-Frost 50.340%                    |
+| Mamoswine 47.839%                      |
+| Dewgong 43.650%                        |
+| Cetitan 28.077%                        |
+| Lapras 22.148%                         |
+| Froslass 18.177%                       |
+| Avalugg 13.778%                        |
++----------------------------------------+
++----------------------------------------+
+| Cryogonal                              |
++----------------------------------------+
+| Raw count: 350                         |
+| Avg. weight: 0.3575342598862004        |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 68.763%               |
+| Leftovers 21.511%                      |
+| Assault Vest 2.977%                    |
+| Focus Sash 2.939%                      |
+| Other 3.810%                           |
++----------------------------------------+
+| Spreads                                |
+| Hasty:0/4/0/252/0/252 33.111%          |
+| Timid:0/0/0/252/4/252 17.642%          |
+| Calm:252/0/0/4/252/0 7.361%            |
+| Timid:4/0/0/252/0/252 6.445%           |
+| Hardy:252/0/0/4/252/0 4.311%           |
+| Modest:248/0/0/252/8/0 2.953%          |
+| Other 28.178%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 84.792%                     |
+| Freeze-Dry 79.034%                     |
+| Flash Cannon 39.920%                   |
+| Haze 37.258%                           |
+| Recover 36.944%                        |
+| Ancient Power 34.193%                  |
+| Ice Beam 17.926%                       |
+| Blizzard 11.508%                       |
+| Chilling Water 11.219%                 |
+| Acid Armor 10.543%                     |
+| Snowscape 6.854%                       |
+| Ice Shard 6.153%                       |
+| Reflect 4.481%                         |
+| Other 19.175%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 86.222%                |
+| Cloyster 62.050%                       |
+| Weavile 54.247%                        |
+| Cetitan 49.370%                        |
+| Mamoswine 47.384%                      |
+| Kyurem 36.369%                         |
+| Froslass 26.295%                       |
+| Frosmoth 19.229%                       |
+| Avalugg 19.039%                        |
+| Abomasnow 12.033%                      |
++----------------------------------------+
++----------------------------------------+
+| Beartic                                |
++----------------------------------------+
+| Raw count: 304                         |
+| Avg. weight: 0.3334656836657621        |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Slush Rush 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Band 30.336%                    |
+| Loaded Dice 25.919%                    |
+| Life Orb 19.009%                       |
+| Wide Lens 11.389%                      |
+| Focus Sash 6.583%                      |
+| Rocky Helmet 1.656%                    |
+| Assault Vest 1.485%                    |
+| Other 3.623%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 31.078%          |
+| Adamant:252/252/0/0/4/0 27.950%        |
+| Adamant:12/252/0/0/0/244 10.662%       |
+| Jolly:0/252/0/0/4/252 5.377%           |
+| Adamant:0/252/0/0/4/252 4.454%         |
+| Jolly:0/252/4/0/0/252 4.402%           |
+| Other 16.077%                          |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 70.021%                   |
+| Earthquake 52.801%                     |
+| Swords Dance 44.569%                   |
+| Icicle Crash 40.806%                   |
+| Aqua Jet 38.484%                       |
+| Icicle Spear 27.882%                   |
+| Liquidation 21.721%                    |
+| Ice Punch 21.304%                      |
+| Play Rough 20.694%                     |
+| Facade 17.886%                         |
+| Avalanche 6.288%                       |
+| Crunch 6.138%                          |
+| Superpower 5.114%                      |
+| Rock Slide 4.817%                      |
+| Body Slam 3.963%                       |
+| Other 17.512%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 88.836%                |
+| Kyurem 39.589%                         |
+| Froslass 37.554%                       |
+| Mamoswine 32.316%                      |
+| Weavile 27.872%                        |
+| Avalugg 26.193%                        |
+| Abomasnow 26.177%                      |
+| Cetitan 25.295%                        |
+| Eiscue 25.213%                         |
+| Glaceon 23.021%                        |
++----------------------------------------+
++----------------------------------------+
+| Delibird                               |
++----------------------------------------+
+| Raw count: 127                         |
+| Avg. weight: 0.3346368346367667        |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Insomnia 62.411%                       |
+| Hustle 27.724%                         |
+| Vital Spirit 9.864%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 62.411%                   |
+| Heavy-Duty Boots 28.802%               |
+| Life Orb 4.137%                        |
+| Other 4.649%                           |
++----------------------------------------+
+| Spreads                                |
+| Hasty:0/0/0/0/0/252 35.511%            |
+| Naughty:160/252/0/0/0/96 25.433%       |
+| Hasty:252/0/0/0/0/252 22.774%          |
+| Timid:0/0/0/252/4/252 5.341%           |
+| Hasty:0/4/0/252/0/252 4.137%           |
+| Hasty:248/8/0/0/0/252 2.872%           |
+| Other 3.930%                           |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 95.351%                     |
+| Tailwind 88.304%                       |
+| Destiny Bond 62.908%                   |
+| Aurora Veil 62.411%                    |
+| Ice Shard 25.433%                      |
+| Aerial Ace 16.962%                     |
+| Blizzard 8.472%                        |
+| Fake Out 7.009%                        |
+| Air Slash 5.353%                       |
+| Ice Beam 4.852%                        |
+| Weather Ball 4.137%                    |
+| Other 18.808%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 91.172%                |
+| Mamoswine 62.460%                      |
+| Sandslash-Alola 57.541%                |
+| Rotom-Frost 55.450%                    |
+| Weavile 42.632%                        |
+| Crabominable 35.678%                   |
+| Froslass 35.133%                       |
+| Beartic 27.214%                        |
+| Lapras 24.342%                         |
+| Abomasnow 12.010%                      |
++----------------------------------------+
++----------------------------------------+
+| Vulpix-Alola                           |
++----------------------------------------+
+| Raw count: 48                          |
+| Avg. weight: 0.5049804028731409        |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Snow Warning 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Icy Rock 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Hasty:0/200/0/56/0/252 80.333%         |
+| Timid:0/4/0/252/0/252 19.667%          |
++----------------------------------------+
+| Moves                                  |
+| Aurora Veil 100.000%                   |
+| Blizzard 100.000%                      |
+| Encore 100.000%                        |
+| Ice Shard 100.000%                     |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 92.979%                |
+| Sandslash-Alola 92.979%                |
+| Kyurem 92.979%                         |
+| Glastrier 92.979%                      |
+| Cloyster 60.610%                       |
+| Eiscue 19.667%                         |
+| Weavile 6.517%                         |
+| Frosmoth 6.186%                        |
++----------------------------------------+
++----------------------------------------+
+| Glalie                                 |
++----------------------------------------+
+| Raw count: 63                          |
+| Avg. weight: 0.3392432233450819        |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Ice Body 83.277%                       |
+| Inner Focus 16.723%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 30.200%                      |
+| Icicle Plate 18.957%                   |
+| Life Orb 12.907%                       |
+| Focus Sash 11.781%                     |
+| Choice Band 9.662%                     |
+| Air Balloon 8.167%                     |
+| Occa Berry 7.808%                      |
+| Other 0.519%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:4/0/0/252/0/252 20.440%         |
+| Modest:4/0/0/160/0/252 18.957%         |
+| Hasty:0/252/0/4/0/252 12.907%          |
+| Timid:0/0/4/252/0/252 11.781%          |
+| Jolly:0/252/0/0/4/252 10.181%          |
+| Timid:248/0/0/8/0/252 8.167%           |
+| Other 17.568%                          |
++----------------------------------------+
+| Moves                                  |
+| Blizzard 46.264%                       |
+| Dark Pulse 40.029%                     |
+| Light Screen 35.359%                   |
+| Earthquake 31.812%                     |
+| Avalanche 29.138%                      |
+| Spikes 27.731%                         |
+| Ice Beam 27.501%                       |
+| Shadow Ball 27.501%                    |
+| Tera Blast 20.440%                     |
+| Chilling Water 19.589%                 |
+| Snowscape 14.081%                      |
+| Freeze-Dry 14.081%                     |
+| Ice Shard 13.306%                      |
+| Icicle Spear 12.907%                   |
+| Icicle Crash 10.181%                   |
+| Crunch 10.181%                         |
+| Other 19.900%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 51.215%                |
+| Cloyster 41.710%                       |
+| Abomasnow 41.189%                      |
+| Weavile 40.378%                        |
+| Cetitan 36.247%                        |
+| Frosmoth 35.435%                       |
+| Glaceon 33.128%                        |
+| Froslass 28.769%                       |
+| Sandslash-Alola 21.467%                |
+| Lapras 20.589%                         |
++----------------------------------------+
++----------------------------------------+
+| Swinub                                 |
++----------------------------------------+
+| Raw count: 8                           |
+| Avg. weight: 0.458057850215819         |
+| Viability Ceiling: 54                  |
++----------------------------------------+
+| Abilities                              |
+| Oblivious 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 81.048%                      |
+| Focus Sash 18.952%                     |
++----------------------------------------+
+| Spreads                                |
+| Impish:0/0/188/48/252/0 81.048%        |
+| Brave:0/252/0/252/0/0 18.952%          |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 100.000%                  |
+| Ancient Power 81.048%                  |
+| Protect 81.048%                        |
+| Substitute 81.048%                     |
+| Endeavor 18.952%                       |
+| Ice Shard 18.952%                      |
+| Other 18.952%                          |
++----------------------------------------+
+| Teammates                              |
+| Cryogonal 63.932%                      |
+| Glaceon 63.932%                        |
+| Cubchoo 63.932%                        |
+| Cloyster 63.932%                       |
+| Sandshrew-Alola 39.887%                |
+| Frosmoth 24.045%                       |
+| Piloswine 18.952%                      |
+| Mamoswine 18.952%                      |
+| Articuno 18.952%                       |
+| Kyurem 18.952%                         |
++----------------------------------------+
++----------------------------------------+
+| Sandshrew-Alola                        |
++----------------------------------------+
+| Raw count: 6                           |
+| Avg. weight: 0.5513486822079233        |
+| Viability Ceiling: 54                  |
++----------------------------------------+
+| Abilities                              |
+| Slush Rush 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Iron Plate 63.144%                     |
+| Heavy-Duty Boots 36.856%               |
++----------------------------------------+
+| Spreads                                |
+| Relaxed:84/0/100/200/124/0 63.144%     |
+| Jolly:0/252/0/0/4/252 36.856%          |
++----------------------------------------+
+| Moves                                  |
+| Poison Jab 63.144%                     |
+| Blizzard 63.144%                       |
+| Iron Defense 63.144%                   |
+| Gyro Ball 63.144%                      |
+| Rapid Spin 36.856%                     |
+| Iron Head 36.856%                      |
+| Knock Off 36.856%                      |
+| Triple Axel 36.856%                    |
++----------------------------------------+
+| Teammates                              |
+| Cloyster 81.040%                       |
+| Cryogonal 44.184%                      |
+| Glaceon 44.184%                        |
+| Cubchoo 44.184%                        |
+| Swinub 44.184%                         |
+| Ninetales-Alola 36.856%                |
+| Mamoswine 36.856%                      |
+| Froslass 36.856%                       |
+| Kyurem 36.856%                         |
++----------------------------------------+
++----------------------------------------+
+| Cubchoo                                |
++----------------------------------------+
+| Raw count: 6                           |
+| Avg. weight: 0.49499407602088175       |
+| Viability Ceiling: 54                  |
++----------------------------------------+
+| Abilities                              |
+| Slush Rush 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Naive:160/32/36/0/84/188 100.000%      |
++----------------------------------------+
+| Moves                                  |
+| Substitute 100.000%                    |
+| Rock Slide 100.000%                    |
+| Shadow Claw 100.000%                   |
+| Powder Snow 100.000%                   |
++----------------------------------------+
+| Teammates                              |
+| Cryogonal 78.882%                      |
+| Glaceon 78.882%                        |
+| Swinub 78.882%                         |
+| Cloyster 78.882%                       |
+| Sandshrew-Alola 49.214%                |
+| Frosmoth 29.667%                       |
++----------------------------------------+
++----------------------------------------+
+| Arctibax                               |
++----------------------------------------+
+| Raw count: 15                          |
+| Avg. weight: 0.08510571383277206       |
+| Viability Ceiling: 56                  |
++----------------------------------------+
+| Abilities                              |
+| Thermal Exchange 87.030%               |
+| Ice Body 12.970%                       |
++----------------------------------------+
+| Items                                  |
+| Eviolite 99.553%                       |
+| Other 0.447%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/64/0/0/196/0 56.769%       |
+| Brave:248/252/0/8/0/0 30.261%          |
+| Adamant:248/252/0/0/8/0 12.523%        |
+| Other 0.447%                           |
++----------------------------------------+
+| Moves                                  |
+| Swords Dance 69.291%                   |
+| Dragon Tail 56.769%                    |
+| Body Slam 56.769%                      |
+| Avalanche 56.769%                      |
+| Icicle Crash 42.784%                   |
+| Protect 30.709%                        |
+| Dragon Claw 30.261%                    |
+| Brick Break 30.261%                    |
+| Substitute 12.523%                     |
+| Other 13.865%                          |
++----------------------------------------+
+| Teammates                              |
+| Sandslash-Alola 87.477%                |
+| Abomasnow 68.449%                      |
+| Froslass 56.769%                       |
+| Kyurem 56.769%                         |
+| Cetitan 56.769%                        |
+| Ninetales-Alola 41.494%                |
+| Cloyster 30.709%                       |
+| Frosmoth 30.261%                       |
+| Crabominable 30.261%                   |
+| Avalugg-Hisui 11.680%                  |
++----------------------------------------+
++----------------------------------------+
+| Sneasel                                |
++----------------------------------------+
+| Raw count: 3                           |
+| Avg. weight: 0.21803562213194394       |
+| Viability Ceiling: 44                  |
++----------------------------------------+
+| Abilities                              |
+| Inner Focus 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Eviolite 91.281%                       |
+| Life Orb 8.719%                        |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 100.000%         |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 100.000%                     |
+| Low Kick 100.000%                      |
+| Brick Break 91.281%                    |
+| Foul Play 91.281%                      |
+| Other 17.439%                          |
++----------------------------------------+
+| Teammates                              |
+| Ninetales-Alola 100.000%               |
+| Kyurem 100.000%                        |
+| Frosmoth 91.281%                       |
+| Cetitan 91.281%                        |
+| Rotom-Frost 91.281%                    |
+| Sandslash-Alola 8.719%                 |
++----------------------------------------+
++----------------------------------------+
+| Snover                                 |
++----------------------------------------+
+| Raw count: 4                           |
+| Avg. weight: 0.16098032809310353       |
+| Viability Ceiling: 43                  |
++----------------------------------------+
+| Abilities                              |
+| Snow Warning 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Quiet:4/252/0/252/0/0 95.436%          |
+| Other 4.564%                           |
++----------------------------------------+
+| Moves                                  |
+| Giga Drain 100.000%                    |
+| Blizzard 95.436%                       |
+| Ice Shard 95.436%                      |
+| Ice Spinner 95.436%                    |
+| Other 13.691%                          |
++----------------------------------------+
+| Teammates                              |
+| Cloyster 98.083%                       |
+| Ninetales-Alola 98.083%                |
+| Avalugg 95.436%                        |
+| Cetitan 95.436%                        |
+| Weavile 95.436%                        |
++----------------------------------------+
