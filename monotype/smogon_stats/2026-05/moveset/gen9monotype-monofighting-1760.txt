@@ -1,0 +1,1793 @@
++----------------------------------------+
+| Iron Valiant                           |
++----------------------------------------+
+| Raw count: 10646                       |
+| Avg. weight: 0.035394808248733575      |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 57.025%                   |
+| Expert Belt 17.835%                    |
+| Choice Specs 12.685%                   |
+| Life Orb 6.134%                        |
+| Focus Sash 6.115%                      |
+| Other 0.206%                           |
++----------------------------------------+
+| Spreads                                |
+| Naive:0/4/0/252/0/252 52.632%          |
+| Timid:0/0/0/252/4/252 30.934%          |
+| Naive:0/24/0/232/0/252 3.324%          |
+| Naive:0/252/4/0/0/252 2.253%           |
+| Naive:0/252/0/4/0/252 2.097%           |
+| Modest:0/0/0/252/4/252 1.928%          |
+| Other 6.832%                           |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 99.872%                      |
+| Thunderbolt 86.215%                    |
+| Close Combat 61.519%                   |
+| Trick 30.938%                          |
+| Shadow Ball 23.543%                    |
+| Destiny Bond 21.466%                   |
+| Ice Punch 20.272%                      |
+| Aura Sphere 14.130%                    |
+| Psychic 11.704%                        |
+| Vacuum Wave 8.523%                     |
+| Psyshock 5.963%                        |
+| Other 15.857%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 90.582%                     |
+| Iron Hands 88.589%                     |
+| Urshifu-Rapid-Strike 79.975%           |
+| Sneasler 73.325%                       |
+| Gallade 62.802%                        |
+| Scrafty 28.081%                        |
+| Breloom 23.317%                        |
+| Keldeo 7.502%                          |
+| Conkeldurr 5.785%                      |
+| Lilligant-Hisui 5.734%                 |
++----------------------------------------+
++----------------------------------------+
+| Great Tusk                             |
++----------------------------------------+
+| Raw count: 9222                        |
+| Avg. weight: 0.03881941806887594       |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 37.653%                   |
+| Leftovers 29.704%                      |
+| Heavy-Duty Boots 14.410%               |
+| Focus Sash 12.874%                     |
+| Choice Scarf 3.726%                    |
+| Other 1.633%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/4/0/0/252 30.600%          |
+| Jolly:0/252/0/0/4/252 7.815%           |
+| Impish:252/0/96/0/0/160 7.758%         |
+| Impish:248/0/252/0/8/0 5.242%          |
+| Impish:212/0/96/0/0/200 4.127%         |
+| Adamant:0/252/4/0/0/252 4.107%         |
+| Other 40.350%                          |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 88.414%                   |
+| Rapid Spin 87.342%                     |
+| Earthquake 58.910%                     |
+| Ice Spinner 51.688%                    |
+| Knock Off 44.378%                      |
+| Headlong Rush 38.716%                  |
+| Taunt 9.890%                           |
+| Close Combat 9.042%                    |
+| Other 11.620%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 95.345%                   |
+| Iron Hands 88.047%                     |
+| Urshifu-Rapid-Strike 80.938%           |
+| Sneasler 71.670%                       |
+| Gallade 60.752%                        |
+| Scrafty 29.514%                        |
+| Breloom 24.694%                        |
+| Keldeo 8.007%                          |
+| Conkeldurr 3.745%                      |
+| Lilligant-Hisui 3.731%                 |
++----------------------------------------+
++----------------------------------------+
+| Iron Hands                             |
++----------------------------------------+
+| Raw count: 8105                        |
+| Avg. weight: 0.04300098191165188       |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 47.452%                   |
+| Shuca Berry 40.420%                    |
+| Roseli Berry 3.448%                    |
+| Custap Berry 2.485%                    |
+| Life Orb 2.420%                        |
+| Other 3.775%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/128/0/0/252/128 20.135%      |
+| Adamant:0/0/92/0/252/164 16.362%       |
+| Careful:252/4/0/0/252/0 12.459%        |
+| Careful:184/16/0/0/252/56 8.328%       |
+| Adamant:0/0/116/0/252/140 5.761%       |
+| Adamant:0/96/0/0/244/168 4.220%        |
+| Other 32.733%                          |
++----------------------------------------+
+| Moves                                  |
+| Ice Punch 92.787%                      |
+| Thunder Punch 89.507%                  |
+| Drain Punch 75.071%                    |
+| Swords Dance 49.782%                   |
+| Heavy Slam 37.496%                     |
+| Close Combat 23.931%                   |
+| Rock Tomb 8.043%                       |
+| Supercell Slam 7.399%                  |
+| Other 15.984%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 95.780%                   |
+| Great Tusk 90.439%                     |
+| Urshifu-Rapid-Strike 79.620%           |
+| Sneasler 71.388%                       |
+| Gallade 61.144%                        |
+| Scrafty 29.806%                        |
+| Breloom 24.196%                        |
+| Keldeo 7.725%                          |
+| Lilligant-Hisui 6.027%                 |
+| Chesnaught 2.619%                      |
++----------------------------------------+
++----------------------------------------+
+| Urshifu-Rapid-Strike                   |
++----------------------------------------+
+| Raw count: 7641                        |
+| Avg. weight: 0.04120821196799205       |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Unseen Fist 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Punching Glove 46.363%                 |
+| Mystic Water 31.317%                   |
+| Choice Scarf 12.663%                   |
+| Life Orb 4.727%                        |
+| Other 4.930%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 48.141%          |
+| Adamant:0/252/0/0/4/252 31.728%        |
+| Jolly:0/252/4/0/0/252 15.296%          |
+| Other 4.835%                           |
++----------------------------------------+
+| Moves                                  |
+| Surging Strikes 99.983%                |
+| Aqua Jet 83.425%                       |
+| Swords Dance 79.639%                   |
+| Close Combat 75.565%                   |
+| Ice Spinner 20.304%                    |
+| Ice Punch 14.736%                      |
+| U-turn 12.574%                         |
+| Other 13.774%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 95.708%                   |
+| Great Tusk 92.022%                     |
+| Iron Hands 88.129%                     |
+| Sneasler 69.224%                       |
+| Gallade 59.308%                        |
+| Scrafty 31.468%                        |
+| Breloom 24.314%                        |
+| Conkeldurr 4.294%                      |
+| Lilligant-Hisui 3.977%                 |
+| Chesnaught 2.718%                      |
++----------------------------------------+
++----------------------------------------+
+| Sneasler                               |
++----------------------------------------+
+| Raw count: 11157                       |
+| Avg. weight: 0.02584981731195573       |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Poison Touch 53.214%                   |
+| Unburden 45.986%                       |
+| Pressure 0.800%                        |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 39.538%                   |
+| Air Balloon 31.281%                    |
+| Choice Band 13.982%                    |
+| Liechi Berry 9.814%                    |
+| Normal Gem 2.824%                      |
+| Other 2.561%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 65.514%          |
+| Jolly:0/252/4/0/0/252 15.842%          |
+| Adamant:0/252/0/0/4/252 11.390%        |
+| Adamant:144/252/0/0/0/112 3.545%       |
+| Other 3.708%                           |
++----------------------------------------+
+| Moves                                  |
+| Dire Claw 95.983%                      |
+| Close Combat 90.810%                   |
+| Throat Chop 60.939%                    |
+| U-turn 48.002%                         |
+| Swords Dance 35.166%                   |
+| Switcheroo 24.074%                     |
+| Night Slash 10.398%                    |
+| Endure 9.821%                          |
+| Reversal 8.799%                        |
+| Other 16.008%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 95.801%                   |
+| Great Tusk 88.962%                     |
+| Iron Hands 86.268%                     |
+| Gallade 78.052%                        |
+| Urshifu-Rapid-Strike 75.577%           |
+| Scrafty 12.338%                        |
+| Keldeo 8.340%                          |
+| Conkeldurr 7.619%                      |
+| Lilligant-Hisui 5.541%                 |
+| Breloom 5.401%                         |
++----------------------------------------+
++----------------------------------------+
+| Gallade                                |
++----------------------------------------+
+| Raw count: 5748                        |
+| Avg. weight: 0.042864962484820426      |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Sharpness 99.981%                      |
+| Justified 0.014%                       |
+| Steadfast 0.006%                       |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 89.536%                   |
+| Choice Band 5.576%                     |
+| Other 4.888%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:56/192/0/0/164/96 22.787%      |
+| Adamant:56/188/0/0/164/100 5.997%      |
+| Adamant:136/120/0/0/252/0 5.790%       |
+| Adamant:56/180/0/0/164/108 5.747%      |
+| Adamant:164/224/0/0/0/120 5.686%       |
+| Adamant:184/164/0/0/16/144 5.083%      |
+| Other 48.908%                          |
++----------------------------------------+
+| Moves                                  |
+| Psycho Cut 99.911%                     |
+| Sacred Sword 96.217%                   |
+| Shadow Sneak 87.021%                   |
+| Night Slash 53.570%                    |
+| Leaf Blade 22.288%                     |
+| Knock Off 18.609%                      |
+| Triple Axel 5.578%                     |
+| Other 16.806%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 96.047%                   |
+| Sneasler 91.362%                       |
+| Great Tusk 88.270%                     |
+| Iron Hands 86.490%                     |
+| Urshifu-Rapid-Strike 75.793%           |
+| Keldeo 9.586%                          |
+| Conkeldurr 8.723%                      |
+| Breloom 5.918%                         |
+| Lilligant-Hisui 4.940%                 |
+| Chesnaught 3.685%                      |
++----------------------------------------+
++----------------------------------------+
+| Scrafty                                |
++----------------------------------------+
+| Raw count: 3328                        |
+| Avg. weight: 0.03392541846128923       |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Shed Skin 98.881%                      |
+| Intimidate 0.789%                      |
+| Moxie 0.330%                           |
++----------------------------------------+
+| Items                                  |
+| Leftovers 99.190%                      |
+| Other 0.810%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/0/0/228/28 64.416%       |
+| Careful:252/4/0/0/252/0 13.851%        |
+| Careful:252/0/80/0/176/0 9.524%        |
+| Careful:248/0/8/0/252/0 8.419%         |
+| Other 3.790%                           |
++----------------------------------------+
+| Moves                                  |
+| Drain Punch 99.773%                    |
+| Knock Off 99.318%                      |
+| Rest 98.822%                           |
+| Bulk Up 98.688%                        |
+| Other 3.399%                           |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 93.720%                   |
+| Great Tusk 93.583%                     |
+| Iron Hands 92.007%                     |
+| Urshifu-Rapid-Strike 87.759%           |
+| Breloom 62.281%                        |
+| Sneasler 31.517%                       |
+| Gallade 4.173%                         |
+| Emboar 1.282%                          |
+| Keldeo 0.700%                          |
+| Cobalion 0.617%                        |
++----------------------------------------+
++----------------------------------------+
+| Breloom                                |
++----------------------------------------+
+| Raw count: 2546                        |
+| Avg. weight: 0.0367114918690367        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Technician 99.920%                     |
+| Poison Heal 0.079%                     |
+| Effect Spore 0.001%                    |
++----------------------------------------+
+| Items                                  |
+| Loaded Dice 56.491%                    |
+| Focus Sash 43.334%                     |
+| Other 0.175%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 56.796%        |
+| Jolly:0/252/0/0/4/252 37.720%          |
+| Adamant:0/252/0/0/0/252 2.665%         |
+| Other 2.819%                           |
++----------------------------------------+
+| Moves                                  |
+| Mach Punch 99.924%                     |
+| Bullet Seed 99.770%                    |
+| Swords Dance 92.799%                   |
+| Spore 92.787%                          |
+| Other 14.720%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 94.583%                     |
+| Iron Valiant 94.003%                   |
+| Iron Hands 90.222%                     |
+| Urshifu-Rapid-Strike 81.909%           |
+| Scrafty 75.232%                        |
+| Sneasler 16.664%                       |
+| Gallade 15.601%                        |
+| Keldeo 3.118%                          |
+| Heracross 1.004%                       |
+| Quaquaval 0.846%                       |
++----------------------------------------+
++----------------------------------------+
+| Keldeo                                 |
++----------------------------------------+
+| Raw count: 2560                        |
+| Avg. weight: 0.011907814390386285      |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Justified 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 68.229%                   |
+| Heavy-Duty Boots 13.373%               |
+| Choice Scarf 8.751%                    |
+| Leftovers 2.888%                       |
+| Assault Vest 2.551%                    |
+| Other 4.208%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 87.375%          |
+| Hasty:0/4/0/252/0/252 8.171%           |
+| Other 4.454%                           |
++----------------------------------------+
+| Moves                                  |
+| Secret Sword 97.759%                   |
+| Surf 85.253%                           |
+| Vacuum Wave 82.962%                    |
+| Icy Wind 76.050%                       |
+| Calm Mind 17.953%                      |
+| Hydro Pump 15.270%                     |
+| Flip Turn 8.549%                       |
+| Other 16.203%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 94.029%                     |
+| Iron Valiant 92.737%                   |
+| Iron Hands 88.314%                     |
+| Sneasler 78.908%                       |
+| Gallade 77.476%                        |
+| Urshifu-Rapid-Strike 13.438%           |
+| Breloom 9.560%                         |
+| Zapdos-Galar 4.160%                    |
+| Scrafty 2.592%                         |
+| Cobalion 2.591%                        |
++----------------------------------------+
++----------------------------------------+
+| Conkeldurr                             |
++----------------------------------------+
+| Raw count: 1687                        |
+| Avg. weight: 0.013677734613376747      |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Guts 99.361%                           |
+| Iron Fist 0.527%                       |
+| Sheer Force 0.112%                     |
++----------------------------------------+
+| Items                                  |
+| Flame Orb 98.690%                      |
+| Other 1.310%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/4/0/248/0 39.019%        |
+| Brave:252/252/0/0/4/0 36.534%          |
+| Adamant:4/252/0/0/252/0 21.701%        |
+| Other 2.746%                           |
++----------------------------------------+
+| Moves                                  |
+| Mach Punch 99.864%                     |
+| Facade 62.479%                         |
+| Knock Off 62.317%                      |
+| Bulk Up 59.800%                        |
+| Close Combat 37.334%                   |
+| Ice Punch 36.841%                      |
+| Stone Edge 36.530%                     |
+| Other 4.836%                           |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 95.226%                       |
+| Iron Valiant 94.464%                   |
+| Gallade 93.144%                        |
+| Urshifu-Rapid-Strike 58.596%           |
+| Great Tusk 58.100%                     |
+| Iron Hands 36.504%                     |
+| Lilligant-Hisui 35.914%                |
+| Zapdos-Galar 1.298%                    |
+| Keldeo 0.836%                          |
+| Scrafty 0.774%                         |
++----------------------------------------+
++----------------------------------------+
+| Lilligant-Hisui                        |
++----------------------------------------+
+| Raw count: 949                         |
+| Avg. weight: 0.023050646138442977      |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Hustle 83.545%                         |
+| Chlorophyll 16.454%                    |
+| Leaf Guard 0.001%                      |
++----------------------------------------+
+| Items                                  |
+| Wide Lens 43.277%                      |
+| Choice Scarf 40.261%                   |
+| Focus Sash 16.366%                     |
+| Other 0.096%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 99.447%          |
+| Other 0.553%                           |
++----------------------------------------+
+| Moves                                  |
+| Ice Spinner 83.568%                    |
+| Close Combat 73.997%                   |
+| Leaf Blade 68.864%                     |
+| Victory Dance 59.654%                  |
+| Healing Wish 56.449%                   |
+| Sleep Powder 40.817%                   |
+| Other 16.652%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 98.769%                   |
+| Iron Hands 96.024%                     |
+| Sneasler 73.057%                       |
+| Great Tusk 61.061%                     |
+| Urshifu-Rapid-Strike 57.244%           |
+| Gallade 55.642%                        |
+| Conkeldurr 37.883%                     |
++----------------------------------------+
++----------------------------------------+
+| Cobalion                               |
++----------------------------------------+
+| Raw count: 1719                        |
+| Avg. weight: 0.006129554019772854      |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Justified 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 92.163%                      |
+| Life Orb 1.730%                        |
+| Rocky Helmet 1.101%                    |
+| Air Balloon 1.008%                     |
+| Other 3.998%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:248/0/0/0/8/252 65.596%          |
+| Jolly:252/4/0/0/0/252 7.568%           |
+| Jolly:0/252/0/0/4/252 6.100%           |
+| Timid:0/0/0/252/4/252 5.342%           |
+| Jolly:252/0/4/0/0/252 3.406%           |
+| Jolly:248/0/52/0/0/208 2.477%          |
+| Other 9.511%                           |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 89.338%                   |
+| Iron Head 88.217%                      |
+| Thunder Wave 80.802%                   |
+| Taunt 80.762%                          |
+| Volt Switch 21.647%                    |
+| Close Combat 8.396%                    |
+| Body Press 4.918%                      |
+| Vacuum Wave 3.752%                     |
+| Flash Cannon 3.289%                    |
+| Other 18.879%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 92.143%                     |
+| Iron Valiant 90.676%                   |
+| Sneasler 88.786%                       |
+| Iron Hands 82.291%                     |
+| Gallade 72.879%                        |
+| Urshifu-Rapid-Strike 17.330%           |
+| Kommo-o 7.544%                         |
+| Keldeo 7.496%                          |
+| Scrafty 6.607%                         |
+| Zapdos-Galar 4.323%                    |
++----------------------------------------+
++----------------------------------------+
+| Chesnaught                             |
++----------------------------------------+
+| Raw count: 431                         |
+| Avg. weight: 0.02349211091333803       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Bulletproof 99.977%                    |
+| Overgrow 0.023%                        |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 84.327%                   |
+| Leftovers 14.314%                      |
+| Other 1.358%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:248/0/180/0/80/0 83.863%        |
+| Careful:252/4/0/0/252/0 10.870%        |
+| Impish:248/8/252/0/0/0 2.714%          |
+| Other 2.553%                           |
++----------------------------------------+
+| Moves                                  |
+| Body Press 89.248%                     |
+| Knock Off 88.339%                      |
+| Spikes 85.533%                         |
+| Synthesis 85.375%                      |
+| Leech Seed 13.226%                     |
+| Spiky Shield 11.174%                   |
+| Bulk Up 7.999%                         |
+| Other 19.105%                          |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 95.218%                       |
+| Iron Valiant 91.169%                   |
+| Iron Hands 90.165%                     |
+| Gallade 89.661%                        |
+| Urshifu-Rapid-Strike 84.524%           |
+| Kommo-o 7.154%                         |
+| Poliwrath 7.011%                       |
+| Lucario 7.001%                         |
+| Great Tusk 6.789%                      |
++----------------------------------------+
++----------------------------------------+
+| Okidogi                                |
++----------------------------------------+
+| Raw count: 1136                        |
+| Avg. weight: 0.00674944501683899       |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Toxic Chain 95.650%                    |
+| Guard Dog 4.350%                       |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 69.958%                   |
+| Choice Scarf 12.615%                   |
+| Black Sludge 9.921%                    |
+| Shuca Berry 4.350%                     |
+| Other 3.156%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/4/0/0/252/0 36.301%        |
+| Adamant:252/252/0/0/4/0 30.180%        |
+| Jolly:0/252/4/0/0/252 12.061%          |
+| Naive:0/252/0/4/0/252 9.339%           |
+| Adamant:0/192/44/0/180/92 4.350%       |
+| Careful:252/0/0/0/240/16 2.061%        |
+| Other 5.708%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 94.007%                      |
+| Drain Punch 82.502%                    |
+| Gunk Shot 53.192%                      |
+| Poison Jab 46.547%                     |
+| Psychic Fangs 36.451%                  |
+| High Horsepower 30.683%                |
+| Ice Punch 18.877%                      |
+| Close Combat 16.471%                   |
+| Bulk Up 13.390%                        |
+| Other 7.879%                           |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 96.766%                   |
+| Iron Hands 90.498%                     |
+| Sneasler 69.645%                       |
+| Great Tusk 65.030%                     |
+| Gallade 48.985%                        |
+| Urshifu-Rapid-Strike 43.470%           |
+| Slither Wing 37.014%                   |
+| Keldeo 9.818%                          |
+| Chesnaught 3.724%                      |
+| Scrafty 3.220%                         |
++----------------------------------------+
++----------------------------------------+
+| Zapdos-Galar                           |
++----------------------------------------+
+| Raw count: 1833                        |
+| Avg. weight: 0.004055491648000417      |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Defiant 100.000%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 84.940%                   |
+| Choice Band 5.402%                     |
+| Life Orb 3.420%                        |
+| Expert Belt 3.119%                     |
+| Other 3.119%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 45.914%          |
+| Jolly:0/252/4/0/0/252 38.682%          |
+| Adamant:0/252/0/0/4/252 7.234%         |
+| Adamant:0/252/0/0/0/252 3.072%         |
+| Adamant:0/252/4/0/0/252 2.033%         |
+| Other 3.065%                           |
++----------------------------------------+
+| Moves                                  |
+| U-turn 95.906%                         |
+| Brave Bird 95.513%                     |
+| Close Combat 84.367%                   |
+| Knock Off 58.206%                      |
+| Thunderous Kick 42.773%                |
+| Brick Break 7.289%                     |
+| Other 15.945%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 91.295%                   |
+| Great Tusk 88.572%                     |
+| Sneasler 86.756%                       |
+| Urshifu-Rapid-Strike 49.515%           |
+| Gallade 38.898%                        |
+| Iron Hands 34.659%                     |
+| Quaquaval 32.768%                      |
+| Keldeo 17.060%                         |
+| Scrafty 8.857%                         |
+| Slither Wing 7.666%                    |
++----------------------------------------+
++----------------------------------------+
+| Quaquaval                              |
++----------------------------------------+
+| Raw count: 2770                        |
+| Avg. weight: 0.0019237841061268872     |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 97.678%                          |
+| Torrent 2.322%                         |
++----------------------------------------+
+| Items                                  |
+| Leftovers 48.910%                      |
+| Life Orb 14.961%                       |
+| Lum Berry 9.247%                       |
+| Heavy-Duty Boots 8.582%                |
+| Focus Sash 6.811%                      |
+| Choice Scarf 3.076%                    |
+| Mystic Water 2.368%                    |
+| Assault Vest 1.827%                    |
+| Other 4.219%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 45.699%          |
+| Jolly:0/252/0/0/4/252 30.268%          |
+| Adamant:164/92/0/0/0/252 13.005%       |
+| Adamant:4/252/0/0/0/252 6.698%         |
+| Other 4.329%                           |
++----------------------------------------+
+| Moves                                  |
+| Aqua Step 98.703%                      |
+| Close Combat 95.644%                   |
+| Bulk Up 48.237%                        |
+| Substitute 45.294%                     |
+| Ice Spinner 27.625%                    |
+| Aqua Jet 25.504%                       |
+| Roost 13.527%                          |
+| Triple Axel 10.292%                    |
+| Wave Crash 7.652%                      |
+| Swords Dance 7.247%                    |
+| Knock Off 6.114%                       |
+| Other 14.161%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 85.484%                     |
+| Sneasler 79.835%                       |
+| Iron Valiant 74.256%                   |
+| Gallade 50.644%                        |
+| Zapdos-Galar 45.711%                   |
+| Iron Hands 35.036%                     |
+| Urshifu-Rapid-Strike 29.874%           |
+| Lucario 15.729%                        |
+| Breloom 14.836%                        |
+| Heracross 12.882%                      |
++----------------------------------------+
++----------------------------------------+
+| Kommo-o                                |
++----------------------------------------+
+| Raw count: 3041                        |
+| Avg. weight: 0.0018547429161560572     |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Bulletproof 53.346%                    |
+| Soundproof 41.497%                     |
+| Overcoat 5.157%                        |
++----------------------------------------+
+| Items                                  |
+| Throat Spray 32.262%                   |
+| Sitrus Berry 16.286%                   |
+| Life Orb 15.720%                       |
+| Choice Scarf 14.328%                   |
+| Leftovers 9.615%                       |
+| Loaded Dice 3.943%                     |
+| Chesto Berry 2.716%                    |
+| Salac Berry 1.699%                     |
+| Other 3.431%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 46.140%          |
+| Naive:0/4/0/252/0/252 17.752%          |
+| Modest:0/0/0/252/4/252 14.328%         |
+| Jolly:96/252/0/0/0/160 3.949%          |
+| Jolly:4/252/0/0/0/252 3.942%           |
+| Bold:252/0/252/0/4/0 3.720%            |
+| Other 10.170%                          |
++----------------------------------------+
+| Moves                                  |
+| Clangorous Soul 64.234%                |
+| Flamethrower 52.483%                   |
+| Clanging Scales 50.764%                |
+| Flash Cannon 27.657%                   |
+| Vacuum Wave 24.579%                    |
+| Aura Sphere 24.033%                    |
+| Boomburst 23.444%                      |
+| Stealth Rock 19.055%                   |
+| Close Combat 16.106%                   |
+| Drain Punch 15.574%                    |
+| Draco Meteor 15.096%                   |
+| Dragon Pulse 10.768%                   |
+| Focus Blast 7.505%                     |
+| Iron Head 6.831%                       |
+| Body Press 5.977%                      |
+| Dragon Claw 4.596%                     |
+| Scale Shot 4.239%                      |
+| Poison Jab 4.148%                      |
+| Outrage 4.118%                         |
+| Other 18.794%                          |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 80.748%                       |
+| Iron Valiant 69.527%                   |
+| Great Tusk 67.240%                     |
+| Urshifu-Rapid-Strike 48.410%           |
+| Iron Hands 34.814%                     |
+| Gallade 30.726%                        |
+| Lucario 20.874%                        |
+| Cobalion 14.093%                       |
+| Chesnaught 12.842%                     |
+| Poliwrath 12.629%                      |
++----------------------------------------+
++----------------------------------------+
+| Emboar                                 |
++----------------------------------------+
+| Raw count: 204                         |
+| Avg. weight: 0.019719587838410123      |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Reckless 98.485%                       |
+| Blaze 1.515%                           |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 98.482%                   |
+| Other 1.518%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:248/0/0/0/216/44 60.690%       |
+| Careful:248/24/0/0/224/12 23.018%      |
+| Sassy:248/0/0/0/220/40 12.980%         |
+| Other 3.313%                           |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 98.431%                   |
+| Heavy Slam 98.431%                     |
+| Flare Blitz 83.710%                    |
+| Close Combat 52.711%                   |
+| Head Smash 45.723%                     |
+| Fire Blast 14.724%                     |
+| Other 6.269%                           |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 98.438%                   |
+| Great Tusk 98.403%                     |
+| Urshifu-Rapid-Strike 84.103%           |
+| Iron Hands 83.742%                     |
+| Lilligant-Hisui 63.691%                |
+| Scrafty 35.969%                        |
+| Sneasler 11.018%                       |
++----------------------------------------+
++----------------------------------------+
+| Slither Wing                           |
++----------------------------------------+
+| Raw count: 1018                        |
+| Avg. weight: 0.0038257882129411613     |
+| Viability Ceiling: 76                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 73.738%                   |
+| Life Orb 19.699%                       |
+| Heavy-Duty Boots 3.202%                |
+| Other 3.361%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 71.297%        |
+| Adamant:0/252/0/0/4/252 13.816%        |
+| Jolly:0/252/0/0/4/252 11.809%          |
+| Other 3.078%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 97.271%                   |
+| First Impression 94.085%               |
+| Leech Life 79.809%                     |
+| U-turn 78.321%                         |
+| Earthquake 20.562%                     |
+| Morning Sun 10.006%                    |
+| Other 19.946%                          |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 92.722%                       |
+| Great Tusk 89.592%                     |
+| Iron Valiant 88.047%                   |
+| Iron Hands 74.471%                     |
+| Okidogi 72.870%                        |
+| Zapdos-Galar 14.633%                   |
+| Urshifu-Rapid-Strike 11.548%           |
+| Keldeo 11.319%                         |
+| Gallade 5.713%                         |
+| Lucario 5.386%                         |
++----------------------------------------+
++----------------------------------------+
+| Lucario                                |
++----------------------------------------+
+| Raw count: 2122                        |
+| Avg. weight: 0.001615769013059543      |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Steadfast 54.594%                      |
+| Inner Focus 44.995%                    |
+| Justified 0.411%                       |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 38.794%                     |
+| Life Orb 24.734%                       |
+| Salac Berry 23.570%                    |
+| Expert Belt 8.228%                     |
+| Other 4.674%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 53.119%          |
+| Timid:4/0/0/252/0/252 21.855%          |
+| Adamant:0/252/4/0/0/252 12.450%        |
+| Modest:0/0/0/252/0/252 6.657%          |
+| Naive:0/252/0/4/0/252 1.152%           |
+| Other 4.768%                           |
++----------------------------------------+
+| Moves                                  |
+| Flash Cannon 83.907%                   |
+| Aura Sphere 61.471%                    |
+| Nasty Plot 54.483%                     |
+| Vacuum Wave 37.442%                    |
+| Psychic 32.929%                        |
+| Dragon Pulse 27.135%                   |
+| Calm Mind 18.089%                      |
+| Close Combat 15.723%                   |
+| Extreme Speed 15.167%                  |
+| Bullet Punch 15.083%                   |
+| Swords Dance 13.949%                   |
+| Dark Pulse 9.688%                      |
+| Other 14.935%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 51.674%                     |
+| Sneasler 50.344%                       |
+| Kommo-o 34.339%                        |
+| Iron Hands 31.178%                     |
+| Gallade 27.114%                        |
+| Urshifu-Rapid-Strike 26.974%           |
+| Quaquaval 24.446%                      |
+| Breloom 22.630%                        |
+| Poliwrath 21.707%                      |
+| Heracross 21.026%                      |
++----------------------------------------+
++----------------------------------------+
+| Pawmot                                 |
++----------------------------------------+
+| Raw count: 748                         |
+| Avg. weight: 0.0037113554165619624     |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Volt Absorb 86.188%                    |
+| Iron Fist 13.173%                      |
+| Natural Cure 0.639%                    |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 69.313%                     |
+| Leppa Berry 23.959%                    |
+| Air Balloon 2.979%                     |
+| Other 3.749%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 73.191%          |
+| Jolly:0/252/4/0/0/252 12.927%          |
+| Jolly:4/252/0/0/0/252 8.068%           |
+| Jolly:252/4/0/0/0/252 3.314%           |
+| Other 2.500%                           |
++----------------------------------------+
+| Moves                                  |
+| Revival Blessing 99.806%               |
+| Close Combat 86.641%                   |
+| Ice Punch 81.639%                      |
+| Nuzzle 72.275%                         |
+| Double Shock 23.475%                   |
+| Volt Switch 16.340%                    |
+| Other 19.824%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 90.374%                     |
+| Iron Valiant 83.218%                   |
+| Gallade 80.103%                        |
+| Urshifu-Rapid-Strike 73.189%           |
+| Sneasler 71.800%                       |
+| Zapdos-Galar 16.906%                   |
+| Keldeo 14.973%                         |
+| Cobalion 12.050%                       |
+| Hawlucha 9.136%                        |
+| Iron Hands 8.064%                      |
++----------------------------------------+
++----------------------------------------+
+| Infernape                              |
++----------------------------------------+
+| Raw count: 1831                        |
+| Avg. weight: 0.001036315751700019      |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Blaze 70.329%                          |
+| Iron Fist 29.671%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 49.673%                     |
+| Punching Glove 16.726%                 |
+| Choice Specs 10.046%                   |
+| Choice Scarf 8.832%                    |
+| Life Orb 7.144%                        |
+| Air Balloon 7.104%                     |
+| Other 0.475%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 25.840%          |
+| Jolly:0/252/0/0/4/252 24.686%          |
+| Hasty:0/252/0/4/0/252 24.432%          |
+| Timid:4/0/0/252/0/252 10.339%          |
+| Timid:0/4/0/252/0/252 7.965%           |
+| Naive:0/252/0/4/0/252 2.328%           |
+| Other 4.410%                           |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 41.087%                   |
+| Flamethrower 36.369%                   |
+| Taunt 35.763%                          |
+| Fire Blast 28.981%                     |
+| Close Combat 26.993%                   |
+| Fire Punch 25.255%                     |
+| Thunder Punch 21.034%                  |
+| U-turn 19.271%                         |
+| Mach Punch 18.171%                     |
+| Vacuum Wave 18.047%                    |
+| Swords Dance 15.831%                   |
+| Focus Blast 14.832%                    |
+| Aura Sphere 14.418%                    |
+| Drain Punch 14.047%                    |
+| Scorching Sands 12.064%                |
+| Grass Knot 11.078%                     |
+| Nasty Plot 9.877%                      |
+| Knock Off 9.279%                       |
+| Will-O-Wisp 7.661%                     |
+| Other 19.941%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 55.639%                     |
+| Iron Valiant 50.818%                   |
+| Iron Hands 45.369%                     |
+| Urshifu-Rapid-Strike 38.526%           |
+| Lucario 37.765%                        |
+| Sneasler 31.513%                       |
+| Keldeo 30.705%                         |
+| Kommo-o 28.272%                        |
+| Flamigo 21.544%                        |
+| Gallade 18.880%                        |
++----------------------------------------+
++----------------------------------------+
+| Terrakion                              |
++----------------------------------------+
+| Raw count: 423                         |
+| Avg. weight: 0.002503127205700155      |
+| Viability Ceiling: 80                  |
++----------------------------------------+
+| Abilities                              |
+| Justified 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 75.194%                   |
+| Choice Band 6.913%                     |
+| Soft Sand 6.346%                       |
+| Leftovers 4.736%                       |
+| Loaded Dice 2.632%                     |
+| Other 4.180%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 89.440%          |
+| Adamant:4/252/0/0/0/252 7.434%         |
+| Other 3.126%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 94.561%                   |
+| Stone Edge 91.099%                     |
+| Earthquake 85.289%                     |
+| Stealth Rock 49.939%                   |
+| Iron Head 30.009%                      |
+| Swords Dance 9.710%                    |
+| Zen Headbutt 7.246%                    |
+| Poison Jab 6.907%                      |
+| High Horsepower 6.346%                 |
+| Other 18.896%                          |
++----------------------------------------+
+| Teammates                              |
+| Gallade 75.816%                        |
+| Sneasler 68.226%                       |
+| Urshifu-Rapid-Strike 61.980%           |
+| Iron Valiant 60.787%                   |
+| Great Tusk 59.670%                     |
+| Keldeo 39.022%                         |
+| Cobalion 28.126%                       |
+| Heracross 24.347%                      |
+| Breloom 23.836%                        |
+| Iron Hands 6.918%                      |
++----------------------------------------+
++----------------------------------------+
+| Heracross                              |
++----------------------------------------+
+| Raw count: 476                         |
+| Avg. weight: 0.002111978826530004      |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 99.841%                          |
+| Guts 0.159%                            |
+| Swarm 0.000%                           |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 98.960%                   |
+| Other 1.040%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:4/252/0/0/0/252 68.255%          |
+| Jolly:0/252/0/0/4/252 26.129%          |
+| Jolly:0/252/4/0/0/252 3.407%           |
+| Other 2.210%                           |
++----------------------------------------+
+| Moves                                  |
+| Megahorn 99.408%                       |
+| Close Combat 99.003%                   |
+| Stone Edge 98.034%                     |
+| Earthquake 96.438%                     |
+| Other 7.116%                           |
++----------------------------------------+
+| Teammates                              |
+| Breloom 93.380%                        |
+| Lucario 71.710%                        |
+| Great Tusk 68.407%                     |
+| Quaquaval 68.286%                      |
+| Iron Hands 68.236%                     |
+| Gallade 28.417%                        |
+| Keldeo 25.823%                         |
+| Cobalion 25.644%                       |
+| Terrakion 25.644%                      |
++----------------------------------------+
++----------------------------------------+
+| Poliwrath                              |
++----------------------------------------+
+| Raw count: 230                         |
+| Avg. weight: 0.003912251022557179      |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Water Absorb 99.832%                   |
+| Swift Swim 0.168%                      |
+| Damp 0.000%                            |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 90.056%                   |
+| Choice Band 4.976%                     |
+| Other 4.968%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/4/0/0/0 48.839%        |
+| Adamant:4/252/252/0/0/0 40.972%        |
+| Jolly:4/252/0/0/0/252 4.971%           |
+| Impish:252/0/252/0/4/0 3.718%          |
+| Other 1.501%                           |
++----------------------------------------+
+| Moves                                  |
+| Ice Punch 98.499%                      |
+| Drain Punch 95.554%                    |
+| Liquidation 90.088%                    |
+| Knock Off 89.811%                      |
+| Waterfall 8.856%                       |
+| Other 17.192%                          |
++----------------------------------------+
+| Teammates                              |
+| Lucario 82.713%                        |
+| Sneasler 79.165%                       |
+| Kommo-o 79.161%                        |
+| Chesnaught 78.889%                     |
+| Gallade 57.649%                        |
+| Infernape 28.494%                      |
+| Toxicroak 8.516%                       |
+| Hitmonlee 5.686%                       |
+| Breloom 5.056%                         |
+| Emboar 4.971%                          |
++----------------------------------------+
++----------------------------------------+
+| Hawlucha                               |
++----------------------------------------+
+| Raw count: 1973                        |
+| Avg. weight: 0.0004141100473601313     |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Unburden 96.489%                       |
+| Mold Breaker 3.220%                    |
+| Limber 0.290%                          |
++----------------------------------------+
+| Items                                  |
+| Weakness Policy 33.892%                |
+| White Herb 26.745%                     |
+| Focus Sash 14.862%                     |
+| Power Herb 12.937%                     |
+| Liechi Berry 3.863%                    |
+| Normal Gem 2.963%                      |
+| Other 4.737%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/0/0/0/252 44.694%        |
+| Jolly:0/252/0/0/4/252 27.538%          |
+| Adamant:0/252/0/0/4/252 13.012%        |
+| Lonely:0/252/0/0/0/252 2.651%          |
+| Adamant:24/252/0/0/0/232 2.556%        |
+| Naive:0/252/4/0/0/252 1.965%           |
+| Other 7.585%                           |
++----------------------------------------+
+| Moves                                  |
+| Acrobatics 96.077%                     |
+| Swords Dance 53.247%                   |
+| Upper Hand 46.748%                     |
+| Drain Punch 44.468%                    |
+| Close Combat 38.057%                   |
+| Endure 37.756%                         |
+| Zen Headbutt 25.063%                   |
+| Sky Attack 12.937%                     |
+| Reversal 12.856%                       |
+| Flying Press 4.672%                    |
+| Stone Edge 3.344%                      |
+| Thunder Punch 2.952%                   |
+| Iron Head 2.557%                       |
+| Other 19.266%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Hands 72.663%                     |
+| Iron Valiant 71.291%                   |
+| Great Tusk 54.863%                     |
+| Sneasler 51.299%                       |
+| Urshifu-Rapid-Strike 43.695%           |
+| Pawmot 31.042%                         |
+| Gallade 29.902%                        |
+| Scrafty 21.957%                        |
+| Lucario 14.872%                        |
+| Quaquaval 14.713%                      |
++----------------------------------------+
++----------------------------------------+
+| Mienshao                               |
++----------------------------------------+
+| Raw count: 427                         |
+| Avg. weight: 0.0015147437714163599     |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Regenerator 95.586%                    |
+| Reckless 4.047%                        |
+| Inner Focus 0.367%                     |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 64.325%                   |
+| Choice Band 14.462%                    |
+| Life Orb 12.142%                       |
+| Heavy-Duty Boots 6.548%                |
+| Other 2.523%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:248/8/0/0/252/0 51.565%        |
+| Jolly:0/252/0/0/4/252 30.943%          |
+| Adamant:4/252/0/0/0/252 6.915%         |
+| Jolly:8/248/0/0/0/252 6.694%           |
+| Other 3.883%                           |
++----------------------------------------+
+| Moves                                  |
+| U-turn 99.853%                         |
+| Close Combat 71.106%                   |
+| Triple Axel 68.313%                    |
+| Knock Off 61.832%                      |
+| Fake Out 20.561%                       |
+| High Jump Kick 17.807%                 |
+| Acrobatics 12.488%                     |
+| Ice Spinner 10.852%                    |
+| Stone Edge 9.086%                      |
+| Swords Dance 8.212%                    |
+| Other 19.889%                          |
++----------------------------------------+
+| Teammates                              |
+| Great Tusk 54.184%                     |
+| Iron Valiant 52.718%                   |
+| Iron Hands 41.971%                     |
+| Chesnaught 39.815%                     |
+| Okidogi 36.306%                        |
+| Sneasler 35.239%                       |
+| Urshifu-Rapid-Strike 29.134%           |
+| Scrafty 13.305%                        |
+| Infernape 12.389%                      |
+| Hitmonlee 11.463%                      |
++----------------------------------------+
++----------------------------------------+
+| Hariyama                               |
++----------------------------------------+
+| Raw count: 450                         |
+| Avg. weight: 0.0011676607643244185     |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Guts 97.150%                           |
+| Thick Fat 1.819%                       |
+| Sheer Force 1.031%                     |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 95.999%                   |
+| Other 4.001%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/0/0/252/0 95.574%        |
+| Other 4.426%                           |
++----------------------------------------+
+| Moves                                  |
+| Bullet Punch 99.859%                   |
+| Knock Off 96.393%                      |
+| Brick Break 95.707%                    |
+| Thunder Punch 95.574%                  |
+| Other 12.467%                          |
++----------------------------------------+
+| Teammates                              |
+| Gallade 97.326%                        |
+| Sneasler 97.303%                       |
+| Iron Valiant 97.141%                   |
+| Great Tusk 95.872%                     |
+| Keldeo 95.289%                         |
++----------------------------------------+
++----------------------------------------+
+| Flamigo                                |
++----------------------------------------+
+| Raw count: 375                         |
+| Avg. weight: 0.0013134993256197582     |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Scrappy 100.000%                       |
+| Costar 0.000%                          |
+| Tangled Feet 0.000%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 99.435%                   |
+| Other 0.565%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/4/0/0/252 90.258%          |
+| Adamant:0/252/0/0/4/252 8.929%         |
+| Other 0.813%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 100.000%                  |
+| Brave Bird 99.999%                     |
+| U-turn 99.997%                         |
+| Throat Chop 87.630%                    |
+| Other 12.373%                          |
++----------------------------------------+
+| Teammates                              |
+| Infernape 82.995%                      |
+| Great Tusk 77.869%                     |
+| Iron Hands 77.297%                     |
+| Lucario 73.942%                        |
+| Keldeo 73.627%                         |
+| Sneasler 12.852%                       |
+| Kommo-o 12.230%                        |
+| Urshifu-Rapid-Strike 8.922%            |
+| Mienshao 8.816%                        |
+| Iron Valiant 3.683%                    |
++----------------------------------------+
++----------------------------------------+
+| Hitmontop                              |
++----------------------------------------+
+| Raw count: 335                         |
+| Avg. weight: 0.0013027511782985363     |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 51.903%                     |
+| Technician 48.097%                     |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 28.839%                     |
+| Expert Belt 28.379%                    |
+| Heavy-Duty Boots 23.082%               |
+| Protective Pads 16.641%                |
+| Other 3.059%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/252/0/0/8/0 67.971%        |
+| Hardy:0/0/0/0/196/0 28.839%            |
+| Other 3.190%                           |
++----------------------------------------+
+| Moves                                  |
+| Bullet Punch 74.242%                   |
+| Rapid Spin 68.683%                     |
+| Nothing 57.678%                        |
+| Mach Punch 53.260%                     |
+| Sucker Punch 51.248%                   |
+| Endeavor 28.839%                       |
+| Fake Out 24.698%                       |
+| Triple Axel 19.844%                    |
+| Triple Kick 16.641%                    |
+| Other 4.867%                           |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 83.486%                       |
+| Iron Valiant 66.097%                   |
+| Keldeo 51.997%                         |
+| Iron Hands 51.227%                     |
+| Great Tusk 51.227%                     |
+| Quaquaval 31.291%                      |
+| Lucario 17.446%                        |
+| Conkeldurr 17.284%                     |
+| Scrafty 16.584%                        |
+| Urshifu-Rapid-Strike 15.718%           |
++----------------------------------------+
++----------------------------------------+
+| Hitmonlee                              |
++----------------------------------------+
+| Raw count: 606                         |
+| Avg. weight: 0.0006130547266037901     |
+| Viability Ceiling: 67                  |
++----------------------------------------+
+| Abilities                              |
+| Unburden 83.540%                       |
+| Limber 16.409%                         |
+| Reckless 0.051%                        |
++----------------------------------------+
+| Items                                  |
+| Liechi Berry 70.036%                   |
+| Assault Vest 12.039%                   |
+| Air Balloon 8.380%                     |
+| Choice Scarf 4.326%                    |
+| White Herb 1.811%                      |
+| Other 3.407%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 73.437%        |
+| Careful:0/112/0/0/252/144 12.039%      |
+| Adamant:0/172/80/0/4/252 8.380%        |
+| Adamant:0/252/0/0/0/252 4.275%         |
+| Other 1.869%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 86.306%                      |
+| Reversal 71.797%                       |
+| Endure 70.986%                         |
+| Bullet Punch 35.472%                   |
+| Upper Hand 27.305%                     |
+| High Jump Kick 16.692%                 |
+| Poison Jab 15.942%                     |
+| Fake Out 13.804%                       |
+| Rapid Spin 12.285%                     |
+| Sucker Punch 12.107%                   |
+| Close Combat 11.311%                   |
+| Swords Dance 9.970%                    |
+| Other 16.022%                          |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 74.266%                       |
+| Iron Valiant 62.985%                   |
+| Great Tusk 61.755%                     |
+| Infernape 43.860%                      |
+| Urshifu-Rapid-Strike 39.389%           |
+| Okidogi 26.568%                        |
+| Iron Hands 26.359%                     |
+| Mienshao 19.957%                       |
+| Keldeo 15.505%                         |
+| Gallade 15.430%                        |
++----------------------------------------+
++----------------------------------------+
+| Tauros-Paldea-Blaze                    |
++----------------------------------------+
+| Raw count: 312                         |
+| Avg. weight: 0.000796941779877996      |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 91.281%                     |
+| Cud Chew 6.389%                        |
+| Anger Point 2.330%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 79.110%                   |
+| Life Orb 7.603%                        |
+| Sitrus Berry 6.389%                    |
+| Expert Belt 4.112%                     |
+| Other 2.787%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 79.914%          |
+| Adamant:0/252/0/0/0/252 6.387%         |
+| Adamant:0/92/252/0/0/164 4.849%        |
+| Adamant:0/176/148/0/0/184 4.110%       |
+| Other 4.740%                           |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 95.603%                     |
+| Close Combat 86.001%                   |
+| Raging Bull 84.241%                    |
+| Zen Headbutt 77.506%                   |
+| Flare Blitz 15.689%                    |
+| Rock Tomb 9.207%                       |
+| Will-O-Wisp 7.610%                     |
+| Bulk Up 6.401%                         |
+| Other 17.742%                          |
++----------------------------------------+
+| Teammates                              |
+| Urshifu-Rapid-Strike 92.358%           |
+| Great Tusk 90.054%                     |
+| Iron Valiant 88.784%                   |
+| Sneasler 81.483%                       |
+| Iron Hands 79.875%                     |
+| Gallade 15.463%                        |
+| Okidogi 13.237%                        |
+| Hawlucha 6.052%                        |
+| Chesnaught 3.905%                      |
+| Hitmonlee 3.905%                       |
++----------------------------------------+
++----------------------------------------+
+| Decidueye-Hisui                        |
++----------------------------------------+
+| Raw count: 385                         |
+| Avg. weight: 0.0005962283528508577     |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Scrappy 99.687%                        |
+| Overgrow 0.313%                        |
++----------------------------------------+
+| Items                                  |
+| Choice Band 85.218%                    |
+| Choice Scarf 5.507%                    |
+| Leftovers 4.292%                       |
+| Other 4.983%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 89.357%        |
+| Jolly:0/252/0/0/4/252 6.021%           |
+| Other 4.622%                           |
++----------------------------------------+
+| Moves                                  |
+| Triple Arrows 95.981%                  |
+| Leaf Blade 93.665%                     |
+| Brave Bird 89.743%                     |
+| Close Combat 85.219%                   |
+| U-turn 10.610%                         |
+| Sucker Punch 5.820%                    |
+| Other 18.962%                          |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 93.766%                       |
+| Urshifu-Rapid-Strike 91.470%           |
+| Scrafty 86.227%                        |
+| Kommo-o 83.478%                        |
+| Quaquaval 83.130%                      |
+| Keldeo 5.215%                          |
+| Pawmot 5.151%                          |
+| Iron Valiant 5.113%                    |
+| Great Tusk 4.731%                      |
+| Infernape 4.396%                       |
++----------------------------------------+
++----------------------------------------+
+| Medicham                               |
++----------------------------------------+
+| Raw count: 427                         |
+| Avg. weight: 0.00039035485225102023    |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Pure Power 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 91.407%                   |
+| Choice Band 2.827%                     |
+| Focus Sash 1.743%                      |
+| Other 4.024%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/0/0/0/252 59.458%        |
+| Jolly:4/252/0/0/0/252 30.386%          |
+| Jolly:0/252/0/0/4/252 3.172%           |
+| Brave:252/252/0/0/4/0 2.699%           |
+| Other 4.284%                           |
++----------------------------------------+
+| Moves                                  |
+| Zen Headbutt 93.716%                   |
+| Close Combat 91.114%                   |
+| Poison Jab 90.821%                     |
+| Rock Slide 59.458%                     |
+| Ice Punch 37.345%                      |
+| High Jump Kick 5.808%                  |
+| Psycho Cut 4.914%                      |
+| Other 16.824%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Hands 91.767%                     |
+| Great Tusk 90.815%                     |
+| Zapdos-Galar 61.687%                   |
+| Kommo-o 58.761%                        |
+| Tauros-Paldea-Aqua 37.698%             |
+| Sneasler 31.530%                       |
+| Hawlucha 29.654%                       |
+| Quaquaval 29.362%                      |
+| Scrafty 21.146%                        |
+| Lucario 8.385%                         |
++----------------------------------------+
++----------------------------------------+
+| Tauros-Paldea-Aqua                     |
++----------------------------------------+
+| Raw count: 59                          |
+| Avg. weight: 0.0017718036564992403     |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 70.208%                     |
+| Cud Chew 29.788%                       |
+| Anger Point 0.004%                     |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 60.109%                   |
+| Sitrus Berry 29.788%                   |
+| Choice Band 8.962%                     |
+| Other 1.140%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:108/0/0/0/148/252 60.109%        |
+| Jolly:0/252/0/0/4/252 30.924%          |
+| Jolly:0/252/4/0/0/252 8.962%           |
+| Other 0.004%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 99.995%                   |
+| Earthquake 60.115%                     |
+| Wave Crash 60.113%                     |
+| Wild Charge 60.109%                    |
+| Raging Bull 38.750%                    |
+| Bulk Up 30.924%                        |
+| Trailblaze 29.783%                     |
+| Aqua Jet 8.963%                        |
+| Other 11.248%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Hands 70.208%                     |
+| Great Tusk 69.072%                     |
+| Kommo-o 69.072%                        |
+| Zapdos-Galar 60.109%                   |
+| Medicham 60.109%                       |
+| Sneasler 39.891%                       |
+| Gallade 30.928%                        |
+| Keldeo 30.919%                         |
+| Infernape 29.783%                      |
+| Hitmonlee 29.783%                      |
++----------------------------------------+
++----------------------------------------+
+| Toxicroak                              |
++----------------------------------------+
+| Raw count: 293                         |
+| Avg. weight: 0.0002937341011721569     |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Poison Touch 52.695%                   |
+| Dry Skin 46.641%                       |
+| Anticipation 0.664%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 51.970%                   |
+| Black Sludge 45.771%                   |
+| Other 2.259%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/0/252 51.970%          |
+| Jolly:0/252/0/0/4/252 46.062%          |
+| Other 1.967%                           |
++----------------------------------------+
+| Moves                                  |
+| Poison Jab 91.443%                     |
+| Close Combat 52.947%                   |
+| Earthquake 51.972%                     |
+| Rock Slide 51.971%                     |
+| Sucker Punch 46.039%                   |
+| Drain Punch 45.777%                    |
+| Swords Dance 45.694%                   |
+| Other 14.157%                          |
++----------------------------------------+
+| Teammates                              |
+| Poliwrath 89.042%                      |
+| Breloom 60.240%                        |
+| Mienshao 52.576%                       |
+| Hitmonlee 51.971%                      |
+| Emboar 51.970%                         |
+| Heracross 37.842%                      |
+| Gallade 37.806%                        |
+| Lucario 37.803%                        |
+| Infernape 37.737%                      |
+| Kommo-o 7.386%                         |
++----------------------------------------+
++----------------------------------------+
+| Crabominable                           |
++----------------------------------------+
+| Raw count: 110                         |
+| Avg. weight: 0.0008115086035066822     |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Iron Fist 97.709%                      |
+| Anger Point 2.291%                     |
+| Hyper Cutter 0.000%                    |
++----------------------------------------+
+| Items                                  |
+| Never-Melt Ice 85.735%                 |
+| Punching Glove 11.597%                 |
+| Other 2.669%                           |
++----------------------------------------+
+| Spreads                                |
+| Brave:252/252/4/0/0/0 85.681%          |
+| Brave:252/252/0/0/4/0 11.597%          |
+| Other 2.722%                           |
++----------------------------------------+
+| Moves                                  |
+| Ice Hammer 97.650%                     |
+| Crabhammer 88.030%                     |
+| Close Combat 85.688%                   |
+| Avalanche 75.271%                      |
+| Drain Punch 14.311%                    |
+| Earthquake 14.261%                     |
+| Thunder Punch 11.650%                  |
+| Other 13.139%                          |
++----------------------------------------+
+| Teammates                              |
+| Sneasler 84.744%                       |
+| Iron Hands 84.354%                     |
+| Iron Valiant 84.352%                   |
+| Keldeo 71.182%                         |
+| Terrakion 71.181%                      |
+| Gallade 11.888%                        |
+| Conkeldurr 11.648%                     |
+| Zapdos-Galar 1.631%                    |
+| Emboar 1.575%                          |
++----------------------------------------+
++----------------------------------------+
+| Primeape                               |
++----------------------------------------+
+| Raw count: 102                         |
+| Avg. weight: 0.0005591282121965237     |
+| Viability Ceiling: 62                  |
++----------------------------------------+
+| Abilities                              |
+| Defiant 99.993%                        |
+| Vital Spirit 0.007%                    |
+| Anger Point 0.000%                     |
++----------------------------------------+
+| Items                                  |
+| Eviolite 99.399%                       |
+| Other 0.601%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 89.833%        |
+| Careful:252/4/0/0/252/0 9.499%         |
+| Other 0.669%                           |
++----------------------------------------+
+| Moves                                  |
+| Drain Punch 99.928%                    |
+| Bulk Up 99.398%                        |
+| Rage Fist 89.907%                      |
+| Gunk Shot 89.839%                      |
+| Earthquake 10.093%                     |
+| Other 10.834%                          |
++----------------------------------------+
+| Teammates                              |
+| Iron Valiant 89.898%                   |
+| Iron Hands 89.897%                     |
+| Sneasler 89.836%                       |
+| Scrafty 89.833%                        |
+| Gallade 89.832%                        |
+| Hitmonchan 5.996%                      |
+| Conkeldurr 5.996%                      |
+| Hitmonlee 5.996%                       |
+| Hitmontop 5.996%                       |
+| Hariyama 5.996%                        |
++----------------------------------------+

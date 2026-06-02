@@ -1,0 +1,3449 @@
++----------------------------------------+
+| Corviknight                            |
++----------------------------------------+
+| Raw count: 8765                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 59.475%                       |
+| Mirror Armor 39.544%                   |
+| Unnerve 0.981%                         |
++----------------------------------------+
+| Items                                  |
+| Leftovers 65.796%                      |
+| Rocky Helmet 25.145%                   |
+| Heavy-Duty Boots 2.864%                |
+| Covert Cloak 1.894%                    |
+| Other 4.301%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/12/0/0/244/0 17.022%       |
+| Careful:252/0/4/0/252/0 8.671%         |
+| Careful:252/4/0/0/252/0 5.910%         |
+| Impish:252/4/252/0/0/0 5.499%          |
+| Careful:252/12/100/0/144/0 5.260%      |
+| Careful:248/12/0/0/248/0 4.404%        |
+| Other 53.234%                          |
++----------------------------------------+
+| Moves                                  |
+| Roost 85.077%                          |
+| Defog 71.021%                          |
+| Iron Head 61.095%                      |
+| U-turn 60.034%                         |
+| Body Press 40.627%                     |
+| Brave Bird 26.549%                     |
+| Iron Defense 19.966%                   |
+| Bulk Up 13.634%                        |
+| Drill Peck 4.347%                      |
+| Other 17.650%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 63.503%                        |
+| Dragonite 52.402%                      |
+| Enamorus 38.722%                       |
+| Landorus 37.444%                       |
+| Tornadus-Therian 36.007%               |
+| Skarmory 24.803%                       |
+| Gyarados 22.145%                       |
+| Landorus-Therian 21.940%               |
+| Zapdos 19.030%                         |
+| Moltres 18.334%                        |
++----------------------------------------+
++----------------------------------------+
+| Gliscor                                |
++----------------------------------------+
+| Raw count: 8014                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Poison Heal 99.463%                    |
+| Hyper Cutter 0.537%                    |
++----------------------------------------+
+| Items                                  |
+| Toxic Orb 98.403%                      |
+| Other 1.597%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:252/0/184/0/0/72 10.232%        |
+| Jolly:0/252/0/0/4/252 9.296%           |
+| Careful:244/0/0/0/244/20 7.262%        |
+| Impish:244/0/244/0/0/20 5.241%         |
+| Jolly:244/0/12/0/0/252 5.066%          |
+| Jolly:244/0/32/0/224/8 4.991%          |
+| Other 57.911%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 87.372%                     |
+| Protect 83.766%                        |
+| Toxic 45.233%                          |
+| Knock Off 43.736%                      |
+| Stealth Rock 28.350%                   |
+| Swords Dance 27.714%                   |
+| Substitute 16.945%                     |
+| Facade 10.993%                         |
+| Spikes 9.833%                          |
+| Toxic Spikes 8.098%                    |
+| Dual Wingbeat 8.073%                   |
+| High Horsepower 4.717%                 |
+| Crabhammer 3.132%                      |
+| U-turn 2.733%                          |
+| Other 19.304%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 69.453%                    |
+| Dragonite 53.731%                      |
+| Skarmory 41.178%                       |
+| Tornadus-Therian 37.347%               |
+| Enamorus 37.085%                       |
+| Landorus 30.871%                       |
+| Moltres 28.563%                        |
+| Articuno 18.368%                       |
+| Gyarados 17.033%                       |
+| Zapdos 15.535%                         |
++----------------------------------------+
++----------------------------------------+
+| Dragonite                              |
++----------------------------------------+
+| Raw count: 6870                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Multiscale 96.172%                     |
+| Inner Focus 3.828%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 44.396%               |
+| Choice Band 19.840%                    |
+| Leftovers 10.975%                      |
+| Weakness Policy 6.346%                 |
+| Persim Berry 5.939%                    |
+| Loaded Dice 4.978%                     |
+| Life Orb 1.892%                        |
+| Muscle Band 0.815%                     |
+| Other 4.818%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 47.409%        |
+| Jolly:0/252/0/0/4/252 18.413%          |
+| Adamant:252/252/0/0/4/0 3.552%         |
+| Adamant:4/252/0/0/0/252 2.897%         |
+| Adamant:252/252/0/0/0/4 2.431%         |
+| Impish:248/0/76/0/0/184 2.300%         |
+| Other 22.999%                          |
++----------------------------------------+
+| Moves                                  |
+| Extreme Speed 69.083%                  |
+| Earthquake 65.298%                     |
+| Dragon Dance 63.726%                   |
+| Outrage 41.951%                        |
+| Roost 25.822%                          |
+| Dragon Claw 24.469%                    |
+| Ice Spinner 19.316%                    |
+| Thunder Punch 19.127%                  |
+| Fire Punch 18.151%                     |
+| Rock Slide 7.686%                      |
+| Thunder Wave 6.172%                    |
+| Scale Shot 5.866%                      |
+| Iron Head 5.866%                       |
+| Dragon Tail 4.367%                     |
+| Aqua Tail 2.766%                       |
+| Protect 2.664%                         |
+| Other 17.671%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 66.856%                    |
+| Gliscor 62.678%                        |
+| Enamorus 42.111%                       |
+| Skarmory 32.882%                       |
+| Tornadus-Therian 29.534%               |
+| Landorus 28.792%                       |
+| Moltres 22.504%                        |
+| Zapdos 19.505%                         |
+| Landorus-Therian 19.112%               |
+| Gyarados 18.137%                       |
++----------------------------------------+
++----------------------------------------+
+| Enamorus                               |
++----------------------------------------+
+| Raw count: 4857                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Contrary 87.647%                       |
+| Cute Charm 12.353%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 58.349%                   |
+| Choice Specs 9.615%                    |
+| Leftovers 8.936%                       |
+| Maranga Berry 8.359%                   |
+| Heavy-Duty Boots 4.159%                |
+| Assault Vest 3.747%                    |
+| Life Orb 1.441%                        |
+| Expert Belt 1.379%                     |
+| Other 4.015%                           |
++----------------------------------------+
+| Spreads                                |
+| Naive:0/0/0/252/4/252 19.230%          |
+| Hasty:0/4/0/252/0/252 18.633%          |
+| Timid:0/0/0/252/4/252 17.109%          |
+| Naive:0/4/0/252/0/252 11.221%          |
+| Modest:0/0/0/60/196/252 8.359%         |
+| Jolly:0/252/0/0/4/252 4.365%           |
+| Other 21.083%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 72.432%                    |
+| Superpower 71.855%                     |
+| Moonblast 70.723%                      |
+| Healing Wish 50.587%                   |
+| Mystical Fire 23.780%                  |
+| Psychic 18.201%                        |
+| Play Rough 13.033%                     |
+| Draining Kiss 12.394%                  |
+| Iron Head 10.727%                      |
+| Tailwind 9.780%                        |
+| Sludge Bomb 8.421%                     |
+| Zen Headbutt 7.288%                    |
+| Springtide Storm 6.959%                |
+| Grass Knot 4.653%                      |
+| Other 19.168%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 69.879%                    |
+| Gliscor 61.190%                        |
+| Dragonite 59.564%                      |
+| Skarmory 33.560%                       |
+| Landorus 33.292%                       |
+| Tornadus-Therian 23.945%               |
+| Gyarados 22.957%                       |
+| Landorus-Therian 21.865%               |
+| Moltres 21.186%                        |
+| Zapdos 19.971%                         |
++----------------------------------------+
++----------------------------------------+
+| Landorus                               |
++----------------------------------------+
+| Raw count: 4379                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Sheer Force 95.798%                    |
+| Sand Force 4.202%                      |
++----------------------------------------+
+| Items                                  |
+| Life Orb 55.675%                       |
+| Choice Scarf 30.989%                   |
+| Rocky Helmet 4.248%                    |
+| Choice Specs 2.809%                    |
+| Heavy-Duty Boots 1.279%                |
+| Assault Vest 1.119%                    |
+| Other 3.882%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 38.388%          |
+| Naive:0/4/0/252/0/252 30.852%          |
+| Naive:0/0/0/252/4/252 8.655%           |
+| Timid:4/0/0/252/0/252 3.403%           |
+| Modest:4/0/0/252/0/252 3.129%          |
+| Modest:0/0/0/252/4/252 2.352%          |
+| Other 13.222%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 88.376%                    |
+| Psychic 57.365%                        |
+| Sludge Wave 50.948%                    |
+| Focus Blast 44.120%                    |
+| Rock Slide 37.269%                     |
+| U-turn 31.720%                         |
+| Stealth Rock 18.680%                   |
+| Nasty Plot 12.788%                     |
+| Sludge Bomb 8.815%                     |
+| Sandsear Storm 8.723%                  |
+| Grass Knot 6.828%                      |
+| Calm Mind 4.978%                       |
+| Crunch 4.522%                          |
+| Body Slam 4.088%                       |
+| Extrasensory 3.745%                    |
+| Other 17.036%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 74.949%                    |
+| Gliscor 56.497%                        |
+| Dragonite 45.170%                      |
+| Enamorus 36.926%                       |
+| Tornadus-Therian 29.893%               |
+| Skarmory 26.422%                       |
+| Zapdos 26.216%                         |
+| Moltres 23.476%                        |
+| Gyarados 19.776%                       |
+| Articuno 17.881%                       |
++----------------------------------------+
++----------------------------------------+
+| Skarmory                               |
++----------------------------------------+
+| Raw count: 4210                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Sturdy 84.086%                         |
+| Keen Eye 11.591%                       |
+| Weak Armor 4.323%                      |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 68.575%                   |
+| Leftovers 25.701%                      |
+| Heavy-Duty Boots 2.185%                |
+| Other 3.539%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/0/4/0 25.392%           |
+| Bold:252/0/232/0/0/24 12.684%          |
+| Bold:252/0/252/0/0/4 10.998%           |
+| Careful:0/0/252/0/4/252 9.644%         |
+| Calm:252/0/0/0/232/24 5.629%           |
+| Bold:252/0/240/0/0/16 5.131%           |
+| Other 30.523%                          |
++----------------------------------------+
+| Moves                                  |
+| Body Press 81.045%                     |
+| Roost 79.834%                          |
+| Whirlwind 64.846%                      |
+| Stealth Rock 54.751%                   |
+| Spikes 53.824%                         |
+| Iron Defense 23.705%                   |
+| Dual Wingbeat 8.622%                   |
+| Iron Head 8.100%                       |
+| Brave Bird 4.703%                      |
+| Drill Peck 3.919%                      |
+| Other 16.651%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 78.385%                        |
+| Dragonite 53.658%                      |
+| Corviknight 51.639%                    |
+| Enamorus 38.717%                       |
+| Tornadus-Therian 32.043%               |
+| Landorus 27.482%                       |
+| Moltres 25.891%                        |
+| Landorus-Therian 18.052%               |
+| Gyarados 17.815%                       |
+| Zapdos 15.463%                         |
++----------------------------------------+
++----------------------------------------+
+| Tornadus-Therian                       |
++----------------------------------------+
+| Raw count: 4119                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Regenerator 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 62.345%                   |
+| Heavy-Duty Boots 25.710%               |
+| Life Orb 4.054%                        |
+| Choice Specs 1.772%                    |
+| Leftovers 1.505%                       |
+| Other 4.613%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:248/0/0/44/0/216 25.006%         |
+| Timid:0/0/0/252/4/252 11.945%          |
+| Timid:248/0/12/0/0/248 5.827%          |
+| Timid:232/0/28/0/0/248 5.705%          |
+| Timid:244/0/0/0/12/252 4.734%          |
+| Timid:160/0/0/0/132/216 4.564%         |
+| Other 42.219%                          |
++----------------------------------------+
+| Moves                                  |
+| Bleakwind Storm 88.784%                |
+| U-turn 81.889%                         |
+| Knock Off 76.645%                      |
+| Heat Wave 71.838%                      |
+| Taunt 13.838%                          |
+| Focus Blast 12.066%                    |
+| Nasty Plot 11.119%                     |
+| Icy Wind 6.652%                        |
+| Hurricane 5.948%                       |
+| Sludge Wave 5.802%                     |
+| Tailwind 5.657%                        |
+| Other 19.762%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 76.621%                    |
+| Gliscor 72.663%                        |
+| Dragonite 49.260%                      |
+| Skarmory 32.751%                       |
+| Landorus 31.780%                       |
+| Moltres 31.780%                        |
+| Articuno 31.755%                       |
+| Enamorus 28.235%                       |
+| Landorus-Therian 25.783%               |
+| Gyarados 12.285%                       |
++----------------------------------------+
++----------------------------------------+
+| Moltres                                |
++----------------------------------------+
+| Raw count: 3034                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Flame Body 95.913%                     |
+| Pressure 4.087%                        |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 73.632%               |
+| Charcoal 13.612%                       |
+| Choice Scarf 3.724%                    |
+| Weakness Policy 1.978%                 |
+| Focus Sash 1.417%                      |
+| Life Orb 1.351%                        |
+| Other 4.285%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:80/0/0/0/252/176 13.382%        |
+| Bold:252/0/244/0/0/12 10.811%          |
+| Timid:252/0/32/0/0/224 10.679%         |
+| Bold:248/0/96/0/68/96 7.284%           |
+| Calm:248/0/8/0/252/0 6.295%            |
+| Calm:0/0/0/252/252/4 5.241%            |
+| Other 46.309%                          |
++----------------------------------------+
+| Moves                                  |
+| Flamethrower 73.303%                   |
+| Roost 72.973%                          |
+| Will-O-Wisp 53.988%                    |
+| Scorching Sands 48.484%                |
+| U-turn 25.939%                         |
+| Heat Wave 15.425%                      |
+| Flame Charge 15.359%                   |
+| Solar Beam 13.678%                     |
+| Sunny Day 13.612%                      |
+| Air Slash 12.591%                      |
+| Hurricane 10.646%                      |
+| Roar 10.283%                           |
+| Overheat 7.548%                        |
+| Ancient Power 7.218%                   |
+| Other 18.952%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 75.445%                        |
+| Corviknight 52.966%                    |
+| Dragonite 50.956%                      |
+| Tornadus-Therian 43.144%               |
+| Skarmory 35.926%                       |
+| Articuno 33.949%                       |
+| Enamorus 33.916%                       |
+| Landorus 33.883%                       |
+| Zapdos 17.568%                         |
+| Oricorio-Pom-Pom 12.657%               |
++----------------------------------------+
++----------------------------------------+
+| Landorus-Therian                       |
++----------------------------------------+
+| Raw count: 2924                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 43.092%                   |
+| Leftovers 32.969%                      |
+| Heavy-Duty Boots 6.874%                |
+| Rocky Helmet 6.327%                    |
+| Choice Band 3.933%                     |
+| Assault Vest 2.120%                    |
+| Other 4.685%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 41.553%          |
+| Impish:252/0/156/0/88/12 7.114%        |
+| Jolly:4/252/0/0/0/252 4.720%           |
+| Impish:252/4/252/0/0/0 4.343%          |
+| Jolly:0/252/0/0/0/252 4.241%           |
+| Adamant:0/252/0/0/4/252 4.001%         |
+| Other 34.029%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 95.007%                     |
+| U-turn 80.575%                         |
+| Stealth Rock 62.209%                   |
+| Stone Edge 49.111%                     |
+| Crunch 18.570%                         |
+| Smack Down 15.014%                     |
+| Rock Slide 11.833%                     |
+| Swords Dance 8.003%                    |
+| Outrage 7.661%                         |
+| Bulk Up 7.182%                         |
+| Taunt 6.088%                           |
+| Substitute 5.438%                      |
+| Brick Break 3.557%                     |
+| Sandsear Storm 3.386%                  |
+| Body Slam 2.633%                       |
+| Earth Power 2.531%                     |
+| Hammer Arm 2.428%                      |
+| Other 18.776%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 65.766%                    |
+| Dragonite 44.904%                      |
+| Tornadus-Therian 36.320%               |
+| Enamorus 36.320%                       |
+| Gliscor 36.081%                        |
+| Gyarados 28.830%                       |
+| Skarmory 25.992%                       |
+| Zapdos 21.580%                         |
+| Articuno 20.725%                       |
+| Thundurus-Therian 19.938%              |
++----------------------------------------+
++----------------------------------------+
+| Gyarados                               |
++----------------------------------------+
+| Raw count: 2804                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 65.942%                     |
+| Moxie 34.058%                          |
++----------------------------------------+
+| Items                                  |
+| Leftovers 56.455%                      |
+| Heavy-Duty Boots 9.914%                |
+| Life Orb 8.345%                        |
+| Choice Scarf 5.956%                    |
+| Focus Sash 4.030%                      |
+| Loaded Dice 3.388%                     |
+| Lum Berry 2.068%                       |
+| Sitrus Berry 1.854%                    |
+| Expert Belt 1.712%                     |
+| Assault Vest 1.106%                    |
+| Choice Band 0.963%                     |
+| Other 4.208%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:248/0/8/0/0/252 28.638%          |
+| Adamant:0/252/0/0/4/252 20.685%        |
+| Jolly:0/252/0/0/4/252 10.628%          |
+| Jolly:0/248/8/0/0/252 4.208%           |
+| Adamant:4/252/0/0/0/252 3.495%         |
+| Jolly:8/208/28/0/12/252 3.067%         |
+| Other 29.280%                          |
++----------------------------------------+
+| Moves                                  |
+| Waterfall 90.050%                      |
+| Earthquake 89.123%                     |
+| Dragon Dance 84.807%                   |
+| Substitute 22.218%                     |
+| Ice Fang 21.755%                       |
+| Taunt 19.900%                          |
+| Crunch 10.913%                         |
+| Temper Flare 9.023%                    |
+| Thunder Wave 5.991%                    |
+| Aqua Tail 5.670%                       |
+| Iron Head 5.563%                       |
+| Dragon Tail 5.528%                     |
+| Outrage 5.492%                         |
+| Scale Shot 5.136%                      |
+| Other 18.830%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 69.223%                    |
+| Gliscor 48.680%                        |
+| Dragonite 44.437%                      |
+| Enamorus 39.765%                       |
+| Landorus 30.884%                       |
+| Landorus-Therian 30.064%               |
+| Skarmory 26.748%                       |
+| Zapdos 22.147%                         |
+| Tornadus-Therian 18.046%               |
+| Moltres 13.623%                        |
++----------------------------------------+
++----------------------------------------+
+| Zapdos                                 |
++----------------------------------------+
+| Raw count: 2596                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 89                  |
++----------------------------------------+
+| Abilities                              |
+| Static 86.287%                         |
+| Pressure 13.713%                       |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 40.370%               |
+| Choice Specs 14.676%                   |
+| Leftovers 12.558%                      |
+| Assault Vest 10.169%                   |
+| Light Clay 6.163%                      |
+| Rocky Helmet 4.738%                    |
+| Life Orb 4.122%                        |
+| Choice Scarf 3.891%                    |
+| Other 3.313%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 26.888%          |
+| Modest:248/0/0/252/8/0 7.126%          |
+| Bold:252/0/160/0/0/96 6.780%           |
+| Calm:248/0/8/0/252/0 6.356%            |
+| Timid:4/0/0/252/0/252 4.661%           |
+| Modest:4/0/0/252/0/252 3.544%          |
+| Other 44.646%                          |
++----------------------------------------+
+| Moves                                  |
+| Hurricane 75.270%                      |
+| Volt Switch 60.478%                    |
+| Roost 58.513%                          |
+| Heat Wave 50.578%                      |
+| Discharge 33.590%                      |
+| Thunderbolt 26.579%                    |
+| Thunder Wave 20.994%                   |
+| Thunder 20.108%                        |
+| Ancient Power 11.210%                  |
+| U-turn 9.091%                          |
+| Substitute 7.743%                      |
+| Light Screen 6.741%                    |
+| Other 19.106%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 64.253%                    |
+| Dragonite 51.618%                      |
+| Gliscor 47.958%                        |
+| Landorus 44.222%                       |
+| Enamorus 37.365%                       |
+| Skarmory 25.077%                       |
+| Landorus-Therian 24.307%               |
+| Gyarados 23.921%                       |
+| Moltres 20.532%                        |
+| Tornadus-Therian 18.837%               |
++----------------------------------------+
++----------------------------------------+
+| Articuno                               |
++----------------------------------------+
+| Raw count: 2312                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 90                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 91.782%               |
+| Focus Sash 2.552%                      |
+| Leftovers 1.557%                       |
+| Other 4.109%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:248/0/0/0/208/52 28.936%          |
+| Calm:248/0/16/0/244/0 15.744%          |
+| Sassy:252/0/0/4/252/0 8.824%           |
+| Calm:252/0/0/4/252/0 7.569%            |
+| Calm:248/0/0/0/248/12 6.574%           |
+| Calm:248/0/8/0/252/0 4.239%            |
+| Other 28.114%                          |
++----------------------------------------+
+| Moves                                  |
+| Freeze-Dry 98.443%                     |
+| Roost 92.431%                          |
+| Haze 89.230%                           |
+| U-turn 54.628%                         |
+| Substitute 29.498%                     |
+| Air Slash 7.439%                       |
+| Hurricane 5.104%                       |
+| Ancient Power 5.017%                   |
+| Other 18.209%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 64.187%                    |
+| Gliscor 63.668%                        |
+| Tornadus-Therian 56.574%               |
+| Dragonite 45.675%                      |
+| Moltres 44.550%                        |
+| Landorus 33.867%                       |
+| Enamorus 26.600%                       |
+| Landorus-Therian 26.211%               |
+| Skarmory 25.735%                       |
+| Gyarados 15.095%                       |
++----------------------------------------+
++----------------------------------------+
+| Moltres-Galar                          |
++----------------------------------------+
+| Raw count: 1741                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Berserk 100.000%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 23.722%                      |
+| Chesto Berry 18.265%                   |
+| Sitrus Berry 16.025%                   |
+| Weakness Policy 15.164%                |
+| Heavy-Duty Boots 12.866%               |
+| Assault Vest 4.882%                    |
+| Salac Berry 1.149%                     |
+| Black Glasses 1.091%                   |
+| Red Card 1.034%                        |
+| Life Orb 0.804%                        |
+| Other 4.997%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 18.036%         |
+| Timid:0/0/0/252/4/252 15.393%          |
+| Calm:252/0/0/4/252/0 7.754%            |
+| Calm:248/0/0/20/136/104 7.007%         |
+| Calm:248/0/0/84/136/40 4.767%          |
+| Hasty:0/4/0/252/0/252 4.710%           |
+| Other 42.332%                          |
++----------------------------------------+
+| Moves                                  |
+| Fiery Wrath 96.956%                    |
+| Agility 67.433%                        |
+| Nasty Plot 64.905%                     |
+| Hurricane 40.264%                      |
+| Air Slash 31.706%                      |
+| Rest 19.357%                           |
+| Shadow Ball 15.106%                    |
+| Substitute 11.488%                     |
+| Sucker Punch 10.454%                   |
+| Protect 9.305%                         |
+| Ancient Power 7.352%                   |
+| Pain Split 6.261%                      |
+| Other 19.414%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 72.774%                    |
+| Dragonite 56.347%                      |
+| Gliscor 48.593%                        |
+| Enamorus 42.562%                       |
+| Landorus 36.646%                       |
+| Skarmory 31.476%                       |
+| Landorus-Therian 19.874%               |
+| Zapdos 17.059%                         |
+| Talonflame 12.694%                     |
+| Articuno 12.234%                       |
++----------------------------------------+
++----------------------------------------+
+| Talonflame                             |
++----------------------------------------+
+| Raw count: 1656                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Gale Wings 81.884%                     |
+| Flame Body 18.116%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 48.128%               |
+| Life Orb 18.357%                       |
+| Choice Specs 6.703%                    |
+| Leftovers 5.495%                       |
+| Nothing 4.287%                         |
+| Focus Sash 3.502%                      |
+| Choice Band 2.234%                     |
+| Eject Button 1.932%                    |
+| Muscle Band 1.630%                     |
+| Choice Scarf 1.147%                    |
+| Sitrus Berry 1.087%                    |
+| Sharp Beak 0.906%                      |
+| Other 4.589%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 43.418%          |
+| Modest:0/0/0/252/0/0 5.857%            |
+| Jolly:0/252/0/0/0/252 4.469%           |
+| Timid:248/0/28/0/0/232 4.469%          |
+| Adamant:0/252/0/0/4/252 3.623%         |
+| Hardy:108/100/100/0/100/100 3.080%     |
+| Other 35.085%                          |
++----------------------------------------+
+| Moves                                  |
+| Brave Bird 64.251%                     |
+| Flare Blitz 57.729%                    |
+| Roost 46.256%                          |
+| U-turn 26.329%                         |
+| Will-O-Wisp 22.947%                    |
+| Defog 22.585%                          |
+| Flame Charge 20.109%                   |
+| Swords Dance 19.807%                   |
+| Tailwind 15.097%                       |
+| Dual Wingbeat 12.621%                  |
+| Protect 9.903%                         |
+| Acrobatics 9.541%                      |
+| Steel Wing 9.179%                      |
+| Fire Blast 8.031%                      |
+| Air Slash 7.971%                       |
+| Flamethrower 6.884%                    |
+| Hyper Beam 5.857%                      |
+| Solar Beam 5.857%                      |
+| Bulk Up 5.435%                         |
+| Temper Flare 3.744%                    |
+| Other 19.867%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 56.039%                    |
+| Gliscor 52.959%                        |
+| Dragonite 43.176%                      |
+| Landorus 25.543%                       |
+| Pelipper 21.256%                       |
+| Hawlucha 20.652%                       |
+| Skarmory 15.097%                       |
+| Enamorus 14.493%                       |
+| Salamence 13.829%                      |
+| Moltres-Galar 13.345%                  |
++----------------------------------------+
++----------------------------------------+
+| Pelipper                               |
++----------------------------------------+
+| Raw count: 1577                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Drizzle 98.795%                        |
+| Rain Dish 1.078%                       |
+| Keen Eye 0.127%                        |
++----------------------------------------+
+| Items                                  |
+| Leftovers 25.428%                      |
+| Focus Sash 24.160%                     |
+| Heavy-Duty Boots 13.190%               |
+| Choice Specs 12.238%                   |
+| Choice Scarf 10.019%                   |
+| Assault Vest 6.341%                    |
+| Eject Button 2.600%                    |
+| Wacan Berry 2.346%                     |
+| Other 3.678%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 15.346%         |
+| Timid:0/0/0/252/4/252 10.907%          |
+| Relaxed:252/4/252/0/0/0 9.702%         |
+| Bold:248/0/252/0/8/0 4.946%            |
+| Bold:248/0/252/8/0/0 4.566%            |
+| Timid:4/0/0/252/0/252 3.805%           |
+| Other 50.729%                          |
++----------------------------------------+
+| Moves                                  |
+| Hurricane 80.279%                      |
+| U-turn 57.514%                         |
+| Ice Beam 57.451%                       |
+| Weather Ball 53.202%                   |
+| Roost 31.579%                          |
+| Surf 27.711%                           |
+| Tailwind 25.365%                       |
+| Hydro Pump 17.755%                     |
+| Knock Off 17.565%                      |
+| Chilling Water 6.722%                  |
+| Protect 5.073%                         |
+| Other 19.784%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragonite 47.559%                      |
+| Corviknight 47.495%                    |
+| Gliscor 40.774%                        |
+| Zapdos 28.408%                         |
+| Enamorus 26.189%                       |
+| Landorus-Therian 23.145%               |
+| Talonflame 22.321%                     |
+| Kilowattrel 18.326%                    |
+| Landorus 17.438%                       |
+| Salamence 16.931%                      |
++----------------------------------------+
++----------------------------------------+
+| Zapdos-Galar                           |
++----------------------------------------+
+| Raw count: 1385                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Defiant 100.000%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 51.191%                   |
+| Choice Band 27.292%                    |
+| Leftovers 3.466%                       |
+| Life Orb 2.888%                        |
+| Expert Belt 2.816%                     |
+| Assault Vest 1.733%                    |
+| Focus Sash 1.733%                      |
+| Heavy-Duty Boots 1.733%                |
+| Sitrus Berry 1.516%                    |
+| White Herb 1.444%                      |
+| Other 4.188%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 72.058%          |
+| Jolly:4/252/0/0/0/252 5.199%           |
+| Adamant:248/252/0/0/8/0 4.043%         |
+| Adamant:0/252/0/0/4/252 3.105%         |
+| Adamant:4/252/0/0/0/252 2.527%         |
+| Jolly:252/252/0/0/0/4 1.733%           |
+| Other 11.336%                          |
++----------------------------------------+
+| Moves                                  |
+| U-turn 81.733%                         |
+| Brave Bird 81.300%                     |
+| Close Combat 71.697%                   |
+| Knock Off 70.686%                      |
+| Thunderous Kick 36.462%                |
+| Throat Chop 12.202%                    |
+| Stomping Tantrum 10.036%               |
+| Bulk Up 8.087%                         |
+| Trailblaze 7.942%                      |
+| Other 19.856%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 73.141%                    |
+| Gliscor 50.108%                        |
+| Landorus 43.105%                       |
+| Enamorus 33.646%                       |
+| Dragonite 30.397%                      |
+| Tornadus-Therian 28.809%               |
+| Skarmory 23.538%                       |
+| Gyarados 15.090%                       |
+| Landorus-Therian 14.224%               |
+| Moltres 12.708%                        |
++----------------------------------------+
++----------------------------------------+
+| Thundurus-Therian                      |
++----------------------------------------+
+| Raw count: 1264                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Volt Absorb 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 34.019%               |
+| Choice Scarf 30.380%                   |
+| Life Orb 12.104%                       |
+| Choice Specs 5.617%                    |
+| Leftovers 5.222%                       |
+| Focus Sash 3.165%                      |
+| Assault Vest 2.532%                    |
+| Expert Belt 2.532%                     |
+| Other 4.430%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 69.066%          |
+| Timid:0/0/0/252/0/252 10.127%          |
+| Modest:4/0/0/252/0/252 4.509%          |
+| Timid:4/0/0/252/0/252 4.509%           |
+| Timid:104/0/0/152/0/252 2.848%         |
+| Modest:0/0/0/252/4/252 2.057%          |
+| Other 6.883%                           |
++----------------------------------------+
+| Moves                                  |
+| Thunderbolt 74.209%                    |
+| Volt Switch 57.120%                    |
+| Grass Knot 54.114%                     |
+| Focus Blast 39.636%                    |
+| Dark Pulse 29.589%                     |
+| Sludge Wave 28.797%                    |
+| Psychic 22.547%                        |
+| Nasty Plot 18.196%                     |
+| Flash Cannon 17.801%                   |
+| Discharge 9.889%                       |
+| Sludge Bomb 9.889%                     |
+| Thunder 7.991%                         |
+| Wildbolt Storm 7.199%                  |
+| U-turn 7.120%                          |
+| Other 15.902%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 69.383%                    |
+| Landorus-Therian 46.123%               |
+| Gliscor 43.038%                        |
+| Enamorus 41.930%                       |
+| Dragonite 32.991%                      |
+| Gyarados 27.769%                       |
+| Tornadus-Therian 21.835%               |
+| Landorus 20.570%                       |
+| Moltres-Galar 16.535%                  |
+| Articuno 14.399%                       |
++----------------------------------------+
++----------------------------------------+
+| Hawlucha                               |
++----------------------------------------+
+| Raw count: 1102                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 80                  |
++----------------------------------------+
+| Abilities                              |
+| Unburden 90.200%                       |
+| Mold Breaker 6.534%                    |
+| Limber 3.267%                          |
++----------------------------------------+
+| Items                                  |
+| White Herb 38.294%                     |
+| Power Herb 14.791%                     |
+| Sitrus Berry 14.791%                   |
+| Focus Sash 10.163%                     |
+| Liechi Berry 8.167%                    |
+| Choice Scarf 2.269%                    |
+| Nothing 1.906%                         |
+| Mirror Herb 1.180%                     |
+| Wide Lens 1.180%                       |
+| Choice Specs 1.089%                    |
+| Heavy-Duty Boots 0.998%                |
+| Air Balloon 0.907%                     |
+| Other 4.265%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 58.439%        |
+| Jolly:4/252/0/0/0/252 9.074%           |
+| Jolly:0/252/0/0/0/252 5.626%           |
+| Adamant:0/252/0/0/0/252 4.537%         |
+| Adamant:4/252/0/0/0/252 3.721%         |
+| Jolly:0/252/0/0/4/252 3.267%           |
+| Other 15.336%                          |
++----------------------------------------+
+| Moves                                  |
+| Acrobatics 69.691%                     |
+| Swords Dance 61.343%                   |
+| Close Combat 61.343%                   |
+| Drain Punch 22.777%                    |
+| Dual Wingbeat 15.971%                  |
+| Rock Slide 15.517%                     |
+| Sky Attack 14.247%                     |
+| Protect 13.702%                        |
+| High Jump Kick 11.797%                 |
+| Poison Jab 10.980%                     |
+| Endure 8.167%                          |
+| Substitute 8.076%                      |
+| Throat Chop 7.713%                     |
+| Iron Head 6.443%                       |
+| Encore 5.263%                          |
+| Reversal 5.172%                        |
+| Fire Punch 5.172%                      |
+| Brave Bird 4.991%                      |
+| Stone Edge 4.991%                      |
+| U-turn 4.537%                          |
+| Upper Hand 4.174%                      |
+| Bulk Up 4.083%                         |
+| Flying Press 3.902%                    |
+| Thunder Punch 3.811%                   |
+| Roost 3.721%                           |
+| Zen Headbutt 3.085%                    |
+| Other 19.328%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 47.913%                    |
+| Dragonite 44.918%                      |
+| Gliscor 43.920%                        |
+| Talonflame 31.034%                     |
+| Landorus-Therian 23.321%               |
+| Gyarados 22.868%                       |
+| Tornadus-Therian 22.051%               |
+| Landorus 21.325%                       |
+| Moltres-Galar 17.695%                  |
+| Skarmory 16.062%                       |
++----------------------------------------+
++----------------------------------------+
+| Mandibuzz                              |
++----------------------------------------+
+| Raw count: 1089                        |
+| Avg. weight: 1                         |
+| Viability Ceiling: 88                  |
++----------------------------------------+
+| Abilities                              |
+| Overcoat 85.767%                       |
+| Big Pecks 8.264%                       |
+| Weak Armor 5.969%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 51.882%               |
+| Leftovers 32.048%                      |
+| Rocky Helmet 7.713%                    |
+| Black Glasses 2.388%                   |
+| Loaded Dice 1.928%                     |
+| Other 4.040%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/0/4/0/252/0 16.070%        |
+| Bold:248/0/252/0/8/0 12.121%           |
+| Impish:248/0/92/0/152/16 6.795%        |
+| Impish:248/0/252/0/8/0 3.857%          |
+| Bold:252/0/252/4/0/0 3.398%            |
+| Adamant:248/252/0/0/8/0 3.306%         |
+| Other 54.454%                          |
++----------------------------------------+
+| Moves                                  |
+| Roost 89.899%                          |
+| Foul Play 57.851%                      |
+| Toxic 53.076%                          |
+| Defog 52.984%                          |
+| U-turn 38.659%                         |
+| Knock Off 29.936%                      |
+| Tailwind 15.702%                       |
+| Brave Bird 10.193%                     |
+| Protect 9.917%                         |
+| Whirlwind 5.326%                       |
+| Air Slash 5.326%                       |
+| Dark Pulse 4.867%                      |
+| Taunt 4.132%                           |
+| Iron Defense 2.938%                    |
+| Other 19.192%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 55.647%                    |
+| Gliscor 43.251%                        |
+| Landorus-Therian 34.711%               |
+| Skarmory 28.191%                       |
+| Tornadus-Therian 26.722%               |
+| Landorus 26.630%                       |
+| Dragonite 24.793%                      |
+| Gyarados 20.937%                       |
+| Zapdos 16.253%                         |
+| Flamigo 15.152%                        |
++----------------------------------------+
++----------------------------------------+
+| Flamigo                                |
++----------------------------------------+
+| Raw count: 944                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Scrappy 98.093%                        |
+| Costar 1.907%                          |
++----------------------------------------+
+| Items                                  |
+| Choice Band 69.703%                    |
+| Choice Scarf 18.432%                   |
+| Life Orb 5.720%                        |
+| White Herb 1.377%                      |
+| Other 4.767%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 53.602%          |
+| Adamant:0/252/0/0/4/252 25.212%        |
+| Jolly:0/252/4/0/0/252 9.428%           |
+| Adamant:0/252/0/0/0/252 5.720%         |
+| Jolly:4/252/0/0/0/252 1.695%           |
+| Other 4.343%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 98.517%                   |
+| Brave Bird 93.538%                     |
+| U-turn 73.941%                         |
+| Upper Hand 45.869%                     |
+| Liquidation 23.199%                    |
+| Throat Chop 22.458%                    |
+| Copycat 14.301%                        |
+| Lunge 7.521%                           |
+| Swords Dance 4.873%                    |
+| Other 15.784%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 59.428%                    |
+| Gliscor 43.750%                        |
+| Tornadus-Therian 36.229%               |
+| Dragonite 32.839%                      |
+| Landorus 28.072%                       |
+| Braviary-Hisui 21.398%                 |
+| Moltres 20.127%                        |
+| Pelipper 18.856%                       |
+| Skarmory 18.432%                       |
+| Talonflame 17.479%                     |
++----------------------------------------+
++----------------------------------------+
+| Kilowattrel                            |
++----------------------------------------+
+| Raw count: 855                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Volt Absorb 75.556%                    |
+| Competitive 13.099%                    |
+| Wind Power 11.345%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 21.637%                   |
+| Heavy-Duty Boots 16.725%               |
+| Focus Sash 15.556%                     |
+| Life Orb 11.228%                       |
+| Assault Vest 11.111%                   |
+| Choice Scarf 8.889%                    |
+| Leftovers 3.041%                       |
+| Magnet 2.222%                          |
+| Rocky Helmet 1.520%                    |
+| Wide Lens 1.404%                       |
+| Nothing 0.936%                         |
+| Metronome 0.936%                       |
+| Other 4.795%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 60.351%          |
+| Hardy:100/0/100/104/100/104 5.965%     |
+| Timid:4/0/0/252/0/252 5.146%           |
+| Modest:4/0/0/252/0/252 4.678%          |
+| Modest:0/0/0/252/4/252 4.327%          |
+| Timid:0/0/0/252/0/252 3.158%           |
+| Other 16.374%                          |
++----------------------------------------+
+| Moves                                  |
+| Volt Switch 65.848%                    |
+| Hurricane 58.596%                      |
+| Thunder 46.199%                        |
+| Thunderbolt 38.480%                    |
+| Air Slash 37.310%                      |
+| Weather Ball 36.023%                   |
+| Discharge 19.883%                      |
+| Roost 19.766%                          |
+| Thunder Wave 19.181%                   |
+| U-turn 12.865%                         |
+| Endeavor 10.994%                       |
+| Tailwind 9.123%                        |
+| Quick Attack 4.444%                    |
+| Electro Ball 2.807%                    |
+| Other 18.480%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 54.152%                    |
+| Gliscor 45.731%                        |
+| Pelipper 33.801%                       |
+| Dragonite 31.579%                      |
+| Talonflame 19.883%                     |
+| Hawlucha 15.906%                       |
+| Gyarados 15.673%                       |
+| Moltres 15.322%                        |
+| Landorus-Therian 14.035%               |
+| Zapdos-Galar 13.567%                   |
++----------------------------------------+
++----------------------------------------+
+| Salamence                              |
++----------------------------------------+
+| Raw count: 834                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 68.345%                          |
+| Intimidate 31.655%                     |
++----------------------------------------+
+| Items                                  |
+| Lum Berry 23.621%                      |
+| Choice Scarf 17.386%                   |
+| Heavy-Duty Boots 14.388%               |
+| Leftovers 10.552%                      |
+| Focus Sash 9.113%                      |
+| Life Orb 7.074%                        |
+| Sitrus Berry 3.597%                    |
+| Yache Berry 2.518%                     |
+| Choice Band 2.038%                     |
+| Muscle Band 2.038%                     |
+| Rocky Helmet 1.679%                    |
+| Dragon Fang 1.559%                     |
+| Other 4.436%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 33.813%        |
+| Jolly:0/252/0/0/4/252 19.784%          |
+| Jolly:4/252/0/0/0/252 9.113%           |
+| Adamant:4/252/0/0/0/252 7.194%         |
+| Lonely:0/252/0/4/0/252 5.635%          |
+| Adamant:0/252/4/0/0/252 3.957%         |
+| Other 20.504%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 70.384%                     |
+| Dragon Dance 67.026%                   |
+| Dual Wingbeat 49.161%                  |
+| Outrage 43.285%                        |
+| Iron Head 33.693%                      |
+| Dragon Claw 33.213%                    |
+| Roost 13.309%                          |
+| Crunch 11.511%                         |
+| Psychic Fangs 9.113%                   |
+| Rock Slide 7.914%                      |
+| Draco Meteor 6.954%                    |
+| Flamethrower 6.835%                    |
+| Stone Edge 5.755%                      |
+| Air Slash 5.396%                       |
+| Temper Flare 4.676%                    |
+| Hyper Voice 4.077%                     |
+| Zen Headbutt 3.357%                    |
+| Fire Fang 3.237%                       |
+| Hurricane 3.118%                       |
+| Other 17.986%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 39.688%                        |
+| Corviknight 37.410%                    |
+| Enamorus 34.412%                       |
+| Dragonite 32.494%                      |
+| Pelipper 32.014%                       |
+| Talonflame 27.458%                     |
+| Landorus 26.379%                       |
+| Landorus-Therian 25.180%               |
+| Skarmory 18.106%                       |
+| Zapdos-Galar 13.909%                   |
++----------------------------------------+
++----------------------------------------+
+| Oricorio-Pom-Pom                       |
++----------------------------------------+
+| Raw count: 574                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Dancer 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Life Orb 66.376%                       |
+| Leftovers 14.983%                      |
+| Heavy-Duty Boots 6.969%                |
+| Nothing 4.878%                         |
+| Focus Sash 2.439%                      |
+| Other 4.355%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/4/0/0 73.868%           |
+| Modest:0/0/0/252/4/252 5.749%          |
+| Modest:0/0/0/252/0/252 5.052%          |
+| Timid:252/0/4/0/0/252 4.181%           |
+| Timid:0/0/252/0/168/88 3.659%          |
+| Timid:0/0/0/252/4/252 2.091%           |
+| Other 5.401%                           |
++----------------------------------------+
+| Moves                                  |
+| Revelation Dance 98.432%               |
+| Quiver Dance 95.122%                   |
+| Roost 83.972%                          |
+| Air Slash 82.578%                      |
+| Alluring Voice 13.415%                 |
+| Hurricane 6.969%                       |
+| Other 19.512%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 87.805%                        |
+| Skarmory 72.125%                       |
+| Dragonite 70.557%                      |
+| Enamorus 67.944%                       |
+| Moltres 66.899%                        |
+| Corviknight 20.557%                    |
+| Talonflame 12.718%                     |
+| Hawlucha 9.582%                        |
+| Mandibuzz 8.711%                       |
+| Gyarados 7.317%                        |
++----------------------------------------+
++----------------------------------------+
+| Braviary-Hisui                         |
++----------------------------------------+
+| Raw count: 528                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 83                  |
++----------------------------------------+
+| Abilities                              |
+| Tinted Lens 76.705%                    |
+| Sheer Force 20.265%                    |
+| Keen Eye 3.030%                        |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 42.045%                   |
+| Life Orb 18.371%                       |
+| Weakness Policy 12.879%                |
+| Leftovers 9.280%                       |
+| Heavy-Duty Boots 4.356%                |
+| Expert Belt 3.409%                     |
+| Assault Vest 2.841%                    |
+| Lum Berry 1.894%                       |
+| Other 4.924%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 30.871%         |
+| Modest:248/0/0/252/8/0 15.720%         |
+| Timid:4/0/0/252/0/252 9.280%           |
+| Modest:0/0/0/252/8/248 8.333%          |
+| Modest:252/0/0/252/4/0 6.061%          |
+| Modest:248/0/0/48/116/96 5.492%        |
+| Other 24.242%                          |
++----------------------------------------+
+| Moves                                  |
+| Esper Wing 82.576%                     |
+| Heat Wave 65.720%                      |
+| Hurricane 39.962%                      |
+| Air Slash 37.879%                      |
+| Psyshock 31.439%                       |
+| Dazzling Gleam 30.303%                 |
+| Shadow Ball 24.053%                    |
+| Roost 22.917%                          |
+| Psychic 15.530%                        |
+| Agility 9.470%                         |
+| Vacuum Wave 8.902%                     |
+| Calm Mind 7.955%                       |
+| Defog 4.545%                           |
+| Other 18.750%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 57.386%                    |
+| Landorus 41.098%                       |
+| Flamigo 38.258%                        |
+| Gliscor 28.977%                        |
+| Dragonite 28.409%                      |
+| Talonflame 27.273%                     |
+| Mandibuzz 24.053%                      |
+| Kilowattrel 17.992%                    |
+| Tornadus-Therian 14.962%               |
+| Landorus-Therian 14.205%               |
++----------------------------------------+
++----------------------------------------+
+| Staraptor                              |
++----------------------------------------+
+| Raw count: 515                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 65                  |
++----------------------------------------+
+| Abilities                              |
+| Reckless 75.922%                       |
+| Intimidate 24.078%                     |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 64.272%                   |
+| Choice Band 16.699%                    |
+| Life Orb 7.573%                        |
+| Focus Sash 2.718%                      |
+| Heavy-Duty Boots 2.136%                |
+| Leftovers 1.748%                       |
+| Other 4.854%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 32.427%          |
+| Adamant:0/252/0/0/0/252 20.194%        |
+| Adamant:0/252/0/0/4/252 8.738%         |
+| Adamant:4/252/0/0/0/252 8.350%         |
+| Jolly:252/0/0/0/0/252 6.408%           |
+| Jolly:4/252/0/0/0/252 4.854%           |
+| Other 19.029%                          |
++----------------------------------------+
+| Moves                                  |
+| Brave Bird 94.563%                     |
+| Close Combat 86.214%                   |
+| U-turn 84.854%                         |
+| Double-Edge 73.398%                    |
+| Quick Attack 22.524%                   |
+| Final Gambit 17.282%                   |
+| Acrobatics 3.107%                      |
+| Other 18.058%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 39.612%                    |
+| Talonflame 34.175%                     |
+| Gliscor 33.786%                        |
+| Dragonite 32.816%                      |
+| Skarmory 28.738%                       |
+| Landorus 23.301%                       |
+| Braviary 22.524%                       |
+| Dodrio 22.136%                         |
+| Gyarados 19.223%                       |
+| Zapdos 18.641%                         |
++----------------------------------------+
++----------------------------------------+
+| Iron Jugulis                           |
++----------------------------------------+
+| Raw count: 465                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Quark Drive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 32.473%                   |
+| Choice Scarf 32.258%                   |
+| Power Herb 19.140%                     |
+| Heavy-Duty Boots 3.656%                |
+| Assault Vest 2.796%                    |
+| Life Orb 2.796%                        |
+| Leftovers 1.505%                       |
+| Dread Plate 1.505%                     |
+| Other 3.871%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 49.462%          |
+| Timid:4/0/0/252/0/252 17.419%          |
+| Modest:4/0/0/252/0/252 10.108%         |
+| Hardy:0/0/0/252/0/252 4.301%           |
+| Modest:0/0/0/252/0/252 3.656%          |
+| Timid:80/0/0/252/0/176 3.011%          |
+| Other 12.043%                          |
++----------------------------------------+
+| Moves                                  |
+| Dark Pulse 96.344%                     |
+| Hurricane 44.946%                      |
+| Flamethrower 41.505%                   |
+| Earth Power 35.269%                    |
+| Air Slash 33.548%                      |
+| Meteor Beam 22.796%                    |
+| Hydro Pump 21.720%                     |
+| Flash Cannon 18.280%                   |
+| U-turn 11.183%                         |
+| Dragon Pulse 10.538%                   |
+| Fire Blast 10.323%                     |
+| Focus Blast 8.817%                     |
+| Electric Terrain 8.172%                |
+| Rain Dance 7.957%                      |
+| Heat Wave 6.237%                       |
+| Charge Beam 3.441%                     |
+| Other 18.925%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 49.247%                    |
+| Dragonite 49.247%                      |
+| Gliscor 44.086%                        |
+| Landorus 35.914%                       |
+| Enamorus 33.548%                       |
+| Gyarados 32.473%                       |
+| Skarmory 23.441%                       |
+| Landorus-Therian 23.441%               |
+| Pelipper 15.484%                       |
+| Moltres 15.054%                        |
++----------------------------------------+
++----------------------------------------+
+| Noivern                                |
++----------------------------------------+
+| Raw count: 472                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Infiltrator 76.695%                    |
+| Frisk 22.669%                          |
+| Telepathy 0.636%                       |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 40.466%                   |
+| Throat Spray 11.441%                   |
+| Heavy-Duty Boots 11.229%               |
+| Life Orb 8.263%                        |
+| Focus Sash 8.051%                      |
+| Leftovers 4.661%                       |
+| Expert Belt 3.814%                     |
+| Assault Vest 3.390%                    |
+| Choice Scarf 2.966%                    |
+| Wide Lens 2.542%                       |
+| Other 3.178%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 54.873%          |
+| Timid:4/0/0/252/0/252 11.441%          |
+| Timid:0/0/4/252/0/252 9.746%           |
+| Modest:4/0/0/252/0/252 6.356%          |
+| Hardy:80/84/60/48/32/144 4.025%        |
+| Modest:0/0/0/252/4/252 2.331%          |
+| Other 11.229%                          |
++----------------------------------------+
+| Moves                                  |
+| Boomburst 65.254%                      |
+| Draco Meteor 63.983%                   |
+| Hurricane 38.136%                      |
+| Flamethrower 36.864%                   |
+| Switcheroo 30.508%                     |
+| Dragon Pulse 18.432%                   |
+| Heat Wave 17.161%                      |
+| Defog 16.949%                          |
+| Air Slash 16.737%                      |
+| Roost 14.407%                          |
+| U-turn 11.229%                         |
+| Psychic 7.839%                         |
+| Shadow Ball 6.992%                     |
+| Taunt 6.356%                           |
+| Psychic Noise 6.144%                   |
+| Focus Blast 4.661%                     |
+| Dragon Claw 4.237%                     |
+| Brick Break 4.025%                     |
+| Protect 3.602%                         |
+| Tailwind 3.390%                        |
+| Dark Pulse 3.178%                      |
+| Other 19.915%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 38.559%                        |
+| Pelipper 30.085%                       |
+| Talonflame 29.661%                     |
+| Corviknight 28.390%                    |
+| Scyther 25.847%                        |
+| Gyarados 24.364%                       |
+| Flamigo 24.364%                        |
+| Landorus-Therian 20.975%               |
+| Skarmory 20.127%                       |
+| Landorus 19.280%                       |
++----------------------------------------+
++----------------------------------------+
+| Minior                                 |
++----------------------------------------+
+| Raw count: 447                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 77                  |
++----------------------------------------+
+| Abilities                              |
+| Shields Down 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| White Herb 63.758%                     |
+| Focus Sash 25.056%                     |
+| Leftovers 3.356%                       |
+| Wise Glasses 3.132%                    |
+| Other 4.698%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 44.295%        |
+| Adamant:4/252/0/0/0/252 6.040%         |
+| Adamant:0/252/4/0/0/252 5.593%         |
+| Mild:0/0/0/252/0/252 4.922%            |
+| Adamant:0/252/0/0/0/252 4.698%         |
+| Jolly:0/252/4/0/0/252 3.579%           |
+| Other 30.872%                          |
++----------------------------------------+
+| Moves                                  |
+| Shell Smash 94.407%                    |
+| Acrobatics 77.629%                     |
+| Stone Edge 50.559%                     |
+| Earthquake 43.848%                     |
+| Explosion 35.794%                      |
+| Power Gem 22.371%                      |
+| Rock Slide 16.779%                     |
+| Scorching Sands 10.515%                |
+| Dazzling Gleam 9.843%                  |
+| Iron Head 7.606%                       |
+| Earth Power 6.040%                     |
+| Psychic 6.040%                         |
+| Other 18.568%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 58.837%                    |
+| Dragonite 51.678%                      |
+| Landorus 38.479%                       |
+| Zapdos 35.794%                         |
+| Gliscor 33.557%                        |
+| Moltres-Galar 30.872%                  |
+| Enamorus 19.016%                       |
+| Gyarados 16.555%                       |
+| Landorus-Therian 16.331%               |
+| Pelipper 14.541%                       |
++----------------------------------------+
++----------------------------------------+
+| Thundurus                              |
++----------------------------------------+
+| Raw count: 426                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 98.826%                      |
+| Defiant 1.174%                         |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 46.244%               |
+| Focus Sash 17.840%                     |
+| Leftovers 9.155%                       |
+| Life Orb 7.746%                        |
+| Rocky Helmet 5.869%                    |
+| Ability Shield 2.817%                  |
+| Wide Lens 2.817%                       |
+| Magnet 1.408%                          |
+| Mental Herb 1.408%                     |
+| Other 4.695%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 37.324%          |
+| Modest:0/0/0/252/0/252 15.493%         |
+| Naive:0/4/0/252/0/252 8.685%           |
+| Timid:252/0/0/4/0/252 6.808%           |
+| Timid:0/0/4/252/0/252 3.991%           |
+| Mild:4/0/0/252/0/252 3.521%            |
+| Other 24.178%                          |
++----------------------------------------+
+| Moves                                  |
+| Thunder Wave 81.455%                   |
+| Thunderbolt 43.427%                    |
+| Nasty Plot 42.488%                     |
+| Grass Knot 30.751%                     |
+| Discharge 29.343%                      |
+| Taunt 28.404%                          |
+| Focus Blast 21.127%                    |
+| Volt Switch 17.606%                    |
+| Dark Pulse 13.615%                     |
+| Wildbolt Storm 12.207%                 |
+| Substitute 10.798%                     |
+| Sludge Wave 9.624%                     |
+| Thunder 8.920%                         |
+| Weather Ball 8.685%                    |
+| Sludge Bomb 7.746%                     |
+| Rain Dance 7.512%                      |
+| Psychic 6.338%                         |
+| Other 19.953%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragonite 62.207%                      |
+| Corviknight 48.826%                    |
+| Landorus-Therian 39.437%               |
+| Landorus 37.559%                       |
+| Gliscor 30.986%                        |
+| Gyarados 30.986%                       |
+| Enamorus 28.404%                       |
+| Moltres 24.413%                        |
+| Tornadus-Therian 19.718%               |
+| Hawlucha 17.840%                       |
++----------------------------------------+
++----------------------------------------+
+| Yanmega                                |
++----------------------------------------+
+| Raw count: 393                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Speed Boost 91.349%                    |
+| Tinted Lens 8.651%                     |
++----------------------------------------+
+| Items                                  |
+| Throat Spray 42.239%                   |
+| Focus Sash 16.285%                     |
+| Choice Specs 14.249%                   |
+| Leftovers 5.344%                       |
+| Wise Glasses 4.580%                    |
+| Life Orb 4.071%                        |
+| Expert Belt 3.562%                     |
+| Heavy-Duty Boots 3.308%                |
+| Assault Vest 1.781%                    |
+| Other 4.580%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 78.117%         |
+| Timid:0/0/0/252/4/252 4.580%           |
+| Timid:0/0/12/252/120/124 3.817%        |
+| Modest:4/0/0/252/0/252 3.308%          |
+| Rash:0/0/0/252/0/252 2.036%            |
+| Modest:252/0/0/252/0/4 1.018%          |
+| Other 7.125%                           |
++----------------------------------------+
+| Moves                                  |
+| Bug Buzz 90.076%                       |
+| Air Slash 80.916%                      |
+| Protect 73.791%                        |
+| Shadow Ball 45.802%                    |
+| Giga Drain 38.168%                     |
+| Ancient Power 21.374%                  |
+| Psychic Noise 18.321%                  |
+| U-turn 10.941%                         |
+| Tailwind 6.107%                        |
+| Other 14.504%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 63.359%                        |
+| Dragonite 62.595%                      |
+| Corviknight 52.672%                    |
+| Gyarados 46.819%                       |
+| Skarmory 36.641%                       |
+| Landorus-Therian 16.285%               |
+| Talonflame 15.267%                     |
+| Enamorus 13.740%                       |
+| Hawlucha 13.486%                       |
+| Zapdos-Galar 13.232%                   |
++----------------------------------------+
++----------------------------------------+
+| Honchkrow                              |
++----------------------------------------+
+| Raw count: 282                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Moxie 52.128%                          |
+| Super Luck 44.681%                     |
+| Insomnia 3.191%                        |
++----------------------------------------+
+| Items                                  |
+| Razor Claw 30.496%                     |
+| Assault Vest 14.894%                   |
+| Mirror Herb 14.894%                    |
+| Leftovers 7.447%                       |
+| Power Herb 6.738%                      |
+| Black Glasses 6.028%                   |
+| Scope Lens 5.319%                      |
+| Heavy-Duty Boots 3.191%                |
+| Choice Scarf 2.837%                    |
+| Life Orb 2.128%                        |
+| Sharp Beak 1.064%                      |
+| Other 4.965%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/252/0/0/8/0 18.794%        |
+| Hasty:4/252/0/0/0/252 14.894%          |
+| Naughty:252/0/100/0/108/48 10.993%     |
+| Naughty:0/0/252/0/248/8 9.220%         |
+| Lonely:248/252/0/0/0/8 8.156%          |
+| Adamant:252/156/0/0/100/0 5.319%       |
+| Other 32.624%                          |
++----------------------------------------+
+| Moves                                  |
+| Sucker Punch 84.397%                   |
+| Night Slash 66.312%                    |
+| Brave Bird 36.170%                     |
+| Air Cutter 30.851%                     |
+| Thunder Wave 30.496%                   |
+| Heat Wave 24.113%                      |
+| Drill Peck 18.085%                     |
+| Swagger 14.894%                        |
+| U-turn 13.830%                         |
+| Sky Attack 11.348%                     |
+| Foul Play 9.574%                       |
+| Tailwind 6.383%                        |
+| Facade 6.383%                          |
+| Acrobatics 6.028%                      |
+| Taunt 4.965%                           |
+| Psych Up 4.610%                        |
+| Whirlwind 4.255%                       |
+| Protect 4.255%                         |
+| Double-Edge 2.837%                     |
+| Dark Pulse 2.482%                      |
+| Other 17.730%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 53.191%                    |
+| Kilowattrel 35.106%                    |
+| Moltres 29.787%                        |
+| Landorus 28.014%                       |
+| Zapdos-Galar 27.660%                   |
+| Dragonite 25.532%                      |
+| Enamorus 22.695%                       |
+| Masquerain 22.340%                     |
+| Talonflame 17.021%                     |
+| Gyarados 16.667%                       |
++----------------------------------------+
++----------------------------------------+
+| Scyther                                |
++----------------------------------------+
+| Raw count: 294                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Technician 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Eviolite 83.333%                       |
+| Nothing 4.422%                         |
+| Choice Scarf 3.741%                    |
+| Heavy-Duty Boots 2.721%                |
+| Leftovers 2.721%                       |
+| Other 3.061%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/0/128/0/128/252 40.476%        |
+| Jolly:0/252/0/0/4/252 36.395%          |
+| Adamant:44/168/68/0/64/164 4.422%      |
+| Jolly:248/8/0/0/0/252 3.401%           |
+| Adamant:0/252/0/0/0/252 2.721%         |
+| Hardy:252/252/0/0/0/0 2.721%           |
+| Other 9.864%                           |
++----------------------------------------+
+| Moves                                  |
+| Dual Wingbeat 84.014%                  |
+| Bug Bite 74.150%                       |
+| Quick Attack 70.748%                   |
+| Swords Dance 60.204%                   |
+| Trailblaze 28.571%                     |
+| Close Combat 16.327%                   |
+| Acrobatics 11.565%                     |
+| U-turn 10.544%                         |
+| Lunge 8.844%                           |
+| Thief 6.803%                           |
+| Aerial Ace 5.782%                      |
+| Brick Break 4.422%                     |
+| Other 18.027%                          |
++----------------------------------------+
+| Teammates                              |
+| Pelipper 43.197%                       |
+| Zapdos 42.517%                         |
+| Noivern 41.497%                        |
+| Flamigo 39.116%                        |
+| Dragonite 31.293%                      |
+| Gyarados 30.612%                       |
+| Landorus-Therian 27.551%               |
+| Braviary-Hisui 20.068%                 |
+| Moltres 19.048%                        |
+| Articuno 18.027%                       |
++----------------------------------------+
++----------------------------------------+
+| Masquerain                             |
++----------------------------------------+
+| Raw count: 235                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 81                  |
++----------------------------------------+
+| Abilities                              |
+| Intimidate 98.723%                     |
+| Unnerve 1.277%                         |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 91.915%                     |
+| Charti Berry 2.979%                    |
+| Heavy-Duty Boots 2.128%                |
+| Other 2.979%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 57.872%          |
+| Hasty:248/8/0/0/0/252 10.213%          |
+| Modest:0/0/0/252/4/252 6.809%          |
+| Modest:4/0/0/252/0/252 5.957%          |
+| Timid:4/0/0/252/0/252 5.532%           |
+| Timid:248/0/0/8/0/252 4.681%           |
+| Other 8.936%                           |
++----------------------------------------+
+| Moves                                  |
+| Sticky Web 86.809%                     |
+| Bug Buzz 64.681%                       |
+| Quiver Dance 44.681%                   |
+| Hydro Pump 28.936%                     |
+| Hurricane 27.660%                      |
+| U-turn 26.809%                         |
+| Air Slash 18.723%                      |
+| Stun Spore 14.468%                     |
+| Icy Wind 12.766%                       |
+| Energy Ball 12.766%                    |
+| Ice Beam 11.915%                       |
+| Surf 11.489%                           |
+| Aqua Jet 11.064%                       |
+| Lunge 10.213%                          |
+| Other 17.021%                          |
++----------------------------------------+
+| Teammates                              |
+| Landorus 43.830%                       |
+| Corviknight 36.596%                    |
+| Gliscor 33.617%                        |
+| Dragonite 31.915%                      |
+| Enamorus 30.213%                       |
+| Honchkrow 26.809%                      |
+| Flamigo 24.255%                        |
+| Braviary-Hisui 21.277%                 |
+| Mandibuzz 19.149%                      |
+| Bombirdier 18.723%                     |
++----------------------------------------+
++----------------------------------------+
+| Braviary                               |
++----------------------------------------+
+| Raw count: 231                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 60                  |
++----------------------------------------+
+| Abilities                              |
+| Sheer Force 82.684%                    |
+| Defiant 14.286%                        |
+| Keen Eye 3.030%                        |
++----------------------------------------+
+| Items                                  |
+| Life Orb 45.022%                       |
+| Choice Scarf 30.303%                   |
+| Choice Band 14.286%                    |
+| Heavy-Duty Boots 3.030%                |
+| White Herb 1.732%                      |
+| Power Herb 1.299%                      |
+| Other 4.329%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/0/252 46.753%        |
+| Jolly:0/252/0/0/4/252 27.273%          |
+| Adamant:252/252/0/0/0/0 11.688%        |
+| Jolly:4/252/0/0/0/252 4.762%           |
+| Impish:252/0/240/0/0/16 3.030%         |
+| Adamant:252/252/0/0/0/4 1.299%         |
+| Other 5.195%                           |
++----------------------------------------+
+| Moves                                  |
+| Close Combat 59.740%                   |
+| Shadow Claw 50.216%                    |
+| Body Slam 47.619%                      |
+| Rock Slide 41.126%                     |
+| Iron Head 36.797%                      |
+| U-turn 36.364%                         |
+| Brave Bird 32.468%                     |
+| Roost 20.346%                          |
+| Defog 19.048%                          |
+| Sky Attack 12.554%                     |
+| Zen Headbutt 12.554%                   |
+| Bulk Up 6.061%                         |
+| Agility 5.628%                         |
+| Other 19.481%                          |
++----------------------------------------+
+| Teammates                              |
+| Staraptor 50.216%                      |
+| Dodrio 49.351%                         |
+| Talonflame 45.022%                     |
+| Skarmory 35.065%                       |
+| Corviknight 29.437%                    |
+| Kilowattrel 25.974%                    |
+| Flamigo 23.810%                        |
+| Honchkrow 15.584%                      |
+| Moltres 14.719%                        |
+| Hawlucha 12.987%                       |
++----------------------------------------+
++----------------------------------------+
+| Dodrio                                 |
++----------------------------------------+
+| Raw count: 215                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Early Bird 74.884%                     |
+| Tangled Feet 25.116%                   |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 50.698%                     |
+| Choice Band 16.279%                    |
+| Choice Scarf 9.302%                    |
+| Silk Scarf 6.977%                      |
+| Life Orb 4.651%                        |
+| Power Herb 3.256%                      |
+| Aguav Berry 1.860%                     |
+| Yache Berry 1.860%                     |
+| Loaded Dice 1.395%                     |
+| Other 3.721%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:4/252/0/0/0/252 48.837%        |
+| Jolly:0/252/0/0/4/252 30.233%          |
+| Jolly:4/252/0/0/0/252 10.698%          |
+| Impish:0/120/96/0/116/176 3.256%       |
+| Hardy:68/252/0/0/0/188 2.326%          |
+| Other 4.651%                           |
++----------------------------------------+
+| Moves                                  |
+| Drill Run 73.023%                      |
+| Brave Bird 68.837%                     |
+| Swords Dance 60.000%                   |
+| Quick Attack 53.023%                   |
+| Drill Peck 23.256%                     |
+| Knock Off 20.465%                      |
+| Thrash 17.674%                         |
+| Low Kick 15.814%                       |
+| Acrobatics 11.163%                     |
+| Trailblaze 9.302%                      |
+| Giga Impact 8.837%                     |
+| Body Slam 6.512%                       |
+| Rest 5.581%                            |
+| Stomping Tantrum 5.116%                |
+| Tri Attack 4.186%                      |
+| Other 17.209%                          |
++----------------------------------------+
+| Teammates                              |
+| Staraptor 53.023%                      |
+| Braviary 53.023%                       |
+| Talonflame 48.837%                     |
+| Skarmory 45.116%                       |
+| Flamigo 27.442%                        |
+| Zapdos 20.465%                         |
+| Dragonite 19.070%                      |
+| Corviknight 16.744%                    |
+| Moltres 15.814%                        |
+| Gliscor 13.023%                        |
++----------------------------------------+
++----------------------------------------+
+| Drifblim                               |
++----------------------------------------+
+| Raw count: 203                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Flare Boost 46.798%                    |
+| Unburden 30.049%                       |
+| Aftermath 23.153%                      |
++----------------------------------------+
+| Items                                  |
+| Flame Orb 45.813%                      |
+| Sitrus Berry 12.808%                   |
+| Leftovers 11.330%                      |
+| Focus Sash 6.897%                      |
+| Liechi Berry 5.419%                    |
+| Weakness Policy 4.433%                 |
+| Charti Berry 3.941%                    |
+| Aguav Berry 3.941%                     |
+| Heavy-Duty Boots 1.478%                |
+| Other 3.941%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:156/0/0/252/0/100 16.749%       |
+| Timid:0/0/0/252/4/252 14.286%          |
+| Modest:248/0/0/252/0/8 6.897%          |
+| Modest:252/0/0/252/0/4 5.419%          |
+| Modest:0/0/0/252/4/252 5.419%          |
+| Hardy:252/252/0/0/0/4 5.419%           |
+| Other 45.813%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 52.709%                    |
+| Air Slash 47.291%                      |
+| Strength Sap 35.468%                   |
+| Hex 30.542%                            |
+| Calm Mind 27.094%                      |
+| Will-O-Wisp 26.108%                    |
+| Thunderbolt 20.690%                    |
+| Protect 17.241%                        |
+| Defog 14.778%                          |
+| Destiny Bond 14.286%                   |
+| Psychic 13.300%                        |
+| Fling 13.300%                          |
+| Thunder 12.808%                        |
+| Knock Off 9.852%                       |
+| Substitute 8.867%                      |
+| Acrobatics 6.897%                      |
+| Trick 6.404%                           |
+| Stockpile 5.911%                       |
+| Clear Smog 5.419%                      |
+| Stored Power 4.926%                    |
+| Pain Split 4.926%                      |
+| Thunder Wave 4.433%                    |
+| Other 16.749%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 50.246%                        |
+| Talonflame 36.946%                     |
+| Corviknight 31.034%                    |
+| Dragonite 28.571%                      |
+| Zapdos-Galar 23.153%                   |
+| Skarmory 22.167%                       |
+| Tropius 19.704%                        |
+| Gligar 19.704%                         |
+| Pelipper 18.227%                       |
+| Tornadus-Therian 17.734%               |
++----------------------------------------+
++----------------------------------------+
+| Charizard                              |
++----------------------------------------+
+| Raw count: 187                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 62                  |
++----------------------------------------+
+| Abilities                              |
+| Blaze 56.684%                          |
+| Solar Power 43.316%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 40.642%               |
+| Life Orb 22.460%                       |
+| Charcoal 6.952%                        |
+| Salac Berry 5.348%                     |
+| Assault Vest 5.348%                    |
+| Choice Scarf 4.278%                    |
+| Leftovers 3.743%                       |
+| Focus Sash 2.139%                      |
+| Aguav Berry 2.139%                     |
+| Razor Claw 2.139%                      |
+| Other 4.813%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 37.433%          |
+| Timid:4/0/0/252/0/252 18.717%          |
+| Modest:0/0/0/252/4/252 9.091%          |
+| Timid:0/0/0/252/0/252 7.487%           |
+| Adamant:0/252/0/0/4/252 3.743%         |
+| Jolly:0/252/4/0/0/252 3.209%           |
+| Other 20.321%                          |
++----------------------------------------+
+| Moves                                  |
+| Flamethrower 54.545%                   |
+| Dragon Pulse 43.316%                   |
+| Air Slash 39.037%                      |
+| Scorching Sands 34.759%                |
+| Ancient Power 30.481%                  |
+| Fire Blast 25.134%                     |
+| Hurricane 21.925%                      |
+| Will-O-Wisp 20.321%                    |
+| Solar Beam 18.717%                     |
+| Blast Burn 14.439%                     |
+| Focus Blast 11.230%                    |
+| Heat Wave 10.695%                      |
+| Overheat 9.626%                        |
+| Dragon Dance 9.091%                    |
+| Acrobatics 8.021%                      |
+| Flame Charge 6.417%                    |
+| Belly Drum 5.348%                      |
+| Substitute 5.348%                      |
+| Fire Punch 5.348%                      |
+| Earthquake 4.813%                      |
+| Weather Ball 4.278%                    |
+| Other 17.112%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 57.754%                        |
+| Dragonite 50.267%                      |
+| Corviknight 34.225%                    |
+| Landorus-Therian 26.738%               |
+| Zapdos 25.668%                         |
+| Pelipper 24.599%                       |
+| Kilowattrel 24.064%                    |
+| Moltres-Galar 23.529%                  |
+| Hawlucha 20.321%                       |
+| Salamence 19.251%                      |
++----------------------------------------+
++----------------------------------------+
+| Tropius                                |
++----------------------------------------+
+| Raw count: 188                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Harvest 93.085%                        |
+| Solar Power 5.319%                     |
+| Chlorophyll 1.596%                     |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 88.830%                   |
+| Rocky Helmet 3.723%                    |
+| Leftovers 3.191%                       |
+| Other 4.255%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:244/0/0/12/252/0 38.298%          |
+| Careful:252/0/0/0/252/4 18.085%        |
+| Impish:252/0/4/0/252/0 11.702%         |
+| Calm:252/0/0/4/252/0 9.574%            |
+| Quiet:252/4/0/252/0/0 3.723%           |
+| Hardy:0/0/252/4/0/252 2.128%           |
+| Other 16.489%                          |
++----------------------------------------+
+| Moves                                  |
+| Leech Seed 80.319%                     |
+| Substitute 70.213%                     |
+| Protect 39.894%                        |
+| Giga Drain 39.362%                     |
+| Body Press 31.915%                     |
+| Tailwind 29.787%                       |
+| Sunny Day 16.489%                      |
+| Trailblaze 15.426%                     |
+| Energy Ball 11.702%                    |
+| Hurricane 11.170%                      |
+| Solar Beam 10.106%                     |
+| Calm Mind 9.043%                       |
+| Air Slash 5.851%                       |
+| Synthesis 3.723%                       |
+| Solar Blade 3.723%                     |
+| Air Cutter 3.723%                      |
+| Other 17.553%                          |
++----------------------------------------+
+| Teammates                              |
+| Gligar 44.149%                         |
+| Landorus-Therian 37.766%               |
+| Talonflame 31.915%                     |
+| Salamence 28.723%                      |
+| Zapdos-Galar 26.064%                   |
+| Corviknight 22.872%                    |
+| Drifblim 21.277%                       |
+| Thundurus-Therian 20.213%              |
+| Pelipper 19.681%                       |
+| Skarmory 19.149%                       |
++----------------------------------------+
++----------------------------------------+
+| Articuno-Galar                         |
++----------------------------------------+
+| Raw count: 171                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 71                  |
++----------------------------------------+
+| Abilities                              |
+| Competitive 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 16.374%                   |
+| Assault Vest 14.620%                   |
+| Weakness Policy 12.865%                |
+| Choice Scarf 11.696%                   |
+| Leftovers 7.602%                       |
+| Heavy-Duty Boots 6.433%                |
+| Sitrus Berry 5.848%                    |
+| Throat Spray 5.263%                    |
+| Focus Sash 4.094%                      |
+| Light Clay 3.509%                      |
+| White Herb 3.509%                      |
+| Nothing 2.339%                         |
+| Life Orb 1.754%                        |
+| Other 4.094%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 20.468%          |
+| Hasty:0/4/0/252/0/252 11.111%          |
+| Modest:252/0/0/252/4/0 11.111%         |
+| Hardy:60/72/48/52/36/116 11.111%       |
+| Modest:4/0/0/252/0/252 8.772%          |
+| Timid:4/0/0/252/0/252 5.848%           |
+| Other 31.579%                          |
++----------------------------------------+
+| Moves                                  |
+| Freezing Glare 62.573%                 |
+| Hurricane 38.012%                      |
+| Air Slash 36.257%                      |
+| Ancient Power 35.673%                  |
+| Future Sight 32.164%                   |
+| Shadow Ball 30.409%                    |
+| Calm Mind 23.392%                      |
+| Stored Power 22.807%                   |
+| Recover 21.053%                        |
+| Agility 12.865%                        |
+| Psychic 12.281%                        |
+| Brave Bird 11.111%                     |
+| Psycho Cut 10.526%                     |
+| Psyshock 9.357%                        |
+| U-turn 9.357%                          |
+| Trick Room 8.187%                      |
+| Hyper Voice 8.187%                     |
+| Other 15.789%                          |
++----------------------------------------+
+| Teammates                              |
+| Moltres-Galar 36.842%                  |
+| Salamence 33.333%                      |
+| Landorus-Therian 27.485%               |
+| Landorus 26.901%                       |
+| Zapdos-Galar 19.883%                   |
+| Corviknight 19.298%                    |
+| Zapdos 19.298%                         |
+| Talonflame 17.544%                     |
+| Hawlucha 15.205%                       |
+| Gliscor 14.620%                        |
++----------------------------------------+
++----------------------------------------+
+| Toucannon                              |
++----------------------------------------+
+| Raw count: 150                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 53                  |
++----------------------------------------+
+| Abilities                              |
+| Skill Link 66.667%                     |
+| Sheer Force 33.333%                    |
++----------------------------------------+
+| Items                                  |
+| Rocky Helmet 28.667%                   |
+| Protective Pads 18.667%                |
+| Life Orb 16.000%                       |
+| Assault Vest 14.000%                   |
+| Heavy-Duty Boots 8.000%                |
+| Focus Sash 5.333%                      |
+| Leftovers 2.667%                       |
+| Throat Spray 2.000%                    |
+| Other 4.667%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/252/0/0/8/0 33.333%        |
+| Adamant:116/252/108/0/32/0 12.667%     |
+| Jolly:252/252/0/0/0/4 11.333%          |
+| Hardy:0/252/0/0/252/4 7.333%           |
+| Adamant:0/4/252/0/252/0 6.000%         |
+| Modest:248/0/0/252/8/0 6.000%          |
+| Other 23.333%                          |
++----------------------------------------+
+| Moves                                  |
+| Beak Blast 81.333%                     |
+| Rock Blast 66.667%                     |
+| Bullet Seed 64.667%                    |
+| Temper Flare 40.000%                   |
+| Gunk Shot 26.000%                      |
+| Throat Chop 24.000%                    |
+| Swords Dance 20.000%                   |
+| Seed Bomb 11.333%                      |
+| Flame Charge 9.333%                    |
+| Roost 8.000%                           |
+| U-turn 7.333%                          |
+| Hurricane 7.333%                       |
+| Heat Wave 7.333%                       |
+| Flash Cannon 5.333%                    |
+| Boomburst 4.667%                       |
+| Other 16.667%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 40.667%                    |
+| Zapdos-Galar 40.000%                   |
+| Noctowl 39.333%                        |
+| Yanmega 32.667%                        |
+| Talonflame 26.000%                     |
+| Gliscor 24.667%                        |
+| Braviary-Hisui 22.667%                 |
+| Cramorant 22.667%                      |
+| Staraptor 20.000%                      |
+| Kilowattrel 20.000%                    |
++----------------------------------------+
++----------------------------------------+
+| Cramorant                              |
++----------------------------------------+
+| Raw count: 155                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Gulp Missile 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Leftovers 47.097%                      |
+| Power Herb 23.871%                     |
+| Rocky Helmet 10.323%                   |
+| Weakness Policy 5.161%                 |
+| Focus Sash 2.581%                      |
+| Heavy-Duty Boots 2.581%                |
+| Iapapa Berry 2.581%                    |
+| Mystic Water 1.935%                    |
+| Other 3.871%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 23.871%          |
+| Timid:0/0/0/252/4/252 18.065%          |
+| Gentle:252/0/0/4/252/0 18.065%         |
+| Impish:252/252/4/0/0/0 11.613%         |
+| Modest:252/0/0/252/4/0 6.452%          |
+| Bold:0/0/252/252/4/0 3.226%            |
+| Other 18.710%                          |
++----------------------------------------+
+| Moves                                  |
+| Roost 69.032%                          |
+| Surf 60.000%                           |
+| Dive 43.871%                           |
+| Defog 29.677%                          |
+| Throat Chop 25.806%                    |
+| Ice Beam 25.161%                       |
+| Acrobatics 24.516%                     |
+| Brave Bird 20.645%                     |
+| Aqua Ring 16.774%                      |
+| Drill Peck 14.194%                     |
+| Stockpile 12.258%                      |
+| Hurricane 11.613%                      |
+| Tailwind 11.613%                       |
+| Agility 10.968%                        |
+| Air Slash 9.032%                       |
+| Other 14.839%                          |
++----------------------------------------+
+| Teammates                              |
+| Zapdos-Galar 32.258%                   |
+| Noctowl 29.032%                        |
+| Moltres-Galar 25.161%                  |
+| Gliscor 24.516%                        |
+| Corviknight 24.516%                    |
+| Braviary-Hisui 23.871%                 |
+| Yanmega 23.226%                        |
+| Dragonite 22.581%                      |
+| Enamorus 21.935%                       |
+| Toucannon 21.935%                      |
++----------------------------------------+
++----------------------------------------+
+| Oricorio-Sensu                         |
++----------------------------------------+
+| Raw count: 135                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Dancer 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 34.815%                   |
+| Heavy-Duty Boots 31.852%               |
+| Leftovers 9.630%                       |
+| Wise Glasses 7.407%                    |
+| Focus Sash 7.407%                      |
+| Fairy Feather 2.222%                   |
+| Power Herb 1.481%                      |
+| Rocky Helmet 1.481%                    |
+| Other 3.704%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 28.889%          |
+| Timid:0/0/16/252/0/240 23.704%         |
+| Modest:0/0/0/252/4/252 15.556%         |
+| Modest:12/0/176/40/176/104 7.407%      |
+| Bold:252/0/228/20/8/0 4.444%           |
+| Bold:252/0/252/4/0/0 3.704%            |
+| Other 16.296%                          |
++----------------------------------------+
+| Moves                                  |
+| Revelation Dance 100.000%              |
+| Alluring Voice 82.963%                 |
+| Air Slash 72.593%                      |
+| Quiver Dance 42.963%                   |
+| U-turn 35.556%                         |
+| Roost 21.481%                          |
+| Hurricane 14.815%                      |
+| Taunt 8.889%                           |
+| Defog 8.148%                           |
+| Other 12.593%                          |
++----------------------------------------+
+| Teammates                              |
+| Mandibuzz 60.741%                      |
+| Skarmory 48.148%                       |
+| Dragonite 41.481%                      |
+| Articuno 37.778%                       |
+| Landorus-Therian 34.074%               |
+| Pelipper 29.630%                       |
+| Flamigo 23.704%                        |
+| Kilowattrel 20.741%                    |
+| Landorus 18.519%                       |
+| Gliscor 17.778%                        |
++----------------------------------------+
++----------------------------------------+
+| Bombirdier                             |
++----------------------------------------+
+| Raw count: 137                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 82                  |
++----------------------------------------+
+| Abilities                              |
+| Rocky Payload 67.883%                  |
+| Big Pecks 32.117%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 36.496%               |
+| Lum Berry 27.007%                      |
+| Hard Stone 18.248%                     |
+| Life Orb 7.299%                        |
+| Loaded Dice 5.839%                     |
+| Choice Band 3.650%                     |
+| Other 1.460%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 51.095%          |
+| Adamant:252/252/0/0/0/4 29.197%        |
+| Hardy:0/252/120/0/136/0 5.109%         |
+| Hardy:0/252/0/0/0/252 3.650%           |
+| Impish:252/0/252/0/4/0 2.920%          |
+| Jolly:0/144/104/0/8/252 2.920%         |
+| Other 5.109%                           |
++----------------------------------------+
+| Moves                                  |
+| Knock Off 75.912%                      |
+| Brave Bird 67.153%                     |
+| Sucker Punch 48.175%                   |
+| Stealth Rock 43.066%                   |
+| Stone Edge 40.876%                     |
+| Hone Claws 28.467%                     |
+| Roost 13.869%                          |
+| Rock Slide 13.139%                     |
+| Rock Blast 12.409%                     |
+| Parting Shot 10.949%                   |
+| Drill Run 8.759%                       |
+| Aerial Ace 7.299%                      |
+| U-turn 5.839%                          |
+| Dual Wingbeat 5.109%                   |
+| Other 18.978%                          |
++----------------------------------------+
+| Teammates                              |
+| Flamigo 62.044%                        |
+| Kilowattrel 58.394%                    |
+| Pelipper 37.956%                       |
+| Braviary-Hisui 33.577%                 |
+| Masquerain 32.117%                     |
+| Mandibuzz 29.197%                      |
+| Articuno 27.737%                       |
+| Corviknight 22.628%                    |
+| Oricorio-Sensu 16.058%                 |
+| Gliscor 11.679%                        |
++----------------------------------------+
++----------------------------------------+
+| Tornadus                               |
++----------------------------------------+
+| Raw count: 140                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 100.000%                     |
++----------------------------------------+
+| Items                                  |
+| Life Orb 19.286%                       |
+| Sitrus Berry 18.571%                   |
+| Heavy-Duty Boots 17.143%               |
+| Leftovers 10.714%                      |
+| Covert Cloak 8.571%                    |
+| Weakness Policy 7.857%                 |
+| Focus Sash 7.143%                      |
+| Salac Berry 4.286%                     |
+| Nothing 2.857%                         |
+| Other 3.571%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/0/4/252/0 26.429%           |
+| Timid:0/0/0/252/4/252 18.571%          |
+| Hasty:0/0/0/252/4/252 18.571%          |
+| Timid:4/0/0/252/0/252 16.429%          |
+| Modest:0/0/0/252/4/252 9.286%          |
+| Modest:252/0/168/0/88/0 5.000%         |
+| Other 5.714%                           |
++----------------------------------------+
+| Moves                                  |
+| Bleakwind Storm 62.143%                |
+| Tailwind 51.429%                       |
+| Taunt 41.429%                          |
+| Rain Dance 39.286%                     |
+| Psychic 29.286%                        |
+| Grass Knot 26.429%                     |
+| Heat Wave 22.143%                      |
+| Weather Ball 21.429%                   |
+| Nasty Plot 20.714%                     |
+| Scary Face 20.000%                     |
+| Hurricane 11.429%                      |
+| Chilling Water 10.000%                 |
+| Dark Pulse 8.571%                      |
+| U-turn 8.571%                          |
+| Sunny Day 5.000%                       |
+| Foul Play 5.000%                       |
+| Other 17.143%                          |
++----------------------------------------+
+| Teammates                              |
+| Pelipper 58.571%                       |
+| Salamence 43.571%                      |
+| Landorus 38.571%                       |
+| Dragonite 37.857%                      |
+| Landorus-Therian 37.143%               |
+| Corviknight 32.857%                    |
+| Thundurus 27.857%                      |
+| Moltres 23.571%                        |
+| Zapdos 20.714%                         |
+| Gliscor 19.286%                        |
++----------------------------------------+
++----------------------------------------+
+| Gligar                                 |
++----------------------------------------+
+| Raw count: 133                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 51                  |
++----------------------------------------+
+| Abilities                              |
+| Immunity 85.714%                       |
+| Hyper Cutter 14.286%                   |
++----------------------------------------+
+| Items                                  |
+| Eviolite 96.992%                       |
+| Other 3.008%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:248/8/252/0/0/0 34.586%         |
+| Calm:252/0/0/0/252/0 30.827%           |
+| Impish:252/0/252/0/4/0 9.774%          |
+| Impish:248/0/252/0/0/8 7.519%          |
+| Careful:64/252/36/0/156/0 6.767%       |
+| Careful:248/0/8/0/252/0 3.008%         |
+| Other 7.519%                           |
++----------------------------------------+
+| Moves                                  |
+| Stealth Rock 89.474%                   |
+| Earthquake 51.128%                     |
+| Tailwind 48.872%                       |
+| U-turn 48.120%                         |
+| Toxic Spikes 45.113%                   |
+| Spikes 42.105%                         |
+| Rest 33.835%                           |
+| Toxic 12.782%                          |
+| Dual Wingbeat 9.023%                   |
+| Other 19.549%                          |
++----------------------------------------+
+| Teammates                              |
+| Tropius 62.406%                        |
+| Talonflame 39.850%                     |
+| Skarmory 36.842%                       |
+| Zapdos-Galar 34.586%                   |
+| Salamence 30.827%                      |
+| Drifblim 30.075%                       |
+| Landorus-Therian 28.571%               |
+| Thundurus-Therian 27.820%              |
+| Pelipper 20.301%                       |
+| Tornadus-Therian 15.789%               |
++----------------------------------------+
++----------------------------------------+
+| Enamorus-Therian                       |
++----------------------------------------+
+| Raw count: 105                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 80                  |
++----------------------------------------+
+| Abilities                              |
+| Overcoat 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 52.381%                      |
+| Assault Vest 39.048%                   |
+| Choice Scarf 2.857%                    |
+| Covert Cloak 2.857%                    |
+| Other 2.857%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:240/0/0/232/0/36 24.762%        |
+| Calm:252/0/4/0/252/0 20.000%           |
+| Modest:248/0/0/252/8/0 12.381%         |
+| Modest:252/0/0/252/4/0 9.524%          |
+| Modest:104/0/108/180/116/0 9.524%      |
+| Calm:0/0/252/4/252/0 4.762%            |
+| Other 19.048%                          |
++----------------------------------------+
+| Moves                                  |
+| Earth Power 81.905%                    |
+| Mystical Fire 60.000%                  |
+| Draining Kiss 59.048%                  |
+| Moonblast 51.429%                      |
+| Calm Mind 39.048%                      |
+| Focus Blast 20.952%                    |
+| Iron Defense 20.000%                   |
+| Springtide Storm 16.190%               |
+| Protect 11.429%                        |
+| Grass Knot 7.619%                      |
+| Alluring Voice 6.667%                  |
+| Sludge Bomb 5.714%                     |
+| Other 20.000%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 69.524%                    |
+| Thundurus-Therian 45.714%              |
+| Gliscor 43.810%                        |
+| Dragonite 38.095%                      |
+| Pelipper 36.190%                       |
+| Landorus 27.619%                       |
+| Moltres-Galar 24.762%                  |
+| Zapdos-Galar 24.762%                   |
+| Gyarados 22.857%                       |
+| Talonflame 20.952%                     |
++----------------------------------------+
++----------------------------------------+
+| Rotom-Fan                              |
++----------------------------------------+
+| Raw count: 112                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 45.536%               |
+| Choice Scarf 22.321%                   |
+| Leftovers 20.536%                      |
+| Assault Vest 2.679%                    |
+| Sitrus Berry 2.679%                    |
+| Electric Seed 1.786%                   |
+| Other 4.464%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 58.929%          |
+| Hasty:0/4/0/252/0/252 12.500%          |
+| Timid:0/0/4/252/0/252 11.607%          |
+| Calm:248/0/0/8/252/0 3.571%            |
+| Timid:248/0/8/0/0/252 2.679%           |
+| Modest:248/0/0/252/8/0 1.786%          |
+| Other 8.929%                           |
++----------------------------------------+
+| Moves                                  |
+| Air Slash 77.679%                      |
+| Will-O-Wisp 66.071%                    |
+| Thunderbolt 66.071%                    |
+| Nasty Plot 46.429%                     |
+| Volt Switch 26.786%                    |
+| Trick 23.214%                          |
+| Discharge 19.643%                      |
+| Dark Pulse 16.964%                     |
+| Thunder Wave 15.179%                   |
+| Poltergeist 13.393%                    |
+| Shadow Ball 6.250%                     |
+| Pain Split 5.357%                      |
+| Other 16.964%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 66.071%                        |
+| Corviknight 55.357%                    |
+| Dragonite 38.393%                      |
+| Landorus-Therian 38.393%               |
+| Zapdos 37.500%                         |
+| Skarmory 26.786%                       |
+| Landorus 22.321%                       |
+| Enamorus 19.643%                       |
+| Noivern 14.286%                        |
+| Hawlucha 14.286%                       |
++----------------------------------------+
++----------------------------------------+
+| Altaria                                |
++----------------------------------------+
+| Raw count: 101                         |
+| Avg. weight: 1                         |
+| Viability Ceiling: 62                  |
++----------------------------------------+
+| Abilities                              |
+| Natural Cure 51.485%                   |
+| Cloud Nine 48.515%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 20.792%                      |
+| Heavy-Duty Boots 18.812%               |
+| Sky Plate 11.881%                      |
+| Nothing 9.901%                         |
+| Throat Spray 9.901%                    |
+| Assault Vest 9.901%                    |
+| Expert Belt 5.941%                     |
+| Focus Sash 3.960%                      |
+| Weakness Policy 2.970%                 |
+| Yache Berry 2.970%                     |
+| Other 2.970%                           |
++----------------------------------------+
+| Spreads                                |
+| Hardy:36/40/40/36/40/176 11.881%       |
+| Hardy:128/0/68/124/68/120 9.901%       |
+| Adamant:0/252/0/0/4/252 8.911%         |
+| Timid:0/0/0/252/4/252 8.911%           |
+| Impish:252/0/252/0/4/0 8.911%          |
+| Sassy:0/252/144/0/112/0 7.921%         |
+| Other 43.564%                          |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 35.644%                      |
+| Roost 31.683%                          |
+| Alluring Voice 31.683%                 |
+| Hurricane 31.683%                      |
+| Ice Beam 29.703%                       |
+| Draco Meteor 27.723%                   |
+| Dragon Dance 25.743%                   |
+| Defog 23.762%                          |
+| Dual Wingbeat 18.812%                  |
+| Earthquake 16.832%                     |
+| Acrobatics 14.851%                     |
+| Heat Wave 14.851%                      |
+| Cotton Guard 13.861%                   |
+| Brave Bird 12.871%                     |
+| Dragon Pulse 12.871%                   |
+| Dragon Claw 9.901%                     |
+| Hyper Voice 9.901%                     |
+| Flamethrower 8.911%                    |
+| Agility 7.921%                         |
+| Will-O-Wisp 5.941%                     |
+| Other 14.851%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 48.515%                        |
+| Talonflame 37.624%                     |
+| Corviknight 35.644%                    |
+| Landorus 22.772%                       |
+| Thundurus-Therian 19.802%              |
+| Mandibuzz 18.812%                      |
+| Enamorus 17.822%                       |
+| Hawlucha 15.842%                       |
+| Kilowattrel 15.842%                    |
+| Vespiquen 14.851%                      |
++----------------------------------------+
++----------------------------------------+
+| Vivillon                               |
++----------------------------------------+
+| Raw count: 84                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Compound Eyes 83.333%                  |
+| Friend Guard 8.333%                    |
+| Shield Dust 8.333%                     |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 48.810%                     |
+| Leftovers 27.381%                      |
+| Heavy-Duty Boots 22.619%               |
+| Other 1.190%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 27.381%          |
+| Modest:0/0/0/252/4/252 27.381%         |
+| Timid:0/0/0/252/4/252 20.238%          |
+| Timid:0/0/0/252/0/252 9.524%           |
+| Modest:148/0/0/176/0/184 8.333%        |
+| Hardy:0/0/0/252/4/252 3.571%           |
+| Other 3.571%                           |
++----------------------------------------+
+| Moves                                  |
+| Quiver Dance 91.667%                   |
+| Bug Buzz 83.333%                       |
+| Sleep Powder 77.381%                   |
+| Hurricane 66.667%                      |
+| Air Slash 30.952%                      |
+| Giga Drain 15.476%                     |
+| Draining Kiss 11.905%                  |
+| Stun Spore 8.333%                      |
+| Other 14.286%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 47.619%                        |
+| Landorus 33.333%                       |
+| Skarmory 32.143%                       |
+| Dragonite 32.143%                      |
+| Gyarados 29.762%                       |
+| Corviknight 28.571%                    |
+| Staraptor 25.000%                      |
+| Enamorus 23.810%                       |
+| Minior 22.619%                         |
+| Mandibuzz 21.429%                      |
++----------------------------------------+
++----------------------------------------+
+| Noctowl                                |
++----------------------------------------+
+| Raw count: 85                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Tinted Lens 98.824%                    |
+| Keen Eye 1.176%                        |
++----------------------------------------+
+| Items                                  |
+| Throat Spray 43.529%                   |
+| Wide Lens 22.353%                      |
+| Assault Vest 22.353%                   |
+| Heavy-Duty Boots 5.882%                |
+| Leftovers 3.529%                       |
+| Other 2.353%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:248/0/0/252/8/0 65.882%         |
+| Modest:156/0/0/252/100/0 22.353%       |
+| Timid:252/0/0/4/0/252 4.706%           |
+| Modest:252/0/0/252/4/0 3.529%          |
+| Other 3.529%                           |
++----------------------------------------+
+| Moves                                  |
+| Heat Wave 74.118%                      |
+| Psychic Noise 49.412%                  |
+| Hurricane 48.235%                      |
+| Air Slash 45.882%                      |
+| Hyper Voice 44.706%                    |
+| Moonblast 28.235%                      |
+| Psychic 25.882%                        |
+| Calm Mind 23.529%                      |
+| Hypnosis 15.294%                       |
+| Future Sight 15.294%                   |
+| Extrasensory 8.235%                    |
+| Roost 7.059%                           |
+| Other 14.118%                          |
++----------------------------------------+
+| Teammates                              |
+| Toucannon 69.412%                      |
+| Cramorant 52.941%                      |
+| Braviary-Hisui 40.000%                 |
+| Yanmega 40.000%                        |
+| Zapdos-Galar 40.000%                   |
+| Staraptor 29.412%                      |
+| Braviary 24.706%                       |
+| Squawkabilly 24.706%                   |
+| Dodrio 24.706%                         |
+| Dragonite 21.176%                      |
++----------------------------------------+
++----------------------------------------+
+| Squawkabilly                           |
++----------------------------------------+
+| Raw count: 65                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 59                  |
++----------------------------------------+
+| Abilities                              |
+| Guts 41.538%                           |
+| Intimidate 36.923%                     |
+| Sheer Force 15.385%                    |
+| Hustle 6.154%                          |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 47.692%                   |
+| Flame Orb 41.538%                      |
+| Assault Vest 6.154%                    |
+| Other 4.615%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 52.308%          |
+| Jolly:252/0/0/0/4/252 30.769%          |
+| Jolly:252/4/0/0/0/252 6.154%           |
+| Adamant:4/252/0/0/0/252 4.615%         |
+| Modest:4/0/0/252/0/252 3.077%          |
+| Other 3.077%                           |
++----------------------------------------+
+| Moves                                  |
+| Parting Shot 63.077%                   |
+| Brave Bird 53.846%                     |
+| Quick Attack 44.615%                   |
+| U-turn 41.538%                         |
+| Facade 40.000%                         |
+| Final Gambit 30.769%                   |
+| Endeavor 26.154%                       |
+| Double-Edge 18.462%                    |
+| Copycat 16.923%                        |
+| Aerial Ace 16.923%                     |
+| Dual Wingbeat 12.308%                  |
+| Protect 7.692%                         |
+| Foul Play 7.692%                       |
+| Other 20.000%                          |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 38.462%                        |
+| Thundurus-Therian 35.385%              |
+| Corviknight 35.385%                    |
+| Toucannon 32.308%                      |
+| Staraptor 32.308%                      |
+| Braviary 32.308%                       |
+| Noctowl 32.308%                        |
+| Dodrio 32.308%                         |
+| Pelipper 21.538%                       |
+| Minior 20.000%                         |
++----------------------------------------+
++----------------------------------------+
+| Vespiquen                              |
++----------------------------------------+
+| Raw count: 49                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 47                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Leftovers 67.347%                      |
+| Expert Belt 16.327%                    |
+| Rocky Helmet 10.204%                   |
+| Heavy-Duty Boots 4.082%                |
+| Other 2.041%                           |
++----------------------------------------+
+| Spreads                                |
+| Hardy:68/64/72/72/56/160 38.776%       |
+| Impish:4/0/252/0/252/0 16.327%         |
+| Jolly:24/12/200/8/200/56 16.327%       |
+| Bold:252/0/252/0/4/0 12.245%           |
+| Careful:252/0/64/0/192/0 10.204%       |
+| Impish:252/0/252/0/4/0 4.082%          |
+| Other 2.041%                           |
++----------------------------------------+
+| Moves                                  |
+| Toxic 69.388%                          |
+| Roost 42.857%                          |
+| U-turn 42.857%                         |
+| Toxic Spikes 38.776%                   |
+| Air Slash 38.776%                      |
+| Defend Order 28.571%                   |
+| Lunge 20.408%                          |
+| Hurricane 18.367%                      |
+| Attack Order 18.367%                   |
+| Agility 16.327%                        |
+| Hyper Beam 16.327%                     |
+| Psychic Noise 16.327%                  |
+| Spite 12.245%                          |
+| Protect 12.245%                        |
+| Other 8.163%                           |
++----------------------------------------+
+| Teammates                              |
+| Gliscor 46.939%                        |
+| Noivern 38.776%                        |
+| Drifblim 32.653%                       |
+| Altaria 30.612%                        |
+| Skarmory 28.571%                       |
+| Talonflame 24.490%                     |
+| Corviknight 22.449%                    |
+| Articuno-Galar 22.449%                 |
+| Landorus 22.449%                       |
+| Mandibuzz 16.327%                      |
++----------------------------------------+
++----------------------------------------+
+| Oricorio                               |
++----------------------------------------+
+| Raw count: 40                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Dancer 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 55.000%               |
+| Leftovers 35.000%                      |
+| Nothing 7.500%                         |
+| Other 2.500%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 32.500%         |
+| Modest:4/0/0/252/0/252 22.500%         |
+| Timid:44/0/0/212/0/252 17.500%         |
+| Timid:4/0/0/252/0/252 12.500%          |
+| Timid:0/0/0/252/4/252 10.000%          |
+| Other 5.000%                           |
++----------------------------------------+
+| Moves                                  |
+| Revelation Dance 100.000%              |
+| Quiver Dance 87.500%                   |
+| Air Slash 85.000%                      |
+| Defog 32.500%                          |
+| Roost 27.500%                          |
+| Alluring Voice 20.000%                 |
+| Taunt 17.500%                          |
+| Hurricane 15.000%                      |
+| Other 15.000%                          |
++----------------------------------------+
+| Teammates                              |
+| Hawlucha 52.500%                       |
+| Landorus-Therian 50.000%               |
+| Dragonite 35.000%                      |
+| Thundurus-Therian 32.500%              |
+| Moltres-Galar 32.500%                  |
+| Corviknight 27.500%                    |
+| Salamence 25.000%                      |
+| Delibird 22.500%                       |
+| Minior 22.500%                         |
+| Mandibuzz 22.500%                      |
++----------------------------------------+
++----------------------------------------+
+| Murkrow                                |
++----------------------------------------+
+| Raw count: 31                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 70                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 70.968%                      |
+| Super Luck 29.032%                     |
++----------------------------------------+
+| Items                                  |
+| Eviolite 74.194%                       |
+| Leftovers 12.903%                      |
+| Focus Sash 9.677%                      |
+| Other 3.226%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:248/0/8/0/252/0 29.032%           |
+| Impish:252/0/252/0/0/0 16.129%         |
+| Calm:252/0/4/0/252/0 12.903%           |
+| Timid:0/0/252/0/4/252 12.903%          |
+| Bold:4/0/252/0/252/0 9.677%            |
+| Impish:252/0/0/0/4/252 6.452%          |
+| Other 12.903%                          |
++----------------------------------------+
+| Moves                                  |
+| Foul Play 64.516%                      |
+| Haze 51.613%                           |
+| Thunder Wave 48.387%                   |
+| Tailwind 41.935%                       |
+| Taunt 41.935%                          |
+| Protect 25.806%                        |
+| Torment 22.581%                        |
+| Whirlwind 19.355%                      |
+| Substitute 12.903%                     |
+| Nasty Plot 12.903%                     |
+| Dark Pulse 12.903%                     |
+| Heat Wave 12.903%                      |
+| U-turn 12.903%                         |
+| Other 19.355%                          |
++----------------------------------------+
+| Teammates                              |
+| Skarmory 38.710%                       |
+| Gliscor 35.484%                        |
+| Talonflame 32.258%                     |
+| Enamorus 32.258%                       |
+| Corviknight 32.258%                    |
+| Bombirdier 29.032%                     |
+| Moltres-Galar 25.806%                  |
+| Dragonite 22.581%                      |
+| Zapdos-Galar 19.355%                   |
+| Pelipper 19.355%                       |
++----------------------------------------+
++----------------------------------------+
+| Jumpluff                               |
++----------------------------------------+
+| Raw count: 33                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 49                  |
++----------------------------------------+
+| Abilities                              |
+| Infiltrator 78.788%                    |
+| Chlorophyll 21.212%                    |
++----------------------------------------+
+| Items                                  |
+| Leftovers 33.333%                      |
+| Wide Lens 15.152%                      |
+| Sitrus Berry 12.121%                   |
+| Light Clay 12.121%                     |
+| Weakness Policy 12.121%                |
+| Focus Sash 6.061%                      |
+| Heavy-Duty Boots 3.030%                |
+| Kee Berry 3.030%                       |
+| Other 3.030%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:252/0/0/4/0/252 39.394%          |
+| Hardy:0/0/56/252/40/156 15.152%        |
+| Jolly:252/4/0/0/0/252 12.121%          |
+| Hardy:4/252/0/0/0/252 12.121%          |
+| Calm:176/0/184/0/148/0 6.061%          |
+| Jolly:252/0/0/0/4/252 6.061%           |
+| Other 9.091%                           |
++----------------------------------------+
+| Moves                                  |
+| Strength Sap 36.364%                   |
+| Leech Seed 36.364%                     |
+| Giga Drain 33.333%                     |
+| Acrobatics 27.273%                     |
+| Encore 24.242%                         |
+| Tailwind 18.182%                       |
+| Sleep Powder 18.182%                   |
+| Light Screen 15.152%                   |
+| Reflect 15.152%                        |
+| Swords Dance 15.152%                   |
+| Protect 15.152%                        |
+| Dazzling Gleam 15.152%                 |
+| Sunny Day 15.152%                      |
+| Aerial Ace 15.152%                     |
+| Solar Beam 15.152%                     |
+| Trailblaze 12.121%                     |
+| Bounce 12.121%                         |
+| Stun Spore 12.121%                     |
+| Energy Ball 12.121%                    |
+| Substitute 9.091%                      |
+| Cotton Guard 6.061%                    |
+| Memento 6.061%                         |
+| Other 15.152%                          |
++----------------------------------------+
+| Teammates                              |
+| Corviknight 60.606%                    |
+| Minior 36.364%                         |
+| Gliscor 33.333%                        |
+| Charizard 27.273%                      |
+| Landorus-Therian 27.273%               |
+| Gyarados 24.242%                       |
+| Dragonite 21.212%                      |
+| Talonflame 18.182%                     |
+| Thundurus-Therian 15.152%              |
+| Moltres 15.152%                        |
++----------------------------------------+
++----------------------------------------+
+| Delibird                               |
++----------------------------------------+
+| Raw count: 23                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 48                  |
++----------------------------------------+
+| Abilities                              |
+| Insomnia 82.609%                       |
+| Hustle 13.043%                         |
+| Vital Spirit 4.348%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 43.478%                   |
+| Heavy-Duty Boots 39.130%               |
+| Loaded Dice 8.696%                     |
+| Focus Sash 4.348%                      |
+| Other 4.348%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 39.130%          |
+| Jolly:4/252/0/0/0/252 39.130%          |
+| Jolly:0/252/0/0/4/252 8.696%           |
+| Timid:252/0/0/4/0/252 4.348%           |
+| Jolly:0/252/0/0/0/252 4.348%           |
+| Other 4.348%                           |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 95.652%                     |
+| Spikes 47.826%                         |
+| Memento 47.826%                        |
+| Freeze-Dry 43.478%                     |
+| Ice Spinner 43.478%                    |
+| Destiny Bond 43.478%                   |
+| Chilling Water 39.130%                 |
+| Brave Bird 13.043%                     |
+| Icicle Spear 8.696%                    |
+| Other 17.391%                          |
++----------------------------------------+
+| Teammates                              |
+| Salamence 47.826%                      |
+| Dragonite 47.826%                      |
+| Hawlucha 47.826%                       |
+| Gliscor 47.826%                        |
+| Corviknight 47.826%                    |
+| Landorus 43.478%                       |
+| Skarmory 43.478%                       |
+| Oricorio 39.130%                       |
+| Thundurus-Therian 39.130%              |
+| Tornadus-Therian 34.783%               |
++----------------------------------------+
++----------------------------------------+
+| Swanna                                 |
++----------------------------------------+
+| Raw count: 21                          |
+| Avg. weight: 1                         |
+| Viability Ceiling: 57                  |
++----------------------------------------+
+| Abilities                              |
+| Big Pecks 38.095%                      |
+| Hydration 33.333%                      |
+| Keen Eye 28.571%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 28.571%                      |
+| Focus Sash 19.048%                     |
+| Blunder Policy 19.048%                 |
+| Heavy-Duty Boots 19.048%               |
+| Life Orb 9.524%                        |
+| Other 4.762%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 28.571%          |
+| Hardy:0/0/0/252/4/252 19.048%          |
+| Hasty:0/4/0/252/0/252 14.286%          |
+| Impish:252/0/224/0/0/32 14.286%        |
+| Hasty:88/108/48/108/48/100 9.524%      |
+| Calm:252/0/0/4/252/0 4.762%            |
+| Other 9.524%                           |
++----------------------------------------+
+| Moves                                  |
+| Hurricane 57.143%                      |
+| Surf 47.619%                           |
+| Defog 42.857%                          |
+| Rain Dance 33.333%                     |
+| Ice Beam 28.571%                       |
+| Flip Turn 23.810%                      |
+| Chilling Water 19.048%                 |
+| Aqua Jet 19.048%                       |
+| Endeavor 19.048%                       |
+| Liquidation 19.048%                    |
+| Roost 19.048%                          |
+| Brave Bird 19.048%                     |
+| Protect 14.286%                        |
+| Alluring Voice 9.524%                  |
+| Knock Off 9.524%                       |
+| Other 19.048%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragonite 38.095%                      |
+| Mandibuzz 38.095%                      |
+| Dodrio 33.333%                         |
+| Skarmory 33.333%                       |
+| Corviknight 33.333%                    |
+| Moltres-Galar 23.810%                  |
+| Landorus 23.810%                       |
+| Talonflame 19.048%                     |
+| Gliscor 19.048%                        |
+| Thundurus-Therian 14.286%              |
++----------------------------------------+
++----------------------------------------+
+| Yanma                                  |
++----------------------------------------+
+| Raw count: 2                           |
+| Avg. weight: 1                         |
+| Viability Ceiling: 26                  |
++----------------------------------------+
+| Abilities                              |
+| Compound Eyes 100.000%                 |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 100.000%                  |
++----------------------------------------+
+| Spreads                                |
+| Hardy:0/0/0/252/0/252 100.000%         |
++----------------------------------------+
+| Moves                                  |
+| Bug Buzz 100.000%                      |
+| Giga Drain 100.000%                    |
+| Shadow Ball 100.000%                   |
+| Air Slash 100.000%                     |
++----------------------------------------+
+| Teammates                              |
+| Scyther 100.000%                       |
+| Masquerain 100.000%                    |
+| Vespiquen 100.000%                     |
+| Vivillon 100.000%                      |
+| Combee 100.000%                        |
++----------------------------------------+
++----------------------------------------+
+| Combee                                 |
++----------------------------------------+
+| Raw count: 2                           |
+| Avg. weight: 1                         |
+| Viability Ceiling: 26                  |
++----------------------------------------+
+| Abilities                              |
+| Hustle 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Hardy:0/0/124/0/124/252 100.000%       |
++----------------------------------------+
+| Moves                                  |
+| Bug Buzz 100.000%                      |
+| Endeavor 100.000%                      |
+| Lunge 100.000%                         |
+| Sleep Talk 100.000%                    |
++----------------------------------------+
+| Teammates                              |
+| Scyther 100.000%                       |
+| Masquerain 100.000%                    |
+| Vespiquen 100.000%                     |
+| Vivillon 100.000%                      |
+| Yanma 100.000%                         |
++----------------------------------------+
++----------------------------------------+
+| Doduo                                  |
++----------------------------------------+
+| Raw count: 2                           |
+| Avg. weight: 1                         |
+| Viability Ceiling: 35                  |
++----------------------------------------+
+| Abilities                              |
+| Tangled Feet 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/4/0/0/252 100.000%       |
++----------------------------------------+
+| Moves                                  |
+| Nothing 300.000%                       |
+| Thrash 100.000%                        |
++----------------------------------------+
+| Teammates                              |
+| Zapdos-Galar 100.000%                  |
+| Oricorio-Sensu 100.000%                |
+| Pelipper 100.000%                      |
+| Thundurus 100.000%                     |
+| Corviknight 100.000%                   |
++----------------------------------------+
++----------------------------------------+
+| Starly                                 |
++----------------------------------------+
+| Raw count: 3                           |
+| Avg. weight: 1                         |
+| Viability Ceiling: 40                  |
++----------------------------------------+
+| Abilities                              |
+| Keen Eye 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 100.000%                    |
++----------------------------------------+
+| Spreads                                |
+| Adamant:248/236/0/0/0/0 100.000%       |
++----------------------------------------+
+| Moves                                  |
+| Quick Attack 100.000%                  |
+| Brave Bird 100.000%                    |
+| Dual Wingbeat 100.000%                 |
+| Endeavor 100.000%                      |
++----------------------------------------+
+| Teammates                              |
+| Thundurus 66.667%                      |
+| Landorus-Therian 66.667%               |
+| Talonflame 66.667%                     |
+| Dragonite 66.667%                      |
+| Salamence 66.667%                      |
++----------------------------------------+
