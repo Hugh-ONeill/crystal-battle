@@ -77,7 +77,9 @@ def parse_usage(path: Path) -> dict[str, float]:
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--months", nargs="+", required=True)
-    p.add_argument("--elo", type=int, default=1760)
+    p.add_argument("--elo", type=int, default=1500,
+                   help="1500 is the target bracket: 1760+ is the same battle pool "
+                        "re-weighted to a thin, high-variance slice of top players")
     p.add_argument("--top", type=int, default=3, help="movers to show per type")
     args = p.parse_args()
     first, last = args.months[0], args.months[-1]
