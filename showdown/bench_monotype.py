@@ -66,6 +66,26 @@ def _best_non_tera(side_results) -> str:
     return max(pool, key=lambda x: x.visits).move_choice
 
 
+# hazard move_choice -> (SideConditions attr, max layers). Re-setting a maxed
+# hazard is a pure no-op; the flat-eval MCTS will pick it anyway (visits are
+# ~tied with real moves), so we filter it out of move selection.
+_HAZARD_MAX = {"stealthrock": ("stealth_rock", 1), "spikes": ("spikes", 3),
+               "toxicspikes": ("toxic_spikes", 2), "stickyweb": ("sticky_web", 1)}
+
+
+def _best_useful(side_results, opp_conditions) -> str:
+    """Like `_best_non_tera`, but also drops hazards already maxed on the
+    opponent's side (a wasted turn). Falls back if every option is filtered."""
+    def is_noop(mc: str) -> bool:
+        hz = _HAZARD_MAX.get(mc.replace(" ", "").lower())
+        return bool(hz and getattr(opp_conditions, hz[0], 0) >= hz[1])
+
+    non_tera = [x for x in side_results if not x.move_choice.endswith("-tera")]
+    useful = [x for x in non_tera if not is_noop(x.move_choice)]
+    pool = useful or non_tera or list(side_results)
+    return max(pool, key=lambda x: x.visits).move_choice
+
+
 def _strip_switch_prefix(m: str) -> str:
     return m[7:] if m.startswith("switch ") else m
 
@@ -193,11 +213,13 @@ def play_one(team1_str: str, team2_str: str, search_ms: int,
             # the prior values when building p1_priors / p2_priors above.
             scored1 = reweight_by_priors(r1.side_one, p1_priors, alpha=1.0)
             scored2 = reweight_by_priors(r2.side_two, p2_priors, alpha=1.0)
-            p1_move = max(scored1, key=scored1.get) if scored1 else _best_non_tera(r1.side_one)
-            p2_move = max(scored2, key=scored2.get) if scored2 else _best_non_tera(r2.side_two)
+            p1_move = max(scored1, key=scored1.get) if scored1 \
+                else _best_useful(r1.side_one, state.side_two.side_conditions)
+            p2_move = max(scored2, key=scored2.get) if scored2 \
+                else _best_useful(r2.side_two, state.side_one.side_conditions)
         else:
-            p1_move = _best_non_tera(r1.side_one)
-            p2_move = _best_non_tera(r2.side_two)
+            p1_move = _best_useful(r1.side_one, state.side_two.side_conditions)
+            p2_move = _best_useful(r2.side_two, state.side_one.side_conditions)
 
         # Heuristic override: prefer recovery if the active is low HP and
         # the last turn's chip didn't out-damage the heal.
