@@ -178,6 +178,57 @@ def pick_leads_net(team1_body: str, team2_body: str, net, device: str = "cpu"):
     return p1_lead, p2_lead, scores
 
 
+def pick_leads_hybrid(
+    team1_body: str,
+    team2_body: str,
+    net,
+    *,
+    top_k: int = 2,
+    search_ms: int = 100,
+    device: str = "cpu",
+):
+    """Net-pruned MCTS lead picker: net proposes, search disposes.
+
+    The imitation net is good at *narrowing* the lead to a few plausible mons
+    but unreliable at the final pick (it imitates humans, who don't always lead
+    engine-optimally — e.g. it leads Archaludon for Steel where Heatran wins).
+    So: take each side's top-`top_k` net candidates, run a brief root MCTS over
+    just that `k x k` sub-grid, and resolve it with maximin. Costs `k*k` cells
+    instead of the full 36, while letting search correct the net's bad pick.
+
+    Returns (p1_lead_idx, p2_lead_idx, info) where info carries the candidate
+    indices, their net probabilities, and the evaluated sub-matrix — mapped
+    back to original (pre-prune) team indices.
+    """
+    _, _, scores = pick_leads_net(team1_body, team2_body, net, device=device)
+    probs_p1, probs_p2 = scores[0], scores[1]
+
+    n1 = len(split_team_body(team1_body))
+    n2 = len(split_team_body(team2_body))
+    cand1 = sorted(range(n1), key=lambda i: probs_p1[i], reverse=True)[:min(top_k, n1)]
+    cand2 = sorted(range(n2), key=lambda j: probs_p2[j], reverse=True)[:min(top_k, n2)]
+
+    sub = [[0.0] * len(cand2) for _ in range(len(cand1))]
+    for a, i in enumerate(cand1):
+        for b, j in enumerate(cand2):
+            try:
+                state = build_pe_state_gen9(reorder_team(team1_body, i),
+                                            reorder_team(team2_body, j))
+                r = pe.monte_carlo_tree_search(state, duration_ms=search_ms)
+                sub[a][b] = _root_value_from_mcts(r)
+            except Exception:
+                sub[a][b] = 0.0
+
+    ra, rb = maximin_lead_pair(sub)
+    p1_lead, p2_lead = cand1[ra], cand2[rb]
+    info = {
+        "cand1": cand1, "cand2": cand2,
+        "net_probs_p1": probs_p1, "net_probs_p2": probs_p2,
+        "submatrix": sub,
+    }
+    return p1_lead, p2_lead, info
+
+
 def load_lead_net(weights_path: str, device: str = "cpu"):
     """Load a trained LeadPickerNet from a .pt checkpoint."""
     import torch
