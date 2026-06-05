@@ -128,7 +128,7 @@ def _run(task):
 
 
 def main():
-    teams = parse("monotype/teams/teams_v7.txt")
+    teams = parse("monotype/teams/teams_engine.txt")
     n = len(teams)
     # bias toward matchups where these statuses meet immunities (Steel/Poison/
     # Fire/Ground/Grass/Electric teams), but sweep broadly

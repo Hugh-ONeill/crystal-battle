@@ -11,7 +11,7 @@ with the best win%.
 Reuses bench_monotype.play_one with explicit lead indices, so it's the exact
 same engine — just restricted to candidate-vs-field games (no field-vs-field).
 
-  .venv/bin/python -m monotype.lead_sweep --teams-file monotype/teams/teams_v7.txt \
+  .venv/bin/python -m monotype.lead_sweep --teams-file monotype/teams/teams_engine.txt \
       --search-ms 500 --games 4 --top-k 3 --out-teams monotype/teams/teams_v7_leadopt.txt
 """
 from __future__ import annotations

@@ -199,7 +199,7 @@ def _run(task):
 
 
 def main():
-    teams = parse("monotype/teams/teams_v7.txt")
+    teams = parse("monotype/teams/teams_engine.txt")
     n = len(teams)
     # diverse matchups: each team P1 vs 3 spread opponents
     pairs = [(i, (i + k) % n) for i in range(n) for k in (1, 6, 11)]

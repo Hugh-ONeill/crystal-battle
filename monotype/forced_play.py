@@ -116,7 +116,7 @@ def _game(task):
 
 
 def main():
-    teams = parse("monotype/teams/teams_v7.txt")
+    teams = parse("monotype/teams/teams_engine.txt")
     tdict = dict(teams)
     VAR = []  # (label, lead_body, forced_dict, field_bodies)
     for disp, tname, lead, move in SCRIPTS:

@@ -121,7 +121,7 @@ def _run(task):
 
 
 def main():
-    teams = parse("monotype/teams/teams_v7.txt")
+    teams = parse("monotype/teams/teams_engine.txt")
     n = len(teams)
     pairs = [(i, (i + k) % n) for i in range(n) for k in (4, 9)]   # 36 matchups
     tasks = [(i, j, 200 + i) for (i, j) in pairs]

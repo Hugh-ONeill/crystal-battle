@@ -90,7 +90,7 @@ def _run(task):
 
 
 def main():
-    teams = parse("monotype/teams/teams_v7.txt")
+    teams = parse("monotype/teams/teams_engine.txt")
     n = len(teams)
     # matchups likely to feature setup sweepers vs offense
     pairs = [(i, (i + k) % n) for i in range(n) for k in (3, 7, 13)]

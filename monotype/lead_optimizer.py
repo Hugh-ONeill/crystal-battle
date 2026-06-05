@@ -10,7 +10,7 @@ the opponent's lead is fixed — 6 x (N-1) evals per team, not 36 per matchup.
 Output: per team, current slot-1 vs search-suggested lead (and the net's pick
 for contrast), so reorders can be eyeballed before committing.
 
-  .venv/bin/python -m monotype.lead_optimizer --teams-file monotype/teams/teams_v7.txt --search-ms 500
+  .venv/bin/python -m monotype.lead_optimizer --teams-file monotype/teams/teams_engine.txt --search-ms 500
 """
 from __future__ import annotations
 
