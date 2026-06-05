@@ -72,13 +72,40 @@ def _best_non_tera(side_results) -> str:
 _HAZARD_MAX = {"stealthrock": ("stealth_rock", 1), "spikes": ("spikes", 3),
                "toxicspikes": ("toxic_spikes", 2), "stickyweb": ("sticky_web", 1)}
 
+# dedicated status moves -> per-move type/ability immunity check. (Already-statused
+# or behind-Substitute targets are handled separately — they block all of these.)
+_STATUS_IMMUNE = {
+    "toxic":       lambda t, ab: bool(t & {"poison", "steel"}) or ab == "immunity",
+    "willowisp":   lambda t, ab: "fire" in t or ab in {"waterveil", "waterbubble", "thermalexchange", "comatose"},
+    "thunderwave": lambda t, ab: "ground" in t or "electric" in t or ab == "limber",
+    "spore":       lambda t, ab: "grass" in t or ab in {"insomnia", "vitalspirit", "comatose", "sweetveil", "overcoat"},
+    "sleeppowder": lambda t, ab: "grass" in t or ab in {"insomnia", "vitalspirit", "comatose", "sweetveil", "overcoat"},
+}
 
-def _best_useful(side_results, opp_conditions) -> str:
-    """Like `_best_non_tera`, but also drops hazards already maxed on the
-    opponent's side (a wasted turn). Falls back if every option is filtered."""
+
+def _status_noop(move_choice: str, opp_active) -> bool:
+    """True if `move_choice` is a dedicated status move guaranteed to fail vs opp_active."""
+    mv = move_choice.replace(" ", "").lower()
+    if mv not in _STATUS_IMMUNE or opp_active is None:
+        return False
+    if (getattr(opp_active, "substitute_health", 0) or 0) > 0:
+        return True
+    if str(getattr(opp_active, "status", "none")).lower() not in ("none", "status.none", ""):
+        return True  # already has a major status -> can't apply another
+    t = set(getattr(opp_active, "types", ()) or ())
+    ab = str(getattr(opp_active, "ability", "") or "").lower()
+    return _STATUS_IMMUNE[mv](t, ab)
+
+
+def _best_useful(side_results, opp_conditions, opp_active=None) -> str:
+    """Like `_best_non_tera`, but also drops guaranteed no-op moves: hazards
+    already maxed, and (when opp_active is given) status moves that can't land
+    on the current target. Falls back if every option is filtered."""
     def is_noop(mc: str) -> bool:
         hz = _HAZARD_MAX.get(mc.replace(" ", "").lower())
-        return bool(hz and getattr(opp_conditions, hz[0], 0) >= hz[1])
+        if hz and getattr(opp_conditions, hz[0], 0) >= hz[1]:
+            return True
+        return _status_noop(mc, opp_active)
 
     non_tera = [x for x in side_results if not x.move_choice.endswith("-tera")]
     useful = [x for x in non_tera if not is_noop(x.move_choice)]
@@ -194,6 +221,11 @@ def play_one(team1_str: str, team2_str: str, search_ms: int,
         # Build per-side priors as merged dict {move_id: prob}, drawing from
         # whichever sources are enabled. Then re-weight MCTS visits by these.
         # Multiple priors stack additively on the visit count formula.
+        # opponent's active mon, for the status-no-op filter in _best_useful
+        oa1 = (state.side_one.pokemon[int(state.side_one.active_index)]
+               if state.side_one.active_index is not None else None)
+        oa2 = (state.side_two.pokemon[int(state.side_two.active_index)]
+               if state.side_two.active_index is not None else None)
         p1_priors: dict[str, float] = {}
         p2_priors: dict[str, float] = {}
         if chaos_alpha > 0.0:
@@ -214,12 +246,12 @@ def play_one(team1_str: str, team2_str: str, search_ms: int,
             scored1 = reweight_by_priors(r1.side_one, p1_priors, alpha=1.0)
             scored2 = reweight_by_priors(r2.side_two, p2_priors, alpha=1.0)
             p1_move = max(scored1, key=scored1.get) if scored1 \
-                else _best_useful(r1.side_one, state.side_two.side_conditions)
+                else _best_useful(r1.side_one, state.side_two.side_conditions, oa2)
             p2_move = max(scored2, key=scored2.get) if scored2 \
-                else _best_useful(r2.side_two, state.side_one.side_conditions)
+                else _best_useful(r2.side_two, state.side_one.side_conditions, oa1)
         else:
-            p1_move = _best_useful(r1.side_one, state.side_two.side_conditions)
-            p2_move = _best_useful(r2.side_two, state.side_one.side_conditions)
+            p1_move = _best_useful(r1.side_one, state.side_two.side_conditions, oa2)
+            p2_move = _best_useful(r2.side_two, state.side_one.side_conditions, oa1)
 
         # Heuristic override: prefer recovery if the active is low HP and
         # the last turn's chip didn't out-damage the heal.

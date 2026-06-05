@@ -76,8 +76,10 @@ def scan_game(t1, t2, seed, maxt=80):
             r2 = pe.monte_carlo_tree_search(pe.State.from_string(s), duration_ms=500)
         except Exception:
             break
-        p1 = _best_useful(r1.side_one, st.side_two.side_conditions)
-        p2 = _best_useful(r2.side_two, st.side_one.side_conditions)
+        oa1 = st.side_one.pokemon[int(st.side_one.active_index)] if st.side_one.active_index is not None else None
+        oa2 = st.side_two.pokemon[int(st.side_two.active_index)] if st.side_two.active_index is not None else None
+        p1 = _best_useful(r1.side_one, st.side_two.side_conditions, oa2)
+        p2 = _best_useful(r2.side_two, st.side_one.side_conditions, oa1)
         for sd, (mv, me, opp) in {1: (p1, st.side_one, st.side_two),
                                   2: (p2, st.side_two, st.side_one)}.items():
             if me.force_switch or mv.startswith("switch ") or mv == "No Move":
