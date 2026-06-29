@@ -13,10 +13,10 @@ import multiprocessing as mp
 from showdown.bench_monotype import play_one
 from monotype.lead_picker import load_lead_net, pick_leads_net
 
-REPLACED = "Stop Bugging Me"
+REPLACED = "Totally Normal Team"
 VARIANTS = [
     ("current", None),
-    ("HO", "monotype/bench/_bug_ho.txt"),
+    ("BO", "monotype/bench/_normal_bo.txt"),
 ]
 
 
