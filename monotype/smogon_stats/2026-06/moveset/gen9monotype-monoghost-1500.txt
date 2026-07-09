@@ -1,0 +1,2014 @@
++----------------------------------------+
+| Flutter Mane                           |
++----------------------------------------+
+| Raw count: 10426                       |
+| Avg. weight: 0.6542286886070595        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Protosynthesis 100.000%                |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 48.605%                   |
+| Choice Scarf 30.604%                   |
+| Assault Vest 5.685%                    |
+| Focus Sash 3.717%                      |
+| Leftovers 2.979%                       |
+| Life Orb 2.730%                        |
+| Covert Cloak 1.121%                    |
+| Other 4.561%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 52.751%          |
+| Timid:4/0/0/252/0/252 25.555%          |
+| Timid:0/0/4/252/0/252 4.185%           |
+| Timid:0/0/0/252/0/252 3.225%           |
+| Timid:32/0/216/44/0/216 2.418%         |
+| Modest:4/0/0/252/0/252 1.892%          |
+| Other 9.974%                           |
++----------------------------------------+
+| Moves                                  |
+| Moonblast 95.812%                      |
+| Shadow Ball 94.474%                    |
+| Thunderbolt 66.278%                    |
+| Power Gem 38.367%                      |
+| Mystical Fire 29.488%                  |
+| Energy Ball 28.423%                    |
+| Psyshock 19.171%                       |
+| Calm Mind 7.489%                       |
+| Draining Kiss 3.767%                   |
+| Other 16.731%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 79.085%                      |
+| Ceruledge 65.851%                      |
+| Gholdengo 48.799%                      |
+| Spectrier 46.500%                      |
+| Pecharunt 45.870%                      |
+| Mimikyu 31.926%                        |
+| Brambleghast 27.287%                   |
+| Zoroark-Hisui 24.606%                  |
+| Sableye 15.328%                        |
+| Froslass 12.567%                       |
++----------------------------------------+
++----------------------------------------+
+| Dragapult                              |
++----------------------------------------+
+| Raw count: 10831                       |
+| Avg. weight: 0.6223443264544827        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Infiltrator 65.014%                    |
+| Clear Body 30.656%                     |
+| Cursed Body 4.330%                     |
++----------------------------------------+
+| Items                                  |
+| Leftovers 33.017%                      |
+| Choice Band 15.299%                    |
+| Choice Scarf 8.851%                    |
+| Life Orb 8.429%                        |
+| Heavy-Duty Boots 6.693%                |
+| Choice Specs 6.434%                    |
+| Focus Sash 5.938%                      |
+| Weakness Policy 4.181%                 |
+| Dragon Fang 2.508%                     |
+| Expert Belt 2.215%                     |
+| Metronome 1.551%                       |
+| Other 4.884%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 21.782%          |
+| Adamant:4/252/0/0/0/252 14.843%        |
+| Jolly:0/252/4/0/0/252 14.165%          |
+| Adamant:0/252/0/0/4/252 8.568%         |
+| Jolly:4/252/0/0/0/252 8.067%           |
+| Timid:0/0/0/252/4/252 5.996%           |
+| Other 26.579%                          |
++----------------------------------------+
+| Moves                                  |
+| Dragon Darts 87.752%                   |
+| Phantom Force 67.537%                  |
+| Dragon Dance 50.109%                   |
+| U-turn 38.156%                         |
+| Substitute 32.925%                     |
+| Sucker Punch 27.900%                   |
+| Psychic Fangs 16.409%                  |
+| Shadow Ball 13.530%                    |
+| Draco Meteor 12.585%                   |
+| Flamethrower 9.472%                    |
+| Thunder Wave 9.269%                    |
+| Will-O-Wisp 7.467%                     |
+| Hex 6.323%                             |
+| Thunderbolt 3.419%                     |
+| Other 17.146%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 80.026%                   |
+| Ceruledge 64.705%                      |
+| Gholdengo 50.201%                      |
+| Pecharunt 41.958%                      |
+| Spectrier 41.858%                      |
+| Mimikyu 35.021%                        |
+| Zoroark-Hisui 26.029%                  |
+| Brambleghast 25.103%                   |
+| Sableye 17.480%                        |
+| Skeledirge 15.231%                     |
++----------------------------------------+
++----------------------------------------+
+| Ceruledge                              |
++----------------------------------------+
+| Raw count: 8577                        |
+| Avg. weight: 0.6452386061409505        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Weak Armor 93.807%                     |
+| Flash Fire 6.193%                      |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 81.425%                     |
+| Weakness Policy 7.325%                 |
+| Life Orb 2.277%                        |
+| Heavy-Duty Boots 2.067%                |
+| Air Balloon 1.388%                     |
+| Leftovers 1.147%                       |
+| Other 4.371%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 55.362%          |
+| Jolly:4/252/0/0/0/252 17.045%          |
+| Adamant:0/252/0/0/4/252 6.693%         |
+| Jolly:0/252/4/0/0/252 3.529%           |
+| Adamant:148/252/0/0/0/108 2.947%       |
+| Jolly:0/252/0/0/0/252 1.974%           |
+| Other 12.451%                          |
++----------------------------------------+
+| Moves                                  |
+| Bitter Blade 99.542%                   |
+| Swords Dance 85.087%                   |
+| Shadow Sneak 75.378%                   |
+| Close Combat 51.815%                   |
+| Poltergeist 46.298%                    |
+| Destiny Bond 16.295%                   |
+| Endure 8.977%                          |
+| Other 16.607%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 81.172%                   |
+| Dragapult 78.821%                      |
+| Gholdengo 45.768%                      |
+| Spectrier 45.253%                      |
+| Pecharunt 39.978%                      |
+| Mimikyu 31.918%                        |
+| Zoroark-Hisui 25.770%                  |
+| Brambleghast 24.604%                   |
+| Sableye 18.489%                        |
+| Froslass 12.058%                       |
++----------------------------------------+
++----------------------------------------+
+| Gholdengo                              |
++----------------------------------------+
+| Raw count: 6903                        |
+| Avg. weight: 0.6188301369255437        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Good as Gold 100.000%                  |
++----------------------------------------+
+| Items                                  |
+| Air Balloon 49.619%                    |
+| Choice Scarf 10.260%                   |
+| Leftovers 10.238%                      |
+| Colbur Berry 6.758%                    |
+| Shuca Berry 5.176%                     |
+| Choice Specs 5.004%                    |
+| Heavy-Duty Boots 4.001%                |
+| Life Orb 2.279%                        |
+| Kasib Berry 1.250%                     |
+| Assault Vest 1.181%                    |
+| Other 4.235%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 13.387%          |
+| Bold:252/0/152/0/0/104 12.140%         |
+| Timid:4/0/0/252/0/252 11.408%          |
+| Modest:136/0/0/148/0/224 9.222%        |
+| Modest:232/0/0/48/124/104 5.004%       |
+| Modest:252/0/0/252/4/0 5.003%          |
+| Other 43.836%                          |
++----------------------------------------+
+| Moves                                  |
+| Make It Rain 88.828%                   |
+| Shadow Ball 78.638%                    |
+| Recover 66.509%                        |
+| Nasty Plot 61.374%                     |
+| Focus Blast 18.303%                    |
+| Thunder Wave 17.824%                   |
+| Hex 15.551%                            |
+| Dazzling Gleam 10.338%                 |
+| Thunderbolt 8.941%                     |
+| Flash Cannon 8.212%                    |
+| Trick 7.794%                           |
+| Other 17.688%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 79.221%                      |
+| Flutter Mane 77.927%                   |
+| Ceruledge 59.291%                      |
+| Spectrier 47.210%                      |
+| Pecharunt 29.412%                      |
+| Mimikyu 28.551%                        |
+| Brambleghast 27.658%                   |
+| Zoroark-Hisui 23.171%                  |
+| Skeledirge 18.329%                     |
+| Sinistcha 14.624%                      |
++----------------------------------------+
++----------------------------------------+
+| Spectrier                              |
++----------------------------------------+
+| Raw count: 5336                        |
+| Avg. weight: 0.6992532587333052        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Grim Neigh 100.000%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 26.003%                   |
+| Leftovers 23.827%                      |
+| Choice Scarf 21.585%                   |
+| Colbur Berry 8.641%                    |
+| Life Orb 6.919%                        |
+| Metronome 4.947%                       |
+| Focus Sash 4.673%                      |
+| Other 3.406%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 50.879%          |
+| Timid:4/0/0/252/0/252 19.154%          |
+| Timid:4/0/96/156/0/252 4.321%          |
+| Modest:0/0/0/252/4/252 4.009%          |
+| Timid:184/0/124/0/0/200 3.979%         |
+| Timid:64/0/252/0/0/192 3.364%          |
+| Other 14.294%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 83.503%                    |
+| Draining Kiss 77.750%                  |
+| Psychic 47.423%                        |
+| Dark Pulse 38.745%                     |
+| Will-O-Wisp 38.453%                    |
+| Nasty Plot 34.368%                     |
+| Substitute 30.674%                     |
+| Hex 26.160%                            |
+| Calm Mind 8.452%                       |
+| Other 14.472%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 85.038%                   |
+| Dragapult 75.649%                      |
+| Ceruledge 67.137%                      |
+| Gholdengo 54.066%                      |
+| Pecharunt 37.397%                      |
+| Brambleghast 32.125%                   |
+| Zoroark-Hisui 21.255%                  |
+| Mimikyu 19.336%                        |
+| Froslass 12.352%                       |
+| Sinistcha 9.345%                       |
++----------------------------------------+
++----------------------------------------+
+| Pecharunt                              |
++----------------------------------------+
+| Raw count: 5711                        |
+| Avg. weight: 0.6426185100530313        |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Poison Puppeteer 100.000%              |
++----------------------------------------+
+| Items                                  |
+| Black Sludge 55.817%                   |
+| Heavy-Duty Boots 15.331%               |
+| Leftovers 12.269%                      |
+| Rocky Helmet 7.548%                    |
+| Air Balloon 4.065%                     |
+| Other 4.970%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/0/4/0 25.285%           |
+| Bold:252/0/228/0/0/28 12.352%          |
+| Bold:252/0/252/4/0/0 8.218%            |
+| Modest:252/0/0/252/4/0 7.871%          |
+| Bold:248/0/252/0/8/0 4.298%            |
+| Bold:248/0/232/0/0/28 4.001%           |
+| Other 37.975%                          |
++----------------------------------------+
+| Moves                                  |
+| Recover 92.178%                        |
+| Malignant Chain 88.719%                |
+| Hex 49.548%                            |
+| Shadow Ball 36.188%                    |
+| Parting Shot 35.700%                   |
+| Nasty Plot 30.066%                     |
+| Toxic 16.663%                          |
+| Substitute 10.835%                     |
+| Protect 8.277%                         |
+| Foul Play 7.447%                       |
+| Destiny Bond 5.965%                    |
+| Other 18.413%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 85.262%                   |
+| Dragapult 77.073%                      |
+| Ceruledge 60.284%                      |
+| Spectrier 38.011%                      |
+| Gholdengo 34.236%                      |
+| Mimikyu 34.210%                        |
+| Sableye 24.098%                        |
+| Zoroark-Hisui 22.504%                  |
+| Brambleghast 17.076%                   |
+| Sinistcha 13.613%                      |
++----------------------------------------+
++----------------------------------------+
+| Mimikyu                                |
++----------------------------------------+
+| Raw count: 5473                        |
+| Avg. weight: 0.570791997479358         |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Disguise 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Life Orb 70.687%                       |
+| Leftovers 7.563%                       |
+| Red Card 7.507%                        |
+| Metronome 3.367%                       |
+| Heavy-Duty Boots 2.146%                |
+| Focus Sash 1.417%                      |
+| Lum Berry 1.169%                       |
+| Rocky Helmet 0.948%                    |
+| Rawst Berry 0.917%                     |
+| Other 4.279%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 36.117%          |
+| Jolly:0/252/4/0/0/252 22.332%          |
+| Jolly:4/252/0/0/0/252 17.950%          |
+| Adamant:0/252/0/0/4/252 7.450%         |
+| Adamant:252/252/0/0/4/0 3.168%         |
+| Jolly:0/252/0/0/0/252 2.100%           |
+| Other 10.882%                          |
++----------------------------------------+
+| Moves                                  |
+| Play Rough 95.295%                     |
+| Shadow Sneak 93.066%                   |
+| Swords Dance 88.158%                   |
+| Drain Punch 70.493%                    |
+| Shadow Claw 23.482%                    |
+| Destiny Bond 3.702%                    |
+| Copycat 3.336%                         |
+| Trick Room 3.192%                      |
+| Other 19.276%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 75.574%                      |
+| Flutter Mane 69.716%                   |
+| Ceruledge 56.542%                      |
+| Pecharunt 40.189%                      |
+| Gholdengo 39.042%                      |
+| Sableye 30.977%                        |
+| Spectrier 23.088%                      |
+| Zoroark-Hisui 22.899%                  |
+| Skeledirge 15.465%                     |
+| Gengar 13.903%                         |
++----------------------------------------+
++----------------------------------------+
+| Zoroark-Hisui                          |
++----------------------------------------+
+| Raw count: 5152                        |
+| Avg. weight: 0.49525770043453904       |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Illusion 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 23.406%                   |
+| Choice Scarf 22.080%                   |
+| Focus Sash 21.176%                     |
+| Life Orb 15.841%                       |
+| Leftovers 4.367%                       |
+| Heavy-Duty Boots 2.860%                |
+| Throat Spray 1.722%                    |
+| Spooky Plate 1.662%                    |
+| Air Balloon 1.649%                     |
+| Expert Belt 1.407%                     |
+| Other 3.830%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 27.353%          |
+| Timid:0/0/0/252/4/252 21.706%          |
+| Jolly:0/252/0/0/4/252 14.530%          |
+| Timid:0/0/4/252/0/252 11.437%          |
+| Timid:0/0/0/252/0/252 6.790%           |
+| Hardy:0/252/0/0/4/252 3.581%           |
+| Other 14.604%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 44.503%                    |
+| Hyper Voice 36.070%                    |
+| Flamethrower 35.145%                   |
+| Bitter Malice 34.223%                  |
+| Focus Blast 26.428%                    |
+| Dark Pulse 23.754%                     |
+| Shadow Sneak 21.660%                   |
+| Nasty Plot 19.221%                     |
+| Trick 18.341%                          |
+| Poltergeist 16.187%                    |
+| Swords Dance 15.554%                   |
+| Grass Knot 14.777%                     |
+| U-turn 13.374%                         |
+| Psychic 12.699%                        |
+| Crunch 10.353%                         |
+| Sludge Bomb 9.398%                     |
+| Low Kick 8.818%                        |
+| Icy Wind 5.829%                        |
+| Extrasensory 5.065%                    |
+| Low Sweep 3.738%                       |
+| Will-O-Wisp 3.355%                     |
+| Knock Off 2.397%                       |
+| Other 19.112%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 68.750%                      |
+| Flutter Mane 65.765%                   |
+| Ceruledge 55.875%                      |
+| Gholdengo 38.781%                      |
+| Pecharunt 32.358%                      |
+| Spectrier 31.063%                      |
+| Mimikyu 28.028%                        |
+| Gengar 21.384%                         |
+| Golurk 20.816%                         |
+| Skeledirge 19.330%                     |
++----------------------------------------+
++----------------------------------------+
+| Brambleghast                           |
++----------------------------------------+
+| Raw count: 2918                        |
+| Avg. weight: 0.7120217847140842        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Wind Rider 83.456%                     |
+| Infiltrator 16.544%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 38.545%               |
+| Focus Sash 34.200%                     |
+| Rocky Helmet 20.302%                   |
+| Leftovers 4.208%                       |
+| Other 2.746%                           |
++----------------------------------------+
+| Spreads                                |
+| Jolly:0/252/0/0/4/252 17.680%          |
+| Impish:252/0/240/0/0/16 17.560%        |
+| Impish:252/0/252/0/4/0 14.400%         |
+| Jolly:252/4/0/0/0/252 10.460%          |
+| Jolly:4/252/0/0/0/252 6.239%           |
+| Jolly:252/0/0/0/0/252 5.056%           |
+| Other 28.604%                          |
++----------------------------------------+
+| Moves                                  |
+| Rapid Spin 99.281%                     |
+| Spikes 89.855%                         |
+| Power Whip 74.130%                     |
+| Strength Sap 65.440%                   |
+| Poltergeist 33.433%                    |
+| Shadow Sneak 19.604%                   |
+| Other 18.257%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 89.621%                   |
+| Dragapult 81.478%                      |
+| Ceruledge 65.555%                      |
+| Spectrier 57.695%                      |
+| Gholdengo 56.886%                      |
+| Pecharunt 30.172%                      |
+| Zoroark-Hisui 20.630%                  |
+| Mimikyu 17.388%                        |
+| Golurk 12.878%                         |
+| Skeledirge 12.479%                     |
++----------------------------------------+
++----------------------------------------+
+| Sableye                                |
++----------------------------------------+
+| Raw count: 2307                        |
+| Avg. weight: 0.6225198234730024        |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| Prankster 98.928%                      |
+| Keen Eye 0.854%                        |
+| Stall 0.217%                           |
++----------------------------------------+
+| Items                                  |
+| Light Clay 66.975%                     |
+| Leftovers 13.428%                      |
+| Heavy-Duty Boots 8.972%                |
+| Rocky Helmet 6.010%                    |
+| Other 4.615%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:4/0/252/0/252/0 45.098%           |
+| Impish:252/0/252/0/4/0 13.227%         |
+| Bold:252/0/252/0/4/0 3.684%            |
+| Careful:248/0/104/0/156/0 3.616%       |
+| Bold:248/0/252/0/8/0 2.537%            |
+| Calm:252/0/4/0/252/0 2.432%            |
+| Other 29.405%                          |
++----------------------------------------+
+| Moves                                  |
+| Will-O-Wisp 81.172%                    |
+| Light Screen 67.748%                   |
+| Reflect 67.710%                        |
+| Thunder Wave 57.569%                   |
+| Knock Off 32.406%                      |
+| Recover 26.774%                        |
+| Encore 23.980%                         |
+| Taunt 16.094%                          |
+| Foul Play 6.489%                       |
+| Protect 4.296%                         |
+| Other 15.761%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 82.043%                      |
+| Flutter Mane 72.797%                   |
+| Ceruledge 71.235%                      |
+| Mimikyu 67.373%                        |
+| Pecharunt 61.572%                      |
+| Zoroark-Hisui 20.143%                  |
+| Gholdengo 18.908%                      |
+| Spectrier 13.632%                      |
+| Golurk 9.976%                          |
+| Skeledirge 9.420%                      |
++----------------------------------------+
++----------------------------------------+
+| Skeledirge                             |
++----------------------------------------+
+| Raw count: 2840                        |
+| Avg. weight: 0.48348650465026244       |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Unaware 97.177%                        |
+| Blaze 2.823%                           |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 62.598%               |
+| Leftovers 21.042%                      |
+| Choice Scarf 3.497%                    |
+| Assault Vest 2.916%                    |
+| Throat Spray 2.547%                    |
+| Sitrus Berry 1.173%                    |
+| Expert Belt 1.032%                     |
+| Rocky Helmet 0.929%                    |
+| Other 4.266%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:248/0/252/8/0/0 22.657%           |
+| Calm:248/0/0/8/252/0 12.980%           |
+| Bold:248/0/252/0/8/0 8.379%            |
+| Calm:252/0/0/4/252/0 7.981%            |
+| Careful:252/0/4/0/252/0 6.349%         |
+| Calm:252/0/4/0/252/0 5.951%            |
+| Other 35.704%                          |
++----------------------------------------+
+| Moves                                  |
+| Torch Song 98.710%                     |
+| Slack Off 87.907%                      |
+| Will-O-Wisp 75.760%                    |
+| Earth Power 38.443%                    |
+| Hex 35.312%                            |
+| Shadow Ball 26.507%                    |
+| Encore 8.978%                          |
+| Alluring Voice 6.699%                  |
+| Scorching Sands 3.418%                 |
+| Other 18.265%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 74.774%                      |
+| Flutter Mane 62.206%                   |
+| Gholdengo 57.021%                      |
+| Zoroark-Hisui 35.929%                  |
+| Mimikyu 35.182%                        |
+| Ceruledge 31.676%                      |
+| Gengar 26.510%                         |
+| Pecharunt 24.567%                      |
+| Brambleghast 18.876%                   |
+| Spectrier 16.594%                      |
++----------------------------------------+
++----------------------------------------+
+| Gengar                                 |
++----------------------------------------+
+| Raw count: 3015                        |
+| Avg. weight: 0.3694744553123392        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Cursed Body 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 46.592%                     |
+| Choice Scarf 15.649%                   |
+| Choice Specs 9.517%                    |
+| Kasib Berry 6.741%                     |
+| Black Sludge 5.476%                    |
+| Air Balloon 3.976%                     |
+| Colbur Berry 2.169%                    |
+| Expert Belt 2.089%                     |
+| Heavy-Duty Boots 2.034%                |
+| Leftovers 1.707%                       |
+| Other 4.049%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 60.889%          |
+| Timid:4/0/0/252/0/252 15.636%          |
+| Timid:252/0/0/4/0/252 5.084%           |
+| Modest:4/0/0/252/0/252 2.860%          |
+| Timid:252/0/0/0/4/252 2.599%           |
+| Timid:0/0/0/252/0/252 2.390%           |
+| Other 10.543%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 75.158%                    |
+| Destiny Bond 45.780%                   |
+| Toxic Spikes 40.071%                   |
+| Sludge Wave 38.181%                    |
+| Sludge Bomb 32.617%                    |
+| Dazzling Gleam 30.451%                 |
+| Taunt 24.500%                          |
+| Thunderbolt 20.272%                    |
+| Energy Ball 11.036%                    |
+| Thunder Wave 8.507%                    |
+| Psychic 8.185%                         |
+| Nasty Plot 7.929%                      |
+| Hex 7.413%                             |
+| Thunder 6.869%                         |
+| Focus Blast 6.450%                     |
+| Encore 4.677%                          |
+| Will-O-Wisp 3.898%                     |
+| Giga Drain 2.921%                      |
+| Trick 2.909%                           |
+| Curse 2.739%                           |
+| Other 19.436%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 71.226%                      |
+| Flutter Mane 49.740%                   |
+| Zoroark-Hisui 48.968%                  |
+| Ceruledge 46.564%                      |
+| Mimikyu 38.967%                        |
+| Gholdengo 34.278%                      |
+| Skeledirge 32.661%                     |
+| Spectrier 30.248%                      |
+| Pecharunt 18.008%                      |
+| Golurk 16.146%                         |
++----------------------------------------+
++----------------------------------------+
+| Sinistcha                              |
++----------------------------------------+
+| Raw count: 2114                        |
+| Avg. weight: 0.5204680540781887        |
+| Viability Ceiling: 87                  |
++----------------------------------------+
+| Abilities                              |
+| Heatproof 91.190%                      |
+| Hospitality 8.810%                     |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 38.542%               |
+| Leftovers 28.410%                      |
+| Kasib Berry 8.729%                     |
+| Focus Sash 6.900%                      |
+| Big Root 5.582%                        |
+| Rocky Helmet 2.783%                    |
+| Nothing 1.630%                         |
+| Assault Vest 1.509%                    |
+| Yache Berry 1.454%                     |
+| Other 4.461%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/160/0/0/96 13.398%          |
+| Bold:248/0/164/0/0/96 12.552%          |
+| Modest:252/0/0/252/4/0 11.311%         |
+| Bold:248/0/160/0/0/100 10.688%         |
+| Bold:252/0/252/0/4/0 10.557%           |
+| Quiet:0/0/252/252/4/0 6.164%           |
+| Other 35.330%                          |
++----------------------------------------+
+| Moves                                  |
+| Matcha Gotcha 98.940%                  |
+| Calm Mind 77.187%                      |
+| Strength Sap 63.598%                   |
+| Shadow Ball 57.822%                    |
+| Substitute 30.903%                     |
+| Hex 24.481%                            |
+| Scald 9.040%                           |
+| Trick Room 6.999%                      |
+| Memento 6.971%                         |
+| Nasty Plot 6.940%                      |
+| Other 17.119%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 71.802%                   |
+| Dragapult 66.852%                      |
+| Gholdengo 56.747%                      |
+| Ceruledge 47.529%                      |
+| Pecharunt 45.379%                      |
+| Mimikyu 35.556%                        |
+| Spectrier 31.664%                      |
+| Zoroark-Hisui 21.023%                  |
+| Golurk 18.157%                         |
+| Froslass 14.576%                       |
++----------------------------------------+
++----------------------------------------+
+| Golurk                                 |
++----------------------------------------+
+| Raw count: 2049                        |
+| Avg. weight: 0.5337237321887414        |
+| Viability Ceiling: 84                  |
++----------------------------------------+
+| Abilities                              |
+| No Guard 67.349%                       |
+| Iron Fist 28.651%                      |
+| Klutz 4.000%                           |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 35.012%                     |
+| Assault Vest 24.273%                   |
+| Choice Band 15.364%                    |
+| Heavy-Duty Boots 10.010%               |
+| Colbur Berry 5.784%                    |
+| Leftovers 1.655%                       |
+| Punching Glove 1.652%                  |
+| Rocky Helmet 1.440%                    |
+| Other 4.808%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 26.902%        |
+| Adamant:252/252/0/0/0/4 14.649%        |
+| Adamant:252/252/0/0/4/0 14.101%        |
+| Jolly:4/252/0/0/0/252 11.010%          |
+| Adamant:252/252/0/0/0/0 9.760%         |
+| Brave:252/252/0/0/4/0 6.872%           |
+| Other 16.705%                          |
++----------------------------------------+
+| Moves                                  |
+| Earthquake 94.783%                     |
+| Dynamic Punch 54.631%                  |
+| Poltergeist 53.086%                    |
+| Ice Punch 38.707%                      |
+| Stealth Rock 37.787%                   |
+| Drain Punch 25.017%                    |
+| Stone Edge 24.205%                     |
+| Rock Slide 19.736%                     |
+| Close Combat 14.585%                   |
+| Heat Crash 8.200%                      |
+| Knock Off 5.744%                       |
+| Curse 4.896%                           |
+| Other 18.624%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 58.114%                   |
+| Dragapult 54.967%                      |
+| Zoroark-Hisui 48.559%                  |
+| Ceruledge 47.669%                      |
+| Pecharunt 38.914%                      |
+| Mimikyu 32.770%                        |
+| Brambleghast 24.446%                   |
+| Gholdengo 24.150%                      |
+| Drifblim 23.291%                       |
+| Spectrier 22.925%                      |
++----------------------------------------+
++----------------------------------------+
+| Froslass                               |
++----------------------------------------+
+| Raw count: 1913                        |
+| Avg. weight: 0.5636962860722636        |
+| Viability Ceiling: 85                  |
++----------------------------------------+
+| Abilities                              |
+| Cursed Body 100.000%                   |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 84.169%                     |
+| Light Clay 8.291%                      |
+| Heavy-Duty Boots 3.085%                |
+| Other 4.454%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 26.341%          |
+| Timid:4/0/0/252/0/252 23.960%          |
+| Timid:248/0/0/0/8/252 11.718%          |
+| Jolly:4/252/0/0/0/252 8.994%           |
+| Hardy:0/0/4/252/0/252 4.252%           |
+| Timid:248/0/0/8/0/252 3.891%           |
+| Other 20.843%                          |
++----------------------------------------+
+| Moves                                  |
+| Spikes 92.381%                         |
+| Ice Beam 55.544%                       |
+| Destiny Bond 53.568%                   |
+| Taunt 51.794%                          |
+| Thunder Wave 47.840%                   |
+| Will-O-Wisp 27.423%                    |
+| Triple Axel 11.776%                    |
+| Reflect 8.392%                         |
+| Light Screen 8.333%                    |
+| Icy Wind 8.067%                        |
+| Poltergeist 7.667%                     |
+| Shadow Ball 7.492%                     |
+| Other 19.723%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 79.469%                   |
+| Dragapult 72.551%                      |
+| Ceruledge 61.861%                      |
+| Gholdengo 56.928%                      |
+| Spectrier 42.714%                      |
+| Mimikyu 29.175%                        |
+| Pecharunt 27.898%                      |
+| Skeledirge 21.070%                     |
+| Sinistcha 14.875%                      |
+| Zoroark-Hisui 12.909%                  |
++----------------------------------------+
++----------------------------------------+
+| Polteageist                            |
++----------------------------------------+
+| Raw count: 1366                        |
+| Avg. weight: 0.44980044761870086       |
+| Viability Ceiling: 72                  |
++----------------------------------------+
+| Abilities                              |
+| Weak Armor 86.839%                     |
+| Cursed Body 13.161%                    |
++----------------------------------------+
+| Items                                  |
+| Focus Sash 70.822%                     |
+| White Herb 25.358%                     |
+| Other 3.820%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 28.477%         |
+| Modest:4/0/0/252/0/252 18.681%         |
+| Timid:0/0/0/252/0/252 11.208%          |
+| Timid:0/0/0/252/4/252 9.517%           |
+| Mild:0/4/0/252/0/252 5.871%            |
+| Timid:4/0/0/252/0/252 5.115%           |
+| Other 21.131%                          |
++----------------------------------------+
+| Moves                                  |
+| Shell Smash 97.939%                    |
+| Shadow Ball 94.285%                    |
+| Giga Drain 73.705%                     |
+| Stored Power 73.638%                   |
+| Strength Sap 22.002%                   |
+| Sucker Punch 10.243%                   |
+| Psychic 6.821%                         |
+| Dark Pulse 5.518%                      |
+| Other 15.848%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 68.866%                   |
+| Dragapult 65.094%                      |
+| Ceruledge 54.943%                      |
+| Spectrier 51.799%                      |
+| Mimikyu 33.354%                        |
+| Pecharunt 32.282%                      |
+| Gholdengo 27.293%                      |
+| Skeledirge 22.000%                     |
+| Zoroark-Hisui 17.493%                  |
+| Basculegion 15.510%                    |
++----------------------------------------+
++----------------------------------------+
+| Drifblim                               |
++----------------------------------------+
+| Raw count: 1166                        |
+| Avg. weight: 0.3845708571662263        |
+| Viability Ceiling: 73                  |
++----------------------------------------+
+| Abilities                              |
+| Aftermath 63.363%                      |
+| Unburden 26.356%                       |
+| Flare Boost 10.281%                    |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 43.295%               |
+| Custap Berry 15.495%                   |
+| Sitrus Berry 13.161%                   |
+| Weakness Policy 9.332%                 |
+| Flame Orb 8.216%                       |
+| Leftovers 5.781%                       |
+| Other 4.719%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/0/0/252/4 30.157%           |
+| Timid:252/0/4/0/0/252 15.099%          |
+| Bold:252/0/252/0/0/4 13.594%           |
+| Bold:252/0/252/0/0/0 8.636%            |
+| Modest:0/0/0/252/4/252 6.105%          |
+| Calm:252/0/0/4/252/0 3.568%            |
+| Other 22.840%                          |
++----------------------------------------+
+| Moves                                  |
+| Defog 75.309%                          |
+| Strength Sap 57.368%                   |
+| Will-O-Wisp 48.960%                    |
+| Destiny Bond 29.749%                   |
+| Air Slash 28.249%                      |
+| Shadow Ball 28.072%                    |
+| Night Shade 21.440%                    |
+| Tailwind 19.514%                       |
+| Endure 18.234%                         |
+| Trick Room 15.972%                     |
+| Stockpile 8.750%                       |
+| Stored Power 8.664%                    |
+| Calm Mind 7.705%                       |
+| Hex 5.328%                             |
+| Haze 3.847%                            |
+| Icy Wind 3.808%                        |
+| Other 19.030%                          |
++----------------------------------------+
+| Teammates                              |
+| Golurk 56.698%                         |
+| Ceruledge 47.982%                      |
+| Zoroark-Hisui 44.562%                  |
+| Spectrier 39.045%                      |
+| Dragapult 37.409%                      |
+| Mimikyu 36.409%                        |
+| Gengar 34.213%                         |
+| Gholdengo 30.791%                      |
+| Flutter Mane 29.097%                   |
+| Sinistcha 18.120%                      |
++----------------------------------------+
++----------------------------------------+
+| Basculegion                            |
++----------------------------------------+
+| Raw count: 1201                        |
+| Avg. weight: 0.3670756958325335        |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Adaptability 93.241%                   |
+| Swift Swim 4.606%                      |
+| Mold Breaker 2.153%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 33.397%                   |
+| Choice Band 21.195%                    |
+| Sitrus Berry 20.322%                   |
+| Life Orb 5.327%                        |
+| Leftovers 4.889%                       |
+| Heavy-Duty Boots 3.253%                |
+| Mystic Water 2.276%                    |
+| Assault Vest 2.263%                    |
+| Focus Sash 1.763%                      |
+| Loaded Dice 1.062%                     |
+| Other 4.254%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:0/252/0/0/4/252 26.190%        |
+| Jolly:4/252/0/0/0/252 24.768%          |
+| Adamant:252/252/0/0/4/0 14.397%        |
+| Jolly:0/252/0/0/4/252 13.255%          |
+| Adamant:0/252/4/0/0/252 3.057%         |
+| Hardy:0/252/0/0/4/252 2.690%           |
+| Other 15.644%                          |
++----------------------------------------+
+| Moves                                  |
+| Wave Crash 83.947%                     |
+| Aqua Jet 79.590%                       |
+| Phantom Force 61.004%                  |
+| Psychic Fangs 41.468%                  |
+| Flip Turn 29.248%                      |
+| Head Smash 23.831%                     |
+| Agility 20.743%                        |
+| Liquidation 13.246%                    |
+| Crunch 11.118%                         |
+| Ice Fang 8.016%                        |
+| Shadow Ball 4.162%                     |
+| Waterfall 4.030%                       |
+| Other 19.596%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 72.400%                   |
+| Ceruledge 38.205%                      |
+| Gholdengo 36.721%                      |
+| Dragapult 33.493%                      |
+| Pecharunt 32.962%                      |
+| Zoroark-Hisui 26.721%                  |
+| Skeledirge 26.558%                     |
+| Mimikyu 24.765%                        |
+| Brambleghast 23.229%                   |
+| Froslass 22.414%                       |
++----------------------------------------+
++----------------------------------------+
+| Chandelure                             |
++----------------------------------------+
+| Raw count: 1074                        |
+| Avg. weight: 0.3021054642427596        |
+| Viability Ceiling: 68                  |
++----------------------------------------+
+| Abilities                              |
+| Flash Fire 39.906%                     |
+| Flame Body 35.386%                     |
+| Infiltrator 24.708%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 43.966%                   |
+| Focus Sash 32.863%                     |
+| Choice Specs 6.401%                    |
+| Heavy-Duty Boots 4.060%                |
+| Leftovers 3.807%                       |
+| Life Orb 2.589%                        |
+| Air Balloon 1.398%                     |
+| Other 4.915%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:0/0/0/252/4/252 49.270%          |
+| Timid:4/0/0/252/0/252 32.279%          |
+| Modest:0/0/0/252/4/252 3.937%          |
+| Modest:4/0/0/252/0/252 3.440%          |
+| Quiet:248/0/0/252/8/0 3.154%           |
+| Modest:0/0/128/252/128/0 1.947%        |
+| Other 5.973%                           |
++----------------------------------------+
+| Moves                                  |
+| Energy Ball 88.176%                    |
+| Shadow Ball 83.819%                    |
+| Flamethrower 81.192%                   |
+| Psychic 46.239%                        |
+| Fire Blast 25.744%                     |
+| Dark Pulse 15.873%                     |
+| Overheat 13.179%                       |
+| Trick 9.540%                           |
+| Calm Mind 6.233%                       |
+| Hex 5.111%                             |
+| Will-O-Wisp 4.894%                     |
+| Clear Smog 4.607%                      |
+| Other 15.393%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 79.329%                      |
+| Mimikyu 63.868%                        |
+| Flutter Mane 60.445%                   |
+| Ceruledge 57.111%                      |
+| Houndstone 33.259%                     |
+| Pecharunt 19.214%                      |
+| Gengar 17.744%                         |
+| Brambleghast 14.816%                   |
+| Zoroark-Hisui 13.192%                  |
+| Golurk 11.713%                         |
++----------------------------------------+
++----------------------------------------+
+| Decidueye                              |
++----------------------------------------+
+| Raw count: 581                         |
+| Avg. weight: 0.471437367671426         |
+| Viability Ceiling: 75                  |
++----------------------------------------+
+| Abilities                              |
+| Long Reach 69.279%                     |
+| Overgrow 30.721%                       |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 35.136%               |
+| Leftovers 31.438%                      |
+| Rocky Helmet 8.751%                    |
+| Choice Band 5.646%                     |
+| Life Orb 4.743%                        |
+| Weakness Policy 3.494%                 |
+| Mental Herb 2.184%                     |
+| Spell Tag 1.828%                       |
+| Assault Vest 1.467%                    |
+| Choice Scarf 1.097%                    |
+| Other 4.217%                           |
++----------------------------------------+
+| Spreads                                |
+| Careful:252/4/0/0/252/0 22.860%        |
+| Careful:248/8/0/0/252/0 12.604%        |
+| Impish:252/4/252/0/0/0 7.791%          |
+| Careful:252/0/252/0/0/0 7.338%         |
+| Careful:252/0/0/4/252/0 7.109%         |
+| Adamant:0/252/0/0/4/252 5.838%         |
+| Other 36.461%                          |
++----------------------------------------+
+| Moves                                  |
+| Defog 68.336%                          |
+| Roost 55.029%                          |
+| Spirit Shackle 54.207%                 |
+| Leaf Blade 51.543%                     |
+| U-turn 35.974%                         |
+| Knock Off 33.132%                      |
+| Shadow Sneak 22.874%                   |
+| Night Shade 15.990%                    |
+| Swords Dance 14.155%                   |
+| Curse 7.996%                           |
+| Trailblaze 7.029%                      |
+| Haze 6.850%                            |
+| Brave Bird 3.375%                      |
+| Giga Drain 3.359%                      |
+| Tailwind 2.713%                        |
+| Other 17.438%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 58.480%                      |
+| Flutter Mane 55.109%                   |
+| Ceruledge 51.833%                      |
+| Pecharunt 47.548%                      |
+| Zoroark-Hisui 38.600%                  |
+| Gholdengo 35.634%                      |
+| Spectrier 30.824%                      |
+| Gengar 28.964%                         |
+| Skeledirge 22.762%                     |
+| Mimikyu 22.277%                        |
++----------------------------------------+
++----------------------------------------+
+| Houndstone                             |
++----------------------------------------+
+| Raw count: 420                         |
+| Avg. weight: 0.5541851141272497        |
+| Viability Ceiling: 79                  |
++----------------------------------------+
+| Abilities                              |
+| Fluffy 98.926%                         |
+| Sand Rush 1.074%                       |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 68.917%                   |
+| Leftovers 20.489%                      |
+| Rocky Helmet 6.903%                    |
+| Other 3.691%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 61.861%        |
+| Careful:252/0/252/0/4/0 9.294%         |
+| Impish:252/0/252/0/4/0 5.969%          |
+| Bold:252/0/252/0/4/0 5.865%            |
+| Careful:168/88/0/0/252/0 2.716%        |
+| Impish:252/0/204/0/52/0 2.381%         |
+| Other 11.915%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Sneak 82.878%                   |
+| Poltergeist 76.207%                    |
+| Ice Fang 42.371%                       |
+| Bulldoze 41.538%                       |
+| Play Rough 35.171%                     |
+| Body Press 31.473%                     |
+| Night Shade 21.547%                    |
+| Will-O-Wisp 15.145%                    |
+| Crunch 12.980%                         |
+| Pain Split 12.932%                     |
+| Stomping Tantrum 12.593%               |
+| Other 15.166%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 78.862%                      |
+| Flutter Mane 72.721%                   |
+| Ceruledge 67.240%                      |
+| Mimikyu 50.003%                        |
+| Chandelure 46.393%                     |
+| Gholdengo 23.082%                      |
+| Pecharunt 22.277%                      |
+| Spectrier 16.889%                      |
+| Golurk 12.723%                         |
+| Sinistcha 11.423%                      |
++----------------------------------------+
++----------------------------------------+
+| Spiritomb                              |
++----------------------------------------+
+| Raw count: 571                         |
+| Avg. weight: 0.3615091949321373        |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Infiltrator 67.174%                    |
+| Pressure 32.826%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 39.881%                      |
+| Focus Sash 33.686%                     |
+| Red Card 5.502%                        |
+| Sitrus Berry 5.217%                    |
+| Rocky Helmet 3.848%                    |
+| Heavy-Duty Boots 3.640%                |
+| Lagging Tail 2.327%                    |
+| Nothing 1.660%                         |
+| Other 4.239%                           |
++----------------------------------------+
+| Spreads                                |
+| Brave:248/252/0/0/8/0 33.686%          |
+| Lax:252/0/252/0/4/0 9.992%             |
+| Calm:252/0/4/0/252/0 6.062%            |
+| Careful:4/0/252/0/252/0 4.936%         |
+| Quiet:248/0/0/252/8/0 4.648%           |
+| Calm:248/0/0/8/252/0 3.832%            |
+| Other 36.845%                          |
++----------------------------------------+
+| Moves                                  |
+| Trick Room 46.095%                     |
+| Destiny Bond 44.400%                   |
+| Sucker Punch 41.009%                   |
+| Pain Split 39.449%                     |
+| Poltergeist 37.410%                    |
+| Will-O-Wisp 33.487%                    |
+| Toxic 22.374%                          |
+| Dark Pulse 20.059%                     |
+| Hex 18.209%                            |
+| Foul Play 17.811%                      |
+| Protect 14.450%                        |
+| Calm Mind 13.344%                      |
+| Shadow Ball 5.251%                     |
+| Psyshock 5.072%                        |
+| Rock Tomb 4.936%                       |
+| Curse 4.364%                           |
+| Burning Jealousy 4.245%                |
+| Disable 3.949%                         |
+| Spite 3.689%                           |
+| Night Shade 2.859%                     |
+| Other 17.540%                          |
++----------------------------------------+
+| Teammates                              |
+| Gholdengo 61.780%                      |
+| Mimikyu 54.561%                        |
+| Sinistcha 48.619%                      |
+| Dragapult 38.420%                      |
+| Golurk 37.555%                         |
+| Zoroark-Hisui 36.209%                  |
+| Drifblim 35.330%                       |
+| Flutter Mane 30.409%                   |
+| Ceruledge 20.751%                      |
+| Skeledirge 13.157%                     |
++----------------------------------------+
++----------------------------------------+
+| Basculegion-F                          |
++----------------------------------------+
+| Raw count: 583                         |
+| Avg. weight: 0.32243639155621445       |
+| Viability Ceiling: 61                  |
++----------------------------------------+
+| Abilities                              |
+| Adaptability 69.326%                   |
+| Swift Swim 21.940%                     |
+| Mold Breaker 8.733%                    |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 54.617%                   |
+| Choice Specs 15.435%                   |
+| Leftovers 12.078%                      |
+| Assault Vest 5.105%                    |
+| Expert Belt 2.439%                     |
+| Life Orb 2.286%                        |
+| Focus Sash 2.084%                      |
+| Choice Band 1.758%                     |
+| Other 4.198%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 21.672%          |
+| Jolly:4/252/0/0/0/252 17.563%          |
+| Modest:0/0/0/252/4/252 14.177%         |
+| Adamant:4/252/0/0/0/252 10.019%        |
+| Modest:252/0/0/252/4/0 4.287%          |
+| Mild:252/4/0/252/0/0 3.904%            |
+| Other 28.379%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 62.305%                    |
+| Ice Beam 57.772%                       |
+| Flip Turn 53.886%                      |
+| Surf 51.577%                           |
+| Wave Crash 29.057%                     |
+| Aqua Jet 23.565%                       |
+| Phantom Force 16.918%                  |
+| Head Smash 15.357%                     |
+| Double-Edge 13.258%                    |
+| Hydro Pump 12.847%                     |
+| Ice Fang 10.771%                       |
+| Rain Dance 8.908%                      |
+| Liquidation 8.175%                     |
+| Psychic Fangs 6.964%                   |
+| Night Shade 6.591%                     |
+| Crunch 2.540%                          |
+| Other 19.508%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 72.803%                   |
+| Ceruledge 60.301%                      |
+| Pecharunt 48.931%                      |
+| Spectrier 41.045%                      |
+| Dragapult 38.332%                      |
+| Gholdengo 36.742%                      |
+| Gengar 25.394%                         |
+| Mimikyu 18.497%                        |
+| Trevenant 16.453%                      |
+| Zoroark-Hisui 16.417%                  |
++----------------------------------------+
++----------------------------------------+
+| Oricorio-Sensu                         |
++----------------------------------------+
+| Raw count: 411                         |
+| Avg. weight: 0.45198242328601923       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Dancer 100.000%                        |
++----------------------------------------+
+| Items                                  |
+| Heavy-Duty Boots 66.824%               |
+| Focus Sash 18.435%                     |
+| Leftovers 5.308%                       |
+| Life Orb 2.757%                        |
+| Wacan Berry 1.573%                     |
+| Choice Scarf 1.307%                    |
+| Other 3.796%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 25.548%         |
+| Timid:4/0/0/252/0/252 20.770%          |
+| Bold:252/0/136/0/80/40 14.814%         |
+| Timid:56/0/104/112/112/124 9.673%      |
+| Jolly:0/252/0/0/4/252 6.304%           |
+| Timid:0/0/0/252/4/252 3.968%           |
+| Other 18.923%                          |
++----------------------------------------+
+| Moves                                  |
+| Revelation Dance 87.864%               |
+| Quiver Dance 83.153%                   |
+| Defog 72.566%                          |
+| Air Slash 58.967%                      |
+| Hurricane 22.405%                      |
+| Alluring Voice 16.455%                 |
+| U-turn 12.763%                         |
+| Roost 11.145%                          |
+| Tailwind 10.504%                       |
+| Acrobatics 7.440%                      |
+| Other 16.739%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 70.400%                   |
+| Ceruledge 70.201%                      |
+| Zoroark-Hisui 53.277%                  |
+| Dragapult 47.303%                      |
+| Pecharunt 40.918%                      |
+| Spectrier 36.252%                      |
+| Gholdengo 22.089%                      |
+| Mimikyu 21.945%                        |
+| Skeledirge 18.198%                     |
+| Golurk 17.009%                         |
++----------------------------------------+
++----------------------------------------+
+| Dusclops                               |
++----------------------------------------+
+| Raw count: 383                         |
+| Avg. weight: 0.36803953122913086       |
+| Viability Ceiling: 76                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 65.233%                       |
+| Frisk 34.767%                          |
++----------------------------------------+
+| Items                                  |
+| Eviolite 96.873%                       |
+| Other 3.127%                           |
++----------------------------------------+
+| Spreads                                |
+| Calm:252/0/4/0/252/0 21.906%           |
+| Calm:252/0/0/4/252/0 14.977%           |
+| Relaxed:0/0/216/0/252/40 8.130%        |
+| Careful:252/4/0/0/252/0 7.498%         |
+| Careful:252/0/4/0/252/0 6.283%         |
+| Bold:252/0/252/0/4/0 5.439%            |
+| Other 35.766%                          |
++----------------------------------------+
+| Moves                                  |
+| Will-O-Wisp 82.605%                    |
+| Night Shade 70.045%                    |
+| Pain Split 62.258%                     |
+| Haze 28.730%                           |
+| Rest 27.357%                           |
+| Sleep Talk 17.856%                     |
+| Curse 12.095%                          |
+| Leech Life 11.071%                     |
+| Memento 9.144%                         |
+| Hex 9.026%                             |
+| Taunt 8.950%                           |
+| Trick Room 7.902%                      |
+| Poltergeist 7.712%                     |
+| Disable 7.272%                         |
+| Substitute 5.751%                      |
+| Shadow Sneak 5.560%                    |
+| Protect 5.489%                         |
+| Future Sight 4.106%                    |
+| Other 17.070%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 64.257%                      |
+| Flutter Mane 51.888%                   |
+| Spectrier 46.297%                      |
+| Ceruledge 43.235%                      |
+| Pecharunt 36.087%                      |
+| Gholdengo 35.945%                      |
+| Zoroark-Hisui 34.979%                  |
+| Sableye 24.138%                        |
+| Gengar 15.598%                         |
+| Brambleghast 15.282%                   |
++----------------------------------------+
++----------------------------------------+
+| Typhlosion-Hisui                       |
++----------------------------------------+
+| Raw count: 359                         |
+| Avg. weight: 0.36831086717251177       |
+| Viability Ceiling: 63                  |
++----------------------------------------+
+| Abilities                              |
+| Frisk 67.217%                          |
+| Blaze 32.783%                          |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 86.570%                   |
+| Choice Specs 7.286%                    |
+| Life Orb 1.028%                        |
+| Salac Berry 1.021%                     |
+| Other 4.095%                           |
++----------------------------------------+
+| Spreads                                |
+| Modest:0/0/0/252/4/252 36.182%         |
+| Timid:0/0/0/252/4/252 31.448%          |
+| Modest:4/0/0/252/0/252 13.117%         |
+| Timid:0/0/0/252/0/252 6.399%           |
+| Timid:4/0/0/252/0/252 3.727%           |
+| Modest:0/0/0/252/0/252 2.321%          |
+| Other 6.806%                           |
++----------------------------------------+
+| Moves                                  |
+| Eruption 95.240%                       |
+| Shadow Ball 62.370%                    |
+| Focus Blast 61.689%                    |
+| Flamethrower 58.150%                   |
+| Infernal Parade 47.436%                |
+| Extrasensory 25.092%                   |
+| Overheat 11.331%                       |
+| Lava Plume 7.749%                      |
+| Will-O-Wisp 5.004%                     |
+| Fire Blast 3.626%                      |
+| Hex 3.280%                             |
+| Other 19.033%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 78.281%                      |
+| Flutter Mane 64.090%                   |
+| Gholdengo 54.176%                      |
+| Zoroark-Hisui 41.739%                  |
+| Ceruledge 38.160%                      |
+| Pecharunt 21.528%                      |
+| Basculegion 20.912%                    |
+| Decidueye 19.038%                      |
+| Gengar 13.952%                         |
+| Sableye 13.869%                        |
++----------------------------------------+
++----------------------------------------+
+| Dusknoir                               |
++----------------------------------------+
+| Raw count: 574                         |
+| Avg. weight: 0.19382262902467945       |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Pressure 70.125%                       |
+| Frisk 29.875%                          |
++----------------------------------------+
+| Items                                  |
+| Assault Vest 24.294%                   |
+| Rocky Helmet 23.476%                   |
+| Leftovers 19.131%                      |
+| Weakness Policy 17.583%                |
+| Nothing 7.226%                         |
+| Colbur Berry 1.776%                    |
+| Sitrus Berry 1.613%                    |
+| Other 4.900%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:252/252/0/0/4/0 41.051%        |
+| Brave:252/252/4/0/0/0 17.301%          |
+| Careful:252/4/0/0/252/0 10.748%        |
+| Brave:24/252/0/40/188/0 8.563%         |
+| Calm:252/0/4/0/252/0 7.869%            |
+| Careful:252/0/4/0/252/0 2.396%         |
+| Other 12.072%                          |
++----------------------------------------+
+| Moves                                  |
+| Poltergeist 61.595%                    |
+| Leech Life 58.304%                     |
+| Shadow Sneak 43.402%                   |
+| Earthquake 40.855%                     |
+| Pain Split 34.123%                     |
+| Will-O-Wisp 23.629%                    |
+| Curse 23.138%                          |
+| Trick Room 20.596%                     |
+| Ice Punch 14.959%                      |
+| Brick Break 12.809%                    |
+| Dark Pulse 9.251%                      |
+| Rock Tomb 8.715%                       |
+| Thunder Punch 8.253%                   |
+| Night Shade 7.865%                     |
+| Haze 4.094%                            |
+| Body Slam 3.542%                       |
+| Taunt 3.529%                           |
+| Rest 3.093%                            |
+| Other 18.246%                          |
++----------------------------------------+
+| Teammates                              |
+| Dragapult 50.761%                      |
+| Mimikyu 49.552%                        |
+| Flutter Mane 42.488%                   |
+| Gholdengo 29.512%                      |
+| Ceruledge 21.198%                      |
+| Golurk 19.709%                         |
+| Pecharunt 19.669%                      |
+| Houndstone 19.344%                     |
+| Zoroark-Hisui 19.253%                  |
+| Mismagius 18.749%                      |
++----------------------------------------+
++----------------------------------------+
+| Trevenant                              |
++----------------------------------------+
+| Raw count: 313                         |
+| Avg. weight: 0.33987721403714344       |
+| Viability Ceiling: 62                  |
++----------------------------------------+
+| Abilities                              |
+| Harvest 88.984%                        |
+| Natural Cure 8.958%                    |
+| Frisk 2.058%                           |
++----------------------------------------+
+| Items                                  |
+| Sitrus Berry 59.469%                   |
+| Leftovers 10.848%                      |
+| Aguav Berry 8.220%                     |
+| Colbur Berry 6.022%                    |
+| Custap Berry 4.999%                    |
+| Life Orb 4.795%                        |
+| Focus Sash 2.420%                      |
+| Other 3.227%                           |
++----------------------------------------+
+| Spreads                                |
+| Impish:176/80/252/0/0/0 23.087%        |
+| Careful:252/4/0/0/252/0 22.053%        |
+| Brave:252/252/0/0/4/0 11.170%          |
+| Adamant:252/252/0/0/4/0 8.547%         |
+| Calm:244/0/12/0/252/0 6.472%           |
+| Adamant:252/252/4/0/0/0 4.999%         |
+| Other 23.672%                          |
++----------------------------------------+
+| Moves                                  |
+| Horn Leech 59.448%                     |
+| Protect 58.396%                        |
+| Leech Seed 50.405%                     |
+| Substitute 38.907%                     |
+| Poltergeist 28.629%                    |
+| Drain Punch 25.106%                    |
+| Toxic 23.118%                          |
+| Trick Room 12.187%                     |
+| Will-O-Wisp 11.650%                    |
+| Wood Hammer 10.182%                    |
+| Earthquake 9.499%                      |
+| Knock Off 8.599%                       |
+| Shadow Claw 6.791%                     |
+| Endure 6.692%                          |
+| Sucker Punch 6.223%                    |
+| Giga Drain 5.590%                      |
+| Growth 4.999%                          |
+| Rest 4.210%                            |
+| Forest's Curse 4.144%                  |
+| Pain Split 4.057%                      |
+| Phantom Force 2.764%                   |
+| Other 18.404%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 53.920%                   |
+| Pecharunt 36.911%                      |
+| Spectrier 35.985%                      |
+| Drifblim 35.103%                       |
+| Dragapult 31.506%                      |
+| Basculegion-F 29.055%                  |
+| Ceruledge 28.779%                      |
+| Golurk 26.635%                         |
+| Mimikyu 23.960%                        |
+| Gholdengo 19.417%                      |
++----------------------------------------+
++----------------------------------------+
+| Palossand                              |
++----------------------------------------+
+| Raw count: 287                         |
+| Avg. weight: 0.30817274613120005       |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Water Compaction 100.000%              |
++----------------------------------------+
+| Items                                  |
+| Leftovers 60.851%                      |
+| Rocky Helmet 12.816%                   |
+| Chesto Berry 6.625%                    |
+| Colbur Berry 3.921%                    |
+| Passho Berry 3.245%                    |
+| Aguav Berry 2.264%                     |
+| Weakness Policy 2.027%                 |
+| Nothing 1.535%                         |
+| Assault Vest 1.523%                    |
+| Heavy-Duty Boots 1.091%                |
+| Other 4.102%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/252/0/4/0 31.066%           |
+| Modest:252/0/0/252/4/0 17.014%         |
+| Bold:252/0/160/96/0/0 9.363%           |
+| Calm:252/0/4/0/252/0 8.197%            |
+| Sassy:252/0/4/0/252/0 6.626%           |
+| Relaxed:252/0/252/0/0/0 3.843%         |
+| Other 23.891%                          |
++----------------------------------------+
+| Moves                                  |
+| Shore Up 73.840%                       |
+| Stealth Rock 73.193%                   |
+| Earth Power 62.907%                    |
+| Shadow Ball 57.015%                    |
+| Scorching Sands 34.553%                |
+| Giga Drain 10.591%                     |
+| Protect 9.519%                         |
+| Hex 9.069%                             |
+| Rest 7.801%                            |
+| Sludge Bomb 7.397%                     |
+| Hypnosis 6.625%                        |
+| Iron Defense 6.319%                    |
+| Chilling Water 5.698%                  |
+| Pain Split 5.063%                      |
+| Energy Ball 4.631%                     |
+| Night Shade 4.514%                     |
+| Earthquake 4.014%                      |
+| Other 17.249%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 74.418%                   |
+| Ceruledge 58.132%                      |
+| Gholdengo 45.887%                      |
+| Dragapult 45.028%                      |
+| Zoroark-Hisui 37.211%                  |
+| Spectrier 32.933%                      |
+| Pecharunt 28.287%                      |
+| Mimikyu 25.269%                        |
+| Brambleghast 20.276%                   |
+| Sableye 14.916%                        |
++----------------------------------------+
++----------------------------------------+
+| Mismagius                              |
++----------------------------------------+
+| Raw count: 512                         |
+| Avg. weight: 0.15999579638268766       |
+| Viability Ceiling: 57                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Specs 36.483%                   |
+| Leftovers 35.459%                      |
+| Choice Scarf 7.358%                    |
+| Focus Sash 5.008%                      |
+| Sitrus Berry 4.604%                    |
+| Life Orb 3.267%                        |
+| Assault Vest 2.739%                    |
+| Salac Berry 1.688%                     |
+| Other 3.395%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 37.553%          |
+| Modest:4/0/0/252/0/252 23.334%         |
+| Timid:0/0/0/252/4/252 21.439%          |
+| Modest:0/0/0/252/0/252 2.714%          |
+| Hasty:0/4/0/252/0/252 2.691%           |
+| Hardy:4/0/0/252/0/252 2.122%           |
+| Other 10.148%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 73.431%                    |
+| Psychic 62.398%                        |
+| Thunderbolt 53.197%                    |
+| Dazzling Gleam 49.527%                 |
+| Mystical Fire 38.317%                  |
+| Calm Mind 31.211%                      |
+| Destiny Bond 12.276%                   |
+| Dark Pulse 12.136%                     |
+| Energy Ball 10.009%                    |
+| Draining Kiss 9.699%                   |
+| Nasty Plot 5.885%                      |
+| Psyshock 5.299%                        |
+| Poltergeist 3.673%                     |
+| Will-O-Wisp 3.207%                     |
+| Pain Split 2.994%                      |
+| Charge Beam 2.875%                     |
+| Thunder Wave 2.845%                    |
+| Shadow Sneak 2.488%                    |
+| Other 18.532%                          |
++----------------------------------------+
+| Teammates                              |
+| Mimikyu 67.327%                        |
+| Dragapult 48.712%                      |
+| Flutter Mane 41.627%                   |
+| Pecharunt 39.208%                      |
+| Sableye 38.608%                        |
+| Golurk 34.415%                         |
+| Gholdengo 27.792%                      |
+| Dusknoir 25.288%                       |
+| Basculegion-F 21.503%                  |
+| Drifblim 17.319%                       |
++----------------------------------------+
++----------------------------------------+
+| Hoopa                                  |
++----------------------------------------+
+| Raw count: 157                         |
+| Avg. weight: 0.3177456865531843        |
+| Viability Ceiling: 66                  |
++----------------------------------------+
+| Abilities                              |
+| Magician 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Nothing 43.432%                        |
+| Leftovers 14.411%                      |
+| Choice Specs 9.977%                    |
+| Choice Scarf 8.017%                    |
+| Assault Vest 4.878%                    |
+| Life Orb 4.871%                        |
+| Focus Sash 4.251%                      |
+| Choice Band 2.460%                     |
+| Wise Glasses 1.924%                    |
+| Aguav Berry 1.460%                     |
+| Other 4.318%                           |
++----------------------------------------+
+| Spreads                                |
+| Bold:252/0/4/0/252/0 41.401%           |
+| Timid:4/0/0/252/0/252 12.888%          |
+| Adamant:252/252/0/0/4/0 10.025%        |
+| Modest:252/0/0/252/4/0 5.291%          |
+| Hardy:108/108/136/64/48/44 3.472%      |
+| Hardy:0/0/0/252/4/252 3.286%           |
+| Other 23.638%                          |
++----------------------------------------+
+| Moves                                  |
+| Shadow Ball 72.821%                    |
+| Thunderbolt 53.461%                    |
+| Psychic Noise 46.278%                  |
+| Thunder Wave 42.108%                   |
+| Energy Ball 24.187%                    |
+| Hyperspace Hole 19.665%                |
+| Drain Punch 18.407%                    |
+| Phantom Force 15.396%                  |
+| Focus Blast 13.792%                    |
+| Dark Pulse 12.431%                     |
+| Facade 10.025%                         |
+| Foul Play 10.025%                      |
+| Expanding Force 9.091%                 |
+| Zen Headbutt 7.191%                    |
+| Calm Mind 6.868%                       |
+| Psychic 6.039%                         |
+| Gunk Shot 4.582%                       |
+| Psyshock 4.012%                        |
+| Future Sight 3.581%                    |
+| Brick Break 3.549%                     |
+| Other 16.491%                          |
++----------------------------------------+
+| Teammates                              |
+| Spectrier 70.386%                      |
+| Dragapult 68.001%                      |
+| Flutter Mane 66.705%                   |
+| Zoroark-Hisui 58.855%                  |
+| Spiritomb 38.320%                      |
+| Gholdengo 23.798%                      |
+| Pecharunt 17.517%                      |
+| Ceruledge 15.440%                      |
+| Mimikyu 15.108%                        |
+| Dusknoir 12.260%                       |
++----------------------------------------+
++----------------------------------------+
+| Rotom                                  |
++----------------------------------------+
+| Raw count: 79                          |
+| Avg. weight: 0.29716350773739797       |
+| Viability Ceiling: 74                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Choice Scarf 36.228%                   |
+| Focus Sash 22.248%                     |
+| Light Clay 18.110%                     |
+| Choice Specs 10.800%                   |
+| Leftovers 5.349%                       |
+| Spell Tag 5.033%                       |
+| Other 2.233%                           |
++----------------------------------------+
+| Spreads                                |
+| Timid:4/0/0/252/0/252 63.240%          |
+| Timid:252/0/4/0/0/252 11.062%          |
+| Modest:0/0/0/252/4/252 6.966%          |
+| Hardy:152/96/4/72/96/12 5.033%         |
+| Timid:248/0/0/0/8/252 3.744%           |
+| Timid:0/0/0/252/4/252 3.355%           |
+| Other 6.600%                           |
++----------------------------------------+
+| Moves                                  |
+| Thunderbolt 73.202%                    |
+| Shadow Ball 58.317%                    |
+| Trick 44.353%                          |
+| Light Screen 42.133%                   |
+| Volt Switch 41.693%                    |
+| Thunder Wave 38.075%                   |
+| Will-O-Wisp 37.194%                    |
+| Reflect 28.786%                        |
+| Hex 16.914%                            |
+| Other 19.332%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 79.014%                   |
+| Spectrier 58.798%                      |
+| Ceruledge 53.558%                      |
+| Zoroark-Hisui 46.885%                  |
+| Mimikyu 45.576%                        |
+| Dragapult 41.912%                      |
+| Brambleghast 24.645%                   |
+| Basculegion 20.466%                    |
+| Sinistcha 17.548%                      |
+| Sableye 17.218%                        |
++----------------------------------------+
++----------------------------------------+
+| Haunter                                |
++----------------------------------------+
+| Raw count: 102                         |
+| Avg. weight: 0.14494634546341673       |
+| Viability Ceiling: 69                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Eviolite 64.798%                       |
+| Focus Sash 24.563%                     |
+| Choice Scarf 5.442%                    |
+| Black Sludge 5.197%                    |
++----------------------------------------+
+| Spreads                                |
+| Bold:0/0/252/0/252/0 34.160%           |
+| Timid:0/0/0/252/4/252 32.003%          |
+| Hasty:0/4/0/252/0/252 14.556%          |
+| Calm:252/0/0/4/252/0 14.556%           |
+| Other 4.724%                           |
++----------------------------------------+
+| Moves                                  |
+| Sludge Bomb 59.483%                    |
+| Shadow Ball 50.874%                    |
+| Hex 40.235%                            |
+| Rest 34.160%                           |
+| Sleep Talk 34.160%                     |
+| Destiny Bond 31.237%                   |
+| Nasty Plot 22.264%                     |
+| Toxic Spikes 21.282%                   |
+| Protect 14.556%                        |
+| Pain Split 14.556%                     |
+| Sludge Wave 11.924%                    |
+| Dark Pulse 11.872%                     |
+| Hypnosis 7.362%                        |
+| Dazzling Gleam 7.152%                  |
+| Taunt 6.726%                           |
+| Poltergeist 5.200%                     |
+| Payback 5.197%                         |
+| Giga Drain 4.464%                      |
+| Other 17.293%                          |
++----------------------------------------+
+| Teammates                              |
+| Flutter Mane 70.887%                   |
+| Dragapult 52.610%                      |
+| Gholdengo 43.222%                      |
+| Spectrier 40.909%                      |
+| Pecharunt 36.392%                      |
+| Ceruledge 32.668%                      |
+| Typhlosion-Hisui 29.816%               |
+| Mimikyu 25.974%                        |
+| Golurk 20.459%                         |
+| Zoroark-Hisui 19.654%                  |
++----------------------------------------+
++----------------------------------------+
+| Banette                                |
++----------------------------------------+
+| Raw count: 174                         |
+| Avg. weight: 0.06690270375833096       |
+| Viability Ceiling: 64                  |
++----------------------------------------+
+| Abilities                              |
+| Frisk 53.402%                          |
+| Cursed Body 35.400%                    |
+| Insomnia 11.198%                       |
++----------------------------------------+
+| Items                                  |
+| Leftovers 36.512%                      |
+| Life Orb 24.850%                       |
+| Expert Belt 10.748%                    |
+| Choice Band 10.565%                    |
+| Spell Tag 9.693%                       |
+| Air Balloon 4.692%                     |
+| Other 2.941%                           |
++----------------------------------------+
+| Spreads                                |
+| Adamant:192/188/72/0/56/0 36.433%      |
+| Modest:252/0/0/252/4/0 10.791%         |
+| Lonely:112/24/108/44/92/124 9.644%     |
+| Impish:252/4/252/0/0/0 8.926%          |
+| Adamant:0/252/252/0/0/0 8.812%         |
+| Adamant:252/252/0/0/4/0 7.949%         |
+| Other 17.445%                          |
++----------------------------------------+
+| Moves                                  |
+| Gunk Shot 49.054%                      |
+| Thunder Wave 45.267%                   |
+| Shadow Sneak 44.482%                   |
+| Sucker Punch 39.452%                   |
+| Knock Off 31.827%                      |
+| Curse 22.430%                          |
+| Poltergeist 21.260%                    |
+| Destiny Bond 21.221%                   |
+| Dazzling Gleam 19.603%                 |
+| Shadow Claw 16.193%                    |
+| Dark Pulse 15.483%                     |
+| Trick Room 15.409%                     |
+| Calm Mind 15.404%                      |
+| Foul Play 10.461%                      |
+| Shadow Ball 9.644%                     |
+| Encore 8.926%                          |
+| Other 13.883%                          |
++----------------------------------------+
+| Teammates                              |
+| Ceruledge 53.654%                      |
+| Mimikyu 50.841%                        |
+| Gholdengo 50.445%                      |
+| Flutter Mane 48.567%                   |
+| Spectrier 43.810%                      |
+| Dusclops 39.366%                       |
+| Gengar 24.030%                         |
+| Chandelure 20.206%                     |
+| Zoroark-Hisui 19.907%                  |
+| Drifblim 17.140%                       |
++----------------------------------------+
++----------------------------------------+
+| Misdreavus                             |
++----------------------------------------+
+| Raw count: 6                           |
+| Avg. weight: 0.28073826558269976       |
+| Viability Ceiling: 49                  |
++----------------------------------------+
+| Abilities                              |
+| Levitate 100.000%                      |
++----------------------------------------+
+| Items                                  |
+| Eviolite 100.000%                      |
++----------------------------------------+
+| Spreads                                |
+| Timid:252/0/8/0/4/244 54.031%          |
+| Modest:252/0/0/252/4/0 28.219%         |
+| Bold:16/0/244/0/244/0 17.750%          |
++----------------------------------------+
+| Moves                                  |
+| Draining Kiss 82.250%                  |
+| Calm Mind 82.250%                      |
+| Hex 82.250%                            |
+| Will-O-Wisp 82.250%                    |
+| Thunder Wave 17.750%                   |
+| Burning Jealousy 17.750%               |
+| Taunt 17.750%                          |
+| Other 17.750%                          |
++----------------------------------------+
+| Teammates                              |
+| Mismagius 82.250%                      |
+| Sableye 82.250%                        |
+| Mimikyu 82.250%                        |
+| Froslass 82.250%                       |
+| Flutter Mane 48.578%                   |
+| Drifblim 33.671%                       |
+| Dragapult 17.750%                      |
+| Chandelure 17.750%                     |
+| Sinistcha 17.750%                      |
+| Gengar 17.750%                         |
++----------------------------------------+
