@@ -88,26 +88,43 @@ def solve_endgame(
     state,
     max_depth: int = 30,
     memo: dict | None = None,
+    node_budget: int = 10_000,
+    stats: dict | None = None,
 ) -> tuple[str | None, str | None, float]:
     """Solve a 1v1 endgame. Returns (p1_action, p2_action, value) where
     value is in [-1, +1] from P1's perspective. Memo dict is created
     fresh if not supplied; pass one to reuse across calls.
+
+    `node_budget` bounds total node expansions. PP is part of the memoized
+    state string and counts down every turn, so stall endgames (mutual
+    recovery) never repeat a state: the memo can't converge and the tree —
+    and the memo dict holding full state strings — grow without bound.
+    That is what OOM-killed the v6 bench twice at game ~610. On exhaustion,
+    remaining subtrees return static eval instead; if `stats` is supplied,
+    stats['budget_exhausted'] is set so callers can stop re-invoking the
+    solver on positions it can't crack.
     """
     if memo is None:
         memo = {}
-    return _solve_recursive(state, depth=0, max_depth=max_depth, memo=memo,
-                            want_actions=True)
+    budget = [node_budget]
+    result = _solve_recursive(state, depth=0, max_depth=max_depth, memo=memo,
+                              budget=budget, want_actions=True)
+    if stats is not None:
+        stats["budget_exhausted"] = budget[0] <= 0
+    return result
 
 
-def _value_only(state, depth: int, max_depth: int, memo: dict) -> float:
+def _value_only(state, depth: int, max_depth: int, memo: dict,
+                budget: list) -> float:
     """Recursion helper — value only, no action returned (faster path)."""
     t = _terminal_value(state)
     if t is not None:
         return t
-    if depth >= max_depth:
+    if depth >= max_depth or budget[0] <= 0:
         # Heuristic: engine static eval clipped to [-1, +1] for value
         # consistency. ~100 maps to ~0.5 typical advantage.
         return max(-1.0, min(1.0, pe.evaluate(state) / 200.0))
+    budget[0] -= 1
     key = state.to_string()
     if key in memo:
         return memo[key]
@@ -135,7 +152,7 @@ def _value_only(state, depth: int, max_depth: int, memo: dict) -> float:
             for br in branches:
                 ns = state.apply_instructions(br)
                 ev += (br.percentage / 100.0) * _value_only(
-                    ns, depth + 1, max_depth, memo)
+                    ns, depth + 1, max_depth, memo, budget)
             matrix[(m1, m2)] = ev
 
     if not matrix:
@@ -166,7 +183,7 @@ def _value_only(state, depth: int, max_depth: int, memo: dict) -> float:
     return best_v
 
 
-def _solve_recursive(state, depth, max_depth, memo, want_actions: bool):
+def _solve_recursive(state, depth, max_depth, memo, budget, want_actions: bool):
     """Action-aware top-level — only called once per query."""
     t = _terminal_value(state)
     if t is not None:
@@ -191,7 +208,7 @@ def _solve_recursive(state, depth, max_depth, memo, want_actions: bool):
             for br in branches:
                 ns = state.apply_instructions(br)
                 ev += (br.percentage / 100.0) * _value_only(
-                    ns, depth + 1, max_depth, memo)
+                    ns, depth + 1, max_depth, memo, budget)
             matrix[(m1, m2)] = ev
 
     if not matrix:

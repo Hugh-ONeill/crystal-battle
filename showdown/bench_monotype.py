@@ -150,6 +150,9 @@ def play_one(team1_str: str, team2_str: str, search_ms: int,
     prev_hp2: int | None = None
     prev_id1: str | None = None
     prev_id2: str | None = None
+    # two consecutive budget-exhausted solves -> stall endgame the solver
+    # can't crack; stop invoking it for this game (pure MCTS from here on)
+    solver_strikes = 0
     for _ in range(max_turns):
         s1_alive = sum(1 for p in state.side_one.pokemon if p.hp > 0)
         s2_alive = sum(1 for p in state.side_two.pokemon if p.hp > 0)
@@ -161,9 +164,19 @@ def play_one(team1_str: str, team2_str: str, search_ms: int,
         # Endgame solver: when total alive <= threshold, replace MCTS with
         # exhaustive minimax. Same move/action format as MCTS — bench loop
         # downstream doesn't need to change.
-        if use_endgame_solver and is_solvable_endgame(state, max_total_alive=endgame_threshold):
+        if (use_endgame_solver and solver_strikes < 2
+                and is_solvable_endgame(state, max_total_alive=endgame_threshold)):
             try:
-                p1_solve, p2_solve, _ = solve_endgame(state, max_depth=endgame_depth)
+                solve_stats: dict = {}
+                p1_solve, p2_solve, _ = solve_endgame(
+                    state, max_depth=endgame_depth, stats=solve_stats)
+                if solve_stats.get("budget_exhausted"):
+                    # truncated matrix isn't an exhaustive solve; distrust it
+                    # and let MCTS take this turn
+                    solver_strikes += 1
+                    p1_solve = p2_solve = None
+                else:
+                    solver_strikes = 0
                 if p1_solve and p2_solve:
                     p1_move = p1_solve if not p1_solve.startswith("switch ") else p1_solve
                     p2_move = p2_solve if not p2_solve.startswith("switch ") else p2_solve
