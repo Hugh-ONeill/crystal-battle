@@ -247,6 +247,59 @@ def test_own_tera_type_mined_from_request():
     assert nine.tera_type == "grass"
 
 
+def test_opponent_choice_lock_disables_other_moves():
+    b = make_battle()
+    b.parse_message(["", "-item", "p2a: Garchomp", "Choice Scarf"])
+    b.parse_message(["", "move", "p2a: Garchomp", "Earthquake", "p1a: Ninetales"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    chomp = state.side_two.pokemon[0]
+    assert chomp.item == "choicescarf"
+    states = {m.id: m.disabled for m in chomp.moves if m.id != "none"}
+    assert states["earthquake"] is False
+    assert all(disabled for mid, disabled in states.items() if mid != "earthquake")
+    assert state.side_two.last_used_move == "move:0"
+
+
+def test_no_lock_without_choice_item():
+    b = make_battle()
+    b.parse_message(["", "-item", "p2a: Garchomp", "Leftovers"])
+    b.parse_message(["", "move", "p2a: Garchomp", "Earthquake", "p1a: Ninetales"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    chomp = state.side_two.pokemon[0]
+    assert not any(m.disabled for m in chomp.moves)
+    assert state.side_two.last_used_move == "move:0"  # still fed to the engine
+
+
+def test_switch_clears_choice_lock():
+    b = make_battle()
+    b.parse_message(["", "-item", "p2a: Garchomp", "Choice Scarf"])
+    b.parse_message(["", "move", "p2a: Garchomp", "Earthquake", "p1a: Ninetales"])
+    b.parse_message(["", "switch", "p2a: Latios", "Latios, L100", "100/100"])
+    b.parse_message(["", "switch", "p2a: Garchomp", "Garchomp, L100, M", "100/100"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    chomp = _find(state.side_two, "garchomp")
+    assert not any(m.disabled for m in chomp.moves)
+    assert not state.side_two.last_used_move.startswith("move:0")
+
+
+def test_own_request_restrictions_carry_into_state():
+    # a choice-locked request lists only the locked move as available
+    b = make_battle()
+    locked = {**REQUEST, "active": [{"moves": [
+        {"move": "Flamethrower", "id": "flamethrower", "pp": 23, "maxpp": 24,
+         "target": "normal", "disabled": False}]}]}
+    b.parse_request(locked)
+    state = Gen9Translator().translate(b)
+
+    nine = state.side_one.pokemon[0]
+    states = {m.id: m.disabled for m in nine.moves}
+    assert states["flamethrower"] is False
+    assert states["solarbeam"] and states["encore"] and states["willowisp"]
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")

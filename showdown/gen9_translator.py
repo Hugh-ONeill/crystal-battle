@@ -92,6 +92,10 @@ _VOLATILE_ALLOW = frozenset({
 
 _SLEEP_STATUS = "slp"
 
+# items/abilities that lock the user into its last move until it switches
+_CHOICE_LOCKERS = frozenset({"choiceband", "choicespecs", "choicescarf"})
+_LOCKING_ABILITY = "gorillatactics"
+
 
 def _clamp_turns(remaining: int) -> int:
     """A condition observed active has at least 1 turn left."""
@@ -354,23 +358,25 @@ class Gen9Translator:
             # (opponent poke-env HP is normalized to /100)
             sub_health = max(1, pokemon[0].maxhp // 4)
 
-        # the engine requires last_used_move to be a real move slot whenever
-        # ENCORE is set (it re-routes the choice to that slot); without a
-        # known last move, dropping the volatile beats a Rust panic
+        # last_used_move feeds the engine's Encore re-routing, Fake Out /
+        # First Impression legality, and choice-lock continuation. poke-env
+        # clears last_move on switch-out, so a known one is from this stint.
         last_used_move = "move:none"
-        if "encore" in vols:
-            last_idx = None
-            last = active.last_move if active is not None else None
+        if active is not None:
+            last = active.last_move
             if last is not None:
                 lid = _normalize(last.id)
                 for i, mv in enumerate(pokemon[0].moves):
                     if mv.id == lid:
-                        last_idx = i
+                        last_used_move = f"move:{i}"
                         break
-            if last_idx is not None:
-                last_used_move = f"move:{last_idx}"
-            else:
-                vols.discard("encore")
+            elif active.first_turn:
+                last_used_move = "switch:0"  # just switched in (Fake Out live)
+        # the engine panics if ENCORE is set without a real move slot;
+        # without a known last move, dropping the volatile beats a panic
+        if "encore" in vols and not (last_used_move.startswith("move:")
+                                     and last_used_move != "move:none"):
+            vols.discard("encore")
 
         return pe.Side(
             pokemon=pokemon[:6],
@@ -393,6 +399,11 @@ class Gen9Translator:
             tera = pkmn.get("teraType")
             if tera:
                 self._own_tera[_normalize(pkmn["ident"][4:])] = tera.lower()
+
+        # the request is authoritative for what our active can do THIS turn
+        # (choice lock, Taunt, Disable, Encore, no PP). Marking the missing
+        # moves disabled carries that restriction into multi-turn search.
+        self._own_available = {_normalize(m.id) for m in battle.available_moves}
         return self._assemble_side(
             battle,
             mons=list(battle.team.values()),
@@ -544,10 +555,16 @@ class Gen9Translator:
             stats = {k: _calc_stat_modern(bs.get(k, 80), 31, 85, mon.level, 1.0, False)
                      for k in ("atk", "def", "spa", "spd", "spe")}
 
+        move_ids = [_normalize(mid) for mid in mon.moves]
+        available = getattr(self, "_own_available", set())
+        # only restrict the active mon, and only when the request's available
+        # moves overlap its known moves (a struggle-only request would
+        # otherwise disable everything)
+        restrict = bool(mon.active) and bool(available & set(move_ids))
         moves = []
-        for move_id, move_obj in mon.moves.items():
-            moves.append(pe.Move(id=_normalize(move_id),
-                                 pp=max(0, move_obj.current_pp)))
+        for mid, move_obj in zip(move_ids, mon.moves.values()):
+            moves.append(pe.Move(id=mid, pp=max(0, move_obj.current_pp),
+                                 disabled=restrict and mid not in available))
         while len(moves) < 4:
             moves.append(pe.Move(id="none", pp=0))
 
@@ -604,23 +621,6 @@ class Gen9Translator:
 
         maxhp = calc("hp", is_hp=True)
 
-        # moves: revealed first (PP as observed), canonical fill for the rest
-        moves = []
-        seen = set()
-        for move_id, move_obj in mon.moves.items():
-            mid = _normalize(move_id)
-            seen.add(mid)
-            moves.append(pe.Move(id=mid, pp=max(0, move_obj.current_pp)))
-        if canon is not None:
-            for mid in canon["moves"]:
-                if len(moves) >= 4:
-                    break
-                if mid not in seen:
-                    seen.add(mid)
-                    moves.append(pe.Move(id=mid, pp=16))
-        while len(moves) < 4:
-            moves.append(pe.Move(id="none", pp=0))
-
         # revealed item/ability beat the canonical guess
         if mon.item:
             item = _normalize(mon.item)
@@ -634,6 +634,34 @@ class Gen9Translator:
             ability = canon["ability"]
         else:
             ability = _normalize(str(entry.get("abilities", {}).get("0", "noability")))
+
+        # active choice lock: last_move is cleared on switch-out, so a known
+        # last move on a choice-locked holder pins everything else. This is
+        # consistent with `item` even when the item is only inferred — the
+        # search state holds that item either way.
+        locked_move = None
+        if (bool(mon.active) and mon.last_move is not None
+                and (item in _CHOICE_LOCKERS or ability == _LOCKING_ABILITY)):
+            locked_move = _normalize(mon.last_move.id)
+
+        # moves: revealed first (PP as observed), canonical fill for the rest
+        moves = []
+        seen = set()
+        for move_id, move_obj in mon.moves.items():
+            mid = _normalize(move_id)
+            seen.add(mid)
+            moves.append(pe.Move(id=mid, pp=max(0, move_obj.current_pp),
+                                 disabled=locked_move is not None and mid != locked_move))
+        if canon is not None:
+            for mid in canon["moves"]:
+                if len(moves) >= 4:
+                    break
+                if mid not in seen:
+                    seen.add(mid)
+                    moves.append(pe.Move(id=mid, pp=16,
+                                         disabled=locked_move is not None))
+        while len(moves) < 4:
+            moves.append(pe.Move(id="none", pp=0))
 
         types = self._types(mon)
         tera_fallback = (canon or {}).get("tera_type") or types[0]
