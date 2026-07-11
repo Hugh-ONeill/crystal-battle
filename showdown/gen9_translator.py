@@ -107,13 +107,22 @@ class Gen9Translator:
 
     One instance per battle (or call new_battle() between battles): the
     detected opponent monotype is cached after enough mons are revealed.
+
+    `set_source` picks how unrevealed opponent set details are inferred:
+      - "monotype": per-type Smogon canonical sets (monotype/canonical_sets),
+        conditioned on the opponent's detected monotype
+      - any other format string (e.g. "gen9ou"): Smogon chaos stats for that
+        format (showdown/<format>_chaos.json via ChaosStats)
+      - None: no inference; unrevealed details fall back to pokedex defaults
     """
 
     _canon_cache: dict[int, dict] = {}  # elo -> {type: {norm_species: mon dict}}
+    _chaos_cache: dict[str, object] = {}  # format -> ChaosStats
     _pokedex = None
 
-    def __init__(self, elo_bucket: int = 1500):
+    def __init__(self, elo_bucket: int = 1500, set_source: str | None = "monotype"):
         self._elo = elo_bucket
+        self._set_source = set_source
         self._opp_type: str | None = None
 
     def new_battle(self):
@@ -143,6 +152,42 @@ class Gen9Translator:
                     index[mono_type][_normalize(species)] = mons[0]
         Gen9Translator._canon_cache[self._elo] = index
         return index
+
+    def _chaos(self):
+        fmt = self._set_source
+        cached = Gen9Translator._chaos_cache.get(fmt)
+        if cached is None:
+            from showdown.chaos_stats import ChaosStats
+            cached = ChaosStats(format=fmt)
+            Gen9Translator._chaos_cache[fmt] = cached
+        return cached
+
+    def _opp_set(self, species: str) -> dict | None:
+        """Inferred set for an opponent species: same dict shape as
+        parse_showdown_team (nature/evs/ivs/item/ability/moves) plus an
+        optional 'tera_type'. None when the source has nothing."""
+        if self._set_source == "monotype":
+            if self._opp_type is None:
+                return None
+            return self._canonical().get(self._opp_type, {}).get(species)
+        if self._set_source is None:
+            return None
+        stats = self._chaos().pokemon.get(species)
+        if stats is None:
+            return None
+        spread = stats.top_spread()
+        nature, evs = spread if spread else ("Serious",
+                                             dict.fromkeys(("hp", "atk", "def",
+                                                            "spa", "spd", "spe"), 85))
+        return {
+            "nature": nature.capitalize(),
+            "evs": evs,
+            "ivs": dict.fromkeys(("hp", "atk", "def", "spa", "spd", "spe"), 31),
+            "item": stats.top_item() or "none",
+            "ability": stats.top_ability(),
+            "moves": stats.top_moves(4),
+            "tera_type": stats.top_tera_type(),
+        }
 
     # ---- entry point ----
 
@@ -333,6 +378,14 @@ class Gen9Translator:
         )
 
     def _my_side(self, battle) -> pe.Side:
+        # poke-env doesn't parse the request's per-mon teraType; mine it from
+        # the raw request so our own un-tera'd mons carry their real tera type
+        self._own_tera = {}
+        request = getattr(battle, "last_request", None) or {}
+        for pkmn in (request.get("side") or {}).get("pokemon", []):
+            tera = pkmn.get("teraType")
+            if tera:
+                self._own_tera[_normalize(pkmn["ident"][4:])] = tera.lower()
         return self._assemble_side(
             battle,
             mons=list(battle.team.values()),
@@ -345,7 +398,7 @@ class Gen9Translator:
 
     def _opp_side(self, battle) -> pe.Side:
         opp_mons = list(battle.opponent_team.values())
-        if self._opp_type is None and opp_mons:
+        if self._set_source == "monotype" and self._opp_type is None and opp_mons:
             self._opp_type = _detect_side_type(
                 tuple(_normalize(m.species) for m in opp_mons))
         return self._assemble_side(
@@ -368,18 +421,33 @@ class Gen9Translator:
                 sleep_turns = min(mon.status_counter, 3)
         return {"status": status, "sleep_turns": sleep_turns}
 
-    @staticmethod
-    def _types(mon) -> tuple[str, str]:
-        types = []
-        if mon.type_1:
-            types.append(mon.type_1.name.lower())
-        if mon.type_2:
-            types.append(mon.type_2.name.lower())
+    def _types(self, mon) -> tuple[str, str]:
+        """Base types. poke-env's type_1/type_2 reflect terastallization and
+        temporary type changes; the engine wants base types (it applies
+        tera_type itself from the terastallized flag), so prefer the pokedex.
+        Temporary types (Soak etc.) are knowingly dropped."""
+        entry = self._dex().get(_normalize(mon.species), {})
+        types = [t.lower() for t in entry.get("types", [])]
+        if not types:
+            if mon.type_1:
+                types.append(mon.type_1.name.lower())
+            if mon.type_2:
+                types.append(mon.type_2.name.lower())
         if not types:
             types = ["normal"]
         while len(types) < 2:
             types.append("typeless")
         return tuple(types[:2])
+
+    @staticmethod
+    def _tera_fields(mon, fallback: str) -> dict:
+        """terastallized/tera_type kwargs for pe.Pokemon. `fallback` is used
+        when the tera type isn't known (opponent hasn't tera'd yet)."""
+        revealed = mon.tera_type.name.lower() if mon.tera_type else None
+        return {
+            "terastallized": bool(mon.is_terastallized),
+            "tera_type": revealed or fallback,
+        }
 
     def _weight(self, species_norm: str) -> float:
         return float(self._dex().get(species_norm, {}).get("weightkg", 50.0))
@@ -406,6 +474,7 @@ class Gen9Translator:
             _normalize(str(entry.get("abilities", {}).get("0", "noability")))
         types = self._types(mon)
         maxhp = mon.max_hp or 100
+        tera_fallback = getattr(self, "_own_tera", {}).get(species, types[0])
 
         return pe.Pokemon(
             id=species, level=mon.level,
@@ -418,7 +487,7 @@ class Gen9Translator:
             item=_normalize(mon.item) if mon.item else "none",
             weight_kg=self._weight(species),
             moves=moves[:4],
-            terastallized=False, tera_type=types[0],  # tera banned in monotype
+            **self._tera_fields(mon, tera_fallback),
             **self._status_fields(mon),
         )
 
@@ -427,9 +496,7 @@ class Gen9Translator:
         entry = self._dex().get(species, {})
         bs = entry.get("baseStats", {})
 
-        canon = None
-        if self._opp_type is not None:
-            canon = self._canonical().get(self._opp_type, {}).get(species)
+        canon = self._opp_set(species)
 
         # stats: canonical spread when we have one, neutral 85s otherwise
         if canon is not None:
@@ -488,6 +555,7 @@ class Gen9Translator:
             ability = _normalize(str(entry.get("abilities", {}).get("0", "noability")))
 
         types = self._types(mon)
+        tera_fallback = (canon or {}).get("tera_type") or types[0]
         return pe.Pokemon(
             id=species, level=mon.level,
             hp=max(1, round(mon.current_hp_fraction * maxhp)), maxhp=maxhp,
@@ -499,7 +567,7 @@ class Gen9Translator:
             item=item,
             weight_kg=self._weight(species),
             moves=moves[:4],
-            terastallized=False, tera_type=types[0],
+            **self._tera_fields(mon, tera_fallback),
             **self._status_fields(mon),
         )
 

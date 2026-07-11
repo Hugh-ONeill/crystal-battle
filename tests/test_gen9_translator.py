@@ -186,6 +186,51 @@ def test_encore_without_known_move_is_dropped():
     assert pe.monte_carlo_tree_search(state, 20).side_one
 
 
+def test_gen9ou_chaos_set_fill():
+    b = make_battle()
+    b.parse_message(["", "move", "p2a: Garchomp", "Earthquake", "p1a: Ninetales"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    chomp = _find(state.side_two, "garchomp")
+    move_ids = [m.id for m in chomp.moves]
+    assert "earthquake" in move_ids            # revealed move kept
+    assert "none" not in move_ids              # chaos stats filled the rest
+    assert chomp.ability != "noability"
+    # un-tera'd opponent carries the chaos-predicted tera type
+    assert not chomp.terastallized
+    assert chomp.tera_type not in ("", "typeless")
+
+
+def test_opponent_terastallize_reflected():
+    b = make_battle()
+    b.parse_message(["", "-terastallize", "p2a: Garchomp", "Fire"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    chomp = state.side_two.pokemon[0]
+    assert chomp.terastallized
+    assert chomp.tera_type == "fire"
+    # base types stay base (the engine applies tera itself)
+    assert chomp.types == ("dragon", "ground")
+
+
+def test_own_tera_type_mined_from_request():
+    # REQUEST carries no teraType key -> fallback is first base type;
+    # with teraType present it should be used
+    req = {**REQUEST, "side": {**REQUEST["side"], "pokemon": [
+        {**REQUEST["side"]["pokemon"][0], "teraType": "Grass"},
+        *REQUEST["side"]["pokemon"][1:],
+    ]}}
+    b = Battle("battle-gen9monotype-test-2", "wizbot",
+               logging.getLogger("test"), gen=9)
+    b.parse_request(req)
+    b.parse_message(["", "switch", "p1a: Ninetales", "Ninetales, L100, F", "323/323"])
+    b.parse_message(["", "switch", "p2a: Garchomp", "Garchomp, L100, M", "100/100"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+    nine = state.side_one.pokemon[0]
+    assert not nine.terastallized
+    assert nine.tera_type == "grass"
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
