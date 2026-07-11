@@ -376,6 +376,106 @@ def test_merge_mcts_results():
     assert by_choice["protect"].visits == 120
 
 
+def test_speed_floor_infers_scarf():
+    # Amoonguss (base 30 spe, modeled far slower than Ninetales' 298) moves
+    # FIRST at equal priority -> floor contradiction -> inferred scarf
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Amoonguss", "Amoonguss, F", "100/100"])
+    b.parse_message(["", "turn", "1"])
+    b.parse_message(["", "move", "p2a: Amoonguss", "Sludge Bomb", "p1a: Ninetales"])
+    b.parse_message(["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Amoonguss"])
+    b.parse_message(["", "turn", "2"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+    fungus = _find(state.side_two, "amoonguss")
+    assert fungus.item == "choicescarf"
+
+
+def test_no_scarf_when_we_moved_first():
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Amoonguss", "Amoonguss, F", "100/100"])
+    b.parse_message(["", "turn", "1"])
+    b.parse_message(["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Amoonguss"])
+    b.parse_message(["", "move", "p2a: Amoonguss", "Sludge Bomb", "p1a: Ninetales"])
+    b.parse_message(["", "turn", "2"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+    fungus = _find(state.side_two, "amoonguss")
+    assert fungus.item != "choicescarf"
+
+
+def test_speed_ceiling_clamps_modeled_speed():
+    # Dragapult (modeled ~1.5x faster than Ninetales) moves AFTER us at
+    # equal priority -> ceiling -> stat clamped below our speed (covers
+    # slow spreads and Iron Ball-style items without naming them)
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Dragapult", "Dragapult, F", "100/100"])
+    b.parse_message(["", "turn", "1"])
+    b.parse_message(["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Dragapult"])
+    b.parse_message(["", "move", "p2a: Dragapult", "Dragon Darts", "p1a: Ninetales"])
+    b.parse_message(["", "turn", "2"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+    pult = _find(state.side_two, "dragapult")
+    assert pult.speed < 298  # our Ninetales' speed from the request
+
+
+def test_damage_bracket_upgrades_item():
+    # a weak move (U-turn) hitting for 1.6x the modeled max roll fits within
+    # our HP (overkill damage is HP-censored, so strong moves can't prove a
+    # boost) -> Choice Band inferred from the protocol alone
+    from showdown.set_inference import BattleObservations
+
+    probe_b = make_battle()
+    probe_b.parse_message(["", "switch", "p2a: Pelipper", "Pelipper, M", "100/100"])
+    tr = Gen9Translator(set_source="gen9ou")
+    probe_state = tr.translate(probe_b)
+    bird = _find(probe_state.side_two, "pelipper")
+    ev = {"species": "pelipper", "move": "uturn", "our_species": "ninetales",
+          "weather": "none", "se": False, "damage": 100}
+    ratio = BattleObservations()._observed_ratio(ev, bird, tr._my_built)
+    max_roll = 100 / ratio
+    hit = int(max_roll * 1.6)
+    assert hit < 323  # must not be HP-censored
+
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Pelipper", "Pelipper, M", "100/100"])
+    b.parse_message(["", "turn", "1"])
+    b.parse_message(["", "move", "p2a: Pelipper", "U-turn", "p1a: Ninetales"])
+    b.parse_message(["", "-damage", "p1a: Ninetales", f"{323 - hit}/323"])
+    b.parse_message(["", "turn", "2"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+    bird = _find(state.side_two, "pelipper")
+    assert bird.item == "choiceband"
+
+
+def test_damage_bracket_tiers():
+    # decision-level check with controlled ratios: moderate -> lifeorb,
+    # big -> choice; SE-only boost with clean non-SE -> expert belt
+    import copy
+    from showdown.set_inference import BattleObservations
+    tr = Gen9Translator(set_source="gen9ou")
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Pelipper", "Pelipper, M", "100/100"])
+    state = tr.translate(b)  # populates _my_built
+    bird = _find(state.side_two, "pelipper")
+    our = tr._my_built
+
+    obs = BattleObservations()
+    base = {"species": "pelipper", "move": "hydropump",
+            "our_species": "ninetales", "weather": "none", "se": True}
+    probe_ratio = obs._observed_ratio({**base, "damage": 100}, bird, our)
+    assert probe_ratio is not None and probe_ratio > 0  # damage-calc sides OK
+    max_roll = 100 / probe_ratio
+
+    obs.damage_evidence = [{**base, "damage": int(max_roll * 1.25)}]
+    assert obs.damage_item_upgrade("pelipper", bird, our) == "lifeorb"
+
+    obs.damage_evidence = [{**base, "damage": int(max_roll * 1.6)}]
+    assert obs.damage_item_upgrade("pelipper", bird, our) == "choicespecs"
+
+    clean_nonse = {**base, "move": "uturn", "se": False, "damage": 1}
+    obs.damage_evidence = [{**base, "damage": int(max_roll * 1.25)}, clean_nonse]
+    assert obs.damage_item_upgrade("pelipper", bird, our) == "expertbelt"
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")

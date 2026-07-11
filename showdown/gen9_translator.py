@@ -128,9 +128,11 @@ class Gen9Translator:
         self._elo = elo_bucket
         self._set_source = set_source
         self._opp_type: str | None = None
+        self._obs = None  # per-battle observational set refinement
 
     def new_battle(self):
         self._opp_type = None
+        self._obs = None
 
     # ---- lazy shared data ----
 
@@ -242,6 +244,14 @@ class Gen9Translator:
         of taking the deterministic most-likely values — callers run one
         search per sampled world and combine (see gen9_player)."""
         self._rng = rng
+        if self._set_source is not None:
+            if self._obs is None:
+                from showdown.set_inference import BattleObservations
+                self._obs = BattleObservations()
+            try:
+                self._obs.update(battle)
+            except Exception:
+                pass  # refinement is advisory; never fail a translation
         side_one = self._my_side(battle)
         side_two = self._opp_side(battle)
         weather, weather_turns = self._weather(battle)
@@ -450,6 +460,7 @@ class Gen9Translator:
         # (choice lock, Taunt, Disable, Encore, no PP). Marking the missing
         # moves disabled carries that restriction into multi-turn search.
         self._own_available = {_normalize(m.id) for m in battle.available_moves}
+        self._my_built = {}  # species -> pe.Pokemon, for damage inference
         return self._assemble_side(
             battle,
             mons=list(battle.team.values()),
@@ -625,7 +636,7 @@ class Gen9Translator:
         maxhp = mon.max_hp or 100
         tera_fallback = getattr(self, "_own_tera", {}).get(species, types[0])
 
-        return pe.Pokemon(
+        built = pe.Pokemon(
             id=species, level=mon.level,
             hp=mon.current_hp or 0, maxhp=maxhp,
             attack=stats["atk"], defense=stats["def"],
@@ -639,6 +650,9 @@ class Gen9Translator:
             **self._tera_fields(mon, tera_fallback),
             **self._status_fields(mon),
         )
+        if hasattr(self, "_my_built"):
+            self._my_built[species] = built  # exact stats for damage inference
+        return built
 
     def _opp_pokemon(self, mon) -> pe.Pokemon:
         species = _normalize(mon.species)
@@ -673,19 +687,59 @@ class Gen9Translator:
 
         maxhp = calc("hp", is_hp=True)
 
-        # revealed item/ability beat the canonical guess
-        if mon.item:
-            item = _normalize(mon.item)
-        elif mon.item == "":  # knocked off / consumed, poke-env keeps ""
+        # revealed item/ability beat the canonical guess. poke-env item
+        # semantics: "unknown_item" sentinel = never revealed (truthy!),
+        # None/"" = revealed to be gone (knocked off / consumed / none)
+        raw_item = mon.item
+        if raw_item and _normalize(raw_item) != "unknownitem":
+            item = _normalize(raw_item)
+            item_known = True
+        elif raw_item is None or raw_item == "":
             item = "none"
+            item_known = True
         else:
             item = canon["item"] if canon is not None else "none"
+            item_known = False
         if mon.ability:
             ability = _normalize(mon.ability)
         elif canon is not None and canon.get("ability"):
             ability = canon["ability"]
         else:
             ability = _normalize(str(entry.get("abilities", {}).get("0", "noability")))
+
+        # observational refinement (set_inference.py) — inferred details only
+        revealed_item = item_known
+        spe_stat = calc("spe")
+        if self._obs is not None and not revealed_item:
+            # speed floor: they outsped something our model says they can't
+            if self._obs.scarf_needed(species, spe_stat, item):
+                item = "choicescarf"
+                if self._obs.max_speed_needed(species, spe_stat):
+                    spe_stat = _calc_stat_modern(bs.get("spe", 80), 31, 252,
+                                                 mon.level, 1.1, False)
+            # speed ceiling: drop a wrongly-inferred scarf / clamp the stat
+            clamp = self._obs.speed_clamp(species, spe_stat, item)
+            if clamp is not None:
+                spe_stat, clamped_item = clamp
+                if clamped_item != item:
+                    item = (canon or {}).get("item") or "none"
+                    if item == "choicescarf":
+                        item = "none"
+            # damage bracket: probe with current belief; a beyond-max-roll
+            # hit upgrades to the weakest item that explains it
+            probe = pe.Pokemon(
+                id=species, level=mon.level, hp=maxhp, maxhp=maxhp,
+                attack=calc("atk"), defense=calc("def"),
+                special_attack=calc("spa"), special_defense=calc("spd"),
+                speed=spe_stat, types=self._types(mon),
+                base_types=self._types(mon),
+                ability=ability, base_ability=ability, item=item,
+                weight_kg=self._weight(species),
+            )
+            upgrade = self._obs.damage_item_upgrade(
+                species, probe, getattr(self, "_my_built", {}))
+            if upgrade:
+                item = upgrade
 
         # active choice lock: last_move is cleared on switch-out, so a known
         # last move on a choice-locked holder pins everything else. This is
@@ -722,7 +776,7 @@ class Gen9Translator:
             hp=max(1, round(mon.current_hp_fraction * maxhp)), maxhp=maxhp,
             attack=calc("atk"), defense=calc("def"),
             special_attack=calc("spa"), special_defense=calc("spd"),
-            speed=calc("spe"),
+            speed=spe_stat,
             types=types, base_types=types,
             ability=ability, base_ability=ability,
             item=item,
