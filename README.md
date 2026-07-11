@@ -1,6 +1,6 @@
 # Crystal Battle
 
-A competitive Pokemon Gen 2 OU battle agent built from scratch, combining reinforcement learning, Monte Carlo Tree Search, and neural network-guided search.
+A competitive Pokemon battle agent built from scratch, combining reinforcement learning, Monte Carlo Tree Search, and neural network-guided search.
 
 ## Overview
 
