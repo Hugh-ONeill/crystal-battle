@@ -166,10 +166,12 @@ class Gen9Translator:
             Gen9Translator._chaos_cache[fmt] = cached
         return cached
 
-    def _opp_set(self, species: str) -> dict | None:
+    def _opp_set(self, species: str, known_moves: tuple[str, ...] = ()) -> dict | None:
         """Inferred set for an opponent species: same dict shape as
         parse_showdown_team (nature/evs/ivs/item/ability/moves) plus an
-        optional 'tera_type'. None when the source has nothing."""
+        optional 'tera_type'. None when the source has nothing. When a
+        sampling rng is active (translate(..., rng=...)), the set is drawn
+        from the chaos distributions instead of taking the top values."""
         if self._set_source == "monotype":
             if self._opp_type is None:
                 return None
@@ -179,18 +181,27 @@ class Gen9Translator:
         stats = self._chaos().pokemon.get(species)
         if stats is None:
             return None
-        spread = stats.top_spread()
-        nature, evs = spread if spread else ("Serious",
-                                             dict.fromkeys(("hp", "atk", "def",
-                                                            "spa", "spd", "spe"), 85))
+        rng = getattr(self, "_rng", None)
+        if rng is not None:
+            sampled = stats.sample_set(rng, known_moves=known_moves)
+            nature, evs = sampled["nature"], sampled["evs"]
+            item, ability = sampled["item"], sampled["ability"]
+            moves, tera = sampled["moves"], sampled["tera_type"]
+        else:
+            spread = stats.top_spread()
+            nature, evs = spread if spread else (
+                "Serious", dict.fromkeys(("hp", "atk", "def",
+                                          "spa", "spd", "spe"), 85))
+            item, ability = stats.top_item() or "none", stats.top_ability()
+            moves, tera = stats.top_moves(4), stats.top_tera_type()
         return {
             "nature": nature.capitalize(),
             "evs": evs,
             "ivs": dict.fromkeys(("hp", "atk", "def", "spa", "spd", "spe"), 31),
-            "item": stats.top_item() or "none",
-            "ability": stats.top_ability(),
-            "moves": stats.top_moves(4),
-            "tera_type": stats.top_tera_type(),
+            "item": item,
+            "ability": ability,
+            "moves": moves,
+            "tera_type": tera,
         }
 
     # ---- team preview ----
@@ -225,7 +236,12 @@ class Gen9Translator:
 
     # ---- entry point ----
 
-    def translate(self, battle) -> pe.State:
+    def translate(self, battle, rng=None) -> pe.State:
+        """Build a State for search. With `rng`, opponent unknowns (sets and
+        unrevealed species) are SAMPLED from the chaos distributions instead
+        of taking the deterministic most-likely values — callers run one
+        search per sampled world and combine (see gen9_player)."""
+        self._rng = rng
         side_one = self._my_side(battle)
         side_two = self._opp_side(battle)
         weather, weather_turns = self._weather(battle)
@@ -476,10 +492,15 @@ class Gen9Translator:
             from showdown.chaos_stats import RevealedMon
             revealed = {_normalize(m.species): RevealedMon(_normalize(m.species))
                         for m in opp_mons}
-            predicted = self._chaos().predict_team(revealed, n_fill=n_fill)
+            rng = getattr(self, "_rng", None)
+            if rng is not None:
+                species = self._chaos().sample_team(revealed, n_fill, rng)
+            else:
+                species = [_normalize(p.species) for p in
+                           self._chaos().predict_team(revealed, n_fill=n_fill)]
         except Exception:
             return []
-        return [self._predicted_pokemon(_normalize(p.species)) for p in predicted]
+        return [self._predicted_pokemon(sp) for sp in species]
 
     def _predicted_pokemon(self, species: str) -> pe.Pokemon:
         """Full-HP engine mon for a predicted (never-revealed) species."""
@@ -624,7 +645,8 @@ class Gen9Translator:
         entry = self._dex().get(species, {})
         bs = entry.get("baseStats", {})
 
-        canon = self._opp_set(species)
+        canon = self._opp_set(
+            species, known_moves=tuple(_normalize(m) for m in mon.moves))
 
         # stats: canonical spread when we have one, neutral 85s otherwise
         if canon is not None:

@@ -328,6 +328,54 @@ def test_predicted_preview_paste_parses_and_searches():
     assert len(matrix) == 6 and len(matrix[0]) == 6
 
 
+def test_chaos_sample_set_varies_and_respects_known_moves():
+    import random
+    from showdown.chaos_stats import ChaosStats
+    stats = ChaosStats(format="gen9ou").pokemon["garchomp"]
+
+    rng = random.Random(7)
+    items = {stats.sample_set(rng)["item"] for _ in range(40)}
+    assert len(items) >= 2  # actually sampling, not top-1
+
+    s = stats.sample_set(random.Random(1), known_moves=("earthquake",))
+    assert "earthquake" not in s["moves"]
+    assert len(s["moves"]) <= 3  # revealed move occupies a slot
+    assert s["ability"] and s["item"]
+
+
+def test_sampled_translation_varies_and_searches():
+    import random
+    b = make_battle()
+    tr = Gen9Translator(set_source="gen9ou")
+
+    benches = set()
+    for seed in range(6):
+        state = tr.translate(b, rng=random.Random(seed))
+        benches.add(tuple(p.id for p in state.side_two.pokemon))
+        assert all(p.hp > 0 for p in state.side_two.pokemon)
+    assert len(benches) >= 2  # different sampled worlds
+    assert pe.monte_carlo_tree_search(state, 20).side_one
+
+    # rng=None stays deterministic
+    a = tr.translate(b, rng=None)
+    c = tr.translate(b, rng=None)
+    assert [p.id for p in a.side_two.pokemon] == [p.id for p in c.side_two.pokemon]
+
+
+def test_merge_mcts_results():
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import _merge_mcts_results
+    r1 = NS(side_one=[NS(move_choice="earthquake", visits=100, total_score=60.0),
+                      NS(move_choice="switch heatran", visits=50, total_score=20.0)])
+    r2 = NS(side_one=[NS(move_choice="earthquake", visits=80, total_score=30.0),
+                      NS(move_choice="protect", visits=120, total_score=70.0)])
+    merged = _merge_mcts_results([r1, r2])
+    by_choice = {m.move_choice: m for m in merged}
+    assert by_choice["earthquake"].visits == 180
+    assert merged[0].move_choice == "earthquake"  # 180 > 120 > 50
+    assert by_choice["protect"].visits == 120
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")

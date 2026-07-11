@@ -20,8 +20,10 @@ from __future__ import annotations
 
 import asyncio
 import argparse
+import random
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -51,6 +53,25 @@ SERVERS = {
 }
 
 
+def _merge_mcts_results(results) -> list:
+    """Combine side_one results from searches over different sampled
+    opponent worlds: sum visits and scores per move_choice, rank by visits.
+    A move that only looks good in one world loses to one that holds up
+    across all of them."""
+    merged: dict[str, SimpleNamespace] = {}
+    for result in results:
+        for r in result.side_one:
+            m = merged.get(r.move_choice)
+            if m is None:
+                merged[r.move_choice] = SimpleNamespace(
+                    move_choice=r.move_choice,
+                    visits=r.visits, total_score=r.total_score)
+            else:
+                m.visits += r.visits
+                m.total_score += r.total_score
+    return sorted(merged.values(), key=lambda m: -m.visits)
+
+
 def _preview_order(lead_idx: int, n: int) -> str:
     """'/team 312456'-style order string: chosen lead first, rest in order."""
     rest = [i for i in range(1, n + 1) if i != lead_idx + 1]
@@ -69,12 +90,15 @@ class Gen9PokeEnginePlayer(Player):
 
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
                  team_paste: str | None = None, preview_search_ms: int = 80,
-                 verbose: bool = True, **kwargs):
+                 set_samples: int = 2, verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source)
         self._search_ms = search_ms
         self._team_paste = team_paste
         self._preview_search_ms = preview_search_ms
+        # >1: search that many sampled opponent-set worlds per turn and merge
+        # (chaos sources only; monotype canonical sets have no sampler yet)
+        self._set_samples = set_samples if set_source not in (None, "monotype") else 1
         self._verbose = verbose
         self._last_tag: str | None = None
 
@@ -115,17 +139,15 @@ class Gen9PokeEnginePlayer(Player):
             return self.choose_default_move()
 
         try:
-            state = self._translator.translate(battle)
             loop = asyncio.get_event_loop()
-            result = await loop.run_in_executor(
-                None, pe.monte_carlo_tree_search, state, self._search_ms)
+            results = await loop.run_in_executor(None, self._search_samples, battle)
         except Exception as e:
             if self._verbose:
                 print(f"  T{battle.turn} translate/search failed ({e!r}); "
                       f"choosing randomly")
             return self.choose_random_move(battle)
 
-        ranked = sorted(result.side_one, key=lambda r: -r.visits)
+        ranked = _merge_mcts_results(results)
         order = self._map_choice(ranked, battle)
         if order is not None:
             return order
@@ -133,6 +155,16 @@ class Gen9PokeEnginePlayer(Player):
             print(f"  T{battle.turn} no MCTS choice mapped to a legal order; "
                   f"choosing randomly")
         return self.choose_random_move(battle)
+
+    def _search_samples(self, battle) -> list:
+        """One MCTS per sampled opponent world (K = set_samples). With K=1,
+        the deterministic top-set translation is used, as before."""
+        results = []
+        for _ in range(self._set_samples):
+            rng = random.Random() if self._set_samples > 1 else None
+            state = self._translator.translate(battle, rng=rng)
+            results.append(pe.monte_carlo_tree_search(state, self._search_ms))
+        return results
 
     def _map_choice(self, ranked, battle):
         """First visit-ranked engine choice that the server allows."""
@@ -184,6 +216,9 @@ async def main():
                         default="accept")
     parser.add_argument("--user-to-challenge", default=None)
     parser.add_argument("--n-games", type=int, default=1)
+    parser.add_argument("--set-samples", type=int, default=2,
+                        help="sampled opponent-set worlds searched per turn "
+                             "(1 = deterministic top sets)")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
     args = parser.parse_args()
@@ -197,6 +232,7 @@ async def main():
         search_ms=args.search_ms,
         set_source=set_source,
         team_paste=team,
+        set_samples=args.set_samples,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,

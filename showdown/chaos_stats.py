@@ -44,25 +44,7 @@ class ChaosStats:
         Returns:
             list of PredictedMon, most likely first
         """
-        revealed_names = set(revealed.keys())
-        candidates = {}
-
-        for species, stats in self.pokemon.items():
-            if species in revealed_names:
-                continue
-
-            # base score from usage
-            score = stats.usage
-
-            # boost by teammate correlation with revealed mons
-            for rev_name in revealed_names:
-                if rev_name in self.pokemon:
-                    teammate_prob = self.pokemon[rev_name].teammate_prob(species)
-                    if teammate_prob > 0:
-                        score *= (1.0 + teammate_prob * 2.0)
-
-            candidates[species] = score
-
+        candidates = self._team_candidate_scores(set(revealed.keys()))
         ranked = sorted(candidates.keys(), key=lambda k: -candidates[k])
 
         result = []
@@ -74,6 +56,36 @@ class ChaosStats:
             result.append(PredictedMon(species, stats.display_name, moves, item))
 
         return result
+
+    def _team_candidate_scores(self, revealed_names: set[str]) -> dict[str, float]:
+        """usage x teammate-correlation score for every unrevealed species."""
+        candidates = {}
+        for species, stats in self.pokemon.items():
+            if species in revealed_names:
+                continue
+            score = stats.usage
+            for rev_name in revealed_names:
+                if rev_name in self.pokemon:
+                    teammate_prob = self.pokemon[rev_name].teammate_prob(species)
+                    if teammate_prob > 0:
+                        score *= (1.0 + teammate_prob * 2.0)
+            candidates[species] = score
+        return candidates
+
+    def sample_team(self, revealed: dict[str, "RevealedMon"], n_fill: int,
+                    rng) -> list[str]:
+        """Sampled variant of predict_team: species drawn without replacement
+        proportional to the same usage x teammate score, instead of taking
+        the deterministic top-N. Returns normalized species names."""
+        candidates = self._team_candidate_scores(set(revealed.keys()))
+        out: list[str] = []
+        while candidates and len(out) < n_fill:
+            keys = list(candidates.keys())
+            species = rng.choices(
+                keys, weights=[candidates[k] for k in keys])[0]
+            out.append(species)
+            del candidates[species]
+        return out
 
     def narrow_moveset(self, species: str, known_moves: list[str]) -> list[str]:
         """Given some revealed moves, predict the remaining ones.
@@ -200,6 +212,48 @@ class PokemonStats:
             return None
         nature, evs, _ = self._spreads[0]
         return nature, evs
+
+    def sample_set(self, rng, known_moves: tuple[str, ...] = ()) -> dict:
+        """Sample one plausible full set from the chaos distributions.
+
+        Committing to the single top set is systematically wrong whenever
+        the opponent runs anything else; searching over sampled sets (like
+        foul-play does) is robust to that. `known_moves` are already
+        revealed — they occupy slots, so only the remainder is sampled
+        (without replacement, probability-weighted).
+
+        Returns the same dict shape as the top-set path: nature/evs/item/
+        ability/moves/tera_type.
+        """
+        def pick(dist: dict[str, float]) -> str | None:
+            if not dist:
+                return None
+            keys = list(dist.keys())
+            return rng.choices(keys, weights=[dist[k] for k in keys])[0]
+
+        if self._spreads:
+            nature, evs, _ = rng.choices(
+                self._spreads, weights=[p for _, _, p in self._spreads])[0]
+        else:
+            nature, evs = "Serious", dict.fromkeys(
+                ("hp", "atk", "def", "spa", "spd", "spe"), 85)
+
+        known = {_normalize_name(m) for m in known_moves}
+        pool = {m: p for m, p in self._moves.items() if m not in known}
+        moves: list[str] = []
+        while pool and len(moves) < 4 - len(known):
+            m = pick(pool)
+            moves.append(m)
+            del pool[m]
+
+        return {
+            "nature": nature,
+            "evs": evs,
+            "item": pick(self._items) or "none",
+            "ability": pick(self._abilities),
+            "moves": moves,
+            "tera_type": pick(self._tera_types),
+        }
 
 
 class RevealedMon:
