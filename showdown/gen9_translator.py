@@ -320,8 +320,11 @@ class Gen9Translator:
         }
 
     def _assemble_side(self, battle, mons, active, conditions,
-                       build_one, force_switch=False, force_trapped=False) -> pe.Side:
-        """Order mons active-first, pad to 6, attach side-level state."""
+                       build_one, force_switch=False, force_trapped=False,
+                       fill=None) -> pe.Side:
+        """Order mons active-first, pad to 6, attach side-level state.
+        `fill` supplies predicted mons for unrevealed slots; remaining
+        slots become fainted dummies."""
         if active is not None and active.fainted:
             # boosts/volatiles die with the mon; don't attribute them to
             # whoever ends up in slot 0
@@ -337,6 +340,10 @@ class Gen9Translator:
                 pokemon.append(pe.Pokemon.create_fainted())
             else:
                 pokemon.append(build_one(mon))
+        for predicted in (fill or []):
+            if len(pokemon) >= 6:
+                break
+            pokemon.append(predicted)
         while len(pokemon) < 6:
             pokemon.append(pe.Pokemon.create_fainted())
 
@@ -407,6 +414,80 @@ class Gen9Translator:
             active=battle.opponent_active_pokemon,
             conditions=battle.opponent_side_conditions,
             build_one=self._opp_pokemon,
+            fill=self._predicted_fill(opp_mons),
+        )
+
+    def _predicted_fill(self, opp_mons) -> list:
+        """Predicted mons for the opponent's unrevealed slots.
+
+        Fainted-dummy fill (the gen2 approach) is catastrophic for live play:
+        the engine's eval reads empty slots as fainted, so the search believes
+        the game is nearly won from turn 1 and plays with unearned aggression
+        (measured 0-10 vs foul-play with ~0.98 mid-game evals). Chaos-stats
+        team prediction, teammate-correlated with what's been revealed, keeps
+        the eval honest.
+        """
+        n_fill = 6 - len(opp_mons)
+        if n_fill <= 0 or self._set_source in (None, "monotype"):
+            # TODO monotype: fill from per-type replay teammate stats
+            return []
+        try:
+            from showdown.chaos_stats import RevealedMon
+            revealed = {_normalize(m.species): RevealedMon(_normalize(m.species))
+                        for m in opp_mons}
+            predicted = self._chaos().predict_team(revealed, n_fill=n_fill)
+        except Exception:
+            return []
+        return [self._predicted_pokemon(_normalize(p.species)) for p in predicted]
+
+    def _predicted_pokemon(self, species: str) -> pe.Pokemon:
+        """Full-HP engine mon for a predicted (never-revealed) species."""
+        entry = self._dex().get(species, {})
+        bs = entry.get("baseStats", {})
+        canon = self._opp_set(species) or {}
+        nature_pair = _NATURE_TABLE.get(canon.get("nature", "Serious"))
+
+        def mult(stat: str) -> float:
+            if nature_pair is None:
+                return 1.0
+            if stat == nature_pair[0]:
+                return 1.1
+            if stat == nature_pair[1]:
+                return 0.9
+            return 1.0
+
+        evs = canon.get("evs") or dict.fromkeys(
+            ("hp", "atk", "def", "spa", "spd", "spe"), 85)
+        ivs = canon.get("ivs") or dict.fromkeys(
+            ("hp", "atk", "def", "spa", "spd", "spe"), 31)
+
+        def calc(stat: str, is_hp: bool = False) -> int:
+            return _calc_stat_modern(bs.get(stat, 80), ivs[stat], evs[stat],
+                                     100, mult(stat), is_hp)
+
+        maxhp = calc("hp", is_hp=True)
+        moves = [pe.Move(id=m, pp=16) for m in (canon.get("moves") or [])[:4]]
+        while len(moves) < 4:
+            moves.append(pe.Move(id="none", pp=0))
+        types = [t.lower() for t in entry.get("types", ["Normal"])]
+        while len(types) < 2:
+            types.append("typeless")
+        types = tuple(types[:2])
+        ability = canon.get("ability") or _normalize(
+            str(entry.get("abilities", {}).get("0", "noability")))
+        return pe.Pokemon(
+            id=species, level=100,
+            hp=maxhp, maxhp=maxhp,
+            attack=calc("atk"), defense=calc("def"),
+            special_attack=calc("spa"), special_defense=calc("spd"),
+            speed=calc("spe"),
+            types=types, base_types=types,
+            ability=ability, base_ability=ability,
+            item=canon.get("item", "none") or "none",
+            weight_kg=self._weight(species),
+            moves=moves[:4],
+            terastallized=False,
+            tera_type=canon.get("tera_type") or types[0],
         )
 
     # ---- pokemon-level state ----

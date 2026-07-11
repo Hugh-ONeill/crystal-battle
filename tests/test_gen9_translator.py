@@ -140,10 +140,26 @@ def test_status_substitute_and_volatiles():
 
 
 def test_unrevealed_slots_are_fainted_dummies():
+    # monotype source: no team prediction yet -> dummies (bench-validated)
     state = Gen9Translator().translate(make_battle())
     assert len(state.side_two.pokemon) == 6
     for filler in state.side_two.pokemon[1:]:
         assert filler.hp == 0
+
+
+def test_gen9ou_unrevealed_slots_are_predicted():
+    # chaos source: unrevealed slots get teammate-correlated predictions at
+    # full HP -- fainted dummies made the engine's eval treat them as dead
+    # and play with unearned aggression (0-10 vs foul-play)
+    state = Gen9Translator(set_source="gen9ou").translate(make_battle())
+    assert len(state.side_two.pokemon) == 6
+    alive = [p for p in state.side_two.pokemon if p.hp > 0]
+    assert len(alive) == 6
+    for predicted in state.side_two.pokemon[1:]:
+        assert predicted.id
+        assert any(m.id != "none" for m in predicted.moves)
+    # searchable end-to-end
+    assert pe.monte_carlo_tree_search(state, 20).side_one
 
 
 def test_state_is_searchable():
