@@ -300,6 +300,34 @@ def test_own_request_restrictions_carry_into_state():
     assert states["solarbeam"] and states["encore"] and states["willowisp"]
 
 
+def test_preview_order_string():
+    from showdown.gen9_player import _preview_order
+    assert _preview_order(0, 6) == "/team 123456"
+    assert _preview_order(2, 6) == "/team 312456"
+    assert _preview_order(5, 6) == "/team 612345"
+
+
+def test_predicted_preview_paste_parses_and_searches():
+    from showdown.local_battle import parse_showdown_team, build_pe_state_gen9
+    from monotype.lead_picker import pick_leads
+
+    tr = Gen9Translator(set_source="gen9ou")
+    paste = tr.predicted_preview_paste(
+        ["Gholdengo", "Great Tusk", "Kingambit", "Dragapult", "Zamazenta",
+         "Iron Valiant"])
+    mons = parse_showdown_team(paste)
+    assert len(mons) == 6
+    for m in mons:
+        assert len(m["moves"]) == 4
+        assert m["ability"]
+    # end-to-end: usable by the lead maximin at preview time
+    ours = (Path(__file__).parent.parent / "showdown" / "teams"
+            / "gen9ou_sample.txt").read_text()
+    lead, _, matrix = pick_leads(ours, paste, search_ms=5)
+    assert 0 <= lead < 6
+    assert len(matrix) == 6 and len(matrix[0]) == 6
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")

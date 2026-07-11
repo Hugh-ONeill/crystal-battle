@@ -51,6 +51,12 @@ SERVERS = {
 }
 
 
+def _preview_order(lead_idx: int, n: int) -> str:
+    """'/team 312456'-style order string: chosen lead first, rest in order."""
+    rest = [i for i in range(1, n + 1) if i != lead_idx + 1]
+    return "/team " + "".join(str(x) for x in [lead_idx + 1] + rest)
+
+
 class Gen9PokeEnginePlayer(Player):
     """poke-env Player: translate -> poke-engine MCTS -> order.
 
@@ -62,17 +68,38 @@ class Gen9PokeEnginePlayer(Player):
     """
 
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
+                 team_paste: str | None = None, preview_search_ms: int = 80,
                  verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source)
         self._search_ms = search_ms
+        self._team_paste = team_paste
+        self._preview_search_ms = preview_search_ms
         self._verbose = verbose
         self._last_tag: str | None = None
 
-    def teampreview(self, battle):
-        # paste order. TODO: MCTS-eval preview picker (the trained lead net
-        # is monotype-only; don't use it here)
-        return "/team 123456"
+    async def teampreview(self, battle):
+        """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
+        a fixed lead hands the opponent a free, certain counter-pick every
+        game. Falls back to paste order on any failure."""
+        if self._team_paste is None:
+            return "/team 123456"
+        try:
+            from monotype.lead_picker import pick_leads
+            opp_species = [m.species for m in battle.opponent_team.values()]
+            opp_paste = self._translator.predicted_preview_paste(opp_species)
+            loop = asyncio.get_event_loop()
+            lead_idx, _, _ = await loop.run_in_executor(
+                None, lambda: pick_leads(self._team_paste, opp_paste,
+                                         search_ms=self._preview_search_ms))
+            order = _preview_order(lead_idx, 6)
+            if self._verbose:
+                print(f"  preview: leading slot {lead_idx + 1} -> {order}")
+            return order
+        except Exception as e:
+            if self._verbose:
+                print(f"  preview pick failed ({e!r}); using paste order")
+            return "/team 123456"
 
     async def choose_move(self, battle):
         if battle.battle_tag != self._last_tag:
@@ -169,6 +196,7 @@ async def main():
     player = Gen9PokeEnginePlayer(
         search_ms=args.search_ms,
         set_source=set_source,
+        team_paste=team,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,

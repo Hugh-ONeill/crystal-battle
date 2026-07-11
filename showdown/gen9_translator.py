@@ -193,6 +193,36 @@ class Gen9Translator:
             "tera_type": stats.top_tera_type(),
         }
 
+    # ---- team preview ----
+
+    _EV_KEYS = (("hp", "HP"), ("atk", "Atk"), ("def", "Def"),
+                ("spa", "SpA"), ("spd", "SpD"), ("spe", "Spe"))
+
+    def predicted_preview_paste(self, species_list) -> str:
+        """Showdown paste of predicted sets for the opponent's previewed
+        species — feeds the 6x6 lead maximin (monotype/lead_picker) at
+        team preview time."""
+        if self._set_source == "monotype" and self._opp_type is None:
+            self._opp_type = _detect_side_type(
+                tuple(_normalize(s) for s in species_list))
+        blocks = []
+        for species in species_list:
+            norm = _normalize(species)
+            canon = self._opp_set(norm) or {}
+            lines = [f"{species} @ {canon.get('item') or 'leftovers'}"]
+            if canon.get("ability"):
+                lines.append(f"Ability: {canon['ability']}")
+            evs = canon.get("evs") or {}
+            ev_str = " / ".join(f"{evs[k]} {label}"
+                                for k, label in self._EV_KEYS if evs.get(k))
+            if ev_str:
+                lines.append(f"EVs: {ev_str}")
+            lines.append(f"{canon.get('nature', 'Serious')} Nature")
+            for mid in (canon.get("moves") or [])[:4]:
+                lines.append(f"- {mid}")
+            blocks.append("\n".join(lines))
+        return "\n\n".join(blocks)
+
     # ---- entry point ----
 
     def translate(self, battle) -> pe.State:
