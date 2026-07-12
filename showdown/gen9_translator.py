@@ -174,6 +174,27 @@ class Gen9Translator:
         from showdown.ps_sets import get_index
         return get_index(self._set_source)
 
+    def _replay_index(self):
+        if self._set_source in (None, "monotype"):
+            return None
+        from showdown.replay_sets import get_index
+        return get_index(self._set_source)
+
+    def _resolve_archetype(self, battle):
+        """Match the opponent's previewed roster against the replay team
+        archetype index (ladder players copy whole teams; a match predicts
+        moves/tera for revealed AND unrevealed mons)."""
+        self._archetype = None
+        idx = self._replay_index()
+        if idx is None:
+            return
+        species = [m.species for m in
+                   getattr(battle, "teampreview_opponent_team", None) or []]
+        if len(species) != 6 and len(battle.opponent_team) == 6:
+            species = [m.species for m in battle.opponent_team.values()]
+        if len(species) == 6:
+            self._archetype = idx.team_match(species)
+
     def _opp_set(self, species: str, known_moves: tuple[str, ...] = (),
                  known_item: str | None = None,
                  known_ability: str | None = None) -> dict | None:
@@ -217,6 +238,22 @@ class Gen9Translator:
                                           "spa", "spd", "spe"), 85))
             item, ability = stats.top_item() or "none", stats.top_ability()
             moves, tera = stats.top_moves(4), stats.top_tera_type()
+
+        # tier 2: joint moveset fragments (and teras) actually observed in
+        # ladder replays beat chaos-composed marginals; archetype-matched
+        # data (this exact 6-mon team) beats species-level data. Items stay
+        # with the upper tiers — choice items are invisible in replay logs.
+        replay_idx = self._replay_index()
+        if replay_idx is not None:
+            team = getattr(self, "_archetype", None)
+            frag = replay_idx.pick_moves(species, known_moves, team=team,
+                                         rng=rng)
+            if frag:
+                pad = [m for m in moves if m not in frag]
+                moves = (list(frag) + pad)[:4]
+                replay_tera = replay_idx.pick_tera(species, team, rng)
+                if replay_tera:
+                    tera = replay_tera
         return {
             "nature": nature.capitalize(),
             "evs": evs,
@@ -330,6 +367,7 @@ class Gen9Translator:
                 self._obs.update(battle)
             except Exception:
                 pass  # refinement is advisory; never fail a translation
+        self._resolve_archetype(battle)
         side_one = self._my_side(battle)
         side_two = self._opp_side(battle)
         weather, weather_turns = self._weather(battle)

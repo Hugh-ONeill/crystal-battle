@@ -567,6 +567,38 @@ def test_ps_pessimistic_picks_fastest_candidate():
     assert got["item"] == "choicescarf"
 
 
+def test_replay_sets_index():
+    from showdown.replay_sets import get_index
+    idx = get_index("gen9ou")
+    assert idx is not None and idx.replays > 1000
+
+    frags = idx.movesets("greattusk")
+    assert frags and all(isinstance(f[0], tuple) and f[1] >= 1 for f in frags)
+    # consistency: fragments must contain all revealed moves
+    known = frags[0][0][:1]
+    narrowed = idx.movesets("greattusk", known_moves=known)
+    assert narrowed and all(set(known) <= set(f[0]) for f in narrowed)
+    # deterministic pick is the most common consistent fragment
+    picked = idx.pick_moves("greattusk", known_moves=known)
+    assert picked and set(known) <= set(picked)
+
+    # archetype matching round-trips a real key from the corpus
+    key = next(iter(idx.teams))
+    assert idx.team_match(key.split("|")) is not None
+    assert idx.team_match(["pikachu"] * 6) is None
+
+
+def test_chaos_tier_uses_replay_fragments():
+    from showdown.replay_sets import get_index
+    tr = Gen9Translator(set_source="gen9ou")
+    tr._prefer_ps = False
+    got = tr._opp_set("greattusk")
+    tr._prefer_ps = True
+    expected = get_index("gen9ou").pick_moves("greattusk")
+    # observed fragment leads the moveset; chaos pads the remainder
+    assert all(m in got["moves"] for m in expected[:4])
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
