@@ -14,6 +14,8 @@
 
 set -u
 NAME="$1"; BATCHES="$2"; GAMES="$3"; shift 3
+# unbuffered, or decision prints hide in stdout buffers and diagnostics lie
+export PYTHONUNBUFFERED=1
 CB=/home/wiz/Developer/grimoire/crystal-battle
 FP=/home/wiz/Developer/grimoire/foul-play
 OURS_LOG="$CB/showdown/bench/${NAME}_ours.log"
