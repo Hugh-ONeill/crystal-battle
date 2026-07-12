@@ -168,18 +168,36 @@ class Gen9Translator:
             Gen9Translator._chaos_cache[fmt] = cached
         return cached
 
-    def _opp_set(self, species: str, known_moves: tuple[str, ...] = ()) -> dict | None:
+    def _ps_index(self):
+        if self._set_source in (None, "monotype"):
+            return None
+        from showdown.ps_sets import get_index
+        return get_index(self._set_source)
+
+    def _opp_set(self, species: str, known_moves: tuple[str, ...] = (),
+                 known_item: str | None = None,
+                 known_ability: str | None = None) -> dict | None:
         """Inferred set for an opponent species: same dict shape as
         parse_showdown_team (nature/evs/ivs/item/ability/moves) plus an
         optional 'tera_type'. None when the source has nothing. When a
         sampling rng is active (translate(..., rng=...)), the set is drawn
-        from the chaos distributions instead of taking the top values."""
+        from the distributions instead of taking the top values.
+
+        Tier 1 is the curated PS full-set database (ps_sets.py): joint sets
+        filtered by every observation, so item/spread/move correlations
+        survive. Chaos-stat marginals are the fallback tier."""
         if self._set_source == "monotype":
             if self._opp_type is None:
                 return None
             return self._canonical().get(self._opp_type, {}).get(species)
         if self._set_source is None:
             return None
+
+        ps_cand = self._ps_candidate(species, known_moves, known_item,
+                                     known_ability)
+        if ps_cand is not None:
+            return ps_cand
+
         stats = self._chaos().pokemon.get(species)
         if stats is None:
             return None
@@ -206,6 +224,52 @@ class Gen9Translator:
             "ability": ability,
             "moves": moves,
             "tera_type": tera,
+        }
+
+    def _ps_candidate(self, species: str, known_moves: tuple[str, ...],
+                      known_item: str | None,
+                      known_ability: str | None) -> dict | None:
+        """Pick a curated full set consistent with all observations, or None
+        to fall through to chaos. Mirrors foul-play's tier semantics: always
+        used when nothing is revealed; with reveals, the sampler keeps 25%
+        chaos draws for diversity."""
+        ps = self._ps_index()
+        if ps is None:
+            return None
+        floor = self._obs.speed_floor.get(species) if self._obs else None
+        cands = ps.consistent(species, known_moves=known_moves,
+                              known_item=known_item,
+                              known_ability=known_ability,
+                              speed_floor=floor)
+        if not cands:
+            return None
+        rng = getattr(self, "_rng", None)
+        if rng is None:
+            # deterministic: the usage composite carries the higher weight,
+            # else the most prominent dex set
+            cand = max(cands, key=lambda c: c["weight"])
+        elif getattr(self, "_speed_pess", False):
+            cand = max(cands, key=lambda c: c["spe_stat"] *
+                       (1.5 if c["item"] == "choicescarf" else 1.0))
+        elif known_moves and rng.random() >= 0.75:
+            return None  # occasional chaos draw keeps the worlds diverse
+        else:
+            cand = rng.choices(cands, weights=[c["weight"] for c in cands])[0]
+
+        item = cand["item"]
+        if (getattr(self, "_speed_pess", False) and known_item is None
+                and item != "choicescarf"):
+            stats = self._chaos().pokemon.get(species)
+            if stats is not None and stats._items.get("choicescarf", 0) >= 0.02:
+                item = "choicescarf"
+        return {
+            "nature": cand["nature"],
+            "evs": cand["evs"],
+            "ivs": cand["ivs"],
+            "item": item,
+            "ability": cand["ability"],
+            "moves": cand["moves"],
+            "tera_type": cand["tera_type"],
         }
 
     # ---- team preview ----
@@ -669,8 +733,17 @@ class Gen9Translator:
         entry = self._dex().get(species, {})
         bs = entry.get("baseStats", {})
 
+        # poke-env item semantics: "unknown_item" sentinel = never revealed
+        # (truthy!), None/"" = revealed to be gone (knocked off / consumed)
+        raw_item = mon.item
+        revealed_item_id = None
+        if raw_item and _normalize(raw_item) != "unknownitem":
+            revealed_item_id = _normalize(raw_item)
+        revealed_ability = _normalize(mon.ability) if mon.ability else None
+
         canon = self._opp_set(
-            species, known_moves=tuple(_normalize(m) for m in mon.moves))
+            species, known_moves=tuple(_normalize(m) for m in mon.moves),
+            known_item=revealed_item_id, known_ability=revealed_ability)
 
         # stats: canonical spread when we have one, neutral 85s otherwise
         if canon is not None:
@@ -697,12 +770,9 @@ class Gen9Translator:
 
         maxhp = calc("hp", is_hp=True)
 
-        # revealed item/ability beat the canonical guess. poke-env item
-        # semantics: "unknown_item" sentinel = never revealed (truthy!),
-        # None/"" = revealed to be gone (knocked off / consumed / none)
-        raw_item = mon.item
-        if raw_item and _normalize(raw_item) != "unknownitem":
-            item = _normalize(raw_item)
+        # revealed item/ability beat the canonical guess
+        if revealed_item_id:
+            item = revealed_item_id
             item_known = True
         elif raw_item is None or raw_item == "":
             item = "none"

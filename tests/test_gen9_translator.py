@@ -516,6 +516,47 @@ def test_force_switch_state_searches_replacements():
     assert all(r.move_choice.startswith("switch ") for r in top)
 
 
+def test_ps_sets_index_parses_and_filters():
+    from showdown.ps_sets import get_index
+    idx = get_index("gen9ou")
+    cands = idx.consistent("gholdengo")
+    assert len(cands) >= 4
+    for c in cands:
+        assert len(c["moves"]) == 4 and c["item"] != "" and c["evs"]
+
+    # revealed move narrows to candidates carrying it
+    narrowed = idx.consistent("gholdengo", known_moves=("thunderwave",))
+    assert narrowed and all("thunderwave" in c["moves"] for c in narrowed)
+    # revealed item pins the matching joint set
+    balloon = idx.consistent("gholdengo", known_item="Air Balloon")
+    assert balloon and all(c["item"] == "airballoon" for c in balloon)
+    # an impossible speed floor eliminates everything
+    assert idx.consistent("amoonguss", speed_floor=500) == []
+
+
+def test_opp_set_prefers_joint_ps_sets():
+    from showdown.ps_sets import get_index
+    tr = Gen9Translator(set_source="gen9ou")
+    got = tr._opp_set("gholdengo")
+    assert got is not None
+    ps_movesets = {tuple(c["moves"]) for c in
+                   get_index("gen9ou").consistent("gholdengo")}
+    # the returned set is one curated JOINT set, not composed marginals
+    assert tuple(got["moves"]) in ps_movesets
+
+
+def test_ps_pessimistic_picks_fastest_candidate():
+    import random
+    tr = Gen9Translator(set_source="gen9ou")
+    tr._rng = random.Random(1)
+    tr._speed_pess = True
+    got = tr._opp_set("garchomp")
+    tr._rng = None
+    tr._speed_pess = False
+    # garchomp scarf usage (3.5%) clears the pessimism bar
+    assert got["item"] == "choicescarf"
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
