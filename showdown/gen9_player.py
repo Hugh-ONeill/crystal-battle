@@ -181,8 +181,14 @@ class Gen9PokeEnginePlayer(Player):
         for i in range(self._set_samples):
             rng = random.Random() if self._set_samples > 1 else None
             pessimistic = self._set_samples > 1 and i == self._set_samples - 1
+            # world 0: curated PS joint sets; later worlds: chaos sampling.
+            # PS sets in every world collapsed diversity (series 10) — some
+            # species have a single curated candidate, so all worlds shared
+            # the same confident wrong set
+            prefer_ps = i == 0
             state = self._translator.translate(
-                battle, rng=rng, speed_pessimistic=pessimistic)
+                battle, rng=rng, speed_pessimistic=pessimistic,
+                prefer_ps=prefer_ps)
             results.append(pe.monte_carlo_tree_search(state, self._search_ms))
         return results
 

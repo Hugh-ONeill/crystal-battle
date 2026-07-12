@@ -193,10 +193,11 @@ class Gen9Translator:
         if self._set_source is None:
             return None
 
-        ps_cand = self._ps_candidate(species, known_moves, known_item,
-                                     known_ability)
-        if ps_cand is not None:
-            return ps_cand
+        if getattr(self, "_prefer_ps", True):
+            ps_cand = self._ps_candidate(species, known_moves, known_item,
+                                         known_ability)
+            if ps_cand is not None:
+                return ps_cand
 
         stats = self._chaos().pokemon.get(species)
         if stats is None:
@@ -304,15 +305,23 @@ class Gen9Translator:
 
     # ---- entry point ----
 
-    def translate(self, battle, rng=None, speed_pessimistic=False) -> pe.State:
+    def translate(self, battle, rng=None, speed_pessimistic=False,
+                  prefer_ps=True) -> pe.State:
         """Build a State for search. With `rng`, opponent unknowns (sets and
-        unrevealed species) are SAMPLED from the chaos distributions instead
-        of taking the deterministic most-likely values — callers run one
-        search per sampled world and combine (see gen9_player).
-        `speed_pessimistic` makes the sampled sets worst-case on speed
-        (fastest spreads, scarf when plausible)."""
+        unrevealed species) are SAMPLED instead of taking the deterministic
+        most-likely values — callers run one search per sampled world and
+        combine (see gen9_player). `speed_pessimistic` makes the sampled sets
+        worst-case on speed (fastest spreads, scarf when plausible).
+
+        `prefer_ps` gates the curated-set tier. Series 10 showed why this is
+        per-world: PS dex sets are single-candidate for some species (only a
+        bulky Rain Setter Pelipper exists, the real one was Specs), so using
+        them in EVERY world collapses diversity and both worlds share the
+        same confident wrong set. One PS world + one chaos world keeps the
+        joint-set quality without losing the tail coverage."""
         self._rng = rng
         self._speed_pess = speed_pessimistic
+        self._prefer_ps = prefer_ps
         if self._set_source is not None:
             if self._obs is None:
                 from showdown.set_inference import BattleObservations

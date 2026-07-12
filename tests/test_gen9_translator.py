@@ -545,6 +545,16 @@ def test_opp_set_prefers_joint_ps_sets():
     assert tuple(got["moves"]) in ps_movesets
 
 
+def test_prefer_ps_false_uses_chaos_tier():
+    from showdown.chaos_stats import ChaosStats
+    tr = Gen9Translator(set_source="gen9ou")
+    tr._prefer_ps = False
+    got = tr._opp_set("gholdengo")
+    tr._prefer_ps = True
+    chaos_top = ChaosStats(format="gen9ou").pokemon["gholdengo"].top_moves(4)
+    assert got["moves"] == chaos_top  # chaos marginals, not a curated set
+
+
 def test_ps_pessimistic_picks_fastest_candidate():
     import random
     tr = Gen9Translator(set_source="gen9ou")
