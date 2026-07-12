@@ -124,9 +124,13 @@ class Gen9Translator:
     _chaos_cache: dict[str, object] = {}  # format -> ChaosStats
     _pokedex = None
 
-    def __init__(self, elo_bucket: int = 1500, set_source: str | None = "monotype"):
+    def __init__(self, elo_bucket: int = 1500, set_source: str | None = "monotype",
+                 use_data_tiers: bool = True):
         self._elo = elo_bucket
         self._set_source = set_source
+        # gates the PS-curated and replay-observed set tiers; off reproduces
+        # the pure chaos-sampling config (the ab9 baseline) exactly
+        self._use_data_tiers = use_data_tiers
         self._opp_type: str | None = None
         self._obs = None  # per-battle observational set refinement
 
@@ -169,13 +173,13 @@ class Gen9Translator:
         return cached
 
     def _ps_index(self):
-        if self._set_source in (None, "monotype"):
+        if not self._use_data_tiers or self._set_source in (None, "monotype"):
             return None
         from showdown.ps_sets import get_index
         return get_index(self._set_source)
 
     def _replay_index(self):
-        if self._set_source in (None, "monotype"):
+        if not self._use_data_tiers or self._set_source in (None, "monotype"):
             return None
         from showdown.replay_sets import get_index
         return get_index(self._set_source)

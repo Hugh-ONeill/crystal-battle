@@ -90,9 +90,11 @@ class Gen9PokeEnginePlayer(Player):
 
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
                  team_paste: str | None = None, preview_search_ms: int = 80,
-                 set_samples: int = 2, verbose: bool = True, **kwargs):
+                 set_samples: int = 2, data_tiers: bool = True,
+                 verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
-        self._translator = Gen9Translator(set_source=set_source)
+        self._translator = Gen9Translator(set_source=set_source,
+                                          use_data_tiers=data_tiers)
         self._search_ms = search_ms
         self._team_paste = team_paste
         self._preview_search_ms = preview_search_ms
@@ -245,6 +247,9 @@ async def main():
     parser.add_argument("--set-samples", type=int, default=2,
                         help="sampled opponent-set worlds searched per turn "
                              "(1 = deterministic top sets)")
+    parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
+                        help="PS-curated + replay-observed set tiers; 'off' "
+                             "reproduces the pure chaos config (ab9 baseline)")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
     args = parser.parse_args()
@@ -259,6 +264,7 @@ async def main():
         set_source=set_source,
         team_paste=team,
         set_samples=args.set_samples,
+        data_tiers=args.data_tiers == "on",
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,

@@ -599,6 +599,16 @@ def test_chaos_tier_uses_replay_fragments():
     assert all(m in got["moves"] for m in expected[:4])
 
 
+def test_data_tiers_off_reproduces_pure_chaos():
+    from showdown.chaos_stats import ChaosStats
+    tr = Gen9Translator(set_source="gen9ou", use_data_tiers=False)
+    got = tr._opp_set("gholdengo")
+    stats = ChaosStats(format="gen9ou").pokemon["gholdengo"]
+    # exact pre-tier behavior: chaos top values, no curated set, no fragments
+    assert got["moves"] == stats.top_moves(4)
+    assert got["item"] == stats.top_item()
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
