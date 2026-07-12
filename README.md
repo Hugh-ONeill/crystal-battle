@@ -74,9 +74,11 @@ units, and a loss-trace analyzer (`showdown/loss_trace.py`) that aggregates
 eval-score cliffs, faint attribution, tera timing, and first-blood stats across
 hundreds of games to find what actually loses games.
 
-Snapshot (2026-07-12): from 0% (first broken build) to a confirmed 29%
-[23, 36] win rate over n=200 against the tournament-winning baseline, with the
-remaining gap decomposed by loss-trace analysis into named, in-progress fixes.
+Snapshot (2026-07-12): from 0% (first broken build) through a 19% plateau and
+a confirmed 29%, to 46.5% [40, 53] over n=200 after speed-pessimistic world
+sampling and searched forced switches landed: statistically indistinguishable
+from parity with the tournament-winning baseline, with the remaining edge
+decomposed by loss-trace analysis into named, in-progress fixes.
 Notable findings along the way, each worth a post-mortem of its own:
 
 - Filling unrevealed opponent slots with fainted dummies made the engine
