@@ -29,8 +29,9 @@ CB=/home/wiz/Developer/grimoire/crystal-battle
 FP=/home/wiz/Developer/grimoire/foul-play
 OURS_LOG="$CB/showdown/bench/${NAME}_ours.log"
 FP_LOG="$CB/showdown/bench/${NAME}_foulplay.log"
-# generous: games run ~30s; allow 120s/game + 5 min slack per batch
-BATCH_TIMEOUT=$((GAMES * 120 + 300))
+# stall mirrors run ~5 min/game (350+ decisions), offense ~30s; budget for
+# the slow end so timeout truncation doesn't thin defensive batches
+BATCH_TIMEOUT=$((GAMES * 360 + 600))
 
 # fail loudly if the local Showdown server is down, instead of burning every
 # batch on connection-refused (series 13 first attempt)
