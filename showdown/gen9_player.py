@@ -130,13 +130,28 @@ class Gen9PokeEnginePlayer(Player):
             self._last_tag = battle.battle_tag
             self._translator.new_battle()
 
-        # forced switch (post-KO / pivot): matchup-scored heuristic pick
+        # forced switch (post-KO / pivot): search it like any other decision —
+        # the translator flags side_one.force_switch and (for KOs) leaves the
+        # fainted active at slot 0, so MCTS returns replacement choices
         if battle.force_switch:
-            if battle.available_switches:
-                best = max(battle.available_switches,
-                           key=lambda p: _score_switch_in(p, battle))
-                return self.create_order(best)
-            return self.choose_default_move()
+            if not battle.available_switches:
+                return self.choose_default_move()
+            if len(battle.available_switches) == 1:
+                return self.create_order(battle.available_switches[0])
+            try:
+                loop = asyncio.get_event_loop()
+                results = await loop.run_in_executor(
+                    None, self._search_samples, battle)
+                order = self._map_choice(_merge_mcts_results(results), battle)
+                if order is not None:
+                    return order
+            except Exception as e:
+                if self._verbose:
+                    print(f"  T{battle.turn} force-switch search failed "
+                          f"({e!r}); using heuristic")
+            best = max(battle.available_switches,
+                       key=lambda p: _score_switch_in(p, battle))
+            return self.create_order(best)
 
         try:
             loop = asyncio.get_event_loop()
@@ -158,11 +173,16 @@ class Gen9PokeEnginePlayer(Player):
 
     def _search_samples(self, battle) -> list:
         """One MCTS per sampled opponent world (K = set_samples). With K=1,
-        the deterministic top-set translation is used, as before."""
+        the deterministic top-set translation is used, as before. The LAST
+        world is speed-pessimistic (fastest spreads, scarf when plausible):
+        speed-floor inference only triggers after a scarfer already outsped
+        something, so one world hedges against the sweep pre-emptively."""
         results = []
-        for _ in range(self._set_samples):
+        for i in range(self._set_samples):
             rng = random.Random() if self._set_samples > 1 else None
-            state = self._translator.translate(battle, rng=rng)
+            pessimistic = self._set_samples > 1 and i == self._set_samples - 1
+            state = self._translator.translate(
+                battle, rng=rng, speed_pessimistic=pessimistic)
             results.append(pe.monte_carlo_tree_search(state, self._search_ms))
         return results
 

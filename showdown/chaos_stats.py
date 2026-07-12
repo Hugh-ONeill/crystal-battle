@@ -213,7 +213,11 @@ class PokemonStats:
         nature, evs, _ = self._spreads[0]
         return nature, evs
 
-    def sample_set(self, rng, known_moves: tuple[str, ...] = ()) -> dict:
+    # natures that boost speed, for the pessimistic-spread tiebreak
+    _PLUS_SPE = frozenset({"Timid", "Jolly", "Hasty", "Naive"})
+
+    def sample_set(self, rng, known_moves: tuple[str, ...] = (),
+                   speed_pessimistic: bool = False) -> dict:
         """Sample one plausible full set from the chaos distributions.
 
         Committing to the single top set is systematically wrong whenever
@@ -221,6 +225,12 @@ class PokemonStats:
         foul-play does) is robust to that. `known_moves` are already
         revealed — they occupy slots, so only the remainder is sampled
         (without replacement, probability-weighted).
+
+        `speed_pessimistic` builds the worst-plausible-speed variant: the
+        fastest listed spread, and Choice Scarf whenever it has >=2% usage.
+        Motivation: speed-floor inference only fires AFTER a scarfer outspeeds
+        something — one body too late to stop a sweep. Searching one
+        pessimistic world alongside the plain sample hedges pre-emptively.
 
         Returns the same dict shape as the top-set path: nature/evs/item/
         ability/moves/tera_type.
@@ -232,8 +242,13 @@ class PokemonStats:
             return rng.choices(keys, weights=[dist[k] for k in keys])[0]
 
         if self._spreads:
-            nature, evs, _ = rng.choices(
-                self._spreads, weights=[p for _, _, p in self._spreads])[0]
+            if speed_pessimistic:
+                nature, evs, _ = max(
+                    self._spreads,
+                    key=lambda s: (s[1]["spe"], s[0] in self._PLUS_SPE, s[2]))
+            else:
+                nature, evs, _ = rng.choices(
+                    self._spreads, weights=[p for _, _, p in self._spreads])[0]
         else:
             nature, evs = "Serious", dict.fromkeys(
                 ("hp", "atk", "def", "spa", "spd", "spe"), 85)
@@ -246,10 +261,14 @@ class PokemonStats:
             moves.append(m)
             del pool[m]
 
+        if speed_pessimistic and self._items.get("choicescarf", 0) >= 0.02:
+            item = "choicescarf"
+        else:
+            item = pick(self._items) or "none"
         return {
             "nature": nature,
             "evs": evs,
-            "item": pick(self._items) or "none",
+            "item": item,
             "ability": pick(self._abilities),
             "moves": moves,
             "tera_type": pick(self._tera_types),

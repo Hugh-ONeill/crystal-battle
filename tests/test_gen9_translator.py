@@ -476,6 +476,46 @@ def test_damage_bracket_tiers():
     assert obs.damage_item_upgrade("pelipper", bird, our) == "expertbelt"
 
 
+def test_speed_pessimistic_sampling():
+    import random
+    from showdown.chaos_stats import ChaosStats
+    stats = ChaosStats(format="gen9ou").pokemon["ironvaliant"]
+    s = stats.sample_set(random.Random(3), speed_pessimistic=True)
+    assert s["item"] == "choicescarf"   # 2.3% usage clears the 2% bar
+    assert s["evs"]["spe"] == 252       # fastest listed spread
+
+    # and it flows through a pessimistic sampled translation
+    b = make_battle()
+    tr = Gen9Translator(set_source="gen9ou")
+    state = tr.translate(b, rng=random.Random(1), speed_pessimistic=True)
+    chomp = _find(state.side_two, "garchomp")
+    assert chomp.item == "choicescarf"  # garchomp scarf 3.5% >= 2%
+
+
+def test_force_switch_state_searches_replacements():
+    b = make_battle()
+    b.parse_message(["", "faint", "p1a: Ninetales"])
+    fs_request = {
+        "forceSwitch": [True],
+        "side": {**REQUEST["side"], "pokemon": [
+            {**REQUEST["side"]["pokemon"][0], "condition": "0 fnt"},
+            *REQUEST["side"]["pokemon"][1:],
+        ]},
+    }
+    b.parse_request(fs_request)
+    assert b.force_switch
+
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+    assert state.side_one.force_switch
+    assert state.side_one.pokemon[0].hp == 0  # fainted active holds slot 0
+    alive = [p.id for p in state.side_one.pokemon if p.hp > 0]
+    assert set(alive) == {"heatran", "volcarona"}
+
+    result = pe.monte_carlo_tree_search(state, 50)
+    top = sorted(result.side_one, key=lambda r: -r.visits)[:2]
+    assert all(r.move_choice.startswith("switch ") for r in top)
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")

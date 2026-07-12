@@ -185,7 +185,9 @@ class Gen9Translator:
             return None
         rng = getattr(self, "_rng", None)
         if rng is not None:
-            sampled = stats.sample_set(rng, known_moves=known_moves)
+            sampled = stats.sample_set(
+                rng, known_moves=known_moves,
+                speed_pessimistic=getattr(self, "_speed_pess", False))
             nature, evs = sampled["nature"], sampled["evs"]
             item, ability = sampled["item"], sampled["ability"]
             moves, tera = sampled["moves"], sampled["tera_type"]
@@ -238,12 +240,15 @@ class Gen9Translator:
 
     # ---- entry point ----
 
-    def translate(self, battle, rng=None) -> pe.State:
+    def translate(self, battle, rng=None, speed_pessimistic=False) -> pe.State:
         """Build a State for search. With `rng`, opponent unknowns (sets and
         unrevealed species) are SAMPLED from the chaos distributions instead
         of taking the deterministic most-likely values — callers run one
-        search per sampled world and combine (see gen9_player)."""
+        search per sampled world and combine (see gen9_player).
+        `speed_pessimistic` makes the sampled sets worst-case on speed
+        (fastest spreads, scarf when plausible)."""
         self._rng = rng
+        self._speed_pess = speed_pessimistic
         if self._set_source is not None:
             if self._obs is None:
                 from showdown.set_inference import BattleObservations
@@ -391,6 +396,11 @@ class Gen9Translator:
             active = None
 
         pokemon = []
+        if active is None and force_switch:
+            # replacement choice after a KO: the engine must see a FAINTED
+            # active at slot 0, or it treats the first bench mon as already
+            # on the field and never offers it as the replacement
+            pokemon.append(pe.Pokemon.create_fainted())
         if active is not None:
             pokemon.append(build_one(active))
         for mon in mons:
