@@ -42,7 +42,12 @@ if ! "$CB/.venv/bin/python" -c \
 fi
 
 if [ -n "$SUITE_DIR" ]; then
-  [ -d "$SUITE_DIR" ] || SUITE_DIR="$CB/$SUITE_DIR"
+  # absolute always: the loop cd's between repos, so a relative path that
+  # resolves at parse time silently stops resolving from batch 2 on
+  case "$SUITE_DIR" in
+    /*) ;;
+    *) SUITE_DIR="$CB/$SUITE_DIR" ;;
+  esac
   N_TEAMS=$(ls "$SUITE_DIR"/*.txt | wc -l)
   mkdir -p "$FP/teams/teams/gen9/ou/suite"
 fi
