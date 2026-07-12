@@ -16,19 +16,21 @@ set -u
 NAME="$1"; BATCHES="$2"; GAMES="$3"; shift 3
 # unbuffered, or decision prints hide in stdout buffers and diagnostics lie
 export PYTHONUNBUFFERED=1
-
-# fail loudly if the local Showdown server is down, instead of burning every
-# batch on connection-refused (series 13 first attempt)
-if ! nc -z localhost 8000 2>/dev/null; then
-  echo "FATAL: no Showdown server listening on :8000" >&2
-  exit 1
-fi
 CB=/home/wiz/Developer/grimoire/crystal-battle
 FP=/home/wiz/Developer/grimoire/foul-play
 OURS_LOG="$CB/showdown/bench/${NAME}_ours.log"
 FP_LOG="$CB/showdown/bench/${NAME}_foulplay.log"
 # generous: games run ~30s; allow 120s/game + 5 min slack per batch
 BATCH_TIMEOUT=$((GAMES * 120 + 300))
+
+# fail loudly if the local Showdown server is down, instead of burning every
+# batch on connection-refused (series 13 first attempt)
+if ! "$CB/.venv/bin/python" -c \
+    "import socket; socket.create_connection(('127.0.0.1', 8000), 2).close()" \
+    2>/dev/null; then
+  echo "FATAL: no Showdown server listening on :8000" >&2
+  exit 1
+fi
 
 i=1
 while [ "$i" -le "$BATCHES" ]; do
