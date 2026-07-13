@@ -197,7 +197,11 @@ class Gen9Translator:
         if len(species) != 6 and len(battle.opponent_team) == 6:
             species = [m.species for m in battle.opponent_team.values()]
         if len(species) == 6:
-            self._archetype = idx.team_match(species)
+            match = idx.team_match(species)
+            # confidence gate: a roster seen twice could be one player's
+            # home-brew; three-plus sightings means a real archetype
+            if match is not None and match.get("count", 0) >= 3:
+                self._archetype = match
 
     def _opp_set(self, species: str, known_moves: tuple[str, ...] = (),
                  known_item: str | None = None,
@@ -283,6 +287,15 @@ class Gen9Translator:
                               known_item=known_item,
                               known_ability=known_ability,
                               speed_floor=floor)
+        # confidence gate: with nothing revealed, an editorial dex set is
+        # only trusted if the ladder corpus corroborates it — the suite A/B
+        # showed uncorroborated curated sets cost more than chaos sampling
+        # (legacy -16pp) while corroborated ones pay hugely (fat +24pp)
+        if not (known_moves or known_item or known_ability):
+            replay_idx = self._replay_index()
+            if replay_idx is not None:
+                cands = [c for c in cands
+                         if replay_idx.corroborates(species, c["moves"])]
         if not cands:
             return None
         rng = getattr(self, "_rng", None)

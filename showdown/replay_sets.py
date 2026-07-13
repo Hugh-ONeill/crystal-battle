@@ -67,16 +67,42 @@ class ReplaySetsIndex:
         return self._consistent(entry["movesets"], known_moves)
 
     def pick_moves(self, species: str, known_moves: tuple[str, ...] = (),
-                   team: dict | None = None, rng=None) -> list[str] | None:
+                   team: dict | None = None, rng=None,
+                   min_unanchored_count: int = 3) -> list[str] | None:
         """One observed moveset fragment: count-weighted sample with rng,
-        most-common without. None when nothing consistent was ever seen."""
+        most-common without. None when nothing consistent was ever seen.
+
+        Confidence gate: without revealed moves anchoring the choice, only
+        fragments seen >= min_unanchored_count times qualify — a set observed
+        once is noise, and confidently wrong beats chaos sampling only when
+        it's actually right (the suite A/B lesson)."""
         frags = self.movesets(species, known_moves, team)
+        if not known_moves:
+            frags = [f for f in frags if f[1] >= min_unanchored_count]
         if not frags:
             return None
         if rng is None:
             return list(max(frags, key=lambda f: f[1])[0])
         return list(rng.choices([f[0] for f in frags],
                                 weights=[f[1] for f in frags])[0])
+
+    def corroborates(self, species: str, moves, min_count: int = 2,
+                     min_moves: int = 3) -> bool:
+        """True when a moveset resembles observed ladder play. Fragments are
+        mostly partial (1-2 revealed moves per game), so corroboration is
+        MOVE-level: at least min_moves of the candidate's moves must each
+        appear in the corpus >= min_count times for this species. Vets
+        curated (editorial) sets against reality."""
+        entry = self.species.get(_normalize(species))
+        if entry is None:
+            return False
+        move_counts: dict[str, int] = {}
+        for ms, c in entry["movesets"]:
+            for m in ms:
+                move_counts[m] = move_counts.get(m, 0) + c
+        seen = sum(1 for m in moves
+                   if move_counts.get(_normalize(m), 0) >= min_count)
+        return seen >= min(min_moves, len(list(moves)))
 
     def pick_tera(self, species: str, team: dict | None = None,
                   rng=None) -> str | None:

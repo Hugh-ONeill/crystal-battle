@@ -609,6 +609,60 @@ def test_data_tiers_off_reproduces_pure_chaos():
     assert got["item"] == stats.top_item()
 
 
+def test_confidence_gates():
+    from showdown.replay_sets import get_index as replay_index
+    from showdown.ps_sets import get_index as ps_index
+    ridx = replay_index("gen9ou")
+    pidx = ps_index("gen9ou")
+
+    # corroboration is move-level (fragments are mostly partial): commonly
+    # observed moves corroborate; a fabricated moveset does not
+    assert ridx.corroborates("greattusk",
+                             ["headlongrush", "rapidspin", "closecombat",
+                              "icespinner"])
+    assert not ridx.corroborates("greattusk",
+                                 ["splash", "tackle", "growl", "pound"])
+
+    # unanchored fragments need >= 3 sightings; anchored ones do not
+    sparse = next((sp for sp, e in ridx.species.items()
+                   if e["movesets"] and max(c for _, c in e["movesets"]) < 3),
+                  None)
+    if sparse is not None:
+        assert ridx.pick_moves(sparse) is None  # gated
+        anchor = ridx.species[sparse]["movesets"][0][0][0]
+        assert ridx.pick_moves(sparse, known_moves=(anchor,)) is not None
+
+    # PS tier without reveals: only corpus-corroborated candidates survive.
+    # A species with PS sets but zero corpus presence gates to None.
+    tr = Gen9Translator(set_source="gen9ou")
+    ghost = next((sp for sp in pidx.candidates
+                  if sp not in ridx.species), None)
+    if ghost is not None:
+        assert tr._ps_candidate(ghost, (), None, None) is None
+    # with a revealed move, reveals themselves are the evidence
+    got = tr._ps_candidate("gholdengo", ("shadowball",), None, None)
+    assert got is not None and "shadowball" in got["moves"]
+
+    # archetype gate: count-2 rosters are ignored, count>=3 accepted
+    weak = next((k for k, v in ridx.teams.items() if v["count"] == 2), None)
+    strong = next((k for k, v in ridx.teams.items() if v["count"] >= 3), None)
+    class FakeBattle:
+        teampreview_opponent_team = []
+        opponent_team = {}
+    if weak:
+        b = FakeBattle()
+        b.teampreview_opponent_team = [type("M", (), {"species": s})()
+                                       for s in weak.split("|")]
+        tr._resolve_archetype(b)
+        assert tr._archetype is None
+    if strong:
+        b = FakeBattle()
+        b.teampreview_opponent_team = [type("M", (), {"species": s})()
+                                       for s in strong.split("|")]
+        tr._resolve_archetype(b)
+        assert tr._archetype is not None
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
