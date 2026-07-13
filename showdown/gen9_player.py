@@ -21,7 +21,9 @@ from __future__ import annotations
 import asyncio
 import argparse
 import random
+import re
 import sys
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -51,6 +53,36 @@ SERVERS = {
     "pokeagent": POKEAGENT_SERVER,
     "showdown": ShowdownServerConfiguration,
 }
+
+
+_TIME_LEFT_RE = re.compile(r"has (\d+) sec")
+_TIME_TOTAL_RE = re.compile(r"\|\s*(\d+) sec total")
+
+
+def _time_left(battle, username: str | None) -> int | None:
+    """Seconds left in OUR bank, parsed from the server's |inactive| clock
+    messages in the retained protocol history, or None if unknown. Two
+    formats: '<user> has N seconds left.' (per-player countdown) and
+    'Time left: X sec this turn | Y sec total'. Returns the most recent."""
+    replay = getattr(battle, "_replay_data", None)
+    if not replay:
+        return None
+    latest = None
+    uname = (username or "").lower()
+    for event in replay:
+        if len(event) < 3 or event[1] != "inactive":
+            continue
+        msg = event[2]
+        low = msg.lower()
+        if uname and low.startswith(uname) and "sec" in low:
+            m = _TIME_LEFT_RE.search(msg)
+            if m:
+                latest = int(m.group(1))
+        elif "total" in low:
+            m = _TIME_TOTAL_RE.search(msg)
+            if m:
+                latest = int(m.group(1))
+    return latest
 
 
 def _merge_mcts_results(results) -> list:
@@ -114,12 +146,29 @@ class Gen9PokeEnginePlayer(Player):
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
                  team_paste: str | None = None, preview_search_ms: int = 80,
                  set_samples: int = 2, data_tiers: bool = True,
-                 stochastic: bool = True, verbose: bool = True, **kwargs):
+                 stochastic: bool = True, adaptive: bool = False,
+                 escalate_ms: int = 2000, flat_threshold: float = 0.55,
+                 clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
+                 verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers)
         self._stochastic = stochastic
         self._choice_rng = random.Random()
+        # adaptive search: probe at search_ms, escalate to escalate_ms in
+        # flat (undecided) positions. In stall games flat is the NORM, so
+        # escalating every flat turn blows the clock; a per-game bank of
+        # extra seconds (self-tracked — the local server doesn't emit the
+        # |inactive| timer messages) caps total spend and concentrates it on
+        # the earliest/most-contested positions. The parsed server clock is
+        # an additional safety when present.
+        self._adaptive = adaptive
+        self._probe_ms = search_ms
+        self._escalate_ms = escalate_ms
+        self._flat_threshold = flat_threshold
+        self._clock_floor_s = clock_floor_s
+        self._escalate_bank_s = escalate_bank_s
+        self._bank_used_s = 0.0
         self._search_ms = search_ms
         self._team_paste = team_paste
         self._preview_search_ms = preview_search_ms
@@ -160,6 +209,7 @@ class Gen9PokeEnginePlayer(Player):
         if battle.battle_tag != self._last_tag:
             self._last_tag = battle.battle_tag
             self._translator.new_battle()
+            self._bank_used_s = 0.0  # fresh escalation bank per game
 
         # forced switch (post-KO / pivot): search it like any other decision —
         # the translator flags side_one.force_switch and (for KOs) leaves the
@@ -186,7 +236,8 @@ class Gen9PokeEnginePlayer(Player):
 
         try:
             loop = asyncio.get_event_loop()
-            results = await loop.run_in_executor(None, self._search_samples, battle)
+            search = self._adaptive_search if self._adaptive else self._search_samples
+            results = await loop.run_in_executor(None, search, battle)
         except Exception as e:
             if self._verbose:
                 print(f"  T{battle.turn} translate/search failed ({e!r}); "
@@ -202,12 +253,13 @@ class Gen9PokeEnginePlayer(Player):
                   f"choosing randomly")
         return self.choose_random_move(battle)
 
-    def _search_samples(self, battle) -> list:
+    def _search_samples(self, battle, search_ms: int | None = None) -> list:
         """One MCTS per sampled opponent world (K = set_samples). With K=1,
         the deterministic top-set translation is used, as before. The LAST
         world is speed-pessimistic (fastest spreads, scarf when plausible):
         speed-floor inference only triggers after a scarfer already outsped
         something, so one world hedges against the sweep pre-emptively."""
+        ms = search_ms if search_ms is not None else self._search_ms
         results = []
         for i in range(self._set_samples):
             rng = random.Random() if self._set_samples > 1 else None
@@ -220,8 +272,55 @@ class Gen9PokeEnginePlayer(Player):
             state = self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
                 prefer_ps=prefer_ps)
-            results.append(pe.monte_carlo_tree_search(state, self._search_ms))
+            results.append(pe.monte_carlo_tree_search(state, ms))
         return results
+
+    def _adaptive_search(self, battle) -> list:
+        """Staged search that reinvests the timer bank where it matters.
+
+        Fixed 300ms/decision leaves ~90% of the server clock unused in the
+        long grindy games (stall/fat), which are exactly the positions where
+        a flat static eval makes every move look equal and deeper search is
+        most likely to break the tie. So: probe cheap; if the merged visit
+        distribution is DECISIVE (one move dominates — a resolved tactic),
+        keep it. If it's FLAT and the clock is healthy, re-search deep and
+        use that instead. Sharp positions self-select out (they produce
+        peaked distributions at the probe budget); quiet/attrition positions
+        produce flat ones and get the extra thinking."""
+        probe = self._search_samples(battle, self._probe_ms)
+        merged = _merge_mcts_results(probe)
+        total = sum(m.visits for m in merged) or 1
+        top_share = merged[0].visits / total if merged else 1.0
+        if top_share >= self._flat_threshold or len(merged) <= 1:
+            return probe  # decisive — a resolved tactic, don't spend more
+
+        # flat position: escalate only while the per-game bank holds, and
+        # (when the server clock is visible) while it's healthy
+        if self._bank_used_s >= self._escalate_bank_s:
+            return probe
+        try:
+            uname = self.username
+        except Exception:
+            uname = None
+        clock = _time_left(battle, uname)
+        if clock is not None and clock <= self._clock_floor_s:
+            return probe
+        budget = self._escalate_ms
+        if clock is not None:
+            safe = max(self._probe_ms,
+                       int((clock - self._clock_floor_s) * 1000 * 0.25
+                           / max(1, self._set_samples)))
+            budget = min(budget, safe)
+        if budget <= self._probe_ms:
+            return probe
+        if self._verbose:
+            print(f"  T{battle.turn} flat (top {top_share:.0%}), escalating "
+                  f"{self._probe_ms}->{budget}ms/world "
+                  f"(bank {self._bank_used_s:.0f}/{self._escalate_bank_s:.0f}s)")
+        t0 = time.monotonic()
+        deep = self._search_samples(battle, budget)
+        self._bank_used_s += time.monotonic() - t0
+        return deep
 
     def _map_choice(self, ranked, battle):
         """Collect every legal engine choice, then pick: probabilistic among
@@ -290,6 +389,13 @@ async def main():
     parser.add_argument("--stochastic", choices=["on", "off"], default="on",
                         help="sample moves among near-ties (75%% rule) and "
                              "leads among maximin near-ties; 'off' = argmax")
+    parser.add_argument("--adaptive", choices=["on", "off"], default="off",
+                        help="staged search: probe at --search-ms, escalate to "
+                             "--escalate-ms in flat positions when clock allows")
+    parser.add_argument("--escalate-ms", type=int, default=2000,
+                        help="deep-search budget per world in flat positions")
+    parser.add_argument("--escalate-bank-s", type=float, default=90.0,
+                        help="per-game budget of extra seconds for escalation")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
     args = parser.parse_args()
@@ -306,6 +412,9 @@ async def main():
         set_samples=args.set_samples,
         data_tiers=args.data_tiers == "on",
         stochastic=args.stochastic == "on",
+        adaptive=args.adaptive == "on",
+        escalate_ms=args.escalate_ms,
+        escalate_bank_s=args.escalate_bank_s,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,

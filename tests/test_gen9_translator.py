@@ -685,6 +685,75 @@ def test_probabilistic_selection():
     assert 2 not in pool and 5 not in pool
 
 
+def test_time_left_parser():
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import _time_left
+    b = NS(_replay_data=[
+        ["", "inactive", "Battle timer is ON."],
+        ["", "inactive", "Time left: 300 sec this turn | 300 sec total | 60 sec grace"],
+        ["", "inactive", "CBGen9 has 270 seconds left."],
+        ["", "inactive", "CBGen9 has 150 seconds left."],
+    ])
+    assert _time_left(b, "CBGen9") == 150       # most recent our-bank reading
+    assert _time_left(NS(_replay_data=[]), "CBGen9") is None
+    # falls back to 'sec total' when no per-player line matches our name
+    b2 = NS(_replay_data=[
+        ["", "inactive", "Time left: 200 sec this turn | 200 sec total"]])
+    assert _time_left(b2, "CBGen9") == 200
+
+
+def test_adaptive_escalation_decision():
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import Gen9PokeEnginePlayer as P
+
+    # decisive probe (one move 90% of visits) -> no escalation regardless
+    peaked = [NS(side_one=[NS(move_choice="a", visits=900, total_score=800),
+                           NS(move_choice="b", visits=100, total_score=40)])]
+    # flat probe (split ~50/50) -> escalate when clock healthy
+    flat = [NS(side_one=[NS(move_choice="a", visits=520, total_score=300),
+                         NS(move_choice="b", visits=480, total_score=270)])]
+
+    calls = []
+    stub = P.__new__(P)
+    stub._probe_ms, stub._escalate_ms = 300, 2000
+    stub._flat_threshold, stub._clock_floor_s = 0.55, 40
+    stub._set_samples, stub._verbose = 2, False
+    stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
+
+    def fake_search(battle, ms=None):
+        calls.append(ms)
+        return battle._probe if ms == stub._probe_ms else [NS(side_one=[])]
+    stub._search_samples = fake_search
+
+    # peaked position: one search only
+    calls.clear()
+    b = NS(turn=20, _replay_data=[], _probe=peaked)
+    b.username = "X"
+    import showdown.gen9_player as gp
+    gp._time_left = lambda *a: 120  # healthy clock
+    stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=peaked))
+    assert calls == [300]  # decisive -> no escalation
+
+    # flat position, healthy clock: escalates
+    calls.clear()
+    stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
+    assert 300 in calls and 2000 in calls
+
+    # flat position, low clock: no escalation (safety)
+    calls.clear()
+    gp._time_left = lambda *a: 20
+    stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
+    assert calls == [300]
+
+    # flat position, healthy clock, but bank exhausted: no escalation
+    calls.clear()
+    gp._time_left = lambda *a: 120
+    stub._bank_used_s = 90.0
+    stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
+    assert calls == [300]
+    stub._bank_used_s = 0.0
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
