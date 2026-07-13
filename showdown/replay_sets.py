@@ -72,13 +72,32 @@ class ReplaySetsIndex:
         """One observed moveset fragment: count-weighted sample with rng,
         most-common without. None when nothing consistent was ever seen.
 
-        Confidence gate: without revealed moves anchoring the choice, only
-        fragments seen >= min_unanchored_count times qualify — a set observed
-        once is noise, and confidently wrong beats chaos sampling only when
-        it's actually right (the suite A/B lesson)."""
-        frags = self.movesets(species, known_moves, team)
+        Tiered confidence: archetype fragments (from a count>=3 TEAM match)
+        are trusted as-is — the team match IS the confidence, and per-game
+        reveals make full archetype fragments legitimately low-count. Only
+        species-level fragments face the unanchored count gate, since a
+        species set seen once out of context is noise (the suite A/B lesson;
+        the earlier flat gate wrongly nuked archetype fragments -> dnite
+        A44%->C28% regression)."""
+        # tier 1: archetype fragments, no count gate
+        if team is not None:
+            entry = team["mons"].get(_normalize(species))
+            if entry:
+                frags = self._consistent(entry["movesets"], known_moves)
+                pick = self._weighted_pick(frags, rng)
+                if pick is not None:
+                    return pick
+        # tier 2: species-level fragments, count-gated when unanchored
+        entry = self.species.get(_normalize(species))
+        if entry is None:
+            return None
+        frags = self._consistent(entry["movesets"], known_moves)
         if not known_moves:
             frags = [f for f in frags if f[1] >= min_unanchored_count]
+        return self._weighted_pick(frags, rng)
+
+    @staticmethod
+    def _weighted_pick(frags, rng) -> list[str] | None:
         if not frags:
             return None
         if rng is None:
