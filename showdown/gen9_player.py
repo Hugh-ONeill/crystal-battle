@@ -78,6 +78,29 @@ def _preview_order(lead_idx: int, n: int) -> str:
     return "/team " + "".join(str(x) for x in [lead_idx + 1] + rest)
 
 
+def _lead_pool(matrix, epsilon: float = 0.08) -> list[int]:
+    """Lead indices whose maximin (worst-case row value) is within epsilon
+    of the best. A deterministic maximin lead is optimally predictable — we
+    measured 30/30 identical leads per series, a free read for the opponent.
+    Sampling among near-ties keeps the choice sound but unreadable."""
+    row_mins = [min(row) for row in matrix]
+    best = max(row_mins)
+    return [i for i, v in enumerate(row_mins) if v >= best - epsilon]
+
+
+def _select_choice(mappable, rng, sample: bool = True, keep_ratio: float = 0.75):
+    """Pick from visit-ranked mappable candidates. Argmax is exploitable:
+    foul-play keeps every move >= 75% of its best and samples — same rule
+    here. `mappable` is a non-empty list of (result, order) tuples sorted
+    by visits descending."""
+    if not sample or len(mappable) == 1:
+        return mappable[0]
+    top = mappable[0][0].visits
+    pool = [m for m in mappable if m[0].visits >= keep_ratio * top]
+    weights = [m[0].visits for m in pool]
+    return rng.choices(pool, weights=weights)[0]
+
+
 class Gen9PokeEnginePlayer(Player):
     """poke-env Player: translate -> poke-engine MCTS -> order.
 
@@ -91,10 +114,12 @@ class Gen9PokeEnginePlayer(Player):
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
                  team_paste: str | None = None, preview_search_ms: int = 80,
                  set_samples: int = 2, data_tiers: bool = True,
-                 verbose: bool = True, **kwargs):
+                 stochastic: bool = True, verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers)
+        self._stochastic = stochastic
+        self._choice_rng = random.Random()
         self._search_ms = search_ms
         self._team_paste = team_paste
         self._preview_search_ms = preview_search_ms
@@ -115,12 +140,16 @@ class Gen9PokeEnginePlayer(Player):
             opp_species = [m.species for m in battle.opponent_team.values()]
             opp_paste = self._translator.predicted_preview_paste(opp_species)
             loop = asyncio.get_event_loop()
-            lead_idx, _, _ = await loop.run_in_executor(
+            lead_idx, _, matrix = await loop.run_in_executor(
                 None, lambda: pick_leads(self._team_paste, opp_paste,
                                          search_ms=self._preview_search_ms))
+            pool = _lead_pool(matrix)
+            if self._stochastic and len(pool) > 1:
+                lead_idx = self._choice_rng.choice(pool)
             order = _preview_order(lead_idx, 6)
             if self._verbose:
-                print(f"  preview: leading slot {lead_idx + 1} -> {order}")
+                print(f"  preview: leading slot {lead_idx + 1} "
+                      f"(pool of {len(pool)}) -> {order}")
             return order
         except Exception as e:
             if self._verbose:
@@ -195,17 +224,19 @@ class Gen9PokeEnginePlayer(Player):
         return results
 
     def _map_choice(self, ranked, battle):
-        """First visit-ranked engine choice that the server allows."""
+        """Collect every legal engine choice, then pick: probabilistic among
+        near-ties (>=75% of the top's visits) when stochastic, else argmax."""
         moves_by_id = {_normalize(m.id): m for m in battle.available_moves}
         switches_by_id = {_normalize(p.species): p
                           for p in battle.available_switches}
+        mappable = []
         for r in ranked:
             choice = r.move_choice
             if choice.startswith("switch "):
                 target = switches_by_id.get(_normalize(choice[7:]))
                 if target is not None:
-                    self._log_choice(battle, r, f"switch {target.species}")
-                    return self.create_order(target)
+                    mappable.append((r, self.create_order(target),
+                                     f"switch {target.species}"))
                 continue
             tera = choice.endswith("-tera")
             move_id = _normalize(choice[:-5] if tera else choice)
@@ -214,9 +245,15 @@ class Gen9PokeEnginePlayer(Player):
                 continue
             if tera and not battle.can_tera:
                 continue  # engine explored tera we don't have; try next
-            self._log_choice(battle, r, move_id + (" (tera)" if tera else ""))
-            return self.create_order(move, terastallize=tera)
-        return None
+            mappable.append((r, self.create_order(move, terastallize=tera),
+                             move_id + (" (tera)" if tera else "")))
+        if not mappable:
+            return None
+        chosen_result, (order, desc) = _select_choice(
+            [(m[0], (m[1], m[2])) for m in mappable],
+            self._choice_rng, sample=self._stochastic)
+        self._log_choice(battle, chosen_result, desc)
+        return order
 
     def _log_choice(self, battle, r, desc: str):
         if self._verbose:
@@ -250,6 +287,9 @@ async def main():
     parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
                         help="PS-curated + replay-observed set tiers; 'off' "
                              "reproduces the pure chaos config (ab9 baseline)")
+    parser.add_argument("--stochastic", choices=["on", "off"], default="on",
+                        help="sample moves among near-ties (75%% rule) and "
+                             "leads among maximin near-ties; 'off' = argmax")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
     args = parser.parse_args()
@@ -265,6 +305,7 @@ async def main():
         team_paste=team,
         set_samples=args.set_samples,
         data_tiers=args.data_tiers == "on",
+        stochastic=args.stochastic == "on",
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,

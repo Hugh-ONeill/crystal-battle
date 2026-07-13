@@ -663,6 +663,28 @@ def test_confidence_gates():
         assert tr._archetype is not None
 
 
+def test_probabilistic_selection():
+    import random
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import _select_choice, _lead_pool
+
+    mappable = [(NS(visits=1000), "a"), (NS(visits=800), "b"),
+                (NS(visits=740), "c"), (NS(visits=100), "d")]
+    # 75% rule: pool is a+b (800 >= 750, 740 < 750); d never drawn
+    rng = random.Random(5)
+    seen = {_select_choice(mappable, rng)[1] for _ in range(200)}
+    assert seen == {"a", "b"}
+    # argmax mode is deterministic top
+    assert _select_choice(mappable, rng, sample=False)[1] == "a"
+
+    # lead pool: near-ties on worst-case row values within epsilon
+    matrix = [[0.5, 0.2], [0.4, 0.18], [0.9, -0.5], [0.1, 0.0],
+              [0.3, 0.15], [0.2, -0.1]]
+    pool = _lead_pool(matrix, epsilon=0.08)
+    assert 0 in pool and 1 in pool      # 0.2 and 0.18 within 0.08 of best
+    assert 2 not in pool and 5 not in pool
+
+
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
