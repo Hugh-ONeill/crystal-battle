@@ -31,7 +31,7 @@ OURS_LOG="$CB/showdown/bench/${NAME}_ours.log"
 FP_LOG="$CB/showdown/bench/${NAME}_foulplay.log"
 # stall mirrors run ~5 min/game (350+ decisions), offense ~30s; budget for
 # the slow end so timeout truncation doesn't thin defensive batches
-BATCH_TIMEOUT=$((GAMES * 360 + 600))
+BATCH_TIMEOUT=$((GAMES * 1000 + 600))
 
 # fail loudly if the local Showdown server is down, instead of burning every
 # batch on connection-refused (series 13 first attempt)
