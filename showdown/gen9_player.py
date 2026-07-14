@@ -38,6 +38,7 @@ from poke_env.ps_client.server_configuration import ShowdownServerConfiguration
 from showdown.name_mapping import _normalize
 from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
+from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
 
 LOCAL_SERVER = ServerConfiguration(
     "ws://localhost:8000/showdown/websocket",
@@ -152,7 +153,10 @@ class Gen9PokeEnginePlayer(Player):
                  clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
-                 value_batch: int = 32, verbose: bool = True, **kwargs):
+                 value_batch: int = 32, verbose: bool = True,
+                 airi_bridge: AiriBridge | None = None,
+                 airi_min_interval: float = 20.0,
+                 airi_min_swing: float = 0.10, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers)
@@ -202,6 +206,18 @@ class Gen9PokeEnginePlayer(Player):
         self._set_samples = set_samples if set_source not in (None, "monotype") else 1
         self._verbose = verbose
         self._last_tag: str | None = None
+        # AIRI commentary bridge (optional): battle beats become input:text
+        # events for the character. Momentum = the top line's avg MCTS score
+        # (side_one win estimate); swings are measured against the last SENT
+        # event, so a slow bleed still crosses the significance gate
+        # eventually instead of vanishing turn by turn.
+        self._airi = airi_bridge
+        self._airi_min_interval = airi_min_interval
+        self._airi_min_swing = airi_min_swing
+        self._airi_tag: str | None = None
+        self._airi_prev_value: float | None = None
+        self._airi_prev_kos = (0, 0)
+        self._airi_last_sent = 0.0
 
     async def teampreview(self, battle):
         """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
@@ -224,11 +240,110 @@ class Gen9PokeEnginePlayer(Player):
             if self._verbose:
                 print(f"  preview: leading slot {lead_idx + 1} "
                       f"(pool of {len(pool)}) -> {order}")
+            try:
+                lead = list(battle.team.values())[lead_idx].species
+            except Exception:
+                lead = None
+            self._airi_new_battle(battle, lead=lead)
             return order
         except Exception as e:
             if self._verbose:
                 print(f"  preview pick failed ({e!r}); using paste order")
+            self._airi_new_battle(battle)
             return "/team 123456"
+
+    def _airi_new_battle(self, battle, lead: str | None = None):
+        """Emit the match-start event once per battle and reset momentum
+        state. Safe to call from every decision point: no-op after the
+        first call for a given battle tag."""
+        if self._airi is None or battle.battle_tag == self._airi_tag:
+            return
+        self._airi_tag = battle.battle_tag
+        self._airi_prev_value = None
+        self._airi_prev_kos = (0, 0)
+        self._airi_last_sent = 0.0
+        try:
+            opp = battle.opponent_username or "the opponent"
+            ours = ", ".join(p.species for p in battle.team.values())
+            theirs = ", ".join(p.species for p in battle.opponent_team.values())
+            text = (f"[MATCH START] New battle vs {opp}. "
+                    f"Our team: {ours or 'unknown'}. "
+                    f"Their preview: {theirs or 'hidden'}.")
+            if lead:
+                text += f" We lead {lead}."
+            text += " Set the stage in a line or two."
+            self._airi.send(text)
+            self._airi_last_sent = time.monotonic()
+        except Exception:
+            pass
+
+    def _airi_turn_event(self, battle, ranked, desc: str):
+        """Per-decision beat, gated for significance: faint-count changes
+        and momentum swings go out (subject to a 5s floor so forced-switch
+        chains don't spam); quiet stretches get at most one routine update
+        per airi_min_interval. Ungated beats stay pending — the comparison
+        is always against the last SENT state, so they surface next turn."""
+        if self._airi is None:
+            return
+        try:
+            self._airi_new_battle(battle)  # formats without team preview
+            top = ranked[0]
+            value = top.total_score / max(1, top.visits)
+            ours_down = sum(p.fainted for p in battle.team.values())
+            theirs_down = sum(p.fainted
+                              for p in battle.opponent_team.values())
+            swing = (None if self._airi_prev_value is None
+                     else value - self._airi_prev_value)
+            faints = (ours_down, theirs_down) != self._airi_prev_kos
+            elapsed = time.monotonic() - self._airi_last_sent
+            if elapsed < 5.0:
+                return
+            if not (faints or swing is None
+                    or abs(swing) >= self._airi_min_swing
+                    or elapsed >= self._airi_min_interval):
+                return
+            me = battle.active_pokemon
+            opp = battle.opponent_active_pokemon
+
+            def hp(p):
+                return f"{round(100 * (p.current_hp_fraction or 0))}% hp"
+
+            if swing is None:
+                swing_txt = "first read of the game"
+            elif abs(swing) < 0.005:
+                swing_txt = "steady since last update"
+            else:
+                direction = "up" if swing > 0 else "down"
+                swing_txt = (f"{direction} {abs(swing) * 100:.0f} points "
+                             "since last update")
+            text = (f"[BATTLE T{battle.turn}] "
+                    f"{me.species + ' (' + hp(me) + ')' if me else 'Our side'}"
+                    f" vs {opp.species + ' (' + hp(opp) + ')' if opp else 'their side'}. "
+                    f"We choose: {desc}. "
+                    f"Win estimate {value * 100:.0f}% ({swing_txt}). "
+                    f"Fainted so far: us {ours_down}, them {theirs_down}.")
+            self._airi.send(text)
+            self._airi_prev_value = value
+            self._airi_prev_kos = (ours_down, theirs_down)
+            self._airi_last_sent = time.monotonic()
+        except Exception:
+            pass
+
+    def _battle_finished_callback(self, battle):
+        if self._airi is None:
+            return
+        try:
+            opp = battle.opponent_username or "the opponent"
+            outcome = ("TIE" if battle.won is None
+                       else "WIN" if battle.won else "LOSS")
+            ours_left = sum(1 for p in battle.team.values() if not p.fainted)
+            theirs_left = sum(1 for p in battle.opponent_team.values()
+                              if not p.fainted)
+            self._airi.send(
+                f"[RESULT] {outcome} vs {opp}. Left standing: us {ours_left}, "
+                f"them {theirs_left}. Wrap up the match in a line or two.")
+        except Exception:
+            pass
 
     async def choose_move(self, battle):
         if battle.battle_tag != self._last_tag:
@@ -378,6 +493,12 @@ class Gen9PokeEnginePlayer(Player):
             print(f"  T{battle.turn} flat (top {top_share:.0%}), escalating "
                   f"{self._probe_ms}->{budget}ms/world "
                   f"(bank {self._bank_used_s:.0f}/{self._escalate_bank_s:.0f}s)")
+        if self._airi is not None and \
+                time.monotonic() - self._airi_last_sent > 5.0:
+            self._airi.send(
+                f"[BATTLE T{battle.turn}] Critical position: no line stands "
+                f"out (best only {top_share:.0%} of search). We're taking "
+                "extra time to think this one through.")
         # escalated deep-think: this is the "human pauses to think" moment —
         # spend the timer bank AND the value net's learned eval here, where
         # the static eval is blindest (flat positions) and depth is wasted
@@ -417,6 +538,7 @@ class Gen9PokeEnginePlayer(Player):
             [(m[0], (m[1], m[2])) for m in mappable],
             self._choice_rng, sample=self._stochastic)
         self._log_choice(battle, chosen_result, desc)
+        self._airi_turn_event(battle, ranked, desc)
         return order
 
     def _log_choice(self, battle, r, desc: str):
@@ -475,12 +597,23 @@ async def main():
                         help="leaf-eval batch size (throughput vs quality)")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
+    parser.add_argument("--airi", action="store_true",
+                        help="commentate: forward battle beats + momentum to "
+                             "a running AIRI desktop app as input:text events")
+    parser.add_argument("--airi-url", default=AIRI_DEFAULT_URL,
+                        help="AIRI server WebSocket endpoint")
+    parser.add_argument("--airi-min-interval", type=float, default=20.0,
+                        help="max seconds between routine commentary beats")
+    parser.add_argument("--airi-min-swing", type=float, default=0.10,
+                        help="win-estimate swing (0-1) that forces a beat")
     args = parser.parse_args()
 
     server = LOCAL_SERVER if args.local else SERVERS[args.server]
     team = Path(args.team).read_text() if args.team else None
     set_source = args.set_source or (
         "monotype" if args.fmt == "gen9monotype" else args.fmt)
+
+    bridge = AiriBridge(url=args.airi_url) if args.airi else None
 
     player = Gen9PokeEnginePlayer(
         search_ms=args.search_ms,
@@ -497,6 +630,9 @@ async def main():
         value_net_path=args.value_net,
         value_alpha=args.value_alpha,
         value_batch=args.value_batch,
+        airi_bridge=bridge,
+        airi_min_interval=args.airi_min_interval,
+        airi_min_swing=args.airi_min_swing,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,
@@ -507,6 +643,9 @@ async def main():
         # without the OTS rule never send -> guaranteed timer loss
         log_level=args.log_level,
     )
+
+    if bridge is not None:
+        await bridge.start()
 
     if args.mode == "challenge":
         if not args.user_to_challenge:
@@ -520,6 +659,9 @@ async def main():
 
     print(f"finished: {player.n_won_battles}W / "
           f"{player.n_lost_battles}L / {player.n_tied_battles}T")
+    if bridge is not None:
+        await asyncio.sleep(2.0)  # let the [RESULT] event flush
+        await bridge.close()
 
 
 if __name__ == "__main__":
