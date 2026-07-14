@@ -150,7 +150,8 @@ class Gen9PokeEnginePlayer(Player):
                  stochastic: bool = True, adaptive: bool = False,
                  escalate_ms: int = 2000, flat_threshold: float = 0.55,
                  clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
-                 verbose: bool = True, **kwargs):
+                 value_net_path: str | None = None, value_alpha: float = 0.5,
+                 value_batch: int = 32, verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers)
@@ -159,6 +160,17 @@ class Gen9PokeEnginePlayer(Player):
         # concurrent search across sampled worlds (real parallelism once the
         # mcts binding's GIL release is built; harmless serialization before)
         self._search_pool = ThreadPoolExecutor(max_workers=max(1, set_samples))
+        # optional learned leaf eval: mcts_with_value blends the value net
+        # with the static eval by alpha (0=static, 1=pure net). ~3.7x fewer
+        # iterations even batched, so this only wins where static-eval
+        # blindness (flat stall positions) wastes plain MCTS's iterations.
+        self._value_net = None
+        if value_net_path:
+            self._value_net = pe.ValueNet(value_net_path)
+            print(f"loaded value net {value_net_path} "
+                  f"(alpha={value_alpha}, batch={value_batch})")
+        self._value_alpha = value_alpha
+        self._value_batch = value_batch
         # adaptive search: probe at search_ms, escalate to escalate_ms in
         # flat (undecided) positions. In stall games flat is the NORM, so
         # escalating every flat turn blows the clock; a per-game bank of
@@ -282,10 +294,19 @@ class Gen9PokeEnginePlayer(Player):
             states.append(self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
                 prefer_ps=prefer_ps))
+        search = self._search_one
         if len(states) == 1:
-            return [pe.monte_carlo_tree_search(states[0], ms)]
-        return list(self._search_pool.map(
-            lambda st: pe.monte_carlo_tree_search(st, ms), states))
+            return [search(states[0], ms)]
+        return list(self._search_pool.map(lambda st: search(st, ms), states))
+
+    def _search_one(self, state, ms: int):
+        """One world's search: value-net-guided leaf eval when a net is
+        loaded, else plain MCTS."""
+        if self._value_net is None:
+            return pe.monte_carlo_tree_search(state, ms)
+        return pe.monte_carlo_tree_search_with_value(
+            state, self._value_net, ms,
+            alpha=self._value_alpha, batch_size=self._value_batch)
 
     def _adaptive_search(self, battle) -> list:
         """Staged search that reinvests the timer bank where it matters.
@@ -408,6 +429,13 @@ async def main():
                         help="deep-search budget per world in flat positions")
     parser.add_argument("--escalate-bank-s", type=float, default=90.0,
                         help="per-game budget of extra seconds for escalation")
+    parser.add_argument("--value-net", type=str, default=None,
+                        help="path to a ValueNet ONNX for leaf eval "
+                             "(mcts_with_value); omit for pure static eval")
+    parser.add_argument("--value-alpha", type=float, default=0.5,
+                        help="value-net blend weight (0=static, 1=pure net)")
+    parser.add_argument("--value-batch", type=int, default=32,
+                        help="leaf-eval batch size (throughput vs quality)")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
     args = parser.parse_args()
@@ -427,6 +455,9 @@ async def main():
         adaptive=args.adaptive == "on",
         escalate_ms=args.escalate_ms,
         escalate_bank_s=args.escalate_bank_s,
+        value_net_path=args.value_net,
+        value_alpha=args.value_alpha,
+        value_batch=args.value_batch,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,
