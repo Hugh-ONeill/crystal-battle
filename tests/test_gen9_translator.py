@@ -719,6 +719,8 @@ def test_adaptive_escalation_decision():
     stub._flat_threshold, stub._clock_floor_s = 0.55, 40
     stub._set_samples, stub._verbose = 2, False
     stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
+    stub._escalate_min_turn, stub._escalate_min_gap = 20, 8
+    stub._last_escalate_turn = -999
 
     def fake_search(battle, ms=None, use_value=None):
         calls.append((ms, use_value))
@@ -742,6 +744,7 @@ def test_adaptive_escalation_decision():
     # flat position, low clock: no escalation (safety)
     calls.clear()
     gp._time_left = lambda *a: 20
+    stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
     assert calls == [(300, False)]
 
@@ -749,9 +752,27 @@ def test_adaptive_escalation_decision():
     calls.clear()
     gp._time_left = lambda *a: 120
     stub._bank_used_s = 90.0
+    stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
     assert calls == [(300, False)]
     stub._bank_used_s = 0.0
+
+    # opening flatness (turn < min_turn) is skipped — bank saved for the grind
+    calls.clear()
+    stub._last_escalate_turn = -999
+    stub._adaptive_search(NS(turn=10, _replay_data=[], _probe=flat))
+    assert calls == [(300, False)]
+
+    # too soon after the last escalation (min_gap) — spread across the game
+    calls.clear()
+    stub._last_escalate_turn = 100
+    stub._adaptive_search(NS(turn=104, _replay_data=[], _probe=flat))
+    assert calls == [(300, False)]
+    # far enough past the last escalation, late game: escalates
+    calls.clear()
+    stub._adaptive_search(NS(turn=110, _replay_data=[], _probe=flat))
+    assert (300, False) in calls and (2000, True) in calls
+    assert stub._last_escalate_turn == 110  # updated for the next gap check
 
 
 def test_parse_engine_choice():

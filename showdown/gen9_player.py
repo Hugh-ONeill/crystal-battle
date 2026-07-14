@@ -150,6 +150,7 @@ class Gen9PokeEnginePlayer(Player):
                  stochastic: bool = True, adaptive: bool = False,
                  escalate_ms: int = 2000, flat_threshold: float = 0.55,
                  clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
+                 escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
                  value_batch: int = 32, verbose: bool = True, **kwargs):
         super().__init__(**kwargs)
@@ -185,6 +186,14 @@ class Gen9PokeEnginePlayer(Player):
         self._clock_floor_s = clock_floor_s
         self._escalate_bank_s = escalate_bank_s
         self._bank_used_s = 0.0
+        # WHERE the bank is spent matters more than how much: greedy early
+        # spending drained it by ~turn 30 (all on low-leverage opening
+        # flatness), leaving nothing for the turn-100+ attrition grind that
+        # IS the horizon problem. min_turn skips the opening; min_gap spaces
+        # escalations so the budget stretches across the late game.
+        self._escalate_min_turn = escalate_min_turn
+        self._escalate_min_gap = escalate_min_gap
+        self._last_escalate_turn = -999
         self._search_ms = search_ms
         self._team_paste = team_paste
         self._preview_search_ms = preview_search_ms
@@ -226,6 +235,7 @@ class Gen9PokeEnginePlayer(Player):
             self._last_tag = battle.battle_tag
             self._translator.new_battle()
             self._bank_used_s = 0.0  # fresh escalation bank per game
+            self._last_escalate_turn = -999
 
         # forced switch (post-KO / pivot): search it like any other decision —
         # the translator flags side_one.force_switch and (for KOs) leaves the
@@ -337,6 +347,14 @@ class Gen9PokeEnginePlayer(Player):
         if top_share >= self._flat_threshold or len(merged) <= 1:
             return probe  # decisive — a resolved tactic, don't spend more
 
+        # spend the bank on the late grind, not the opening: skip early turns
+        # and space escalations so the budget reaches the turn-100+ attrition
+        # that is the actual horizon problem
+        if battle.turn < self._escalate_min_turn:
+            return probe
+        if battle.turn - self._last_escalate_turn < self._escalate_min_gap:
+            return probe
+
         # flat position: escalate only while the per-game bank holds, and
         # (when the server clock is visible) while it's healthy
         if self._bank_used_s >= self._escalate_bank_s:
@@ -366,6 +384,7 @@ class Gen9PokeEnginePlayer(Player):
         t0 = time.monotonic()
         deep = self._search_samples(battle, budget, use_value=True)
         self._bank_used_s += time.monotonic() - t0
+        self._last_escalate_turn = battle.turn
         return deep
 
     def _map_choice(self, ranked, battle):
@@ -442,6 +461,11 @@ async def main():
                         help="deep-search budget per world in flat positions")
     parser.add_argument("--escalate-bank-s", type=float, default=90.0,
                         help="per-game budget of extra seconds for escalation")
+    parser.add_argument("--escalate-min-turn", type=int, default=20,
+                        help="don't escalate before this turn (skip the opening)")
+    parser.add_argument("--escalate-min-gap", type=int, default=8,
+                        help="min turns between escalations (spread the bank "
+                             "across the late game instead of draining early)")
     parser.add_argument("--value-net", type=str, default=None,
                         help="path to a ValueNet ONNX for leaf eval "
                              "(mcts_with_value); omit for pure static eval")
@@ -468,6 +492,8 @@ async def main():
         adaptive=args.adaptive == "on",
         escalate_ms=args.escalate_ms,
         escalate_bank_s=args.escalate_bank_s,
+        escalate_min_turn=args.escalate_min_turn,
+        escalate_min_gap=args.escalate_min_gap,
         value_net_path=args.value_net,
         value_alpha=args.value_alpha,
         value_batch=args.value_batch,
