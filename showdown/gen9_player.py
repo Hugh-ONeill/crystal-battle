@@ -369,14 +369,18 @@ class Gen9PokeEnginePlayer(Player):
             # when the engine's read and the body count tell opposite
             # stories, say so — the character should react with confusion
             # or criticism, not despair at a stat in a won position
+            # phrased as a plain feed sentence, NOT a labelled "Note:":
+            # the character echoes a "Note:" prefix straight into its spoken
+            # line, so the cue has to read like match copy it can react to
             body_lead = len(theirs_f) - len(ours_f)
             if body_lead >= 3 and value < 0.40:
-                parts.append("Note: the read is grim despite our commanding "
-                             "material lead - the numbers and the board "
-                             "disagree.")
+                parts.append("The board and the desk read sharply disagree "
+                             "here: we hold a commanding material lead yet "
+                             "the read is grim.")
             elif body_lead <= -3 and value > 0.60:
-                parts.append("Note: the read stays upbeat despite the body "
-                             "deficit - the numbers and the board disagree.")
+                parts.append("The board and the desk read sharply disagree "
+                             "here: we trail badly on bodies yet the read "
+                             "stays upbeat.")
             self._airi.send(" ".join(parts))
             self._airi_prev_value = value
             self._airi_prev_fainted = (ours_f, theirs_f)

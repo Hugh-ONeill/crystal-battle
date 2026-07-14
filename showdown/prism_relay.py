@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import re
 import sys
 import urllib.parse
 import urllib.request
@@ -51,6 +52,27 @@ def _get_assertion(username: str, challstr: str) -> str | None:
     if not assertion or assertion.startswith(";"):
         return None  # registered name (needs password) or refused
     return assertion
+
+
+_CODE_FENCE = re.compile(r"```.*?```", re.S)
+_NOTE_PAREN = re.compile(r"[_*\s]*\((?:note|aside|correction|edit)\b[^)]*\)[_*]*",
+                         re.I)
+_META_SENTENCE = re.compile(
+    r"(?:^|(?<=[.!?]))\s*[^.!?]*\b(?:let me re-?verify|re-?verify|"
+    r"the previous (?:t\d+|turn|line)|i should (?:re-?)?check|"
+    r"as an ai|i cannot|i can't help)\b[^.!?]*[.!?]", re.I)
+
+
+def _sanitize(text: str) -> str:
+    """Strip artifacts the character sometimes leaks so the room chat stays
+    clean broadcast copy: fenced code, parenthetical '(Note: ...)' asides,
+    self-correction/meta sentences, and stray markdown emphasis markers."""
+    text = _CODE_FENCE.sub("", text)
+    text = _NOTE_PAREN.sub("", text)
+    text = _META_SENTENCE.sub("", text)
+    text = re.sub(r"[_*`]{1,3}", "", text)   # markdown emphasis / code ticks
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
 
 
 def _chunks(text: str, limit: int = CHAT_LIMIT):
@@ -92,7 +114,9 @@ class PrismRelay:
                         reply = ((data.get("message") or {}).get("content")
                                  or "").strip()
                         if beat.startswith("[") and reply:
-                            self.queue.put_nowait(reply)
+                            clean = _sanitize(reply)
+                            if clean:
+                                self.queue.put_nowait(clean)
             except asyncio.CancelledError:
                 raise
             except Exception as e:
