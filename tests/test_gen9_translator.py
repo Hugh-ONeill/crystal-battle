@@ -720,8 +720,8 @@ def test_adaptive_escalation_decision():
     stub._set_samples, stub._verbose = 2, False
     stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
 
-    def fake_search(battle, ms=None):
-        calls.append(ms)
+    def fake_search(battle, ms=None, use_value=None):
+        calls.append((ms, use_value))
         return battle._probe if ms == stub._probe_ms else [NS(side_one=[])]
     stub._search_samples = fake_search
 
@@ -732,25 +732,25 @@ def test_adaptive_escalation_decision():
     import showdown.gen9_player as gp
     gp._time_left = lambda *a: 120  # healthy clock
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=peaked))
-    assert calls == [300]  # decisive -> no escalation
+    assert calls == [(300, False)]  # decisive -> probe only, no value
 
     # flat position, healthy clock: escalates
     calls.clear()
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert 300 in calls and 2000 in calls
+    assert (300, False) in calls and (2000, True) in calls  # probe plain, escalate value
 
     # flat position, low clock: no escalation (safety)
     calls.clear()
     gp._time_left = lambda *a: 20
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert calls == [300]
+    assert calls == [(300, False)]
 
     # flat position, healthy clock, but bank exhausted: no escalation
     calls.clear()
     gp._time_left = lambda *a: 120
     stub._bank_used_s = 90.0
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert calls == [300]
+    assert calls == [(300, False)]
     stub._bank_used_s = 0.0
 
 

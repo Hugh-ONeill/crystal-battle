@@ -269,7 +269,8 @@ class Gen9PokeEnginePlayer(Player):
                   f"choosing randomly")
         return self.choose_random_move(battle)
 
-    def _search_samples(self, battle, search_ms: int | None = None) -> list:
+    def _search_samples(self, battle, search_ms: int | None = None,
+                        use_value: bool | None = None) -> list:
         """One MCTS per sampled opponent world (K = set_samples). With K=1,
         the deterministic top-set translation is used, as before. The LAST
         world is speed-pessimistic (fastest spreads, scarf when plausible):
@@ -294,15 +295,21 @@ class Gen9PokeEnginePlayer(Player):
             states.append(self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
                 prefer_ps=prefer_ps))
-        search = self._search_one
+        # value net defaults to on-when-loaded, but callers override: the
+        # adaptive probe forces it OFF (fast plain MCTS), and only the
+        # escalated deep-think turns it ON — spend the learned eval where a
+        # human would pause and think, not on every routine turn
+        if use_value is None:
+            use_value = self._value_net is not None
         if len(states) == 1:
-            return [search(states[0], ms)]
-        return list(self._search_pool.map(lambda st: search(st, ms), states))
+            return [self._search_one(states[0], ms, use_value)]
+        return list(self._search_pool.map(
+            lambda st: self._search_one(st, ms, use_value), states))
 
-    def _search_one(self, state, ms: int):
-        """One world's search: value-net-guided leaf eval when a net is
-        loaded, else plain MCTS."""
-        if self._value_net is None:
+    def _search_one(self, state, ms: int, use_value: bool):
+        """One world's search: value-net-guided leaf eval when requested and
+        a net is loaded, else plain MCTS."""
+        if not use_value or self._value_net is None:
             return pe.monte_carlo_tree_search(state, ms)
         return pe.monte_carlo_tree_search_with_value(
             state, self._value_net, ms,
@@ -320,7 +327,10 @@ class Gen9PokeEnginePlayer(Player):
         use that instead. Sharp positions self-select out (they produce
         peaked distributions at the probe budget); quiet/attrition positions
         produce flat ones and get the extra thinking."""
-        probe = self._search_samples(battle, self._probe_ms)
+        # probe is always fast plain MCTS — its 164k iters resolve tactics
+        # cheaply; the value net's 3.7x throughput cost is reserved for the
+        # escalated deep-think below
+        probe = self._search_samples(battle, self._probe_ms, use_value=False)
         merged = _merge_mcts_results(probe)
         total = sum(m.visits for m in merged) or 1
         top_share = merged[0].visits / total if merged else 1.0
@@ -350,8 +360,11 @@ class Gen9PokeEnginePlayer(Player):
             print(f"  T{battle.turn} flat (top {top_share:.0%}), escalating "
                   f"{self._probe_ms}->{budget}ms/world "
                   f"(bank {self._bank_used_s:.0f}/{self._escalate_bank_s:.0f}s)")
+        # escalated deep-think: this is the "human pauses to think" moment —
+        # spend the timer bank AND the value net's learned eval here, where
+        # the static eval is blindest (flat positions) and depth is wasted
         t0 = time.monotonic()
-        deep = self._search_samples(battle, budget)
+        deep = self._search_samples(battle, budget, use_value=True)
         self._bank_used_s += time.monotonic() - t0
         return deep
 
