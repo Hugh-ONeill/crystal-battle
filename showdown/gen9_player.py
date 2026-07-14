@@ -106,6 +106,40 @@ def _merge_mcts_results(results) -> list:
     return sorted(merged.values(), key=lambda m: -m.visits)
 
 
+def _read_phrase(value: float) -> str:
+    """Qualitative position read for commentary. The raw win estimate never
+    reaches the character: fed a number, the LLM recites it like a
+    scoreboard and tunes out the actual board (measured: Prism quoting
+    percentages over calling faints)."""
+    if value >= 0.85:
+        return "this one looks all but sealed for us"
+    if value >= 0.70:
+        return "we're clearly ahead"
+    if value >= 0.58:
+        return "we hold a real edge"
+    if value >= 0.45:
+        return "it's dead even right now"
+    if value >= 0.32:
+        return "we're behind in this"
+    if value >= 0.15:
+        return "we're in deep trouble"
+    return "this is nearly gone"
+
+
+def _swing_phrase(swing: float | None) -> str | None:
+    if swing is None:
+        return None
+    if swing >= 0.10:
+        return "momentum just swung our way"
+    if swing >= 0.03:
+        return "momentum drifting our way"
+    if swing <= -0.10:
+        return "momentum just swung hard against us"
+    if swing <= -0.03:
+        return "momentum slipping away from us"
+    return "holding steady"
+
+
 def _preview_order(lead_idx: int, n: int) -> str:
     """'/team 312456'-style order string: chosen lead first, rest in order."""
     rest = [i for i in range(1, n + 1) if i != lead_idx + 1]
@@ -216,7 +250,7 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_min_swing = airi_min_swing
         self._airi_tag: str | None = None
         self._airi_prev_value: float | None = None
-        self._airi_prev_kos = (0, 0)
+        self._airi_prev_fainted: tuple[set, set] = (set(), set())
         self._airi_last_sent = 0.0
 
     async def teampreview(self, battle):
@@ -260,7 +294,7 @@ class Gen9PokeEnginePlayer(Player):
             return
         self._airi_tag = battle.battle_tag
         self._airi_prev_value = None
-        self._airi_prev_kos = (0, 0)
+        self._airi_prev_fainted = (set(), set())
         self._airi_last_sent = 0.0
         try:
             opp = battle.opponent_username or "the opponent"
@@ -289,12 +323,14 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_new_battle(battle)  # formats without team preview
             top = ranked[0]
             value = top.total_score / max(1, top.visits)
-            ours_down = sum(p.fainted for p in battle.team.values())
-            theirs_down = sum(p.fainted
-                              for p in battle.opponent_team.values())
+            ours_f = {p.species for p in battle.team.values() if p.fainted}
+            theirs_f = {p.species for p in battle.opponent_team.values()
+                        if p.fainted}
+            new_ours = ours_f - self._airi_prev_fainted[0]
+            new_theirs = theirs_f - self._airi_prev_fainted[1]
+            faints = bool(new_ours or new_theirs)
             swing = (None if self._airi_prev_value is None
                      else value - self._airi_prev_value)
-            faints = (ours_down, theirs_down) != self._airi_prev_kos
             elapsed = time.monotonic() - self._airi_last_sent
             if elapsed < 5.0:
                 return
@@ -308,23 +344,40 @@ class Gen9PokeEnginePlayer(Player):
             def hp(p):
                 return f"{round(100 * (p.current_hp_fraction or 0))}% hp"
 
-            if swing is None:
-                swing_txt = "first read of the game"
-            elif abs(swing) < 0.005:
-                swing_txt = "steady since last update"
-            else:
-                direction = "up" if swing > 0 else "down"
-                swing_txt = (f"{direction} {abs(swing) * 100:.0f} points "
-                             "since last update")
-            text = (f"[BATTLE T{battle.turn}] "
-                    f"{me.species + ' (' + hp(me) + ')' if me else 'Our side'}"
-                    f" vs {opp.species + ' (' + hp(opp) + ')' if opp else 'their side'}. "
-                    f"We choose: {desc}. "
-                    f"Win estimate {value * 100:.0f}% ({swing_txt}). "
-                    f"Fainted so far: us {ours_down}, them {theirs_down}.")
-            self._airi.send(text)
+            # board events lead, the read is trailing color: fed
+            # "Win estimate 62%" the character recites the number instead
+            # of calling the play
+            parts = [f"[BATTLE T{battle.turn}]"]
+            if new_theirs:
+                names = " and ".join(sorted(new_theirs))
+                parts.append(f"Their {names} "
+                             f"{'are' if len(new_theirs) > 1 else 'is'} down.")
+            if new_ours:
+                parts.append(f"We lost {' and '.join(sorted(new_ours))}.")
+            parts.append(
+                f"{me.species + ' (' + hp(me) + ')' if me else 'Our side'}"
+                f" vs "
+                f"{opp.species + ' (' + hp(opp) + ')' if opp else 'their side'}.")
+            parts.append(f"We go for {desc}.")
+            read = _read_phrase(value)
+            sw = _swing_phrase(swing)
+            parts.append(f"Desk read: {read}{', ' + sw if sw else ''}.")
+            parts.append(f"Bodies: us {6 - len(ours_f)} standing, "
+                         f"them {6 - len(theirs_f)}.")
+            # when the engine's read and the body count tell opposite
+            # stories, say so — the character should react with confusion
+            # or criticism, not despair at a stat in a won position
+            body_lead = len(theirs_f) - len(ours_f)
+            if body_lead >= 3 and value < 0.40:
+                parts.append("Note: the read is grim despite our commanding "
+                             "material lead - the numbers and the board "
+                             "disagree.")
+            elif body_lead <= -3 and value > 0.60:
+                parts.append("Note: the read stays upbeat despite the body "
+                             "deficit - the numbers and the board disagree.")
+            self._airi.send(" ".join(parts))
             self._airi_prev_value = value
-            self._airi_prev_kos = (ours_down, theirs_down)
+            self._airi_prev_fainted = (ours_f, theirs_f)
             self._airi_last_sent = time.monotonic()
         except Exception:
             pass
@@ -497,8 +550,8 @@ class Gen9PokeEnginePlayer(Player):
                 time.monotonic() - self._airi_last_sent > 5.0:
             self._airi.send(
                 f"[BATTLE T{battle.turn}] Critical position: no line stands "
-                f"out (best only {top_share:.0%} of search). We're taking "
-                "extra time to think this one through.")
+                "out from the rest here. We're taking extra time to think "
+                "this one through.")
         # escalated deep-think: this is the "human pauses to think" moment —
         # spend the timer bank AND the value net's learned eval here, where
         # the static eval is blindest (flat positions) and depth is wasted
