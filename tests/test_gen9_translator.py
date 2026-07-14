@@ -721,6 +721,7 @@ def test_adaptive_escalation_decision():
     stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
     stub._escalate_min_turn, stub._escalate_min_gap = 20, 8
     stub._last_escalate_turn = -999
+    stub._airi, stub._airi_last_sent = None, 0.0  # Airi bridge off in tests
 
     def fake_search(battle, ms=None, use_value=None):
         calls.append((ms, use_value))
@@ -773,6 +774,59 @@ def test_adaptive_escalation_decision():
     stub._adaptive_search(NS(turn=110, _replay_data=[], _probe=flat))
     assert (300, False) in calls and (2000, True) in calls
     assert stub._last_escalate_turn == 110  # updated for the next gap check
+
+
+def test_noop_hazard_filter():
+    from types import SimpleNamespace as NS
+    from poke_env.battle.side_condition import SideCondition
+    from showdown.gen9_player import _is_noop_hazard
+
+    # spikes at 3 (max) on opponent -> re-setting is a no-op
+    b = NS(opponent_side_conditions={SideCondition.SPIKES: 3})
+    assert _is_noop_hazard("spikes", b)
+    # spikes at 2 -> still useful (a 3rd layer helps)
+    b2 = NS(opponent_side_conditions={SideCondition.SPIKES: 2})
+    assert not _is_noop_hazard("spikes", b2)
+    # stealth rock present (max 1) -> no-op
+    b3 = NS(opponent_side_conditions={SideCondition.STEALTH_ROCK: 1})
+    assert _is_noop_hazard("stealthrock", b3)
+    # non-hazard and switch (None) never filtered
+    assert not _is_noop_hazard("earthquake", b3)
+    assert not _is_noop_hazard(None, b3)
+
+
+def test_noop_status_filter():
+    from types import SimpleNamespace as NS
+    from poke_env.battle.effect import Effect
+    from poke_env.battle.pokemon_type import PokemonType
+    from poke_env.battle.status import Status
+    from showdown.gen9_player import _is_noop_status
+
+    def opp(**kw):
+        base = dict(effects={}, status=None, type_1=None, type_2=None,
+                    ability=None)
+        base.update(kw)
+        return NS(opponent_active_pokemon=NS(**base))
+
+    # toxic vs steel type -> immune -> no-op
+    assert _is_noop_status("toxic", opp(type_1=PokemonType.STEEL))
+    # toxic vs a normal-type -> lands -> not no-op
+    assert not _is_noop_status("toxic", opp(type_1=PokemonType.NORMAL))
+    # any status vs already-statused target -> no-op
+    assert _is_noop_status("thunderwave",
+                           opp(type_1=PokemonType.NORMAL, status=Status.BRN))
+    # willowisp vs fire -> immune
+    assert _is_noop_status("willowisp", opp(type_1=PokemonType.FIRE))
+    # behind a substitute -> no-op
+    assert _is_noop_status("toxic",
+                           opp(type_1=PokemonType.NORMAL,
+                               effects={Effect.SUBSTITUTE: 1}))
+    # thunderwave vs ground -> immune; vs limber ability -> immune
+    assert _is_noop_status("thunderwave", opp(type_1=PokemonType.GROUND))
+    assert _is_noop_status("thunderwave",
+                           opp(type_1=PokemonType.NORMAL, ability="limber"))
+    # non-status move never filtered
+    assert not _is_noop_status("earthquake", opp(type_1=PokemonType.STEEL))
 
 
 def test_parse_engine_choice():

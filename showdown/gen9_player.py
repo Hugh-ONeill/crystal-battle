@@ -87,6 +87,62 @@ def _time_left(battle, username: str | None) -> int | None:
     return latest
 
 
+# hazard move -> (poke-env SideCondition name, max layers). Re-setting a
+# hazard already at max is a no-op: it leaves the state (and eval) identical
+# to the best line, so a flat-eval MCTS can't tell it apart and may spend the
+# turn on it — measured as 19 consecutive Spikes (16 wasted) at 5s. The
+# monotype bench fixed this with `_best_useful`; this is the live-player port.
+_HAZARD_MAX = {"stealthrock": ("STEALTH_ROCK", 1), "spikes": ("SPIKES", 3),
+               "toxicspikes": ("TOXIC_SPIKES", 2), "stickyweb": ("STICKY_WEB", 1)}
+
+
+def _is_noop_hazard(move_id: str, battle) -> bool:
+    """True if move_id sets a hazard already at max on the opponent's side."""
+    hz = _HAZARD_MAX.get(move_id)
+    if hz is None:
+        return False
+    name, cap = hz
+    for cond, layers in battle.opponent_side_conditions.items():
+        if cond.name == name:
+            return layers >= cap
+    return False
+
+
+# dedicated status moves -> type/ability immunity check (ported from the
+# monotype bench). Already-statused / behind-Substitute targets block all of
+# these regardless of move. Ability checks are best-effort: the opponent's
+# ability is often unrevealed, in which case only the type immunity applies.
+_STATUS_IMMUNE = {
+    "toxic":      lambda t, ab: bool(t & {"poison", "steel"}) or ab == "immunity",
+    "willowisp":  lambda t, ab: "fire" in t or ab in {"waterveil", "waterbubble",
+                                                       "thermalexchange", "comatose"},
+    "thunderwave": lambda t, ab: "ground" in t or "electric" in t or ab == "limber",
+    "spore":      lambda t, ab: "grass" in t or ab in {"insomnia", "vitalspirit",
+                                                       "comatose", "sweetveil", "overcoat"},
+    "sleeppowder": lambda t, ab: "grass" in t or ab in {"insomnia", "vitalspirit",
+                                                        "comatose", "sweetveil", "overcoat"},
+    "glare":      lambda t, ab: ab == "limber",
+    "poisonpowder": lambda t, ab: bool(t & {"poison", "steel"}) or ab == "immunity",
+}
+
+
+def _is_noop_status(move_id: str, battle) -> bool:
+    """True if move_id is a status move guaranteed to fail on the opponent's
+    current active (already statused, behind a Sub, or type/ability immune)."""
+    check = _STATUS_IMMUNE.get(move_id)
+    opp = battle.opponent_active_pokemon
+    if check is None or opp is None:
+        return False
+    from poke_env.battle.effect import Effect
+    if Effect.SUBSTITUTE in (opp.effects or {}):
+        return True
+    if opp.status is not None:          # already has a major status
+        return True
+    types = {t.name.lower() for t in (opp.type_1, opp.type_2) if t}
+    ability = (opp.ability or "").lower()
+    return check(types, ability)
+
+
 def _merge_mcts_results(results) -> list:
     """Combine side_one results from searches over different sampled
     opponent worlds: sum visits and scores per move_choice, rank by visits.
@@ -594,7 +650,7 @@ class Gen9PokeEnginePlayer(Player):
                 target = switches_by_id.get(_normalize(choice[7:]))
                 if target is not None:
                     mappable.append((r, self.create_order(target),
-                                     f"switch {target.species}"))
+                                     f"switch {target.species}", None))
                 continue
             tera = choice.endswith("-tera")
             move_id = _normalize(choice[:-5] if tera else choice)
@@ -604,9 +660,18 @@ class Gen9PokeEnginePlayer(Player):
             if tera and not battle.can_tera:
                 continue  # engine explored tera we don't have; try next
             mappable.append((r, self.create_order(move, terastallize=tera),
-                             move_id + (" (tera)" if tera else "")))
+                             move_id + (" (tera)" if tera else ""), move_id))
         if not mappable:
             return None
+        # drop guaranteed no-op moves the flat-eval search can't distinguish:
+        # already-maxed hazard re-sets, and status moves that can't land on the
+        # current target (immune / already statused / behind Sub). Keep them
+        # only if nothing else is legal.
+        def _noop(m):
+            return _is_noop_hazard(m[3], battle) or _is_noop_status(m[3], battle)
+        useful = [m for m in mappable if not _noop(m)]
+        mappable = useful or mappable
+        mappable = [m[:3] for m in mappable]
         chosen_result, (order, desc) = _select_choice(
             [(m[0], (m[1], m[2])) for m in mappable],
             self._choice_rng, sample=self._stochastic)
