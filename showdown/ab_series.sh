@@ -71,7 +71,8 @@ while [ "$i" -le "$BATCHES" ]; do
   cd "$CB"
   .venv/bin/python showdown/gen9_player.py --local --username CBGen9 \
       --mode accept --format gen9ou --team "$OUR_TEAM" \
-      --search-ms 300 --set-samples 2 --n-games "$GAMES" --log-level 20 \
+      --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+      --n-games "$GAMES" --log-level 20 \
       "$@" >> "$OURS_LOG" 2>&1 &
   OURS_PID=$!
   sleep 8
@@ -80,7 +81,7 @@ while [ "$i" -le "$BATCHES" ]; do
       --websocket-uri ws://localhost:8000/showdown/websocket \
       --ps-username FPSpar1 --bot-mode challenge_user \
       --user-to-challenge CBGen9 --pokemon-format gen9ou \
-      --team-name "$FP_TEAM" --search-time-ms 300 \
+      --team-name "$FP_TEAM" --search-time-ms "${FP_SEARCH_MS:-300}" \
       --run-count "$GAMES" --log-level INFO >> "$FP_LOG" 2>&1
   FP_STATUS=$?
   kill "$OURS_PID" 2>/dev/null
