@@ -55,23 +55,40 @@ def _get_assertion(username: str, challstr: str) -> str | None:
 
 
 _CODE_FENCE = re.compile(r"```.*?```", re.S)
+# a leaked feed echo: the model repeats the beat it was given. Everything
+# from here on is regurgitation/reasoning, never broadcast copy.
+_BEAT_ECHO = re.compile(r"[_*`\s]*\[\s*(?:BATTLE|MATCH|RESULT)\b", re.I)
 _NOTE_PAREN = re.compile(r"[_*\s]*\((?:note|aside|correction|edit)\b[^)]*\)[_*]*",
                          re.I)
 _META_SENTENCE = re.compile(
     r"(?:^|(?<=[.!?]))\s*[^.!?]*\b(?:let me re-?verify|re-?verify|"
-    r"the previous (?:t\d+|turn|line)|i should (?:re-?)?check|"
-    r"as an ai|i cannot|i can't help)\b[^.!?]*[.!?]", re.I)
+    r"the previous (?:t\d+|turn|line)|i should (?:re-?)?check|as an ai|"
+    r"i cannot|i can't help|battle log|ongoing match|as the commentator|"
+    r"this (?:is|provides) the (?:battle )?log|my (?:role|task) is)\b"
+    r"[^.!?]*[.!?]", re.I)
+_SENTENCE = re.compile(r"[^.!?]*[.!?]+")
+_MAX_SENTENCES = 3
 
 
 def _sanitize(text: str) -> str:
-    """Strip artifacts the character sometimes leaks so the room chat stays
-    clean broadcast copy: fenced code, parenthetical '(Note: ...)' asides,
-    self-correction/meta sentences, and stray markdown emphasis markers."""
+    """Reduce a raw model reply to clean, spoken broadcast copy.
+
+    The character intermittently leaks its scaffolding — a '(Note: ...)'
+    aside, then an echo of the '[BATTLE T8] ...' beat it was fed, then a
+    chunk of reasoning ('provides the battle log for Turn 8'). Cut hard at
+    the first feed echo, drop notes/meta/markdown, and cap the length so no
+    runaway blurb can reach the room even in a novel leak form."""
     text = _CODE_FENCE.sub("", text)
+    m = _BEAT_ECHO.search(text)
+    if m:
+        text = text[:m.start()]
     text = _NOTE_PAREN.sub("", text)
     text = _META_SENTENCE.sub("", text)
-    text = re.sub(r"[_*`]{1,3}", "", text)   # markdown emphasis / code ticks
+    text = re.sub(r"[_*`#>]{1,}", "", text)   # markdown emphasis/heading/quote
     text = re.sub(r"\s+", " ", text).strip()
+    sentences = _SENTENCE.findall(text)
+    if len(sentences) > _MAX_SENTENCES:
+        text = "".join(sentences[:_MAX_SENTENCES]).strip()
     return text
 
 
@@ -111,8 +128,13 @@ class PrismRelay:
                             continue
                         data = msg.get("data", {})
                         beat = (data.get("text") or "").strip()
-                        reply = ((data.get("message") or {}).get("content")
-                                 or "").strip()
+                        message = data.get("message") or {}
+                        cat = message.get("categorization") or {}
+                        # prefer the categorized 'speech' field (AIRI's own
+                        # extraction of the spoken part, minus reasoning);
+                        # fall back to raw content. Sanitize either way.
+                        reply = (cat.get("speech")
+                                 or message.get("content") or "").strip()
                         if beat.startswith("[") and reply:
                             clean = _sanitize(reply)
                             if clean:
