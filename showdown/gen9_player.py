@@ -24,6 +24,7 @@ import random
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -155,6 +156,9 @@ class Gen9PokeEnginePlayer(Player):
                                           use_data_tiers=data_tiers)
         self._stochastic = stochastic
         self._choice_rng = random.Random()
+        # concurrent search across sampled worlds (real parallelism once the
+        # mcts binding's GIL release is built; harmless serialization before)
+        self._search_pool = ThreadPoolExecutor(max_workers=max(1, set_samples))
         # adaptive search: probe at search_ms, escalate to escalate_ms in
         # flat (undecided) positions. In stall games flat is the NORM, so
         # escalating every flat turn blows the clock; a per-game bank of
@@ -258,9 +262,15 @@ class Gen9PokeEnginePlayer(Player):
         the deterministic top-set translation is used, as before. The LAST
         world is speed-pessimistic (fastest spreads, scarf when plausible):
         speed-floor inference only triggers after a scarfer already outsped
-        something, so one world hedges against the sweep pre-emptively."""
+        something, so one world hedges against the sweep pre-emptively.
+
+        Translation must be serial (the translator mutates per-call instance
+        state: rng/pessimism/prefer_ps/archetype/obs), but the searches are
+        independent and the mcts binding releases the GIL (py.detach), so
+        they run concurrently across cores when set_samples > 1. Identical
+        results either way — only wall time differs."""
         ms = search_ms if search_ms is not None else self._search_ms
-        results = []
+        states = []
         for i in range(self._set_samples):
             rng = random.Random() if self._set_samples > 1 else None
             pessimistic = self._set_samples > 1 and i == self._set_samples - 1
@@ -269,11 +279,13 @@ class Gen9PokeEnginePlayer(Player):
             # species have a single curated candidate, so all worlds shared
             # the same confident wrong set
             prefer_ps = i == 0
-            state = self._translator.translate(
+            states.append(self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
-                prefer_ps=prefer_ps)
-            results.append(pe.monte_carlo_tree_search(state, ms))
-        return results
+                prefer_ps=prefer_ps))
+        if len(states) == 1:
+            return [pe.monte_carlo_tree_search(states[0], ms)]
+        return list(self._search_pool.map(
+            lambda st: pe.monte_carlo_tree_search(st, ms), states))
 
     def _adaptive_search(self, battle) -> list:
         """Staged search that reinvests the timer bank where it matters.
