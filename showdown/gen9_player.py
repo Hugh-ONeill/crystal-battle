@@ -190,7 +190,8 @@ class Gen9PokeEnginePlayer(Player):
                  value_batch: int = 32, verbose: bool = True,
                  airi_bridge: AiriBridge | None = None,
                  airi_min_interval: float = 20.0,
-                 airi_min_swing: float = 0.10, **kwargs):
+                 airi_min_swing: float = 0.10,
+                 airi_turn_pace: float = 0.0, **kwargs):
         super().__init__(**kwargs)
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers)
@@ -248,6 +249,7 @@ class Gen9PokeEnginePlayer(Player):
         self._airi = airi_bridge
         self._airi_min_interval = airi_min_interval
         self._airi_min_swing = airi_min_swing
+        self._airi_turn_pace = airi_turn_pace
         self._airi_tag: str | None = None
         self._airi_prev_value: float | None = None
         self._airi_prev_fainted: tuple[set, set] = (set(), set())
@@ -399,6 +401,20 @@ class Gen9PokeEnginePlayer(Player):
             pass
 
     async def choose_move(self, battle):
+        """Broadcast pacing wrapper: the actual decision is unchanged, but
+        when commentating we HOLD the chosen move for airi_turn_pace seconds
+        before sending it. The engine otherwise resolves a turn (~3-5s) far
+        faster than the character generates a line (~8s), so every comment
+        lands 2-3 turns late and the spectator client pins it to wherever
+        the animation happens to be. Holding each move ~one generation's
+        worth of time makes turn N's line ready as turn N animates."""
+        order = await self._choose_move_impl(battle)
+        if self._airi is not None and self._airi_turn_pace > 0 and \
+                not battle.finished:
+            await asyncio.sleep(self._airi_turn_pace)
+        return order
+
+    async def _choose_move_impl(self, battle):
         if battle.battle_tag != self._last_tag:
             self._last_tag = battle.battle_tag
             self._translator.new_battle()
@@ -659,6 +675,10 @@ async def main():
                         help="max seconds between routine commentary beats")
     parser.add_argument("--airi-min-swing", type=float, default=0.10,
                         help="win-estimate swing (0-1) that forces a beat")
+    parser.add_argument("--airi-turn-pace", type=float, default=0.0,
+                        help="hold each move this many seconds before sending "
+                             "(broadcast pacing: keeps commentary in sync with "
+                             "the battle animation; ~8 suits Gemma's latency)")
     args = parser.parse_args()
 
     server = LOCAL_SERVER if args.local else SERVERS[args.server]
@@ -686,6 +706,7 @@ async def main():
         airi_bridge=bridge,
         airi_min_interval=args.airi_min_interval,
         airi_min_swing=args.airi_min_swing,
+        airi_turn_pace=args.airi_turn_pace,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,
