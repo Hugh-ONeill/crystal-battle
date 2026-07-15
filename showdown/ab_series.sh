@@ -29,9 +29,10 @@ CB=/home/wiz/Developer/grimoire/crystal-battle
 FP=/home/wiz/Developer/grimoire/foul-play
 OURS_LOG="$CB/showdown/bench/${NAME}_ours.log"
 FP_LOG="$CB/showdown/bench/${NAME}_foulplay.log"
-# stall mirrors run ~5 min/game (350+ decisions), offense ~30s; budget for
-# the slow end so timeout truncation doesn't thin defensive batches
-BATCH_TIMEOUT=$((GAMES * 1000 + 600))
+# per-GAME hard timeout (one game per process now). Default covers a 300ms
+# stall game (~6 min) with margin; 5s runs set PER_GAME_TIMEOUT higher
+# (stall at 5s/turn ~1 hr). A wedged game is killed and skipped here.
+PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-1200}"
 
 # fail loudly if the local Showdown server is down, instead of burning every
 # batch on connection-refused (series 13 first attempt)
@@ -68,27 +69,36 @@ while [ "$i" -le "$BATCHES" ]; do
   fi
   echo "=== batch $i/$BATCHES team: $TEAM_BASE ($(date +%H:%M:%S)) ===" >> "$OURS_LOG"
   echo "=== batch $i/$BATCHES team: $TEAM_BASE ($(date +%H:%M:%S)) ===" >> "$FP_LOG"
-  cd "$CB"
-  .venv/bin/python showdown/gen9_player.py --local --username CBGen9 \
-      --mode accept --format gen9ou --team "$OUR_TEAM" \
-      --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
-      --n-games "$GAMES" --log-level 20 \
-      "$@" >> "$OURS_LOG" 2>&1 &
-  OURS_PID=$!
-  sleep 8
-  cd "$FP"
-  timeout "$BATCH_TIMEOUT" .venv/bin/python run.py \
-      --websocket-uri ws://localhost:8000/showdown/websocket \
-      --ps-username FPSpar1 --bot-mode challenge_user \
-      --user-to-challenge CBGen9 --pokemon-format gen9ou \
-      --team-name "$FP_TEAM" --search-time-ms "${FP_SEARCH_MS:-300}" \
-      --run-count "$GAMES" --log-level INFO >> "$FP_LOG" 2>&1
-  FP_STATUS=$?
-  kill "$OURS_PID" 2>/dev/null
-  wait "$OURS_PID" 2>/dev/null
-  if [ "$FP_STATUS" -eq 124 ]; then
-    echo "=== batch $i TIMED OUT (skipping ahead) ===" >> "$FP_LOG"
-  fi
+  # ONE GAME PER PROCESS: poke-env's accept_challenges(N) loop wedges between
+  # games (challenge N+1 received but never accepted — root cause of every
+  # dispatch freeze this project). Playing one game per fresh process removes
+  # the between-games step entirely; a wedge can only cost the current game,
+  # which the per-game timeout kills and skips. ~10s/game process overhead,
+  # negligible vs 30s-5min games.
+  g=1
+  while [ "$g" -le "$GAMES" ]; do
+    cd "$CB"
+    .venv/bin/python showdown/gen9_player.py --local --username CBGen9 \
+        --mode accept --format gen9ou --team "$OUR_TEAM" \
+        --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+        --n-games 1 --log-level 20 \
+        "$@" >> "$OURS_LOG" 2>&1 &
+    OURS_PID=$!
+    sleep 5
+    cd "$FP"
+    timeout "$PER_GAME_TIMEOUT" .venv/bin/python run.py \
+        --websocket-uri ws://localhost:8000/showdown/websocket \
+        --ps-username FPSpar1 --bot-mode challenge_user \
+        --user-to-challenge CBGen9 --pokemon-format gen9ou \
+        --team-name "$FP_TEAM" --search-time-ms "${FP_SEARCH_MS:-300}" \
+        --run-count 1 --log-level INFO >> "$FP_LOG" 2>&1
+    if [ "$?" -eq 124 ]; then
+      echo "=== batch $i game $g TIMED OUT (skipping) ===" >> "$FP_LOG"
+    fi
+    kill "$OURS_PID" 2>/dev/null
+    wait "$OURS_PID" 2>/dev/null
+    g=$((g + 1))
+  done
   i=$((i + 1))
 done
 echo "=== series $NAME complete ===" >> "$FP_LOG"
