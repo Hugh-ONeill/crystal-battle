@@ -68,18 +68,34 @@ _META_SENTENCE = re.compile(
     r"[^.!?]*[.!?]", re.I)
 _SENTENCE = re.compile(r"[^.!?]*[.!?]+")
 _MAX_SENTENCES = 3
+# thinking-mode tells: once any of these appears the rest is the model's
+# scaffolding (self-talk, re-drafts, stage directions), never broadcast copy
+_THINKING_TELL = re.compile(
+    r"\(\s*(?:done|final|end|executing|ready|proceeding|confidence|"
+    r"self-correction|outputting|the end|no more|start outputting|bye)"
+    r"|\bActually, I\b|\bFinal (?:Response|Final|answer|decision|String)\b"
+    r"|\binternal (?:thought|monologue|dialogue)\b|\bI will just output\b"
+    r"|\bI (?:must not|should not) (?:use|say)\b|\bLet me re-?"
+    r"|\bLet's go\b|\[END\]|\[Final|\bEnd of thought\b|\bStop thinking\b",
+    re.I)
 
 
 def _sanitize(text: str) -> str:
     """Reduce a raw model reply to clean, spoken broadcast copy.
 
-    The character intermittently leaks its scaffolding — a '(Note: ...)'
-    aside, then an echo of the '[BATTLE T8] ...' beat it was fed, then a
-    chunk of reasoning ('provides the battle log for Turn 8'). Cut hard at
-    the first feed echo, drop notes/meta/markdown, and cap the length so no
-    runaway blurb can reach the room even in a novel leak form."""
+    Two failure modes to defend against: (1) the character echoes the
+    '[BATTLE T8] ...' beat it was fed and rambles about it; (2) with
+    thinking mode on, Gemma dumps its whole chain-of-thought ('Final
+    Final... Executing... End trace'). A legitimate Prism reply is a single
+    line of 1-2 sentences, so: keep only the first paragraph, cut at the
+    first feed echo or thinking-tell, drop notes/meta/markdown, and hard-cap
+    the sentence count. Nothing multi-paragraph or scaffold-shaped survives."""
     text = _CODE_FENCE.sub("", text)
+    text = text.split("\n", 1)[0]           # a real reply is one line
     m = _BEAT_ECHO.search(text)
+    if m:
+        text = text[:m.start()]
+    m = _THINKING_TELL.search(text)
     if m:
         text = text[:m.start()]
     text = _NOTE_PAREN.sub("", text)
