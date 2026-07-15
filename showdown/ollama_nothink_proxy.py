@@ -29,6 +29,19 @@ UPSTREAM = "http://localhost:11434"
 _HOP = {"connection", "keep-alive", "transfer-encoding", "content-length",
         "proxy-connection", "te", "trailer", "upgrade"}
 
+import os
+_DEBUG = os.environ.get("PROXY_DEBUG") == "1"
+_DBG_PATH = "/tmp/claude-1000/-home-wiz/70a27cf4-071e-4963-9faa-1bdda47db203/scratchpad/proxy_debug.log"
+
+
+def _dbg(msg):
+    if _DEBUG:
+        try:
+            with open(_DBG_PATH, "a") as f:
+                f.write(msg + "\n")
+        except Exception:
+            pass
+
 
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
@@ -63,18 +76,37 @@ class Handler(BaseHTTPRequestHandler):
         for k, v in resp.headers.items():
             if k.lower() not in _HOP:
                 self.send_header(k, v)
-        # stream body, connection-close framing (works for SSE and JSON)
-        self.send_header("Connection", "close")
+        # Proper HTTP/1.1 chunked framing. The earlier Connection:close +
+        # raw-bytes approach worked for curl but AIRI's SSE client (built
+        # for Ollama's chunked stream) stopped reading early -> truncated
+        # replies. Chunked is the framing it expects.
+        self.send_header("Transfer-Encoding", "chunked")
         self.end_headers()
+        total = 0
         try:
             while True:
                 chunk = resp.read(2048)
                 if not chunk:
                     break
+                self.wfile.write(b"%x\r\n" % len(chunk))
                 self.wfile.write(chunk)
+                self.wfile.write(b"\r\n")
                 self.wfile.flush()
-        except (BrokenPipeError, ConnectionResetError):
-            pass
+                total += len(chunk)
+            self.wfile.write(b"0\r\n\r\n")
+            self.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError) as e:
+            _dbg(f"client disconnected after {total}b: {e!r}")
+        if _DEBUG and "chat/completions" in self.path:
+            try:
+                req = json.loads(body)
+                keys = sorted(req.keys())
+                _dbg(f"chat req keys={keys} stream={req.get('stream')} "
+                     f"tools={len(req.get('tools') or [])} -> {total}b resp")
+                with open(_DBG_PATH + ".req.json", "w") as rf:
+                    rf.write(body.decode("utf-8", "replace"))
+            except Exception:
+                pass
 
     def do_POST(self):
         self._forward("POST")
