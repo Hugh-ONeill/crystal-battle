@@ -196,6 +196,75 @@ def _swing_phrase(swing: float | None) -> str | None:
     return "holding steady"
 
 
+_STATUS_INFLICT = {
+    "frz": "froze {n} solid", "brn": "burned {n}", "par": "paralyzed {n}",
+    "slp": "put {n} to sleep", "psn": "poisoned {n}",
+    "tox": "badly poisoned {n}",
+}
+_STATUS_CURE = {
+    "frz": "{n} thawed out", "slp": "{n} woke up",
+    "par": "{n} shook off the paralysis", "brn": "{n}'s burn healed",
+    "psn": "{n} was cured of poison", "tox": "{n} was cured of poison",
+}
+_CANT = {
+    "frz": "{n} was frozen solid and couldn't move",
+    "par": "{n} was fully paralyzed and couldn't move",
+    "slp": "{n} was fast asleep", "flinch": "{n} flinched",
+    "recharge": "{n} had to recharge",
+}
+
+
+_HAZARDS = {"stealth rock", "spikes", "toxic spikes", "sticky web",
+            "g-max steelsurge"}
+_SCREENS = {"reflect", "light screen", "aurora veil"}
+_WEATHER = {
+    "raindance": "rain", "sunnyday": "harsh sun", "sandstorm": "a sandstorm",
+    "snow": "snow", "hail": "hail", "snowscape": "snow",
+    "desolateland": "extreme sun", "primordialsea": "heavy rain",
+    "deltastream": "strong winds",
+}
+
+
+def _poke_name(token: str) -> str:
+    """'p2a: Dragonite' -> 'Dragonite'."""
+    return token.split(": ", 1)[1] if ": " in token else token
+
+
+def _cond_name(raw: str) -> str:
+    """'move: Stealth Rock' -> 'Stealth Rock'."""
+    return raw.split(": ", 1)[1] if ": " in raw else raw
+
+
+def _from_move(events) -> str | None:
+    """Pull the '[from] move: X' cause out of a protocol line's trailing args."""
+    for e in events:
+        if e.startswith("[from] move:"):
+            return e.split(":", 1)[1].strip()
+    return None
+
+
+def _hp_frac(hp: str) -> float | None:
+    """'45/100' / '0 fnt' / '45/100 brn' -> fraction, or None."""
+    try:
+        head = hp.strip().split(" ")[0]
+        if head in ("0", "0.0"):
+            return 0.0
+        num, den = head.split("/")
+        den_v = float(den)
+        return float(num) / den_v if den_v else None
+    except Exception:
+        return None
+
+
+def _join_phrases(items: list[str]) -> str:
+    items = [i for i in items if i]
+    if not items:
+        return ""
+    if len(items) == 1:
+        return items[0]
+    return ", ".join(items[:-1]) + " and " + items[-1]
+
+
 def _preview_order(lead_idx: int, n: int) -> str:
     """'/team 312456'-style order string: chosen lead first, rest in order."""
     rest = [i for i in range(1, n + 1) if i != lead_idx + 1]
@@ -310,6 +379,14 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_prev_value: float | None = None
         self._airi_prev_fainted: tuple[set, set] = (set(), set())
         self._airi_last_sent = 0.0
+        # play-by-play: dramatic in-turn protocol events (crits, effectiveness,
+        # status, thaws, big/small hits) scraped from the raw message stream
+        # and folded into the next beat so commentary reacts to the ACTION,
+        # not just the post-turn box score. _airi_notable forces a beat.
+        self._airi_hl: list[str] = []
+        self._airi_notable = False
+        self._airi_hp: dict[str, float] = {}
+        self._airi_weather: str | None = None
 
     async def teampreview(self, battle):
         """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
@@ -354,6 +431,10 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_prev_value = None
         self._airi_prev_fainted = (set(), set())
         self._airi_last_sent = 0.0
+        self._airi_hl = []
+        self._airi_notable = False
+        self._airi_hp = {}
+        self._airi_weather = None
         try:
             opp = battle.opponent_username or "the opponent"
             ours = ", ".join(p.species for p in battle.team.values())
@@ -368,6 +449,183 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_last_sent = time.monotonic()
         except Exception:
             pass
+
+    async def _handle_battle_message(self, split_messages):
+        """Defer to the base handler, then scrape dramatic protocol events
+        for commentary. Best-effort: a scan error must never disturb play."""
+        result = await super()._handle_battle_message(split_messages)
+        if self._airi is not None:
+            try:
+                role = None
+                if split_messages and split_messages[0]:
+                    tag = split_messages[0][0].lstrip(">").strip()
+                    b = self._battles.get(tag)
+                    role = b.player_role if b else None
+                self._scan_highlights(split_messages, role)
+            except Exception:
+                pass
+        return result
+
+    def _scan_highlights(self, messages, role=None):
+        """Walk one battle message batch, attributing -crit/-supereffective/
+        -damage to the move that caused them and tracking HP to size hits;
+        also catch hazard/screen/weather swings. Append short factual phrases
+        to self._airi_hl and flag notable ones. `role` (our 'p1'/'p2') lets
+        side events read as 'our'/'their'."""
+        cur = None
+
+        def side_poss(side_token):
+            sr = side_token[:2]
+            if role and sr == role:
+                return "our"
+            if role and sr != role:
+                return "their"
+            return "one"
+
+        def flush():
+            nonlocal cur
+            if not cur or not cur.get("move"):
+                cur = None
+                return
+            head = f"{cur['mover']}'s {cur['move']}"
+            if cur.get("missed"):
+                self._airi_hl.append(f"{head} missed")
+                cur = None
+                return
+            if cur.get("effect") == "no effect":
+                self._airi_hl.append(f"{head} had no effect on {cur['target']}")
+                self._airi_notable = True
+                cur = None
+                return
+            tags = []
+            if cur.get("crit"):
+                tags.append("a critical hit")
+            if cur.get("effect"):
+                tags.append(cur["effect"])
+            dmg = cur.get("dmg")
+            if dmg is not None:
+                if dmg >= 0.5:
+                    tags.append("a devastating blow")
+                elif dmg >= 0.33:
+                    tags.append("a heavy hit")
+                elif 0 < dmg <= 0.08:
+                    tags.append("barely a scratch")
+            if tags:
+                self._airi_hl.append(f"{head} landed {_join_phrases(tags)}")
+                if (cur.get("crit") or cur.get("effect") == "super effective"
+                        or (dmg is not None and dmg >= 0.5)):
+                    self._airi_notable = True
+            cur = None
+
+        for sm in messages:
+            if len(sm) < 2:
+                continue
+            t = sm[1]
+            if t == "move":
+                flush()
+                cur = {"mover": _poke_name(sm[2]), "move": sm[3],
+                       "target": _poke_name(sm[4]) if len(sm) > 4 else None,
+                       "effect": None, "crit": False, "dmg": None,
+                       "missed": False}
+            elif t == "-crit" and cur:
+                cur["crit"] = True
+            elif t == "-supereffective" and cur:
+                cur["effect"] = "super effective"
+            elif t == "-resisted" and cur:
+                cur["effect"] = "not very effective"
+            elif t == "-immune":
+                if cur:
+                    cur["effect"] = "no effect"
+            elif t == "-miss" and cur:
+                cur["missed"] = True
+            elif t in ("-damage", "-heal", "-sethp"):
+                key = sm[2].split(":")[0]
+                frac = _hp_frac(sm[3]) if len(sm) > 3 else None
+                old = self._airi_hp.get(key)
+                if frac is not None:
+                    self._airi_hp[key] = frac
+                if (t == "-damage" and cur and old is not None
+                        and frac is not None
+                        and cur.get("target") == _poke_name(sm[2])):
+                    cur["dmg"] = old - frac
+            elif t in ("switch", "drag"):
+                key = sm[2].split(":")[0]
+                self._airi_hp[key] = (_hp_frac(sm[4]) if len(sm) > 4 else 1.0)
+            elif t == "-status" and len(sm) > 3:
+                tmpl = _STATUS_INFLICT.get(sm[3])
+                if tmpl:
+                    flush()  # emit the causing move first, then its effect
+                    self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
+                    self._airi_notable = True
+            elif t == "-curestatus" and len(sm) > 3:
+                tmpl = _STATUS_CURE.get(sm[3])
+                if tmpl:
+                    flush()
+                    self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
+                    self._airi_notable = True
+            elif t == "cant" and len(sm) > 3:
+                tmpl = _CANT.get(sm[3])
+                if tmpl:
+                    flush()
+                    self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
+                    self._airi_notable = True
+            elif t == "-sidestart" and len(sm) > 3:
+                flush()
+                poss = side_poss(sm[2])
+                cond = _cond_name(sm[3])
+                low = cond.lower()
+                if low in _HAZARDS:
+                    self._airi_hl.append(f"{cond} went up on {poss} side")
+                    self._airi_notable = True
+                elif low in _SCREENS:
+                    self._airi_hl.append(f"{cond} went up on {poss} side")
+                    self._airi_notable = True
+                elif low == "tailwind":
+                    self._airi_hl.append(f"Tailwind kicked in for {poss} side")
+                    self._airi_notable = True
+            elif t == "-sideend" and len(sm) > 3:
+                flush()
+                poss = side_poss(sm[2])
+                cond = _cond_name(sm[3])
+                low = cond.lower()
+                by = _from_move(sm[4:])
+                if low in _HAZARDS or low in _SCREENS or low == "tailwind":
+                    if by:
+                        self._airi_hl.append(
+                            f"{poss} {cond} was cleared away by {by}")
+                        self._airi_notable = True
+                    elif low in _SCREENS:
+                        self._airi_hl.append(f"{poss} {cond} wore off")
+            elif t == "-weather" and len(sm) > 2:
+                w = sm[2]
+                upkeep = any("[upkeep]" in a for a in sm[3:])
+                if not upkeep:
+                    flush()
+                    if w == "none":
+                        if self._airi_weather:
+                            self._airi_hl.append("the weather cleared")
+                            self._airi_notable = True
+                        self._airi_weather = None
+                    else:
+                        label = _WEATHER.get(w.lower().replace(" ", ""), w)
+                        if label != self._airi_weather:
+                            self._airi_hl.append(f"{label} set in")
+                            self._airi_notable = True
+                            self._airi_weather = label
+            elif t == "-fieldstart" and len(sm) > 2:
+                cond = _cond_name(sm[2])
+                flush()
+                self._airi_hl.append(f"{cond} took over the field")
+                self._airi_notable = True
+            elif t == "-fieldend" and len(sm) > 2:
+                cond = _cond_name(sm[2])
+                if cond.lower() == "trick room":
+                    flush()
+                    self._airi_hl.append("Trick Room wore off")
+        flush()
+        # keep the buffer bounded; the freshest beats matter most
+        if len(self._airi_hl) > 6:
+            self._airi_hl = self._airi_hl[-6:]
 
     def _airi_turn_event(self, battle, ranked, desc: str):
         """Per-decision beat, gated for significance: faint-count changes
@@ -389,10 +647,11 @@ class Gen9PokeEnginePlayer(Player):
             faints = bool(new_ours or new_theirs)
             swing = (None if self._airi_prev_value is None
                      else value - self._airi_prev_value)
+            notable = self._airi_notable
             elapsed = time.monotonic() - self._airi_last_sent
             if elapsed < 5.0:
                 return
-            if not (faints or swing is None
+            if not (notable or faints or swing is None
                     or abs(swing) >= self._airi_min_swing
                     or elapsed >= self._airi_min_interval):
                 return
@@ -406,6 +665,10 @@ class Gen9PokeEnginePlayer(Player):
             # "Win estimate 62%" the character recites the number instead
             # of calling the play
             parts = [f"[BATTLE T{battle.turn}]"]
+            # play-by-play of the exchange that just resolved leads the beat
+            if self._airi_hl:
+                hl = self._airi_hl[-4:]
+                parts.append("Last exchange: " + "; ".join(hl) + ".")
             if new_theirs:
                 names = " and ".join(sorted(new_theirs))
                 parts.append(f"Their {names} "
@@ -441,6 +704,8 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_prev_value = value
             self._airi_prev_fainted = (ours_f, theirs_f)
             self._airi_last_sent = time.monotonic()
+            self._airi_hl = []
+            self._airi_notable = False
         except Exception:
             pass
 
