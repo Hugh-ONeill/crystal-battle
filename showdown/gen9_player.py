@@ -225,6 +225,26 @@ _WEATHER = {
 }
 
 
+_STAT = {"atk": "Attack", "def": "Defense", "spa": "Special Attack",
+         "spd": "Special Defense", "spe": "Speed", "accuracy": "accuracy",
+         "evasion": "evasiveness"}
+# volatile -> (phrase template, notable). Momentum-shutting ones (Encore,
+# Taunt) force a beat; routine ones ride along in the next beat instead.
+_VOL_START = {
+    "substitute": ("{n} put up a Substitute", False),
+    "leech seed": ("{n} was seeded", False),
+    "confusion": ("{n} became confused", False),
+    "encore": ("{n} was locked in by Encore", True),
+    "taunt": ("{n} was shut down by Taunt", True),
+    "yawn": ("{n} is growing drowsy", False),
+    "disable": ("{n} had a move disabled", False),
+    "attract": ("{n} became infatuated", False),
+}
+_VOL_END = {
+    "substitute": ("{n}'s Substitute broke", True),
+}
+
+
 def _poke_name(token: str) -> str:
     """'p2a: Dragonite' -> 'Dragonite'."""
     return token.split(": ", 1)[1] if ": " in token else token
@@ -239,6 +259,15 @@ def _from_move(events) -> str | None:
     """Pull the '[from] move: X' cause out of a protocol line's trailing args."""
     for e in events:
         if e.startswith("[from] move:"):
+            return e.split(":", 1)[1].strip()
+    return None
+
+
+def _from_cause(events) -> str | None:
+    """Like _from_move but also catches '[from] ability: X' (Magician,
+    Pickpocket) — used for item changes that a move OR ability can drive."""
+    for e in events:
+        if e.startswith("[from] move:") or e.startswith("[from] ability:"):
             return e.split(":", 1)[1].strip()
     return None
 
@@ -503,14 +532,21 @@ class Gen9PokeEnginePlayer(Player):
             if cur.get("effect"):
                 tags.append(cur["effect"])
             dmg = cur.get("dmg")
-            if dmg is not None:
+            if dmg is not None and not cur.get("ko"):
                 if dmg >= 0.5:
                     tags.append("a devastating blow")
                 elif dmg >= 0.33:
                     tags.append("a heavy hit")
                 elif 0 < dmg <= 0.08:
                     tags.append("barely a scratch")
-            if tags:
+            if cur.get("ko"):
+                # the finishing blow, attributed to the move that landed it
+                line = f"{head} knocked out {cur['target']}"
+                if tags:
+                    line += " with " + _join_phrases(tags)
+                self._airi_hl.append(line)
+                self._airi_notable = True
+            elif tags:
                 self._airi_hl.append(f"{head} landed {_join_phrases(tags)}")
                 if (cur.get("crit") or cur.get("effect") == "super effective"
                         or (dmg is not None and dmg >= 0.5)):
@@ -551,6 +587,14 @@ class Gen9PokeEnginePlayer(Player):
             elif t in ("switch", "drag"):
                 key = sm[2].split(":")[0]
                 self._airi_hp[key] = (_hp_frac(sm[4]) if len(sm) > 4 else 1.0)
+            elif t == "faint" and len(sm) > 2:
+                mon = _poke_name(sm[2])
+                if cur and cur.get("target") == mon:
+                    cur["ko"] = True  # attribute to the finishing move
+                else:
+                    flush()  # residual: poison/hazard/recoil/Life Orb etc.
+                    self._airi_hl.append(f"{mon} went down")
+                    self._airi_notable = True
             elif t == "-status" and len(sm) > 3:
                 tmpl = _STATUS_INFLICT.get(sm[3])
                 if tmpl:
@@ -569,20 +613,125 @@ class Gen9PokeEnginePlayer(Player):
                     flush()
                     self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
                     self._airi_notable = True
+            elif t == "-enditem" and len(sm) > 3:
+                flush()
+                mon = _poke_name(sm[2])
+                item = sm[3]
+                by = _from_cause(sm[4:])
+                ate = any("[eat]" in a for a in sm[4:])
+                if by == "Knock Off":
+                    self._airi_hl.append(f"{item} was knocked off {mon}")
+                    self._airi_notable = True
+                elif by in ("Thief", "Covet", "Magician", "Pickpocket"):
+                    self._airi_hl.append(f"{mon}'s {item} was swiped away")
+                    self._airi_notable = True
+                elif item == "Focus Sash":
+                    self._airi_hl.append(f"{mon}'s Focus Sash let it cling on")
+                    self._airi_notable = True
+                elif item == "Air Balloon":
+                    self._airi_hl.append(f"{mon}'s Air Balloon popped")
+                    self._airi_notable = True
+                elif ate:
+                    # a berry eaten is routine tempo, not a forced beat
+                    self._airi_hl.append(f"{mon} ate its {item}")
+                else:
+                    self._airi_hl.append(f"{mon} used up its {item}")
+            elif t == "-item" and len(sm) > 3:
+                by = _from_cause(sm[4:])
+                if by in ("Trick", "Switcheroo"):
+                    flush()
+                    self._airi_hl.append(
+                        f"{_poke_name(sm[2])} was handed a {sm[3]} by {by}")
+                    self._airi_notable = True
+                elif by in ("Thief", "Covet", "Magician", "Pickpocket"):
+                    flush()
+                    self._airi_hl.append(
+                        f"{_poke_name(sm[2])} swiped a {sm[3]} with {by}")
+                    self._airi_notable = True
+                # plain reveals (switch-in, Frisk) are not dramatic: skip
+            elif t == "-terastallize" and len(sm) > 3:
+                flush()
+                self._airi_hl.append(
+                    f"{_poke_name(sm[2])} Terastallized into a {sm[3]} type")
+                self._airi_notable = True
+            elif t == "-boost" and len(sm) > 4:
+                flush()
+                stat = _STAT.get(sm[3], sm[3])
+                amt = int(sm[4]) if sm[4].lstrip("-").isdigit() else 1
+                adv = "sharply " if amt >= 2 else ""
+                self._airi_hl.append(
+                    f"{_poke_name(sm[2])} {adv}raised its {stat}")
+                # offensive setup (atk/spa/spe) threatens a sweep -> force a
+                # beat; a defensive/minor +1 just rides along
+                if amt >= 2 or sm[3] in ("atk", "spa", "spe"):
+                    self._airi_notable = True
+            elif t == "-unboost" and len(sm) > 4:
+                flush()
+                stat = _STAT.get(sm[3], sm[3])
+                amt = int(sm[4]) if sm[4].lstrip("-").isdigit() else 1
+                adv = "sharply " if amt >= 2 else ""
+                self._airi_hl.append(
+                    f"{_poke_name(sm[2])}'s {stat} was {adv}cut")
+            elif t == "-setboost" and len(sm) > 4:
+                flush()
+                self._airi_hl.append(
+                    f"{_poke_name(sm[2])} maxed out its "
+                    f"{_STAT.get(sm[3], sm[3])}")
+                self._airi_notable = True
+            elif t in ("-clearallboost", "-invertboost", "-clearboost"):
+                flush()
+                if t == "-clearallboost":
+                    self._airi_hl.append("every stat change was wiped away")
+                elif t == "-invertboost":
+                    self._airi_hl.append(
+                        f"{_poke_name(sm[2])}'s stat changes were inverted"
+                        if len(sm) > 2 else "the stat changes were inverted")
+                else:
+                    self._airi_hl.append(
+                        f"{_poke_name(sm[2])}'s boosts were cleared"
+                        if len(sm) > 2 else "the boosts were cleared")
+                self._airi_notable = True
+            elif t == "-start" and len(sm) > 3:
+                key = _cond_name(sm[3]).lower()
+                entry = _VOL_START.get(key)
+                if entry:
+                    flush()
+                    self._airi_hl.append(entry[0].format(n=_poke_name(sm[2])))
+                    if entry[1]:
+                        self._airi_notable = True
+            elif t == "-end" and len(sm) > 3:
+                entry = _VOL_END.get(_cond_name(sm[3]).lower())
+                if entry:
+                    flush()
+                    self._airi_hl.append(entry[0].format(n=_poke_name(sm[2])))
+                    if entry[1]:
+                        self._airi_notable = True
+            elif t == "replace" and len(sm) > 2:
+                flush()
+                species = sm[3].split(",")[0] if len(sm) > 3 else _poke_name(sm[2])
+                self._airi_hl.append(
+                    f"the Illusion drops - it was {species} all along")
+                self._airi_notable = True
+            elif t == "-transform" and len(sm) > 3:
+                flush()
+                self._airi_hl.append(
+                    f"{_poke_name(sm[2])} transformed into {_poke_name(sm[3])}")
+                self._airi_notable = True
+            elif t == "-prepare" and len(sm) > 3:
+                flush()
+                self._airi_hl.append(
+                    f"{_poke_name(sm[2])} is charging up {sm[3]}")
             elif t == "-sidestart" and len(sm) > 3:
                 flush()
                 poss = side_poss(sm[2])
                 cond = _cond_name(sm[3])
                 low = cond.lower()
-                if low in _HAZARDS:
+                # setting hazards/screens is routine tempo — record it, but
+                # don't force a beat (removing them below IS a swing)
+                if low in _HAZARDS or low in _SCREENS:
                     self._airi_hl.append(f"{cond} went up on {poss} side")
-                    self._airi_notable = True
-                elif low in _SCREENS:
-                    self._airi_hl.append(f"{cond} went up on {poss} side")
-                    self._airi_notable = True
                 elif low == "tailwind":
                     self._airi_hl.append(f"Tailwind kicked in for {poss} side")
-                    self._airi_notable = True
             elif t == "-sideend" and len(sm) > 3:
                 flush()
                 poss = side_poss(sm[2])
@@ -627,6 +776,17 @@ class Gen9PokeEnginePlayer(Player):
         if len(self._airi_hl) > 6:
             self._airi_hl = self._airi_hl[-6:]
 
+    def _airi_note_switch(self, mon):
+        """Record a forced-switch replacement as a ride-along highlight so
+        it's named in the next beat, without forcing extra late-game chatter
+        (the single-switch and heuristic paths otherwise return silently)."""
+        if self._airi is None:
+            return
+        try:
+            self._airi_hl.append(f"we send {mon.species} in")
+        except Exception:
+            pass
+
     def _airi_turn_event(self, battle, ranked, desc: str):
         """Per-decision beat, gated for significance: faint-count changes
         and momentum swings go out (subject to a 5s floor so forced-switch
@@ -669,12 +829,29 @@ class Gen9PokeEnginePlayer(Player):
             if self._airi_hl:
                 hl = self._airi_hl[-4:]
                 parts.append("Last exchange: " + "; ".join(hl) + ".")
-            if new_theirs:
-                names = " and ".join(sorted(new_theirs))
-                parts.append(f"Their {names} "
-                             f"{'are' if len(new_theirs) > 1 else 'is'} down.")
-            if new_ours:
-                parts.append(f"We lost {' and '.join(sorted(new_ours))}.")
+
+            # KOs are normally narrated in the highlights above ("... knocked
+            # out X"); only fall back to a flat mention for a faint that
+            # didn't make it into the play-by-play, so nothing is dropped
+            # .species is an id ('tinglu') but highlights carry the protocol
+            # display name ('Ting-Lu'), so compare on an alnum-squashed form
+            def _squash(s):
+                return re.sub(r"[^a-z0-9]", "", s.lower())
+
+            def _ko_narrated(name):
+                n = _squash(name)
+                for h in self._airi_hl:
+                    hs = _squash(h)
+                    if n in hs and ("knockedout" in hs or "wentdown" in hs):
+                        return True
+                return False
+            lost_theirs = [n for n in sorted(new_theirs) if not _ko_narrated(n)]
+            lost_ours = [n for n in sorted(new_ours) if not _ko_narrated(n)]
+            if lost_theirs:
+                parts.append(f"Their {' and '.join(lost_theirs)} "
+                             f"{'are' if len(lost_theirs) > 1 else 'is'} down.")
+            if lost_ours:
+                parts.append(f"We lost {' and '.join(lost_ours)}.")
             parts.append(
                 f"{me.species + ' (' + hp(me) + ')' if me else 'Our side'}"
                 f" vs "
@@ -753,6 +930,7 @@ class Gen9PokeEnginePlayer(Player):
             if not battle.available_switches:
                 return self.choose_default_move()
             if len(battle.available_switches) == 1:
+                self._airi_note_switch(battle.available_switches[0])
                 return self.create_order(battle.available_switches[0])
             try:
                 loop = asyncio.get_event_loop()
@@ -767,6 +945,7 @@ class Gen9PokeEnginePlayer(Player):
                           f"({e!r}); using heuristic")
             best = max(battle.available_switches,
                        key=lambda p: _score_switch_in(p, battle))
+            self._airi_note_switch(best)
             return self.create_order(best)
 
         try:
