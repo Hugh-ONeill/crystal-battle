@@ -25,6 +25,10 @@ pkill -f "airi_bridge.py --watch" 2>/dev/null
 pkill -f "gen9_player.py.*CBAiri" 2>/dev/null
 sleep 1
 
+# ---- fresh chat context: AIRI resends the whole session history per request;
+# leftover history overflows the context window and truncates replies
+(cd "$CB" && $PY showdown/clear_airi_history.py) || log "history-clear skipped (CDP down?)"
+
 # ---- health gate: a test beat must produce a generation and must not
 # bounce off a missing chat consumer
 AIRILOG=$(ls -t "$HOME"/.config/ai.moeru.airi/logs/*.log | head -1)
