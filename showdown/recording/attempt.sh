@@ -30,21 +30,34 @@ sleep 1
 (cd "$CB" && $PY showdown/clear_airi_history.py) || log "history-clear skipped (CDP down?)"
 
 # ---- health gate: a test beat must produce a generation and must not
-# bounce off a missing chat consumer
+# bounce off a missing chat consumer. On a consumer failure, apply the CDP
+# fix for the registration race (fix_airi_consumer.py) and gate once more.
 AIRILOG=$(ls -t "$HOME"/.config/ai.moeru.airi/logs/*.log | head -1)
-NC0=$(grep -ac "no consumer" "$AIRILOG")
-SINCE=$(date '+%Y-%m-%d %H:%M:%S')
-(cd "$CB" && $PY showdown/airi_bridge.py "[bridge-test] pre-take health gate $N" >/dev/null 2>&1)
-OK=""
-for i in $(seq 1 30); do
-  sleep 3
-  NC1=$(grep -ac "no consumer" "$AIRILOG")
-  if [ "$NC1" -gt "$NC0" ]; then log HEALTH-FAIL-NOCONSUMER; exit 1; fi
-  GENS=$(journalctl -u ollama --since "$SINCE" --no-pager 2>/dev/null | grep -c "chat/completions")
-  if [ "$GENS" -ge 1 ]; then OK=1; break; fi
-done
-if [ -z "$OK" ]; then log HEALTH-FAIL-NOGEN; exit 1; fi
-log health-ok
+gate() {
+  local NC0 NC1 SINCE GENS i
+  NC0=$(grep -ac "no consumer" "$AIRILOG")
+  SINCE=$(date '+%Y-%m-%d %H:%M:%S')
+  (cd "$CB" && $PY showdown/airi_bridge.py "[bridge-test] pre-take health gate $N" >/dev/null 2>&1)
+  for i in $(seq 1 30); do
+    sleep 3
+    NC1=$(grep -ac "no consumer" "$AIRILOG")
+    if [ "$NC1" -gt "$NC0" ]; then echo NOCONSUMER; return; fi
+    GENS=$(journalctl -u ollama --since "$SINCE" --no-pager 2>/dev/null | grep -c "chat/completions")
+    if [ "$GENS" -ge 1 ]; then echo OK; return; fi
+  done
+  echo NOGEN
+}
+G=$(gate)
+if [ "$G" = "NOCONSUMER" ]; then
+  log "no consumer — applying registration fix, regating"
+  (cd "$CB" && $PY showdown/fix_airi_consumer.py) || true
+  G=$(gate)
+fi
+case "$G" in
+  OK) log health-ok ;;
+  NOCONSUMER) log HEALTH-FAIL-NOCONSUMER; exit 1 ;;
+  *) log HEALTH-FAIL-NOGEN; exit 1 ;;
+esac
 
 # ---- commentary panel stack (feed server + tiled kitty panel; idempotent)
 bash "$CB/showdown/overlay_start.sh"
