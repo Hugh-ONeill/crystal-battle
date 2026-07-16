@@ -255,6 +255,31 @@ def _cond_name(raw: str) -> str:
     return raw.split(": ", 1)[1] if ": " in raw else raw
 
 
+_GEN9_DATA = None
+
+
+def _gen9_data():
+    global _GEN9_DATA
+    if _GEN9_DATA is None:
+        from poke_env.data import GenData
+        _GEN9_DATA = GenData.from_gen(9)
+    return _GEN9_DATA
+
+
+def _move_display(move_id: str) -> str:
+    """'makeitrain' -> 'Make It Rain'. Beats must carry display names: fed
+    the raw id, the character free-associates (a real 'makeitrain' beat
+    became 'an Iron Ball hit' on camera)."""
+    entry = _gen9_data().moves.get(_normalize(move_id))
+    return entry["name"] if entry and "name" in entry else move_id
+
+
+def _species_display(species_id: str) -> str:
+    """'tinglu' -> 'Ting-Lu'."""
+    entry = _gen9_data().pokedex.get(_normalize(species_id))
+    return entry["name"] if entry and "name" in entry else species_id
+
+
 def _from_move(events) -> str | None:
     """Pull the '[from] move: X' cause out of a protocol line's trailing args."""
     for e in events:
@@ -406,6 +431,8 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_turn_pace = airi_turn_pace
         self._airi_tag: str | None = None
         self._airi_prev_value: float | None = None
+        self._airi_prev_read: str | None = None
+        self._airi_prev_disagree: str | None = None
         self._airi_prev_fainted: tuple[set, set] = (set(), set())
         self._airi_last_sent = 0.0
         # play-by-play: dramatic in-turn protocol events (crits, effectiveness,
@@ -458,6 +485,8 @@ class Gen9PokeEnginePlayer(Player):
             return
         self._airi_tag = battle.battle_tag
         self._airi_prev_value = None
+        self._airi_prev_read = None
+        self._airi_prev_disagree = None
         self._airi_prev_fainted = (set(), set())
         self._airi_last_sent = 0.0
         self._airi_hl = []
@@ -466,13 +495,15 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_weather = None
         try:
             opp = battle.opponent_username or "the opponent"
-            ours = ", ".join(p.species for p in battle.team.values())
-            theirs = ", ".join(p.species for p in battle.opponent_team.values())
+            ours = ", ".join(_species_display(p.species)
+                             for p in battle.team.values())
+            theirs = ", ".join(_species_display(p.species)
+                               for p in battle.opponent_team.values())
             text = (f"[MATCH START] New battle vs {opp}. "
                     f"Our team: {ours or 'unknown'}. "
                     f"Their preview: {theirs or 'hidden'}.")
             if lead:
-                text += f" We lead {lead}."
+                text += f" We lead {_species_display(lead)}."
             text += " Set the stage in a line or two."
             self._airi.send(text)
             self._airi_last_sent = time.monotonic()
@@ -745,6 +776,16 @@ class Gen9PokeEnginePlayer(Player):
                         self._airi_notable = True
                     elif low in _SCREENS:
                         self._airi_hl.append(f"{poss} {cond} wore off")
+            elif t == "-swapsideconditions":
+                # Court Change: hazards/screens change sides in one move —
+                # the same class of swing as a Rapid Spin/Defog clear, but
+                # the protocol emits this dedicated message instead of
+                # -sideend lines, so it was invisible to the scan
+                flush()
+                self._airi_hl.append(
+                    "Court Change swapped the hazards and screens "
+                    "onto the opposite sides")
+                self._airi_notable = True
             elif t == "-weather" and len(sm) > 2:
                 w = sm[2]
                 upkeep = any("[upkeep]" in a for a in sm[3:])
@@ -783,7 +824,7 @@ class Gen9PokeEnginePlayer(Player):
         if self._airi is None:
             return
         try:
-            self._airi_hl.append(f"we send {mon.species} in")
+            self._airi_hl.append(f"we send {_species_display(mon.species)} in")
         except Exception:
             pass
 
@@ -845,40 +886,62 @@ class Gen9PokeEnginePlayer(Player):
                     if n in hs and ("knockedout" in hs or "wentdown" in hs):
                         return True
                 return False
-            lost_theirs = [n for n in sorted(new_theirs) if not _ko_narrated(n)]
-            lost_ours = [n for n in sorted(new_ours) if not _ko_narrated(n)]
+            lost_theirs = [_species_display(n) for n in sorted(new_theirs)
+                           if not _ko_narrated(n)]
+            lost_ours = [_species_display(n) for n in sorted(new_ours)
+                         if not _ko_narrated(n)]
             if lost_theirs:
                 parts.append(f"Their {' and '.join(lost_theirs)} "
                              f"{'are' if len(lost_theirs) > 1 else 'is'} down.")
             if lost_ours:
                 parts.append(f"We lost {' and '.join(lost_ours)}.")
             parts.append(
-                f"{me.species + ' (' + hp(me) + ')' if me else 'Our side'}"
+                f"{_species_display(me.species) + ' (' + hp(me) + ')' if me else 'Our side'}"
                 f" vs "
-                f"{opp.species + ' (' + hp(opp) + ')' if opp else 'their side'}.")
-            parts.append(f"We go for {desc}.")
+                f"{_species_display(opp.species) + ' (' + hp(opp) + ')' if opp else 'their side'}.")
+            # desc is engine-speak ("makeitrain", "switch gliscor"); the
+            # character must see display names or it free-associates
+            tera_choice = desc.endswith(" (tera)")
+            base = desc[:-7] if tera_choice else desc
+            if base.startswith("switch "):
+                parts.append(f"We switch to {_species_display(base[7:])}.")
+            else:
+                parts.append(f"We go for {_move_display(base)}"
+                             f"{' and Terastallize' if tera_choice else ''}.")
+            # the desk read repeats its band for long stretches, and the
+            # character litigates every repetition — only speak it when the
+            # band changes or momentum genuinely swings
             read = _read_phrase(value)
             sw = _swing_phrase(swing)
-            parts.append(f"Desk read: {read}{', ' + sw if sw else ''}.")
+            swung = sw is not None and "swung" in sw
+            if read != self._airi_prev_read or swung:
+                parts.append(f"Desk read: {read}{', ' + sw if sw else ''}.")
             parts.append(f"Bodies: us {6 - len(ours_f)} standing, "
                          f"them {6 - len(theirs_f)}.")
             # when the engine's read and the body count tell opposite
             # stories, say so — the character should react with confusion
-            # or criticism, not despair at a stat in a won position
+            # or criticism, not despair at a stat in a won position.
             # phrased as a plain feed sentence, NOT a labelled "Note:":
             # the character echoes a "Note:" prefix straight into its spoken
-            # line, so the cue has to read like match copy it can react to
+            # line, so the cue has to read like match copy it can react to.
+            # said once per onset — repeating it every beat made the
+            # character relitigate the same disagreement all match
             body_lead = len(theirs_f) - len(ours_f)
-            if body_lead >= 3 and value < 0.40:
-                parts.append("The board and the desk read sharply disagree "
-                             "here: we hold a commanding material lead yet "
-                             "the read is grim.")
-            elif body_lead <= -3 and value > 0.60:
-                parts.append("The board and the desk read sharply disagree "
-                             "here: we trail badly on bodies yet the read "
-                             "stays upbeat.")
+            disagree = ("material" if body_lead >= 3 and value < 0.40 else
+                        "bodies" if body_lead <= -3 and value > 0.60 else None)
+            if disagree and disagree != self._airi_prev_disagree:
+                if disagree == "material":
+                    parts.append("The board and the desk read sharply "
+                                 "disagree here: we hold a commanding "
+                                 "material lead yet the read is grim.")
+                else:
+                    parts.append("The board and the desk read sharply "
+                                 "disagree here: we trail badly on bodies "
+                                 "yet the read stays upbeat.")
             self._airi.send(" ".join(parts))
             self._airi_prev_value = value
+            self._airi_prev_read = read
+            self._airi_prev_disagree = disagree
             self._airi_prev_fainted = (ours_f, theirs_f)
             self._airi_last_sent = time.monotonic()
             self._airi_hl = []
