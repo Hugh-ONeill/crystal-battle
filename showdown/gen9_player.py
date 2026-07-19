@@ -41,6 +41,8 @@ from showdown.name_mapping import _normalize
 from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
 from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
+from showdown.beat_director import (Director, ProtocolScanner,
+                                    TurnContext)
 
 # every numeric desk read (top line's avg MCTS score per searched decision)
 # plus the game outcome, one JSONL line per game — the raw material for
@@ -170,99 +172,6 @@ def _merge_mcts_results(results) -> list:
     return sorted(merged.values(), key=lambda m: -m.visits)
 
 
-def _read_phrase(value: float) -> str:
-    """Qualitative position read for commentary. The raw win estimate never
-    reaches the character: fed a number, the LLM recites it like a
-    scoreboard and tunes out the actual board (measured: Prism quoting
-    percentages over calling faints)."""
-    if value >= 0.85:
-        return "this one looks all but sealed for us"
-    if value >= 0.70:
-        return "we're clearly ahead"
-    if value >= 0.58:
-        return "we hold a real edge"
-    if value >= 0.45:
-        return "it's dead even right now"
-    if value >= 0.32:
-        return "we're behind in this"
-    if value >= 0.15:
-        return "we're in deep trouble"
-    return "this is nearly gone"
-
-
-def _swing_phrase(swing: float | None) -> str | None:
-    if swing is None:
-        return None
-    if swing >= 0.10:
-        return "momentum just swung our way"
-    if swing >= 0.03:
-        return "momentum drifting our way"
-    if swing <= -0.10:
-        return "momentum just swung hard against us"
-    if swing <= -0.03:
-        return "momentum slipping away from us"
-    return "holding steady"
-
-
-_STATUS_INFLICT = {
-    "frz": "froze {n} solid", "brn": "burned {n}", "par": "paralyzed {n}",
-    "slp": "put {n} to sleep", "psn": "poisoned {n}",
-    "tox": "badly poisoned {n}",
-}
-_STATUS_CURE = {
-    "frz": "{n} thawed out", "slp": "{n} woke up",
-    "par": "{n} shook off the paralysis", "brn": "{n}'s burn healed",
-    "psn": "{n} was cured of poison", "tox": "{n} was cured of poison",
-}
-_CANT = {
-    "frz": "{n} was frozen solid and couldn't move",
-    "par": "{n} was fully paralyzed and couldn't move",
-    "slp": "{n} was fast asleep", "flinch": "{n} flinched",
-    "recharge": "{n} had to recharge",
-}
-
-
-_HAZARDS = {"stealth rock", "spikes", "toxic spikes", "sticky web",
-            "g-max steelsurge"}
-_SCREENS = {"reflect", "light screen", "aurora veil"}
-_WEATHER = {
-    "raindance": "rain", "sunnyday": "harsh sun", "sandstorm": "a sandstorm",
-    "snow": "snow", "hail": "hail", "snowscape": "snow",
-    "desolateland": "extreme sun", "primordialsea": "heavy rain",
-    "deltastream": "strong winds",
-}
-
-
-_STAT = {"atk": "Attack", "def": "Defense", "spa": "Special Attack",
-         "spd": "Special Defense", "spe": "Speed", "accuracy": "accuracy",
-         "evasion": "evasiveness"}
-# volatile -> (phrase template, notable). Momentum-shutting ones (Encore,
-# Taunt) force a beat; routine ones ride along in the next beat instead.
-_VOL_START = {
-    "substitute": ("{n} put up a Substitute", False),
-    "leech seed": ("{n} was seeded", False),
-    "confusion": ("{n} became confused", False),
-    "encore": ("{n} was locked in by Encore", True),
-    "taunt": ("{n} was shut down by Taunt", True),
-    "yawn": ("{n} is growing drowsy", False),
-    "disable": ("{n} had a move disabled", False),
-    "attract": ("{n} became infatuated", False),
-}
-_VOL_END = {
-    "substitute": ("{n}'s Substitute broke", True),
-}
-
-
-def _poke_name(token: str) -> str:
-    """'p2a: Dragonite' -> 'Dragonite'."""
-    return token.split(": ", 1)[1] if ": " in token else token
-
-
-def _cond_name(raw: str) -> str:
-    """'move: Stealth Rock' -> 'Stealth Rock'."""
-    return raw.split(": ", 1)[1] if ": " in raw else raw
-
-
 _GEN9_DATA = None
 
 
@@ -288,43 +197,13 @@ def _species_display(species_id: str) -> str:
     return entry["name"] if entry and "name" in entry else species_id
 
 
-def _from_move(events) -> str | None:
-    """Pull the '[from] move: X' cause out of a protocol line's trailing args."""
-    for e in events:
-        if e.startswith("[from] move:"):
-            return e.split(":", 1)[1].strip()
+def _species_stats(display_name: str) -> tuple[int, int] | None:
+    """Base (Atk, SpA) for the director's burn physical-vs-special split."""
+    entry = _gen9_data().pokedex.get(_normalize(display_name))
+    if entry and "baseStats" in entry:
+        bs = entry["baseStats"]
+        return bs.get("atk", 0), bs.get("spa", 0)
     return None
-
-
-def _from_cause(events) -> str | None:
-    """Like _from_move but also catches '[from] ability: X' (Magician,
-    Pickpocket) — used for item changes that a move OR ability can drive."""
-    for e in events:
-        if e.startswith("[from] move:") or e.startswith("[from] ability:"):
-            return e.split(":", 1)[1].strip()
-    return None
-
-
-def _hp_frac(hp: str) -> float | None:
-    """'45/100' / '0 fnt' / '45/100 brn' -> fraction, or None."""
-    try:
-        head = hp.strip().split(" ")[0]
-        if head in ("0", "0.0"):
-            return 0.0
-        num, den = head.split("/")
-        den_v = float(den)
-        return float(num) / den_v if den_v else None
-    except Exception:
-        return None
-
-
-def _join_phrases(items: list[str]) -> str:
-    items = [i for i in items if i]
-    if not items:
-        return ""
-    if len(items) == 1:
-        return items[0]
-    return ", ".join(items[:-1]) + " and " + items[-1]
 
 
 def _preview_order(lead_idx: int, n: int) -> str:
@@ -439,23 +318,18 @@ class Gen9PokeEnginePlayer(Player):
         # event, so a slow bleed still crosses the significance gate
         # eventually instead of vanishing turn by turn.
         self._airi = airi_bridge
-        self._airi_min_interval = airi_min_interval
-        self._airi_min_swing = airi_min_swing
         self._airi_turn_pace = airi_turn_pace
         self._airi_tag: str | None = None
-        self._airi_prev_value: float | None = None
-        self._airi_prev_read: str | None = None
-        self._airi_prev_disagree: str | None = None
-        self._airi_prev_fainted: tuple[set, set] = (set(), set())
         self._airi_last_sent = 0.0
-        # play-by-play: dramatic in-turn protocol events (crits, effectiveness,
-        # status, thaws, big/small hits) scraped from the raw message stream
-        # and folded into the next beat so commentary reacts to the ACTION,
-        # not just the post-turn box score. _airi_notable forces a beat.
-        self._airi_hl: list[str] = []
-        self._airi_notable = False
-        self._airi_hp: dict[str, float] = {}
-        self._airi_weather: str | None = None
+        # beat pipeline: protocol -> scanner -> typed events -> director ->
+        # composed beat text. All routing/gating logic lives in
+        # beat_director (pure, offline-drivable — the gold-set eval runs
+        # the same classes against replays); this class only adapts battle
+        # objects into TurnContext and ships Decision.text to AIRI.
+        self._scanner = ProtocolScanner()
+        self._director = Director(min_interval=airi_min_interval,
+                                  min_swing=airi_min_swing,
+                                  stats_fn=_species_stats)
 
     async def teampreview(self, battle):
         """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
@@ -491,33 +365,22 @@ class Gen9PokeEnginePlayer(Player):
             return "/team 123456"
 
     def _airi_new_battle(self, battle, lead: str | None = None):
-        """Emit the match-start event once per battle and reset momentum
-        state. Safe to call from every decision point: no-op after the
+        """Emit the match-start event once per battle and reset the beat
+        pipeline. Safe to call from every decision point: no-op after the
         first call for a given battle tag."""
         if self._airi is None or battle.battle_tag == self._airi_tag:
             return
         self._airi_tag = battle.battle_tag
-        self._airi_prev_value = None
-        self._airi_prev_read = None
-        self._airi_prev_disagree = None
-        self._airi_prev_fainted = (set(), set())
         self._airi_last_sent = 0.0
-        self._airi_hl = []
-        self._airi_notable = False
-        self._airi_hp = {}
-        self._airi_weather = None
+        self._scanner.reset()
         try:
-            opp = battle.opponent_username or "the opponent"
-            ours = ", ".join(_species_display(p.species)
-                             for p in battle.team.values())
-            theirs = ", ".join(_species_display(p.species)
-                               for p in battle.opponent_team.values())
-            text = (f"[MATCH START] New battle vs {opp}. "
-                    f"Our team: {ours or 'unknown'}. "
-                    f"Their preview: {theirs or 'hidden'}.")
-            if lead:
-                text += f" We lead {_species_display(lead)}."
-            text += " Set the stage in a line or two."
+            ours = [_species_display(p.species)
+                    for p in battle.team.values()]
+            theirs = [_species_display(p.species)
+                      for p in battle.opponent_team.values()]
+            text = self._director.match_start(
+                battle.opponent_username, ours, theirs,
+                lead=_species_display(lead) if lead else None)
             self._airi.send(text)
             self._airi_last_sent = time.monotonic()
         except Exception:
@@ -534,301 +397,11 @@ class Gen9PokeEnginePlayer(Player):
                     tag = split_messages[0][0].lstrip(">").strip()
                     b = self._battles.get(tag)
                     role = b.player_role if b else None
-                self._scan_highlights(split_messages, role)
+                self._director.observe(
+                    self._scanner.scan(split_messages, role))
             except Exception:
                 pass
         return result
-
-    def _scan_highlights(self, messages, role=None):
-        """Walk one battle message batch, attributing -crit/-supereffective/
-        -damage to the move that caused them and tracking HP to size hits;
-        also catch hazard/screen/weather swings. Append short factual phrases
-        to self._airi_hl and flag notable ones. `role` (our 'p1'/'p2') lets
-        side events read as 'our'/'their'."""
-        cur = None
-
-        def side_poss(side_token):
-            sr = side_token[:2]
-            if role and sr == role:
-                return "our"
-            if role and sr != role:
-                return "their"
-            return "one"
-
-        def flush():
-            nonlocal cur
-            if not cur or not cur.get("move"):
-                cur = None
-                return
-            head = f"{cur['mover']}'s {cur['move']}"
-            if cur.get("missed"):
-                self._airi_hl.append(f"{head} missed")
-                cur = None
-                return
-            if cur.get("effect") == "no effect":
-                self._airi_hl.append(f"{head} had no effect on {cur['target']}")
-                self._airi_notable = True
-                cur = None
-                return
-            tags = []
-            if cur.get("crit"):
-                tags.append("a critical hit")
-            if cur.get("effect"):
-                tags.append(cur["effect"])
-            dmg = cur.get("dmg")
-            if dmg is not None and not cur.get("ko"):
-                if dmg >= 0.5:
-                    tags.append("a devastating blow")
-                elif dmg >= 0.33:
-                    tags.append("a heavy hit")
-                elif 0 < dmg <= 0.08:
-                    tags.append("barely a scratch")
-            if cur.get("ko"):
-                # the finishing blow, attributed to the move that landed it
-                line = f"{head} knocked out {cur['target']}"
-                if tags:
-                    line += " with " + _join_phrases(tags)
-                self._airi_hl.append(line)
-                self._airi_notable = True
-            elif tags:
-                self._airi_hl.append(f"{head} landed {_join_phrases(tags)}")
-                if (cur.get("crit") or cur.get("effect") == "super effective"
-                        or (dmg is not None and dmg >= 0.5)):
-                    self._airi_notable = True
-            cur = None
-
-        for sm in messages:
-            if len(sm) < 2:
-                continue
-            t = sm[1]
-            if t == "move":
-                flush()
-                cur = {"mover": _poke_name(sm[2]), "move": sm[3],
-                       "target": _poke_name(sm[4]) if len(sm) > 4 else None,
-                       "effect": None, "crit": False, "dmg": None,
-                       "missed": False}
-            elif t == "-crit" and cur:
-                cur["crit"] = True
-            elif t == "-supereffective" and cur:
-                cur["effect"] = "super effective"
-            elif t == "-resisted" and cur:
-                cur["effect"] = "not very effective"
-            elif t == "-immune":
-                if cur:
-                    cur["effect"] = "no effect"
-            elif t == "-miss" and cur:
-                cur["missed"] = True
-            elif t in ("-damage", "-heal", "-sethp"):
-                key = sm[2].split(":")[0]
-                frac = _hp_frac(sm[3]) if len(sm) > 3 else None
-                old = self._airi_hp.get(key)
-                if frac is not None:
-                    self._airi_hp[key] = frac
-                if (t == "-damage" and cur and old is not None
-                        and frac is not None
-                        and cur.get("target") == _poke_name(sm[2])):
-                    cur["dmg"] = old - frac
-            elif t in ("switch", "drag"):
-                key = sm[2].split(":")[0]
-                self._airi_hp[key] = (_hp_frac(sm[4]) if len(sm) > 4 else 1.0)
-            elif t == "faint" and len(sm) > 2:
-                mon = _poke_name(sm[2])
-                if cur and cur.get("target") == mon:
-                    cur["ko"] = True  # attribute to the finishing move
-                else:
-                    flush()  # residual: poison/hazard/recoil/Life Orb etc.
-                    self._airi_hl.append(f"{mon} went down")
-                    self._airi_notable = True
-            elif t == "-status" and len(sm) > 3:
-                tmpl = _STATUS_INFLICT.get(sm[3])
-                if tmpl:
-                    flush()  # emit the causing move first, then its effect
-                    self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
-                    self._airi_notable = True
-            elif t == "-curestatus" and len(sm) > 3:
-                tmpl = _STATUS_CURE.get(sm[3])
-                if tmpl:
-                    flush()
-                    self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
-                    self._airi_notable = True
-            elif t == "cant" and len(sm) > 3:
-                tmpl = _CANT.get(sm[3])
-                if tmpl:
-                    flush()
-                    self._airi_hl.append(tmpl.format(n=_poke_name(sm[2])))
-                    self._airi_notable = True
-            elif t == "-enditem" and len(sm) > 3:
-                flush()
-                mon = _poke_name(sm[2])
-                item = sm[3]
-                by = _from_cause(sm[4:])
-                ate = any("[eat]" in a for a in sm[4:])
-                if by == "Knock Off":
-                    self._airi_hl.append(f"{item} was knocked off {mon}")
-                    self._airi_notable = True
-                elif by in ("Thief", "Covet", "Magician", "Pickpocket"):
-                    self._airi_hl.append(f"{mon}'s {item} was swiped away")
-                    self._airi_notable = True
-                elif item == "Focus Sash":
-                    self._airi_hl.append(f"{mon}'s Focus Sash let it cling on")
-                    self._airi_notable = True
-                elif item == "Air Balloon":
-                    self._airi_hl.append(f"{mon}'s Air Balloon popped")
-                    self._airi_notable = True
-                elif ate:
-                    # a berry eaten is routine tempo, not a forced beat
-                    self._airi_hl.append(f"{mon} ate its {item}")
-                else:
-                    self._airi_hl.append(f"{mon} used up its {item}")
-            elif t == "-item" and len(sm) > 3:
-                by = _from_cause(sm[4:])
-                if by in ("Trick", "Switcheroo"):
-                    flush()
-                    self._airi_hl.append(
-                        f"{_poke_name(sm[2])} was handed a {sm[3]} by {by}")
-                    self._airi_notable = True
-                elif by in ("Thief", "Covet", "Magician", "Pickpocket"):
-                    flush()
-                    self._airi_hl.append(
-                        f"{_poke_name(sm[2])} swiped a {sm[3]} with {by}")
-                    self._airi_notable = True
-                # plain reveals (switch-in, Frisk) are not dramatic: skip
-            elif t == "-terastallize" and len(sm) > 3:
-                flush()
-                self._airi_hl.append(
-                    f"{_poke_name(sm[2])} Terastallized into a {sm[3]} type")
-                self._airi_notable = True
-            elif t == "-boost" and len(sm) > 4:
-                flush()
-                stat = _STAT.get(sm[3], sm[3])
-                amt = int(sm[4]) if sm[4].lstrip("-").isdigit() else 1
-                adv = "sharply " if amt >= 2 else ""
-                self._airi_hl.append(
-                    f"{_poke_name(sm[2])} {adv}raised its {stat}")
-                # offensive setup (atk/spa/spe) threatens a sweep -> force a
-                # beat; a defensive/minor +1 just rides along
-                if amt >= 2 or sm[3] in ("atk", "spa", "spe"):
-                    self._airi_notable = True
-            elif t == "-unboost" and len(sm) > 4:
-                flush()
-                stat = _STAT.get(sm[3], sm[3])
-                amt = int(sm[4]) if sm[4].lstrip("-").isdigit() else 1
-                adv = "sharply " if amt >= 2 else ""
-                self._airi_hl.append(
-                    f"{_poke_name(sm[2])}'s {stat} was {adv}cut")
-            elif t == "-setboost" and len(sm) > 4:
-                flush()
-                self._airi_hl.append(
-                    f"{_poke_name(sm[2])} maxed out its "
-                    f"{_STAT.get(sm[3], sm[3])}")
-                self._airi_notable = True
-            elif t in ("-clearallboost", "-invertboost", "-clearboost"):
-                flush()
-                if t == "-clearallboost":
-                    self._airi_hl.append("every stat change was wiped away")
-                elif t == "-invertboost":
-                    self._airi_hl.append(
-                        f"{_poke_name(sm[2])}'s stat changes were inverted"
-                        if len(sm) > 2 else "the stat changes were inverted")
-                else:
-                    self._airi_hl.append(
-                        f"{_poke_name(sm[2])}'s boosts were cleared"
-                        if len(sm) > 2 else "the boosts were cleared")
-                self._airi_notable = True
-            elif t == "-start" and len(sm) > 3:
-                key = _cond_name(sm[3]).lower()
-                entry = _VOL_START.get(key)
-                if entry:
-                    flush()
-                    self._airi_hl.append(entry[0].format(n=_poke_name(sm[2])))
-                    if entry[1]:
-                        self._airi_notable = True
-            elif t == "-end" and len(sm) > 3:
-                entry = _VOL_END.get(_cond_name(sm[3]).lower())
-                if entry:
-                    flush()
-                    self._airi_hl.append(entry[0].format(n=_poke_name(sm[2])))
-                    if entry[1]:
-                        self._airi_notable = True
-            elif t == "replace" and len(sm) > 2:
-                flush()
-                species = sm[3].split(",")[0] if len(sm) > 3 else _poke_name(sm[2])
-                self._airi_hl.append(
-                    f"the Illusion drops - it was {species} all along")
-                self._airi_notable = True
-            elif t == "-transform" and len(sm) > 3:
-                flush()
-                self._airi_hl.append(
-                    f"{_poke_name(sm[2])} transformed into {_poke_name(sm[3])}")
-                self._airi_notable = True
-            elif t == "-prepare" and len(sm) > 3:
-                flush()
-                self._airi_hl.append(
-                    f"{_poke_name(sm[2])} is charging up {sm[3]}")
-            elif t == "-sidestart" and len(sm) > 3:
-                flush()
-                poss = side_poss(sm[2])
-                cond = _cond_name(sm[3])
-                low = cond.lower()
-                # setting hazards/screens is routine tempo — record it, but
-                # don't force a beat (removing them below IS a swing)
-                if low in _HAZARDS or low in _SCREENS:
-                    self._airi_hl.append(f"{cond} went up on {poss} side")
-                elif low == "tailwind":
-                    self._airi_hl.append(f"Tailwind kicked in for {poss} side")
-            elif t == "-sideend" and len(sm) > 3:
-                flush()
-                poss = side_poss(sm[2])
-                cond = _cond_name(sm[3])
-                low = cond.lower()
-                by = _from_move(sm[4:])
-                if low in _HAZARDS or low in _SCREENS or low == "tailwind":
-                    if by:
-                        self._airi_hl.append(
-                            f"{poss} {cond} was cleared away by {by}")
-                        self._airi_notable = True
-                    elif low in _SCREENS:
-                        self._airi_hl.append(f"{poss} {cond} wore off")
-            elif t == "-swapsideconditions":
-                # Court Change: hazards/screens change sides in one move —
-                # the same class of swing as a Rapid Spin/Defog clear, but
-                # the protocol emits this dedicated message instead of
-                # -sideend lines, so it was invisible to the scan
-                flush()
-                self._airi_hl.append(
-                    "Court Change swapped the hazards and screens "
-                    "onto the opposite sides")
-                self._airi_notable = True
-            elif t == "-weather" and len(sm) > 2:
-                w = sm[2]
-                upkeep = any("[upkeep]" in a for a in sm[3:])
-                if not upkeep:
-                    flush()
-                    if w == "none":
-                        if self._airi_weather:
-                            self._airi_hl.append("the weather cleared")
-                            self._airi_notable = True
-                        self._airi_weather = None
-                    else:
-                        label = _WEATHER.get(w.lower().replace(" ", ""), w)
-                        if label != self._airi_weather:
-                            self._airi_hl.append(f"{label} set in")
-                            self._airi_notable = True
-                            self._airi_weather = label
-            elif t == "-fieldstart" and len(sm) > 2:
-                cond = _cond_name(sm[2])
-                flush()
-                self._airi_hl.append(f"{cond} took over the field")
-                self._airi_notable = True
-            elif t == "-fieldend" and len(sm) > 2:
-                cond = _cond_name(sm[2])
-                if cond.lower() == "trick room":
-                    flush()
-                    self._airi_hl.append("Trick Room wore off")
-        flush()
-        # keep the buffer bounded; the freshest beats matter most
-        if len(self._airi_hl) > 6:
-            self._airi_hl = self._airi_hl[-6:]
 
     def _airi_note_switch(self, mon):
         """Record a forced-switch replacement as a ride-along highlight so
@@ -837,128 +410,63 @@ class Gen9PokeEnginePlayer(Player):
         if self._airi is None:
             return
         try:
-            self._airi_hl.append(f"we send {_species_display(mon.species)} in")
+            self._director.note(f"we send {_species_display(mon.species)} in",
+                                side="us")
         except Exception:
             pass
 
     def _airi_turn_event(self, battle, ranked, desc: str):
-        """Per-decision beat, gated for significance: faint-count changes
-        and momentum swings go out (subject to a 5s floor so forced-switch
-        chains don't spam); quiet stretches get at most one routine update
-        per airi_min_interval. Ungated beats stay pending — the comparison
-        is always against the last SENT state, so they surface next turn."""
+        """Adapt the decision point into a TurnContext and let the director
+        decide. All gating (5s floor, significance, swing-vs-last-SENT) and
+        beat text assembly live in beat_director; this method only extracts
+        primitives from the battle object — display names throughout — and
+        ships Decision.text when there is one."""
         if self._airi is None:
             return
         try:
             self._airi_new_battle(battle)  # formats without team preview
             top = ranked[0]
             value = top.total_score / max(1, top.visits)
-            ours_f = {p.species for p in battle.team.values() if p.fainted}
-            theirs_f = {p.species for p in battle.opponent_team.values()
-                        if p.fainted}
-            new_ours = ours_f - self._airi_prev_fainted[0]
-            new_theirs = theirs_f - self._airi_prev_fainted[1]
-            faints = bool(new_ours or new_theirs)
-            swing = (None if self._airi_prev_value is None
-                     else value - self._airi_prev_value)
-            notable = self._airi_notable
-            elapsed = time.monotonic() - self._airi_last_sent
-            if elapsed < 5.0:
-                return
-            if not (notable or faints or swing is None
-                    or abs(swing) >= self._airi_min_swing
-                    or elapsed >= self._airi_min_interval):
-                return
             me = battle.active_pokemon
             opp = battle.opponent_active_pokemon
 
             def hp(p):
-                return f"{round(100 * (p.current_hp_fraction or 0))}% hp"
+                return round(100 * (p.current_hp_fraction or 0))
 
-            # board events lead, the read is trailing color: fed
-            # "Win estimate 62%" the character recites the number instead
-            # of calling the play
-            parts = [f"[BATTLE T{battle.turn}]"]
-            # play-by-play of the exchange that just resolved leads the beat
-            if self._airi_hl:
-                hl = self._airi_hl[-4:]
-                parts.append("Last exchange: " + "; ".join(hl) + ".")
-
-            # KOs are normally narrated in the highlights above ("... knocked
-            # out X"); only fall back to a flat mention for a faint that
-            # didn't make it into the play-by-play, so nothing is dropped
-            # .species is an id ('tinglu') but highlights carry the protocol
-            # display name ('Ting-Lu'), so compare on an alnum-squashed form
-            def _squash(s):
-                return re.sub(r"[^a-z0-9]", "", s.lower())
-
-            def _ko_narrated(name):
-                n = _squash(name)
-                for h in self._airi_hl:
-                    hs = _squash(h)
-                    if n in hs and ("knockedout" in hs or "wentdown" in hs):
-                        return True
-                return False
-            lost_theirs = [_species_display(n) for n in sorted(new_theirs)
-                           if not _ko_narrated(n)]
-            lost_ours = [_species_display(n) for n in sorted(new_ours)
-                         if not _ko_narrated(n)]
-            if lost_theirs:
-                parts.append(f"Their {' and '.join(lost_theirs)} "
-                             f"{'are' if len(lost_theirs) > 1 else 'is'} down.")
-            if lost_ours:
-                parts.append(f"We lost {' and '.join(lost_ours)}.")
-            parts.append(
-                f"{_species_display(me.species) + ' (' + hp(me) + ')' if me else 'Our side'}"
-                f" vs "
-                f"{_species_display(opp.species) + ' (' + hp(opp) + ')' if opp else 'their side'}.")
             # desc is engine-speak ("makeitrain", "switch gliscor"); the
             # character must see display names or it free-associates
             tera_choice = desc.endswith(" (tera)")
             base = desc[:-7] if tera_choice else desc
             if base.startswith("switch "):
-                parts.append(f"We switch to {_species_display(base[7:])}.")
+                choice_text = f"We switch to {_species_display(base[7:])}."
             else:
-                parts.append(f"We go for {_move_display(base)}"
-                             f"{' and Terastallize' if tera_choice else ''}.")
-            # the desk read repeats its band for long stretches, and the
-            # character litigates every repetition — only speak it when the
-            # band changes or momentum genuinely swings
-            read = _read_phrase(value)
-            sw = _swing_phrase(swing)
-            swung = sw is not None and "swung" in sw
-            if read != self._airi_prev_read or swung:
-                parts.append(f"Desk read: {read}{', ' + sw if sw else ''}.")
-            parts.append(f"Bodies: us {6 - len(ours_f)} standing, "
-                         f"them {6 - len(theirs_f)}.")
-            # when the engine's read and the body count tell opposite
-            # stories, say so — the character should react with confusion
-            # or criticism, not despair at a stat in a won position.
-            # phrased as a plain feed sentence, NOT a labelled "Note:":
-            # the character echoes a "Note:" prefix straight into its spoken
-            # line, so the cue has to read like match copy it can react to.
-            # said once per onset — repeating it every beat made the
-            # character relitigate the same disagreement all match
-            body_lead = len(theirs_f) - len(ours_f)
-            disagree = ("material" if body_lead >= 3 and value < 0.40 else
-                        "bodies" if body_lead <= -3 and value > 0.60 else None)
-            if disagree and disagree != self._airi_prev_disagree:
-                if disagree == "material":
-                    parts.append("The board and the desk read sharply "
-                                 "disagree here: we hold a commanding "
-                                 "material lead yet the read is grim.")
-                else:
-                    parts.append("The board and the desk read sharply "
-                                 "disagree here: we trail badly on bodies "
-                                 "yet the read stays upbeat.")
-            self._airi.send(" ".join(parts))
-            self._airi_prev_value = value
-            self._airi_prev_read = read
-            self._airi_prev_disagree = disagree
-            self._airi_prev_fainted = (ours_f, theirs_f)
-            self._airi_last_sent = time.monotonic()
-            self._airi_hl = []
-            self._airi_notable = False
+                choice_text = (f"We go for {_move_display(base)}"
+                               f"{' and Terastallize' if tera_choice else ''}.")
+
+            ctx = TurnContext(
+                turn=battle.turn,
+                value=value,
+                elapsed=time.monotonic() - self._airi_last_sent,
+                me_name=_species_display(me.species) if me else None,
+                me_hp=hp(me) if me else None,
+                me_status=(me.status.name.lower()
+                           if me and me.status else None),
+                opp_name=_species_display(opp.species) if opp else None,
+                opp_hp=hp(opp) if opp else None,
+                opp_status=(opp.status.name.lower()
+                            if opp and opp.status else None),
+                ours_fainted=frozenset(
+                    _species_display(p.species)
+                    for p in battle.team.values() if p.fainted),
+                theirs_fainted=frozenset(
+                    _species_display(p.species)
+                    for p in battle.opponent_team.values() if p.fainted),
+                choice_text=choice_text,
+            )
+            decision = self._director.decide(ctx)
+            if decision.text:
+                self._airi.send(decision.text)
+                self._airi_last_sent = time.monotonic()
         except Exception:
             pass
 
@@ -995,15 +503,14 @@ class Gen9PokeEnginePlayer(Player):
         if self._airi is None:
             return
         try:
-            opp = battle.opponent_username or "the opponent"
             outcome = ("TIE" if battle.won is None
                        else "WIN" if battle.won else "LOSS")
             ours_left = sum(1 for p in battle.team.values() if not p.fainted)
             theirs_left = sum(1 for p in battle.opponent_team.values()
                               if not p.fainted)
-            self._airi.send(
-                f"[RESULT] {outcome} vs {opp}. Left standing: us {ours_left}, "
-                f"them {theirs_left}. Wrap up the match in a line or two.")
+            text, _beat = self._director.match_end(
+                outcome, ours_left, theirs_left, battle.opponent_username)
+            self._airi.send(text)
         except Exception:
             pass
 
