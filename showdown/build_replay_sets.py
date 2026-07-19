@@ -107,16 +107,49 @@ def parse_replay(log: str):
                    items.get(key), abilities.get(key), teras.get(key))
 
 
+def iter_replays(replay_dir: Path | None, jsonl_paths: list[str], fmt: str):
+    """Yield (replay_id, log) across scraped-dir JSONs and JSONL dumps
+    (metamon), deduplicated by replay id (first seen wins)."""
+    seen: set[str] = set()
+    if replay_dir is not None and replay_dir.exists():
+        for path in sorted(replay_dir.glob(f"{fmt}-*.json")):
+            try:
+                data = json.loads(path.read_text())
+            except Exception:
+                continue
+            rid = str(data.get("id") or path.stem)
+            if rid in seen:
+                continue
+            seen.add(rid)
+            yield rid, data.get("log") or ""
+    for jp in jsonl_paths:
+        with open(jp) as f:
+            for line in f:
+                try:
+                    data = json.loads(line)
+                except Exception:
+                    continue
+                rid = str(data.get("id") or "")
+                if not rid or rid in seen:
+                    continue
+                seen.add(rid)
+                yield rid, data.get("log") or ""
+
+
 def main():
     parser = argparse.ArgumentParser(description="Build replay set data")
     parser.add_argument("--format", default="gen9ou")
     parser.add_argument("--min-team-count", type=int, default=2,
                         help="drop team archetypes seen fewer times")
+    parser.add_argument("--jsonl", action="append", default=[],
+                        help="additional replay JSONL dump(s), e.g. the "
+                             "metamon filter output; merged with the scraped "
+                             "dir, deduped by replay id")
+    parser.add_argument("--out", default=None)
     args = parser.parse_args()
 
     replay_dir = HERE / "replays" / args.format
-    files = sorted(replay_dir.glob(f"{args.format}-*.json"))
-    print(f"parsing {len(files)} replays from {replay_dir}")
+    print(f"parsing replays from {replay_dir} + {len(args.jsonl)} jsonl dump(s)")
 
     species_agg: dict[str, dict] = defaultdict(lambda: {
         "games": 0, "movesets": Counter(), "items": Counter(),
@@ -126,14 +159,13 @@ def main():
             "movesets": Counter(), "items": Counter(), "teras": Counter()})})
 
     parsed = 0
-    for path in files:
+    for rid, log in iter_replays(replay_dir, args.jsonl, args.format):
         try:
-            data = json.loads(path.read_text())
-            log = data.get("log") or ""
             if "|poke|" not in log:
                 continue
+            results = list(parse_replay(log))  # parse ONCE per replay
             side_mons = defaultdict(list)
-            for side, sp, mv, item, ability, tera in parse_replay(log):
+            for side, sp, mv, item, ability, tera in results:
                 side_mons[side].append(sp)
                 agg = species_agg[sp]
                 agg["games"] += 1
@@ -151,8 +183,10 @@ def main():
                 key = "|".join(sorted(mons))
                 team = team_agg[key]
                 team["count"] += 1
-                for _, sp, mv, item, _, tera in parse_replay(log):
-                    if sp not in mons:
+                for sd, sp, mv, item, _, tera in results:
+                    # match on SIDE too: shared species across both teams
+                    # used to cross-pollute archetype movesets
+                    if sd != side or sp not in mons:
                         continue
                     entry = team["mons"][sp]
                     if mv:
@@ -162,6 +196,9 @@ def main():
                     if tera:
                         entry["teras"][tera] += 1
             parsed += 1
+            if parsed % 25000 == 0:
+                print(f"  parsed {parsed} "
+                      f"({len(team_agg)} archetypes so far)", flush=True)
         except Exception:
             continue
     print(f"parsed {parsed} replays, {len(species_agg)} species, "
@@ -193,7 +230,7 @@ def main():
                 "teras": counter_out(e["teras"], 3),
             } for sp, e in team["mons"].items()},
         }
-    dest = HERE / f"{args.format}_replay_sets.json"
+    dest = Path(args.out) if args.out else HERE / f"{args.format}_replay_sets.json"
     dest.write_text(json.dumps(out))
     print(f"kept {kept} archetypes (count >= {args.min_team_count}); "
           f"wrote {dest} ({dest.stat().st_size // 1024} KB)")
