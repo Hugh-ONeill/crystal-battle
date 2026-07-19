@@ -20,11 +20,13 @@ from __future__ import annotations
 
 import asyncio
 import argparse
+import json
 import random
 import re
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -39,6 +41,12 @@ from showdown.name_mapping import _normalize
 from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
 from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
+
+# every numeric desk read (top line's avg MCTS score per searched decision)
+# plus the game outcome, one JSONL line per game — the raw material for
+# Brier/calibration scoring (showdown/brier_report.py). Default-on: the
+# ledger should accrue from every game played, commentated or not.
+DESK_LOG_DEFAULT = str(Path(__file__).parent / "desk_reads.jsonl")
 
 LOCAL_SERVER = ServerConfiguration(
     "ws://localhost:8000/showdown/websocket",
@@ -370,8 +378,13 @@ class Gen9PokeEnginePlayer(Player):
                  airi_bridge: AiriBridge | None = None,
                  airi_min_interval: float = 20.0,
                  airi_min_swing: float = 0.10,
-                 airi_turn_pace: float = 0.0, **kwargs):
+                 airi_turn_pace: float = 0.0,
+                 desk_log_path: str | None = DESK_LOG_DEFAULT, **kwargs):
         super().__init__(**kwargs)
+        # Brier ledger: numeric desk reads per battle, flushed with the
+        # outcome at game end (None path disables)
+        self._desk_log_path = desk_log_path
+        self._desk_reads: dict[str, list] = {}
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers)
         self._stochastic = stochastic
@@ -949,7 +962,36 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    def _flush_desk_log(self, battle):
+        """One JSONL line per finished game: every numeric desk read the
+        search produced plus the outcome. Brier and calibration tables are
+        computed offline (showdown/brier_report.py) — nothing here may ever
+        disturb play."""
+        if self._desk_log_path is None:
+            return
+        try:
+            reads = self._desk_reads.pop(battle.battle_tag, [])
+            if not reads:
+                return
+            result = ("tie" if battle.won is None
+                      else "win" if battle.won else "loss")
+            line = {
+                "ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "battle_tag": battle.battle_tag,
+                "opponent": battle.opponent_username,
+                "search_ms": self._search_ms,
+                "set_samples": self._set_samples,
+                "reads": reads,
+                "result": result,
+                "outcome": {"win": 1.0, "loss": 0.0, "tie": 0.5}[result],
+            }
+            with open(self._desk_log_path, "a") as f:
+                f.write(json.dumps(line) + "\n")
+        except Exception:
+            pass
+
     def _battle_finished_callback(self, battle):
+        self._flush_desk_log(battle)
         if self._airi is None:
             return
         try:
@@ -1183,6 +1225,14 @@ class Gen9PokeEnginePlayer(Player):
             [(m[0], (m[1], m[2])) for m in mappable],
             self._choice_rng, sample=self._stochastic)
         self._log_choice(battle, chosen_result, desc)
+        if self._desk_log_path is not None:
+            try:
+                top = ranked[0]
+                self._desk_reads.setdefault(battle.battle_tag, []).append(
+                    (battle.turn,
+                     round(top.total_score / max(1, top.visits), 4)))
+            except Exception:
+                pass
         self._airi_turn_event(battle, ranked, desc)
         return order
 
@@ -1255,6 +1305,10 @@ async def main():
                         help="hold each move this many seconds before sending "
                              "(broadcast pacing: keeps commentary in sync with "
                              "the battle animation; ~8 suits Gemma's latency)")
+    parser.add_argument("--desk-log", default=DESK_LOG_DEFAULT,
+                        help="JSONL file for desk-read calibration logging "
+                             "(one line per game: reads + outcome; "
+                             "'off' disables)")
     args = parser.parse_args()
 
     server = LOCAL_SERVER if args.local else SERVERS[args.server]
@@ -1283,6 +1337,7 @@ async def main():
         airi_min_interval=args.airi_min_interval,
         airi_min_swing=args.airi_min_swing,
         airi_turn_pace=args.airi_turn_pace,
+        desk_log_path=None if args.desk_log == "off" else args.desk_log,
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,
