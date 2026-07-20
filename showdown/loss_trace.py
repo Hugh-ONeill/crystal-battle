@@ -113,11 +113,17 @@ def main():
     parser.add_argument("--name", default=OUR_NAME,
                         help="our player name in the logs (ladder runs as "
                              "PAC-Crystal, local benches as CBGen9)")
+    parser.add_argument("--opponent", default=None,
+                        help="restrict analysis to games vs this opponent "
+                             "(e.g. LLM-gem3f) — for per-matchup loss-tracing")
     parser.add_argument("--collapse-examples", type=int, default=0,
                         help="print the N worst collapse timelines")
     args = parser.parse_args()
 
     games = parse_games([Path(p) for p in args.logs], args.name)
+    if args.opponent:
+        games = [g for g in games if g["opp_name"] == args.opponent]
+        print(f"[filtered to opponent {args.opponent}]")
     wins = [g for g in games if g["we_won"]]
     losses = [g for g in games if not g["we_won"]]
     n = len(games)
