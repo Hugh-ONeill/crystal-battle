@@ -33,7 +33,15 @@ if [ $# -ge 2 ]; then shift 2; else shift $#; fi   # rest -> gen9_player
 
 SERVER="${SERVER:-pokeagent}"
 export LADDER_FORMAT="${LADDER_FORMAT:-gen9oulongtimer}"
-export PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-1800}"
+# per-game timeout doubles as the queue-wait: a thin baseline pool means we
+# often sit queued with no match, so keep it long enough for a real long-timer
+# game AND to catch a baseline that queues sporadically, but short enough that
+# a dead slot recycles (re-queues) rather than blocking for ages. 900s = 15min.
+export PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-900}"
+# RUN_DEADLINE bounds the WHOLE session by wall-clock (default 8h) so an empty
+# queue can't turn a 120-slot run into a multi-day churn of search-timeouts.
+# The run stops at whichever comes first: N_GAMES slots or this deadline.
+RUN_DEADLINE="${RUN_DEADLINE:-8h}"
 
 CRED_FILE="$HOME/.config/crystal-battle/pokeagent.env"
 [ -f "$CRED_FILE" ] || { echo "FATAL: cred file $CRED_FILE missing" >&2; exit 1; }
@@ -56,7 +64,7 @@ LOG="$CB/showdown/bench/${TAG}_ladder.log"
 DESK="$CB/showdown/desk_reads_${STAMP}.jsonl"
 ANALYSIS="$CB/showdown/bench/${TAG}_analysis.txt"
 
-echo "=== overnight ladder: $N_GAMES games on $LADDER_FORMAT as $USERNAME ==="
+echo "=== overnight ladder: up to $N_GAMES games (or ${RUN_DEADLINE}) on $LADDER_FORMAT as $USERNAME ==="
 echo "  pool:     $POOL"
 echo "  log:      $LOG"
 echo "  desk-log: $DESK   (Brier calibration accrual)"
@@ -65,8 +73,11 @@ START=$(date +%s)
 
 # one suspend-inhibit block around the whole run. --adaptive on turns on the
 # budget-by-clock escalation path; a dated desk-log accrues calibration data.
+# `timeout $RUN_DEADLINE` caps the whole session by wall-clock so a thin/empty
+# queue can't churn search-timeouts past the night.
 systemd-inhibit --mode=block --what=sleep:idle \
     --why="crystal-battle overnight ladder ($N_GAMES games)" \
+    timeout "$RUN_DEADLINE" \
     sh showdown/ladder_session.sh "$TAG" "$N_GAMES" "$SERVER" "$POOL" \
         --adaptive on --desk-log "$DESK" "$@"
 
