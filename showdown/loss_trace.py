@@ -34,7 +34,7 @@ _TERA_RE = re.compile(r"\|-terastallize\|(p[12])a: ([^|]+)\|(\w+)")
 _WIN_RE = re.compile(r"\|win\|(.+)$")
 
 
-def parse_games(paths: list[Path]) -> list[dict]:
+def parse_games(paths: list[Path], our_name: str = OUR_NAME) -> list[dict]:
     games = []
     for path in paths:
         cur = None
@@ -84,11 +84,12 @@ def parse_games(paths: list[Path]) -> list[dict]:
         if g["winner"] is None or not g["choices"]:
             continue
         g["our_role"] = next((r for r, n in g["players"].items()
-                              if n == OUR_NAME), None)
+                              if n == our_name), None)
         if g["our_role"] is None:
             continue
         g["opp_role"] = "p2" if g["our_role"] == "p1" else "p1"
-        g["we_won"] = g["winner"] == OUR_NAME
+        g["opp_name"] = g["players"].get(g["opp_role"], "?")
+        g["we_won"] = g["winner"] == our_name
         out.append(g)
     return out
 
@@ -109,14 +110,31 @@ def biggest_collapse(g: dict):
 def main():
     parser = argparse.ArgumentParser(description="A/B loss-trace analysis")
     parser.add_argument("logs", nargs="+")
+    parser.add_argument("--name", default=OUR_NAME,
+                        help="our player name in the logs (ladder runs as "
+                             "PAC-Crystal, local benches as CBGen9)")
     parser.add_argument("--collapse-examples", type=int, default=0,
                         help="print the N worst collapse timelines")
     args = parser.parse_args()
 
-    games = parse_games([Path(p) for p in args.logs])
+    games = parse_games([Path(p) for p in args.logs], args.name)
     wins = [g for g in games if g["we_won"]]
     losses = [g for g in games if not g["we_won"]]
-    print(f"parsed {len(games)} games: {len(wins)}W / {len(losses)}L\n")
+    n = len(games)
+    wr = len(wins) / n if n else 0.0
+    se = (wr * (1 - wr) / n) ** 0.5 if n else 0.0
+    print(f"parsed {n} games as {args.name}: {len(wins)}W / {len(losses)}L "
+          f"= {wr:.1%} (±{1.96 * se:.1%} 95% CI)\n")
+
+    # per-opponent standings — on a thin baseline pool this IS the read
+    opp = defaultdict(lambda: [0, 0])
+    for g in games:
+        opp[g["opp_name"]][0 if g["we_won"] else 1] += 1
+    print("per-opponent standings:")
+    for name, (w, l) in sorted(opp.items(), key=lambda kv: -(kv[1][0] + kv[1][1])):
+        tot = w + l
+        print(f"  {w:>3}W {l:>3}L  {w / tot:>5.1%}  {name}")
+    print()
 
     # game length
     def lengths(gs):
