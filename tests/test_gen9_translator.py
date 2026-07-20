@@ -766,6 +766,9 @@ def test_adaptive_escalation_decision():
     stub = P.__new__(P)
     stub._search_ms, stub._escalate_ms = 300, 2000
     stub._base_frac, stub._base_max_ms = 0.02, 2000
+    stub._grind_turn, stub._grind_max_ms = 20, 6000
+    stub._collapse_turn, stub._collapse_moves = 25, 14
+    stub._set_samples = 2
     stub._flat_threshold, stub._clock_floor_s = 0.55, 40
     stub._set_samples, stub._verbose = 2, False
     stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
@@ -794,6 +797,14 @@ def test_adaptive_escalation_decision():
     assert stub._base_budget_ms(NS(_replay_data=[])) == 150    # survival floor
     clock(None)
     assert stub._base_budget_ms(NS(_replay_data=[])) == 300    # no timer: pinned
+    # grind-aware cap: from grind_turn on, cap rises to grind_max_ms —
+    # but only when the bank affords it (2%-of-surplus rule still limits)
+    clock(1500)
+    assert stub._base_budget_ms(NS(_replay_data=[], turn=30)) == 6000
+    clock(1500)
+    assert stub._base_budget_ms(NS(_replay_data=[], turn=10)) == 2000
+    clock(120)   # (120-40)*2% = 1.6s < both caps: unchanged late
+    assert stub._base_budget_ms(NS(_replay_data=[], turn=30)) == 1600
 
     # decisive probe: no escalation regardless of clock
     calls.clear(); clock(120)
@@ -919,3 +930,25 @@ def test_timer_variant_format_normalized():
     assert _base_format(None) is None
     # and it lands on the instance the chaos/ps/replay lookups key off
     assert Gen9Translator(set_source="gen9oulongtimer")._set_source == "gen9ou"
+
+
+def test_late_game_world_collapse():
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import Gen9PokeEnginePlayer as P
+    stub = P.__new__(P)
+    stub._set_samples, stub._verbose = 2, False
+    stub._collapse_turn, stub._collapse_moves = 25, 14
+
+    def battle(turn, moves_per_mon):
+        team = {f"m{i}": NS(moves={f"mv{j}": None for j in range(k)})
+                for i, k in enumerate(moves_per_mon)}
+        return NS(turn=turn, opponent_team=team)
+
+    full = [4, 4, 3, 2, 2, 1]     # 16 revealed moves
+    thin = [2, 2, 1, 1, 0, 0]     # 6 revealed moves
+
+    assert stub._effective_samples(battle(30, full)) == 1     # collapses
+    assert stub._effective_samples(battle(20, full)) == 2     # too early
+    assert stub._effective_samples(battle(30, thin)) == 2     # sets ambiguous
+    stub._set_samples = 1
+    assert stub._effective_samples(battle(30, full)) == 1     # no-op at K=1

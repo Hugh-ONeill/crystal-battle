@@ -82,6 +82,7 @@ while [ "$i" -le "$BATCHES" ]; do
         --mode accept --format gen9ou --team "$OUR_TEAM" \
         --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
         --base-max-ms "${CB_SEARCH_MS:-300}" \
+        --grind-max-ms "${CB_SEARCH_MS:-300}" \
         --n-games 1 --log-level 20 \
         "$@" >> "$OURS_LOG" 2>&1 &
     OURS_PID=$!

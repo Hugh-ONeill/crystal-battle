@@ -306,6 +306,8 @@ class Gen9PokeEnginePlayer(Player):
                  clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
                  spend_frac: float = 0.25, escalate_max_ms: int = 15000,
                  base_frac: float = 0.02, base_max_ms: int = 2000,
+                 grind_turn: int = 20, grind_max_ms: int = 6000,
+                 collapse_turn: int = 25, collapse_moves: int = 14,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
                  value_batch: int = 32, verbose: bool = True,
@@ -356,6 +358,11 @@ class Gen9PokeEnginePlayer(Player):
         # budget-by-clock (base search scales with the parsed bank)
         self._base_frac = base_frac
         self._base_max_ms = base_max_ms
+        # grind depth: raised budget cap + world collapse in long games
+        self._grind_turn = grind_turn
+        self._grind_max_ms = grind_max_ms
+        self._collapse_turn = collapse_turn
+        self._collapse_moves = collapse_moves
         self._bank_used_s = 0.0
         # WHERE the bank is spent matters more than how much: greedy early
         # spending drained it by ~turn 30 (all on low-leverage opening
@@ -720,6 +727,14 @@ class Gen9PokeEnginePlayer(Player):
         Self-pacing: as the bank drains the budget decays smoothly toward
         survival speed; with no timer visible, the configured search_ms is
         used unchanged (keeps timerless local play and pinned benches exact).
+
+        GRIND-AWARE: from grind_turn on, the cap rises to grind_max_ms. The
+        depth diagnostic (150 grind positions vs an 8s oracle, 96% oracle
+        self-stability) showed top-1 agreement climbing 76/84/89/97% at
+        0.3/1/2/5s — at a 2s base we still miss 11% of grind decisions, and
+        those compounded per-turn misses ARE the attrition-loss profile.
+        The 2%-of-surplus rule still applies, so short-clock games never
+        overspend: the raised cap only matters when the bank affords it.
         """
         try:
             uname = self.username
@@ -728,8 +743,37 @@ class Gen9PokeEnginePlayer(Player):
         bank, _cap = _parse_clock(battle, uname)
         if bank is None:
             return self._search_ms
+        cap = (self._grind_max_ms
+               if getattr(battle, "turn", 0) >= self._grind_turn
+               else self._base_max_ms)
         dyn = int((bank - self._clock_floor_s) * self._base_frac * 1000)
-        return max(150, min(self._base_max_ms, dyn))
+        return max(150, min(cap, dyn))
+
+    def _effective_samples(self, battle) -> int:
+        """Late-game world collapse: K sampled opponent worlds -> 1 once the
+        opponent's sets are substantially revealed. The K=2 split exists to
+        hedge SET uncertainty (world 1 is speed-pessimistic vs scarf reads);
+        deep in a long game most of that uncertainty is resolved, so halving
+        the worlds doubles per-world depth exactly where the depth diagnostic
+        says depth pays. Gated on BOTH turn (collapse_turn) and revealed
+        opponent moves (collapse_moves) so we never drop the speed-pessimistic
+        hedge while a key set (scarf-vs-booster) is still ambiguous."""
+        if self._set_samples <= 1:
+            return self._set_samples
+        if getattr(battle, "turn", 0) < self._collapse_turn:
+            return self._set_samples
+        try:
+            revealed = sum(len(m.moves) for m in battle.opponent_team.values())
+        except Exception:
+            return self._set_samples
+        if revealed < self._collapse_moves:
+            return self._set_samples
+        if self._verbose and not getattr(battle, "_cb_collapse_logged", False):
+            battle._cb_collapse_logged = True
+            print(f"  T{battle.turn} world collapse: {self._set_samples}->1 "
+                  f"({revealed} opp moves revealed); full budget to one world",
+                  flush=True)
+        return 1
 
     def _search_samples(self, battle, search_ms: int | None = None,
                         use_value: bool | None = None) -> list:
@@ -745,10 +789,11 @@ class Gen9PokeEnginePlayer(Player):
         they run concurrently across cores when set_samples > 1. Identical
         results either way — only wall time differs."""
         ms = search_ms if search_ms is not None else self._base_budget_ms(battle)
+        k = self._effective_samples(battle)
         states = []
-        for i in range(self._set_samples):
-            rng = random.Random() if self._set_samples > 1 else None
-            pessimistic = self._set_samples > 1 and i == self._set_samples - 1
+        for i in range(k):
+            rng = random.Random() if k > 1 else None
+            pessimistic = k > 1 and i == k - 1
             # world 0: curated PS joint sets; later worlds: chaos sampling.
             # PS sets in every world collapsed diversity (series 10) — some
             # species have a single curated candidate, so all worlds shared
@@ -959,6 +1004,18 @@ async def main():
     parser.add_argument("--base-max-ms", type=int, default=2000,
                         help="cap on the clock-derived base budget (oracle "
                              "bench: 2000ms = 86%% deep-search agreement)")
+    parser.add_argument("--grind-turn", type=int, default=20,
+                        help="turn from which the grind budget cap applies")
+    parser.add_argument("--grind-max-ms", type=int, default=6000,
+                        help="raised budget cap from grind-turn on (depth "
+                             "diagnostic: 5s = 97%% grind oracle agreement "
+                             "vs 89%% at 2s); bank surplus rule still limits")
+    parser.add_argument("--collapse-turn", type=int, default=25,
+                        help="earliest turn for K-worlds -> 1 collapse")
+    parser.add_argument("--collapse-moves", type=int, default=14,
+                        help="revealed opponent moves required before world "
+                             "collapse (protects the speed-pessimistic hedge "
+                             "while key sets are ambiguous); 0 disables gate")
     parser.add_argument("--spend-frac", type=float, default=0.25,
                         help="fraction of (bank - floor) spent per escalation "
                              "when the server clock is visible")
@@ -1020,6 +1077,10 @@ async def main():
         escalate_max_ms=args.escalate_max_ms,
         base_frac=args.base_frac,
         base_max_ms=args.base_max_ms,
+        grind_turn=args.grind_turn,
+        grind_max_ms=args.grind_max_ms,
+        collapse_turn=args.collapse_turn,
+        collapse_moves=args.collapse_moves,
         escalate_min_turn=args.escalate_min_turn,
         escalate_min_gap=args.escalate_min_gap,
         value_net_path=args.value_net,
