@@ -57,9 +57,14 @@ LOCAL_SERVER = ServerConfiguration(
     "https://play.pokemonshowdown.com/action.php?",
 )
 
+# Season 2 (2026) server — the season-1 pokeagentshowdown.com host is gone.
+# Accounts are issued by the team portal at battling.pokeagentchallenge.com
+# (Create Team -> generate named AI agent -> credentials), NOT the classic
+# gear-icon Showdown registration. Auth endpoint below is the best guess for
+# their login service — verify on first connect and adjust if login fails.
 POKEAGENT_SERVER = ServerConfiguration(
-    "wss://pokeagentshowdown.com/showdown/websocket",
-    "https://play.pokemonshowdown.com/action.php?",
+    "wss://battling.pokeagentchallenge.com/showdown/websocket",
+    "https://battling.pokeagentchallenge.com/action.php?",
 )
 
 SERVERS = {
