@@ -33,6 +33,7 @@ if [ -z "${PS_PASSWORD:-}" ] && [ -f "$CRED_FILE" ]; then
 fi
 LOG="$CB/showdown/bench/${NAME}_ladder.log"
 USERNAME="${PS_USERNAME:-CBGen9}"
+FORMAT="${LADDER_FORMAT:-gen9ou}"
 PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-1800}"
 
 cd "$CB"
@@ -46,7 +47,7 @@ while [ "$g" -le "$N_GAMES" ]; do
   echo "=== game $g/$N_GAMES team: $(basename "$TEAM" .txt) ($(date +%H:%M:%S)) ===" >> "$LOG"
   timeout "$PER_GAME_TIMEOUT" .venv/bin/python showdown/gen9_player.py \
       --server "$SERVER" --username "$USERNAME" \
-      --mode ladder --format gen9ou --team "$TEAM" \
+      --mode ladder --format "$FORMAT" --team "$TEAM" \
       --n-games 1 --log-level 20 \
       "$@" >> "$LOG" 2>&1
   status=$?
