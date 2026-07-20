@@ -23,9 +23,11 @@ import argparse
 import json
 import random
 import re
+import os
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -71,15 +73,25 @@ _TIME_LEFT_RE = re.compile(r"has (\d+) sec")
 _TIME_TOTAL_RE = re.compile(r"\|\s*(\d+) sec total")
 
 
-def _time_left(battle, username: str | None) -> int | None:
-    """Seconds left in OUR bank, parsed from the server's |inactive| clock
-    messages in the retained protocol history, or None if unknown. Two
-    formats: '<user> has N seconds left.' (per-player countdown) and
-    'Time left: X sec this turn | Y sec total'. Returns the most recent."""
+_TIME_THIS_TURN_RE = re.compile(r"Time left: (\d+) sec this turn")
+
+
+def _parse_clock(battle, username: str | None) -> tuple[int | None, int | None]:
+    """(bank_seconds, per_turn_cap_seconds) from the server's |inactive|
+    messages, or (None, None) when the timer is off/unseen.
+
+    The server re-sends 'Time left: X sec this turn | Y sec total' every
+    request while the timer runs (room-battle.ts line ~332), so the latest
+    reading is authoritative — regeneration (+addPerTurn/turn) shows up in
+    the next reading and never needs to be modeled. Per-player countdown
+    warnings ('<user> has N seconds left.') reflect per-turn remaining;
+    treated as a conservative bank reading when they're the freshest line.
+    PokeAgent runs multiple timer variants (standard + extended for LLMs);
+    the first |inactive| lines of a battle reveal which one applies."""
     replay = getattr(battle, "_replay_data", None)
     if not replay:
-        return None
-    latest = None
+        return None, None
+    bank = cap = None
     uname = (username or "").lower()
     for event in replay:
         if len(event) < 3 or event[1] != "inactive":
@@ -89,12 +101,20 @@ def _time_left(battle, username: str | None) -> int | None:
         if uname and low.startswith(uname) and "sec" in low:
             m = _TIME_LEFT_RE.search(msg)
             if m:
-                latest = int(m.group(1))
+                bank = int(m.group(1))
         elif "total" in low:
             m = _TIME_TOTAL_RE.search(msg)
             if m:
-                latest = int(m.group(1))
-    return latest
+                bank = int(m.group(1))
+            mc = _TIME_THIS_TURN_RE.search(msg)
+            if mc:
+                cap = int(mc.group(1))
+    return bank, cap
+
+
+def _time_left(battle, username: str | None) -> int | None:
+    """Back-compat shim: just the bank."""
+    return _parse_clock(battle, username)[0]
 
 
 # hazard move -> (poke-env SideCondition name, max layers). Re-setting a
@@ -251,6 +271,7 @@ class Gen9PokeEnginePlayer(Player):
                  stochastic: bool = True, adaptive: bool = False,
                  escalate_ms: int = 2000, flat_threshold: float = 0.55,
                  clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
+                 spend_frac: float = 0.25, escalate_max_ms: int = 15000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
                  value_batch: int = 32, verbose: bool = True,
@@ -295,6 +316,10 @@ class Gen9PokeEnginePlayer(Player):
         self._flat_threshold = flat_threshold
         self._clock_floor_s = clock_floor_s
         self._escalate_bank_s = escalate_bank_s
+        # server-clock policy: spend this fraction of (bank - floor) per
+        # escalation, hard-capped per world; self-paces to server regen
+        self._spend_frac = spend_frac
+        self._escalate_max_ms = escalate_max_ms
         self._bank_used_s = 0.0
         # WHERE the bank is spent matters more than how much: greedy early
         # spending drained it by ~turn 30 (all on low-leverage opening
@@ -465,7 +490,17 @@ class Gen9PokeEnginePlayer(Player):
             )
             decision = self._director.decide(ctx)
             if decision.text:
-                self._airi.send(decision.text)
+                # structured side-channel for the caster: director beats
+                # (persona/priority/register/handoff) + numeric HUD. Real
+                # AIRI reads only data.text and ignores these fields.
+                self._airi.send(
+                    decision.text,
+                    beats=[asdict(b) for b in decision.beats],
+                    hud={"turn": ctx.turn, "value": round(ctx.value, 4),
+                         "us": ctx.me_name, "us_hp": ctx.me_hp,
+                         "them": ctx.opp_name, "them_hp": ctx.opp_hp,
+                         "us_alive": 6 - len(ctx.ours_fainted),
+                         "them_alive": 6 - len(ctx.theirs_fainted)})
                 self._airi_last_sent = time.monotonic()
         except Exception:
             pass
@@ -508,9 +543,13 @@ class Gen9PokeEnginePlayer(Player):
             ours_left = sum(1 for p in battle.team.values() if not p.fainted)
             theirs_left = sum(1 for p in battle.opponent_team.values()
                               if not p.fainted)
-            text, _beat = self._director.match_end(
+            text, beat = self._director.match_end(
                 outcome, ours_left, theirs_left, battle.opponent_username)
-            self._airi.send(text)
+            self._airi.send(
+                text, beats=[asdict(beat)],
+                hud={"turn": None, "value": {"WIN": 1.0, "LOSS": 0.0,
+                                             "TIE": 0.5}[outcome],
+                     "us_alive": ours_left, "them_alive": theirs_left})
         except Exception:
             pass
 
@@ -655,23 +694,35 @@ class Gen9PokeEnginePlayer(Player):
         if battle.turn - self._last_escalate_turn < self._escalate_min_gap:
             return probe
 
-        # flat position: escalate only while the per-game bank holds, and
-        # (when the server clock is visible) while it's healthy
-        if self._bank_used_s >= self._escalate_bank_s:
-            return probe
+        # budget policy. With the server clock visible (it re-sends an
+        # authoritative bank reading every request while the timer runs),
+        # spend a FRACTION OF SURPLUS above a floor each escalation: the bank
+        # then self-paces to the server's regeneration (+addPerTurn/turn)
+        # without ever modeling it — works unchanged on quick and extended
+        # (LLM) timer variants. Worlds search in parallel, so wall-time per
+        # escalation ~= the per-world budget.
         try:
             uname = self.username
         except Exception:
             uname = None
-        clock = _time_left(battle, uname)
-        if clock is not None and clock <= self._clock_floor_s:
-            return probe
-        budget = self._escalate_ms
-        if clock is not None:
-            safe = max(self._probe_ms,
-                       int((clock - self._clock_floor_s) * 1000 * 0.25
-                           / max(1, self._set_samples)))
-            budget = min(budget, safe)
+        bank, cap = _parse_clock(battle, uname)
+        if bank is not None:
+            surplus = bank - self._clock_floor_s
+            if surplus <= 2:
+                return probe
+            allowed_s = surplus * self._spend_frac
+            if cap:
+                # per-turn cap bounds this whole turn incl. the probe already
+                # spent; leave a margin for translation/overhead
+                allowed_s = min(allowed_s,
+                                cap - self._probe_ms / 1000 - 5)
+            budget = min(self._escalate_max_ms, int(round(allowed_s * 1000)))
+        else:
+            # no timer messages (local play with timer off): fall back to the
+            # fixed self-imposed per-game bank
+            if self._bank_used_s >= self._escalate_bank_s:
+                return probe
+            budget = self._escalate_ms
         if budget <= self._probe_ms:
             return probe
         if self._verbose:
@@ -756,7 +807,10 @@ async def main():
                         help="shorthand for --server local")
     parser.add_argument("--server", choices=list(SERVERS), default="local")
     parser.add_argument("--username", required=True)
-    parser.add_argument("--password", default=None)
+    parser.add_argument("--password", default=os.environ.get("PS_PASSWORD"),
+                        help="account password (or set PS_PASSWORD env — "
+                             "preferred for units/wrappers so it stays out "
+                             "of process listings)")
     parser.add_argument("--format", dest="fmt", default="gen9ou")
     parser.add_argument("--team", default=None,
                         help="path to a Showdown paste file (required for "
@@ -783,6 +837,11 @@ async def main():
                              "--escalate-ms in flat positions when clock allows")
     parser.add_argument("--escalate-ms", type=int, default=2000,
                         help="deep-search budget per world in flat positions")
+    parser.add_argument("--spend-frac", type=float, default=0.25,
+                        help="fraction of (bank - floor) spent per escalation "
+                             "when the server clock is visible")
+    parser.add_argument("--escalate-max-ms", type=int, default=15000,
+                        help="hard cap on per-world escalated search time")
     parser.add_argument("--escalate-bank-s", type=float, default=90.0,
                         help="per-game budget of extra seconds for escalation")
     parser.add_argument("--escalate-min-turn", type=int, default=20,
@@ -835,6 +894,8 @@ async def main():
         adaptive=args.adaptive == "on",
         escalate_ms=args.escalate_ms,
         escalate_bank_s=args.escalate_bank_s,
+        spend_frac=args.spend_frac,
+        escalate_max_ms=args.escalate_max_ms,
         escalate_min_turn=args.escalate_min_turn,
         escalate_min_gap=args.escalate_min_gap,
         value_net_path=args.value_net,

@@ -705,11 +705,10 @@ def test_time_left_parser():
 def test_adaptive_escalation_decision():
     from types import SimpleNamespace as NS
     from showdown.gen9_player import Gen9PokeEnginePlayer as P
+    import showdown.gen9_player as gp
 
-    # decisive probe (one move 90% of visits) -> no escalation regardless
     peaked = [NS(side_one=[NS(move_choice="a", visits=900, total_score=800),
                            NS(move_choice="b", visits=100, total_score=40)])]
-    # flat probe (split ~50/50) -> escalate when clock healthy
     flat = [NS(side_one=[NS(move_choice="a", visits=520, total_score=300),
                          NS(move_choice="b", visits=480, total_score=270)])]
 
@@ -719,6 +718,7 @@ def test_adaptive_escalation_decision():
     stub._flat_threshold, stub._clock_floor_s = 0.55, 40
     stub._set_samples, stub._verbose = 2, False
     stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
+    stub._spend_frac, stub._escalate_max_ms = 0.25, 15000
     stub._escalate_min_turn, stub._escalate_min_gap = 20, 8
     stub._last_escalate_turn = -999
     stub._airi, stub._airi_last_sent = None, 0.0  # Airi bridge off in tests
@@ -728,52 +728,58 @@ def test_adaptive_escalation_decision():
         return battle._probe if ms == stub._probe_ms else [NS(side_one=[])]
     stub._search_samples = fake_search
 
-    # peaked position: one search only
-    calls.clear()
-    b = NS(turn=20, _replay_data=[], _probe=peaked)
-    b.username = "X"
-    import showdown.gen9_player as gp
-    gp._time_left = lambda *a: 120  # healthy clock
+    def clock(bank, cap=None):
+        gp._parse_clock = lambda *a: (bank, cap)
+
+    # decisive probe: no escalation regardless of clock
+    calls.clear(); clock(120)
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=peaked))
-    assert calls == [(300, False)]  # decisive -> probe only, no value
+    assert calls == [(300, False)]
 
-    # flat position, healthy clock: escalates
-    calls.clear()
+    # flat + server bank 120: surplus 80 * 0.25 = 20s -> capped at max 15000ms
+    calls.clear(); clock(120)
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert (300, False) in calls and (2000, True) in calls  # probe plain, escalate value
+    assert (300, False) in calls and (15000, True) in calls
 
-    # flat position, low clock: no escalation (safety)
-    calls.clear()
-    gp._time_left = lambda *a: 20
+    # flat + per-turn cap 10s bounds the spend: min(20, 10 - 0.3 - 5) = 4.7s
+    calls.clear(); clock(120, cap=10)
+    stub._last_escalate_turn = -999
+    stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
+    assert (4700, True) in calls
+
+    # flat + low bank: below the floor, probe only
+    calls.clear(); clock(20)
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
     assert calls == [(300, False)]
 
-    # flat position, healthy clock, but bank exhausted: no escalation
-    calls.clear()
-    gp._time_left = lambda *a: 120
-    stub._bank_used_s = 90.0
+    # no timer messages -> fallback fixed bank at escalate_ms
+    calls.clear(); clock(None)
+    stub._last_escalate_turn = -999
+    stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
+    assert (300, False) in calls and (2000, True) in calls
+    # ...and the fallback bank exhausts
+    calls.clear(); stub._bank_used_s = 90.0
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
     assert calls == [(300, False)]
     stub._bank_used_s = 0.0
 
-    # opening flatness (turn < min_turn) is skipped — bank saved for the grind
-    calls.clear()
+    # opening flatness (turn < min_turn) is skipped
+    calls.clear(); clock(120)
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=10, _replay_data=[], _probe=flat))
     assert calls == [(300, False)]
 
-    # too soon after the last escalation (min_gap) — spread across the game
+    # min_gap spacing, then a legal late escalation updates the gap marker
     calls.clear()
     stub._last_escalate_turn = 100
     stub._adaptive_search(NS(turn=104, _replay_data=[], _probe=flat))
     assert calls == [(300, False)]
-    # far enough past the last escalation, late game: escalates
     calls.clear()
     stub._adaptive_search(NS(turn=110, _replay_data=[], _probe=flat))
-    assert (300, False) in calls and (2000, True) in calls
-    assert stub._last_escalate_turn == 110  # updated for the next gap check
+    assert (300, False) in calls and (15000, True) in calls
+    assert stub._last_escalate_turn == 110
 
 
 def test_noop_hazard_filter():
