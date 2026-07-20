@@ -75,14 +75,24 @@ while [ "$i" -le "$BATCHES" ]; do
   # the between-games step entirely; a wedge can only cost the current game,
   # which the per-game timeout kills and skips. ~10s/game process overhead,
   # negligible vs 30s-5min games.
+  # CB_PIN_CAPS=1 (default): pin base/grind budget caps to CB_SEARCH_MS so the
+  # A/B is equal-budget (measures search QUALITY at fixed compute). Set 0 to
+  # let the full budget-by-clock + grind package engage on the local challenge
+  # timer's bank — the deployment config (unequal wall-time, but the historical
+  # control says uniform extra time didn't help vs foul-play, so a win here
+  # implicates the grind tools, not raw clock).
+  if [ "${CB_PIN_CAPS:-1}" = "1" ]; then
+    CB_CAPS="--base-max-ms ${CB_SEARCH_MS:-300} --grind-max-ms ${CB_SEARCH_MS:-300}"
+  else
+    CB_CAPS=""
+  fi
   g=1
   while [ "$g" -le "$GAMES" ]; do
     cd "$CB"
     .venv/bin/python showdown/gen9_player.py --local --username CBGen9 \
         --mode accept --format gen9ou --team "$OUR_TEAM" \
         --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
-        --base-max-ms "${CB_SEARCH_MS:-300}" \
-        --grind-max-ms "${CB_SEARCH_MS:-300}" \
+        $CB_CAPS \
         --n-games 1 --log-level 20 \
         "$@" >> "$OURS_LOG" 2>&1 &
     OURS_PID=$!
