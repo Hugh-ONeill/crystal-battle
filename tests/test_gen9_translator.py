@@ -902,3 +902,20 @@ def test_noop_status_filter():
 def test_parse_engine_choice():
     assert parse_engine_choice("switch heatran") == ("switch", "heatran")
     assert parse_engine_choice("flamethrower") == ("move", "flamethrower")
+
+
+def test_timer_variant_format_normalized():
+    # PokeAgent runs gen9ou under timer-variant queues; these are mechanically
+    # identical to the base tier and MUST resolve to its data files. A raw
+    # "gen9oulongtimer" set_source sent the chaos fallback looking for a
+    # nonexistent gen9oulongtimer_chaos.json -> FileNotFoundError -> random
+    # moves mid-game (the maiden overnight run, turn 12 on).
+    from showdown.gen9_translator import Gen9Translator, _base_format
+    assert _base_format("gen9oulongtimer") == "gen9ou"
+    assert _base_format("gen9oushorttimer") == "gen9ou"
+    assert _base_format("gen1oulongtimer") == "gen1ou"
+    assert _base_format("gen9ou") == "gen9ou"
+    assert _base_format("monotype") == "monotype"   # sentinel untouched
+    assert _base_format(None) is None
+    # and it lands on the instance the chaos/ps/replay lookups key off
+    assert Gen9Translator(set_source="gen9oulongtimer")._set_source == "gen9ou"

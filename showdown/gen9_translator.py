@@ -102,6 +102,26 @@ def _clamp_turns(remaining: int) -> int:
     return max(1, remaining)
 
 
+def _base_format(fmt: str | None) -> str | None:
+    """Strip PokeAgent timer-variant suffixes so data lookups resolve.
+
+    The ladder runs gen9ou under multiple timer queues (gen9oulongtimer /
+    gen9oushorttimer for the LLM-viable long clock); these are mechanically
+    identical to the base tier and share its data files (<base>_chaos.json,
+    ps_sets, replay archetypes). Without this, set_source="gen9oulongtimer"
+    sends the chaos fallback looking for a nonexistent gen9oulongtimer_chaos
+    .json — it raised FileNotFoundError mid-game and dropped us to random
+    moves the first time an opponent species missed the ps/replay tiers.
+    Sentinels ("monotype", None) pass through untouched.
+    """
+    if not fmt:
+        return fmt
+    for suffix in ("longtimer", "shorttimer"):
+        if fmt.endswith(suffix) and fmt != suffix:
+            return fmt[: -len(suffix)]
+    return fmt
+
+
 # ============================================================
 # TRANSLATOR
 # ============================================================
@@ -127,7 +147,8 @@ class Gen9Translator:
     def __init__(self, elo_bucket: int = 1500, set_source: str | None = "monotype",
                  use_data_tiers: bool = True):
         self._elo = elo_bucket
-        self._set_source = set_source
+        # timer-variant ladder formats share their base tier's data files
+        self._set_source = _base_format(set_source)
         # gates the PS-curated and replay-observed set tiers; off reproduces
         # the pure chaos-sampling config (the ab9 baseline) exactly
         self._use_data_tiers = use_data_tiers
