@@ -42,6 +42,10 @@ def _label_to_winner(label: float) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--replays", type=str, default="showdown/replays/gen9ou")
+    ap.add_argument("--jsonl", type=str, default=None,
+                    help="Read replays from a JSONL dump (metamon filter "
+                         "output: one {id,formatid,rating,log} per line) "
+                         "instead of a directory of .json files.")
     ap.add_argument("--out", type=str, default="showdown/gen9ou_replay_data.pkl")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--limit", type=int, default=0,
@@ -53,26 +57,45 @@ def main() -> int:
     random.seed(args.seed)
     chaos = ChaosStats(format="gen9ou")
 
-    replay_dir = Path(args.replays)
-    files = sorted(replay_dir.glob("*.json"))
-    if args.limit > 0:
-        files = files[: args.limit]
-    print(f"processing {len(files)} replays from {replay_dir}")
+    def _iter_replays():
+        """Yield (name, replay_dict) from either a JSONL dump or a dir."""
+        if args.jsonl:
+            with open(args.jsonl) as fh:
+                for ln, line in enumerate(fh):
+                    if args.limit and ln >= args.limit:
+                        break
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        yield f"line{ln}", json.loads(line)
+                    except Exception:
+                        continue
+        else:
+            files = sorted(Path(args.replays).glob("*.json"))
+            if args.limit > 0:
+                files = files[: args.limit]
+            for f in files:
+                try:
+                    yield f.name, json.load(open(f))
+                except Exception:
+                    continue
+
+    src = args.jsonl or args.replays
+    print(f"processing replays from {src} (limit={args.limit or 'all'})")
 
     all_results: list[tuple[int, list[tuple[str]]]] = []
     n_full = n_partial = n_empty = n_short = n_err = 0
     n_turns_total = 0
 
     t0 = time.time()
-    for i, f in enumerate(files):
+    for i, (name, data) in enumerate(_iter_replays()):
         try:
-            with open(f) as fh:
-                data = json.load(fh)
             traj = replay_to_trajectory(data, chaos)
         except Exception as e:
             n_err += 1
             if n_err <= 10:
-                print(f"  err {f.name}: {type(e).__name__}: {e}")
+                print(f"  err {name}: {type(e).__name__}: {e}")
             continue
 
         if not traj:
@@ -96,10 +119,10 @@ def main() -> int:
         else:
             n_partial += 1
 
-        if (i + 1) % 200 == 0:
+        if (i + 1) % 5000 == 0:
             dt = time.time() - t0
-            print(f"  [{i+1}/{len(files)}] {n_turns_total} turns kept, "
-                  f"{dt:.1f}s elapsed")
+            print(f"  [{i+1}] {len(all_results)} games / {n_turns_total} turns "
+                  f"kept, {dt:.1f}s elapsed", flush=True)
 
     dt = time.time() - t0
     print()

@@ -45,6 +45,7 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
                        use_bo: bool = False,
                        residual: bool = False,
                        no_distill: bool = False,
+                       max_games: int = 0,
                        ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Load recorded games and prepare (state_features, win_label, turns_remaining).
 
@@ -79,12 +80,19 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
         print("ERROR: pre-extracted format has no game outcomes. Need raw MCTS data.")
         sys.exit(1)
 
+    # cap games (memory guard: the full metamon set overflows 30GB RAM during
+    # the featurized-array build; slice to a size that fits)
+    if max_games and len(results) > max_games:
+        print(f"  capping {len(results)} games -> {max_games}")
+        results = results[:max_games]
+
     states = []
     labels = []
     turns_remaining = []
+    game_ids = []  # which GAME each position came from (for leak-free splits)
 
     n_draw_skipped = 0
-    for winner, turns in results:
+    for game_idx, (winner, turns) in enumerate(results):
         if filter_draws and winner == 0:
             n_draw_skipped += 1
             continue
@@ -138,6 +146,7 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
             states.append(features)
             labels.append(sample_label)
             turns_remaining.append(tr)
+            game_ids.append(game_idx)
 
             # side two perspective (flip sides, flip label).
             # Trigger either via legacy 5-tuple s2_visits flag, or unconditionally
@@ -167,19 +176,44 @@ def prepare_value_data(data_path: str, use_v2: bool = False,
                     else:
                         labels.append(1.0 - sample_label)
                     turns_remaining.append(tr)
+                    game_ids.append(game_idx)
 
+    del results  # free the loaded pkl before the big array copy (memory peak)
     states = np.array(states, dtype=np.float32)
     labels = np.array(labels, dtype=np.float32)
     turns_remaining = np.array(turns_remaining, dtype=np.int32)
+    game_ids = np.array(game_ids, dtype=np.int64)
 
     if filter_draws:
         print(f"  filtered {n_draw_skipped} draw games")
-    print(f"  {len(states)} samples, state_dim={states.shape[1]}")
+    print(f"  {len(states)} samples from {len(np.unique(game_ids))} games, "
+          f"state_dim={states.shape[1]}")
     print(f"  label distribution: {(labels > 0.5).sum()} wins, "
           f"{(labels < 0.5).sum()} losses, {(labels == 0.5).sum()} draws")
     print(f"  turns_remaining: min={turns_remaining.min()}, "
           f"max={turns_remaining.max()}, mean={turns_remaining.mean():.1f}")
-    return states, labels, turns_remaining
+    return states, labels, turns_remaining, game_ids
+
+
+def _auc(probs: np.ndarray, binary_labels: np.ndarray) -> float:
+    """Rank-based ROC AUC (Mann-Whitney). binary_labels in {0,1}; draws must
+    be filtered by the caller. Ties handled via average ranks."""
+    pos = probs[binary_labels == 1]
+    neg = probs[binary_labels == 0]
+    if len(pos) == 0 or len(neg) == 0:
+        return float("nan")
+    order = np.argsort(np.concatenate([pos, neg]), kind="mergesort")
+    ranks = np.empty(len(order), dtype=np.float64)
+    ranks[order] = np.arange(1, len(order) + 1)
+    # average ranks for ties
+    allv = np.concatenate([pos, neg])
+    _, inv, counts = np.unique(allv, return_inverse=True, return_counts=True)
+    csum = np.cumsum(counts)
+    start = csum - counts
+    avg = (start + csum + 1) / 2.0
+    ranks = avg[inv]
+    r_pos = ranks[:len(pos)].sum()
+    return float((r_pos - len(pos) * (len(pos) + 1) / 2.0) / (len(pos) * len(neg)))
 
 
 # ============================================================
@@ -225,7 +259,8 @@ def train(data_path: str, save_path: str = "value_net.pt",
           batch_size: int = 256, device: str = "cpu", use_v2: bool = False,
           gamma: float = 1.0, filter_draws: bool = False,
           use_v3: bool = False, use_bo: bool = False,
-          residual: bool = False, no_distill: bool = False):
+          residual: bool = False, no_distill: bool = False,
+          max_games: int = 0):
     """Train the value net.
 
     gamma: discount applied to the win/loss target via gamma^turns_remaining.
@@ -239,9 +274,10 @@ def train(data_path: str, save_path: str = "value_net.pt",
     """
     if residual:
         print(f"  RESIDUAL MODE: target = (V - h + 1) / 2, h = sigmoid(eval/{RESIDUAL_EVAL_SCALE})")
-    states, raw_labels, turns_remaining = prepare_value_data(
+    states, raw_labels, turns_remaining, game_ids = prepare_value_data(
         data_path, use_v2=use_v2, filter_draws=filter_draws, use_v3=use_v3,
-        use_bo=use_bo, residual=residual, no_distill=no_distill)
+        use_bo=use_bo, residual=residual, no_distill=no_distill,
+        max_games=max_games)
 
     # gamma-discount: pull mid-game labels toward 0.5 (uncertainty).
     # Skipped in residual mode — residual targets aren't outcome probs.
@@ -260,20 +296,35 @@ def train(data_path: str, save_path: str = "value_net.pt",
     else:
         labels = raw_labels
 
-    # shuffle and split
-    n = len(states)
-    indices = list(range(n))
-    random.seed(42)
-    random.shuffle(indices)
-    val_size = n // 10
-    val_idx = indices[:val_size]
-    train_idx = indices[val_size:]
+    # split BY GAME, not by position. Positions within one game share the
+    # outcome label and are near-identical turn-to-turn, so a position-level
+    # shuffle leaks the val labels into train (the fake-0.999-acc bug: honest
+    # holdout AUC was 0.532 while the leaky val looked perfect). Assigning
+    # whole games to train/val removes the leak — the val metric then tracks
+    # the true generalization the offline eval_calibration bar measures.
+    unique_games = np.unique(game_ids)
+    rng = np.random.default_rng(42)
+    rng.shuffle(unique_games)
+    n_val_games = max(1, len(unique_games) // 10)
+    val_games = set(unique_games[:n_val_games].tolist())
+    val_mask = np.fromiter((g in val_games for g in game_ids), dtype=bool,
+                           count=len(game_ids))
+    val_idx = np.nonzero(val_mask)[0]
+    train_idx = np.nonzero(~val_mask)[0]
+    print(f"  split BY GAME: {len(unique_games) - n_val_games} train games / "
+          f"{n_val_games} val games "
+          f"({len(train_idx)} / {len(val_idx)} positions)")
 
-    train_states = torch.tensor(states[train_idx], device=device)
-    train_labels = torch.tensor(labels[train_idx], device=device)
-    val_states = torch.tensor(states[val_idx], device=device)
-    val_labels = torch.tensor(labels[val_idx], device=device)
-    raw_val_labels = torch.tensor(raw_labels[val_idx], device=device)
+    # Memory-lean layout: keep ONE zero-copy tensor view over the numpy state
+    # array and gather each batch on the fly, rather than materializing full
+    # train/val state tensors (that 3x duplication — states + fancy-index copy
+    # + torch copy — is what OOM'd at 30k games / 2738 dims on a 30GB box).
+    states_t = torch.from_numpy(states)          # shares the numpy buffer
+    labels_t = torch.from_numpy(labels.astype(np.float32))
+    train_idx_t = torch.from_numpy(train_idx)
+    val_idx_t = torch.from_numpy(val_idx)
+    val_labels = labels_t[val_idx_t].to(device)              # small
+    raw_val_labels = torch.from_numpy(raw_labels[val_idx]).to(device)
 
     model = ValueNet(state_dim=states.shape[1], hidden=hidden).to(device)
     n_params = sum(p.numel() for p in model.parameters())
@@ -282,16 +333,24 @@ def train(data_path: str, save_path: str = "value_net.pt",
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     best_val = float("inf")
 
+    def _forward_chunked(idx_t, chunk=16384):
+        """Model over a large index set, gathered in chunks (bounds memory)."""
+        out = []
+        for s in range(0, len(idx_t), chunk):
+            bi = idx_t[s:s + chunk]
+            out.append(model(states_t[bi].to(device)))
+        return torch.cat(out)
+
     for epoch in range(epochs):
         model.train()
-        perm = torch.randperm(len(train_states), device=device)
+        perm = train_idx_t[torch.randperm(len(train_idx_t))]
         total_loss = 0.0
         n_batches = 0
 
-        for start in range(0, len(train_states), batch_size):
-            batch_idx = perm[start:start + batch_size]
-            batch_states = train_states[batch_idx]
-            batch_labels = train_labels[batch_idx]
+        for start in range(0, len(perm), batch_size):
+            bidx = perm[start:start + batch_size]
+            batch_states = states_t[bidx].to(device)
+            batch_labels = labels_t[bidx].to(device)
 
             logits = model(batch_states)
             loss = F.binary_cross_entropy_with_logits(logits, batch_labels)
@@ -306,7 +365,7 @@ def train(data_path: str, save_path: str = "value_net.pt",
         # validation
         model.eval()
         with torch.no_grad():
-            val_logits = model(val_states)
+            val_logits = _forward_chunked(val_idx_t)
             val_loss = F.binary_cross_entropy_with_logits(val_logits, val_labels).item()
             val_probs = torch.sigmoid(val_logits)
             val_preds = (val_probs > 0.5).float()
@@ -314,8 +373,13 @@ def train(data_path: str, save_path: str = "value_net.pt",
             non_draw = raw_val_labels != 0.5
             if non_draw.sum() > 0:
                 accuracy = (val_preds[non_draw] == raw_val_labels[non_draw]).float().mean().item()
+                # AUC on the honest by-game val set — directly comparable to
+                # the static-eval bar (0.640 overall / 0.690 on flat positions)
+                auc = _auc(val_probs[non_draw].cpu().numpy(),
+                           raw_val_labels[non_draw].cpu().numpy())
             else:
                 accuracy = 0.0
+                auc = float("nan")
             # saturation: predictions hugging the rails
             sat = ((val_probs > 0.95) | (val_probs < 0.05)).float().mean().item()
 
@@ -331,7 +395,7 @@ def train(data_path: str, save_path: str = "value_net.pt",
             marker = " *best*"
 
         print(f"  Epoch {epoch + 1:2d}: train_loss={total_loss / n_batches:.4f} "
-              f"val_loss={val_loss:.4f} acc={accuracy:.3f} "
+              f"val_loss={val_loss:.4f} acc={accuracy:.3f} auc={auc:.3f} "
               f"sat={sat:.1%}{marker}")
 
     print(f"\nBest val loss: {best_val:.4f}, saved to {save_path}")
@@ -384,10 +448,14 @@ if __name__ == "__main__":
                              "instead of per-state MCTS distillation. Useful when "
                              "distillation targets are weak (low-budget self-play "
                              "labels approach the hand-coded eval).")
+    parser.add_argument("--max-games", type=int, default=0,
+                        help="cap games loaded from the pkl (0 = all). Memory "
+                             "guard: the full metamon set overflows 30GB RAM.")
     args = parser.parse_args()
 
     train(args.data, args.model, args.epochs, args.lr, args.hidden,
           args.batch_size, args.device, use_v2=args.features_v2,
           gamma=args.gamma, filter_draws=args.filter_draws,
           use_v3=args.features_v3, use_bo=args.features_bo,
-          residual=args.residual, no_distill=args.no_distill)
+          residual=args.residual, no_distill=args.no_distill,
+          max_games=args.max_games)
