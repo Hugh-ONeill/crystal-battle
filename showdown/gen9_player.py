@@ -390,7 +390,11 @@ class Gen9PokeEnginePlayer(Player):
         self._scanner = ProtocolScanner()
         self._director = Director(min_interval=airi_min_interval,
                                   min_swing=airi_min_swing,
-                                  stats_fn=_species_stats)
+                                  stats_fn=_species_stats,
+                                  ability_fn=self._ability_lookup)
+        # set at each decision so _ability_lookup can resolve our own mons'
+        # known abilities (vs an opponent's dex possibilities)
+        self._cur_battle = None
         # species -> last-announced inferred item, so a belief the search
         # adopts (set_inference.confirmed) becomes a one-time "that's a
         # Scarf" reveal beat instead of firing every turn it holds
@@ -481,6 +485,29 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    def _ability_lookup(self, display_name: str, side: str | None) -> set:
+        """Possible normalized abilities for a mon, for the director's
+        status-synergy read. Our own mons resolve to their single KNOWN
+        ability (definitive: 'that Toxic feeds Poison Heal'); an opponent's
+        resolves to its revealed ability if known, else the species' dex
+        possibilities (the director hedges when more than one is possible)."""
+        battle = self._cur_battle
+        if battle is None:
+            return set()
+        key = _normalize(display_name)
+        try:
+            team = (battle.team if side == "us"
+                    else battle.opponent_team).values()
+            mon = next((m for m in team
+                        if _normalize(m.species) == key), None)
+            if mon is not None and mon.ability:
+                return {_normalize(mon.ability)}
+        except Exception:
+            pass
+        entry = _gen9_data().pokedex.get(key, {})
+        return {_normalize(str(a))
+                for a in entry.get("abilities", {}).values()}
+
     def _emit_belief_deltas(self):
         """Diff the search's confirmed set inferences against what we've
         already announced; each newly-adopted inferred item becomes a
@@ -512,6 +539,7 @@ class Gen9PokeEnginePlayer(Player):
         if self._airi is None:
             return
         try:
+            self._cur_battle = battle       # for _ability_lookup during decide
             self._airi_new_battle(battle)  # formats without team preview
             self._emit_belief_deltas()
             top = ranked[0]
