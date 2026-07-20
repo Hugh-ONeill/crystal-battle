@@ -245,6 +245,8 @@ _BELIEF_PROSE = {
     "lifeorb": ("Life Orb", "its damage ran over the itemless ceiling"),
     "expertbelt": ("Expert Belt",
                    "its super-effective hits ran over the ceiling"),
+    "heavydutyboots": ("Heavy-Duty Boots",
+                       "it walked in over the Stealth Rock for free"),
 }
 
 
@@ -667,8 +669,10 @@ class Gen9PokeEnginePlayer(Player):
             results = await loop.run_in_executor(None, search, battle)
         except Exception as e:
             if self._verbose:
+                import traceback  # TEMP-DEBUG
                 print(f"  T{battle.turn} translate/search failed ({e!r}); "
                       f"choosing randomly")
+                traceback.print_exc()  # TEMP-DEBUG
             return self.choose_random_move(battle)
 
         ranked = _merge_mcts_results(results)

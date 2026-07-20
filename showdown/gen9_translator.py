@@ -886,6 +886,12 @@ class Gen9Translator:
             if upgrade:
                 item = upgrade
                 self._obs.confirmed[species] = upgrade
+            # negative evidence: walked in over Stealth Rock for free ->
+            # Heavy-Duty Boots (only when Magic Guard can't explain it, and
+            # never over a damage-item upgrade the same mon just proved)
+            elif self._obs.boots_inferred(species):
+                item = "heavydutyboots"
+                self._obs.confirmed[species] = "heavydutyboots"
 
         # active choice lock: last_move is cleared on switch-out, so a known
         # last move on a choice-locked holder pins everything else. This is

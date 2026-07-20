@@ -418,6 +418,23 @@ def test_scarf_inference_records_confirmed_belief():
     assert len(reveals) == 1 and "Choice Scarf" in reveals[0].prose
 
 
+def test_boots_inference_records_confirmed_belief():
+    # opponent switches Corviknight in over our Stealth Rock and takes no
+    # chip -> the real translator adopts Heavy-Duty Boots and stamps it
+    b = make_battle()
+    b.parse_message(["", "move", "p1a: Ninetales", "Stealth Rock"])
+    b.parse_message(["", "-sidestart", "p2: opp", "move: Stealth Rock"])
+    b.parse_message(["", "turn", "1"])
+    b.parse_message(["", "switch", "p2a: Corviknight", "Corviknight, M", "100/100"])
+    b.parse_message(["", "turn", "2"])
+    tr = Gen9Translator(set_source="gen9ou")
+    tr.translate(b)
+    assert tr._obs.boots_inferred("corviknight") == "heavydutyboots"
+    assert tr._obs.confirmed.get("corviknight") == "heavydutyboots"
+    corv = _find(tr.translate(b).side_two, "corviknight")
+    assert corv.item == "heavydutyboots"
+
+
 def test_no_scarf_when_we_moved_first():
     b = make_battle()
     b.parse_message(["", "switch", "p2a: Amoonguss", "Amoonguss, F", "100/100"])

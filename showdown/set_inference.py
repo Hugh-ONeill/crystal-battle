@@ -32,6 +32,7 @@ import poke_engine as pe
 _DAMAGING = ("Physical", "Special")
 
 _gen9_moves = None
+_gen9_dex = None
 
 
 def _moves_data():
@@ -40,6 +41,22 @@ def _moves_data():
         from poke_env.data.gen_data import GenData
         _gen9_moves = GenData.from_gen(9).moves
     return _gen9_moves
+
+
+def _dex_data():
+    global _gen9_dex
+    if _gen9_dex is None:
+        from poke_env.data.gen_data import GenData
+        _gen9_dex = GenData.from_gen(9).pokedex
+    return _gen9_dex
+
+
+def _can_magic_guard(species_norm: str) -> bool:
+    """Magic Guard also nullifies hazard chip, so it's the confound for the
+    Boots negative-evidence read: if the species can run it, zero-chip entry
+    doesn't prove Boots."""
+    abilities = _dex_data().get(species_norm, {}).get("abilities", {})
+    return any(_normalize(str(a)) == "magicguard" for a in abilities.values())
 
 
 def _normalize(name: str) -> str:
@@ -88,6 +105,17 @@ class BattleObservations:
         # beats the moment a belief is confirmed. Never holds revealed items.
         self.confirmed: dict[str, str] = {}
 
+        # negative-evidence Heavy-Duty Boots: a mon switched in over our
+        # Stealth Rock and took ZERO chip. Nothing else prevents SR damage
+        # on entry except Boots or Magic Guard, so a species that cannot run
+        # Magic Guard is confidently Boots; a Magic-Guard-capable one is
+        # ambiguous (recorded, not promoted — the search must not model the
+        # wrong item, though a caster may hedge on it).
+        self.boots: set[str] = set()            # confident Heavy-Duty Boots
+        self.boots_ambiguous: set[str] = set()  # zero-chip but MG-capable
+        self._side_sr = {"p1": False, "p2": False}   # Stealth Rock per side
+        self._entry_latch: dict | None = None        # open switch-in over SR
+
         # ---- scanner state ----
         self._active: dict[str, str] = {}          # role -> species
         self._hp: dict[str, int] = {}              # our species -> current hp
@@ -118,6 +146,20 @@ class BattleObservations:
             "damage": p["damage"], "our_species": p["target"],
             "weather": p["weather"], "se": p["se"],
         })
+
+    def _resolve_entry(self):
+        """A switch-in over Stealth Rock closes its window (the next turn/
+        move/switch after the immediate entry damage). If no SR chip landed,
+        that's Heavy-Duty Boots — or Magic Guard if the species can run it."""
+        latch = self._entry_latch
+        self._entry_latch = None
+        if latch is None or latch["chipped"]:
+            return
+        species = latch["species"]
+        if _can_magic_guard(species):
+            self.boots_ambiguous.add(species)
+        else:
+            self.boots.add(species)
 
     def _eval_turn_order(self, battle):
         """Both sides moved this turn: extract a speed bound if clean."""
@@ -177,9 +219,11 @@ class BattleObservations:
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
             if kind == "turn":
+                self._resolve_entry()  # switch-in window closes at end of turn
                 self._eval_turn_order(battle)
                 self._turn_moves = []
             elif kind in ("switch", "drag") and len(event) >= 4:
+                self._resolve_entry()  # a new switch closes the prior window
                 role = event[2][:2]
                 species = _normalize(event[3].split(",")[0])
                 self._active[role] = species
@@ -191,7 +235,12 @@ class BattleObservations:
                         self._hp[species] = int(event[4].split("/")[0])
                     except ValueError:
                         pass
+                # opponent walking into our Stealth Rock: open a zero-chip
+                # watch for this entry (Boots negative evidence)
+                if role == opp_role and self._side_sr.get(opp_role):
+                    self._entry_latch = {"species": species, "chipped": False}
             elif kind == "move" and len(event) >= 4:
+                self._resolve_entry()  # first action after a switch closes it
                 role = event[2][:2]
                 self._turn_moves.append((role, event[3]))
                 if role == opp_role:
@@ -207,6 +256,11 @@ class BattleObservations:
                     }
             elif kind == "-damage" and len(event) >= 4:
                 role = event[2][:2]
+                # opponent's incoming mon took Stealth Rock chip -> it does
+                # NOT have Boots; cancel the negative-evidence latch
+                if (role == opp_role and self._entry_latch is not None
+                        and any("Stealth Rock" in a for a in event[4:])):
+                    self._entry_latch["chipped"] = True
                 if role == our_role:
                     species = _normalize(event[2].split(":")[1])
                     new_hp = 0
@@ -258,10 +312,20 @@ class BattleObservations:
                 self._par.discard(f"{role} {species}")
             elif kind == "-terastallize":
                 self._tera.add(event[2][:2])
-            elif kind == "-sidestart" and len(event) >= 4 and "Tailwind" in event[3]:
-                self._tailwind.add(event[2][:2])
-            elif kind == "-sideend" and len(event) >= 4 and "Tailwind" in event[3]:
-                self._tailwind.discard(event[2][:2])
+            elif kind == "-sidestart" and len(event) >= 4:
+                if "Tailwind" in event[3]:
+                    self._tailwind.add(event[2][:2])
+                elif "Stealth Rock" in event[3]:
+                    self._side_sr[event[2][:2]] = True
+            elif kind == "-sideend" and len(event) >= 4:
+                if "Tailwind" in event[3]:
+                    self._tailwind.discard(event[2][:2])
+                elif "Stealth Rock" in event[3]:
+                    self._side_sr[event[2][:2]] = False
+            elif kind == "-swapsideconditions":
+                # Court Change flips hazards to the opposite sides
+                self._side_sr = {"p1": self._side_sr["p2"],
+                                 "p2": self._side_sr["p1"]}
             elif kind == "-fieldstart" and len(event) >= 3 and "Trick Room" in event[2]:
                 self._trick_room = True
             elif kind == "-fieldend" and len(event) >= 3 and "Trick Room" in event[2]:
@@ -271,9 +335,18 @@ class BattleObservations:
                                  "Sandstorm": "sand", "Snowscape": "snow",
                                  "Snow": "snow", "Hail": "hail",
                                  "none": "none"}.get(event[2], "none")
+        self._resolve_entry()  # the final switch-in has no following event
         self._cursor = len(replay)
 
     # ---- decisions ----
+
+    def boots_inferred(self, species: str) -> str | None:
+        """'heavydutyboots' when a switch-in over our Stealth Rock took no
+        chip AND the species cannot run Magic Guard. The ambiguous (Magic-
+        Guard-capable) case is deliberately NOT promoted — the search must
+        not model the wrong item — though it is recorded in boots_ambiguous
+        for a hedged commentary read."""
+        return "heavydutyboots" if species in self.boots else None
 
     def scarf_needed(self, species: str, modeled_spe: int, item: str) -> bool:
         """True if the modeled (stat, item) contradicts an observed floor."""
