@@ -20,6 +20,8 @@ def _obs(events, role="p1"):
 
 
 SR = "|-sidestart|p2: Opp|move: Stealth Rock"
+SPK = "|-sidestart|p2: Opp|move: Spikes"
+GRAV = "|-fieldstart|move: Gravity"
 
 
 def test_zero_chip_over_rocks_infers_boots():
@@ -80,6 +82,66 @@ def test_court_change_moves_rocks_to_the_other_side():
               "|switch|p2a: Corviknight|Corviknight, M|100/100",
               "|turn|5"])
     assert o.boots_inferred("corviknight") == "heavydutyboots"
+
+
+# --- Spikes: grounded-only evidence -----------------------------------------
+
+def test_grounded_mon_avoiding_spikes_infers_boots():
+    # Great Tusk (Ground/Fighting, no Levitate) is grounded -> avoiding
+    # Spikes chip is Boots evidence just like Stealth Rock
+    o = _obs([SPK, "|switch|p2a: Great Tusk|Great Tusk|100/100", "|turn|5"])
+    assert o.boots_inferred("greattusk") == "heavydutyboots"
+
+
+def test_flying_mon_avoiding_spikes_is_no_evidence():
+    # Corviknight is Flying -> it dodges Spikes legitimately, no signal
+    o = _obs([SPK, "|switch|p2a: Corviknight|Corviknight, M|100/100", "|turn|5"])
+    assert o.boots_inferred("corviknight") is None
+
+
+def test_possible_levitate_avoiding_spikes_is_no_evidence():
+    # Bronzong can run Levitate -> can't prove it's grounded
+    o = _obs([SPK, "|switch|p2a: Bronzong|Bronzong|100/100", "|turn|5"])
+    assert o.boots_inferred("bronzong") is None
+
+
+def test_air_balloon_voids_spikes_evidence():
+    o = _obs([SPK, "|switch|p2a: Great Tusk|Great Tusk|100/100",
+              "|-item|p2a: Great Tusk|Air Balloon", "|turn|5"])
+    assert o.boots_inferred("greattusk") is None
+
+
+def test_spikes_chip_cancels_boots():
+    o = _obs([SPK, "|switch|p2a: Great Tusk|Great Tusk|100/100",
+              "|-damage|p2a: Great Tusk|88/100|[from] Spikes", "|turn|5"])
+    assert o.boots_inferred("greattusk") is None
+
+
+def test_stealth_rock_still_proves_flying_mon():
+    # SR hits everything, so a Flying mon avoiding SR+Spikes is still Boots
+    o = _obs([SR, SPK, "|switch|p2a: Corviknight|Corviknight, M|100/100",
+              "|turn|5"])
+    assert o.boots_inferred("corviknight") == "heavydutyboots"
+
+
+# --- Gravity: grounds everyone ----------------------------------------------
+
+def test_gravity_grounds_flying_for_spikes_evidence():
+    o = _obs([GRAV, SPK, "|switch|p2a: Corviknight|Corviknight, M|100/100",
+              "|turn|5"])
+    assert o.boots_inferred("corviknight") == "heavydutyboots"
+
+
+def test_gravity_overrides_air_balloon():
+    o = _obs([GRAV, SPK, "|switch|p2a: Great Tusk|Great Tusk|100/100",
+              "|-item|p2a: Great Tusk|Air Balloon", "|turn|5"])
+    assert o.boots_inferred("greattusk") == "heavydutyboots"
+
+
+def test_gravity_ended_reverts_to_normal():
+    o = _obs([GRAV, "|-fieldend|move: Gravity", SPK,
+              "|switch|p2a: Corviknight|Corviknight, M|100/100", "|turn|5"])
+    assert o.boots_inferred("corviknight") is None
 
 
 if __name__ == "__main__":

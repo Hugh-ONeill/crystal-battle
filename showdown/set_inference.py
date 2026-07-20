@@ -51,12 +51,30 @@ def _dex_data():
     return _gen9_dex
 
 
+def _abilities_of(species_norm: str) -> set[str]:
+    return {_normalize(str(a)) for a
+            in _dex_data().get(species_norm, {}).get("abilities", {}).values()}
+
+
 def _can_magic_guard(species_norm: str) -> bool:
     """Magic Guard also nullifies hazard chip, so it's the confound for the
     Boots negative-evidence read: if the species can run it, zero-chip entry
     doesn't prove Boots."""
-    abilities = _dex_data().get(species_norm, {}).get("abilities", {})
-    return any(_normalize(str(a)) == "magicguard" for a in abilities.values())
+    return "magicguard" in _abilities_of(species_norm)
+
+
+def _grounded_by_species(species_norm: str) -> bool:
+    """True when the species is grounded on type + ability alone — not a
+    Flying type and cannot plausibly run Levitate. Spikes only chip grounded
+    Pokemon, so a grounded mon that avoids Spikes is Boots evidence; a
+    Flying/maybe-Levitate one avoids them legitimately (no signal). Air
+    Balloon is the remaining airborne source and is caught at run time (it
+    announces itself on switch-in)."""
+    entry = _dex_data().get(species_norm, {})
+    types = {str(t).lower() for t in entry.get("types", [])}
+    if "flying" in types:
+        return False
+    return "levitate" not in _abilities_of(species_norm)
 
 
 def _normalize(name: str) -> str:
@@ -113,8 +131,10 @@ class BattleObservations:
         # wrong item, though a caster may hedge on it).
         self.boots: set[str] = set()            # confident Heavy-Duty Boots
         self.boots_ambiguous: set[str] = set()  # zero-chip but MG-capable
-        self._side_sr = {"p1": False, "p2": False}   # Stealth Rock per side
-        self._entry_latch: dict | None = None        # open switch-in over SR
+        self._side_sr = {"p1": False, "p2": False}      # Stealth Rock per side
+        self._side_spikes = {"p1": False, "p2": False}  # Spikes per side
+        self._gravity = False                    # grounds everyone for Spikes
+        self._entry_latch: dict | None = None    # open switch-in over hazards
 
         # ---- scanner state ----
         self._active: dict[str, str] = {}          # role -> species
@@ -148,12 +168,23 @@ class BattleObservations:
         })
 
     def _resolve_entry(self):
-        """A switch-in over Stealth Rock closes its window (the next turn/
-        move/switch after the immediate entry damage). If no SR chip landed,
-        that's Heavy-Duty Boots — or Magic Guard if the species can run it."""
+        """A switch-in over hazards closes its window (the next turn/move/
+        switch after the immediate entry damage). Zero chip is Boots — or
+        Magic Guard if the species can run it. Evidence is airtight for
+        Stealth Rock (hits everything); for Spikes it only counts if the mon
+        wasn't revealed airborne by an Air Balloon on entry (the species is
+        already known grounded — that's the gate to latch on Spikes)."""
         latch = self._entry_latch
         self._entry_latch = None
         if latch is None or latch["chipped"]:
+            return
+        # SR proves it outright; Spikes proves it unless an Air Balloon made
+        # the mon airborne — but under Gravity even a balloon is grounded, so
+        # the balloon voids Spikes evidence only outside Gravity
+        spikes_proven = latch["expects_spikes"] and (
+            latch["gravity"] or not latch["airborne"])
+        proven = latch["expects_sr"] or spikes_proven
+        if not proven:
             return
         species = latch["species"]
         if _can_magic_guard(species):
@@ -235,10 +266,24 @@ class BattleObservations:
                         self._hp[species] = int(event[4].split("/")[0])
                     except ValueError:
                         pass
-                # opponent walking into our Stealth Rock: open a zero-chip
-                # watch for this entry (Boots negative evidence)
-                if role == opp_role and self._side_sr.get(opp_role):
-                    self._entry_latch = {"species": species, "chipped": False}
+                # opponent walking into our hazards: open a zero-chip watch
+                # (Boots negative evidence). SR is expected on any mon;
+                # Spikes only on a species known grounded by type+ability
+                # (Air Balloon, the last airborne source, is caught below).
+                if role == opp_role:
+                    expects_sr = self._side_sr.get(opp_role, False)
+                    # Gravity grounds EVERYONE (Flying/Levitate/Air Balloon
+                    # all take Spikes while it's up), so it widens the Spikes
+                    # check to any species and overrides the balloon exclusion
+                    grounded = self._gravity or _grounded_by_species(species)
+                    expects_spikes = (self._side_spikes.get(opp_role, False)
+                                      and grounded)
+                    if expects_sr or expects_spikes:
+                        self._entry_latch = {
+                            "species": species, "chipped": False,
+                            "expects_sr": expects_sr,
+                            "expects_spikes": expects_spikes,
+                            "gravity": self._gravity, "airborne": False}
             elif kind == "move" and len(event) >= 4:
                 self._resolve_entry()  # first action after a switch closes it
                 role = event[2][:2]
@@ -256,10 +301,11 @@ class BattleObservations:
                     }
             elif kind == "-damage" and len(event) >= 4:
                 role = event[2][:2]
-                # opponent's incoming mon took Stealth Rock chip -> it does
-                # NOT have Boots; cancel the negative-evidence latch
+                # opponent's incoming mon took hazard chip -> it does NOT
+                # have Boots; cancel the negative-evidence latch
                 if (role == opp_role and self._entry_latch is not None
-                        and any("Stealth Rock" in a for a in event[4:])):
+                        and any(("Stealth Rock" in a or "Spikes" in a)
+                                for a in event[4:])):
                     self._entry_latch["chipped"] = True
                 if role == our_role:
                     species = _normalize(event[2].split(":")[1])
@@ -317,19 +363,39 @@ class BattleObservations:
                     self._tailwind.add(event[2][:2])
                 elif "Stealth Rock" in event[3]:
                     self._side_sr[event[2][:2]] = True
+                elif "Spikes" in event[3] and "Toxic Spikes" not in event[3]:
+                    self._side_spikes[event[2][:2]] = True
             elif kind == "-sideend" and len(event) >= 4:
                 if "Tailwind" in event[3]:
                     self._tailwind.discard(event[2][:2])
                 elif "Stealth Rock" in event[3]:
                     self._side_sr[event[2][:2]] = False
+                elif "Spikes" in event[3] and "Toxic Spikes" not in event[3]:
+                    self._side_spikes[event[2][:2]] = False
             elif kind == "-swapsideconditions":
                 # Court Change flips hazards to the opposite sides
                 self._side_sr = {"p1": self._side_sr["p2"],
                                  "p2": self._side_sr["p1"]}
-            elif kind == "-fieldstart" and len(event) >= 3 and "Trick Room" in event[2]:
-                self._trick_room = True
-            elif kind == "-fieldend" and len(event) >= 3 and "Trick Room" in event[2]:
-                self._trick_room = False
+                self._side_spikes = {"p1": self._side_spikes["p2"],
+                                     "p2": self._side_spikes["p1"]}
+            elif (kind == "-item" and len(event) >= 4
+                  and self._entry_latch is not None
+                  and event[2][:2] == opp_role
+                  and "Air Balloon" in event[3]):
+                # Air Balloon announces on switch-in; it makes the holder
+                # airborne for Spikes (but NOT for Stealth Rock), so it only
+                # voids Spikes-based evidence
+                self._entry_latch["airborne"] = True
+            elif kind == "-fieldstart" and len(event) >= 3:
+                if "Trick Room" in event[2]:
+                    self._trick_room = True
+                elif "Gravity" in event[2]:
+                    self._gravity = True
+            elif kind == "-fieldend" and len(event) >= 3:
+                if "Trick Room" in event[2]:
+                    self._trick_room = False
+                elif "Gravity" in event[2]:
+                    self._gravity = False
             elif kind == "-weather" and len(event) >= 3:
                 self._weather = {"SunnyDay": "sun", "RainDance": "rain",
                                  "Sandstorm": "sand", "Snowscape": "snow",
