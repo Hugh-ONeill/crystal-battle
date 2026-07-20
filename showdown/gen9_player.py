@@ -101,7 +101,10 @@ def _parse_clock(battle, username: str | None) -> tuple[int | None, int | None]:
     for event in replay:
         if len(event) < 3 or event[1] != "inactive":
             continue
-        msg = event[2]
+        # the timer text itself contains pipes ('... this turn | N sec
+        # total | ...') and the protocol splits on '|', so the reading is
+        # scattered across event[2:]; rejoin before parsing
+        msg = "|".join(str(x) for x in event[2:])
         low = msg.lower()
         if uname and low.startswith(uname) and "sec" in low:
             m = _TIME_LEFT_RE.search(msg)
@@ -277,6 +280,7 @@ class Gen9PokeEnginePlayer(Player):
                  escalate_ms: int = 2000, flat_threshold: float = 0.55,
                  clock_floor_s: int = 40, escalate_bank_s: float = 90.0,
                  spend_frac: float = 0.25, escalate_max_ms: int = 15000,
+                 base_frac: float = 0.02, base_max_ms: int = 2000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
                  value_batch: int = 32, verbose: bool = True,
@@ -316,7 +320,6 @@ class Gen9PokeEnginePlayer(Player):
         # the earliest/most-contested positions. The parsed server clock is
         # an additional safety when present.
         self._adaptive = adaptive
-        self._probe_ms = search_ms
         self._escalate_ms = escalate_ms
         self._flat_threshold = flat_threshold
         self._clock_floor_s = clock_floor_s
@@ -325,6 +328,9 @@ class Gen9PokeEnginePlayer(Player):
         # escalation, hard-capped per world; self-paces to server regen
         self._spend_frac = spend_frac
         self._escalate_max_ms = escalate_max_ms
+        # budget-by-clock (base search scales with the parsed bank)
+        self._base_frac = base_frac
+        self._base_max_ms = base_max_ms
         self._bank_used_s = 0.0
         # WHERE the bank is spent matters more than how much: greedy early
         # spending drained it by ~turn 30 (all on low-leverage opening
@@ -623,6 +629,27 @@ class Gen9PokeEnginePlayer(Player):
                   f"choosing randomly")
         return self.choose_random_move(battle)
 
+    def _base_budget_ms(self, battle) -> int:
+        """Budget-by-clock: derive the BASE per-world search budget from the
+        parsed server bank. We probed at a fixed 300ms while the long-timer
+        queue hands us a 1500s bank and the oracle bench prices 2000ms at 86%
+        deep-search agreement vs 70% at 300ms — free strength. Policy: spend
+        base_frac (2%) of surplus above the floor per turn, clamped to
+        [150ms, base_max_ms]; worlds run in parallel so wall ~= this budget.
+        Self-pacing: as the bank drains the budget decays smoothly toward
+        survival speed; with no timer visible, the configured search_ms is
+        used unchanged (keeps timerless local play and pinned benches exact).
+        """
+        try:
+            uname = self.username
+        except Exception:
+            uname = None
+        bank, _cap = _parse_clock(battle, uname)
+        if bank is None:
+            return self._search_ms
+        dyn = int((bank - self._clock_floor_s) * self._base_frac * 1000)
+        return max(150, min(self._base_max_ms, dyn))
+
     def _search_samples(self, battle, search_ms: int | None = None,
                         use_value: bool | None = None) -> list:
         """One MCTS per sampled opponent world (K = set_samples). With K=1,
@@ -636,7 +663,7 @@ class Gen9PokeEnginePlayer(Player):
         independent and the mcts binding releases the GIL (py.detach), so
         they run concurrently across cores when set_samples > 1. Identical
         results either way — only wall time differs."""
-        ms = search_ms if search_ms is not None else self._search_ms
+        ms = search_ms if search_ms is not None else self._base_budget_ms(battle)
         states = []
         for i in range(self._set_samples):
             rng = random.Random() if self._set_samples > 1 else None
@@ -684,7 +711,10 @@ class Gen9PokeEnginePlayer(Player):
         # probe is always fast plain MCTS — its 164k iters resolve tactics
         # cheaply; the value net's 3.7x throughput cost is reserved for the
         # escalated deep-think below
-        probe = self._search_samples(battle, self._probe_ms, use_value=False)
+        base_ms = self._base_budget_ms(battle)
+        if self._verbose and battle.turn <= 1:
+            print(f"  T1 clock base budget {base_ms}ms/world", flush=True)
+        probe = self._search_samples(battle, base_ms, use_value=False)
         merged = _merge_mcts_results(probe)
         total = sum(m.visits for m in merged) or 1
         top_share = merged[0].visits / total if merged else 1.0
@@ -720,7 +750,7 @@ class Gen9PokeEnginePlayer(Player):
                 # per-turn cap bounds this whole turn incl. the probe already
                 # spent; leave a margin for translation/overhead
                 allowed_s = min(allowed_s,
-                                cap - self._probe_ms / 1000 - 5)
+                                cap - base_ms / 1000 - 5)
             budget = min(self._escalate_max_ms, int(round(allowed_s * 1000)))
         else:
             # no timer messages (local play with timer off): fall back to the
@@ -728,11 +758,11 @@ class Gen9PokeEnginePlayer(Player):
             if self._bank_used_s >= self._escalate_bank_s:
                 return probe
             budget = self._escalate_ms
-        if budget <= self._probe_ms:
+        if budget <= base_ms:
             return probe
         if self._verbose:
             print(f"  T{battle.turn} flat (top {top_share:.0%}), escalating "
-                  f"{self._probe_ms}->{budget}ms/world "
+                  f"{base_ms}->{budget}ms/world "
                   f"(bank {self._bank_used_s:.0f}/{self._escalate_bank_s:.0f}s)")
         if self._airi is not None and \
                 time.monotonic() - self._airi_last_sent > 5.0:
@@ -842,6 +872,12 @@ async def main():
                              "--escalate-ms in flat positions when clock allows")
     parser.add_argument("--escalate-ms", type=int, default=2000,
                         help="deep-search budget per world in flat positions")
+    parser.add_argument("--base-frac", type=float, default=0.02,
+                        help="budget-by-clock: fraction of bank surplus used "
+                             "as the BASE per-world search budget each turn")
+    parser.add_argument("--base-max-ms", type=int, default=2000,
+                        help="cap on the clock-derived base budget (oracle "
+                             "bench: 2000ms = 86%% deep-search agreement)")
     parser.add_argument("--spend-frac", type=float, default=0.25,
                         help="fraction of (bank - floor) spent per escalation "
                              "when the server clock is visible")
@@ -901,6 +937,8 @@ async def main():
         escalate_bank_s=args.escalate_bank_s,
         spend_frac=args.spend_frac,
         escalate_max_ms=args.escalate_max_ms,
+        base_frac=args.base_frac,
+        base_max_ms=args.base_max_ms,
         escalate_min_turn=args.escalate_min_turn,
         escalate_min_gap=args.escalate_min_gap,
         value_net_path=args.value_net,

@@ -688,9 +688,14 @@ def test_probabilistic_selection():
 def test_time_left_parser():
     from types import SimpleNamespace as NS
     from showdown.gen9_player import _time_left
+    # NB: the wire protocol splits on '|', so the timer text (which itself
+    # contains pipes) arrives SCATTERED across fields — the true poke-env
+    # shape is ["", "inactive", "Time left: 300 sec this turn ", " 300 sec
+    # total ", ...]. Feeding the unsplit string here once masked a live bug.
     b = NS(_replay_data=[
         ["", "inactive", "Battle timer is ON."],
-        ["", "inactive", "Time left: 300 sec this turn | 300 sec total | 60 sec grace"],
+        ["", "inactive", "Time left: 300 sec this turn ", " 300 sec total ",
+         " 60 sec grace"],
         ["", "inactive", "CBGen9 has 270 seconds left."],
         ["", "inactive", "CBGen9 has 150 seconds left."],
     ])
@@ -698,7 +703,7 @@ def test_time_left_parser():
     assert _time_left(NS(_replay_data=[]), "CBGen9") is None
     # falls back to 'sec total' when no per-player line matches our name
     b2 = NS(_replay_data=[
-        ["", "inactive", "Time left: 200 sec this turn | 200 sec total"]])
+        ["", "inactive", "Time left: 200 sec this turn ", " 200 sec total"]])
     assert _time_left(b2, "CBGen9") == 200
 
 
@@ -714,7 +719,8 @@ def test_adaptive_escalation_decision():
 
     calls = []
     stub = P.__new__(P)
-    stub._probe_ms, stub._escalate_ms = 300, 2000
+    stub._search_ms, stub._escalate_ms = 300, 2000
+    stub._base_frac, stub._base_max_ms = 0.02, 2000
     stub._flat_threshold, stub._clock_floor_s = 0.55, 40
     stub._set_samples, stub._verbose = 2, False
     stub._escalate_bank_s, stub._bank_used_s = 90.0, 0.0
@@ -725,35 +731,48 @@ def test_adaptive_escalation_decision():
 
     def fake_search(battle, ms=None, use_value=None):
         calls.append((ms, use_value))
-        return battle._probe if ms == stub._probe_ms else [NS(side_one=[])]
+        # probe runs use_value=False; escalation runs use_value=True
+        return battle._probe if use_value is False else [NS(side_one=[])]
     stub._search_samples = fake_search
 
     def clock(bank, cap=None):
         gp._parse_clock = lambda *a: (bank, cap)
 
+    # budget-by-clock: base probe budget scales with the parsed bank
+    clock(1500)
+    assert stub._base_budget_ms(NS(_replay_data=[])) == 2000   # capped
+    clock(120)
+    assert stub._base_budget_ms(NS(_replay_data=[])) == 1600   # (120-40)*2%
+    clock(90)
+    assert stub._base_budget_ms(NS(_replay_data=[])) == 1000
+    clock(20)
+    assert stub._base_budget_ms(NS(_replay_data=[])) == 150    # survival floor
+    clock(None)
+    assert stub._base_budget_ms(NS(_replay_data=[])) == 300    # no timer: pinned
+
     # decisive probe: no escalation regardless of clock
     calls.clear(); clock(120)
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=peaked))
-    assert calls == [(300, False)]
+    assert calls == [(1600, False)]
 
     # flat + server bank 120: surplus 80 * 0.25 = 20s -> capped at max 15000ms
     calls.clear(); clock(120)
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert (300, False) in calls and (15000, True) in calls
+    assert (1600, False) in calls and (15000, True) in calls
 
-    # flat + per-turn cap 10s bounds the spend: min(20, 10 - 0.3 - 5) = 4.7s
+    # flat + per-turn cap 10s bounds the spend: min(20, 10 - 1.6 - 5) = 3.4s
     calls.clear(); clock(120, cap=10)
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert (4700, True) in calls
+    assert (3400, True) in calls
 
-    # flat + low bank: below the floor, probe only
+    # flat + low bank: below the floor, survival-speed probe only
     calls.clear(); clock(20)
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
-    assert calls == [(300, False)]
+    assert calls == [(150, False)]
 
-    # no timer messages -> fallback fixed bank at escalate_ms
+    # no timer messages -> configured base + fallback fixed bank at escalate_ms
     calls.clear(); clock(None)
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=20, _replay_data=[], _probe=flat))
@@ -769,16 +788,16 @@ def test_adaptive_escalation_decision():
     calls.clear(); clock(120)
     stub._last_escalate_turn = -999
     stub._adaptive_search(NS(turn=10, _replay_data=[], _probe=flat))
-    assert calls == [(300, False)]
+    assert calls == [(1600, False)]
 
     # min_gap spacing, then a legal late escalation updates the gap marker
     calls.clear()
     stub._last_escalate_turn = 100
     stub._adaptive_search(NS(turn=104, _replay_data=[], _probe=flat))
-    assert calls == [(300, False)]
+    assert calls == [(1600, False)]
     calls.clear()
     stub._adaptive_search(NS(turn=110, _replay_data=[], _probe=flat))
-    assert (300, False) in calls and (15000, True) in calls
+    assert (1600, False) in calls and (15000, True) in calls
     assert stub._last_escalate_turn == 110
 
 
