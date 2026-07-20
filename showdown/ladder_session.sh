@@ -16,7 +16,11 @@
 #       <team_pool_dir> [extra gen9_player args...]
 # e.g.
 #   PS_PASSWORD=secret showdown/ladder_session.sh pa1 20 pokeagent \
-#       showdown/teams/suite_v1 --search-ms 300 --adaptive on
+#       showdown/teams/pool_hl --search-ms 300 --adaptive on
+#
+# Team pools (built by showdown/curate_team_pool.py, gitignored):
+#   pool_hl           40 most-popular legal High-Ladder cores (current meta)
+#   pool_competitive  11 legal human Smogon sample teams (coherent-set default)
 #
 # Env: PS_USERNAME (default CBGen9), PS_PASSWORD (registered accounts),
 #      PER_GAME_TIMEOUT (default 1800s — extended-timer games run long)
