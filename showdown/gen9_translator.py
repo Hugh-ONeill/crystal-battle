@@ -858,6 +858,7 @@ class Gen9Translator:
             # speed floor: they outsped something our model says they can't
             if self._obs.scarf_needed(species, spe_stat, item):
                 item = "choicescarf"
+                self._obs.confirmed[species] = "choicescarf"
                 if self._obs.max_speed_needed(species, spe_stat):
                     spe_stat = _calc_stat_modern(bs.get("spe", 80), 31, 252,
                                                  mon.level, 1.1, False)
@@ -884,6 +885,7 @@ class Gen9Translator:
                 species, probe, getattr(self, "_my_built", {}))
             if upgrade:
                 item = upgrade
+                self._obs.confirmed[species] = upgrade
 
         # active choice lock: last_move is cleared on switch-out, so a known
         # last move on a choice-locked holder pins everything else. This is

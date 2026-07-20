@@ -43,7 +43,7 @@ from showdown.name_mapping import _normalize
 from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
 from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
-from showdown.beat_director import (Director, ProtocolScanner,
+from showdown.beat_director import (Director, Event, ProtocolScanner,
                                     TurnContext)
 
 # every numeric desk read (top line's avg MCTS score per searched decision)
@@ -234,6 +234,29 @@ def _species_stats(display_name: str) -> tuple[int, int] | None:
     return None
 
 
+# inferred-item id -> (display name, the evidence that confirmed it). The
+# damage brackets model several items as one multiplier (Expert Belt /
+# Booster in the Life Orb bracket), so the phrasing hedges honestly where
+# the inference does.
+_BELIEF_PROSE = {
+    "choicescarf": ("Choice Scarf", "it outsped what any legal set allows"),
+    "choiceband": ("Choice Band", "it hit past its max damage roll"),
+    "choicespecs": ("Choice Specs", "it hit past its max damage roll"),
+    "lifeorb": ("Life Orb", "its damage ran over the itemless ceiling"),
+    "expertbelt": ("Expert Belt",
+                   "its super-effective hits ran over the ceiling"),
+}
+
+
+def _belief_prose(name_display: str, item_id: str) -> str:
+    """The set-reveal cue for a confirmed inferred item — display name +
+    the evidence chain, phrased so the analyst can cite it and the gremlin
+    can claim it."""
+    label, why = _BELIEF_PROSE.get(
+        item_id, ("a boosting item", "its output exceeded its modeled set"))
+    return (f"set inference confirms {name_display}'s {label}: {why}")
+
+
 def _preview_order(lead_idx: int, n: int) -> str:
     """'/team 312456'-style order string: chosen lead first, rest in order."""
     rest = [i for i in range(1, n + 1) if i != lead_idx + 1]
@@ -366,6 +389,10 @@ class Gen9PokeEnginePlayer(Player):
         self._director = Director(min_interval=airi_min_interval,
                                   min_swing=airi_min_swing,
                                   stats_fn=_species_stats)
+        # species -> last-announced inferred item, so a belief the search
+        # adopts (set_inference.confirmed) becomes a one-time "that's a
+        # Scarf" reveal beat instead of firing every turn it holds
+        self._announced_beliefs: dict = {}
 
     async def teampreview(self, battle):
         """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
@@ -409,6 +436,7 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_tag = battle.battle_tag
         self._airi_last_sent = 0.0
         self._scanner.reset()
+        self._announced_beliefs = {}
         try:
             ours = [_species_display(p.species)
                     for p in battle.team.values()]
@@ -451,6 +479,28 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    def _emit_belief_deltas(self):
+        """Diff the search's confirmed set inferences against what we've
+        already announced; each newly-adopted inferred item becomes a
+        high-priority set_reveal beat ('that's a Scarf'). The delta fires
+        once — reactions track genuine information gain, not every turn the
+        belief holds. species keys are normalized ids; display them."""
+        obs = getattr(self._translator, "_obs", None)
+        if obs is None:
+            return
+        try:
+            for species, item in list(obs.confirmed.items()):
+                if self._announced_beliefs.get(species) == item:
+                    continue
+                self._announced_beliefs[species] = item
+                self._director.observe([Event(
+                    "belief_delta",
+                    _belief_prose(_species_display(species), item),
+                    side="them", notable=True,
+                    data={"species": species, "item": item})])
+        except Exception:
+            pass
+
     def _airi_turn_event(self, battle, ranked, desc: str):
         """Adapt the decision point into a TurnContext and let the director
         decide. All gating (5s floor, significance, swing-vs-last-SENT) and
@@ -461,6 +511,7 @@ class Gen9PokeEnginePlayer(Player):
             return
         try:
             self._airi_new_battle(battle)  # formats without team preview
+            self._emit_belief_deltas()
             top = ranked[0]
             value = top.total_score / max(1, top.visits)
             me = battle.active_pokemon

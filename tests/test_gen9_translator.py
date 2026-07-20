@@ -390,6 +390,34 @@ def test_speed_floor_infers_scarf():
     assert fungus.item == "choicescarf"
 
 
+def test_scarf_inference_records_confirmed_belief():
+    # the real translator must stamp obs.confirmed when it adopts the
+    # inferred scarf — this is the link the live player diffs into a
+    # "that's a Scarf" commentary beat (belief-delta pipeline)
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Amoonguss", "Amoonguss, F", "100/100"])
+    b.parse_message(["", "turn", "1"])
+    b.parse_message(["", "move", "p2a: Amoonguss", "Sludge Bomb", "p1a: Ninetales"])
+    b.parse_message(["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Amoonguss"])
+    b.parse_message(["", "turn", "2"])
+    tr = Gen9Translator(set_source="gen9ou")
+    tr.translate(b)
+    assert tr._obs.confirmed.get("amoonguss") == "choicescarf"
+
+    # and the player's diff turns that into exactly one set_reveal beat
+    from showdown.gen9_player import Gen9PokeEnginePlayer as P
+    from showdown.beat_director import Director, classify
+    p = P.__new__(P)
+    p._airi = object()
+    p._director = Director()
+    p._announced_beliefs = {}
+    p._translator = tr
+    p._emit_belief_deltas()
+    reveals = [c for c in (classify(ev) for ev in p._director._pending)
+               if c and c.beat == "set_reveal"]
+    assert len(reveals) == 1 and "Choice Scarf" in reveals[0].prose
+
+
 def test_no_scarf_when_we_moved_first():
     b = make_battle()
     b.parse_message(["", "switch", "p2a: Amoonguss", "Amoonguss, F", "100/100"])

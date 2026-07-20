@@ -81,6 +81,12 @@ class BattleObservations:
         self.speed_ceiling: dict[str, float] = {}
         # dicts: species/move/damage/our_species/weather
         self.damage_evidence: list[dict] = []
+        # opp species -> the INFERRED item the translator has adopted for it
+        # (choicescarf / lifeorb / choiceband / ...). Written by the
+        # translator's build loop when an observation upgrades an unrevealed
+        # item; read by the live player to emit "set reveal" commentary
+        # beats the moment a belief is confirmed. Never holds revealed items.
+        self.confirmed: dict[str, str] = {}
 
         # ---- scanner state ----
         self._active: dict[str, str] = {}          # role -> species
