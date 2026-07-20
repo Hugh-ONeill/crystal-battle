@@ -24,6 +24,13 @@
 set -u
 NAME="$1"; N_GAMES="$2"; SERVER="$3"; POOL="$4"; shift 4
 CB=/home/wiz/Developer/grimoire/crystal-battle
+
+# credentials: explicit env wins; else fall back to the locked config file
+# (~/.config/crystal-battle/pokeagent.env — OUTSIDE the public repo, 600)
+CRED_FILE="$HOME/.config/crystal-battle/pokeagent.env"
+if [ -z "${PS_PASSWORD:-}" ] && [ -f "$CRED_FILE" ]; then
+  set -a; . "$CRED_FILE"; set +a
+fi
 LOG="$CB/showdown/bench/${NAME}_ladder.log"
 USERNAME="${PS_USERNAME:-CBGen9}"
 PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-1800}"
