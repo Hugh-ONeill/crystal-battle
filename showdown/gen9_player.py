@@ -44,7 +44,8 @@ from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
 from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
 from showdown.beat_director import (Director, Event, ProtocolScanner,
-                                    TurnContext)
+                                    TurnContext, world_collapse_prose,
+                                    endgame_solved_prose, deep_think_prose)
 from monotype.endgame_solver import is_solvable_endgame, solve_endgame
 
 # every numeric desk read (top line's avg MCTS score per searched decision)
@@ -546,6 +547,59 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    def _airi_engine_beat(self, kind: str, prose: str, **data):
+        """Fold an engine-internal signal (world collapse, endgame solved)
+        into the director as a notable Event so it rides the NEXT decision
+        like any protocol beat — a certainty gain narrated in the recap.
+        Runs from the search worker thread; observe() only appends to a
+        buffer the main-thread decide() drains after the search future is
+        awaited, so there's no concurrent director access. Best-effort;
+        never disturbs play."""
+        if self._airi is None:
+            return
+        try:
+            self._director.observe([Event(kind, prose, notable=True,
+                                          data=data)])
+        except Exception:
+            pass
+
+    def _airi_interject(self, battle, kind: str, prose: str):
+        """Send a real-time, OUT-OF-BAND engine beat (the search pausing to
+        think) with persona routing + a board HUD so the panel doesn't blank
+        mid-turn. Unlike _airi_engine_beat this speaks immediately, before
+        the move resolves — that's the whole point of a 'hold on' stall.
+        Does NOT reset the turn-pacing clock (_airi_last_sent), so the turn
+        recap that follows the pause still fires on its own schedule. Runs
+        from the search worker thread; AiriBridge.send is the same call the
+        raw escalation note already made. Best-effort; never disturbs play."""
+        if self._airi is None:
+            return
+        try:
+            composed = self._director.interject(kind, battle.turn, prose)
+            if composed is None:
+                return
+            text, beat = composed
+            me = battle.active_pokemon
+            opp = battle.opponent_active_pokemon
+
+            def hp(p):
+                return round(100 * (p.current_hp_fraction or 0)) if p else None
+
+            # HUD without `value`: the overlay holds the last momentum reading
+            # instead of snapping the meter to center on an out-of-band beat
+            self._airi.send(text, beats=[asdict(beat)], hud={
+                "turn": battle.turn,
+                "us": _species_display(me.species) if me else None,
+                "us_hp": hp(me),
+                "them": _species_display(opp.species) if opp else None,
+                "them_hp": hp(opp),
+                "us_alive": sum(1 for p in battle.team.values()
+                                if not p.fainted),
+                "them_alive": sum(1 for p in battle.opponent_team.values()
+                                  if not p.fainted)})
+        except Exception:
+            pass
+
     def _airi_turn_event(self, battle, ranked, desc: str):
         """Adapt the decision point into a TurnContext and let the director
         decide. All gating (5s floor, significance, swing-vs-last-SENT) and
@@ -777,11 +831,15 @@ class Gen9PokeEnginePlayer(Player):
             return self._set_samples
         if revealed < self._collapse_moves:
             return self._set_samples
-        if self._verbose and not getattr(battle, "_cb_collapse_logged", False):
-            battle._cb_collapse_logged = True
-            print(f"  T{battle.turn} world collapse: {self._set_samples}->1 "
-                  f"({revealed} opp moves revealed); full budget to one world",
-                  flush=True)
+        # announce once per battle (the collapse holds every turn after)
+        if not getattr(battle, "_cb_collapse_announced", False):
+            battle._cb_collapse_announced = True
+            if self._verbose:
+                print(f"  T{battle.turn} world collapse: {self._set_samples}"
+                      f"->1 ({revealed} opp moves revealed); full budget to "
+                      "one world", flush=True)
+            self._airi_engine_beat("world_collapse",
+                                   world_collapse_prose(revealed))
         return 1
 
     def _try_endgame_solver(self, battle, state):
@@ -827,6 +885,13 @@ class Gen9PokeEnginePlayer(Player):
             print(f"  T{battle.turn} ENDGAME SOLVED: {p1_act} "
                   f"(value {val:+.2f})", flush=True)
         winp = (val + 1.0) / 2.0
+        # announce the takeover once — the solver runs every turn from here,
+        # but "the game is now provably decided" is a one-time beat
+        if not getattr(battle, "_cb_solver_announced", False):
+            battle._cb_solver_announced = True
+            self._airi_engine_beat("endgame_solved",
+                                   endgame_solved_prose(winp),
+                                   win_prob=round(winp, 3))
         fake = SimpleNamespace(move_choice=p1_act, visits=1_000_000,
                                total_score=winp * 1_000_000)
         return [SimpleNamespace(side_one=[fake])]
@@ -956,10 +1021,13 @@ class Gen9PokeEnginePlayer(Player):
                   f"(bank {self._bank_used_s:.0f}/{self._escalate_bank_s:.0f}s)")
         if self._airi is not None and \
                 time.monotonic() - self._airi_last_sent > 5.0:
-            self._airi.send(
-                f"[BATTLE T{battle.turn}] Critical position: no line stands "
-                "out from the rest here. We're taking extra time to think "
-                "this one through.")
+            me = battle.active_pokemon
+            opp = battle.opponent_active_pokemon
+            self._airi_interject(
+                battle, "deep_think",
+                deep_think_prose(
+                    _species_display(me.species) if me else None,
+                    _species_display(opp.species) if opp else None))
         # escalated deep-think: this is the "human pauses to think" moment —
         # spend the timer bank AND the value net's learned eval here, where
         # the static eval is blindest (flat positions) and depth is wasted
