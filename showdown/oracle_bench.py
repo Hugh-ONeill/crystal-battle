@@ -51,15 +51,27 @@ from showdown.eval_calibration import load_rows
 FLAT_SHARE = 0.45  # top move below this visit share = flat (house convention)
 
 
-def build_bank(holdout_path: str, n: int, rng) -> list[tuple[str, int, int]]:
-    """Phase-stratified sample of (state_str, turn_idx, game_len)."""
+def build_bank(holdout_path: str, n: int, rng, min_game_len: int = 0,
+               late_only: bool = False) -> list[tuple[str, int, int]]:
+    """Phase-stratified sample of (state_str, turn_idx, game_len).
+
+    min_game_len drops positions from games shorter than N turns; late_only
+    puts the whole bank in the late (turn>=20) stratum. Together they isolate
+    the GRIND stratum (late turns of long games) for depth-sensitivity work.
+    """
     rows = load_rows(holdout_path)
+    if min_game_len:
+        rows = [r for r in rows if r[3] >= min_game_len]
     early = [r for r in rows if r[2] < 8]
     mid = [r for r in rows if 8 <= r[2] < 20]
     late = [r for r in rows if r[2] >= 20]
+    shares = ((late, 1.0),) if late_only else (
+        (early, 0.30), (mid, 0.40), (late, 0.30))
     bank = []
-    for pool, share in ((early, 0.30), (mid, 0.40), (late, 0.30)):
+    for pool, share in shares:
         k = min(int(n * share), len(pool))
+        if k <= 0:
+            continue
         idx = rng.choice(len(pool), size=k, replace=False)
         bank.extend((pool[i][0], pool[i][2], pool[i][3]) for i in idx)
     return bank
@@ -196,15 +208,24 @@ def main():
     ap.add_argument("--candidate", action="append", default=[],
                     help="mcts:<ms> or value:<onnx>:<alpha>:<ms>:<batch>")
     ap.add_argument("--cache-dir", default=None)
+    ap.add_argument("--min-game-len", type=int, default=0,
+                    help="drop positions from games shorter than N turns")
+    ap.add_argument("--late-only", action="store_true",
+                    help="whole bank from the late (turn>=20) stratum; with "
+                         "--min-game-len N isolates the GRIND stratum")
+    ap.add_argument("--tag", default="",
+                    help="suffix for the oracle cache filename (so grind and "
+                         "full banks don't collide)")
     args = ap.parse_args()
 
     cache_dir = Path(args.cache_dir) if args.cache_dir \
         else Path(args.holdout).parent
     rng = np.random.default_rng(11)
-    bank = build_bank(args.holdout, args.n, rng)
+    bank = build_bank(args.holdout, args.n, rng,
+                      min_game_len=args.min_game_len, late_only=args.late_only)
     print(f"bank built: {len(bank)} positions")
 
-    cache = cache_dir / f"oracle_{len(bank)}_{args.oracle_ms}ms.pkl"
+    cache = cache_dir / f"oracle_{len(bank)}_{args.oracle_ms}ms{args.tag}.pkl"
     oracle = oracle_pass(bank, args.oracle_ms, args.workers, cache)
 
     specs = args.candidate or ["mcts:300"]
