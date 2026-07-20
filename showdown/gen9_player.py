@@ -45,6 +45,7 @@ from showdown.poke_engine_player import _score_switch_in
 from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
 from showdown.beat_director import (Director, Event, ProtocolScanner,
                                     TurnContext)
+from monotype.endgame_solver import is_solvable_endgame, solve_endgame
 
 # every numeric desk read (top line's avg MCTS score per searched decision)
 # plus the game outcome, one JSONL line per game — the raw material for
@@ -308,6 +309,8 @@ class Gen9PokeEnginePlayer(Player):
                  base_frac: float = 0.02, base_max_ms: int = 2000,
                  grind_turn: int = 20, grind_max_ms: int = 6000,
                  collapse_turn: int = 25, collapse_moves: int = 14,
+                 use_endgame_solver: bool = True, endgame_alive: int = 3,
+                 endgame_depth: int = 12, endgame_nodes: int = 10_000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
                  value_batch: int = 32, verbose: bool = True,
@@ -363,6 +366,12 @@ class Gen9PokeEnginePlayer(Player):
         self._grind_max_ms = grind_max_ms
         self._collapse_turn = collapse_turn
         self._collapse_moves = collapse_moves
+        # endgame solver (exact minimax when its guarantees hold; see
+        # _try_endgame_solver for the gates)
+        self._use_endgame_solver = use_endgame_solver
+        self._endgame_alive = endgame_alive
+        self._endgame_depth = endgame_depth
+        self._endgame_nodes = endgame_nodes
         self._bank_used_s = 0.0
         # WHERE the bank is spent matters more than how much: greedy early
         # spending drained it by ~turn 30 (all on low-leverage opening
@@ -775,6 +784,53 @@ class Gen9PokeEnginePlayer(Player):
                   flush=True)
         return 1
 
+    def _try_endgame_solver(self, battle, state):
+        """Exhaustive simultaneous-move minimax for low-material endgames,
+        replacing MCTS when its guarantees actually hold. Gates:
+          - total alive <= endgame_alive (default 3: 1v1 / 2v1 / 1v2)
+          - BOTH sides have already terastallized: the solver's action space
+            is non-tera (monotype heritage), so with a tera pending its
+            'exhaustive' minimax is exhaustive over the wrong game. Requiring
+            both teras spent keeps the guarantee honest; late endgames have
+            usually spent them anyway.
+          - two consecutive budget-exhausted solves in one battle -> stop
+            trying (stall endgames the node budget can't crack; the budget
+            cap is the fix for the OOM this solver once caused).
+        Returns a fabricated single-move result list shaped like MCTS output
+        (so _merge_mcts_results/_map_choice need no changes), or None to fall
+        through to MCTS. The solver sees the same predicted-set world model
+        MCTS would — same information, exact search."""
+        if not self._use_endgame_solver:
+            return None
+        strikes = getattr(battle, "_cb_solver_strikes", 0)
+        if strikes >= 2:
+            return None
+        if not is_solvable_endgame(state, max_total_alive=self._endgame_alive):
+            return None
+        for side in (state.side_one, state.side_two):
+            if not any(p.terastallized for p in side.pokemon):
+                return None  # a tera is still pending: guarantee void
+        stats: dict = {}
+        try:
+            p1_act, _p2_act, val = solve_endgame(
+                state, max_depth=self._endgame_depth,
+                node_budget=self._endgame_nodes, stats=stats)
+        except BaseException:  # pyo3 panics subclass BaseException
+            return None
+        if stats.get("budget_exhausted"):
+            battle._cb_solver_strikes = strikes + 1
+            return None
+        battle._cb_solver_strikes = 0
+        if not p1_act:
+            return None
+        if self._verbose:
+            print(f"  T{battle.turn} ENDGAME SOLVED: {p1_act} "
+                  f"(value {val:+.2f})", flush=True)
+        winp = (val + 1.0) / 2.0
+        fake = SimpleNamespace(move_choice=p1_act, visits=1_000_000,
+                               total_score=winp * 1_000_000)
+        return [SimpleNamespace(side_one=[fake])]
+
     def _search_samples(self, battle, search_ms: int | None = None,
                         use_value: bool | None = None) -> list:
         """One MCTS per sampled opponent world (K = set_samples). With K=1,
@@ -790,18 +846,26 @@ class Gen9PokeEnginePlayer(Player):
         results either way — only wall time differs."""
         ms = search_ms if search_ms is not None else self._base_budget_ms(battle)
         k = self._effective_samples(battle)
-        states = []
-        for i in range(k):
-            rng = random.Random() if k > 1 else None
-            pessimistic = k > 1 and i == k - 1
-            # world 0: curated PS joint sets; later worlds: chaos sampling.
-            # PS sets in every world collapsed diversity (series 10) — some
-            # species have a single curated candidate, so all worlds shared
-            # the same confident wrong set
-            prefer_ps = i == 0
+        # world 0 first: curated PS joint sets, deterministic when k == 1.
+        # (PS sets in every world collapsed diversity (series 10) — some
+        # species have a single curated candidate, so all worlds shared
+        # the same confident wrong set; hence prefer_ps only on world 0.)
+        states = [self._translator.translate(
+            battle, rng=random.Random() if k > 1 else None,
+            speed_pessimistic=False, prefer_ps=True)]
+        # endgame check on the translated state BEFORE paying for more
+        # worlds + MCTS: an exact solve replaces both. Must run for k == 1
+        # too — the late-game world collapse makes k == 1 exactly when
+        # endgames happen.
+        solved = self._try_endgame_solver(battle, states[0])
+        if solved is not None:
+            return solved
+        for i in range(1, k):
+            rng = random.Random()
+            pessimistic = i == k - 1
             states.append(self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
-                prefer_ps=prefer_ps))
+                prefer_ps=False))
         # value net defaults to on-when-loaded, but callers override: the
         # adaptive probe forces it OFF (fast plain MCTS), and only the
         # escalated deep-think turns it ON — spend the learned eval where a
@@ -1016,6 +1080,16 @@ async def main():
                         help="revealed opponent moves required before world "
                              "collapse (protects the speed-pessimistic hedge "
                              "while key sets are ambiguous); 0 disables gate")
+    parser.add_argument("--endgame-solver", choices=["on", "off"],
+                        default="on",
+                        help="exact minimax at <=endgame-alive total mons, "
+                             "gated on both teras spent (solver action space "
+                             "is non-tera); falls through to MCTS otherwise")
+    parser.add_argument("--endgame-alive", type=int, default=3)
+    parser.add_argument("--endgame-depth", type=int, default=12)
+    parser.add_argument("--endgame-nodes", type=int, default=10000,
+                        help="node budget per solve (the OOM guard); "
+                             "exhausted solves are distrusted and MCTS plays")
     parser.add_argument("--spend-frac", type=float, default=0.25,
                         help="fraction of (bank - floor) spent per escalation "
                              "when the server clock is visible")
@@ -1081,6 +1155,10 @@ async def main():
         grind_max_ms=args.grind_max_ms,
         collapse_turn=args.collapse_turn,
         collapse_moves=args.collapse_moves,
+        use_endgame_solver=args.endgame_solver == "on",
+        endgame_alive=args.endgame_alive,
+        endgame_depth=args.endgame_depth,
+        endgame_nodes=args.endgame_nodes,
         escalate_min_turn=args.escalate_min_turn,
         escalate_min_gap=args.escalate_min_gap,
         value_net_path=args.value_net,

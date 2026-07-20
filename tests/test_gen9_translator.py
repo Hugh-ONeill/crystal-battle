@@ -952,3 +952,52 @@ def test_late_game_world_collapse():
     assert stub._effective_samples(battle(30, thin)) == 2     # sets ambiguous
     stub._set_samples = 1
     assert stub._effective_samples(battle(30, full)) == 1     # no-op at K=1
+
+
+def test_endgame_solver_gates():
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import Gen9PokeEnginePlayer as P
+    import showdown.gen9_player as gp
+
+    stub = P.__new__(P)
+    stub._use_endgame_solver, stub._verbose = True, False
+    stub._endgame_alive, stub._endgame_depth, stub._endgame_nodes = 3, 12, 10000
+
+    def state(tera1=True, tera2=True):
+        mk = lambda t: NS(pokemon=[NS(terastallized=t, hp=100)])
+        return NS(side_one=mk(tera1), side_two=mk(tera2))
+
+    gp.is_solvable_endgame = lambda st, max_total_alive=3: True
+    def fake_solve(st, max_depth=12, node_budget=10000, stats=None):
+        return "earthquake", "protect", 0.8
+    gp.solve_endgame = fake_solve
+
+    b = NS(turn=40)
+    out = stub._try_endgame_solver(b, state())
+    assert out is not None
+    assert out[0].side_one[0].move_choice == "earthquake"
+    assert out[0].side_one[0].visits == 1_000_000
+
+    # tera pending on either side voids the guarantee
+    assert stub._try_endgame_solver(NS(turn=40), state(tera1=False)) is None
+    assert stub._try_endgame_solver(NS(turn=40), state(tera2=False)) is None
+
+    # budget-exhausted solves are distrusted; two strikes stop the solver
+    def exhausted(st, max_depth=12, node_budget=10000, stats=None):
+        if stats is not None:
+            stats["budget_exhausted"] = True
+        return "earthquake", "protect", 0.0
+    gp.solve_endgame = exhausted
+    b2 = NS(turn=40)
+    assert stub._try_endgame_solver(b2, state()) is None
+    assert b2._cb_solver_strikes == 1
+    assert stub._try_endgame_solver(b2, state()) is None
+    assert b2._cb_solver_strikes == 2
+    calls = []
+    gp.is_solvable_endgame = lambda st, max_total_alive=3: calls.append(1) or True
+    assert stub._try_endgame_solver(b2, state()) is None
+    assert not calls          # struck out: solver no longer consulted
+
+    # master switch off
+    stub._use_endgame_solver = False
+    assert stub._try_endgame_solver(NS(turn=40), state()) is None
