@@ -593,10 +593,13 @@ class Gen9PokeEnginePlayer(Player):
                 "us_hp": hp(me),
                 "them": _species_display(opp.species) if opp else None,
                 "them_hp": hp(opp),
-                "us_alive": sum(1 for p in battle.team.values()
-                                if not p.fainted),
-                "them_alive": sum(1 for p in battle.opponent_team.values()
-                                  if not p.fainted)})
+                # 6 - faints, NOT sum(not-fainted-over-revealed): opponent_team
+                # only holds REVEALED mons, so the latter undercounts them_alive
+                # early (read 1 when 1 mon was revealed) and the tracker dipped
+                "us_alive": 6 - sum(1 for p in battle.team.values()
+                                    if p.fainted),
+                "them_alive": 6 - sum(1 for p in battle.opponent_team.values()
+                                      if p.fainted)})
         except Exception:
             pass
 
@@ -702,9 +705,10 @@ class Gen9PokeEnginePlayer(Player):
         try:
             outcome = ("TIE" if battle.won is None
                        else "WIN" if battle.won else "LOSS")
-            ours_left = sum(1 for p in battle.team.values() if not p.fainted)
-            theirs_left = sum(1 for p in battle.opponent_team.values()
-                              if not p.fainted)
+            # 6 - faints (opponent_team is revealed-only; see _airi_interject)
+            ours_left = 6 - sum(1 for p in battle.team.values() if p.fainted)
+            theirs_left = 6 - sum(1 for p in battle.opponent_team.values()
+                                  if p.fainted)
             text, beat = self._director.match_end(
                 outcome, ours_left, theirs_left, battle.opponent_username)
             self._airi.send(
