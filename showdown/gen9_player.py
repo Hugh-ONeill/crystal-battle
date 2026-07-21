@@ -313,6 +313,7 @@ class Gen9PokeEnginePlayer(Player):
                  collapse_turn: int = 25, collapse_moves: int = 14,
                  collapse_mons: int = 5,
                  scouting_book: str | None = None, book_min_obs: int = 2,
+                 opp_priors: bool = True,
                  use_endgame_solver: bool = True, endgame_alive: int = 3,
                  endgame_depth: int = 12, endgame_nodes: int = 10_000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
@@ -375,6 +376,8 @@ class Gen9PokeEnginePlayer(Player):
         # _try_endgame_solver for the gates)
         # scouting book (per-opponent observed sets); silent no-op if absent
         self._book_min_obs = book_min_obs
+        self._use_opp_priors = opp_priors
+        self._opp_profile = None
         self._scouting = None
         if scouting_book:
             try:
@@ -758,6 +761,7 @@ class Gen9PokeEnginePlayer(Player):
             # have. Looked up once per battle; unknown opponents fall
             # through to the corpus tiers unchanged.
             prof = (self._scouting or {}).get(battle.opponent_username)
+            self._opp_profile = prof
             self._translator.set_opponent_book(prof, self._book_min_obs)
             if prof and self._verbose:
                 print(f"  scouting: {battle.opponent_username} known "
@@ -1005,14 +1009,85 @@ class Gen9PokeEnginePlayer(Player):
         # human would pause and think, not on every routine turn
         if use_value is None:
             use_value = self._value_net is not None
+        opp_priors = None
+        if self._use_opp_priors:
+            try:
+                opp_priors = self._opponent_priors(battle)
+            except Exception:
+                opp_priors = None
         if len(states) == 1:
-            return [self._search_one(states[0], ms, use_value)]
+            return [self._search_one(states[0], ms, use_value, opp_priors)]
         return list(self._search_pool.map(
-            lambda st: self._search_one(st, ms, use_value), states))
+            lambda st: self._search_one(st, ms, use_value, opp_priors), states))
 
-    def _search_one(self, state, ms: int, use_value: bool):
+    def _opponent_priors(self, battle):
+        """(move_prob_dict, suppress_tera) for the opponent's ACTIVE mon from
+        the scouting book, or None.
+
+        Only the OPPONENT's branches get biased. Priors on our own moves
+        regressed the monotype bench (the net imitates humans, we want
+        engine-optimal), but on their side imitation IS the correct model.
+
+        The tera suppression is the big one and it is DATA-driven: the book
+        showed these baselines tera'd once in 48 games, yet a probe found
+        ~94% of opponent visits going to a '-tera' line. That is search
+        poured into a branch this opponent does not take."""
+        prof = self._opp_profile
+        if not prof:
+            return None
+        opp = getattr(battle, "opponent_active_pokemon", None)
+        if opp is None:
+            return None
+        species = _normalize(getattr(opp, "species", "") or "")
+        sets = prof.get("sets") or {}
+        entry = sets.get(species) or next(
+            (v for k, v in sets.items() if _normalize(k) == species), None)
+        probs = {}
+        if entry:
+            mv = entry.get("moves") or {}
+            tot = sum(mv.values())
+            if tot:
+                probs = {m: c / tot for m, c in mv.items()}
+        games = prof.get("games") or 0
+        tera_games = len(prof.get("tera_turns") or [])
+        # never/almost-never teras -> their tera branches are noise
+        suppress = bool(games >= 5 and (tera_games / games) < 0.10)
+        if not probs and not suppress:
+            return None
+        return probs, suppress
+
+    def _aligned_opp_priors(self, option_results, probs, suppress_tera,
+                            floor: float = 0.05):
+        """Prior array aligned to the engine's option ordering."""
+        out = []
+        for r in option_results:
+            mc = r.move_choice
+            if mc.endswith("-tera"):
+                out.append(floor * (0.02 if suppress_tera else 1.0))
+            elif mc.startswith("switch ") or mc == "No Move":
+                out.append(floor)
+            else:
+                out.append(max(floor, probs.get(mc, floor)))
+        s = sum(out)
+        return [x / s for x in out] if s > 0 else out
+
+    def _search_one(self, state, ms: int, use_value: bool,
+                    opp_priors=None):
         """One world's search: value-net-guided leaf eval when requested and
         a net is loaded, else plain MCTS."""
+        if opp_priors is not None and (not use_value or self._value_net is None):
+            probs, suppress = opp_priors
+            try:
+                s_str = state.to_string()
+                warm = pe.monte_carlo_tree_search(
+                    pe.State.from_string(s_str), 1)   # discover option order
+                n1 = len(warm.side_one) or 1
+                s1 = [1.0 / n1] * n1                  # OUR side stays unbiased
+                s2 = self._aligned_opp_priors(warm.side_two, probs, suppress)
+                return pe.monte_carlo_tree_search_with_priors(
+                    pe.State.from_string(s_str), s1, s2, ms)
+            except BaseException:
+                pass       # any priors trouble -> plain MCTS, never lose a turn
         if not use_value or self._value_net is None:
             return pe.monte_carlo_tree_search(state, ms)
         return pe.monte_carlo_tree_search_with_value(
@@ -1223,6 +1298,11 @@ async def main():
     parser.add_argument("--scouting-book", default=SCOUTING_BOOK_DEFAULT,
                         help="per-opponent observed-set priors from "
                              "showdown/scouting_book.py; '' disables")
+    parser.add_argument("--opp-priors", choices=["on", "off"], default="on",
+                        help="PUCT priors on the OPPONENT's branches only, "
+                             "from the scouting book (incl. tera suppression "
+                             "vs opponents who never tera). Our own side "
+                             "stays unbiased.")
     parser.add_argument("--book-min-obs", type=int, default=2,
                         help="times a species must be seen from an opponent "
                              "before its book set is trusted")
@@ -1304,6 +1384,7 @@ async def main():
         collapse_mons=args.collapse_mons,
         scouting_book=args.scouting_book or None,
         book_min_obs=args.book_min_obs,
+        opp_priors=args.opp_priors == "on",
         use_endgame_solver=args.endgame_solver == "on",
         endgame_alive=args.endgame_alive,
         endgame_depth=args.endgame_depth,

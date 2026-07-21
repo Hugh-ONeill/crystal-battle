@@ -1080,3 +1080,40 @@ def test_scouting_book_reaches_opp_set():
     assert set(booked["moves"]) == {"bodypress", "irondefense", "rest", "sleeptalk"}
     # spread still comes from the statistical baseline (we never see EVs)
     assert booked["evs"] == base["evs"]
+
+
+def test_opponent_priors_from_book():
+    """Priors bias ONLY the opponent, and tera suppression is data-driven."""
+    from types import SimpleNamespace as NS
+    from showdown.gen9_player import Gen9PokeEnginePlayer as P
+    stub = P.__new__(P)
+
+    # a never-tera opponent (0 teras in 25 games) with a booked Kingambit
+    stub._opp_profile = {
+        "games": 25, "tera_turns": [],
+        "sets": {"Kingambit": {"moves": {"kowtowcleave": 10, "suckerpunch": 8,
+                                         "ironhead": 4, "swordsdance": 2}}},
+    }
+    battle = NS(opponent_active_pokemon=NS(species="Kingambit"))
+    probs, suppress = stub._opponent_priors(battle)
+    assert suppress is True                      # 0/25 teras -> suppress
+    assert probs["kowtowcleave"] > probs["swordsdance"]
+    assert abs(sum(probs.values()) - 1.0) < 1e-6
+
+    opts = [NS(move_choice="kowtowcleave"), NS(move_choice="swordsdance"),
+            NS(move_choice="ironhead-tera"), NS(move_choice="switch gholdengo")]
+    pri = stub._aligned_opp_priors(opts, probs, suppress)
+    assert abs(sum(pri) - 1.0) < 1e-6
+    assert pri[0] > pri[1]                       # frequent move outranks rare
+    assert pri[2] < min(pri[0], pri[1], pri[3])  # tera line crushed
+
+    # an opponent who DOES tera keeps its tera branches alive
+    _, suppress2 = stub._opponent_priors.__func__(
+        NS(_opp_profile={"games": 10, "tera_turns": [5, 6, 7, 8],
+                         "sets": {"Kingambit": {"moves": {"ironhead": 3}}}}),
+        battle)
+    assert suppress2 is False
+
+    # unknown opponent -> no priors at all (corpus behaviour unchanged)
+    stub._opp_profile = None
+    assert stub._opponent_priors(battle) is None
