@@ -184,6 +184,17 @@ def _is_noop_status(move_id: str, battle) -> bool:
     return check(types, ability)
 
 
+def _norm_opt(s: str) -> str:
+    """Engine option string -> comparable key in the same _normalize space
+    protocol names land in, preserving the 'switch X' / 'X-tera' forms.
+    'No Move' (the engine's None choice) normalizes to 'nomove'."""
+    if s.startswith("switch "):
+        return "switch " + _normalize(s[7:])
+    if s.endswith("-tera"):
+        return _normalize(s[:-5]) + "-tera"
+    return _normalize(s)
+
+
 def _merge_mcts_results(results) -> list:
     """Combine side_one results from searches over different sampled
     opponent worlds: sum visits and scores per move_choice, rank by visits.
@@ -313,7 +324,7 @@ class Gen9PokeEnginePlayer(Player):
                  collapse_turn: int = 25, collapse_moves: int = 14,
                  collapse_mons: int = 5,
                  scouting_book: str | None = None, book_min_obs: int = 2,
-                 opp_priors: bool = True,
+                 opp_priors: bool = True, tree_reuse: bool = False,
                  use_endgame_solver: bool = True, endgame_alive: int = 3,
                  endgame_depth: int = 12, endgame_nodes: int = 10_000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
@@ -386,6 +397,19 @@ class Gen9PokeEnginePlayer(Player):
                       f"from {scouting_book}")
             except Exception as e:
                 print(f"  scouting book unavailable ({e!r}); corpus tiers only")
+        # cross-turn MCTS tree reuse (persistent Rust handle, --tree-reuse).
+        # Rides the K==1 collapsed world, where the opponent belief is stable
+        # enough for last turn's subtree to stay valid; every ambiguity
+        # (pivot chains, faints, option drift, unmatched outcomes) resets to
+        # a fresh tree, so a failed advance is never worse than today.
+        self._tree_reuse = tree_reuse and hasattr(pe, "MctsHandle")
+        if tree_reuse and not self._tree_reuse:
+            print("  tree-reuse requested but this poke_engine build has no "
+                  "MctsHandle (rebuild with maturin); running without it")
+        self._reuse_handle = None
+        self._reuse_tag = None        # battle the handle belongs to
+        self._reuse_root_key = None   # (tag, turn, force_switch) of the root
+        self._reuse_ctx = None        # what we sent at the last decision
         self._use_endgame_solver = use_endgame_solver
         self._endgame_alive = endgame_alive
         self._endgame_depth = endgame_depth
@@ -996,7 +1020,8 @@ class Gen9PokeEnginePlayer(Player):
         # endgames happen.
         solved = self._try_endgame_solver(battle, states[0])
         if solved is not None:
-            return solved
+            self._reuse_handle = None   # solver owns the endgame; a stale
+            return solved               # tree must never advance past it
         for i in range(1, k):
             rng = random.Random()
             pessimistic = i == k - 1
@@ -1015,6 +1040,20 @@ class Gen9PokeEnginePlayer(Player):
                 opp_priors = self._opponent_priors(battle)
             except Exception:
                 opp_priors = None
+        # cross-turn tree reuse: only in the single-world search (stable
+        # opponent belief) and never under a loaded value net — the handle
+        # searches plain MCTS, and swapping trees would waste the net's turn
+        if self._tree_reuse and k == 1 and \
+                not (use_value and self._value_net is not None):
+            try:
+                return [self._reuse_search(battle, states[0], ms, opp_priors)]
+            except BaseException as e:
+                self._reuse_handle = None
+                if self._verbose:
+                    print(f"  T{battle.turn} tree-reuse error ({e!r}); "
+                          "plain search", flush=True)
+        elif self._tree_reuse and k != 1:
+            self._reuse_handle = None   # multi-world turn: tree is stale
         if len(states) == 1:
             return [self._search_one(states[0], ms, use_value, opp_priors)]
         return list(self._search_pool.map(
@@ -1093,6 +1132,116 @@ class Gen9PokeEnginePlayer(Player):
         return pe.monte_carlo_tree_search_with_value(
             state, self._value_net, ms,
             alpha=self._value_alpha, batch_size=self._value_batch)
+
+    def _opp_action_since(self, battle, snap: int):
+        """The opponent's single engine-choice key (in _norm_opt space) for
+        the interval between our last decision and now, or None when the
+        interval is ambiguous. None just means 'reset and search fresh' —
+        always safe, never wrong.
+
+        Ambiguous: any faint or drag (extra decision points / involuntary
+        switches), an opponent |cant| (their choice existed but was never
+        revealed), or 2+ observed actions (pivot chains, locked-move
+        callouts). ZERO observed opponent actions maps to 'nomove' — the
+        engine's None choice — which is exactly right coming out of OUR
+        forced switch, where the opponent waited."""
+        replay = getattr(battle, "_replay_data", None)
+        if replay is None or snap > len(replay):
+            return None
+        role = getattr(battle, "player_role", None) or "p1"
+        opp_prefix = ("p2" if role == "p1" else "p1") + "a:"
+        actions: list[str] = []
+        tera = False
+        for ev in replay[snap:]:
+            if len(ev) < 3:
+                continue
+            kind, tok = ev[1], str(ev[2])
+            if kind in ("faint", "drag"):
+                return None
+            mine = tok.startswith(opp_prefix)
+            if kind == "cant" and mine:
+                return None
+            if not mine:
+                continue
+            if kind == "move" and len(ev) >= 4:
+                actions.append(_normalize(str(ev[3])))
+            elif kind == "switch":
+                actions.append(
+                    "switch " + _normalize(str(ev[3]).split(",")[0]))
+            elif kind == "-terastallize":
+                tera = True
+        if not actions:
+            return "nomove"
+        if len(actions) > 1:
+            return None
+        if tera and not actions[0].startswith("switch "):
+            return actions[0] + "-tera"
+        return actions[0]
+
+    def _reuse_search(self, battle, state, ms: int, opp_priors=None):
+        """Search through the persistent tree-reuse handle (K==1 only).
+
+        Reuse contract: advance the previous turn's tree through the
+        transition that actually happened — (our sent choice x their observed
+        action x best-matching chance outcome) — then keep searching the
+        promoted subtree with the authoritative translated state as its new
+        root, so depth compounds across turns instead of resetting. The Rust
+        side bails to a fresh tree on ANY mismatch (move outside cached
+        options, option drift like a revealed choice lock, no chance outcome
+        close enough to reality), so a failed advance costs nothing but the
+        visits we never had. Same-decision re-entry (the adaptive probe ->
+        escalate pair) skips the advance and just deepens the same tree —
+        the escalation is a pure top-up."""
+        tag = battle.battle_tag
+        key = (tag, getattr(battle, "turn", 0), bool(battle.force_switch))
+        if self._reuse_handle is not None and self._reuse_tag == tag \
+                and self._reuse_root_key == key:
+            return pe.MctsResult._from_rust(self._reuse_handle.search(ms))
+
+        if self._reuse_handle is None or self._reuse_tag != tag:
+            self._reuse_handle = pe.MctsHandle(state)
+            self._reuse_tag = tag
+        else:
+            ctx = self._reuse_ctx
+            advanced = False
+            if ctx is not None and ctx.get("tag") == tag:
+                opp = self._opp_action_since(battle, ctx["snap"])
+                if opp is not None:
+                    try:
+                        s2_opts = self._reuse_handle.root_options()[1]
+                    except BaseException:
+                        s2_opts = []
+                    opp_exact = next(
+                        (s for s in s2_opts if _norm_opt(s) == opp), None)
+                    if opp_exact is not None:
+                        reused, retained, score, reason = \
+                            self._reuse_handle.advance(
+                                ctx["choice"], opp_exact, state)
+                        advanced = True
+                        if self._verbose:
+                            if reused:
+                                print(f"  T{battle.turn} tree reuse: kept "
+                                      f"{retained} visits (match "
+                                      f"{score:.2f})", flush=True)
+                            else:
+                                print(f"  T{battle.turn} tree reuse: fresh "
+                                      f"({reason})", flush=True)
+            if not advanced:
+                self._reuse_handle.reset(state)
+        self._reuse_root_key = key
+        self._reuse_ctx = None
+        if opp_priors is not None:
+            try:
+                probs, suppress = opp_priors
+                s1_opts, s2_opts = self._reuse_handle.root_options()
+                shim = [SimpleNamespace(move_choice=s) for s in s2_opts]
+                s2p = self._aligned_opp_priors(shim, probs, suppress)
+                s1p = ([1.0 / len(s1_opts)] * len(s1_opts)
+                       if s1_opts else None)
+                self._reuse_handle.set_priors(s1p, s2p)
+            except BaseException:
+                pass    # priors are a bias, never worth losing the turn
+        return pe.MctsResult._from_rust(self._reuse_handle.search(ms))
 
     def _adaptive_search(self, battle) -> list:
         """Staged search that reinvests the timer bank where it matters.
@@ -1218,6 +1367,15 @@ class Gen9PokeEnginePlayer(Player):
         chosen_result, (order, desc) = _select_choice(
             [(m[0], (m[1], m[2])) for m in mappable],
             self._choice_rng, sample=self._stochastic)
+        if self._tree_reuse and self._reuse_handle is not None and \
+                self._reuse_tag == getattr(battle, "battle_tag", None):
+            # record what we're sending so the next decision can advance the
+            # persistent tree through the transition that actually happens
+            self._reuse_ctx = {
+                "tag": battle.battle_tag,
+                "choice": chosen_result.move_choice,
+                "snap": len(getattr(battle, "_replay_data", None) or []),
+            }
         self._log_choice(battle, chosen_result, desc)
         if self._desk_log_path is not None:
             try:
@@ -1306,6 +1464,10 @@ async def main():
     parser.add_argument("--book-min-obs", type=int, default=2,
                         help="times a species must be seen from an opponent "
                              "before its book set is trusted")
+    parser.add_argument("--tree-reuse", choices=["on", "off"], default="off",
+                        help="persistent cross-turn MCTS tree reuse in the "
+                             "K==1 world (needs a poke_engine build with "
+                             "MctsHandle); ambiguous transitions reset")
     parser.add_argument("--endgame-solver", choices=["on", "off"],
                         default="on",
                         help="exact minimax at <=endgame-alive total mons, "
@@ -1385,6 +1547,7 @@ async def main():
         scouting_book=args.scouting_book or None,
         book_min_obs=args.book_min_obs,
         opp_priors=args.opp_priors == "on",
+        tree_reuse=args.tree_reuse == "on",
         use_endgame_solver=args.endgame_solver == "on",
         endgame_alive=args.endgame_alive,
         endgame_depth=args.endgame_depth,
