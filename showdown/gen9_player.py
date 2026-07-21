@@ -53,6 +53,7 @@ from monotype.endgame_solver import is_solvable_endgame, solve_endgame
 # Brier/calibration scoring (showdown/brier_report.py). Default-on: the
 # ledger should accrue from every game played, commentated or not.
 DESK_LOG_DEFAULT = str(Path(__file__).parent / "desk_reads.jsonl")
+SCOUTING_BOOK_DEFAULT = str(Path(__file__).parent / "scouting_book.json")
 
 LOCAL_SERVER = ServerConfiguration(
     "ws://localhost:8000/showdown/websocket",
@@ -311,6 +312,7 @@ class Gen9PokeEnginePlayer(Player):
                  grind_turn: int = 20, grind_max_ms: int = 6000,
                  collapse_turn: int = 25, collapse_moves: int = 14,
                  collapse_mons: int = 5,
+                 scouting_book: str | None = None, book_min_obs: int = 2,
                  use_endgame_solver: bool = True, endgame_alive: int = 3,
                  endgame_depth: int = 12, endgame_nodes: int = 10_000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
@@ -371,6 +373,16 @@ class Gen9PokeEnginePlayer(Player):
         self._collapse_mons = collapse_mons
         # endgame solver (exact minimax when its guarantees hold; see
         # _try_endgame_solver for the gates)
+        # scouting book (per-opponent observed sets); silent no-op if absent
+        self._book_min_obs = book_min_obs
+        self._scouting = None
+        if scouting_book:
+            try:
+                self._scouting = json.loads(Path(scouting_book).read_text())
+                print(f"  scouting book: {len(self._scouting)} opponents "
+                      f"from {scouting_book}")
+            except Exception as e:
+                print(f"  scouting book unavailable ({e!r}); corpus tiers only")
         self._use_endgame_solver = use_endgame_solver
         self._endgame_alive = endgame_alive
         self._endgame_depth = endgame_depth
@@ -741,6 +753,17 @@ class Gen9PokeEnginePlayer(Player):
             self._translator.new_battle()
             self._bank_used_s = 0.0  # fresh escalation bank per game
             self._last_escalate_turn = -999
+            # scouting book: ladder opponents repeat hard, so what THIS
+            # username did in our past games is the sharpest set prior we
+            # have. Looked up once per battle; unknown opponents fall
+            # through to the corpus tiers unchanged.
+            prof = (self._scouting or {}).get(battle.opponent_username)
+            self._translator.set_opponent_book(prof, self._book_min_obs)
+            if prof and self._verbose:
+                print(f"  scouting: {battle.opponent_username} known "
+                      f"({prof.get('games', 0)} prior games, "
+                      f"{len(prof.get('sets') or {})} species on file)",
+                      flush=True)
 
         # forced switch (post-KO / pivot): search it like any other decision —
         # the translator flags side_one.force_switch and (for KOs) leaves the
@@ -1197,6 +1220,12 @@ async def main():
                         help="revealed opponent moves required before world "
                              "collapse (protects the speed-pessimistic hedge "
                              "while key sets are ambiguous); 0 disables gate")
+    parser.add_argument("--scouting-book", default=SCOUTING_BOOK_DEFAULT,
+                        help="per-opponent observed-set priors from "
+                             "showdown/scouting_book.py; '' disables")
+    parser.add_argument("--book-min-obs", type=int, default=2,
+                        help="times a species must be seen from an opponent "
+                             "before its book set is trusted")
     parser.add_argument("--endgame-solver", choices=["on", "off"],
                         default="on",
                         help="exact minimax at <=endgame-alive total mons, "
@@ -1273,6 +1302,8 @@ async def main():
         collapse_turn=args.collapse_turn,
         collapse_moves=args.collapse_moves,
         collapse_mons=args.collapse_mons,
+        scouting_book=args.scouting_book or None,
+        book_min_obs=args.book_min_obs,
         use_endgame_solver=args.endgame_solver == "on",
         endgame_alive=args.endgame_alive,
         endgame_depth=args.endgame_depth,

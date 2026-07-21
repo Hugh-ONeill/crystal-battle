@@ -1021,3 +1021,62 @@ def test_endgame_solver_gates():
     # master switch off
     stub._use_endgame_solver = False
     assert stub._try_endgame_solver(bat(), state()) is None
+
+
+def test_scouting_book_is_the_top_set_tier():
+    """The book is direct evidence about THIS opponent, so it outranks the
+    corpus tiers — but only when we've seen the species enough times, and it
+    must never overwrite what's revealed this game."""
+    tr = Gen9Translator(set_source="gen9ou")
+
+    profile = {
+        "games": 9,
+        "sets": {
+            "Great Tusk": {
+                "moves": {"headlongrush": 7, "icespinner": 6, "rapidspin": 5,
+                          "knockoff": 4, "stealthrock": 1},
+                "items": {"boosterenergy": 7},
+                "abilities": {"protosynthesis": 7},
+                "tera": {"steel": 3},
+            },
+            "Cinderace": {          # thin: seen once, below the gate
+                "moves": {"pyroball": 1},
+                "items": {}, "abilities": {}, "tera": {},
+            },
+        },
+    }
+    tr.set_opponent_book(profile, min_obs=2)
+
+    booked = tr._book_set("greattusk")
+    assert booked["item"] == "boosterenergy"
+    assert booked["ability"] == "protosynthesis"
+    assert booked["tera"] == "steel"
+    assert booked["moves"][:4] == ["headlongrush", "icespinner",
+                                   "rapidspin", "knockoff"]
+    # a move revealed THIS game always survives, book fills the remainder
+    revealed = tr._book_set("greattusk", known_moves=("bulldoze",))
+    assert revealed["moves"][0] == "bulldoze"
+    assert "headlongrush" in revealed["moves"]
+    assert len(revealed["moves"]) == 4
+
+    # count gate: one sighting is an anecdote, not a pattern
+    assert tr._book_set("cinderace") is None
+    # unknown species / no book at all -> fall through to the corpus tiers
+    assert tr._book_set("dragapult") is None
+    tr.set_opponent_book(None)
+    assert tr._book_set("greattusk") is None
+
+
+def test_scouting_book_reaches_opp_set():
+    """End-to-end: the override actually lands in the composed set."""
+    tr = Gen9Translator(set_source="gen9ou")
+    base = tr._opp_set("greattusk")
+    assert base is not None
+    tr.set_opponent_book({"games": 5, "sets": {"Great Tusk": {
+        "moves": {"bodypress": 5, "irondefense": 5, "rest": 4, "sleeptalk": 4},
+        "items": {"leftovers": 5}, "abilities": {}, "tera": {}}}}, min_obs=2)
+    booked = tr._opp_set("greattusk")
+    assert booked["item"] == "leftovers"
+    assert set(booked["moves"]) == {"bodypress", "irondefense", "rest", "sleeptalk"}
+    # spread still comes from the statistical baseline (we never see EVs)
+    assert booked["evs"] == base["evs"]

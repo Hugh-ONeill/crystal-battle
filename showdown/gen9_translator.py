@@ -154,10 +154,73 @@ class Gen9Translator:
         self._use_data_tiers = use_data_tiers
         self._opp_type: str | None = None
         self._obs = None  # per-battle observational set refinement
+        self._book: dict | None = None   # scouting profile for THIS opponent
+        self._book_min_obs = 2
 
     def new_battle(self):
         self._opp_type = None
         self._obs = None
+
+    def set_opponent_book(self, profile: dict | None, min_obs: int = 2):
+        """Scouting profile for the CURRENT opponent (showdown/scouting_book
+        .py output). Direct evidence from games against this exact username
+        outranks every corpus statistic, so it becomes the top set tier —
+        but only for fields we can actually observe (moves/item/ability/
+        tera). EVs/nature stay with the statistical baseline: we never see
+        an opponent's spread, and inventing one from a 2-game sample would
+        be worse than the usage-stat prior."""
+        self._book = profile or None
+        self._book_min_obs = min_obs
+
+    def _apply_book(self, s: dict | None, booked: dict | None) -> dict | None:
+        """Overlay this opponent's observed fields onto a composed set.
+        Applied to EVERY tier's output — the PS-curated tier returns early,
+        so overlaying only at the end silently skipped the book whenever a
+        curated set existed (which is most of the meta's common mons)."""
+        if not s or not booked:
+            return s
+        if booked.get("moves"):
+            s["moves"] = booked["moves"]
+        if booked.get("item"):
+            s["item"] = booked["item"]
+        if booked.get("ability"):
+            s["ability"] = booked["ability"]
+        if booked.get("tera"):
+            s["tera_type"] = booked["tera"]
+        return s
+
+    def _book_set(self, species: str, known_moves: tuple[str, ...] = ()):
+        """Observed (moves, item, ability, tera) for species from this
+        opponent, gated on having seen it enough times to be a pattern
+        rather than a one-off. Returns None when unknown/too thin."""
+        if not self._book:
+            return None
+        sets = (self._book.get("sets") or {})
+        # book keys are display species ("Great Tusk"); translator asks with
+        # normalized ids ("greattusk")
+        entry = sets.get(species)
+        if entry is None:
+            for k, v in sets.items():
+                if _normalize(k) == species:
+                    entry = v
+                    break
+        if not entry:
+            return None
+        mv = entry.get("moves") or {}
+        seen = max(mv.values()) if mv else 0
+        if seen < self._book_min_obs:
+            return None
+        ranked = [m for m, _ in sorted(mv.items(), key=lambda kv: -kv[1])]
+        # revealed moves this game always survive; book fills the rest
+        moves = list(known_moves) + [m for m in ranked if m not in known_moves]
+        top = lambda d: (max(d.items(), key=lambda kv: kv[1])[0]
+                         if d else None)
+        return {
+            "moves": moves[:4],
+            "item": top(entry.get("items") or {}),
+            "ability": top(entry.get("abilities") or {}),
+            "tera": top(entry.get("tera") or {}),
+        }
 
     # ---- lazy shared data ----
 
@@ -243,11 +306,13 @@ class Gen9Translator:
         if self._set_source is None:
             return None
 
+        booked = self._book_set(species, known_moves)
+
         if getattr(self, "_prefer_ps", True):
             ps_cand = self._ps_candidate(species, known_moves, known_item,
                                          known_ability)
             if ps_cand is not None:
-                return ps_cand
+                return self._apply_book(ps_cand, booked)
 
         stats = self._chaos().pokemon.get(species)
         if stats is None:
@@ -283,7 +348,11 @@ class Gen9Translator:
                 replay_tera = replay_idx.pick_tera(species, team, rng)
                 if replay_tera:
                     tera = replay_tera
-        return {
+
+        # tier 0 (highest): what THIS opponent actually did with this species
+        # in our own past games — a username-specific observation beats any
+        # corpus statistic (the baselines run remarkably stable sets).
+        return self._apply_book({
             "nature": nature.capitalize(),
             "evs": evs,
             "ivs": dict.fromkeys(("hp", "atk", "def", "spa", "spd", "spe"), 31),
@@ -291,7 +360,7 @@ class Gen9Translator:
             "ability": ability,
             "moves": moves,
             "tera_type": tera,
-        }
+        }, booked)
 
     def _ps_candidate(self, species: str, known_moves: tuple[str, ...],
                       known_item: str | None,
