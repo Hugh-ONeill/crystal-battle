@@ -1225,7 +1225,8 @@ class Gen9PokeEnginePlayer(Player):
                                       f"{score:.2f})", flush=True)
                             else:
                                 print(f"  T{battle.turn} tree reuse: fresh "
-                                      f"({reason})", flush=True)
+                                      f"({reason}, best match {score:.2f})",
+                                      flush=True)
             if not advanced:
                 self._reuse_handle.reset(state)
         self._reuse_root_key = key
