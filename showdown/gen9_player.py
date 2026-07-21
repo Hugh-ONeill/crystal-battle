@@ -794,8 +794,9 @@ class Gen9PokeEnginePlayer(Player):
                       flush=True)
 
         # forced switch (post-KO / pivot): search it like any other decision —
-        # the translator flags side_one.force_switch and (for KOs) leaves the
-        # fainted active at slot 0, so MCTS returns replacement choices
+        # the translator flags side_one.force_switch and points active_index at
+        # the fainted mon in its stable slot, so the engine reads hp<=0 there
+        # and MCTS returns replacement choices
         if battle.force_switch:
             if not battle.available_switches:
                 return self.choose_default_move()
