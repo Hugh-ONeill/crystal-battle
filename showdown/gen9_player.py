@@ -842,15 +842,34 @@ class Gen9PokeEnginePlayer(Player):
                                    world_collapse_prose(revealed))
         return 1
 
+    @staticmethod
+    def _both_teras_spent(battle) -> bool:
+        """True once BOTH sides have used their once-per-battle tera.
+
+        Read from the poke-env battle (Pokemon.is_terastallized survives a
+        faint), NOT the translated engine state: the translator rebuilds every
+        fainted mon as a blank pe.Pokemon.create_fainted() dummy with
+        terastallized=False (gen9_translator.py), so a tera'd mon that has
+        since fainted reads as un-tera'd in `state.side_*.pokemon`. The old
+        gate checked the state, so it silently blocked the endgame solver in
+        every endgame where a tera'd mon had already traded — i.e. nearly all
+        of them, since tera'd mons usually die before the 1v1. That made the
+        live solver almost never fire (measured across demo games: 0 solves
+        despite reaching clean 1v1s with both teras historically spent)."""
+        def spent(team):
+            return any(getattr(m, "is_terastallized", False)
+                       for m in team.values())
+        return spent(battle.team) and spent(battle.opponent_team)
+
     def _try_endgame_solver(self, battle, state):
         """Exhaustive simultaneous-move minimax for low-material endgames,
         replacing MCTS when its guarantees actually hold. Gates:
           - total alive <= endgame_alive (default 3: 1v1 / 2v1 / 1v2)
-          - BOTH sides have already terastallized: the solver's action space
-            is non-tera (monotype heritage), so with a tera pending its
-            'exhaustive' minimax is exhaustive over the wrong game. Requiring
-            both teras spent keeps the guarantee honest; late endgames have
-            usually spent them anyway.
+          - BOTH sides have already SPENT their once-per-battle tera: the
+            solver's action space is non-tera (monotype heritage), so with a
+            tera still pending its 'exhaustive' minimax solves the wrong game.
+            Checked via _both_teras_spent (reads the battle, not the state, so
+            a tera'd-then-fainted mon still counts — see that method).
           - two consecutive budget-exhausted solves in one battle -> stop
             trying (stall endgames the node budget can't crack; the budget
             cap is the fix for the OOM this solver once caused).
@@ -865,9 +884,12 @@ class Gen9PokeEnginePlayer(Player):
             return None
         if not is_solvable_endgame(state, max_total_alive=self._endgame_alive):
             return None
-        for side in (state.side_one, state.side_two):
-            if not any(p.terastallized for p in side.pokemon):
-                return None  # a tera is still pending: guarantee void
+        if not self._both_teras_spent(battle):
+            return None  # a side can still tera: pending tera voids the solve
+        if self._verbose:
+            print(f"  T{battle.turn} endgame gate OPEN "
+                  f"(<= {self._endgame_alive} alive, both teras spent) — "
+                  "attempting exact solve", flush=True)
         stats: dict = {}
         try:
             p1_act, _p2_act, val = solve_endgame(
@@ -877,6 +899,12 @@ class Gen9PokeEnginePlayer(Player):
             return None
         if stats.get("budget_exhausted"):
             battle._cb_solver_strikes = strikes + 1
+            if self._verbose:
+                print(f"  T{battle.turn} endgame solve EXHAUSTED "
+                      f"{self._endgame_nodes}-node budget "
+                      f"(strike {strikes + 1}/2) — falling back to MCTS "
+                      "(stall endgame: mutual recovery/PP never converges)",
+                      flush=True)
             return None
         battle._cb_solver_strikes = 0
         if not p1_act:
