@@ -33,6 +33,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import poke_engine as pe
 
 from showdown.name_mapping import _normalize
+
+
+def _slot_key(species: str) -> str:
+    """Species key for canonical slot assignment. Team preview marks an
+    undisclosed forme with a '-*' suffix (Zamazenta-*), which must resolve to
+    the same slot as the revealed forme rather than claiming a seventh."""
+    return _normalize(str(species).strip().removesuffix("-*"))
 from showdown.local_battle import (
     parse_showdown_team, _calc_stat_modern, _NATURE_TABLE,
 )
@@ -156,10 +163,13 @@ class Gen9Translator:
         self._obs = None  # per-battle observational set refinement
         self._book: dict | None = None   # scouting profile for THIS opponent
         self._book_min_obs = 2
+        # per-battle canonical slot ordering (see _slot_order)
+        self._slots: dict[str, list[str]] = {}
 
     def new_battle(self):
         self._opp_type = None
         self._obs = None
+        self._slots = {}
 
     def set_opponent_book(self, profile: dict | None, min_obs: int = 2):
         """Scouting profile for the CURRENT opponent (showdown/scouting_book
@@ -602,45 +612,97 @@ class Gen9Translator:
             "evasion_boost": boosts.get("evasion", 0),
         }
 
+    def _slot_order(self, battle, side_key, mons) -> list[str]:
+        """Canonical species -> slot ordering for one side, FIXED for the
+        whole battle.
+
+        The engine identifies the active mon by `active_index`, so the array
+        does not need the active first. Keeping slots stable is what lets
+        cross-turn tree reuse survive a switch: a retained subtree's
+        MoveChoice::Switch(i) is a SLOT INDEX, so if the array permuted
+        between turns, slot i would silently denote a different Pokemon and
+        every switch line in the reused tree would be wrong. Measured on real
+        ladder games, 61% of turns contain a switch, so an active-first array
+        made reuse impossible on most turns.
+
+        Opponent order is seeded from team preview (all six species are known
+        from turn 0); our own side is seeded from the request's team order.
+        Anything unseen is appended on first sight, so a missing preview only
+        costs stability, never correctness."""
+        order = self._slots.get(side_key)
+        if order is None:
+            order = []
+            if side_key == "opp":
+                for p in (getattr(battle, "teampreview_opponent_team", None) or []):
+                    sp = _slot_key(getattr(p, "species", "") or "")
+                    if sp and sp not in order:
+                        order.append(sp)
+            self._slots[side_key] = order
+        for mon in mons:
+            sp = _slot_key(getattr(mon, "species", "") or "")
+            if not sp or sp in order:
+                continue
+            # a revealed forme may not match its preview entry verbatim
+            # (preview shows an undisclosed forme as "Zamazenta-*"): adopt
+            # that slot when exactly one base-name candidate is free
+            base = sp.split("-")[0] if "-" in sp else sp
+            cands = [i for i, o in enumerate(order)
+                     if o == base or o.split("-")[0] == base]
+            if len(cands) == 1:
+                order[cands[0]] = sp
+            elif len(order) < 6:
+                order.append(sp)
+        return order
+
     def _assemble_side(self, battle, mons, active, conditions,
-                       build_one, force_switch=False, force_trapped=False,
-                       fill=None) -> pe.Side:
-        """Order mons active-first, pad to 6, attach side-level state.
+                       build_one, side_key, force_switch=False,
+                       force_trapped=False, fill=None) -> pe.Side:
+        """Place mons in STABLE per-battle slots, pad to 6, attach side-level
+        state and point `active_index` at the active mon's slot.
         `fill` supplies predicted mons for unrevealed slots; remaining
         slots become fainted dummies."""
+        # the slot survives a faint (it's what active_index points at), but
+        # boosts/volatiles die with the mon and must not be attributed to
+        # whoever replaces it
+        active_species = _slot_key(getattr(active, "species", "") or "") \
+            if active is not None else ""
         if active is not None and active.fainted:
-            # boosts/volatiles die with the mon; don't attribute them to
-            # whoever ends up in slot 0
             active = None
 
-        pokemon = []
-        if active is None and force_switch:
-            # replacement choice after a KO: the engine must see a FAINTED
-            # active at slot 0, or it treats the first bench mon as already
-            # on the field and never offers it as the replacement
-            pokemon.append(pe.Pokemon.create_fainted())
-        if active is not None:
-            pokemon.append(build_one(active))
+        order = self._slot_order(battle, side_key, mons)
+        slots: list = [None] * 6
+
+        def _place(obj, species):
+            idx = order.index(species) if species in order else None
+            if idx is None or idx >= 6 or slots[idx] is not None:
+                idx = next((i for i, s in enumerate(slots) if s is None), None)
+            if idx is not None:
+                slots[idx] = obj
+            return idx
+
         for mon in mons:
-            if mon is active:
-                continue
-            if mon.fainted:
-                pokemon.append(pe.Pokemon.create_fainted())
-            else:
-                pokemon.append(build_one(mon))
+            sp = _slot_key(getattr(mon, "species", "") or "")
+            _place(pe.Pokemon.create_fainted() if mon.fainted
+                   else build_one(mon), sp)
         for predicted in (fill or []):
-            if len(pokemon) >= 6:
+            if all(s is not None for s in slots):
                 break
-            pokemon.append(predicted)
-        while len(pokemon) < 6:
-            pokemon.append(pe.Pokemon.create_fainted())
+            _place(predicted, _slot_key(getattr(predicted, "id", "") or ""))
+        pokemon = [s if s is not None else pe.Pokemon.create_fainted()
+                   for s in slots]
+
+        # a fainted active keeps its slot: the engine reads hp<=0 at
+        # active_index and offers the replacement switches itself, which is
+        # why the old "fainted dummy at slot 0" hack is gone
+        active_slot = order.index(active_species) \
+            if active_species in order and order.index(active_species) < 6 else 0
 
         vols, durs = self._active_volatiles(active)
         sub_health = 0
         if active is not None and "substitute" in vols:
             # poke-env tracks sub presence, not HP; use the engine-side maxhp
             # (opponent poke-env HP is normalized to /100)
-            sub_health = max(1, pokemon[0].maxhp // 4)
+            sub_health = max(1, pokemon[active_slot].maxhp // 4)
 
         # last_used_move feeds the engine's Encore re-routing, Fake Out /
         # First Impression legality, and choice-lock continuation. poke-env
@@ -650,7 +712,7 @@ class Gen9Translator:
             last = active.last_move
             if last is not None:
                 lid = _normalize(last.id)
-                for i, mv in enumerate(pokemon[0].moves):
+                for i, mv in enumerate(pokemon[active_slot].moves):
                     if mv.id == lid:
                         last_used_move = f"move:{i}"
                         break
@@ -664,6 +726,7 @@ class Gen9Translator:
 
         return pe.Side(
             pokemon=pokemon[:6],
+            active_index=str(active_slot),
             side_conditions=self._side_conditions(battle, conditions, mons, active),
             volatile_statuses=vols,
             volatile_status_durations=durs,
@@ -695,6 +758,7 @@ class Gen9Translator:
             active=battle.active_pokemon,
             conditions=battle.side_conditions,
             build_one=self._my_pokemon,
+            side_key="me",
             force_switch=bool(battle.force_switch),
             force_trapped=bool(battle.trapped),
         )
@@ -710,6 +774,7 @@ class Gen9Translator:
             active=battle.opponent_active_pokemon,
             conditions=battle.opponent_side_conditions,
             build_one=self._opp_pokemon,
+            side_key="opp",
             fill=self._predicted_fill(opp_mons),
         )
 

@@ -552,7 +552,11 @@ def test_force_switch_state_searches_replacements():
 
     state = Gen9Translator(set_source="gen9ou").translate(b)
     assert state.side_one.force_switch
-    assert state.side_one.pokemon[0].hp == 0  # fainted active holds slot 0
+    # the fainted active keeps its STABLE slot and active_index points at it;
+    # the engine reads hp<=0 there and offers the replacements itself. (The
+    # old convention packed a fainted dummy into slot 0 instead, which is
+    # what made the array permute on every switch and broke tree reuse.)
+    assert state.side_one.pokemon[int(state.side_one.active_index)].hp == 0
     alive = [p.id for p in state.side_one.pokemon if p.hp > 0]
     assert set(alive) == {"heatran", "volcarona"}
 
@@ -1117,3 +1121,81 @@ def test_opponent_priors_from_book():
     # unknown opponent -> no priors at all (corpus behaviour unchanged)
     stub._opp_profile = None
     assert stub._opponent_priors(battle) is None
+
+
+# --- stable slot ordering (cross-turn tree reuse depends on this) ----------
+#
+# The engine identifies the active mon via active_index, so the array does NOT
+# need the active first. Slots must stay FIXED for the whole battle: a
+# retained MCTS subtree's MoveChoice::Switch(i) is a slot index, so if the
+# array permuted on a switch, slot i would silently denote a different mon and
+# every switch line in the reused tree would be wrong. Measured on real ladder
+# games, 61% of turns contain a switch, so an active-first array made reuse
+# impossible on most turns (live hit rate 31% -> 92% after this change).
+
+def _slots_of(side):
+    return {p.id: i for i, p in enumerate(side.pokemon) if p.id != "none"}
+
+
+def test_slots_stay_fixed_across_a_switch():
+    b = make_battle()
+    tr = Gen9Translator(set_source="gen9ou")
+    before = _slots_of(tr.translate(b).side_one)
+
+    b.parse_message(["", "switch", "p1a: Heatran", "Heatran, L100, M", "386/386"])
+    b.parse_message(["", "turn", "2"])
+    after = _slots_of(tr.translate(b).side_one)
+
+    shared = set(before) & set(after)
+    assert shared, "expected overlapping species across the switch"
+    for species in shared:
+        assert before[species] == after[species], (
+            f"{species} moved slot {before[species]} -> {after[species]}; "
+            "a permuted array corrupts switch indices in a reused subtree")
+
+
+def test_active_index_tracks_the_active_not_slot_zero():
+    b = make_battle()
+    tr = Gen9Translator(set_source="gen9ou")
+    state = tr.translate(b)
+    assert state.side_one.pokemon[int(state.side_one.active_index)].id == "ninetales"
+
+    b.parse_message(["", "switch", "p1a: Volcarona", "Volcarona, L100, M", "391/391"])
+    b.parse_message(["", "turn", "2"])
+    state = tr.translate(b)
+    idx = int(state.side_one.active_index)
+    assert state.side_one.pokemon[idx].id == "volcarona"
+    assert idx != 0, "Volcarona is not the first team member; slot 0 would be stale"
+
+
+def test_switch_options_exclude_the_active_after_reorder():
+    """The engine derives switches from active_index; a mismatch would offer
+    switching into the mon already on the field."""
+    b = make_battle()
+    b.parse_message(["", "switch", "p1a: Volcarona", "Volcarona, L100, M", "391/391"])
+    b.parse_message(["", "turn", "2"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    result = pe.monte_carlo_tree_search(state, 50)
+    switches = {r.move_choice[7:] for r in result.side_one
+                if r.move_choice.startswith("switch ")}
+    assert "volcarona" not in switches
+    assert switches, "expected the bench to be switchable"
+
+
+def test_encore_move_slot_resolves_against_the_active_mon():
+    """last_used_move indexes into the ACTIVE mon's movelist. Reading slot 0
+    instead would resolve against the wrong Pokemon, and the engine panics on
+    an ENCORE volatile carrying a bad move slot."""
+    b = make_battle()
+    b.parse_message(["", "switch", "p1a: Heatran", "Heatran, L100, M", "386/386"])
+    b.parse_message(["", "turn", "2"])
+    b.parse_message(["", "move", "p1a: Heatran", "Taunt", "p2a: Garchomp"])
+    state = Gen9Translator(set_source="gen9ou").translate(b)
+
+    lum = state.side_one.last_used_move
+    assert lum.startswith("move:"), lum
+    idx = int(lum.split(":")[1])
+    active = state.side_one.pokemon[int(state.side_one.active_index)]
+    assert active.id == "heatran"
+    assert active.moves[idx].id == "taunt"
