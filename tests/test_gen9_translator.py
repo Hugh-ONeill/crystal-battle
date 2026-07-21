@@ -768,6 +768,7 @@ def test_adaptive_escalation_decision():
     stub._base_frac, stub._base_max_ms = 0.02, 2000
     stub._grind_turn, stub._grind_max_ms = 20, 6000
     stub._collapse_turn, stub._collapse_moves = 25, 14
+    stub._collapse_mons = 5
     stub._set_samples = 2
     stub._flat_threshold, stub._clock_floor_s = 0.55, 40
     stub._set_samples, stub._verbose = 2, False
@@ -938,6 +939,8 @@ def test_late_game_world_collapse():
     stub = P.__new__(P)
     stub._set_samples, stub._verbose = 2, False
     stub._collapse_turn, stub._collapse_moves = 25, 14
+    stub._collapse_mons = 5
+    stub._airi = None          # prose hook off in tests (engine-beat path)
 
     def battle(turn, moves_per_mon):
         team = {f"m{i}": NS(moves={f"mv{j}": None for j in range(k)})
@@ -953,6 +956,15 @@ def test_late_game_world_collapse():
     stub._set_samples = 1
     assert stub._effective_samples(battle(30, full)) == 1     # no-op at K=1
 
+    # NARROW-MOVEPOOL coverage gate: a stall team reveals few DISTINCT moves
+    # (the exploit probe saw 12 across a fully-played team) but most of its
+    # mons have acted — we know their hand, so collapse should still fire.
+    stub._set_samples = 2
+    narrow = [2, 2, 2, 2, 2, 0]   # 10 moves < 14, but 5 mons have acted
+    assert stub._effective_samples(battle(30, narrow)) == 1
+    barely = [2, 2, 1, 0, 0, 0]   # 5 moves, only 3 acted -> still hedge
+    assert stub._effective_samples(battle(30, barely)) == 2
+
 
 def test_endgame_solver_gates():
     from types import SimpleNamespace as NS
@@ -962,25 +974,33 @@ def test_endgame_solver_gates():
     stub = P.__new__(P)
     stub._use_endgame_solver, stub._verbose = True, False
     stub._endgame_alive, stub._endgame_depth, stub._endgame_nodes = 3, 12, 10000
+    stub._airi = None
 
-    def state(tera1=True, tera2=True):
-        mk = lambda t: NS(pokemon=[NS(terastallized=t, hp=100)])
-        return NS(side_one=mk(tera1), side_two=mk(tera2))
+    def state(**_):
+        mk = lambda: NS(pokemon=[NS(terastallized=True, hp=100)])
+        return NS(side_one=mk(), side_two=mk())
+
+    def bat(turn=40, ours=True, theirs=True):
+        # the gate reads battle.team / opponent_team is_terastallized, which
+        # SURVIVES a faint — the engine-state flag did not (that bug locked
+        # the solver out of nearly every endgame)
+        mk = lambda t: {"a": NS(is_terastallized=t)}
+        return NS(turn=turn, team=mk(ours), opponent_team=mk(theirs))
 
     gp.is_solvable_endgame = lambda st, max_total_alive=3: True
     def fake_solve(st, max_depth=12, node_budget=10000, stats=None):
         return "earthquake", "protect", 0.8
     gp.solve_endgame = fake_solve
 
-    b = NS(turn=40)
+    b = bat()
     out = stub._try_endgame_solver(b, state())
     assert out is not None
     assert out[0].side_one[0].move_choice == "earthquake"
     assert out[0].side_one[0].visits == 1_000_000
 
-    # tera pending on either side voids the guarantee
-    assert stub._try_endgame_solver(NS(turn=40), state(tera1=False)) is None
-    assert stub._try_endgame_solver(NS(turn=40), state(tera2=False)) is None
+    # tera still PENDING on either side voids the guarantee
+    assert stub._try_endgame_solver(bat(ours=False), state()) is None
+    assert stub._try_endgame_solver(bat(theirs=False), state()) is None
 
     # budget-exhausted solves are distrusted; two strikes stop the solver
     def exhausted(st, max_depth=12, node_budget=10000, stats=None):
@@ -988,7 +1008,7 @@ def test_endgame_solver_gates():
             stats["budget_exhausted"] = True
         return "earthquake", "protect", 0.0
     gp.solve_endgame = exhausted
-    b2 = NS(turn=40)
+    b2 = bat()
     assert stub._try_endgame_solver(b2, state()) is None
     assert b2._cb_solver_strikes == 1
     assert stub._try_endgame_solver(b2, state()) is None
@@ -1000,4 +1020,4 @@ def test_endgame_solver_gates():
 
     # master switch off
     stub._use_endgame_solver = False
-    assert stub._try_endgame_solver(NS(turn=40), state()) is None
+    assert stub._try_endgame_solver(bat(), state()) is None

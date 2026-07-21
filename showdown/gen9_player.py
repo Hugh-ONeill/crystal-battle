@@ -310,6 +310,7 @@ class Gen9PokeEnginePlayer(Player):
                  base_frac: float = 0.02, base_max_ms: int = 2000,
                  grind_turn: int = 20, grind_max_ms: int = 6000,
                  collapse_turn: int = 25, collapse_moves: int = 14,
+                 collapse_mons: int = 5,
                  use_endgame_solver: bool = True, endgame_alive: int = 3,
                  endgame_depth: int = 12, endgame_nodes: int = 10_000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
@@ -367,6 +368,7 @@ class Gen9PokeEnginePlayer(Player):
         self._grind_max_ms = grind_max_ms
         self._collapse_turn = collapse_turn
         self._collapse_moves = collapse_moves
+        self._collapse_mons = collapse_mons
         # endgame solver (exact minimax when its guarantees hold; see
         # _try_endgame_solver for the gates)
         self._use_endgame_solver = use_endgame_solver
@@ -830,10 +832,21 @@ class Gen9PokeEnginePlayer(Player):
         if getattr(battle, "turn", 0) < self._collapse_turn:
             return self._set_samples
         try:
-            revealed = sum(len(m.moves) for m in battle.opponent_team.values())
+            opp = list(battle.opponent_team.values())
+            revealed = sum(len(m.moves) for m in opp)
+            # mons that have actually acted (>=1 revealed move). In a
+            # team-preview format len(opponent_team) is 6 from turn 0, so
+            # species count says nothing — "has shown a move" is the real
+            # coverage signal.
+            acted = sum(1 for m in opp if m.moves)
         except Exception:
             return self._set_samples
-        if revealed < self._collapse_moves:
+        # EITHER many moves revealed OR most of their team has shown its hand.
+        # Raw move-count alone mis-gates NARROW-MOVEPOOL teams: the stall
+        # exploit probe revealed only 12 distinct moves across a fully-played
+        # team, so collapse never fired against precisely the stall archetype
+        # the grind package exists to beat.
+        if revealed < self._collapse_moves and acted < self._collapse_mons:
             return self._set_samples
         # announce once per battle (the collapse holds every turn after)
         if not getattr(battle, "_cb_collapse_announced", False):
@@ -1176,6 +1189,10 @@ async def main():
                              "vs 89%% at 2s); bank surplus rule still limits")
     parser.add_argument("--collapse-turn", type=int, default=25,
                         help="earliest turn for K-worlds -> 1 collapse")
+    parser.add_argument("--collapse-mons", type=int, default=5,
+                        help="alternative collapse gate: opponent mons that "
+                             "have revealed >=1 move (coverage signal that "
+                             "works for narrow-movepool/stall teams)")
     parser.add_argument("--collapse-moves", type=int, default=14,
                         help="revealed opponent moves required before world "
                              "collapse (protects the speed-pessimistic hedge "
@@ -1255,6 +1272,7 @@ async def main():
         grind_max_ms=args.grind_max_ms,
         collapse_turn=args.collapse_turn,
         collapse_moves=args.collapse_moves,
+        collapse_mons=args.collapse_mons,
         use_endgame_solver=args.endgame_solver == "on",
         endgame_alive=args.endgame_alive,
         endgame_depth=args.endgame_depth,
