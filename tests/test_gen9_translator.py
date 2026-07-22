@@ -1208,3 +1208,78 @@ def test_encore_move_slot_resolves_against_the_active_mon():
     active = state.side_one.pokemon[int(state.side_one.active_index)]
     assert active.id == "heatran"
     assert active.moves[idx].id == "taunt"
+
+
+# --- tera must stay spent once it is spent ------------------------------------
+#
+# create_fainted() is a blank dummy with terastallized=False, and the engine's
+# can_use_tera() returns true unless SOME mon on the side carries the flag. So a
+# tera'd mon that fainted made the engine offer <move>-tera again; MCTS spent
+# visits on those branches and _map_choice discarded them all as illegal. Same
+# root cause as the endgame-gate bug, which was patched at the gate rather than
+# here at the source.
+#
+# NB both tests must reach a NORMAL decision state. After a forced switch
+# poke-env keeps force_switch set, the engine then returns switches ONLY, and a
+# "no tera offered" assertion passes vacuously — which is how the first draft of
+# this test fooled me.
+
+def _heatran_active_request():
+    """A normal (non-forceSwitch) request with Heatran active and able to move."""
+    moves = ["magmastorm", "earthpower", "taunt", "stealthrock"]
+    return {
+        "active": [{"moves": [
+            {"move": m, "id": m, "pp": 16, "maxpp": 16,
+             "target": "normal", "disabled": False} for m in moves]}],
+        "side": {**REQUEST["side"], "pokemon": [
+            {**REQUEST["side"]["pokemon"][0], "condition": "0 fnt", "active": False},
+            {**REQUEST["side"]["pokemon"][1], "active": True},
+            REQUEST["side"]["pokemon"][2],
+        ]},
+    }
+
+
+def _battle_after_faint(terastallize_first):
+    b = make_battle()
+    if terastallize_first:
+        b.parse_message(["", "-terastallize", "p1a: Ninetales", "Grass"])
+    b.parse_message(["", "faint", "p1a: Ninetales"])
+    b.parse_request({"forceSwitch": [True], "side": {
+        **REQUEST["side"], "pokemon": [
+            {**REQUEST["side"]["pokemon"][0], "condition": "0 fnt"},
+            *REQUEST["side"]["pokemon"][1:]]}})
+    b.parse_message(["", "switch", "p1a: Heatran", "Heatran, L100, M", "386/386"])
+    b.parse_message(["", "turn", "2"])
+    b.parse_request(_heatran_active_request())   # clears force_switch
+    assert not b.force_switch, "fixture must reach a normal decision state"
+    return b
+
+
+def test_fainted_tera_mon_keeps_its_flag_so_tera_is_not_re_offered():
+    state = Gen9Translator(set_source="gen9ou").translate(
+        _battle_after_faint(terastallize_first=True))
+
+    # a fainted mon is a blank dummy (id "none"), so assert on the flag the
+    # engine actually reads rather than on species identity
+    flagged = [p for p in state.side_one.pokemon if p.terastallized]
+    assert flagged, "fainted tera'd mon lost its flag"
+    assert all(p.hp == 0 for p in flagged)
+
+    result = pe.monte_carlo_tree_search(state, 60)
+    opts = [r.move_choice for r in result.side_one]
+    assert any(not o.startswith("switch ") for o in opts), \
+        "fixture regressed to a switch-only state; the tera check would be vacuous"
+    assert not [o for o in opts if o.endswith("-tera")], \
+        f"tera re-offered after it was spent: {opts}"
+
+
+def test_unterastallized_faint_still_leaves_tera_available():
+    """The converse: a plain faint must not accidentally consume our tera."""
+    state = Gen9Translator(set_source="gen9ou").translate(
+        _battle_after_faint(terastallize_first=False))
+    assert not any(p.terastallized for p in state.side_one.pokemon)
+
+    result = pe.monte_carlo_tree_search(state, 60)
+    opts = [r.move_choice for r in result.side_one]
+    assert any(o.endswith("-tera") for o in opts), \
+        f"tera wrongly withheld when it was never used: {opts}"

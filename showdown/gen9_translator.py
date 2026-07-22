@@ -35,6 +35,29 @@ import poke_engine as pe
 from showdown.name_mapping import _normalize
 
 
+def _fainted_mon(mon) -> "pe.Pokemon":
+    """A fainted placeholder that REMEMBERS whether it terastallized.
+
+    `pe.Pokemon.create_fainted()` is a blank dummy with terastallized=False,
+    and the engine's `can_use_tera()` returns true unless SOME mon on the side
+    carries the flag. So the moment a tera'd mon fainted, the engine believed
+    tera was available again and offered `<move>-tera` twins at the root; MCTS
+    spent visits on them and _map_choice then discarded every one as illegal
+    (`if tera and not battle.can_tera: continue`). Pure wasted search, worst in
+    the mid-late game where the budgets are largest.
+
+    Same root cause as the endgame-solver gate bug, which was patched at the
+    gate (reading battle.is_terastallized) rather than here at the source, so
+    the SEARCH kept seeing a phantom tera. Applies to both sides: we also
+    over-modelled the opponent's remaining tera.
+    """
+    if not getattr(mon, "is_terastallized", False):
+        return pe.Pokemon.create_fainted()
+    dummy = pe.Pokemon.create_fainted()
+    return pe.Pokemon(id=dummy.id, hp=0, maxhp=max(1, dummy.maxhp),
+                      terastallized=True)
+
+
 def _slot_key(species: str) -> str:
     """Species key for canonical slot assignment. Team preview marks an
     undisclosed forme with a '-*' suffix (Zamazenta-*), which must resolve to
@@ -682,8 +705,7 @@ class Gen9Translator:
 
         for mon in mons:
             sp = _slot_key(getattr(mon, "species", "") or "")
-            _place(pe.Pokemon.create_fainted() if mon.fainted
-                   else build_one(mon), sp)
+            _place(_fainted_mon(mon) if mon.fainted else build_one(mon), sp)
         for predicted in (fill or []):
             if all(s is not None for s in slots):
                 break
