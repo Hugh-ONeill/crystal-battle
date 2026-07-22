@@ -1,28 +1,30 @@
 #!/bin/sh
-# Parallel bench series vs stock foul-play: N concurrent game LANES.
+# Parallel bench series vs stock foul-play: N lanes pulling games off a QUEUE.
 #
-# WHY. The bench noise floor is ~15pp (the same config produced 22.2% and
-# 37.5% in two separate arms), so resolving anything below ~20pp needs
-# hundreds of games per arm — and we were running exactly ONE game at a time
-# on a 24-core box, at ~60 games/hour. A game pair costs ~2-3 cores (load
-# averaged ~1.5-2 during the sequential sweeps), so 6-8 lanes fit comfortably
-# and turn "1300 games per arm = 22 hours" into roughly three.
-#
-# Throughput is the binding constraint on what is answerable here; a smarter
-# stopping rule (SPRT) only makes each answer cheaper at the margin. Do this
-# first, layer SPRT on top second.
+# WHY A QUEUE (measured 2026-07-22, parthru2). The static split (games_per_lane
+# fixed per lane) delivered only 3.2x effective parallelism from 6 lanes: game
+# length varies 6x (32..192 turns), so the run's wall clock was the unluckiest
+# lane's 427s while four lanes idled for minutes. Per-TURN cost under 6-way
+# concurrency is identical to sequential (0.89 vs 0.91 s/turn; server wait
+# 439 vs 436 ms/turn) — the local Showdown server is NOT a bottleneck at this
+# scale, and CPU sits under 3 of 24 cores. The losses are (1) lane imbalance,
+# fixed here by the queue, and (2) ~10s fixed startup per game, trimmed by the
+# readiness probe below (a fresh process per game is still required because the
+# team rotates every game). The queue is also where SPRT early-stop belongs:
+# stop handing out games once the series can conclude.
 #
 # LANE ISOLATION. Each lane needs its own username pair — a same-name login
 # KICKS the running bot, which would silently corrupt every other lane. Lane k
 # runs as CBGen9L<k> vs FPSpar1L<k>; both keep the CBGen9 / FPSpar1 PREFIX so
 # the existing tallies (grep "Winner: CBGen9") still match unchanged. Team
-# files are copied per-lane too, or concurrent lanes would race on one path.
+# files are copied per-game too, or concurrent lanes would race on one path.
 #
-# Usage: par_series.sh <name> <games_per_lane> <lanes> [--suite DIR] [our args...]
+# Usage: par_series.sh <name> <total_games> <lanes> [--suite DIR] [our args...]
+#        (arg 2 is the TOTAL game count now, not games per lane)
 # Tally: grep -c "^INFO     Winner: CBGen9" showdown/bench/<name>_L*_foulplay.log
 set -u
 CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
-NAME="$1"; PER_LANE="$2"; LANES="$3"; shift 3
+NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
 SUITE_DIR=""
 if [ "${1:-}" = "--suite" ]; then SUITE_DIR="$2"; shift 2; fi
 # MUST be absolute: each game cd's into $FP to run foul-play, so a relative
@@ -55,8 +57,22 @@ else
   N_TEAMS=0
 fi
 
-echo "=== parallel series '$NAME': $LANES lanes x $PER_LANE games "
-echo "    (= $((LANES * PER_LANE)) games) at $(date +%H:%M:%S) ==="
+QUEUE="$CB/showdown/bench/${NAME}.queue"
+echo 0 > "$QUEUE"
+# Hand out the next 1-based global game index, or fail when the run is done.
+# flock serializes the read-increment-write; lanes calling this concurrently
+# each get a distinct index exactly once.
+next_game() {
+  (
+    flock -x 9
+    n=$(($(cat "$QUEUE") + 1))
+    [ "$n" -gt "$TOTAL" ] && exit 1
+    echo "$n" > "$QUEUE"
+    echo "$n"
+  ) 9>>"$QUEUE.lock"
+}
+
+echo "=== parallel series '$NAME': $TOTAL games over $LANES lanes at $(date +%H:%M:%S) ==="
 
 lane=1
 while [ "$lane" -le "$LANES" ]; do
@@ -65,22 +81,23 @@ while [ "$lane" -le "$LANES" ]; do
     FP_LOG="$CB/showdown/bench/${NAME}_L${lane}_foulplay.log"
     : > "$OURS_LOG"; : > "$FP_LOG"
     US="CBGen9L${lane}"; THEM="FPSpar1L${lane}"
-    g=1
-    while [ "$g" -le "$PER_LANE" ]; do
+    starts=0
+    while g=$(next_game); do
       cd "$CB"   # each iteration starts from a known cwd (we cd to $FP below)
       if [ "$N_TEAMS" -gt 0 ]; then
-        # stagger lanes across the suite so coverage stays balanced
-        idx=$(( ((lane - 1) + (g - 1) * LANES) % N_TEAMS + 1 ))
+        # rotate the suite by global index so coverage stays balanced no
+        # matter which lane happens to pull the game
+        idx=$(( (g - 1) % N_TEAMS + 1 ))
         OUR_TEAM=$(ls "$SUITE_DIR"/*.txt | sort | sed -n "${idx}p")
-        BASE="L${lane}_$(basename "$OUR_TEAM" .txt)"
+        BASE="G${g}_$(basename "$OUR_TEAM" .txt)"
         cp "$OUR_TEAM" "$FP/teams/teams/gen9/ou/suite/$BASE"
         FP_TEAM="gen9/ou/suite/$BASE"
       else
         OUR_TEAM="$CB/showdown/teams/gen9ou_sample.txt"
         BASE="legacy_default"; FP_TEAM="gen9/ou/sample_legal"
       fi
-      echo "=== lane $lane game $g/$PER_LANE team: $BASE ($(date +%H:%M:%S)) ===" >> "$OURS_LOG"
-      echo "=== lane $lane game $g/$PER_LANE team: $BASE ($(date +%H:%M:%S)) ===" >> "$FP_LOG"
+      echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$OURS_LOG"
+      echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$FP_LOG"
       if [ "${CB_PIN_CAPS:-1}" = "1" ]; then
         CB_CAPS="--base-max-ms ${CB_SEARCH_MS:-300} --grind-max-ms ${CB_SEARCH_MS:-300}"
       else
@@ -93,7 +110,17 @@ while [ "$lane" -le "$LANES" ]; do
           $CB_CAPS --n-games 1 --log-level 20 \
           "$@" >> "$OURS_LOG" 2>&1 &
       OURS_PID=$!
-      sleep 5
+      # Readiness probe instead of a blind sleep 5: our bot logs "Starting
+      # listening" ~1s in and is logged in ms later; foul-play then takes ~3s
+      # to boot before it challenges, which is grace enough. The log is
+      # append-mode across games, so compare the COUNT against launches.
+      starts=$((starts + 1))
+      i=0
+      while [ "$(grep -c "Starting listening" "$OURS_LOG")" -lt "$starts" ] \
+            && [ "$i" -lt 60 ]; do
+        sleep 0.25; i=$((i + 1))
+      done
+      sleep 0.5
       cd "$FP"
       timeout "$PER_GAME_TIMEOUT" .venv/bin/python run.py \
           --websocket-uri ws://localhost:8000/showdown/websocket \
@@ -103,12 +130,12 @@ while [ "$lane" -le "$LANES" ]; do
           --run-count 1 --log-level INFO >> "$FP_LOG" 2>&1
       kill "$OURS_PID" 2>/dev/null
       wait "$OURS_PID" 2>/dev/null
-      g=$((g + 1))
     done
   ) &
   lane=$((lane + 1))
 done
 wait
+rm -f "$QUEUE" "$QUEUE.lock"
 
 W=$(cat "$CB"/showdown/bench/${NAME}_L*_foulplay.log 2>/dev/null | grep -c "^INFO     Winner: CBGen9")
 L=$(cat "$CB"/showdown/bench/${NAME}_L*_foulplay.log 2>/dev/null | grep -c "^INFO     Winner: FPSpar1")
