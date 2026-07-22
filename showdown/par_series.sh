@@ -21,14 +21,30 @@
 # the existing tallies (grep "Winner: CBGen9") still match unchanged. Team
 # files are copied per-game too, or concurrent lanes would race on one path.
 #
-# Usage: par_series.sh <name> <total_games> <lanes> [--suite DIR] [our args...]
+# SPRT EARLY-STOP (--sprt P0 P1). Bernoulli SPRT gate in the queue dispenser:
+# H0 winrate<=P0 vs H1 winrate>=P1 on decided games (showdown/sprt.py). The
+# dispenser checks the running W-L before handing out each game and stops the
+# series on a verdict — in-flight games still finish and count. TOTAL becomes
+# the inconclusive cap, and the launch gate REFUSES a series whose cap is
+# below the Wald expected n (the noise-floor rule: don't start what can't
+# conclude; SPRT_FORCE=1 overrides). alpha/beta via SPRT_ALPHA/SPRT_BETA,
+# default 0.05.
+#
+# Usage: par_series.sh <name> <total_games> <lanes> [--suite DIR]
+#            [--sprt P0 P1] [our args...]
 #        (arg 2 is the TOTAL game count now, not games per lane)
 # Tally: grep -c "^INFO     Winner: CBGen9" showdown/bench/<name>_L*_foulplay.log
 set -u
 CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
-SUITE_DIR=""
-if [ "${1:-}" = "--suite" ]; then SUITE_DIR="$2"; shift 2; fi
+SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""
+while :; do
+  case "${1:-}" in
+    --suite) SUITE_DIR="$2"; shift 2 ;;
+    --sprt)  SPRT_P0="$2"; SPRT_P1="$3"; shift 3 ;;
+    *) break ;;
+  esac
+done
 # MUST be absolute: each game cd's into $FP to run foul-play, so a relative
 # suite path stops resolving from game 2 onward — which silently produced an
 # empty team name and killed every game after the first in each lane.
@@ -61,12 +77,29 @@ fi
 
 QUEUE="$CB/showdown/bench/${NAME}.queue"
 echo 0 > "$QUEUE"
-# Hand out the next 1-based global game index, or fail when the run is done.
-# flock serializes the read-increment-write; lanes calling this concurrently
-# each get a distinct index exactly once.
+rm -f "$QUEUE.verdict"
+tally() {  # $1 = winner-name prefix; logs may not exist yet on game 1
+  cat "$CB"/showdown/bench/${NAME}_L*_foulplay.log 2>/dev/null \
+    | grep -c "^INFO     Winner: $1"
+}
+# Hand out the next 1-based global game index, or fail when the run is done —
+# either the cap is reached or the SPRT gate has concluded. flock serializes
+# the read-increment-write; lanes calling this concurrently each get a
+# distinct index exactly once.
 next_game() {
   (
     flock -x 9
+    [ -f "$QUEUE.verdict" ] && exit 1
+    if [ -n "$SPRT_P0" ]; then
+      W=$(tally CBGen9); L=$(tally FPSpar1)
+      V=$("$CB/.venv/bin/python" "$CB/showdown/sprt.py" "$W" "$L" \
+          "$SPRT_P0" "$SPRT_P1" "${SPRT_ALPHA:-0.05}" "${SPRT_BETA:-0.05}")
+      case "$V" in
+        accept*)
+          echo "$V after ${W}W-${L}L" > "$QUEUE.verdict"
+          exit 1 ;;
+      esac
+    fi
     n=$(($(cat "$QUEUE") + 1))
     [ "$n" -gt "$TOTAL" ] && exit 1
     echo "$n" > "$QUEUE"
@@ -75,6 +108,17 @@ next_game() {
 }
 
 echo "=== parallel series '$NAME': $TOTAL games over $LANES lanes at $(date +%H:%M:%S) ==="
+if [ -n "$SPRT_P0" ]; then
+  EN=$("$CB/.venv/bin/python" "$CB/showdown/sprt.py" --expected-n \
+       "$SPRT_P0" "$SPRT_P1" "${SPRT_ALPHA:-0.05}" "${SPRT_BETA:-0.05}") || exit 1
+  echo "    SPRT gate: H0 p<=$SPRT_P0 vs H1 p>=$SPRT_P1" \
+       "(alpha=${SPRT_ALPHA:-0.05} beta=${SPRT_BETA:-0.05}), expected n ~ $EN"
+  if [ "$TOTAL" -lt "$EN" ] && [ "${SPRT_FORCE:-0}" != "1" ]; then
+    echo "FATAL: cap $TOTAL < expected n $EN — this series likely cannot" \
+         "conclude; raise the cap or set SPRT_FORCE=1" >&2
+    exit 1
+  fi
+fi
 
 if [ "${CB_PIN_CAPS:-1}" = "1" ]; then
   CB_CAPS="--base-max-ms ${CB_SEARCH_MS:-300} --grind-max-ms ${CB_SEARCH_MS:-300}"
@@ -161,10 +205,18 @@ while [ "$lane" -le "$LANES" ]; do
   lane=$((lane + 1))
 done
 wait
-rm -f "$QUEUE" "$QUEUE.lock"
 
-W=$(cat "$CB"/showdown/bench/${NAME}_L*_foulplay.log 2>/dev/null | grep -c "^INFO     Winner: CBGen9")
-L=$(cat "$CB"/showdown/bench/${NAME}_L*_foulplay.log 2>/dev/null | grep -c "^INFO     Winner: FPSpar1")
+W=$(tally CBGen9)
+L=$(tally FPSpar1)
 N=$((W + L))
 echo "=== '$NAME' complete at $(date +%H:%M:%S): ${W}W-${L}L of ${N} decided ==="
 [ "$N" -gt 0 ] && echo "    $(echo "$W $N" | awk '{printf "%.1f%%", 100*$1/$2}')"
+if [ -n "$SPRT_P0" ]; then
+  if [ -f "$QUEUE.verdict" ]; then
+    echo "    SPRT: $(cat "$QUEUE.verdict") (final tally ${W}W-${L}L incl." \
+         "games in flight at the verdict)"
+  else
+    echo "    SPRT: inconclusive at the $TOTAL-game cap"
+  fi
+fi
+rm -f "$QUEUE" "$QUEUE.lock" "$QUEUE.verdict"
