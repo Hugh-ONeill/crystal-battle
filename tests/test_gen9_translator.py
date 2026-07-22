@@ -371,9 +371,18 @@ def test_merge_mcts_results():
                       NS(move_choice="protect", visits=120, total_score=70.0)])
     merged = _merge_mcts_results([r1, r2])
     by_choice = {m.move_choice: m for m in merged}
-    assert by_choice["earthquake"].visits == 180
-    assert merged[0].move_choice == "earthquake"  # 180 > 120 > 50
-    assert by_choice["protect"].visits == 120
+    # Worlds now contribute their VISIT SHARE, not raw visits, so a world that
+    # simply simulated more iterations no longer gets a louder vote. This test
+    # previously pinned the raw sum (100+80=180), which was the bug.
+    assert by_choice["earthquake"].visits != 180
+    assert merged[0].move_choice == "earthquake"
+    # earthquake leads both worlds it appears in (67% / 40% share); protect is
+    # 60% of one world only; the lone-world switch is smallest
+    assert (by_choice["earthquake"].visits > by_choice["protect"].visits
+            > by_choice["switch heatran"].visits)
+    # ordering is what the caller consumes, and it is unchanged by the fix
+    assert [m.move_choice for m in merged] == [
+        "earthquake", "protect", "switch heatran"]
 
 
 def test_speed_floor_infers_scarf():

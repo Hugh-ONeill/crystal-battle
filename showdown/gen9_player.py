@@ -196,22 +196,58 @@ def _norm_opt(s: str) -> str:
 
 
 def _merge_mcts_results(results) -> list:
-    """Combine side_one results from searches over different sampled
-    opponent worlds: sum visits and scores per move_choice, rank by visits.
-    A move that only looks good in one world loses to one that holds up
-    across all of them."""
-    merged: dict[str, SimpleNamespace] = {}
+    """Combine side_one results from searches over different sampled opponent
+    worlds. A move that only looks good in one world loses to one that holds
+    up across all of them.
+
+    Each world contributes its VISIT SHARE, not its raw visit count. Summing
+    raw visits silently weighted worlds by how fast they happened to simulate:
+    a cheaper position (fewer options, shorter rollouts, an early terminal)
+    accumulates more iterations in the same milliseconds and so got a louder
+    vote, which is not a property we ever wanted to weight by. Found by
+    reading foul-play's merge, which normalizes the same way.
+
+    We do NOT copy the other half of theirs, weighting each world by its
+    sampled probability: our worlds are not draws from a normalized belief.
+    World 0 is the deterministic curated read and the LAST world is
+    deliberately speed-pessimistic — an adversarial hedge against a Scarf.
+    Down-weighting that hedge by its likelihood is exactly what would defeat
+    the reason it exists.
+
+    Visit-like magnitudes are preserved (mean world total x share) and kept
+    INTEGER, because callers read .visits for near-tie thresholds and flatness
+    ratios, and loss_trace.py parses `visits=(\\d+)` out of the choice log — a
+    float there would silently stop matching and quietly empty the analysis.
+    With one world this is exactly the identity.
+    """
+    worlds = []
     for result in results:
-        for r in result.side_one:
-            m = merged.get(r.move_choice)
-            if m is None:
-                merged[r.move_choice] = SimpleNamespace(
-                    move_choice=r.move_choice,
-                    visits=r.visits, total_score=r.total_score)
-            else:
-                m.visits += r.visits
-                m.total_score += r.total_score
-    return sorted(merged.values(), key=lambda m: -m.visits)
+        side = list(getattr(result, "side_one", []) or [])
+        total = sum(r.visits for r in side)
+        if total > 0:
+            worlds.append((side, total))
+    if not worlds:
+        return []
+
+    n = len(worlds)
+    mean_total = sum(t for _, t in worlds) / n
+    # move -> [summed share across worlds, share-weighted score mass]
+    agg: dict[str, list[float]] = {}
+    for side, total in worlds:
+        for r in side:
+            share = r.visits / total
+            avg = r.total_score / r.visits if r.visits else 0.0
+            slot = agg.setdefault(r.move_choice, [0.0, 0.0])
+            slot[0] += share
+            slot[1] += share * avg
+
+    merged = []
+    for move, (share_sum, score_mass) in agg.items():
+        visits = int(round(share_sum / n * mean_total))
+        avg = score_mass / share_sum if share_sum > 0 else 0.0
+        merged.append(SimpleNamespace(move_choice=move, visits=visits,
+                                      total_score=avg * visits))
+    return sorted(merged, key=lambda m: -m.visits)
 
 
 _GEN9_DATA = None
