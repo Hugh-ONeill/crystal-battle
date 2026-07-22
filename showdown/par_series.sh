@@ -30,6 +30,14 @@
 # conclude; SPRT_FORCE=1 overrides). alpha/beta via SPRT_ALPHA/SPRT_BETA,
 # default 0.05.
 #
+# The tally is DISPENSE-ORDERED (showdown/dispense_tally.py): only the
+# contiguous decided prefix of dispense indices counts, because completion
+# order is biased — short games decide first and short games skew losses, so
+# a completion-order tally leans accept-h0 early in a run (bit the 2026-07-22
+# certification gate at n=30). Dispense order is outcome-independent, so the
+# LLR follows the path a purely sequential run would produce, with lag: a
+# marathon at a low index delays the verdict but never distorts it.
+#
 # Usage: par_series.sh <name> <total_games> <lanes> [--suite DIR]
 #            [--sprt P0 P1] [our args...]
 #        (arg 2 is the TOTAL game count now, not games per lane)
@@ -91,12 +99,16 @@ next_game() {
     flock -x 9
     [ -f "$QUEUE.verdict" ] && exit 1
     if [ -n "$SPRT_P0" ]; then
-      W=$(tally CBGen9); L=$(tally FPSpar1)
+      T=$("$CB/.venv/bin/python" "$CB/showdown/dispense_tally.py" \
+          "$CB/showdown/bench" "$NAME") || T="0 0 0 0"
+      W=$(echo "$T" | awk '{print $1}'); L=$(echo "$T" | awk '{print $2}')
       V=$("$CB/.venv/bin/python" "$CB/showdown/sprt.py" "$W" "$L" \
           "$SPRT_P0" "$SPRT_P1" "${SPRT_ALPHA:-0.05}" "${SPRT_BETA:-0.05}")
       case "$V" in
         accept*)
-          echo "$V after ${W}W-${L}L" > "$QUEUE.verdict"
+          P=$(echo "$T" | awk '{print $3}'); D=$(echo "$T" | awk '{print $4}')
+          echo "$V after ${W}W-${L}L (dispense prefix $P, $D decided overall)" \
+              > "$QUEUE.verdict"
           exit 1 ;;
       esac
     fi
