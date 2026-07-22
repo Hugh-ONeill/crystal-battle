@@ -359,6 +359,8 @@ class Gen9PokeEnginePlayer(Player):
                  grind_turn: int = 20, grind_max_ms: int = 6000,
                  collapse_turn: int = 25, collapse_moves: int = 14,
                  collapse_mons: int = 5,
+                 k_schedule: bool = False, k_max: int = 8,
+                 k_ms_product: int = 2400,
                  scouting_book: str | None = None, book_min_obs: int = 2,
                  opp_priors: bool = True, tree_reuse: bool = False,
                  use_endgame_solver: bool = True, endgame_alive: int = 3,
@@ -382,7 +384,11 @@ class Gen9PokeEnginePlayer(Player):
         self._choice_rng = random.Random()
         # concurrent search across sampled worlds (real parallelism once the
         # mcts binding's GIL release is built; harmless serialization before)
-        self._search_pool = ThreadPoolExecutor(max_workers=max(1, set_samples))
+        # sized to the MAX K the schedule can ask for: a pool sized to the
+        # constant would silently serialize the extra worlds, which would
+        # look exactly like 'more worlds didn't help'
+        self._search_pool = ThreadPoolExecutor(
+            max_workers=max(1, set_samples, k_max if k_schedule else 1))
         # optional learned leaf eval: mcts_with_value blends the value net
         # with the static eval by alpha (0=static, 1=pure net). ~3.7x fewer
         # iterations even batched, so this only wins where static-eval
@@ -419,6 +425,13 @@ class Gen9PokeEnginePlayer(Player):
         self._collapse_turn = collapse_turn
         self._collapse_moves = collapse_moves
         self._collapse_mons = collapse_mons
+        # decaying world schedule: many worlds while their sets are unknown,
+        # collapsing to 1 as they reveal. k_ms_product bounds K x budget so
+        # live trees stay bounded (~63MB/world at 300ms, ~592MB at the 6s
+        # grind cap — a constant K would collide with the grind budget).
+        self._k_schedule = k_schedule
+        self._k_max = max(1, k_max)
+        self._k_ms_product = max(1, k_ms_product)
         # endgame solver (exact minimax when its guarantees hold; see
         # _try_endgame_solver for the gates)
         # scouting book (per-opponent observed sets); silent no-op if absent
@@ -906,7 +919,64 @@ class Gen9PokeEnginePlayer(Player):
         dyn = int((bank - self._clock_floor_s) * self._base_frac * 1000)
         return max(150, min(cap, dyn))
 
-    def _effective_samples(self, battle) -> int:
+    def _opp_coverage(self, battle) -> float:
+        """How much of the opponent's hand we've seen, in [0, 1].
+
+        Two signals, taken as a MAX rather than a blend. Raw revealed-move
+        count alone mis-reads NARROW-MOVEPOOL teams — the stall exploit probe
+        showed only 12 distinct moves across a fully-played team — so
+        "how many of their mons have acted" carries the coverage when the
+        movepool is small. Same pair the collapse gate already uses, and the
+        same thresholds define "fully revealed" so the two stay consistent.
+        """
+        try:
+            opp = list(battle.opponent_team.values())
+            revealed = sum(len(m.moves) for m in opp)
+            acted = sum(1 for m in opp if m.moves)
+        except Exception:
+            return 0.0
+        by_moves = revealed / max(1, self._collapse_moves)
+        by_mons = acted / max(1, self._collapse_mons)
+        return max(0.0, min(1.0, max(by_moves, by_mons)))
+
+    def _scheduled_samples(self, battle, ms: int) -> int:
+        """K sampled worlds, decaying from k_max to 1 as their sets are revealed.
+
+        WHY A SCHEDULE. Set uncertainty is highest at the start and lowest at
+        the end, while the value of DEPTH runs the other way (the depth
+        diagnostic: top-1 oracle agreement 76/84/89/97% at 0.3/1/2/5s, and the
+        grind is where compounding misses lose games). So breadth is worth most
+        exactly where depth is worth least. Measured scaling backs it up: at a
+        300ms budget, per-world depth holds at 96% for K=4 and 91% for K=8
+        before thread contention bites (69% at K=16, 53% at K=24), and steady-
+        state translation is only ~1.7ms/world.
+
+        THE MEMORY CAP IS THE LOAD-BEARING PART. One world's tree is ~63MB at
+        300ms but ~592MB at the 6000ms grind cap, and K worlds hold K trees at
+        once. A constant K=8 would collide with the grind budget precisely in
+        the late positions where the budget is largest — this box has been
+        OOM-killed before. `k_ms_product` bounds K x budget, so K falls
+        automatically as the budget rises (at the default 2400: K<=8 at 300ms,
+        K<=1 at 6000ms), keeping live trees near ~500MB regardless.
+        """
+        cov = self._opp_coverage(battle)
+        k = int(round(self._k_max - (self._k_max - 1) * cov))
+        k = max(1, min(self._k_max, k))
+        # memory/compute guard: K x per-decision budget is what allocates trees
+        k_budget = max(1, self._k_ms_product // max(1, ms))
+        k = min(k, k_budget)
+        prev = getattr(battle, "_cb_sched_k", None)
+        if prev != k:
+            battle._cb_sched_k = k
+            if self._verbose:
+                print(f"  T{getattr(battle, 'turn', 0)} world schedule: K={k} "
+                      f"(coverage {cov:.0%}, budget {ms}ms"
+                      + (f", memory-capped from {int(round(self._k_max - (self._k_max - 1) * cov))}"
+                         if k_budget < int(round(self._k_max - (self._k_max - 1) * cov))
+                         else "") + ")", flush=True)
+        return k
+
+    def _effective_samples(self, battle, ms: int | None = None) -> int:
         """Late-game world collapse: K sampled opponent worlds -> 1 once the
         opponent's sets are substantially revealed. The K=2 split exists to
         hedge SET uncertainty (world 1 is speed-pessimistic vs scarf reads);
@@ -914,11 +984,19 @@ class Gen9PokeEnginePlayer(Player):
         the worlds doubles per-world depth exactly where the depth diagnostic
         says depth pays. Gated on BOTH turn (collapse_turn) and revealed
         opponent moves (collapse_moves) so we never drop the speed-pessimistic
-        hedge while a key set (scarf-vs-booster) is still ambiguous."""
-        if self._set_samples <= 1:
-            return self._set_samples
+        hedge while a key set (scarf-vs-booster) is still ambiguous.
+
+        With --k-schedule on, the decaying schedule replaces this step
+        function; the hard collapse below still applies as a FLOOR, so the
+        scheduled K can never exceed 1 once the old gate has fired."""
+        if self._k_schedule and ms is not None:
+            base = self._scheduled_samples(battle, ms)
+        else:
+            base = self._set_samples
+        if base <= 1:
+            return base
         if getattr(battle, "turn", 0) < self._collapse_turn:
-            return self._set_samples
+            return base
         try:
             opp = list(battle.opponent_team.values())
             revealed = sum(len(m.moves) for m in opp)
@@ -928,19 +1006,19 @@ class Gen9PokeEnginePlayer(Player):
             # coverage signal.
             acted = sum(1 for m in opp if m.moves)
         except Exception:
-            return self._set_samples
+            return base
         # EITHER many moves revealed OR most of their team has shown its hand.
         # Raw move-count alone mis-gates NARROW-MOVEPOOL teams: the stall
         # exploit probe revealed only 12 distinct moves across a fully-played
         # team, so collapse never fired against precisely the stall archetype
         # the grind package exists to beat.
         if revealed < self._collapse_moves and acted < self._collapse_mons:
-            return self._set_samples
+            return base
         # announce once per battle (the collapse holds every turn after)
         if not getattr(battle, "_cb_collapse_announced", False):
             battle._cb_collapse_announced = True
             if self._verbose:
-                print(f"  T{battle.turn} world collapse: {self._set_samples}"
+                print(f"  T{battle.turn} world collapse: {base}"
                       f"->1 ({revealed} opp moves revealed); full budget to "
                       "one world", flush=True)
             self._airi_engine_beat("world_collapse",
@@ -1043,7 +1121,7 @@ class Gen9PokeEnginePlayer(Player):
         they run concurrently across cores when set_samples > 1. Identical
         results either way — only wall time differs."""
         ms = search_ms if search_ms is not None else self._base_budget_ms(battle)
-        k = self._effective_samples(battle)
+        k = self._effective_samples(battle, ms)
         # world 0 first: curated PS joint sets, deterministic when k == 1.
         # (PS sets in every world collapsed diversity (series 10) — some
         # species have a single curated candidate, so all worlds shared
@@ -1502,6 +1580,16 @@ async def main():
     parser.add_argument("--book-min-obs", type=int, default=2,
                         help="times a species must be seen from an opponent "
                              "before its book set is trusted")
+    parser.add_argument("--k-schedule", choices=["on", "off"], default="off",
+                        help="decay sampled worlds from --k-max to 1 as the "
+                             "opponent's sets get revealed (breadth when "
+                             "uncertain, depth when known)")
+    parser.add_argument("--k-max", type=int, default=8,
+                        help="worlds at zero coverage; per-world depth holds "
+                             "to ~91%% at K=8, falls to 69%% at 16, 53%% at 24")
+    parser.add_argument("--k-ms-product", type=int, default=2400,
+                        help="cap on K x per-decision ms — bounds live tree "
+                             "memory (K<=8 at 300ms, K<=1 at the 6s grind cap)")
     parser.add_argument("--tree-reuse", choices=["on", "off"], default="off",
                         help="persistent cross-turn MCTS tree reuse in the "
                              "K==1 world (needs a poke_engine build with "
@@ -1586,6 +1674,9 @@ async def main():
         book_min_obs=args.book_min_obs,
         opp_priors=args.opp_priors == "on",
         tree_reuse=args.tree_reuse == "on",
+        k_schedule=args.k_schedule == "on",
+        k_max=args.k_max,
+        k_ms_product=args.k_ms_product,
         use_endgame_solver=args.endgame_solver == "on",
         endgame_alive=args.endgame_alive,
         endgame_depth=args.endgame_depth,

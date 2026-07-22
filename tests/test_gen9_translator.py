@@ -954,6 +954,8 @@ def test_late_game_world_collapse():
     stub._collapse_turn, stub._collapse_moves = 25, 14
     stub._collapse_mons = 5
     stub._airi = None          # prose hook off in tests (engine-beat path)
+    stub._k_schedule = False   # this test pins the OLD step-function collapse;
+                               # the decaying schedule has its own test module
 
     def battle(turn, moves_per_mon):
         team = {f"m{i}": NS(moves={f"mv{j}": None for j in range(k)})
