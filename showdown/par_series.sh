@@ -8,10 +8,12 @@
 # concurrency is identical to sequential (0.89 vs 0.91 s/turn; server wait
 # 439 vs 436 ms/turn) — the local Showdown server is NOT a bottleneck at this
 # scale, and CPU sits under 3 of 24 cores. The losses are (1) lane imbalance,
-# fixed here by the queue, and (2) ~10s fixed startup per game, trimmed by the
-# readiness probe below (a fresh process per game is still required because the
-# team rotates every game). The queue is also where SPRT early-stop belongs:
-# stop handing out games once the series can conclude.
+# fixed here by the queue, and (2) per-game process startup, fixed by ONE
+# persistent worker per lane (--team-reload rotates the team through a fixed
+# per-lane file, so the worker no longer restarts per game; foul-play still
+# boots per game — its side is 32MB/3.5s, not worth touching). The queue is
+# also where SPRT early-stop belongs: stop handing out games once the series
+# can conclude.
 #
 # LANE ISOLATION. Each lane needs its own username pair — a same-name login
 # KICKS the running bot, which would silently corrupt every other lane. Lane k
@@ -74,6 +76,12 @@ next_game() {
 
 echo "=== parallel series '$NAME': $TOTAL games over $LANES lanes at $(date +%H:%M:%S) ==="
 
+if [ "${CB_PIN_CAPS:-1}" = "1" ]; then
+  CB_CAPS="--base-max-ms ${CB_SEARCH_MS:-300} --grind-max-ms ${CB_SEARCH_MS:-300}"
+else
+  CB_CAPS=""
+fi
+
 lane=1
 while [ "$lane" -le "$LANES" ]; do
   (
@@ -81,7 +89,33 @@ while [ "$lane" -le "$LANES" ]; do
     FP_LOG="$CB/showdown/bench/${NAME}_L${lane}_foulplay.log"
     : > "$OURS_LOG"; : > "$FP_LOG"
     US="CBGen9L${lane}"; THEM="FPSpar1L${lane}"
+    # ONE persistent worker per lane (851MB of replay sets/priors/nets and
+    # ~4s of startup per process — load once, play the whole lane). The team
+    # rotates per game by swapping this fixed file; --team-reload makes the
+    # worker re-read it at every challenge accept (/utm) and team preview.
+    LANE_TEAM="$CB/showdown/bench/${NAME}_L${lane}.team"
+    OURS_PID=""
     starts=0
+    start_worker() {
+      cd "$CB"
+      .venv/bin/python showdown/gen9_player.py --local --username "$US" \
+          --mode accept --format gen9ou --team "$LANE_TEAM" --team-reload on \
+          --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+          $CB_CAPS --n-games 999 --log-level 20 \
+          "$@" >> "$OURS_LOG" 2>&1 &
+      OURS_PID=$!
+      # Readiness probe instead of a blind sleep 5: the worker logs
+      # "Starting listening" ~1s in and is logged in ms later; foul-play
+      # then takes ~3s to boot before it challenges, which is grace enough.
+      # The log persists across restarts, so compare the COUNT to launches.
+      starts=$((starts + 1))
+      i=0
+      while [ "$(grep -c "Starting listening" "$OURS_LOG")" -lt "$starts" ] \
+            && [ "$i" -lt 60 ]; do
+        sleep 0.25; i=$((i + 1))
+      done
+      sleep 0.5
+    }
     while g=$(next_game); do
       cd "$CB"   # each iteration starts from a known cwd (we cd to $FP below)
       if [ "$N_TEAMS" -gt 0 ]; then
@@ -96,31 +130,10 @@ while [ "$lane" -le "$LANES" ]; do
         OUR_TEAM="$CB/showdown/teams/gen9ou_sample.txt"
         BASE="legacy_default"; FP_TEAM="gen9/ou/sample_legal"
       fi
+      cp "$OUR_TEAM" "$LANE_TEAM"
       echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$OURS_LOG"
       echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$FP_LOG"
-      if [ "${CB_PIN_CAPS:-1}" = "1" ]; then
-        CB_CAPS="--base-max-ms ${CB_SEARCH_MS:-300} --grind-max-ms ${CB_SEARCH_MS:-300}"
-      else
-        CB_CAPS=""
-      fi
-      cd "$CB"
-      .venv/bin/python showdown/gen9_player.py --local --username "$US" \
-          --mode accept --format gen9ou --team "$OUR_TEAM" \
-          --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
-          $CB_CAPS --n-games 1 --log-level 20 \
-          "$@" >> "$OURS_LOG" 2>&1 &
-      OURS_PID=$!
-      # Readiness probe instead of a blind sleep 5: our bot logs "Starting
-      # listening" ~1s in and is logged in ms later; foul-play then takes ~3s
-      # to boot before it challenges, which is grace enough. The log is
-      # append-mode across games, so compare the COUNT against launches.
-      starts=$((starts + 1))
-      i=0
-      while [ "$(grep -c "Starting listening" "$OURS_LOG")" -lt "$starts" ] \
-            && [ "$i" -lt 60 ]; do
-        sleep 0.25; i=$((i + 1))
-      done
-      sleep 0.5
+      [ -z "$OURS_PID" ] && start_worker "$@"
       cd "$FP"
       timeout "$PER_GAME_TIMEOUT" .venv/bin/python run.py \
           --websocket-uri ws://localhost:8000/showdown/websocket \
@@ -128,9 +141,22 @@ while [ "$lane" -le "$LANES" ]; do
           --user-to-challenge "$US" --pokemon-format gen9ou \
           --team-name "$FP_TEAM" --search-time-ms "${FP_SEARCH_MS:-300}" \
           --run-count 1 --log-level INFO >> "$FP_LOG" 2>&1
+      if [ "$?" -eq 124 ]; then
+        # hung game: the worker is stuck in a battle that will never finish
+        # (max_concurrent_battles=1 would wedge every later game in the
+        # lane) — restart it for a clean slate. Also self-heals a crashed
+        # worker: foul-play's unanswered challenge times out and lands here.
+        echo "=== lane $lane game $g TIMED OUT; restarting worker ===" >> "$OURS_LOG"
+        kill "$OURS_PID" 2>/dev/null
+        wait "$OURS_PID" 2>/dev/null
+        OURS_PID=""
+      fi
+    done
+    if [ -n "$OURS_PID" ]; then
       kill "$OURS_PID" 2>/dev/null
       wait "$OURS_PID" 2>/dev/null
-    done
+    fi
+    rm -f "$LANE_TEAM"
   ) &
   lane=$((lane + 1))
 done
