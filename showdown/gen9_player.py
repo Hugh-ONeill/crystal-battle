@@ -195,7 +195,15 @@ def _norm_opt(s: str) -> str:
     return _normalize(s)
 
 
-def _merge_mcts_results(results) -> list:
+# A/B switch for the merge rule. Normalization is the default (a world should
+# not get a louder vote merely for being cheaper to simulate), but it changed
+# multi-world behaviour and the K=2 arms before/after it differ by 11 points at
+# p=0.27 — unresolved. CB_MERGE_RAW=1 restores raw-visit summing so the two can
+# be A/B'd from one build, with the arm chosen per process.
+_MERGE_RAW_DEFAULT = os.environ.get("CB_MERGE_RAW", "") in ("1", "true", "True")
+
+
+def _merge_mcts_results(results, raw: bool | None = None) -> list:
     """Combine side_one results from searches over different sampled opponent
     worlds. A move that only looks good in one world loses to one that holds
     up across all of them.
@@ -220,6 +228,23 @@ def _merge_mcts_results(results) -> list:
     float there would silently stop matching and quietly empty the analysis.
     With one world this is exactly the identity.
     """
+    if raw is None:
+        raw = _MERGE_RAW_DEFAULT
+    if raw:
+        # legacy behaviour: sum raw visits across worlds
+        merged: dict[str, SimpleNamespace] = {}
+        for result in results:
+            for r in getattr(result, "side_one", []) or []:
+                m = merged.get(r.move_choice)
+                if m is None:
+                    merged[r.move_choice] = SimpleNamespace(
+                        move_choice=r.move_choice, visits=r.visits,
+                        total_score=r.total_score)
+                else:
+                    m.visits += r.visits
+                    m.total_score += r.total_score
+        return sorted(merged.values(), key=lambda m: -m.visits)
+
     worlds = []
     for result in results:
         side = list(getattr(result, "side_one", []) or [])

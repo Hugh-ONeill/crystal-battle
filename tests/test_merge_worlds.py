@@ -92,3 +92,28 @@ def test_zero_visit_world_is_ignored_not_fatal():
 
 def test_no_results_is_empty():
     assert _merge_mcts_results([]) == []
+
+
+# --- the A/B switch -----------------------------------------------------------
+# CB_MERGE_RAW=1 restores raw-visit summing so normalized vs raw can be A/B'd
+# from one build. Kept testable via an explicit parameter rather than only the
+# env var, so the legacy path can't silently rot.
+
+def test_raw_mode_restores_the_old_summing():
+    cheap = world(("icebeam", 900_000, 540_000.0), ("uturn", 100_000, 40_000.0))
+    costly = world(("icebeam", 10_000, 4_000.0), ("uturn", 90_000, 54_000.0))
+    merged = _merge_mcts_results([cheap, costly], raw=True)
+    by = {m.move_choice: m.visits for m in merged}
+    assert by["icebeam"] == 910_000       # raw sum, the pre-fix behaviour
+    assert by["uturn"] == 190_000
+
+
+def test_raw_and_normalized_disagree_on_the_fast_world_case():
+    """If these ever agreed the A/B would be measuring nothing."""
+    cheap = world(("icebeam", 900_000, 540_000.0), ("uturn", 100_000, 40_000.0))
+    costly = world(("icebeam", 10_000, 4_000.0), ("uturn", 90_000, 54_000.0))
+    raw = [m.move_choice for m in _merge_mcts_results([cheap, costly], raw=True)]
+    norm = _merge_mcts_results([cheap, costly], raw=False)
+    spread = abs(norm[0].visits - norm[1].visits) / max(m.visits for m in norm)
+    assert raw[0] == "icebeam"        # raw: the cheap world's pick dominates
+    assert spread < 0.05              # normalized: essentially a tie
