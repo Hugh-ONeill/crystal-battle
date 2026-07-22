@@ -36,6 +36,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import poke_engine as pe
 from poke_env.player import Player
+from poke_env.teambuilder import Teambuilder
 from poke_env import AccountConfiguration, ServerConfiguration
 from poke_env.ps_client.server_configuration import ShowdownServerConfiguration
 
@@ -374,7 +375,9 @@ class Gen9PokeEnginePlayer(Player):
     """
 
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
-                 team_paste: str | None = None, preview_search_ms: int = 80,
+                 team_paste: str | None = None,
+                 team_reload_path: str | None = None,
+                 preview_search_ms: int = 80,
                  set_samples: int = 2, data_tiers: bool = True,
                  stochastic: bool = True, adaptive: bool = False,
                  escalate_ms: int = 2000, flat_threshold: float = 0.55,
@@ -499,6 +502,7 @@ class Gen9PokeEnginePlayer(Player):
         self._last_escalate_turn = -999
         self._search_ms = search_ms
         self._team_paste = team_paste
+        self._team_reload_path = team_reload_path
         self._preview_search_ms = preview_search_ms
         # >1: search that many sampled opponent-set worlds per turn and merge
         # (chaos sources only; monotype canonical sets have no sampler yet)
@@ -532,10 +536,30 @@ class Gen9PokeEnginePlayer(Player):
         # Scarf" reveal beat instead of firing every turn it holds
         self._announced_beliefs: dict = {}
 
+    def _refresh_team_paste(self):
+        """Persistent-worker support: with a reload path set, the bench
+        harness swaps the team file between games, so the lead picker must
+        see the CURRENT game's paste, not whatever was there at start."""
+        if self._team_reload_path is not None:
+            self._team_paste = Path(self._team_reload_path).read_text()
+
+    async def _handle_challenge_request(self, split_message):
+        """Persistent-worker support, part 2: poke-env's accept loop calls
+        get_next_team() when the PREVIOUS battle ends — before the harness
+        has swapped the team file for the next game — so the packed team it
+        would /utm is one game stale (caught live: lane 8 played game 7's
+        Kommo-o team under game 13's header). A challenge always arrives
+        AFTER the swap (the harness copies the file before launching the
+        challenger), so re-yield here, before the accept loop wakes up."""
+        if self._team_reload_path is not None and self._team is not None:
+            self.get_next_team()
+        await super()._handle_challenge_request(split_message)
+
     async def teampreview(self, battle):
         """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
         a fixed lead hands the opponent a free, certain counter-pick every
         game. Falls back to paste order on any failure."""
+        self._refresh_team_paste()
         if self._team_paste is None:
             return "/team 123456"
         try:
@@ -1536,6 +1560,19 @@ class Gen9PokeEnginePlayer(Player):
                   f"avg_score={r.total_score / max(1, r.visits):.3f})")
 
 
+class ReloadingTeambuilder(Teambuilder):
+    """Re-reads the team file on EVERY yield, so one persistent accept-mode
+    worker can play a rotating suite: the harness swaps the file between
+    games and the next challenge accept packs whatever is there now.
+    poke-env calls yield_team() once per battle."""
+
+    def __init__(self, path: str):
+        self._path = Path(path)
+
+    def yield_team(self) -> str:
+        return self.join_team(self.parse_showdown_team(self._path.read_text()))
+
+
 async def main():
     parser = argparse.ArgumentParser(description="gen9 poke-engine live player")
     parser.add_argument("--local", action="store_true",
@@ -1550,6 +1587,11 @@ async def main():
     parser.add_argument("--team", default=None,
                         help="path to a Showdown paste file (required for "
                              "team formats)")
+    parser.add_argument("--team-reload", choices=["on", "off"], default="off",
+                        help="re-read --team from disk for every game, so a "
+                             "persistent accept-mode worker can play a "
+                             "rotating suite (bench harness swaps the file "
+                             "between games)")
     parser.add_argument("--search-ms", type=int, default=1000)
     parser.add_argument("--set-source", default=None,
                         help="opponent set inference source; defaults to "
@@ -1670,6 +1712,9 @@ async def main():
     args = parser.parse_args()
 
     server = LOCAL_SERVER if args.local else SERVERS[args.server]
+    team_reload = args.team_reload == "on"
+    if team_reload and not args.team:
+        parser.error("--team-reload on requires --team")
     team = Path(args.team).read_text() if args.team else None
     set_source = args.set_source or (
         "monotype" if args.fmt == "gen9monotype" else args.fmt)
@@ -1680,6 +1725,7 @@ async def main():
         search_ms=args.search_ms,
         set_source=set_source,
         team_paste=team,
+        team_reload_path=args.team if team_reload else None,
         set_samples=args.set_samples,
         data_tiers=args.data_tiers == "on",
         stochastic=args.stochastic == "on",
@@ -1719,7 +1765,7 @@ async def main():
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,
-        team=team,
+        team=ReloadingTeambuilder(args.team) if team_reload else team,
         max_concurrent_battles=1,
         # NOTE: accept_open_team_sheet=True makes poke-env defer the team
         # preview reply until a showteam/rejection message that formats
