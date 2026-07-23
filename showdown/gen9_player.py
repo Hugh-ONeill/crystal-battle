@@ -377,6 +377,7 @@ class Gen9PokeEnginePlayer(Player):
     def __init__(self, search_ms: int = 1000, set_source: str = "gen9ou",
                  team_paste: str | None = None,
                  team_reload_path: str | None = None,
+                 dump_states_path: str | None = None,
                  preview_search_ms: int = 80,
                  set_samples: int = 2, data_tiers: bool = True,
                  stochastic: bool = True, adaptive: bool = False,
@@ -503,6 +504,8 @@ class Gen9PokeEnginePlayer(Player):
         self._search_ms = search_ms
         self._team_paste = team_paste
         self._team_reload_path = team_reload_path
+        self._dump_states_path = dump_states_path
+        self._dump_state_str = None
         self._preview_search_ms = preview_search_ms
         # >1: search that many sampled opponent-set worlds per turn and merge
         # (chaos sources only; monotype canonical sets have no sampler yet)
@@ -535,6 +538,24 @@ class Gen9PokeEnginePlayer(Player):
         # adopts (set_inference.confirmed) becomes a one-time "that's a
         # Scarf" reveal beat instead of firing every turn it holds
         self._announced_beliefs: dict = {}
+
+    def _dump_position(self, battle, ranked):
+        """Append one position-pool record: the world-0 state at this
+        decision plus the engine-level choice the live merge picked.
+        Force-switch turns don't come through here (they order inline), so
+        the pool is move-decision points only."""
+        try:
+            with open(self._dump_states_path, "a") as f:
+                f.write(json.dumps({
+                    "state": self._dump_state_str,
+                    "choice": str(ranked[0].move_choice),
+                    "visits": int(ranked[0].visits),
+                    "tag": battle.battle_tag,
+                    "turn": battle.turn,
+                }) + "\n")
+        except Exception:
+            pass
+        self._dump_state_str = None
 
     def _refresh_team_paste(self):
         """Persistent-worker support: with a reload path set, the bench
@@ -928,6 +949,8 @@ class Gen9PokeEnginePlayer(Player):
             return self.choose_random_move(battle)
 
         ranked = _merge_mcts_results(results)
+        if self._dump_states_path is not None and ranked and self._dump_state_str:
+            self._dump_position(battle, ranked)
         order = self._map_choice(ranked, battle)
         if order is not None:
             return order
@@ -1178,6 +1201,10 @@ class Gen9PokeEnginePlayer(Player):
         states = [self._translator.translate(
             battle, rng=random.Random() if k > 1 else None,
             speed_pessimistic=False, prefer_ps=True)]
+        if self._dump_states_path is not None:
+            # position-pool collection for the eval instrument: world 0 is
+            # the deterministic curated read, the most reproducible world
+            self._dump_state_str = states[0].to_string()
         # endgame check on the translated state BEFORE paying for more
         # worlds + MCTS: an exact solve replaces both. Must run for k == 1
         # too — the late-game world collapse makes k == 1 exactly when
@@ -1587,6 +1614,10 @@ async def main():
     parser.add_argument("--team", default=None,
                         help="path to a Showdown paste file (required for "
                              "team formats)")
+    parser.add_argument("--dump-states", default=None,
+                        help="JSONL file to append one (state, chosen move) "
+                             "record per decision — position-pool collection "
+                             "for the eval instrument (position_ab.py)")
     parser.add_argument("--team-reload", choices=["on", "off"], default="off",
                         help="re-read --team from disk for every game, so a "
                              "persistent accept-mode worker can play a "
@@ -1726,6 +1757,7 @@ async def main():
         set_source=set_source,
         team_paste=team,
         team_reload_path=args.team if team_reload else None,
+        dump_states_path=args.dump_states,
         set_samples=args.set_samples,
         data_tiers=args.data_tiers == "on",
         stochastic=args.stochastic == "on",
