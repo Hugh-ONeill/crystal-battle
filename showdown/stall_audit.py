@@ -9,6 +9,13 @@ Talk-called moves excluded from PP), damage taken by source, healing by
 source with pre-click HP for recovery moves, Toxic infliction, Struggle
 events, and the faint timeline with killer attribution.
 
+Bucket semantics: "hazards" is Stealth Rock + Spikes entry chip only. Toxic
+Spikes deals no entry damage — it poisons the switch-in and the DoT lands in
+the "poison" bucket ([from] psn is not attributable to its origin from the
+protocol alone); Sticky Web deals no damage ever (speed drop, invisible to
+an HP ledger). Check the move-usage table for whether either was even in
+play before reading the buckets.
+
 Usage:
   stall_audit.py --logs "showdown/bench/poolrun_L*_ours.log" \
       battle-gen9ou-3604 battle-gen9ou-3615 battle-gen9ou-3623
