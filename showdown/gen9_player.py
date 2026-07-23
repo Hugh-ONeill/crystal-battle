@@ -341,6 +341,33 @@ def _preview_order(lead_idx: int, n: int) -> str:
     return "/team " + "".join(str(x) for x in [lead_idx + 1] + rest)
 
 
+# Self-recovery moves for wall-war detection (drains excluded on purpose —
+# an offensive drain user is not a wall).
+RECOVERY_MOVE_IDS = {
+    "recover", "roost", "moonlight", "softboiled", "slackoff", "synthesis",
+    "morningsun", "rest", "wish", "strengthsap", "shoreup", "milkdrink",
+    "healorder", "junglehealing", "lunarblessing",
+}
+
+
+def wall_mons(paste: str | None) -> int:
+    """Count mons in a showdown paste carrying at least one self-recovery
+    move. Both teams >= 4 is the wall-war (stall-mode) trigger: the breadth
+    suite scores stall 5-6, fat 3-4, balance 2-3, offense 0-1."""
+    if not paste:
+        return 0
+    count = 0
+    for block in paste.strip().split("\n\n"):
+        for line in block.split("\n"):
+            line = line.strip()
+            if line.startswith("-"):
+                mid = re.sub(r"[^a-z0-9]", "", line[1:].lower())
+                if mid in RECOVERY_MOVE_IDS:
+                    count += 1
+                    break
+    return count
+
+
 def _lead_pool(matrix, epsilon: float = 0.08) -> list[int]:
     """Lead indices whose maximin (worst-case row value) is within epsilon
     of the best. A deterministic maximin lead is optimally predictable — we
@@ -379,7 +406,7 @@ class Gen9PokeEnginePlayer(Player):
                  team_reload_path: str | None = None,
                  dump_states_path: str | None = None,
                  team_archive_index: str | None = None,
-                 preview_search_ms: int = 80,
+                 preview_search_ms: int = 80, stall_mode: bool = False,
                  set_samples: int = 2, data_tiers: bool = True,
                  stochastic: bool = True, adaptive: bool = False,
                  escalate_ms: int = 2000, flat_threshold: float = 0.55,
@@ -509,6 +536,7 @@ class Gen9PokeEnginePlayer(Player):
         self._dump_states_path = dump_states_path
         self._dump_state_str = None
         self._preview_search_ms = preview_search_ms
+        self._stall_mode = stall_mode
         # >1: search that many sampled opponent-set worlds per turn and merge
         # (chaos sources only; monotype canonical sets have no sampler yet)
         self._set_samples = set_samples if set_source not in (None, "monotype") else 1
@@ -589,6 +617,17 @@ class Gen9PokeEnginePlayer(Player):
             from monotype.lead_picker import pick_leads
             opp_species = [m.species for m in battle.opponent_team.values()]
             opp_paste = self._translator.predicted_preview_paste(opp_species)
+            if self._stall_mode:
+                # per-battle archetype mode: wall-war = both sides wall-heavy.
+                # Set BEFORE the 6x6 preview maximin so lead selection already
+                # runs under the mode. Always set explicitly (workers persist
+                # across games; the flag must never leak between battles).
+                ours, theirs = wall_mons(self._team_paste), wall_mons(opp_paste)
+                on = ours >= 4 and theirs >= 4
+                pe.set_stall_mode(on)
+                if self._verbose or on:
+                    print(f"  stall-mode: {'ON' if on else 'off'} "
+                          f"(wall mons ours={ours} theirs={theirs})")
             loop = asyncio.get_event_loop()
             lead_idx, _, matrix = await loop.run_in_executor(
                 None, lambda: pick_leads(self._team_paste, opp_paste,
@@ -607,6 +646,8 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_new_battle(battle, lead=lead)
             return order
         except Exception as e:
+            if self._stall_mode:
+                pe.set_stall_mode(False)   # fail safe: no mode on error
             if self._verbose:
                 print(f"  preview pick failed ({e!r}); using paste order")
             self._airi_new_battle(battle)
@@ -1643,6 +1684,11 @@ async def main():
     parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
                         help="PS-curated + replay-observed set tiers; 'off' "
                              "reproduces the pure chaos config (ab9 baseline)")
+    parser.add_argument("--stall-mode", choices=["on", "off"], default="off",
+                        help="wall-war archetype mode: at preview, if BOTH "
+                             "teams have >=4 recovery-move mons, activate the "
+                             "stall eval profile (synergy terms + doubled "
+                             "recovery-PP tax) for that battle")
     parser.add_argument("--stochastic", choices=["on", "off"], default="on",
                         help="sample moves among near-ties (75%% rule) and "
                              "leads among maximin near-ties; 'off' = argmax")
@@ -1766,6 +1812,7 @@ async def main():
         dump_states_path=args.dump_states,
         team_archive_index=args.team_archive,
         set_samples=args.set_samples,
+        stall_mode=args.stall_mode == "on",
         data_tiers=args.data_tiers == "on",
         stochastic=args.stochastic == "on",
         adaptive=args.adaptive == "on",
