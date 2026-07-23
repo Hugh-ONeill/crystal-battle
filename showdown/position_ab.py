@@ -55,6 +55,9 @@ def run_config(name, env_base, env_off, args):
     env = {**os.environ}
     env.pop("CB_EVAL_BASELINE", None)
     env.pop("CB_EVAL_OFF", None)
+    if "=" in name:            # generic env config, e.g. CB_SWITCH_TAX=10
+        k, v = name.split("=", 1)
+        env[k] = v
     if env_base:
         env["CB_EVAL_BASELINE"] = env_base
     if env_off:
@@ -94,6 +97,8 @@ def main():
             continue
         if c == "base":
             configs.append(("base", "1", ""))
+        elif "=" in c:
+            configs.append((c, "", ""))
         else:
             configs.append((c, "", c.replace("+", ",")))
 
