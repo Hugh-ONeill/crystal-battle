@@ -330,12 +330,21 @@ class Gen9Translator:
     def _resolve_archive(self, battle):
         """Full-set team archive tier (team_archive.py): match the previewed
         roster against the metamon corpus and draw ONE correlated candidate
-        team per translated world, filtered by everything revealed so far.
-        Joint sets for revealed AND unrevealed mons — items/EVs included,
-        which the replay archetype tier structurally cannot supply."""
+        team, filtered by everything revealed so far. Joint sets for
+        revealed AND unrevealed mons — items/EVs included, which the replay
+        archetype tier structurally cannot supply.
+
+        WORLD 0 ONLY (v2): the v1 wiring fired in every world and was gated
+        OUT at accept-h0 — both sampled worlds drew correlated archive
+        candidates, so plausible-but-wrong details were wrong the SAME way
+        in both worlds (unmergeable), and the speed-pessimistic hedge world
+        silently lost its anti-scarf insurance. Keying on _prefer_ps makes
+        the archive replace exactly the curated-PS world and nothing else —
+        the series-10 one-joint-world-plus-one-chaos-world rule, applied at
+        this tier."""
         self._archive_team = None
         arch = getattr(self, "_archive", None)
-        if arch is None:
+        if arch is None or not getattr(self, "_prefer_ps", True):
             return
         species = [m.species for m in
                    getattr(battle, "teampreview_opponent_team", None) or []]
