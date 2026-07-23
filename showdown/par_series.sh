@@ -164,6 +164,12 @@ fi
 lane=1
 while [ "$lane" -le "$LANES" ]; do
   (
+    # Stagger lane starts: mirror arms launched in lockstep reach the same
+    # game state at the same wall-clock moment across all lanes — at
+    # 2026-07-23 17:50:08 all TEN foul-play lanes froze on (plausibly) the
+    # same pathological position simultaneously and timer-forfeited at once,
+    # fabricating 10 wins in one series. A few seconds of skew decorrelates.
+    sleep $(( (lane - 1) * 3 ))
     OURS_LOG="$CB/showdown/bench/${NAME}_L${lane}_ours.log"
     FP_LOG="$CB/showdown/bench/${NAME}_L${lane}_foulplay.log"
     : > "$OURS_LOG"; : > "$FP_LOG"
