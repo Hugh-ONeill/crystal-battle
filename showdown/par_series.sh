@@ -45,20 +45,35 @@
 set -u
 CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
-SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""
+SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""
 while :; do
   case "${1:-}" in
     --suite) SUITE_DIR="$2"; shift 2 ;;
+    --fp-suite) FP_SUITE_DIR="$2"; shift 2 ;;
     --sprt)  SPRT_P0="$2"; SPRT_P1="$3"; shift 3 ;;
     *) break ;;
   esac
 done
+# A missing --suite silently ran EVERY game on the single legacy sample team,
+# which contaminated the 2026-07-23 phgate/recert/syngate series (single-team
+# level presented as suite level; game-length claims confounded). Make that
+# an explicit choice, never a default.
+if [ -z "$SUITE_DIR" ] && [ "${CB_ALLOW_LEGACY_TEAM:-0}" != "1" ]; then
+  echo "FATAL: no --suite given — this runs every game on the ONE legacy" \
+       "sample team (suite dirs live in showdown/teams/). Set" \
+       "CB_ALLOW_LEGACY_TEAM=1 if that is really what you want." >&2
+  exit 1
+fi
 # MUST be absolute: each game cd's into $FP to run foul-play, so a relative
 # suite path stops resolving from game 2 onward — which silently produced an
 # empty team name and killed every game after the first in each lane.
 case "$SUITE_DIR" in
   ""|/*) ;;
   *) SUITE_DIR="$CB_ABS/$SUITE_DIR" ;;
+esac
+case "$FP_SUITE_DIR" in
+  ""|/*) ;;
+  *) FP_SUITE_DIR="$CB_ABS/$FP_SUITE_DIR" ;;
 esac
 
 export PYTHONUNBUFFERED=1
@@ -81,6 +96,14 @@ if [ -n "$SUITE_DIR" ]; then
   mkdir -p "$FP/teams/teams/gen9/ou/suite"
 else
   N_TEAMS=0
+fi
+# --fp-suite: foul-play draws from a SECOND dir (same global-index rotation)
+# instead of mirroring our team — for cross-matchup arms (e.g. our stall vs
+# their offense). Without it, mirror behavior is unchanged.
+if [ -n "$FP_SUITE_DIR" ]; then
+  FP_N_TEAMS=$(ls "$FP_SUITE_DIR"/*.txt | wc -l)
+else
+  FP_N_TEAMS=0
 fi
 
 QUEUE="$CB/showdown/bench/${NAME}.queue"
@@ -179,8 +202,15 @@ while [ "$lane" -le "$LANES" ]; do
         # matter which lane happens to pull the game
         idx=$(( (g - 1) % N_TEAMS + 1 ))
         OUR_TEAM=$(ls "$SUITE_DIR"/*.txt | sort | sed -n "${idx}p")
-        BASE="G${g}_$(basename "$OUR_TEAM" .txt)"
-        cp "$OUR_TEAM" "$FP/teams/teams/gen9/ou/suite/$BASE"
+        if [ "$FP_N_TEAMS" -gt 0 ]; then
+          fidx=$(( (g - 1) % FP_N_TEAMS + 1 ))
+          FP_SRC=$(ls "$FP_SUITE_DIR"/*.txt | sort | sed -n "${fidx}p")
+          BASE="G${g}_$(basename "$OUR_TEAM" .txt)_vs_$(basename "$FP_SRC" .txt)"
+          cp "$FP_SRC" "$FP/teams/teams/gen9/ou/suite/$BASE"
+        else
+          BASE="G${g}_$(basename "$OUR_TEAM" .txt)"
+          cp "$OUR_TEAM" "$FP/teams/teams/gen9/ou/suite/$BASE"
+        fi
         FP_TEAM="gen9/ou/suite/$BASE"
       else
         OUR_TEAM="$CB/showdown/teams/gen9ou_sample.txt"
