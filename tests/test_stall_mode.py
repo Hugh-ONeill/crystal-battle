@@ -26,14 +26,28 @@ OFFENSE_PASTE = "\n\n".join(
 
 class TestWallDetection(unittest.TestCase):
     def test_counts(self):
-        self.assertEqual(wall_mons(STALL_PASTE), 5)   # Gliscor has no recovery
+        # 5 recovery movers + Poison Heal Gliscor counts via ability
+        self.assertEqual(wall_mons(STALL_PASTE), 6)
         self.assertEqual(wall_mons(OFFENSE_PASTE), 0)
         self.assertEqual(wall_mons(None), 0)
         self.assertEqual(wall_mons(""), 0)
 
+    def test_ability_healers_count_without_recovery_moves(self):
+        paste = ("Slowking-Galar @ Choice Scarf\nAbility: Regenerator\n"
+                 "- Trick\n- Sludge Bomb")
+        self.assertEqual(wall_mons(paste), 1)
+
     def test_drains_do_not_count(self):
         paste = "Venusaur @ Leftovers\nAbility: Chlorophyll\n- Giga Drain"
         self.assertEqual(wall_mons(paste), 0)
+
+    def test_real_breadth_teams(self):
+        stall_b = open("showdown/teams/breadth/stall_bliss/"
+                       "19_blissey_c61578fd.txt").read()
+        offense = open("showdown/teams/breadth/offense/"
+                       "07_kommoo_offense.txt").read()
+        self.assertGreaterEqual(wall_mons(stall_b), 4)
+        self.assertLess(wall_mons(offense), 4)
 
 
 class TestEngineFlag(unittest.TestCase):

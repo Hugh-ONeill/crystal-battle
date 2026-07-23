@@ -350,21 +350,35 @@ RECOVERY_MOVE_IDS = {
 }
 
 
+# Ability-healers are walls without a recovery move: Scarf-Trick Glowking and
+# Poison Heal Gliscor read as 0 by moves alone (bit the first stallB_mode
+# launch — detection said ours=3 on a full stall team).
+WALL_ABILITIES = {"regenerator", "poisonheal"}
+
+
 def wall_mons(paste: str | None) -> int:
-    """Count mons in a showdown paste carrying at least one self-recovery
-    move. Both teams >= 4 is the wall-war (stall-mode) trigger: the breadth
-    suite scores stall 5-6, fat 3-4, balance 2-3, offense 0-1."""
+    """Count mons in a showdown paste that are walls: at least one
+    self-recovery move OR a healing ability. Both teams >= 4 is the wall-war
+    (stall-mode) trigger: the breadth suite scores stall 5-6, fat ~4,
+    balance 2-3, offense 0-1."""
     if not paste:
         return 0
     count = 0
     for block in paste.strip().split("\n\n"):
+        is_wall = False
         for line in block.split("\n"):
             line = line.strip()
             if line.startswith("-"):
                 mid = re.sub(r"[^a-z0-9]", "", line[1:].lower())
                 if mid in RECOVERY_MOVE_IDS:
-                    count += 1
+                    is_wall = True
                     break
+            elif line.lower().startswith("ability:"):
+                ab = re.sub(r"[^a-z0-9]", "", line.split(":", 1)[1].lower())
+                if ab in WALL_ABILITIES:
+                    is_wall = True
+                    break
+        count += is_wall
     return count
 
 
