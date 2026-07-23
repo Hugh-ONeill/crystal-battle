@@ -378,6 +378,7 @@ class Gen9PokeEnginePlayer(Player):
                  team_paste: str | None = None,
                  team_reload_path: str | None = None,
                  dump_states_path: str | None = None,
+                 team_archive_index: str | None = None,
                  preview_search_ms: int = 80,
                  set_samples: int = 2, data_tiers: bool = True,
                  stochastic: bool = True, adaptive: bool = False,
@@ -408,7 +409,8 @@ class Gen9PokeEnginePlayer(Player):
         self._desk_log_path = desk_log_path
         self._desk_reads: dict[str, list] = {}
         self._translator = Gen9Translator(set_source=set_source,
-                                          use_data_tiers=data_tiers)
+                                          use_data_tiers=data_tiers,
+                                          team_archive_index=team_archive_index)
         self._stochastic = stochastic
         self._choice_rng = random.Random()
         # concurrent search across sampled worlds (real parallelism once the
@@ -1614,6 +1616,10 @@ async def main():
     parser.add_argument("--team", default=None,
                         help="path to a Showdown paste file (required for "
                              "team formats)")
+    parser.add_argument("--team-archive", default=None,
+                        help="team-archive index JSON (team_archive.py "
+                             "build): full-set correlated opponent worlds "
+                             "from roster matches; off when unset")
     parser.add_argument("--dump-states", default=None,
                         help="JSONL file to append one (state, chosen move) "
                              "record per decision — position-pool collection "
@@ -1758,6 +1764,7 @@ async def main():
         team_paste=team,
         team_reload_path=args.team if team_reload else None,
         dump_states_path=args.dump_states,
+        team_archive_index=args.team_archive,
         set_samples=args.set_samples,
         data_tiers=args.data_tiers == "on",
         stochastic=args.stochastic == "on",

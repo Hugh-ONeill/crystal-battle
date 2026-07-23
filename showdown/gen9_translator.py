@@ -175,8 +175,14 @@ class Gen9Translator:
     _pokedex = None
 
     def __init__(self, elo_bucket: int = 1500, set_source: str | None = "monotype",
-                 use_data_tiers: bool = True):
+                 use_data_tiers: bool = True,
+                 team_archive_index: str | None = None):
         self._elo = elo_bucket
+        self._archive = None
+        self._archive_team = None
+        if team_archive_index:
+            from showdown.team_archive import TeamArchive
+            self._archive = TeamArchive(team_archive_index)
         # timer-variant ladder formats share their base tier's data files
         self._set_source = _base_format(set_source)
         # gates the PS-curated and replay-observed set tiers; off reproduces
@@ -193,6 +199,7 @@ class Gen9Translator:
         self._opp_type = None
         self._obs = None
         self._slots = {}
+        self._archive_team = None
 
     def set_opponent_book(self, profile: dict | None, min_obs: int = 2):
         """Scouting profile for the CURRENT opponent (showdown/scouting_book
@@ -320,6 +327,37 @@ class Gen9Translator:
             if match is not None and match.get("count", 0) >= 3:
                 self._archetype = match
 
+    def _resolve_archive(self, battle):
+        """Full-set team archive tier (team_archive.py): match the previewed
+        roster against the metamon corpus and draw ONE correlated candidate
+        team per translated world, filtered by everything revealed so far.
+        Joint sets for revealed AND unrevealed mons — items/EVs included,
+        which the replay archetype tier structurally cannot supply."""
+        self._archive_team = None
+        arch = getattr(self, "_archive", None)
+        if arch is None:
+            return
+        species = [m.species for m in
+                   getattr(battle, "teampreview_opponent_team", None) or []]
+        if len(species) != 6 and len(battle.opponent_team) == 6:
+            species = [m.species for m in battle.opponent_team.values()]
+        if len(species) != 6:
+            return
+        revealed = {}
+        for mon in battle.opponent_team.values():
+            obs = {"moves": {_normalize(m.id) for m in mon.moves.values()}}
+            item = getattr(mon, "item", None)
+            if item and item not in ("unknown_item",):
+                obs["item"] = _normalize(item)
+            ability = getattr(mon, "ability", None)
+            if ability:
+                obs["ability"] = _normalize(ability)
+            revealed[_normalize(mon.species)] = obs
+        try:
+            self._archive_team = arch.sample(species, revealed, rng=self._rng)
+        except Exception:
+            self._archive_team = None   # advisory tier; never fail a translation
+
     def _opp_set(self, species: str, known_moves: tuple[str, ...] = (),
                  known_item: str | None = None,
                  known_ability: str | None = None) -> dict | None:
@@ -340,6 +378,15 @@ class Gen9Translator:
             return None
 
         booked = self._book_set(species, known_moves)
+
+        # full-set archive tier: a correlated whole-team match beats every
+        # per-species source; the book (this exact opponent's observed
+        # behaviour) still overlays it
+        arch_team = getattr(self, "_archive_team", None)
+        if arch_team is not None:
+            s = arch_team.get(_normalize(species))
+            if s is not None:
+                return self._apply_book(dict(s), booked)
 
         if getattr(self, "_prefer_ps", True):
             ps_cand = self._ps_candidate(species, known_moves, known_item,
@@ -508,6 +555,7 @@ class Gen9Translator:
             except Exception:
                 pass  # refinement is advisory; never fail a translation
         self._resolve_archetype(battle)
+        self._resolve_archive(battle)
         side_one = self._my_side(battle)
         side_two = self._opp_side(battle)
         weather, weather_turns = self._weather(battle)
