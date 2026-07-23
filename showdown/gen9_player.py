@@ -1698,11 +1698,14 @@ async def main():
     parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
                         help="PS-curated + replay-observed set tiers; 'off' "
                              "reproduces the pure chaos config (ab9 baseline)")
-    parser.add_argument("--stall-mode", choices=["on", "off"], default="off",
+    parser.add_argument("--stall-mode", choices=["on", "off"], default="on",
                         help="wall-war archetype mode: at preview, if BOTH "
-                             "teams have >=4 recovery-move mons, activate the "
-                             "stall eval profile (synergy terms + doubled "
-                             "recovery-PP tax) for that battle")
+                             "teams have >=4 wall mons (recovery move or "
+                             "healing ability), activate the stall eval "
+                             "profile (synergy terms + doubled recovery-PP "
+                             "tax) for that battle. Default on since "
+                             "2026-07-23: suite non-regression accept-h1 at "
+                             "39.3%/214 and stallB mirror 10%->23.3%")
     parser.add_argument("--stochastic", choices=["on", "off"], default="on",
                         help="sample moves among near-ties (75%% rule) and "
                              "leads among maximin near-ties; 'off' = argmax")
