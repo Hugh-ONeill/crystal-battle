@@ -39,21 +39,51 @@
 # marathon at a low index delays the verdict but never distorts it.
 #
 # Usage: par_series.sh <name> <total_games> <lanes> [--suite DIR]
-#            [--sprt P0 P1] [our args...]
+#            [--sprt P0 P1] [--ab "VAR=v[ VAR2=v2]"] [--ab-sprt P0 P1]
+#            [our args...]
 #        (arg 2 is the TOTAL game count now, not games per lane)
+#
+# INTERLEAVED A/B (--ab). Games are dealt in PAIRS on the same suite team:
+# odd global index = arm A (baseline env), even = arm B (baseline + the --ab
+# spec). Each lane keeps TWO persistent workers (CBGen9L<k>A / CBGen9L<k>B)
+# because CB_* engine knobs are OnceLock-read once per process — process
+# isolation is the config isolation; no runtime setters needed. Any
+# run-scoped confound hits both arms alternately and cancels in the paired
+# difference: single-arm gates vs historical levels died three times in one
+# week (2026-07-22 x2, 2026-07-24 level step); this design is why. --ab-sprt
+# gates on the A-share of DISCORDANT pairs (paired_tally.py, dispense-order
+# pair prefix): H0 share<=P0 vs H1 share>=P1, 0.5 = no difference; accept-h1
+# reads "A better / B worse", accept-h0 the reverse. RAM: two workers per
+# lane at ~851MB each — size lanes to the box.
 # Tally: grep -c "^INFO     Winner: CBGen9" showdown/bench/<name>_L*_foulplay.log
 set -u
 CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
-SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""
+SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""; AB_ENV=""; AB_P0=""; AB_P1=""
 while :; do
   case "${1:-}" in
     --suite) SUITE_DIR="$2"; shift 2 ;;
     --fp-suite) FP_SUITE_DIR="$2"; shift 2 ;;
     --sprt)  SPRT_P0="$2"; SPRT_P1="$3"; shift 3 ;;
+    --ab)      AB_ENV="$2"; shift 2 ;;
+    --ab-sprt) AB_P0="$2"; AB_P1="$3"; shift 3 ;;
     *) break ;;
   esac
 done
+if [ -n "$AB_ENV" ]; then
+  if [ -n "$SPRT_P0" ]; then
+    echo "FATAL: --sprt and --ab are mutually exclusive; the A/B gate is --ab-sprt" >&2
+    exit 1
+  fi
+  if [ $((TOTAL % 2)) -ne 0 ]; then
+    echo "FATAL: --ab deals games in pairs; TOTAL must be even" >&2
+    exit 1
+  fi
+fi
+if [ -n "$AB_P0" ] && [ -z "$AB_ENV" ]; then
+  echo "FATAL: --ab-sprt without --ab" >&2
+  exit 1
+fi
 # A missing --suite silently ran EVERY game on the single legacy sample team,
 # which contaminated the 2026-07-23 phgate/recert/syngate series (single-team
 # level presented as suite level; game-length claims confounded). Make that
@@ -135,6 +165,20 @@ next_game() {
           exit 1 ;;
       esac
     fi
+    if [ -n "$AB_P0" ]; then
+      T=$("$CB/.venv/bin/python" "$CB/showdown/paired_tally.py" \
+          "$CB/showdown/bench" "$NAME") || T="0 0 0 0 0 0 0 0"
+      nA=$(echo "$T" | awk '{print $1}'); nB=$(echo "$T" | awk '{print $2}')
+      V=$("$CB/.venv/bin/python" "$CB/showdown/sprt.py" "$nA" "$nB" \
+          "$AB_P0" "$AB_P1" "${SPRT_ALPHA:-0.05}" "${SPRT_BETA:-0.05}")
+      case "$V" in
+        accept*)
+          P=$(echo "$T" | awk '{print $3}')
+          echo "$V on discordant pairs: A won $nA, B won $nB (pair prefix $P)" \
+              > "$QUEUE.verdict"
+          exit 1 ;;
+      esac
+    fi
     n=$(($(cat "$QUEUE") + 1))
     [ "$n" -gt "$TOTAL" ] && exit 1
     echo "$n" > "$QUEUE"
@@ -152,6 +196,24 @@ if [ -n "$SPRT_P0" ]; then
     echo "FATAL: cap $TOTAL < expected n $EN — this series likely cannot" \
          "conclude; raise the cap or set SPRT_FORCE=1" >&2
     exit 1
+  fi
+fi
+if [ -n "$AB_ENV" ]; then
+  echo "    interleaved A/B: arm A = baseline, arm B = env '$AB_ENV'" \
+       "(pairs share a team; odd game = A, even = B)"
+  if [ -n "$AB_P0" ]; then
+    EN=$("$CB/.venv/bin/python" "$CB/showdown/sprt.py" --expected-n \
+         "$AB_P0" "$AB_P1" "${SPRT_ALPHA:-0.05}" "${SPRT_BETA:-0.05}") || exit 1
+    # discordant rate assumed 2*L*(1-L) at ambient level L~0.25 -> 0.375
+    NEED=$(awk -v e="$EN" 'BEGIN{printf "%d", e / 0.375 + 1}')
+    echo "    paired SPRT gate: H0 A-share<=$AB_P0 vs H1 >=$AB_P1 on" \
+         "discordant pairs (0.5 = no difference); expected ~$EN discordant" \
+         "= ~$NEED pairs = ~$((NEED * 2)) games at 0.375 discordance"
+    if [ $((TOTAL / 2)) -lt "$NEED" ] && [ "${SPRT_FORCE:-0}" != "1" ]; then
+      echo "FATAL: cap $((TOTAL / 2)) pairs < ~$NEED needed — raise the cap" \
+           "or set SPRT_FORCE=1" >&2
+      exit 1
+    fi
   fi
 fi
 
@@ -172,30 +234,45 @@ while [ "$lane" -le "$LANES" ]; do
     sleep $(( (lane - 1) * 3 ))
     OURS_LOG="$CB/showdown/bench/${NAME}_L${lane}_ours.log"
     FP_LOG="$CB/showdown/bench/${NAME}_L${lane}_foulplay.log"
-    : > "$OURS_LOG"; : > "$FP_LOG"
-    US="CBGen9L${lane}"; THEM="FPSpar1L${lane}"
+    : > "$FP_LOG"
+    THEM="FPSpar1L${lane}"
+    if [ -n "$AB_ENV" ]; then
+      : > "$CB/showdown/bench/${NAME}_L${lane}A_ours.log"
+      : > "$CB/showdown/bench/${NAME}_L${lane}B_ours.log"
+    else
+      : > "$OURS_LOG"
+    fi
     # ONE persistent worker per lane (851MB of replay sets/priors/nets and
     # ~4s of startup per process — load once, play the whole lane). The team
-    # rotates per game by swapping this fixed file; --team-reload makes the
+    # rotates per game by swapping a fixed file; --team-reload makes the
     # worker re-read it at every challenge accept (/utm) and team preview.
-    LANE_TEAM="$CB/showdown/bench/${NAME}_L${lane}.team"
-    OURS_PID=""
-    starts=0
-    start_worker() {
+    # Under --ab there are TWO workers (arm suffix A/B in username, team
+    # file, and log); arm B's process carries $AB_ENV baked into its env
+    # since CB_* knobs are OnceLock-read once per process. Single-arm state
+    # lives in the A slots (empty suffix, ${arm:-A}).
+    OURS_PID_A=""; OURS_PID_B=""; starts_A=0; starts_B=0
+    start_worker() {  # $1 = arm suffix: "" (single), "A", or "B"
+      arm="$1"; shift
       cd "$CB"
-      .venv/bin/python showdown/gen9_player.py --local --username "$US" \
-          --mode accept --format gen9ou --team "$LANE_TEAM" --team-reload on \
+      W_LOG="$CB/showdown/bench/${NAME}_L${lane}${arm}_ours.log"
+      W_TEAM="$CB/showdown/bench/${NAME}_L${lane}${arm}.team"
+      W_ENV=""
+      [ "$arm" = "B" ] && W_ENV="$AB_ENV"
+      env $W_ENV .venv/bin/python showdown/gen9_player.py --local \
+          --username "CBGen9L${lane}${arm}" \
+          --mode accept --format gen9ou --team "$W_TEAM" --team-reload on \
           --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
           $CB_CAPS --n-games 999 --log-level 20 \
-          "$@" >> "$OURS_LOG" 2>&1 &
-      OURS_PID=$!
+          "$@" >> "$W_LOG" 2>&1 &
+      eval "OURS_PID_${arm:-A}=$!"
       # Readiness probe instead of a blind sleep 5: the worker logs
       # "Starting listening" ~1s in and is logged in ms later; foul-play
       # then takes ~3s to boot before it challenges, which is grace enough.
       # The log persists across restarts, so compare the COUNT to launches.
-      starts=$((starts + 1))
+      eval "starts_${arm:-A}=\$((starts_${arm:-A} + 1))"
+      eval "want=\$starts_${arm:-A}"
       i=0
-      while [ "$(grep -c "Starting listening" "$OURS_LOG")" -lt "$starts" ] \
+      while [ "$(grep -c "Starting listening" "$W_LOG")" -lt "$want" ] \
             && [ "$i" -lt 60 ]; do
         sleep 0.25; i=$((i + 1))
       done
@@ -203,13 +280,23 @@ while [ "$lane" -le "$LANES" ]; do
     }
     while g=$(next_game); do
       cd "$CB"   # each iteration starts from a known cwd (we cd to $FP below)
+      if [ -n "$AB_ENV" ]; then
+        # pairs share a team; odd = arm A, even = arm B
+        ridx=$(( (g + 1) / 2 ))
+        if [ $((g % 2)) -eq 1 ]; then ARM="A"; else ARM="B"; fi
+      else
+        ridx=$g; ARM=""
+      fi
+      US="CBGen9L${lane}${ARM}"
+      LANE_TEAM="$CB/showdown/bench/${NAME}_L${lane}${ARM}.team"
+      CUR_LOG="$CB/showdown/bench/${NAME}_L${lane}${ARM}_ours.log"
       if [ "$N_TEAMS" -gt 0 ]; then
-        # rotate the suite by global index so coverage stays balanced no
-        # matter which lane happens to pull the game
-        idx=$(( (g - 1) % N_TEAMS + 1 ))
+        # rotate the suite by rotation index (game, or pair under --ab) so
+        # coverage stays balanced no matter which lane pulls the game
+        idx=$(( (ridx - 1) % N_TEAMS + 1 ))
         OUR_TEAM=$(ls "$SUITE_DIR"/*.txt | sort | sed -n "${idx}p")
         if [ "$FP_N_TEAMS" -gt 0 ]; then
-          fidx=$(( (g - 1) % FP_N_TEAMS + 1 ))
+          fidx=$(( (ridx - 1) % FP_N_TEAMS + 1 ))
           FP_SRC=$(ls "$FP_SUITE_DIR"/*.txt | sort | sed -n "${fidx}p")
           BASE="G${g}_$(basename "$OUR_TEAM" .txt)_vs_$(basename "$FP_SRC" .txt)"
           cp "$FP_SRC" "$FP/teams/teams/gen9/ou/suite/$BASE"
@@ -223,9 +310,10 @@ while [ "$lane" -le "$LANES" ]; do
         BASE="legacy_default"; FP_TEAM="gen9/ou/sample_legal"
       fi
       cp "$OUR_TEAM" "$LANE_TEAM"
-      echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$OURS_LOG"
+      echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$CUR_LOG"
       echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$FP_LOG"
-      [ -z "$OURS_PID" ] && start_worker "$@"
+      eval "curpid=\$OURS_PID_${ARM:-A}"
+      [ -z "$curpid" ] && start_worker "$ARM" "$@"
       cd "$FP"
       timeout "$PER_GAME_TIMEOUT" .venv/bin/python run.py \
           --websocket-uri ws://localhost:8000/showdown/websocket \
@@ -238,17 +326,22 @@ while [ "$lane" -le "$LANES" ]; do
         # (max_concurrent_battles=1 would wedge every later game in the
         # lane) — restart it for a clean slate. Also self-heals a crashed
         # worker: foul-play's unanswered challenge times out and lands here.
-        echo "=== lane $lane game $g TIMED OUT; restarting worker ===" >> "$OURS_LOG"
-        kill "$OURS_PID" 2>/dev/null
-        wait "$OURS_PID" 2>/dev/null
-        OURS_PID=""
+        echo "=== lane $lane game $g TIMED OUT; restarting worker ===" >> "$CUR_LOG"
+        eval "curpid=\$OURS_PID_${ARM:-A}"
+        kill "$curpid" 2>/dev/null
+        wait "$curpid" 2>/dev/null
+        eval "OURS_PID_${ARM:-A}=''"
       fi
     done
-    if [ -n "$OURS_PID" ]; then
-      kill "$OURS_PID" 2>/dev/null
-      wait "$OURS_PID" 2>/dev/null
-    fi
-    rm -f "$LANE_TEAM"
+    for p in "$OURS_PID_A" "$OURS_PID_B"; do
+      if [ -n "$p" ]; then
+        kill "$p" 2>/dev/null
+        wait "$p" 2>/dev/null
+      fi
+    done
+    rm -f "$CB/showdown/bench/${NAME}_L${lane}.team" \
+          "$CB/showdown/bench/${NAME}_L${lane}A.team" \
+          "$CB/showdown/bench/${NAME}_L${lane}B.team"
   ) &
   lane=$((lane + 1))
 done
@@ -265,6 +358,25 @@ if [ -n "$SPRT_P0" ]; then
          "games in flight at the verdict)"
   else
     echo "    SPRT: inconclusive at the $TOTAL-game cap"
+  fi
+fi
+if [ -n "$AB_ENV" ]; then
+  T=$("$CB/.venv/bin/python" "$CB/showdown/paired_tally.py" \
+      "$CB/showdown/bench" "$NAME") || T="0 0 0 0 0 0 0 0"
+  set -- $T
+  nA=$1; nB=$2; PFX=$3; CPL=$4; wA=$5; lA=$6; wB=$7; lB=$8
+  pct() { [ $(($1 + $2)) -gt 0 ] && echo "$1 $2" \
+      | awk '{printf " (%.1f%%)", 100 * $1 / ($1 + $2)}'; }
+  echo "    arm A baseline:      ${wA}W-${lA}L$(pct "$wA" "$lA")"
+  echo "    arm B '$AB_ENV': ${wB}W-${lB}L$(pct "$wB" "$lB")"
+  echo "    discordant pairs (prefix $PFX of $CPL complete): A won $nA, B won $nB"
+  if [ -n "$AB_P0" ]; then
+    if [ -f "$QUEUE.verdict" ]; then
+      echo "    paired SPRT: $(cat "$QUEUE.verdict")"
+    else
+      echo "    paired SPRT: no detectable difference at the" \
+           "$((TOTAL / 2))-pair cap"
+    fi
   fi
 fi
 rm -f "$QUEUE" "$QUEUE.lock" "$QUEUE.verdict"
