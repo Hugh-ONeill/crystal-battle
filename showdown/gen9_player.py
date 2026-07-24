@@ -657,7 +657,9 @@ class Gen9PokeEnginePlayer(Player):
                 lead = list(battle.team.values())[lead_idx].species
             except Exception:
                 lead = None
-            self._airi_new_battle(battle, lead=lead)
+            self._airi_new_battle(
+                battle, lead=lead,
+                preview_text=(self._team_paste or "") + "\n" + (opp_paste or ""))
             return order
         except Exception as e:
             if self._stall_mode:
@@ -667,10 +669,13 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_new_battle(battle)
             return "/team 123456"
 
-    def _airi_new_battle(self, battle, lead: str | None = None):
+    def _airi_new_battle(self, battle, lead: str | None = None,
+                         preview_text: str | None = None):
         """Emit the match-start event once per battle and reset the beat
         pipeline. Safe to call from every decision point: no-op after the
-        first call for a given battle tag."""
+        first call for a given battle tag. `preview_text` is a team-preview
+        blob (our paste + predicted opponent paste) the caster mines to warm
+        its mechanic-fact cache; a real AIRI ignores the extra field."""
         if self._airi is None or battle.battle_tag == self._airi_tag:
             return
         self._airi_tag = battle.battle_tag
@@ -685,7 +690,9 @@ class Gen9PokeEnginePlayer(Player):
             text = self._director.match_start(
                 battle.opponent_username, ours, theirs,
                 lead=_species_display(lead) if lead else None)
-            self._airi.send(text)
+            blob = (preview_text if preview_text is not None
+                    else (self._team_paste or ""))
+            self._airi.send(text, preview_text=blob)
             self._airi_last_sent = time.monotonic()
         except Exception:
             pass
