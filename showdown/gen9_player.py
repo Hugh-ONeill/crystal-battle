@@ -1705,7 +1705,7 @@ async def main():
                              "profile (synergy terms + doubled recovery-PP "
                              "tax) for that battle. Default on since "
                              "2026-07-23: suite non-regression accept-h1 at "
-                             "39.3%/214 and stallB mirror 10%->23.3%")
+                             "39.3%% of 214 and stallB mirror 10%%->23.3%%")
     parser.add_argument("--stochastic", choices=["on", "off"], default="on",
                         help="sample moves among near-ties (75%% rule) and "
                              "leads among maximin near-ties; 'off' = argmax")
