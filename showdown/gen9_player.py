@@ -1671,10 +1671,13 @@ async def main():
     parser.add_argument("--team", default=None,
                         help="path to a Showdown paste file (required for "
                              "team formats)")
-    parser.add_argument("--team-archive", default=None,
+    parser.add_argument("--team-archive",
+                        default=os.environ.get("CB_TEAM_ARCHIVE") or None,
                         help="team-archive index JSON (team_archive.py "
                              "build): full-set correlated opponent worlds "
-                             "from roster matches; off when unset")
+                             "from roster matches; off when unset. Env "
+                             "fallback CB_TEAM_ARCHIVE so par_series --ab "
+                             "can arm it per-process")
     parser.add_argument("--dump-states", default=None,
                         help="JSONL file to append one (state, chosen move) "
                              "record per decision — position-pool collection "
