@@ -54,18 +54,29 @@ class TestEngineFlag(unittest.TestCase):
     def tearDown(self):
         pe.set_stall_mode(False)
 
-    def test_flag_activates_synergy_terms(self):
+    def test_flag_applies_context_weights(self):
+        """Since the synergy promotion (facts always-on), the mode's
+        observable effect is the context weights — here, TOXIC_ON_WALL
+        repricing a badly poisoned recovery-carrying mon."""
         import json
         recs = (json.loads(l) for l in
                 open("showdown/bench/pool_positions.jsonl"))
         state = None
+        ability_exempt = {"POISONHEAL", "MAGICGUARD", "GUTS", "MARVELSCALE",
+                          "QUICKFEET", "TOXICBOOST"}
+        recovery = {"RECOVER", "ROOST", "MOONLIGHT", "SOFTBOILED",
+                    "SLACKOFF", "REST"}
         for r in recs:
             s = pe.State.from_string(r["state"])
-            if any(str(p.ability) == "REGENERATOR" and 0 < p.hp < p.maxhp
-                   for p in s.side_one.pokemon):
-                state = r["state"]
+            for side in (s.side_one, s.side_two):
+                for p in side.pokemon:
+                    if (str(p.status) == "TOXIC"
+                            and str(p.ability) not in ability_exempt
+                            and any(str(m.id) in recovery for m in p.moves)):
+                        state = r["state"]
+            if state:
                 break
-        self.assertIsNotNone(state, "no damaged-Regenerator state in pool")
+        self.assertIsNotNone(state, "no tox'd wall state in pool")
         base = pe.evaluate(pe.State.from_string(state))
         pe.set_stall_mode(True)
         on = pe.evaluate(pe.State.from_string(state))
