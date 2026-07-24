@@ -726,6 +726,21 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    def _active_ability(self, display_name: str | None,
+                        side: str) -> str | None:
+        """The single KNOWN ability id of an active mon, for PRISM fact
+        injection — or None when it's ambiguous (an unrevealed opponent has
+        several dex candidates). Only a definite ability is safe to hand the
+        desk as fact; a guess is exactly the hallucination this is fixing.
+        Our own mons always resolve; an opponent's only after it's revealed."""
+        if not display_name:
+            return None
+        try:
+            abils = self._ability_lookup(display_name, side)
+        except Exception:
+            return None
+        return next(iter(abils)) if len(abils) == 1 else None
+
     def _ability_lookup(self, display_name: str, side: str | None) -> set:
         """Possible normalized abilities for a mon, for the director's
         status-synergy read. Our own mons resolve to their single KNOWN
@@ -811,12 +826,16 @@ class Gen9PokeEnginePlayer(Player):
 
             # HUD without `value`: the overlay holds the last momentum reading
             # instead of snapping the meter to center on an out-of-band beat
+            me_disp = _species_display(me.species) if me else None
+            opp_disp = _species_display(opp.species) if opp else None
             self._airi.send(text, beats=[asdict(beat)], hud={
                 "turn": battle.turn,
-                "us": _species_display(me.species) if me else None,
+                "us": me_disp,
                 "us_hp": hp(me),
-                "them": _species_display(opp.species) if opp else None,
+                "us_ability": self._active_ability(me_disp, "us"),
+                "them": opp_disp,
                 "them_hp": hp(opp),
+                "them_ability": self._active_ability(opp_disp, "them"),
                 # 6 - faints, NOT sum(not-fainted-over-revealed): opponent_team
                 # only holds REVEALED mons, so the latter undercounts them_alive
                 # early (read 1 when 1 mon was revealed) and the tracker dipped
@@ -888,6 +907,12 @@ class Gen9PokeEnginePlayer(Player):
                     hud={"turn": ctx.turn, "value": round(ctx.value, 4),
                          "us": ctx.me_name, "us_hp": ctx.me_hp,
                          "them": ctx.opp_name, "them_hp": ctx.opp_hp,
+                         # active abilities (single-known only) so PRISM
+                         # reasons from the REAL ability, not a guess from
+                         # the beat text — the caster injects if curated
+                         "us_ability": self._active_ability(ctx.me_name, "us"),
+                         "them_ability": self._active_ability(
+                             ctx.opp_name, "them"),
                          "us_alive": 6 - len(ctx.ours_fainted),
                          "them_alive": 6 - len(ctx.theirs_fainted)})
                 self._airi_last_sent = time.monotonic()

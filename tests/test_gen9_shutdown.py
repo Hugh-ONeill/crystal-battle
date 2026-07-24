@@ -56,6 +56,24 @@ def test_state_enum_has_closed():
     assert State.CLOSED.name == "CLOSED"
 
 
+def test_active_ability_single_known_only():
+    """Only a DEFINITE ability is handed to the caster for fact injection:
+    our own mon resolves to one; an unrevealed opponent (several dex
+    candidates) stays None so PRISM is never fed a guess as fact."""
+    from showdown.gen9_player import Gen9PokeEnginePlayer as P
+    fake = SimpleNamespace(
+        _ability_lookup=lambda name, side: (
+            {"goodasgold"} if side == "us" else {"levitate", "clearbody"}))
+    assert P._active_ability(fake, "Gholdengo", "us") == "goodasgold"
+    assert P._active_ability(fake, "Unrevealed", "them") is None  # ambiguous
+    assert P._active_ability(fake, None, "us") is None
+
+    def boom(name, side):
+        raise RuntimeError("dex miss")
+    assert P._active_ability(
+        SimpleNamespace(_ability_lookup=boom), "X", "us") is None
+
+
 if __name__ == "__main__":
     fns = [(n, f) for n, f in sorted(globals().items())
            if n.startswith("test_") and callable(f)]
