@@ -1269,6 +1269,7 @@ class Gen9PokeEnginePlayer(Player):
         solved = self._try_endgame_solver(battle, states[0])
         if solved is not None:
             self._reuse_handle = None   # solver owns the endgame; a stale
+            self._emit_telem(battle, [], ms, tag="endgame")
             return solved               # tree must never advance past it
         for i in range(1, k):
             rng = random.Random()
@@ -1294,7 +1295,9 @@ class Gen9PokeEnginePlayer(Player):
         if self._tree_reuse and k == 1 and \
                 not (use_value and self._value_net is not None):
             try:
-                return [self._reuse_search(battle, states[0], ms, opp_priors)]
+                return self._emit_telem(
+                    battle, [self._reuse_search(battle, states[0], ms,
+                                                opp_priors)], ms, tag="reuse")
             except BaseException as e:
                 self._reuse_handle = None
                 if self._verbose:
@@ -1303,9 +1306,31 @@ class Gen9PokeEnginePlayer(Player):
         elif self._tree_reuse and k != 1:
             self._reuse_handle = None   # multi-world turn: tree is stale
         if len(states) == 1:
-            return [self._search_one(states[0], ms, use_value, opp_priors)]
-        return list(self._search_pool.map(
-            lambda st: self._search_one(st, ms, use_value, opp_priors), states))
+            return self._emit_telem(
+                battle, [self._search_one(states[0], ms, use_value,
+                                          opp_priors)], ms)
+        return self._emit_telem(
+            battle,
+            list(self._search_pool.map(
+                lambda st: self._search_one(st, ms, use_value, opp_priors),
+                states)),
+            ms)
+
+    def _emit_telem(self, battle, results, ms, tag="search"):
+        """One always-on log line per search: turn, per-world budget, world
+        count, summed raw MCTS iterations. This is the in-situ search-depth
+        record the Jul-23 level-step forensics lacked — evals, throughput,
+        driver, fp, teams, server, and clock were all reconstructable after
+        the fact, but per-lane search quality during the runs was not.
+        Returns `results` so call sites can emit-and-return in one step;
+        never raises (telemetry must not cost a turn)."""
+        try:
+            visits = sum(getattr(r, "total_visits", 0) or 0 for r in results)
+            print(f"TELEM T{getattr(battle, 'turn', '?')} ms={ms} "
+                  f"k={len(results)} visits={visits} tag={tag}", flush=True)
+        except Exception:
+            pass
+        return results
 
     def _opponent_priors(self, battle):
         """(move_prob_dict, suppress_tera) for the opponent's ACTIVE mon from
