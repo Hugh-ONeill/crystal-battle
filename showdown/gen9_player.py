@@ -1682,6 +1682,37 @@ class ReloadingTeambuilder(Teambuilder):
         return self.join_team(self.parse_showdown_team(self._path.read_text()))
 
 
+async def _run_player_mode(player, args, parser):
+    """Run the chosen connect mode to completion (n_games)."""
+    if args.mode == "challenge":
+        if not args.user_to_challenge:
+            parser.error("--mode challenge requires --user-to-challenge")
+        await player.send_challenges(args.user_to_challenge,
+                                     n_challenges=args.n_games)
+    elif args.mode == "ladder":
+        await player.ladder(args.n_games)
+    else:
+        await player.accept_challenges(None, args.n_games)
+
+
+async def _ws_closed_watchdog(player, interval: float = 5.0):
+    """Return once the Showdown websocket is gone.
+
+    poke-env's listen() SWALLOWS an abnormal close — a 1011 keepalive-ping
+    timeout is caught by its bare `except Exception` and only logged — then
+    just stops receiving. accept_challenges()/ladder() then wait forever on
+    battles that can never post their final message, so the process HANGS with
+    the last search's MCTS trees resident (measured this session: ~5-6 GB
+    leaked per hung run, swap exhaustion, OOM of the next launch). Polling the
+    socket state lets main() notice the dead connection and shut down."""
+    while True:
+        await asyncio.sleep(interval)
+        ws = getattr(getattr(player, "ps_client", None), "websocket", None)
+        state = getattr(ws, "state", None)
+        if state is not None and getattr(state, "name", "") == "CLOSED":
+            return
+
+
 async def main():
     parser = argparse.ArgumentParser(description="gen9 poke-engine live player")
     parser.add_argument("--local", action="store_true",
@@ -1907,15 +1938,32 @@ async def main():
     if bridge is not None:
         await bridge.start()
 
-    if args.mode == "challenge":
-        if not args.user_to_challenge:
-            parser.error("--mode challenge requires --user-to-challenge")
-        await player.send_challenges(args.user_to_challenge,
-                                     n_challenges=args.n_games)
-    elif args.mode == "ladder":
-        await player.ladder(args.n_games)
-    else:
-        await player.accept_challenges(None, args.n_games)
+    # Race the connect mode against a socket watchdog: if the websocket dies
+    # mid-battle, poke-env leaves the mode coroutine hanging forever (see
+    # _ws_closed_watchdog), so we detect the dead socket and bail instead of
+    # wedging the process with its search memory resident.
+    try:
+        mode = asyncio.ensure_future(_run_player_mode(player, args, parser))
+        watch = asyncio.ensure_future(_ws_closed_watchdog(player))
+        done, pending = await asyncio.wait(
+            {mode, watch}, return_when=asyncio.FIRST_COMPLETED)
+        for t in pending:
+            t.cancel()
+        await asyncio.gather(*pending, return_exceptions=True)
+        if watch in done:
+            print("Showdown connection lost; shutting down cleanly "
+                  "(poke-env swallows the socket error and would otherwise "
+                  "hang holding the search's memory)", flush=True)
+        elif mode.exception() is not None:
+            print(f"player mode ended with error: {mode.exception()!r}",
+                  flush=True)
+    finally:
+        # release the MCTS worker threads (and any in-flight tree) promptly so
+        # a dead-socket exit can never leave ~GBs of search state resident
+        try:
+            player._search_pool.shutdown(wait=False, cancel_futures=True)
+        except Exception:
+            pass
 
     print(f"finished: {player.n_won_battles}W / "
           f"{player.n_lost_battles}L / {player.n_tied_battles}T")
