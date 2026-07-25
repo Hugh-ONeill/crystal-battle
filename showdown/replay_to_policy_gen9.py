@@ -7,10 +7,13 @@ side actually took, keyed in the _norm_opt space the MCTS result strings use
 ("moveid", "moveid-tera", "switch species") so the net's output aligns with
 s2 priors with no translation layer.
 
-Output pickle:
-    [(winner_int, game_id, {p1,p2,ratings}, [{"state","s1","s2","kind"}, ...]), ...]
-Game identity is preserved for BY-GAME train/val splits — the by-position
-leak invented a 0.999 accuracy for the value net; never again.
+Output pickle: a STREAM of (winner_int, game_id, {p1,p2,ratings},
+[{"state","s1","s2","kind"}, ...]) tuples, one pickle.dump per game — the
+accumulate-then-dump layout peaked >11GB on the 48k-game corpus and died in
+its MemoryMax cage (2026-07-25); streaming holds one game at a time. Read
+with load_policy_games(). Game identity is preserved for BY-GAME train/val
+splits — the by-position leak invented a 0.999 accuracy for the value net;
+never again.
 
 Corpora: --replays dir of Showdown replay .json, or --jsonl (metamon dump /
 bench_logs_to_replays.py output). Same flags as replay_to_training_gen9.
@@ -38,18 +41,25 @@ def _label_to_winner(label: float) -> int:
     return {1.0: 1, 0.0: 2}.get(label, 0)
 
 
-def verify_sample(games, n, seed=0):
+def load_policy_games(path: str):
+    """Yield (winner, game_id, meta, records) tuples from a streamed pkl."""
+    with open(path, "rb") as fh:
+        while True:
+            try:
+                yield pickle.load(fh)
+            except EOFError:
+                return
+
+
+def verify_sample(picks):
     """Legality-check: rebuild each sampled state and test the recorded key
     against the engine's own root option strings (a 1ms search enumerates
     them in exactly the comparable to_string space). Reports the alignment
     rate — imperfect replay stepping shows up here, so know the number
     before training on the data."""
     import poke_engine as pe
-    rng = random.Random(seed)
-    records = [rec for _w, _gid, _m, recs in games for rec in recs]
-    if not records:
+    if not picks:
         return
-    picks = rng.sample(records, min(n, len(records)))
     ok = bad = unbuildable = 0
     mism = []
     for rec in picks:
@@ -120,8 +130,12 @@ def main() -> int:
     src = args.jsonl or args.replays
     print(f"extracting policy records from {src} (limit={args.limit or 'all'})")
 
-    games = []
-    n_turn = n_pivot = n_short = n_err = n_empty = 0
+    out_fh = open(args.out, "wb")
+    reservoir: list[dict] = []   # algorithm-R sample for --verify
+    seen_records = 0
+    rng = random.Random(args.seed)
+    n_games = n_turn = n_pivot = n_short = n_err = n_empty = 0
+    labels = 0
     t0 = time.time()
     for i, (name, data) in enumerate(_iter_replays()):
         try:
@@ -146,24 +160,33 @@ def main() -> int:
                     "p1_rating": pt.p1_rating, "p2_rating": pt.p2_rating}
         except Exception:
             pass
-        games.append((winner, name, meta, acts))
+        pickle.dump((winner, name, meta, acts), out_fh)
+        n_games += 1
         n_turn += sum(1 for a in acts if a["kind"] == "turn")
         n_pivot += sum(1 for a in acts if a["kind"] == "pivot")
+        for r in acts:
+            labels += sum(1 for k in (r["s1"], r["s2"]) if k)
+            if args.verify:
+                seen_records += 1
+                if len(reservoir) < args.verify:
+                    reservoir.append(r)
+                else:
+                    j = rng.randrange(seen_records)
+                    if j < args.verify:
+                        reservoir[j] = r
         if (i + 1) % 1000 == 0:
-            print(f"  {i + 1} replays, {len(games)} kept, "
-                  f"{n_turn + n_pivot} records, {time.time() - t0:.0f}s")
+            print(f"  {i + 1} replays, {n_games} kept, "
+                  f"{n_turn + n_pivot} records, {time.time() - t0:.0f}s",
+                  flush=True)
 
-    labels = sum(1 for _w, _g, _m, recs in games for r in recs
-                 for k in (r["s1"], r["s2"]) if k)
-    print(f"done in {time.time() - t0:.0f}s: {len(games)} games, "
+    out_fh.close()
+    print(f"done in {time.time() - t0:.0f}s: {n_games} games, "
           f"{n_turn} turn + {n_pivot} pivot records, {labels} action labels "
           f"(skipped: {n_short} short, {n_empty} empty, {n_err} err)")
-    with open(args.out, "wb") as fh:
-        pickle.dump(games, fh)
-    print(f"wrote {args.out}")
+    print(f"wrote {args.out} (streamed)")
 
     if args.verify:
-        verify_sample(games, args.verify, seed=args.seed)
+        verify_sample(reservoir)
     return 0
 
 
