@@ -53,6 +53,23 @@ def _has_queued_move(side) -> bool:
     return saved is not None and str(saved).upper() != "NONE"
 
 
+def _policy_key(action: dict | None, terad: bool) -> str | None:
+    """Normalized action key for policy training, in the same space the
+    MCTS result strings use after _norm_opt: "<moveid>", "<moveid>-tera",
+    or "switch <species>". None for absent/unparseable actions."""
+    if action is None:
+        return None
+    name = _normalize(action.get("name", ""))
+    if not name:
+        return None
+    atype = action.get("type")
+    if atype == "move":
+        return f"{name}-tera" if terad else name
+    if atype == "switch":
+        return f"switch {name}"
+    return None
+
+
 def _action_to_engine_str(action: dict | None, terad: bool) -> str | None:
     """Translate a parser action dict to the string poke-engine expects.
 
@@ -74,16 +91,24 @@ def _action_to_engine_str(action: dict | None, terad: bool) -> str | None:
 
 
 def replay_to_trajectory(replay_json: dict,
-                         chaos: ChaosStats) -> list[tuple[str, float, int]]:
+                         chaos: ChaosStats,
+                         record_actions: bool = False):
     """Produce (state_str, label, turns_remaining) tuples for a single replay.
 
     Returns [] if the replay is aborted, has no winner, or both teams cannot be
     reconstructed. On engine error mid-game, returns whatever was recorded up
     to that point.
+
+    With record_actions=True, returns (tuples, actions) where actions is a
+    list of {"state": pre_decision_state_str, "s1": key|None, "s2": key|None,
+    "kind": "turn"|"pivot"} — the opponent-policy training records. Keys are
+    in the _norm_opt space ("moveid", "moveid-tera", "switch species").
+    Pivot records only cover REPLAY-sourced pivots (real decisions), never
+    the _pick_alive_teammate divergence fallbacks.
     """
     traj = parse_replay(replay_json)
     if traj.aborted or traj.winner is None:
-        return []
+        return ([], []) if record_actions else []
 
     if traj.winner == "p1":
         label = 1.0
@@ -97,9 +122,10 @@ def replay_to_trajectory(replay_json: dict,
         team2_str = reconstruct_team(traj.p2_team, chaos, lead_species=traj.p2_lead)
         state = build_pe_state_gen9(team1_str, team2_str)
     except Exception:
-        return []
+        return ([], []) if record_actions else []
 
     states_recorded: list[str] = []
+    actions_recorded: list[dict] = []
     prev_str: str | None = None
     stuck = 0
 
@@ -123,6 +149,12 @@ def replay_to_trajectory(replay_json: dict,
         s2 = _action_to_engine_str(turn.get("p2_action"), turn.get("p2_terad", False)) or "none"
         if s1 == "none" and s2 == "none":
             break
+        if record_actions:
+            k1 = _policy_key(turn.get("p1_action"), turn.get("p1_terad", False))
+            k2 = _policy_key(turn.get("p2_action"), turn.get("p2_terad", False))
+            if k1 or k2:
+                actions_recorded.append({"state": state.to_string(),
+                                         "s1": k1, "s2": k2, "kind": "turn"})
 
         try:
             new_state = _step(state, s1, s2)
@@ -165,6 +197,15 @@ def replay_to_trajectory(replay_json: dict,
                 used_p2_pivot = True
             else:
                 ns2 = remaining_s2 if _has_queued_move(state.side_two) else "none"
+            if record_actions:
+                pk1 = f"switch {_normalize(turn['p1_pivot'])}" \
+                    if used_p1_pivot and turn.get("p1_pivot") else None
+                pk2 = f"switch {_normalize(turn['p2_pivot'])}" \
+                    if used_p2_pivot and turn.get("p2_pivot") else None
+                if pk1 or pk2:
+                    actions_recorded.append({"state": state.to_string(),
+                                             "s1": pk1, "s2": pk2,
+                                             "kind": "pivot"})
             try:
                 new_state = _step(state, ns1, ns2)
             except Exception:
@@ -218,4 +259,7 @@ def replay_to_trajectory(replay_json: dict,
         states_recorded.append(cur_str)
 
     n = len(states_recorded)
-    return [(s, label, n - i - 1) for i, s in enumerate(states_recorded)]
+    tuples = [(s, label, n - i - 1) for i, s in enumerate(states_recorded)]
+    if record_actions:
+        return tuples, actions_recorded
+    return tuples
