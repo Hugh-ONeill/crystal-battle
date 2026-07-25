@@ -392,6 +392,36 @@ def _lead_pool(matrix, epsilon: float = 0.08) -> list[int]:
     return [i for i, v in enumerate(row_mins) if v >= best - epsilon]
 
 
+def _lead_ev_blend(matrix, opp_species, lead_counts, games,
+                   full_weight_games: int = 20) -> list[float]:
+    """Row values blending worst-case with EXPECTED value under the
+    opponent's observed lead distribution (scouting book `leads` counter,
+    logged since the book existed but never consumed until 2026-07-25).
+
+    Weight = observation depth (games/full_weight_games, capped) x coverage
+    (fraction of observed lead mass on mons actually in today's roster) —
+    so a thin book, or a roster that doesn't overlap their habits, degrades
+    smoothly to the plain maximin row-min. Matrix columns follow
+    opp_species order (predicted_preview_paste preserves it)."""
+    row_mins = [min(row) for row in matrix]
+    norm: dict[str, int] = {}
+    for name, c in (lead_counts or {}).items():
+        k = _normalize(name)
+        norm[k] = norm.get(k, 0) + c
+    hits = [norm.get(_normalize(s), 0) for s in opp_species]
+    mass = sum(hits)
+    total = sum(norm.values())
+    if not mass or not total:
+        return row_mins
+    dist = [h / mass for h in hits]
+    weight = min(1.0, (games or 0) / full_weight_games) * (mass / total)
+    out = []
+    for row, mn in zip(matrix, row_mins):
+        ev = sum(p * v for p, v in zip(dist, row))
+        out.append((1.0 - weight) * mn + weight * ev)
+    return out
+
+
 def _select_choice(mappable, rng, sample: bool = True, keep_ratio: float = 0.75):
     """Pick from visit-ranked mappable candidates. Argmax is exploitable:
     foul-play keeps every move >= 75% of its best and samples — same rule
@@ -433,6 +463,7 @@ class Gen9PokeEnginePlayer(Player):
                  k_schedule: bool = False, k_max: int = 8,
                  k_ms_product: int = 2400,
                  scouting_book: str | None = None, book_min_obs: int = 2,
+                 preview_lead_ev: bool = False,
                  opp_priors: bool = True, tree_reuse: bool = False,
                  use_endgame_solver: bool = True, endgame_alive: int = 3,
                  endgame_depth: int = 12, endgame_nodes: int = 10_000,
@@ -508,6 +539,7 @@ class Gen9PokeEnginePlayer(Player):
         # _try_endgame_solver for the gates)
         # scouting book (per-opponent observed sets); silent no-op if absent
         self._book_min_obs = book_min_obs
+        self._preview_lead_ev = preview_lead_ev
         self._use_opp_priors = opp_priors
         self._opp_profile = None
         self._scouting = None
@@ -565,6 +597,10 @@ class Gen9PokeEnginePlayer(Player):
         self._airi_turn_pace = airi_turn_pace
         self._airi_tag: str | None = None
         self._airi_last_sent = 0.0
+        # the player's event loop, captured each turn — engine beats fired
+        # from the search WORKER thread marshal their Director access back
+        # onto it (call_soon_threadsafe) so the Director stays single-threaded
+        self._loop = None
         # beat pipeline: protocol -> scanner -> typed events -> director ->
         # composed beat text. All routing/gating logic lives in
         # beat_director (pure, offline-drivable — the gold-set eval runs
@@ -646,7 +682,21 @@ class Gen9PokeEnginePlayer(Player):
             lead_idx, _, matrix = await loop.run_in_executor(
                 None, lambda: pick_leads(self._team_paste, opp_paste,
                                          search_ms=self._preview_search_ms))
-            pool = _lead_pool(matrix)
+            if self._preview_lead_ev and self._opp_profile:
+                # counterpick lean: blend worst-case with EV under this
+                # opponent's OBSERVED lead habits; near-tie sampling below
+                # keeps us unreadable either way
+                vals = _lead_ev_blend(matrix, opp_species,
+                                      self._opp_profile.get("leads"),
+                                      self._opp_profile.get("games"))
+                best = max(vals)
+                pool = [i for i, v in enumerate(vals) if v >= best - 0.08]
+                lead_idx = max(range(len(vals)), key=lambda i: vals[i])
+                if self._verbose:
+                    print(f"  preview: lead-EV blend active "
+                          f"({self._opp_profile.get('games', 0)} book games)")
+            else:
+                pool = _lead_pool(matrix)
             if self._stochastic and len(pool) > 1:
                 lead_idx = self._choice_rng.choice(pool)
             order = _preview_order(lead_idx, 6)
@@ -786,16 +836,27 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
-    def _airi_engine_beat(self, kind: str, prose: str, **data):
+    def _airi_engine_beat(self, kind: str, prose: str, data: dict | None = None):
         """Fold an engine-internal signal (world collapse, endgame solved)
         into the director as a notable Event so it rides the NEXT decision
         like any protocol beat — a certainty gain narrated in the recap.
-        Runs from the search worker thread; observe() only appends to a
-        buffer the main-thread decide() drains after the search future is
-        awaited, so there's no concurrent director access. Best-effort;
-        never disturbs play."""
-        if self._airi is None:
+        Called from the search WORKER thread, so it MARSHALS the observe onto
+        the event loop (call_soon_threadsafe): the Director is single-threaded
+        there and the loop's per-message observe/scan runs concurrently with
+        this search, so touching it from the worker races and can wedge the
+        game. Best-effort; never disturbs play."""
+        if self._airi is None or self._loop is None:
             return
+        try:
+            self._loop.call_soon_threadsafe(
+                self._safe_observe, kind, prose, data or {})
+        except Exception:
+            pass
+
+    def _safe_observe(self, kind: str, prose: str, data: dict):
+        """Feed an engine Event to the director. Runs ON the event loop
+        (scheduled from the worker via _airi_engine_beat), so it never races
+        the loop's own observe/scan."""
         try:
             self._director.observe([Event(kind, prose, notable=True,
                                           data=data)])
@@ -983,6 +1044,9 @@ class Gen9PokeEnginePlayer(Player):
         return order
 
     async def _choose_move_impl(self, battle):
+        # capture the running loop so worker-thread engine beats can marshal
+        # their Director access back onto it (see _airi_engine_beat/_interject)
+        self._loop = asyncio.get_running_loop()
         if battle.battle_tag != self._last_tag:
             self._last_tag = battle.battle_tag
             self._translator.new_battle()
@@ -1827,6 +1891,11 @@ async def main():
                         help="revealed opponent moves required before world "
                              "collapse (protects the speed-pessimistic hedge "
                              "while key sets are ambiguous); 0 disables gate")
+    parser.add_argument("--preview-lead-ev", choices=["on", "off"],
+                        default="off",
+                        help="blend preview maximin with EV under the "
+                             "scouting book's observed lead habits "
+                             "(counterpick lean; off until A/B'd)")
     parser.add_argument("--scouting-book", default=SCOUTING_BOOK_DEFAULT,
                         help="per-opponent observed-set priors from "
                              "showdown/scouting_book.py; '' disables")
@@ -1936,6 +2005,7 @@ async def main():
         collapse_moves=args.collapse_moves,
         collapse_mons=args.collapse_mons,
         scouting_book=args.scouting_book or None,
+        preview_lead_ev=args.preview_lead_ev == "on",
         book_min_obs=args.book_min_obs,
         opp_priors=args.opp_priors == "on",
         tree_reuse=args.tree_reuse == "on",
