@@ -223,6 +223,39 @@ else
   CB_CAPS=""
 fi
 
+# CB_ZYGOTE=1: fork workers from one warm data image (worker_zygote.py)
+# instead of cold-loading ~1.1GB per worker (replay index 768M + chaos +
+# PS sets). Measured 2026-07-25: 16 cold workers = 17GB; zygote fleet
+# shares the read-only data COW. Env-flag A/B arms share one zygote (env
+# applied post-fork, before any engine OnceLock read); PYTHONPATH
+# build-shadow arms CANNOT (module already loaded pre-fork) and are refused.
+ZY_FIFO=""; ZY_PID=""; ZY_READY=""
+if [ "${CB_ZYGOTE:-0}" = "1" ]; then
+  case "$AB_ENV" in
+    *PYTHONPATH*)
+      echo "FATAL: CB_ZYGOTE=1 cannot serve PYTHONPATH build-shadow arms" \
+           "(the engine module is loaded pre-fork); unset CB_ZYGOTE" >&2
+      exit 1 ;;
+  esac
+  ZY_FIFO="$CB/showdown/bench/${NAME}.zyfifo"
+  ZY_READY="$CB/showdown/bench/${NAME}.zyready"
+  rm -f "$ZY_FIFO" "$ZY_READY"
+  "$CB/.venv/bin/python" "$CB/showdown/worker_zygote.py" --fifo "$ZY_FIFO" \
+      --ready-file "$ZY_READY" \
+      > "$CB/showdown/bench/${NAME}_zygote.log" 2>&1 &
+  ZY_PID=$!
+  i=0
+  while [ ! -s "$ZY_READY" ] && [ "$i" -lt 240 ]; do
+    sleep 0.5; i=$((i + 1))
+  done
+  if [ ! -s "$ZY_READY" ]; then
+    echo "FATAL: zygote not ready after 120s (see ${NAME}_zygote.log)" >&2
+    kill "$ZY_PID" 2>/dev/null
+    exit 1
+  fi
+  echo "    zygote up (pid $ZY_PID): workers fork from one warm data image"
+fi
+
 lane=1
 while [ "$lane" -le "$LANES" ]; do
   (
@@ -258,13 +291,38 @@ while [ "$lane" -le "$LANES" ]; do
       W_TEAM="$CB/showdown/bench/${NAME}_L${lane}${arm}.team"
       W_ENV=""
       [ "$arm" = "B" ] && W_ENV="$AB_ENV"
-      env $W_ENV .venv/bin/python showdown/gen9_player.py --local \
-          --username "CBGen9L${lane}${arm}" \
-          --mode accept --format gen9ou --team "$W_TEAM" --team-reload on \
-          --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
-          $CB_CAPS --n-games 999 --log-level 20 \
-          "$@" >> "$W_LOG" 2>&1 &
-      eval "OURS_PID_${arm:-A}=$!"
+      if [ -n "$ZY_FIFO" ]; then
+        # zygote spawn: request file in, child pid out
+        REQ="$CB/showdown/bench/${NAME}_L${lane}${arm}.zyreq"
+        RESP="$CB/showdown/bench/${NAME}_L${lane}${arm}.zyresp"
+        rm -f "$RESP"
+        {
+          echo "resp=$RESP"
+          echo "log=$W_LOG"
+          for kv in $W_ENV; do echo "env $kv"; done
+          for tok in --local --username "CBGen9L${lane}${arm}" --mode accept \
+              --format gen9ou --team "$W_TEAM" --team-reload on \
+              --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+              $CB_CAPS --n-games 999 --log-level 20; do
+            echo "arg $tok"
+          done
+          for tok in "$@"; do echo "arg $tok"; done
+        } > "$REQ"
+        echo "$REQ" > "$ZY_FIFO"
+        i=0
+        while [ ! -s "$RESP" ] && [ "$i" -lt 60 ]; do
+          sleep 0.25; i=$((i + 1))
+        done
+        eval "OURS_PID_${arm:-A}=\$(cat \"$RESP\" 2>/dev/null)"
+      else
+        env $W_ENV .venv/bin/python showdown/gen9_player.py --local \
+            --username "CBGen9L${lane}${arm}" \
+            --mode accept --format gen9ou --team "$W_TEAM" --team-reload on \
+            --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+            $CB_CAPS --n-games 999 --log-level 20 \
+            "$@" >> "$W_LOG" 2>&1 &
+        eval "OURS_PID_${arm:-A}=$!"
+      fi
       # Readiness probe instead of a blind sleep 5: the worker logs
       # "Starting listening" ~1s in and is logged in ms later; foul-play
       # then takes ~3s to boot before it challenges, which is grace enough.
@@ -346,6 +404,15 @@ while [ "$lane" -le "$LANES" ]; do
   lane=$((lane + 1))
 done
 wait
+
+if [ -n "$ZY_PID" ]; then
+  timeout 5 sh -c "echo shutdown > '$ZY_FIFO'" 2>/dev/null
+  sleep 0.5
+  kill "$ZY_PID" 2>/dev/null
+  rm -f "$ZY_FIFO" "$ZY_READY" \
+      "$CB"/showdown/bench/"${NAME}"_L*.zyreq \
+      "$CB"/showdown/bench/"${NAME}"_L*.zyresp
+fi
 
 W=$(tally CBGen9)
 L=$(tally FPSpar1)
