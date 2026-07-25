@@ -186,8 +186,20 @@ def cmd_train(args) -> int:
     va_idx = np.where(val_sel)[0]
     tr_idx = tr_idx[tr_idx < n]
     va_idx = va_idx[va_idx < n]
+
+    # RAM-resident working set: the X memmap (30.7GB for 100k human games)
+    # exceeds RAM, so per-batch disk gather starves the GPU (measured 1%
+    # util, 32min/epoch). Subsample train rows to --ram-cap and hold X as an
+    # fp16 RAM tensor; gather is then a fast in-memory index. --ram-cap 0
+    # keeps the old disk-memmap path. Subsampling is by ROW but the val set
+    # stays whole and by-GAME (never subsampled), so the split is honest.
+    ram = args.ram_cap > 0
+    if ram and len(tr_idx) > args.ram_cap:
+        tr_idx = np.random.default_rng(0).choice(tr_idx, args.ram_cap,
+                                                 replace=False)
     print(f"{n} samples, dim {dim}; by-game split "
-          f"{len(tr_idx)} train / {len(va_idx)} val")
+          f"{len(tr_idx)} train / {len(va_idx)} val"
+          + (f" (RAM-resident fp16)" if ram else ""))
 
     dev = torch.device(args.device)
     model = nn.Sequential(
@@ -198,7 +210,33 @@ def cmd_train(args) -> int:
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
     bit = torch.tensor([1 << i for i in range(N_CLASSES)], dtype=torch.int32)
 
-    def batches(idx, bs, shuffle):
+    ram_store = {}
+    if ram:
+        t_load = time.time()
+        for tag, idx in (("tr", tr_idx), ("va", va_idx)):
+            sidx = np.sort(idx)
+            ram_store[tag] = (
+                sidx,
+                torch.from_numpy(np.ascontiguousarray(X[sidx])).half(),
+                torch.from_numpy(y[sidx].astype(np.int64)),
+                torch.from_numpy(msk[sidx].astype(np.int32)),
+            )
+        gb = sum(v[1].nbytes for v in ram_store.values()) / 1073741824
+        print(f"loaded {gb:.1f}GB fp16 into RAM in {time.time()-t_load:.0f}s",
+              flush=True)
+
+    def batches(idx, bs, shuffle, tag=None):
+        if ram and tag is not None:
+            sidx, Xr, yr, mr = ram_store[tag]
+            pos = np.random.permutation(len(sidx)) if shuffle \
+                else np.arange(len(sidx))
+            for i in range(0, len(pos), bs):
+                p = pos[i:i + bs]
+                xb = Xr[p].float().to(dev)
+                yb = yr[p].to(dev)
+                legal = ((mr[p].unsqueeze(1) & bit.unsqueeze(0)) != 0).to(dev)
+                yield xb, yb, legal
+            return
         order = np.random.permutation(idx) if shuffle else idx
         for i in range(0, len(order), bs):
             sel = np.sort(order[i:i + bs])  # sorted memmap gather is faster
@@ -212,7 +250,7 @@ def cmd_train(args) -> int:
         model.train()
         t0 = time.time()
         tot = seen = 0.0
-        for xb, yb, legal in batches(tr_idx, args.batch, shuffle=True):
+        for xb, yb, legal in batches(tr_idx, args.batch, shuffle=True, tag="tr"):
             logits = model(xb).masked_fill(~legal, float("-inf"))
             loss = nn.functional.cross_entropy(logits, yb)
             opt.zero_grad()
@@ -224,7 +262,7 @@ def cmd_train(args) -> int:
         top1 = top3 = nll = 0.0
         probs_all, corr_all = [], []
         with torch.no_grad():
-            for xb, yb, legal in batches(va_idx, args.batch, shuffle=False):
+            for xb, yb, legal in batches(va_idx, args.batch, shuffle=False, tag="va"):
                 logits = model(xb).masked_fill(~legal, float("-inf"))
                 p = torch.softmax(logits, dim=1)
                 nll += float(nn.functional.cross_entropy(
@@ -270,6 +308,9 @@ def main() -> int:
     t.add_argument("--lr", type=float, default=3e-4)
     t.add_argument("--device", default="cuda")
     t.add_argument("--val-mod", type=int, default=20)
+    t.add_argument("--ram-cap", type=int, default=0,
+                   help="hold up to N train rows as an fp16 RAM tensor "
+                        "(fast gather); 0 = disk memmap. ~13GB per 2.4M rows")
     args = ap.parse_args()
     return cmd_featurize(args) if args.cmd == "featurize" else cmd_train(args)
 
