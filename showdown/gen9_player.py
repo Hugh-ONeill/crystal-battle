@@ -866,14 +866,26 @@ class Gen9PokeEnginePlayer(Player):
     def _airi_interject(self, battle, kind: str, prose: str):
         """Send a real-time, OUT-OF-BAND engine beat (the search pausing to
         think) with persona routing + a board HUD so the panel doesn't blank
-        mid-turn. Unlike _airi_engine_beat this speaks immediately, before
-        the move resolves — that's the whole point of a 'hold on' stall.
-        Does NOT reset the turn-pacing clock (_airi_last_sent), so the turn
-        recap that follows the pause still fires on its own schedule. Runs
-        from the search worker thread; AiriBridge.send is the same call the
-        raw escalation note already made. Best-effort; never disturbs play."""
-        if self._airi is None:
+        mid-turn. Unlike the recap, this speaks immediately, before the move
+        resolves — the whole point of a 'hold on' stall. Called from the
+        search WORKER thread, so it MARSHALS all work (Director + battle reads
+        + send) onto the event loop (call_soon_threadsafe): the Director is
+        single-threaded there and the loop's per-message observe/scan runs
+        concurrently with this search, so touching it off-loop races and can
+        wedge the game. The loop is free while it awaits the search, so the
+        beat still lands in near-real-time. Best-effort; never disturbs play."""
+        if self._airi is None or self._loop is None:
             return
+        try:
+            self._loop.call_soon_threadsafe(
+                self._do_interject, battle, kind, prose)
+        except Exception:
+            pass
+
+    def _do_interject(self, battle, kind: str, prose: str):
+        """The interject body — runs ON the event loop (scheduled by
+        _airi_interject) so Director + battle access is single-threaded. Does
+        NOT reset _airi_last_sent, so the turn recap still fires on schedule."""
         try:
             composed = self._director.interject(kind, battle.turn, prose)
             if composed is None:
@@ -1327,7 +1339,7 @@ class Gen9PokeEnginePlayer(Player):
             battle._cb_solver_announced = True
             self._airi_engine_beat("endgame_solved",
                                    endgame_solved_prose(winp),
-                                   win_prob=round(winp, 3))
+                                   {"win_prob": round(winp, 3)})
         fake = SimpleNamespace(move_choice=p1_act, visits=1_000_000,
                                total_score=winp * 1_000_000)
         return [SimpleNamespace(side_one=[fake])]
