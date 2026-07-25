@@ -301,7 +301,9 @@ def cmd_train(args) -> int:
         print(line + f" lr={sched.get_last_lr()[0]:.2e} "
               f"({time.time() - t0:.0f}s)", flush=True)
         sched.step()
-        torch.save(model.state_dict(), args.model_out)
+        torch.save({"state_dict": model.state_dict(), "hidden": widths,
+                    "dropout": args.dropout, "dim": dim,
+                    "n_classes": N_CLASSES}, args.model_out)
 
     print(f"saved {args.model_out}")
     return 0
