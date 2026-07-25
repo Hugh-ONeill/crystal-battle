@@ -202,22 +202,37 @@ def cmd_train(args) -> int:
           + (f" (RAM-resident fp16)" if ram else ""))
 
     dev = torch.device(args.device)
-    model = nn.Sequential(
-        nn.Linear(dim, 512), nn.ReLU(),
-        nn.Linear(512, 256), nn.ReLU(),
-        nn.Linear(256, N_CLASSES),
-    ).to(dev)
-    opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
+    widths = [int(w) for w in args.hidden.split(",") if w]
+    layers = []
+    prev = dim
+    for w in widths:
+        layers += [nn.Linear(prev, w), nn.ReLU()]
+        if args.dropout > 0:
+            layers.append(nn.Dropout(args.dropout))
+        prev = w
+    layers.append(nn.Linear(prev, N_CLASSES))
+    model = nn.Sequential(*layers).to(dev)
+    opt = torch.optim.AdamW(model.parameters(), lr=args.lr,
+                            weight_decay=args.wd)
+    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=args.epochs)
     bit = torch.tensor([1 << i for i in range(N_CLASSES)], dtype=torch.int32)
+    print(f"model {[dim] + widths + [N_CLASSES]} dropout={args.dropout} "
+          f"wd={args.wd} cosine-lr", flush=True)
 
     ram_store = {}
     if ram:
         t_load = time.time()
         for tag, idx in (("tr", tr_idx), ("va", va_idx)):
             sidx = np.sort(idx)
+            # chunked fp16 load: never materialize the full fp32 gather (a
+            # 2.7M-row fp32 spike would blow past RAM); cast per 200k chunk
+            xr = torch.empty((len(sidx), dim), dtype=torch.float16)
+            for c in range(0, len(sidx), 200_000):
+                blk = sidx[c:c + 200_000]
+                xr[c:c + len(blk)] = torch.from_numpy(
+                    np.ascontiguousarray(X[blk])).half()
             ram_store[tag] = (
-                sidx,
-                torch.from_numpy(np.ascontiguousarray(X[sidx])).half(),
+                sidx, xr,
                 torch.from_numpy(y[sidx].astype(np.int64)),
                 torch.from_numpy(msk[sidx].astype(np.int32)),
             )
@@ -283,7 +298,9 @@ def cmd_train(args) -> int:
             sel = probs >= thr
             acc = corr[sel].mean() if sel.any() else float("nan")
             line += f" | p>={thr}: acc={acc:.3f} cov={sel.mean():.4f}"
-        print(line + f" ({time.time() - t0:.0f}s)", flush=True)
+        print(line + f" lr={sched.get_last_lr()[0]:.2e} "
+              f"({time.time() - t0:.0f}s)", flush=True)
+        sched.step()
         torch.save(model.state_dict(), args.model_out)
 
     print(f"saved {args.model_out}")
@@ -311,6 +328,10 @@ def main() -> int:
     t.add_argument("--ram-cap", type=int, default=0,
                    help="hold up to N train rows as an fp16 RAM tensor "
                         "(fast gather); 0 = disk memmap. ~13GB per 2.4M rows")
+    t.add_argument("--hidden", default="512,256",
+                   help="comma-separated trunk widths")
+    t.add_argument("--dropout", type=float, default=0.0)
+    t.add_argument("--wd", type=float, default=0.0)
     args = ap.parse_args()
     return cmd_featurize(args) if args.cmd == "featurize" else cmd_train(args)
 
