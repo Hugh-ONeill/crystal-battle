@@ -601,6 +601,10 @@ class Gen9PokeEnginePlayer(Player):
         # from the search WORKER thread marshal their Director access back
         # onto it (call_soon_threadsafe) so the Director stays single-threaded
         self._loop = None
+        # detected matchup archetype for the preview call-out ("stall" for
+        # now), set at teampreview from the SAME signal that sets the eval
+        # mode so play and commentary never disagree; None = no call-out
+        self._archetype: str | None = None
         # beat pipeline: protocol -> scanner -> typed events -> director ->
         # composed beat text. All routing/gating logic lives in
         # beat_director (pure, offline-drivable — the gold-set eval runs
@@ -661,6 +665,7 @@ class Gen9PokeEnginePlayer(Player):
         a fixed lead hands the opponent a free, certain counter-pick every
         game. Falls back to paste order on any failure."""
         self._refresh_team_paste()
+        self._archetype = None          # re-detected fresh each preview below
         if self._team_paste is None:
             return "/team 123456"
         try:
@@ -675,6 +680,9 @@ class Gen9PokeEnginePlayer(Player):
                 ours, theirs = wall_mons(self._team_paste), wall_mons(opp_paste)
                 on = ours >= 4 and theirs >= 4
                 pe.set_stall_mode(on)
+                # single source of truth: the commentary archetype call-out
+                # reads the SAME detection (grows to the mode enum later)
+                self._archetype = "stall" if on else None
                 if self._verbose or on:
                     print(f"  stall-mode: {'ON' if on else 'off'} "
                           f"(wall mons ours={ours} theirs={theirs})")
@@ -739,7 +747,8 @@ class Gen9PokeEnginePlayer(Player):
                       for p in battle.opponent_team.values()]
             text = self._director.match_start(
                 battle.opponent_username, ours, theirs,
-                lead=_species_display(lead) if lead else None)
+                lead=_species_display(lead) if lead else None,
+                archetype=self._archetype)
             blob = (preview_text if preview_text is not None
                     else (self._team_paste or ""))
             self._airi.send(text, preview_text=blob)
