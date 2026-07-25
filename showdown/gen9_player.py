@@ -469,7 +469,9 @@ class Gen9PokeEnginePlayer(Player):
                  endgame_depth: int = 12, endgame_nodes: int = 10_000,
                  escalate_min_turn: int = 20, escalate_min_gap: int = 8,
                  value_net_path: str | None = None, value_alpha: float = 0.5,
-                 value_batch: int = 32, verbose: bool = True,
+                 value_batch: int = 32,
+                 opp_net_path: str | None = None, opp_net_weight: float = 0.5,
+                 verbose: bool = True,
                  airi_bridge: AiriBridge | None = None,
                  airi_min_interval: float = 20.0,
                  airi_min_swing: float = 0.10,
@@ -502,6 +504,15 @@ class Gen9PokeEnginePlayer(Player):
             print(f"loaded value net {value_net_path} "
                   f"(alpha={value_alpha}, batch={value_batch})")
         self._value_alpha = value_alpha
+        # opponent-policy net: state-conditional s2 priors for the search
+        # (passed the offline gate 2026-07-25, beating chaos on move-NLL)
+        self._opp_net = None
+        self._opp_net_weight = opp_net_weight
+        if opp_net_path:
+            from showdown.opp_policy_gate import _load_net
+            self._opp_net = _load_net(opp_net_path)
+            print(f"loaded opponent-policy net {opp_net_path} "
+                  f"(weight={opp_net_weight})")
         self._value_batch = value_batch
         # adaptive search: probe at search_ms, escalate to escalate_ms in
         # flat (undecided) positions. In stall games flat is the NORM, so
@@ -1500,19 +1511,90 @@ class Gen9PokeEnginePlayer(Player):
         s = sum(out)
         return [x / s for x in out] if s > 0 else out
 
+    def _net_opp_dist(self, state_str: str):
+        """14-class softmax from the opponent-policy net for side_two (the
+        opponent — same orientation the net trained on), or None on any
+        trouble. Classes: [m0..m3, m0-tera..m3-tera, party0..5]."""
+        if self._opp_net is None:
+            return None
+        try:
+            import numpy as np
+            import torch
+            from showdown.featurizer_v3 import parse_state_v3
+            x = torch.from_numpy(parse_state_v3(state_str)).float().unsqueeze(0)
+            with torch.no_grad():
+                logits = self._opp_net(x)[0].numpy()
+            e = np.exp(logits - logits.max())
+            return e / e.sum()
+        except BaseException:
+            return None
+
+    def _net_aligned_s2(self, state, option_results, dist):
+        """s2 prior aligned to the engine option order from the net's slot
+        distribution, blended with uniform by _opp_net_weight. Gate showed
+        the net is well-calibrated but rarely high-confidence, so the blend
+        is the confidence knob: w=0 -> uniform (net ignored), w=1 -> full
+        net. Every option keeps at least (1-w)/n mass, so the search still
+        explores lines the net underrates."""
+        side = state.side_two
+        active = side.pokemon[int(side.active_index)]
+        move_ids = [str(active.moves[i].id).lower() for i in range(4)]
+        species = [str(p.id).lower() for p in side.pokemon]
+        raw = []
+        for r in option_results:
+            mc = r.move_choice.lower()
+            slot = None
+            if mc.startswith("switch "):
+                sp = mc[7:]
+                for i, s in enumerate(species):
+                    if s == sp:
+                        slot = 8 + i
+                        break
+            elif mc.endswith("-tera"):
+                base = mc[:-5]
+                for i, m in enumerate(move_ids):
+                    if m == base:
+                        slot = 4 + i
+                        break
+            elif mc not in ("no move", "none"):
+                for i, m in enumerate(move_ids):
+                    if m == mc:
+                        slot = i
+                        break
+            raw.append(float(dist[slot]) if slot is not None else 0.0)
+        n = len(raw)
+        s = sum(raw)
+        if n == 0 or s <= 0:
+            return [1.0 / max(1, n)] * n
+        w = self._opp_net_weight
+        uni = 1.0 / n
+        blended = [(1.0 - w) * uni + w * (x / s) for x in raw]
+        ss = sum(blended)
+        return [x / ss for x in blended]
+
     def _search_one(self, state, ms: int, use_value: bool,
                     opp_priors=None):
         """One world's search: value-net-guided leaf eval when requested and
         a net is loaded, else plain MCTS."""
-        if opp_priors is not None and (not use_value or self._value_net is None):
-            probs, suppress = opp_priors
+        want_priors = opp_priors is not None or self._opp_net is not None
+        if want_priors and (not use_value or self._value_net is None):
             try:
                 s_str = state.to_string()
                 warm = pe.monte_carlo_tree_search(
                     pe.State.from_string(s_str), 1)   # discover option order
                 n1 = len(warm.side_one) or 1
                 s1 = [1.0 / n1] * n1                  # OUR side stays unbiased
-                s2 = self._aligned_opp_priors(warm.side_two, probs, suppress)
+                # state-conditional net priors take precedence over the
+                # scouting book's per-species aggregate; scouting is the
+                # fallback when the net isn't loaded (or fails to featurize)
+                dist = self._net_opp_dist(s_str)
+                if dist is not None:
+                    s2 = self._net_aligned_s2(state, warm.side_two, dist)
+                elif opp_priors is not None:
+                    probs, suppress = opp_priors
+                    s2 = self._aligned_opp_priors(warm.side_two, probs, suppress)
+                else:
+                    raise ValueError("no priors available")
                 return pe.monte_carlo_tree_search_with_priors(
                     pe.State.from_string(s_str), s1, s2, ms)
             except BaseException:
@@ -1971,6 +2053,13 @@ async def main():
                         help="value-net blend weight (0=static, 1=pure net)")
     parser.add_argument("--value-batch", type=int, default=32,
                         help="leaf-eval batch size (throughput vs quality)")
+    parser.add_argument("--opp-net", type=str, default=None,
+                        help="opponent-policy net checkpoint for "
+                             "state-conditional s2 priors in the search "
+                             "(opp_policy_train.py; passed the offline gate)")
+    parser.add_argument("--opp-net-weight", type=float, default=0.5,
+                        help="net-vs-uniform blend for opp priors "
+                             "(0=ignore net, 1=full net); the A/B knob")
     parser.add_argument("--log-level", type=int, default=30,
                         help="poke-env logger level (10=DEBUG shows protocol)")
     parser.add_argument("--airi", action="store_true",
@@ -2040,6 +2129,8 @@ async def main():
         escalate_min_turn=args.escalate_min_turn,
         escalate_min_gap=args.escalate_min_gap,
         value_net_path=args.value_net,
+        opp_net_path=args.opp_net,
+        opp_net_weight=args.opp_net_weight,
         value_alpha=args.value_alpha,
         value_batch=args.value_batch,
         airi_bridge=bridge,
