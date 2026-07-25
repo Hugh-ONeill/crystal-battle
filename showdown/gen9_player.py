@@ -2053,11 +2053,16 @@ async def main():
                         help="value-net blend weight (0=static, 1=pure net)")
     parser.add_argument("--value-batch", type=int, default=32,
                         help="leaf-eval batch size (throughput vs quality)")
-    parser.add_argument("--opp-net", type=str, default=None,
+    parser.add_argument("--opp-net", type=str,
+                        default=os.environ.get("CB_OPP_NET") or None,
                         help="opponent-policy net checkpoint for "
                              "state-conditional s2 priors in the search "
-                             "(opp_policy_train.py; passed the offline gate)")
-    parser.add_argument("--opp-net-weight", type=float, default=0.5,
+                             "(opp_policy_train.py; passed the offline gate). "
+                             "Env fallback CB_OPP_NET so par_series --ab can "
+                             "arm it per-process")
+    parser.add_argument("--opp-net-weight", type=float,
+                        default=float(os.environ.get("CB_OPP_NET_WEIGHT")
+                                      or 0.5),
                         help="net-vs-uniform blend for opp priors "
                              "(0=ignore net, 1=full net); the A/B knob")
     parser.add_argument("--log-level", type=int, default=30,
