@@ -1618,7 +1618,17 @@ class Gen9PokeEnginePlayer(Player):
             except BaseException:
                 pass       # any priors trouble -> plain MCTS, never lose a turn
         if not use_value or self._value_net is None:
-            return pe.monte_carlo_tree_search(state, ms)
+            try:
+                return pe.monte_carlo_tree_search(state, ms)
+            except BaseException:
+                if os.environ.get("CB_CAPTURE_PANIC"):
+                    try:
+                        with open(f"showdown/bench/mcts_panic_{os.getpid()}.txt",
+                                  "a") as fh:
+                            fh.write(state.to_string() + "\n")
+                    except Exception:
+                        pass
+                raise
         return pe.monte_carlo_tree_search_with_value(
             state, self._value_net, ms,
             alpha=self._value_alpha, batch_size=self._value_batch)
