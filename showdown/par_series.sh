@@ -60,6 +60,7 @@ set -u
 CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
 SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""; AB_ENV=""; AB_P0=""; AB_P1=""
+OPPONENT="foulplay"
 while :; do
   case "${1:-}" in
     --suite) SUITE_DIR="$2"; shift 2 ;;
@@ -67,9 +68,20 @@ while :; do
     --sprt)  SPRT_P0="$2"; SPRT_P1="$3"; shift 3 ;;
     --ab)      AB_ENV="$2"; shift 2 ;;
     --ab-sprt) AB_P0="$2"; AB_P1="$3"; shift 3 ;;
+    # --opponent spar: challenge with the predictable human-policy sparring bot
+    # (showdown/spar_bot.py) instead of foul-play. It plays the SAME human
+    # distribution our opp-net predicts, so the opponent-policy prior has a real
+    # target to exploit (neutral vs near-optimal fp), AND it never chokes on our
+    # slow escalation turns (fp's KeyError 'battle') — unblocking grind-depth.
+    # Everything else (--ab pairing, SPRT gates, tally) is opponent-agnostic:
+    # spar_bot emits fp's exact "INFO     Winner:" line into the same log.
+    --opponent) OPPONENT="$2"; shift 2 ;;
     *) break ;;
   esac
 done
+case "$OPPONENT" in foulplay|spar) ;; *)
+  echo "FATAL: --opponent must be 'foulplay' or 'spar'" >&2; exit 1 ;;
+esac
 if [ -n "$AB_ENV" ]; then
   if [ -n "$SPRT_P0" ]; then
     echo "FATAL: --sprt and --ab are mutually exclusive; the A/B gate is --ab-sprt" >&2
@@ -372,13 +384,23 @@ while [ "$lane" -le "$LANES" ]; do
       echo "=== lane $lane game $g/$TOTAL team: $BASE ($(date +%H:%M:%S)) ===" >> "$FP_LOG"
       eval "curpid=\$OURS_PID_${ARM:-A}"
       [ -z "$curpid" ] && start_worker "$ARM" "$@"
-      cd "$FP"
-      timeout "$PER_GAME_TIMEOUT" .venv/bin/python run.py \
-          --websocket-uri ws://localhost:8000/showdown/websocket \
-          --ps-username "$THEM" --bot-mode challenge_user \
-          --user-to-challenge "$US" --pokemon-format gen9ou \
-          --team-name "$FP_TEAM" --search-time-ms "${FP_SEARCH_MS:-300}" \
-          --run-count 1 --log-level INFO >> "$FP_LOG" 2>&1
+      if [ "$OPPONENT" = "spar" ]; then
+        # spar bot reads a plaintext paste and connects to :8000 itself; stays
+        # at $CB (no cd $FP). Mirror team by default, or the fp-suite src under
+        # --fp-suite, so the matchup matches what foul-play would have played.
+        timeout "$PER_GAME_TIMEOUT" .venv/bin/python showdown/spar_bot.py \
+            --username "$THEM" --mode challenge --user-to-challenge "$US" \
+            --format gen9ou --team "${FP_SRC:-$OUR_TEAM}" --n-games 1 \
+            --temperature "${SPAR_TEMPERATURE:-1.0}" >> "$FP_LOG" 2>&1
+      else
+        cd "$FP"
+        timeout "$PER_GAME_TIMEOUT" .venv/bin/python run.py \
+            --websocket-uri ws://localhost:8000/showdown/websocket \
+            --ps-username "$THEM" --bot-mode challenge_user \
+            --user-to-challenge "$US" --pokemon-format gen9ou \
+            --team-name "$FP_TEAM" --search-time-ms "${FP_SEARCH_MS:-300}" \
+            --run-count 1 --log-level INFO >> "$FP_LOG" 2>&1
+      fi
       if [ "$?" -eq 124 ]; then
         # hung game: the worker is stuck in a battle that will never finish
         # (max_concurrent_battles=1 would wedge every later game in the
