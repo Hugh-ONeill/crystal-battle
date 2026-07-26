@@ -1986,15 +1986,19 @@ async def main():
     parser.add_argument("--base-frac", type=float, default=0.02,
                         help="budget-by-clock: fraction of bank surplus used "
                              "as the BASE per-world search budget each turn")
-    parser.add_argument("--base-max-ms", type=int, default=2000,
+    parser.add_argument("--base-max-ms", type=int,
+                        default=int(os.environ.get("CB_BASE_MAX_MS") or 2000),
                         help="cap on the clock-derived base budget (oracle "
-                             "bench: 2000ms = 86%% deep-search agreement)")
+                             "bench: 2000ms = 86%% deep-search agreement). "
+                             "Env fallback CB_BASE_MAX_MS for par_series --ab")
     parser.add_argument("--grind-turn", type=int, default=20,
                         help="turn from which the grind budget cap applies")
-    parser.add_argument("--grind-max-ms", type=int, default=6000,
+    parser.add_argument("--grind-max-ms", type=int,
+                        default=int(os.environ.get("CB_GRIND_MAX_MS") or 6000),
                         help="raised budget cap from grind-turn on (depth "
                              "diagnostic: 5s = 97%% grind oracle agreement "
-                             "vs 89%% at 2s); bank surplus rule still limits")
+                             "vs 89%% at 2s); bank surplus rule still limits. "
+                             "Env fallback CB_GRIND_MAX_MS for par_series --ab")
     parser.add_argument("--collapse-turn", type=int, default=25,
                         help="earliest turn for K-worlds -> 1 collapse")
     parser.add_argument("--collapse-mons", type=int, default=5,
