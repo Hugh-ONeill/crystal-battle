@@ -477,6 +477,13 @@ class Gen9PokeEnginePlayer(Player):
                  airi_min_swing: float = 0.10,
                  airi_turn_pace: float = 0.0,
                  desk_log_path: str | None = DESK_LOG_DEFAULT, **kwargs):
+        # A deep-searching bot can stall the event loop past poke-env's
+        # default 20s ping timeout (a 5s grind search + K-world glue + GC),
+        # which drops the websocket mid-game (measured: 0 keepalive drops at
+        # 300ms, 26 at 5000ms). Give the keepalive generous grace so search
+        # depth never costs a connection. Callers may still override.
+        kwargs.setdefault("ping_interval", 60.0)
+        kwargs.setdefault("ping_timeout", 180.0)
         super().__init__(**kwargs)
         # Brier ledger: numeric desk reads per battle, flushed with the
         # outcome at game end (None path disables)
