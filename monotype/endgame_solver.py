@@ -111,6 +111,7 @@ def solve_endgame(
                               budget=budget, want_actions=True)
     if stats is not None:
         stats["budget_exhausted"] = budget[0] <= 0
+        stats["nodes_used"] = node_budget - budget[0]
     return result
 
 

@@ -1319,36 +1319,47 @@ class Gen9PokeEnginePlayer(Player):
         MCTS would — same information, exact search."""
         if not self._use_endgame_solver:
             return None
+        # always-on instrumentation: log EVERY endgame-material turn and the
+        # branch it took, so fire-rate and conclusion-rate are measurable from
+        # bench logs (the winrate A/B is meaningless if the solver rarely
+        # fires or never concludes). Material = few enough alive to solve.
+        alive = (sum(1 for p in state.side_one.pokemon if p.hp > 0)
+                 + sum(1 for p in state.side_two.pokemon if p.hp > 0))
+        material = alive <= self._endgame_alive
+
+        def _egtelem(outcome, extra=""):
+            print(f"ENDGAME T{getattr(battle, 'turn', '?')} alive={alive} "
+                  f"outcome={outcome}{extra}", flush=True)
+
         strikes = getattr(battle, "_cb_solver_strikes", 0)
         if strikes >= 2:
+            if material:
+                _egtelem("skip_struck_out")
             return None
         if not is_solvable_endgame(state, max_total_alive=self._endgame_alive):
             return None
         if not self._both_teras_spent(battle):
-            return None  # a side can still tera: pending tera voids the solve
-        if self._verbose:
-            print(f"  T{battle.turn} endgame gate OPEN "
-                  f"(<= {self._endgame_alive} alive, both teras spent) — "
-                  "attempting exact solve", flush=True)
+            _egtelem("skip_tera_pending")   # material met, but a tera voids it
+            return None
         stats: dict = {}
         try:
             p1_act, _p2_act, val = solve_endgame(
                 state, max_depth=self._endgame_depth,
                 node_budget=self._endgame_nodes, stats=stats)
         except BaseException:  # pyo3 panics subclass BaseException
+            _egtelem("panic")
             return None
         if stats.get("budget_exhausted"):
             battle._cb_solver_strikes = strikes + 1
-            if self._verbose:
-                print(f"  T{battle.turn} endgame solve EXHAUSTED "
-                      f"{self._endgame_nodes}-node budget "
-                      f"(strike {strikes + 1}/2) — falling back to MCTS "
-                      "(stall endgame: mutual recovery/PP never converges)",
-                      flush=True)
+            _egtelem("exhausted", f" nodes={stats.get('nodes_used', '?')} "
+                     f"strike={strikes + 1}")
             return None
         battle._cb_solver_strikes = 0
         if not p1_act:
+            _egtelem("no_action", f" nodes={stats.get('nodes_used', '?')}")
             return None
+        _egtelem("solved", f" val={val:+.2f} "
+                 f"nodes={stats.get('nodes_used', '?')}")
         if self._verbose:
             print(f"  T{battle.turn} ENDGAME SOLVED: {p1_act} "
                   f"(value {val:+.2f})", flush=True)
