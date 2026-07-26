@@ -388,9 +388,14 @@ while [ "$lane" -le "$LANES" ]; do
         # spar bot reads a plaintext paste and connects to :8000 itself; stays
         # at $CB (no cd $FP). Mirror team by default, or the fp-suite src under
         # --fp-suite, so the matchup matches what foul-play would have played.
+        # SPAR_NET picks the policy spar samples (default human); SPAR_TEMPERATURE
+        # tilts it (lower = sharper/stronger/more predictable). fp net = a
+        # stronger, still-predictable opponent when the human net is too weak to
+        # give a full-strength CB any close games to swing.
         timeout "$PER_GAME_TIMEOUT" .venv/bin/python showdown/spar_bot.py \
             --username "$THEM" --mode challenge --user-to-challenge "$US" \
             --format gen9ou --team "${FP_SRC:-$OUR_TEAM}" --n-games 1 \
+            --net "${SPAR_NET:-showdown/opp_policy_human_v1.pt}" \
             --temperature "${SPAR_TEMPERATURE:-1.0}" >> "$FP_LOG" 2>&1
       else
         cd "$FP"
