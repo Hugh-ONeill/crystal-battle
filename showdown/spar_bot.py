@@ -74,7 +74,11 @@ class SparBot(Player):
     def __init__(self, net_path: str = DEFAULT_NET, temperature: float = 1.0,
                  set_source: str = "gen9ou", seed: int | None = None,
                  verbose: bool = False, **kwargs):
-        super().__init__(**kwargs)
+        # Initialize ALL state choose_move/teampreview touch BEFORE super().__init__:
+        # SparBot is constructed inside the running event loop, and poke-env's base
+        # __init__ starts the listener, which can dispatch a battle request before
+        # __init__ returns. The slower fp-net load widened that race into a hard
+        # AttributeError('_last_tag'); setting attributes first closes it.
         self._net = _load_net(net_path)
         self._temp = max(1e-3, float(temperature))
         self._translator = Gen9Translator(set_source=set_source)
@@ -83,6 +87,7 @@ class SparBot(Player):
         self._last_tag = None
         print(f"SparBot up: net={os.path.basename(net_path)} "
               f"temperature={self._temp} set_source={set_source}", flush=True)
+        super().__init__(**kwargs)
 
     def _battle_finished_callback(self, battle):
         # Emit foul-play's exact tally line ("INFO     Winner: <username>") so
