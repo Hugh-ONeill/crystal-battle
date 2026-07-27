@@ -474,6 +474,7 @@ class Gen9PokeEnginePlayer(Player):
                  verbose: bool = True,
                  airi_bridge: AiriBridge | None = None,
                  airi_min_interval: float = 20.0,
+                 airi_turn_gap: int = 0,
                  airi_min_swing: float = 0.10,
                  airi_turn_pace: float = 0.0,
                  desk_log_path: str | None = DESK_LOG_DEFAULT, **kwargs):
@@ -632,7 +633,8 @@ class Gen9PokeEnginePlayer(Player):
         self._director = Director(min_interval=airi_min_interval,
                                   min_swing=airi_min_swing,
                                   stats_fn=_species_stats,
-                                  ability_fn=self._ability_lookup)
+                                  ability_fn=self._ability_lookup,
+                                  min_turn_gap=airi_turn_gap)
         # set at each decision so _ability_lookup can resolve our own mons'
         # known abilities (vs an opponent's dex possibilities)
         self._cur_battle = None
@@ -2106,6 +2108,13 @@ async def main():
                         help="AIRI server WebSocket endpoint")
     parser.add_argument("--airi-min-interval", type=float, default=20.0,
                         help="max seconds between routine commentary beats")
+    parser.add_argument("--airi-turn-gap", type=int, default=0,
+                        help="gate beats on TURNS instead of wall-clock "
+                             "(1 = at most one beat per turn). Use with PTS "
+                             "scheduling and no --airi-turn-pace: the viewer "
+                             "watches on the client's timeline, so beat "
+                             "density has to track turns, not how fast the "
+                             "engine resolved them. 0 = wall-clock gating.")
     parser.add_argument("--airi-min-swing", type=float, default=0.10,
                         help="win-estimate swing (0-1) that forces a beat")
     parser.add_argument("--airi-turn-pace", type=float, default=0.0,
@@ -2172,6 +2181,7 @@ async def main():
         value_batch=args.value_batch,
         airi_bridge=bridge,
         airi_min_interval=args.airi_min_interval,
+        airi_turn_gap=args.airi_turn_gap,
         airi_min_swing=args.airi_min_swing,
         airi_turn_pace=args.airi_turn_pace,
         desk_log_path=None if args.desk_log == "off" else args.desk_log,
