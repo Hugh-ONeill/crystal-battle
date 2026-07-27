@@ -57,6 +57,68 @@ def _warm_caches(set_source: str) -> None:
           flush=True)
 
 
+def _quiesce_poke_env_loop() -> None:
+    """poke-env starts a daemon event-loop thread (concurrency.POKE_LOOP driven by
+    _t) at IMPORT; _warm_caches imports poke-env via ps_sets, so the zygote would be
+    MULTI-THREADED at os.fork() -> children inherit a driverless/locked POKE_LOOP and
+    deadlock nondeterministically (the flaky half-launch bug). Stop the thread here
+    so the fork is single-threaded; each child rebuilds a fresh loop in _restart."""
+    try:
+        import atexit
+        import poke_env.concurrency as pc
+        pc.POKE_LOOP.call_soon_threadsafe(pc.POKE_LOOP.stop)
+        pc._t.join(timeout=5)
+        if pc._t.is_alive():
+            print("zygote: poke-env loop thread did not stop in 5s", flush=True)
+        # poke-env registers atexit __clear_loop, which assumes a RUNNING loop; on
+        # our stopped loop its shutdown_asyncgens future never resolves -> HANG at
+        # a clean exit. Best-effort unregister it, and CLOSE the loop so that even
+        # if unregister misses, the handler errors-and-continues instead of hanging.
+        try:
+            atexit.unregister(getattr(pc, "__clear_loop"))
+        except Exception:
+            pass
+        pc.POKE_LOOP.close()
+    except Exception as e:
+        print(f"zygote: could not quiesce poke-env loop: {e!r}", flush=True)
+
+
+def _restart_poke_env_loop() -> None:
+    """Rebuild poke-env's global loop + driver thread in the forked CHILD: the
+    inherited POKE_LOOP is dead (its thread didn't survive the fork) and its
+    selector fds are shared with the parent, so a fresh loop is mandatory.
+    Player/PSClient capture POKE_LOOP as an __init__ DEFAULT ARG (bound at import),
+    so reassigning the module global is NOT enough -- repoint those defaults at the
+    new loop too, or Players silently drive the dead one."""
+    import asyncio
+    import threading
+    import poke_env.concurrency as pc
+    old = pc.POKE_LOOP
+    new = asyncio.new_event_loop()
+
+    def _drive(loop):
+        asyncio.set_event_loop(loop)
+        loop.run_forever()
+
+    threading.Thread(target=_drive, args=(new,), daemon=True).start()
+    pc.POKE_LOOP = new
+    try:
+        import poke_env.player.player as _pp
+        import poke_env.ps_client.ps_client as _pc
+        for fn in (_pp.Player.__init__, _pc.PSClient.__init__):
+            # `loop` is a KEYWORD-ONLY arg -> its default is in __kwdefaults__
+            # (a dict), not __defaults__; handle both to be version-robust.
+            if fn.__defaults__:
+                fn.__defaults__ = tuple(
+                    new if d is old else d for d in fn.__defaults__)
+            if fn.__kwdefaults__:
+                for k, v in fn.__kwdefaults__.items():
+                    if v is old:
+                        fn.__kwdefaults__[k] = new
+    except Exception as e:
+        print(f"child: could not repoint poke-env loop defaults: {e!r}", flush=True)
+
+
 def _spawn(req_path: str) -> None:
     resp = log = None
     env: dict[str, str] = {}
@@ -82,6 +144,7 @@ def _spawn(req_path: str) -> None:
             os.dup2(fd, 1)
             os.dup2(fd, 2)
             os.environ.update(env)
+            _restart_poke_env_loop()  # inherited poke-env loop is dead + fd-shared
             import random
             random.seed()  # fork copies the parent PRNG state; re-roll
             sys.argv = ["gen9_player.py"] + argv
@@ -108,6 +171,7 @@ def main() -> int:
     sys.path.insert(0, CB)
     os.chdir(CB)
     _warm_caches(args.set_source)
+    _quiesce_poke_env_loop()  # single-threaded fork: stop poke-env's daemon loop
     gc.freeze()
 
     # reap exited workers so they don't accumulate as zombies
