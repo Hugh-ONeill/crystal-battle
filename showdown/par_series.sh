@@ -242,30 +242,34 @@ fi
 # applied post-fork, before any engine OnceLock read); PYTHONPATH
 # build-shadow arms CANNOT (module already loaded pre-fork) and are refused.
 ZY_FIFO=""; ZY_PID=""; ZY_READY=""
-if [ "${CB_ZYGOTE:-0}" = "1" ]; then
+# DEFAULT-ON 2026-07-27 (validated end-to-end at 16 lanes: ~5.6GB fleet vs ~17GB
+# cold, private bounded to ~440MB even on a 294-turn stall game). Set CB_ZYGOTE=0
+# to force cold workers. Build-shadow (PYTHONPATH) arms can't fork-share the
+# pre-loaded engine module, so they GRACEFULLY fall back to cold workers here.
+if [ "${CB_ZYGOTE:-1}" = "1" ]; then
   case "$AB_ENV" in
     *PYTHONPATH*)
-      echo "FATAL: CB_ZYGOTE=1 cannot serve PYTHONPATH build-shadow arms" \
-           "(the engine module is loaded pre-fork); unset CB_ZYGOTE" >&2
-      exit 1 ;;
+      echo "    note: CB_ZYGOTE auto-disabled (PYTHONPATH build-shadow arm can't" \
+           "fork-share the pre-loaded engine; using cold workers)" >&2 ;;
+    *)
+      ZY_FIFO="$CB/showdown/bench/${NAME}.zyfifo"
+      ZY_READY="$CB/showdown/bench/${NAME}.zyready"
+      rm -f "$ZY_FIFO" "$ZY_READY"
+      "$CB/.venv/bin/python" "$CB/showdown/worker_zygote.py" --fifo "$ZY_FIFO" \
+          --ready-file "$ZY_READY" \
+          > "$CB/showdown/bench/${NAME}_zygote.log" 2>&1 &
+      ZY_PID=$!
+      i=0
+      while [ ! -s "$ZY_READY" ] && [ "$i" -lt 240 ]; do
+        sleep 0.5; i=$((i + 1))
+      done
+      if [ ! -s "$ZY_READY" ]; then
+        echo "FATAL: zygote not ready after 120s (see ${NAME}_zygote.log)" >&2
+        kill "$ZY_PID" 2>/dev/null
+        exit 1
+      fi
+      echo "    zygote up (pid $ZY_PID): workers fork from one warm data image" ;;
   esac
-  ZY_FIFO="$CB/showdown/bench/${NAME}.zyfifo"
-  ZY_READY="$CB/showdown/bench/${NAME}.zyready"
-  rm -f "$ZY_FIFO" "$ZY_READY"
-  "$CB/.venv/bin/python" "$CB/showdown/worker_zygote.py" --fifo "$ZY_FIFO" \
-      --ready-file "$ZY_READY" \
-      > "$CB/showdown/bench/${NAME}_zygote.log" 2>&1 &
-  ZY_PID=$!
-  i=0
-  while [ ! -s "$ZY_READY" ] && [ "$i" -lt 240 ]; do
-    sleep 0.5; i=$((i + 1))
-  done
-  if [ ! -s "$ZY_READY" ]; then
-    echo "FATAL: zygote not ready after 120s (see ${NAME}_zygote.log)" >&2
-    kill "$ZY_PID" 2>/dev/null
-    exit 1
-  fi
-  echo "    zygote up (pid $ZY_PID): workers fork from one warm data image"
 fi
 
 lane=1
