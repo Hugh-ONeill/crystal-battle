@@ -173,6 +173,7 @@ class Gen9Translator:
     _canon_cache: dict[int, dict] = {}  # elo -> {type: {norm_species: mon dict}}
     _chaos_cache: dict[str, object] = {}  # format -> ChaosStats
     _pokedex = None
+    _type_chart = None  # gen9 effectiveness chart (uppercase-type keyed)
 
     def __init__(self, elo_bucket: int = 1500, set_source: str | None = "monotype",
                  use_data_tiers: bool = True,
@@ -270,6 +271,47 @@ class Gen9Translator:
             from poke_env.data.gen_data import GenData
             cls._pokedex = GenData.from_gen(9).pokedex
         return cls._pokedex
+
+    @classmethod
+    def _typechart(cls):
+        if cls._type_chart is None:
+            from poke_env.data.gen_data import GenData
+            cls._type_chart = GenData.from_gen(9).type_chart
+        return cls._type_chart
+
+    def _worst_case_defensive_tera(self, battle) -> str | None:
+        """The Tera type that most blunts our ACTIVE's offense — the defensive
+        Tera a pessimistic opponent burns to wall us. Returns a lowercase
+        engine type string, or None if our threat can't be read.
+
+        Threat = the types of our active's damaging moves (same-type STAB
+        already lives there); falls back to our active's own types when no
+        damaging move is visible. We pick the pure defensive type T that
+        MINIMIZES the worst (max) effectiveness of those attack types into T,
+        so coverage is accounted for, not just the primary STAB; ties break
+        toward the lower total exposure."""
+        me = getattr(battle, "active_pokemon", None)
+        if me is None:
+            return None
+        from poke_env.battle.pokemon_type import PokemonType
+        atk_types = {mv.type for mv in me.moves.values()
+                     if mv.type and mv.base_power and mv.base_power > 0}
+        if not atk_types:
+            atk_types = {t for t in (me.type_1, me.type_2) if t}
+        if not atk_types:
+            return None
+        tc = self._typechart()
+        skip = {PokemonType.THREE_QUESTION_MARKS, PokemonType.STELLAR}
+        best_type = best_worst = best_sum = None
+        for cand in PokemonType:
+            if cand in skip:
+                continue
+            effs = [a.damage_multiplier(cand, type_chart=tc) for a in atk_types]
+            worst, total = max(effs), sum(effs)
+            if (best_worst is None or worst < best_worst
+                    or (worst == best_worst and total < best_sum)):
+                best_type, best_worst, best_sum = cand, worst, total
+        return best_type.name.lower() if best_type else None
 
     def _canonical(self) -> dict[str, dict[str, dict]]:
         """{type: {normalized_species: parsed canonical mon dict}}"""
@@ -539,7 +581,7 @@ class Gen9Translator:
     # ---- entry point ----
 
     def translate(self, battle, rng=None, speed_pessimistic=False,
-                  prefer_ps=True) -> pe.State:
+                  prefer_ps=True, tera_pessimistic=False) -> pe.State:
         """Build a State for search. With `rng`, opponent unknowns (sets and
         unrevealed species) are SAMPLED instead of taking the deterministic
         most-likely values — callers run one search per sampled world and
@@ -555,6 +597,22 @@ class Gen9Translator:
         self._rng = rng
         self._speed_pess = speed_pessimistic
         self._prefer_ps = prefer_ps
+        self._tera_pess = tera_pessimistic
+        if tera_pessimistic:
+            # worst-case world: the opponent's active still holds Tera and
+            # burns it DEFENSIVELY into the type that best walls our active.
+            # Legal only if no opponent mon has tera'd yet (once per battle);
+            # is_terastallized survives a faint, so a spent-then-fainted tera
+            # still closes the option (mirrors _both_teras_spent).
+            self._opp_tera_available = not any(
+                getattr(m, "is_terastallized", False)
+                for m in battle.opponent_team.values())
+            self._pess_tera_type = (
+                self._worst_case_defensive_tera(battle)
+                if self._opp_tera_available else None)
+        else:
+            self._opp_tera_available = False
+            self._pess_tera_type = None
         if self._set_source is not None:
             if self._obs is None:
                 from showdown.set_inference import BattleObservations
@@ -1157,6 +1215,17 @@ class Gen9Translator:
 
         types = self._types(mon)
         tera_fallback = (canon or {}).get("tera_type") or types[0]
+        tera_flds = self._tera_fields(mon, tera_fallback)
+        # tera-pessimistic world: force the ACTIVE opponent to have already
+        # tera'd into its worst-case defensive type against our active. Never
+        # touches reserves (only one mon can hold a live tera) nor a mon that
+        # already tera'd (keep the observed type).
+        if (getattr(self, "_tera_pess", False) and bool(mon.active)
+                and getattr(self, "_opp_tera_available", False)
+                and getattr(self, "_pess_tera_type", None)
+                and not tera_flds["terastallized"]):
+            tera_flds = {"terastallized": True,
+                         "tera_type": self._pess_tera_type}
         return pe.Pokemon(
             id=species, level=mon.level,
             hp=max(1, round(mon.current_hp_fraction * maxhp)), maxhp=maxhp,
@@ -1168,7 +1237,7 @@ class Gen9Translator:
             item=item,
             weight_kg=self._weight(species),
             moves=moves[:4],
-            **self._tera_fields(mon, tera_fallback),
+            **tera_flds,
             **self._status_fields(mon),
         )
 
