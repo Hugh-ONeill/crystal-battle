@@ -5,3 +5,9 @@ torch>=2.0.0
 tensorboard>=2.14.0
 pytest>=7.0.0
 numpy>=1.24.0
+
+# The commentary/broadcast system lives in its own repo (the dependency runs
+# one way: engine -> broadcast, never back). Install it editable alongside:
+#   pip install -e ../crystal-broadcast
+# Only needed for `gen9_player.py --airi`; the engine and benches run without it.
+-e ../crystal-broadcast

@@ -43,9 +43,9 @@ from poke_env.ps_client.server_configuration import ShowdownServerConfiguration
 from showdown.name_mapping import _normalize
 from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
-from showdown.caster_bridge import (CasterBridge,
+from crystal_broadcast.caster_bridge import (CasterBridge,
                                     DEFAULT_URL as CASTER_DEFAULT_URL)
-from showdown.beat_director import (Director, Event, ProtocolScanner,
+from crystal_broadcast.beat_director import (Director, Event, ProtocolScanner,
                                     TurnContext, world_collapse_prose,
                                     endgame_solved_prose, deep_think_prose)
 from monotype.endgame_solver import is_solvable_endgame, solve_endgame
@@ -462,7 +462,7 @@ class Gen9PokeEnginePlayer(Player):
                  collapse_turn: int = 25, collapse_moves: int = 14,
                  collapse_mons: int = 5,
                  k_schedule: bool = False, k_max: int = 8,
-                 k_ms_product: int = 2400,
+                 k_ms_product: int = 2400, world_style: str = "chaos",
                  scouting_book: str | None = None, book_min_obs: int = 2,
                  preview_lead_ev: bool = False,
                  opp_priors: bool = True, tree_reuse: bool = False,
@@ -555,6 +555,11 @@ class Gen9PokeEnginePlayer(Player):
         self._k_schedule = k_schedule
         self._k_max = max(1, k_max)
         self._k_ms_product = max(1, k_ms_product)
+        # "chaos" = all sampled worlds are neutral prior draws (+ the last is
+        # speed-pessimistic). "structured" swaps one chaos world for a
+        # TERA-DEFENSIVE worst-case world (opp active teras to wall us). EXP 1
+        # proved more NEUTRAL worlds buy nothing; this tests world QUALITY.
+        self._world_style = world_style or "chaos"
         # endgame solver (exact minimax when its guarantees hold; see
         # _try_endgame_solver for the gates)
         # scouting book (per-opponent observed sets); silent no-op if absent
@@ -1423,9 +1428,16 @@ class Gen9PokeEnginePlayer(Player):
         for i in range(1, k):
             rng = random.Random()
             pessimistic = i == k - 1
+            # structured style: replace ONE chaos world (the slot just before
+            # the speed-pessimistic one) with a tera-defensive worst-case
+            # world. K is unchanged, so chaos-vs-structured is a world-QUALITY
+            # A/B, not a count one (EXP 1 showed count buys nothing). Needs
+            # K>=3 so it never displaces world 0 or the speed-pessimistic tail.
+            tera_pess = (self._world_style == "structured"
+                         and k >= 3 and i == k - 2)
             states.append(self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
-                prefer_ps=False))
+                prefer_ps=False, tera_pessimistic=tera_pess))
         # value net defaults to on-when-loaded, but callers override: the
         # adaptive probe forces it OFF (fast plain MCTS), and only the
         # escalated deep-think turns it ON — spend the learned eval where a
@@ -1986,6 +1998,12 @@ async def main():
                         help="sampled opponent-set worlds searched per turn "
                              "(1 = deterministic top sets). Env fallback "
                              "CB_SET_SAMPLES so par_series --ab can vary K.")
+    parser.add_argument("--world-style", choices=["chaos", "structured"],
+                        default=(os.environ.get("CB_WORLD_STYLE") or "chaos"),
+                        help="opponent-world sampling: 'chaos' = all neutral "
+                             "prior draws; 'structured' swaps one chaos world "
+                             "for a tera-defensive worst-case world (needs "
+                             "K>=3). Env fallback CB_WORLD_STYLE for --ab.")
     parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
                         help="PS-curated + replay-observed set tiers; 'off' "
                              "reproduces the pure chaos config (ab9 baseline)")
@@ -2149,6 +2167,7 @@ async def main():
         dump_states_path=args.dump_states,
         team_archive_index=args.team_archive,
         set_samples=args.set_samples,
+        world_style=args.world_style,
         stall_mode=args.stall_mode == "on",
         data_tiers=args.data_tiers == "on",
         stochastic=args.stochastic == "on",

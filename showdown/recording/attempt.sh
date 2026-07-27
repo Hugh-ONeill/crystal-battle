@@ -1,6 +1,6 @@
 #!/bin/bash
 # One recording attempt, v3 (overlay era): Prism commentary renders on the
-# tiled kitty panel (showdown/overlay_start.sh) and wf-recorder captures the
+# tiled kitty panel (crystal-broadcast) and wf-recorder captures the
 # whole workspace. Replaces the v2 relay flow: no Showdown login, no server
 # patch, and NO fullscreen — arrange the battle-browser + prism-panel split
 # once before recording; that split IS the broadcast frame.
@@ -35,12 +35,12 @@ sleep 1
 gate() {
   local REPLY_LOG="$LOGDIR/gate$N.log"
   rm -f "$REPLY_LOG"
-  (cd "$CB" && exec $PY -u showdown/caster_bridge.py --watch \
+  (cd "$CB" && exec $PY -m crystal_broadcast.caster_bridge --watch \
       --url "${PRISM_CASTER_URL:-ws://127.0.0.1:8131/ws}" \
       > "$REPLY_LOG" 2>&1) &
   local WATCH=$!
   sleep 2
-  (cd "$CB" && $PY showdown/caster_bridge.py \
+  (cd "$CB" && $PY -m crystal_broadcast.caster_bridge \
       --url "${PRISM_CASTER_URL:-ws://127.0.0.1:8131/ws}" \
       "[bridge-test] pre-take health gate $N" >/dev/null 2>&1)
   local i
@@ -60,10 +60,10 @@ case "$G" in
 esac
 
 # ---- commentary panel stack (feed server + tiled kitty panel; idempotent)
-bash "$CB/showdown/overlay_start.sh"
+bash "${CRYSTAL_BROADCAST:-$HOME/Developer/grimoire/crystal-broadcast}/crystal_broadcast/overlay_start.sh"
 
 # ---- transcript tap: keeps a text record AND is the [RESULT] detector
-(cd "$CB" && exec $PY -u showdown/caster_bridge.py --watch 2>&1 | tee "$TRANS") &
+(cd "$CB" && exec $PY -m crystal_broadcast.caster_bridge --watch 2>&1 | tee "$TRANS") &
 sleep 2
 
 # ---- find (or open) the Showdown Firefox window and raise it in its tile

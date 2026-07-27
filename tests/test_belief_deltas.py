@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from showdown.gen9_player import Gen9PokeEnginePlayer as P, _belief_prose
-from showdown.beat_director import Director
+from crystal_broadcast.beat_director import Director
 
 
 def _player():
@@ -25,7 +25,7 @@ def _player():
 
 def _pending_belief_beats(director):
     return [b for b in
-            (__import__("showdown.beat_director", fromlist=["classify"])
+            (__import__("crystal_broadcast.beat_director", fromlist=["classify"])
              .classify(ev) for ev in director._pending)
             if b and b.beat == "set_reveal"]
 

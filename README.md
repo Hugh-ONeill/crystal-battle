@@ -179,10 +179,18 @@ Requires Python 3.11+, a Rust toolchain, and Node for the local server.
 - [poke-env](https://github.com/hsahovic/poke-env) for Showdown connectivity.
 - [Smogon](https://www.smogon.com/stats/) usage statistics.
 
+### Related
+
+The PRISM + FRACTURE commentary duo now lives in its own repo,
+[crystal-broadcast](https://github.com/Hugh-ONeill/crystal-broadcast): the beat
+director, the caster, and the presentation-clock scheduler. The dependency runs
+one way — this repo imports it for `gen9_player.py --airi`, and it never imports
+back. Everything else here runs without it.
+
 ### Inspirations
 
-The broadcast side of this project (the PRISM + FRACTURE commentary duo) owes
-its shape to two projects it does not depend on:
+The broadcast side (now in crystal-broadcast) owes its shape to two projects it
+does not depend on:
 
 - [Neuro-sama](https://www.twitch.tv/vedal987) by Vedal, for the demonstration
   that the hard problem is not the model but the *director*: deciding what the

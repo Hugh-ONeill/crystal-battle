@@ -415,7 +415,7 @@ def test_scarf_inference_records_confirmed_belief():
 
     # and the player's diff turns that into exactly one set_reveal beat
     from showdown.gen9_player import Gen9PokeEnginePlayer as P
-    from showdown.beat_director import Director, classify
+    from crystal_broadcast.beat_director import Director, classify
     p = P.__new__(P)
     p._airi = object()
     p._director = Director()
