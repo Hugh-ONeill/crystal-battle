@@ -318,7 +318,7 @@ while [ "$lane" -le "$LANES" ]; do
           for kv in $W_ENV; do echo "env $kv"; done
           for tok in --local --username "CBGen9L${lane}${arm}" --mode accept \
               --format gen9ou --team "$W_TEAM" --team-reload on \
-              --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+              --search-ms "${CB_SEARCH_MS:-300}" \
               $CB_CAPS --n-games 999 --log-level 20; do
             echo "arg $tok"
           done
@@ -334,7 +334,7 @@ while [ "$lane" -le "$LANES" ]; do
         env $W_ENV .venv/bin/python showdown/gen9_player.py --local \
             --username "CBGen9L${lane}${arm}" \
             --mode accept --format gen9ou --team "$W_TEAM" --team-reload on \
-            --search-ms "${CB_SEARCH_MS:-300}" --set-samples 2 \
+            --search-ms "${CB_SEARCH_MS:-300}" \
             $CB_CAPS --n-games 999 --log-level 20 \
             "$@" >> "$W_LOG" 2>&1 &
         eval "OURS_PID_${arm:-A}=$!"

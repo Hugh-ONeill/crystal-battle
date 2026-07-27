@@ -43,7 +43,8 @@ from poke_env.ps_client.server_configuration import ShowdownServerConfiguration
 from showdown.name_mapping import _normalize
 from showdown.gen9_translator import Gen9Translator
 from showdown.poke_engine_player import _score_switch_in
-from showdown.airi_bridge import AiriBridge, DEFAULT_URL as AIRI_DEFAULT_URL
+from showdown.caster_bridge import (CasterBridge,
+                                    DEFAULT_URL as CASTER_DEFAULT_URL)
 from showdown.beat_director import (Director, Event, ProtocolScanner,
                                     TurnContext, world_collapse_prose,
                                     endgame_solved_prose, deep_think_prose)
@@ -472,7 +473,7 @@ class Gen9PokeEnginePlayer(Player):
                  value_batch: int = 32,
                  opp_net_path: str | None = None, opp_net_weight: float = 0.5,
                  verbose: bool = True,
-                 airi_bridge: AiriBridge | None = None,
+                 airi_bridge: CasterBridge | None = None,
                  airi_min_interval: float = 20.0,
                  airi_turn_gap: int = 0,
                  airi_min_swing: float = 0.10,
@@ -607,7 +608,7 @@ class Gen9PokeEnginePlayer(Player):
         self._set_samples = set_samples if set_source not in (None, "monotype") else 1
         self._verbose = verbose
         self._last_tag: str | None = None
-        # AIRI commentary bridge (optional): battle beats become input:text
+        # commentary bridge (optional): battle beats become input:text
         # events for the character. Momentum = the top line's avg MCTS score
         # (side_one win estimate); swings are measured against the last SENT
         # event, so a slow bleed still crosses the significance gate
@@ -628,7 +629,7 @@ class Gen9PokeEnginePlayer(Player):
         # composed beat text. All routing/gating logic lives in
         # beat_director (pure, offline-drivable — the gold-set eval runs
         # the same classes against replays); this class only adapts battle
-        # objects into TurnContext and ships Decision.text to AIRI.
+        # objects into TurnContext and ships Decision.text to the caster.
         self._scanner = ProtocolScanner()
         self._director = Director(min_interval=airi_min_interval,
                                   min_swing=airi_min_swing,
@@ -753,7 +754,7 @@ class Gen9PokeEnginePlayer(Player):
         pipeline. Safe to call from every decision point: no-op after the
         first call for a given battle tag. `preview_text` is a team-preview
         blob (our paste + predicted opponent paste) the caster mines to warm
-        its mechanic-fact cache; a real AIRI ignores the extra field."""
+        its mechanic-fact cache."""
         if self._airi is None or battle.battle_tag == self._airi_tag:
             return
         self._airi_tag = battle.battle_tag
@@ -1002,7 +1003,7 @@ class Gen9PokeEnginePlayer(Player):
             if decision.text:
                 # structured side-channel for the caster: director beats
                 # (persona/priority/register/handoff) + numeric HUD. Real
-                # AIRI reads only data.text and ignores these fields.
+                # a consumer that wants only prose reads data.text.
                 self._airi.send(
                     decision.text,
                     beats=[asdict(b) for b in decision.beats],
@@ -1980,9 +1981,11 @@ async def main():
                         default="accept")
     parser.add_argument("--user-to-challenge", default=None)
     parser.add_argument("--n-games", type=int, default=1)
-    parser.add_argument("--set-samples", type=int, default=2,
+    parser.add_argument("--set-samples", type=int,
+                        default=int(os.environ.get("CB_SET_SAMPLES") or 2),
                         help="sampled opponent-set worlds searched per turn "
-                             "(1 = deterministic top sets)")
+                             "(1 = deterministic top sets). Env fallback "
+                             "CB_SET_SAMPLES so par_series --ab can vary K.")
     parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
                         help="PS-curated + replay-observed set tiers; 'off' "
                              "reproduces the pure chaos config (ab9 baseline)")
@@ -2103,8 +2106,9 @@ async def main():
                         help="poke-env logger level (10=DEBUG shows protocol)")
     parser.add_argument("--airi", action="store_true",
                         help="commentate: forward battle beats + momentum to "
-                             "a running AIRI desktop app as input:text events")
-    parser.add_argument("--airi-url", default=AIRI_DEFAULT_URL,
+                             "the caster as input:text events")
+    parser.add_argument("--caster-url", "--airi-url", dest="airi_url",
+                        default=CASTER_DEFAULT_URL,
                         help="AIRI server WebSocket endpoint")
     parser.add_argument("--airi-min-interval", type=float, default=20.0,
                         help="max seconds between routine commentary beats")
@@ -2135,7 +2139,7 @@ async def main():
     set_source = args.set_source or (
         "monotype" if args.fmt == "gen9monotype" else args.fmt)
 
-    bridge = AiriBridge(url=args.airi_url) if args.airi else None
+    bridge = CasterBridge(url=args.airi_url) if args.airi else None
 
     player = Gen9PokeEnginePlayer(
         search_ms=args.search_ms,
