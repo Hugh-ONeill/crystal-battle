@@ -186,6 +186,192 @@ def _is_noop_status(move_id: str, battle) -> bool:
     return check(types, ability)
 
 
+# move.target values that hit an OPPONENT (vs self / ally / a side). Prankster's
+# Dark immunity blocks only moves aimed at the Dark mon itself, so self boosts
+# and side moves (hazards = FOE_SIDE) are exempt.
+_FOE_TARGETS = {"NORMAL", "ANY", "ADJACENT_FOE", "ALL_ADJACENT_FOES",
+                "RANDOM_NORMAL"}
+
+
+def _is_noop_prankster(move, battle) -> bool:
+    """True if `move` is a Prankster-boosted status move aimed at a Dark-type
+    opponent. Since gen 7 a Dark-type is immune to any status move Prankster
+    raised in priority that targets IT — Grimmsnarl Thunder Wave / Taunt into a
+    Kingambit or Ting-Lu simply fails, a clean no-op the flat-eval search will
+    otherwise repeat. Needs OUR active on Prankster (our ability is always
+    known), a foe-targeting Status move, and a Dark opponent; self boosts and
+    side hazards are exempt (they don't target the Dark mon)."""
+    if move is None:
+        return False
+    me = battle.active_pokemon
+    opp = battle.opponent_active_pokemon
+    if me is None or opp is None:
+        return False
+    if (me.ability or "").lower() != "prankster":
+        return False
+    if getattr(getattr(move, "category", None), "name", None) != "STATUS":
+        return False
+    if getattr(getattr(move, "target", None), "name", None) not in _FOE_TARGETS:
+        return False
+    return "DARK" in {t.name for t in (opp.type_1, opp.type_2) if t}
+
+
+_TYPE_CHART = None  # gen9 effectiveness chart, lazily loaded for the no-op check
+
+
+def _type_chart():
+    global _TYPE_CHART
+    if _TYPE_CHART is None:
+        from poke_env.data.gen_data import GenData
+        _TYPE_CHART = GenData.from_gen(9).type_chart
+    return _TYPE_CHART
+
+
+# moves that hit THROUGH type immunity — never flag them even at a chart 0x:
+# Thousand Arrows/Waves hit Flying; Struggle is typeless.
+_IMMUNITY_IGNORING = {"thousandarrows", "thousandwaves", "struggle"}
+
+# ability -> the damaging move TYPE it fully absorbs/negates. Applied ONLY when
+# the opponent's ability is REVEALED, so the flag stays certain (and identical
+# across sampled worlds). No reusable map existed to borrow: _grounded_by_species
+# is species-static hazard inference and the featurizer's levitate/air-balloon
+# constants are feature encodings — neither answers "is THIS move 0 right now".
+_ABILITY_IMMUNE_TYPE = {
+    "levitate": "GROUND", "eartheater": "GROUND",
+    "flashfire": "FIRE", "wellbakedbody": "FIRE",
+    "waterabsorb": "WATER", "stormdrain": "WATER", "dryskin": "WATER",
+    "voltabsorb": "ELECTRIC", "lightningrod": "ELECTRIC", "motordrive": "ELECTRIC",
+    "sapsipper": "GRASS",
+}
+_MOLD_BREAKER = {"moldbreaker", "turboblaze", "teravolt"}
+
+
+def _is_noop_attack(move, battle) -> bool:
+    """True if `move` is a damaging move dealing ZERO to the opponent's current
+    active by TYPE immunity — Shadow Ball into Normal, Earthquake into Flying.
+    A flat-eval MCTS can't tell a 0-damage attack from a real one and will
+    click an immune move for turns on end (the reported Gholdengo-vs-Blissey
+    and Gliscor-vs-Gliscor loops).
+
+    Like _is_noop_status, this is a no-op only against the CURRENT target — a
+    switch-in could be hit — but it makes the same trade that filter already
+    does: a real attack or a switch almost always dominates, and _map_choice
+    keeps the move if nothing else is legal, so we never strand the engine.
+
+    Zero comes three ways: TYPE immunity (chart 0x — certain), a REVEALED
+    absorb ability (Levitate/Flash Fire/Water Absorb/…), or a REVEALED Air
+    Balloon vs Ground. Ability/item immunity is only read off REVEALED info so
+    the flag is certain and world-consistent; unrevealed abilities are left to
+    the search. Conservative on the lift side too — never fires when OUR
+    ability (Scrappy/Mind's Eye/Mold Breaker), the move itself, or a grounding
+    effect punches the immunity through. Judged by CATEGORY, not base power:
+    fixed-damage attacks respect immunity too (Seismic Toss whiffs on Ghost,
+    Night Shade on Normal), so they ARE caught; Status moves share a type but
+    ignore the target (Swords Dance is Normal yet fine into a Ghost), so a
+    Status category is never flagged."""
+    if move is None:
+        return False
+    if _normalize(getattr(move, "id", "") or "") in _IMMUNITY_IGNORING:
+        return False
+    # only DAMAGING moves respect the target's typing; a missing category
+    # defaults to STATUS so an unreadable move is skipped, never wrongly dropped
+    if getattr(getattr(move, "category", None), "name", "STATUS") == "STATUS":
+        return False
+    mtype = getattr(move, "type", None)
+    opp = battle.opponent_active_pokemon
+    me = battle.active_pokemon
+    if mtype is None or opp is None or me is None:
+        return False
+    tname = mtype.name
+    opp_eff = {e.name for e in (opp.effects or {})}
+    opp_item = (opp.item or "").lower()
+    opp_ab = (opp.ability or "").lower()   # "" when unrevealed
+    my_ab = (me.ability or "").lower()
+    # Ring Target drops ALL of the holder's immunities outright
+    if opp_item == "ringtarget":
+        return False
+    # is the move 0 here — by TYPE (certain), a REVEALED absorb ability, or a
+    # REVEALED Air Balloon? Mold Breaker (ours) ignores the target's ability.
+    chart_immune = mtype.damage_multiplier(
+        opp.type_1, opp.type_2, type_chart=_type_chart()) == 0
+    ability_immune = (bool(opp_ab) and my_ab not in _MOLD_BREAKER
+                      and _ABILITY_IMMUNE_TYPE.get(opp_ab) == tname)
+    balloon_immune = tname == "GROUND" and opp_item == "airballoon"
+    if not (chart_immune or ability_immune or balloon_immune):
+        return False
+    # immunity confirmed — but it's only REAL if nothing lifts it:
+    if tname in {"NORMAL", "FIGHTING"}:
+        # Scrappy / Mind's Eye (attacker) or Foresight / Odor Sleuth (on the
+        # target) punch Normal & Fighting through Ghost
+        if my_ab in {"scrappy", "mindseye"} or opp_eff & {"FORESIGHT", "ODOR_SLEUTH"}:
+            return False
+    elif tname == "PSYCHIC" and "MIRACLE_EYE" in opp_eff:
+        return False  # Miracle Eye strips Dark's Psychic immunity
+    elif tname == "GROUND":
+        # a Flying / Levitate / Air Balloon target whiffs EQ only while AIRBORNE;
+        # Gravity / Smack Down / Ingrain / Iron Ball ground it and EQ connects
+        from poke_env.battle.field import Field
+        if (Field.GRAVITY in (battle.fields or {})
+                or opp_eff & {"SMACK_DOWN", "INGRAIN"}
+                or opp_item == "ironball"):
+            return False
+    return True
+
+
+# opponent ability -> move FLAG it fully blocks (damaging OR status). Revealed-
+# gated; bypassed by Mold Breaker (an ability), unlike the Safety Goggles item.
+_ABILITY_IMMUNE_FLAG = {"soundproof": "sound", "bulletproof": "bullet",
+                        "overcoat": "powder"}
+
+
+def _is_noop_ability(move, battle) -> bool:
+    """Opponent ABILITY that nullifies `move` — or, for Magic Bounce, reflects
+    it back onto us (same 'don't click it'). Revealed-gated so the flag is
+    certain and identical across worlds (single-ability species like Gholdengo
+    are known on sight, so they count immediately). Every case here is an
+    ability, so our Mold Breaker / Turboblaze / Teravolt lifts the WHOLE
+    function — the guard sits at the top. Items are NOT bypassed by Mold
+    Breaker and live in _is_noop_item.
+      - Good as Gold (Gholdengo): any foe-targeting Status move
+      - Magic Bounce (Espeon/Hatterene): foe-targeting Status OR an entry hazard
+        (FOE_SIDE) — both bounce back onto us
+      - Soundproof / Bulletproof / Overcoat: sound / bullet / powder-flag moves"""
+    if move is None:
+        return False
+    me = battle.active_pokemon
+    opp = battle.opponent_active_pokemon
+    if me is None or opp is None:
+        return False
+    if (me.ability or "").lower() in _MOLD_BREAKER:
+        return False
+    opp_ab = (opp.ability or "").lower()
+    flags = getattr(move, "flags", None) or {}
+    cat = getattr(getattr(move, "category", None), "name", None)
+    if cat == "STATUS":
+        tgt = getattr(getattr(move, "target", None), "name", None)
+        if opp_ab == "goodasgold" and tgt in _FOE_TARGETS:
+            return True
+        if opp_ab == "magicbounce" and (tgt in _FOE_TARGETS or tgt == "FOE_SIDE"):
+            return True
+    flag = _ABILITY_IMMUNE_FLAG.get(opp_ab)
+    return bool(flag) and flag in flags
+
+
+def _is_noop_item(move, battle) -> bool:
+    """Opponent ITEM that nullifies `move`. Kept separate from _is_noop_ability
+    because items are NOT bypassed by Mold Breaker. Safety Goggles blocks
+    powder-flag moves (Spore / Sleep Powder / Stun Spore / …). (Air Balloon's
+    Ground immunity stays in _is_noop_attack, where the grounding-lifts it
+    shares with Flying-type and Levitate already live.)"""
+    if move is None:
+        return False
+    opp = battle.opponent_active_pokemon
+    if opp is None:
+        return False
+    flags = getattr(move, "flags", None) or {}
+    return (opp.item or "").lower() == "safetygoggles" and "powder" in flags
+
+
 def _norm_opt(s: str) -> str:
     """Engine option string -> comparable key in the same _normalize space
     protocol names land in, preserving the 'switch X' / 'X-tera' forms.
@@ -1872,11 +2058,20 @@ class Gen9PokeEnginePlayer(Player):
         if not mappable:
             return None
         # drop guaranteed no-op moves the flat-eval search can't distinguish:
-        # already-maxed hazard re-sets, and status moves that can't land on the
-        # current target (immune / already statused / behind Sub). Keep them
-        # only if nothing else is legal.
+        # maxed-hazard re-sets; status moves that can't land (immune / already
+        # statused / behind Sub); damaging moves the target is TYPE-IMMUNE to
+        # (Shadow Ball into Normal, EQ into Flying); Prankster status into Dark;
+        # and moves an opponent ability/item nullifies or bounces (Good as Gold,
+        # Magic Bounce, Soundproof/Bulletproof/Overcoat, Safety Goggles). Keep
+        # them only if nothing else is legal.
         def _noop(m):
-            return _is_noop_hazard(m[3], battle) or _is_noop_status(m[3], battle)
+            mv = moves_by_id.get(m[3])
+            return (_is_noop_hazard(m[3], battle)
+                    or _is_noop_status(m[3], battle)
+                    or _is_noop_attack(mv, battle)
+                    or _is_noop_prankster(mv, battle)
+                    or _is_noop_ability(mv, battle)
+                    or _is_noop_item(mv, battle))
         useful = [m for m in mappable if not _noop(m)]
         mappable = useful or mappable
         mappable = [m[:3] for m in mappable]
