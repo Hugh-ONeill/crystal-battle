@@ -7,7 +7,7 @@ real event no beat mentioned) — it caught every mirror-attribution flip during
 the duo's debugging.
 
 Run:  .venv/bin/python -m showdown.recording.compare \
-          <player_log> <transcript> <out.txt> [--username CBAiri]
+          <player_log> <transcript> <out.txt> [--username CBDemo]
 
 The player log is poke-env at --log-level 20: the first protocol message of
 each received frame is prefixed '... - <user> - INFO - <<< ', later messages in
@@ -174,7 +174,7 @@ def main():
     ap.add_argument("player_log", help="gen9_player log (--log-level 20)")
     ap.add_argument("transcript", help="capture_feed transcript")
     ap.add_argument("out", help="comparison output path")
-    ap.add_argument("--username", default="CBAiri",
+    ap.add_argument("--username", default="CBDemo",
                     help="our bot's Showdown username (marks which side is us)")
     args = ap.parse_args()
     turns, result, role_us = build_game(args.player_log, args.username)

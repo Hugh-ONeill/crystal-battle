@@ -22,7 +22,7 @@ log() { echo "[attempt$N] $*"; }
 
 # ---- clear leftovers from any previous attempt
 pkill -f "caster_bridge.py --watch" 2>/dev/null
-pkill -f "gen9_player.py.*CBAiri" 2>/dev/null
+pkill -f -- "--username CBDemo" 2>/dev/null
 sleep 1
 
 # ---- health gate: a test beat must come back as a generated line.

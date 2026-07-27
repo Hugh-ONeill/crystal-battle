@@ -1,7 +1,11 @@
 #!/bin/bash
-# Headless CBAiri runner for one recorded exhibition match vs FPAiri.
-# CBAiri/FPAiri only — never CBGen9/FPSpar1 (same-name login kicks a running
-# series bot offline).
+# Headless CBDemo runner for one recorded exhibition match vs FPDemo.
+#
+# CBDemo/FPDemo ONLY. Never CBGen9/FPSpar1/PAC-Crystal (same-name login kicks
+# a running series or ladder bot offline). The demo names are also chosen so
+# they are not a PREFIX of any reserved name: this harness pattern-kills by
+# name, and 'FPSpar' would have matched the reserved 'FPSpar1'. Two A/B
+# series were destroyed that way on 2026-07-27.
 #
 # TURN PACE STAYS ON (8s) — dropping it was TRIED AND FAILED 2026-07-27.
 #
@@ -23,7 +27,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 cd "$HERE/../.." || exit 1
 PACE="${PRISM_TURN_PACE:-8}"
 exec .venv/bin/python -u showdown/gen9_player.py \
-  --local --username CBAiri --mode challenge --user-to-challenge FPAiri \
+  --local --username CBDemo --mode challenge --user-to-challenge FPDemo \
   --format gen9ou \
   --team "${PRISM_TEAM:-showdown/teams/suite_v1/03_dnite_tinglu_balance.txt}" \
   --n-games 1 --search-ms "${PRISM_SEARCH_MS:-2000}" \
