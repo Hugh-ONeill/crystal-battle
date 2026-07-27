@@ -178,3 +178,15 @@ Requires Python 3.11+, a Rust toolchain, and Node for the local server.
   engine underneath everything, and the benchmark to beat.
 - [poke-env](https://github.com/hsahovic/poke-env) for Showdown connectivity.
 - [Smogon](https://www.smogon.com/stats/) usage statistics.
+
+### Inspirations
+
+The broadcast side of this project (the PRISM + FRACTURE commentary duo) owes
+its shape to two projects it does not depend on:
+
+- [Neuro-sama](https://www.twitch.tv/vedal987) by Vedal, for the demonstration
+  that the hard problem is not the model but the *director*: deciding what the
+  character attends to and when it speaks.
+- [Project AIRI](https://github.com/moeru-ai/airi), whose event protocol this
+  project's caster bridge was originally written against. AIRI is an
+  inspiration, not a dependency — the commentary stack is self-contained.
