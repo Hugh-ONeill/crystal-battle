@@ -489,7 +489,7 @@ def _species_display(species_id: str) -> str:
 
 
 def _species_stats(display_name: str) -> tuple[int, int] | None:
-    """Base (Atk, SpA) for the director's burn physical-vs-special split."""
+    """Base (Atk, SpA) — the species-level fallback."""
     entry = _gen9_data().pokedex.get(_normalize(display_name))
     if entry and "baseStats" in entry:
         bs = entry["baseStats"]
@@ -824,7 +824,7 @@ class Gen9PokeEnginePlayer(Player):
         self._scanner = ProtocolScanner()
         self._director = Director(min_interval=airi_min_interval,
                                   min_swing=airi_min_swing,
-                                  stats_fn=_species_stats,
+                                  stats_fn=self._attacking_stats,
                                   ability_fn=self._ability_lookup,
                                   min_turn_gap=airi_turn_gap)
         # set at each decision so _ability_lookup can resolve our own mons'
@@ -1011,6 +1011,38 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             return None
         return next(iter(abils)) if len(abils) == 1 else None
+
+    def _attacking_stats(self, display_name: str,
+                         side: str | None = None) -> tuple[int, int] | None:
+        """(Atk, SpA) for the director, REAL where we have them.
+
+        Base stats say what a species could do; the director is asking what
+        this mon is built to do, and EVs plus nature move that a long way —
+        a 252+ Atk Iron Valiant does not care about a Special Attack drop
+        even though its base 130/120 spread reads mixed. Showdown sends our
+        own side's computed stats in the request, so for our mons this is a
+        lookup rather than a guess. An opponent's EVs are never revealed, so
+        their side falls back to the species baseline and stays conservative.
+        """
+        base = _species_stats(display_name)
+        if side != "us":
+            return base
+        battle = self._cur_battle
+        if battle is None:
+            return base
+        try:
+            key = _normalize(display_name)
+            for mon in battle.team.values():
+                if _normalize(mon.species) != key:
+                    continue
+                stats = getattr(mon, "stats", None) or {}
+                atk, spa = stats.get("atk"), stats.get("spa")
+                if atk and spa:
+                    return int(atk), int(spa)
+                break
+        except Exception:
+            pass
+        return base
 
     def _ability_lookup(self, display_name: str, side: str | None) -> set:
         """Possible normalized abilities for a mon, for the director's
