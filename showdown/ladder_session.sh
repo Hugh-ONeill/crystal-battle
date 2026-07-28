@@ -43,6 +43,14 @@ PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-1800}"
 cd "$CB"
 [ -d "$POOL" ] || { echo "FATAL: team pool dir $POOL missing" >&2; exit 1; }
 
+# Config banner: sessions are compared against each other weeks apart (see
+# `ladder tally all`), and a winrate is meaningless without the argv and code
+# version behind it — a run with the tera search off once looked like a 30pp
+# regression. Record it in the log itself; nothing else knows what we ran with.
+COMMIT=$(git -C "$CB" rev-parse --short HEAD 2>/dev/null || echo "?")
+[ -n "$(git -C "$CB" status --porcelain --untracked-files=no 2>/dev/null)" ] && COMMIT="$COMMIT+dirty"
+echo "=== session config | commit=$COMMIT | format=$FORMAT | server=$SERVER | pool=$(basename "$POOL") | timeout=${PER_GAME_TIMEOUT} | argv= $*" >> "$LOG"
+
 g=1
 wins=0
 while [ "$g" -le "$N_GAMES" ]; do
