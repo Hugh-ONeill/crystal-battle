@@ -826,6 +826,7 @@ class Gen9PokeEnginePlayer(Player):
                                   min_swing=airi_min_swing,
                                   stats_fn=self._attacking_stats,
                                   ability_fn=self._ability_lookup,
+                                  moves_fn=self._revealed_move_categories,
                                   min_turn_gap=airi_turn_gap)
         # set at each decision so _ability_lookup can resolve our own mons'
         # known abilities (vs an opponent's dex possibilities)
@@ -1043,6 +1044,40 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
         return base
+
+    def _revealed_move_categories(self, display_name: str,
+                                  side: str | None = None) -> list:
+        """Categories of the damaging moves a mon has been SEEN to use.
+
+        The opponent's EV spread is never revealed, so base stats are the only
+        fallback for "does this mon care about that stat" — and they
+        under-suppress, reading a 252+ Atk Iron Valiant as mixed at 130/120.
+        What it has actually clicked is evidence rather than inference, and it
+        sharpens every turn. Status moves are excluded: they say nothing about
+        which attacking stat is being invested in.
+        """
+        battle = self._cur_battle
+        if battle is None:
+            return []
+        try:
+            team = battle.team if side == "us" else battle.opponent_team
+            key = _normalize(display_name)
+            for mon in team.values():
+                if _normalize(mon.species) != key:
+                    continue
+                out = []
+                for mv in (getattr(mon, "moves", None) or {}).values():
+                    if not getattr(mv, "base_power", 0):
+                        continue
+                    cat = str(getattr(mv, "category", "")).lower()
+                    if "physical" in cat:
+                        out.append("physical")
+                    elif "special" in cat:
+                        out.append("special")
+                return out
+        except Exception:
+            pass
+        return []
 
     def _ability_lookup(self, display_name: str, side: str | None) -> set:
         """Possible normalized abilities for a mon, for the director's
