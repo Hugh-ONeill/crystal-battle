@@ -16,6 +16,12 @@
 BEGIN {
     if (me == "") me = "PAC-Crystal"
     Z = 1.96
+    # optional team->archetype map (showdown/classify_pool.py) for `arch` view
+    if (archmap != "") {
+        while ((getline aline < archmap) > 0)
+            if (split(aline, aa, "\t") >= 2) { arch_of[aa[1]] = aa[2]; have_arch = 1 }
+        close(archmap)
+    }
 }
 
 # ---- per-file bookkeeping -------------------------------------------------
@@ -133,6 +139,9 @@ function wilson(w, l,   n, p, c, h) {   # 95% Wilson interval, honest at small n
     h = Z * sqrt(p * (1 - p) / n + Z * Z / (4 * n * n)) / (1 + Z * Z / n)
     return sprintf("[%.0f%%, %.0f%%]", 100 * (c - h), 100 * (c + h))
 }
+function leadname(t,   a) {         # "02_pelipper_debe17fc" -> "pelipper"
+    a = t; sub(/^[0-9]+_/, "", a); sub(/_[0-9a-f]+$/, "", a); return a
+}
 function bar(w, l,   n, k, s) {     # 12-cell winrate bar
     n = w + l
     if (n == 0) return "            "
@@ -154,6 +163,11 @@ END {
         tot[v]++
         oseen[o] = 1; ow[o, v]++; ogames[o]++
         tseen[team[r]] = 1; tw[team[r], v]++
+        if (have_arch) {
+            ar = arch_of[team[r]]; if (ar == "") ar = "?"
+            aseen[ar] = 1
+            if (!walk) apw[ar, v]++          # archetype record is board-only
+        }
         fres[src[r], v]++
         endkind[how[r]]++
         if (walk) { walkover[v]++; walk_by[o]++ }
@@ -258,6 +272,54 @@ END {
                    "+ " singles_n " other team" (singles_n == 1 ? "" : "s"),
                    rec(singles_w, singles_l, 0),
                    rate(singles_w, singles_l)
+        printf "\n"
+    }
+
+    # ---- per-archetype (pooled across teams, board-only) ------------------
+    # per-team n is noise (5-10 games each); pooling by archetype makes the
+    # winrate readable. A CI that clears the pool mean is an actual keep/drop
+    # signal; overlapping "—" is indistinguishable. Weather groups are solid
+    # (ability-definitive); stall/HO/balance are heuristic (see classify_pool.py).
+    if (have_arch) {
+        pm = (pw["W"] + pw["L"]) ? pw["W"] / (pw["W"] + pw["L"]) : 0
+        printf "  per-archetype  (board-only; pool mean %.0f%%, a CI clearing it = keep/drop)\n",
+               100 * pm
+        printf "    %-14s %4s  %-11s %6s  %-14s  %s\n",
+               "archetype", "tms", "record", "rate", "95% CI", "vs pool"
+        na = 0
+        for (ar in aseen) aord[++na] = ar
+        for (i = 1; i < na; i++)
+            for (j = i + 1; j <= na; j++) {
+                ra = (apw[aord[i],"W"]+apw[aord[i],"L"]) ? apw[aord[i],"W"]/(apw[aord[i],"W"]+apw[aord[i],"L"]) : -1
+                rb = (apw[aord[j],"W"]+apw[aord[j],"L"]) ? apw[aord[j],"W"]/(apw[aord[j],"W"]+apw[aord[j],"L"]) : -1
+                if (rb > ra) { sw = aord[i]; aord[i] = aord[j]; aord[j] = sw }
+            }
+        for (i = 1; i <= na; i++) {
+            ar = aord[i]
+            aWL = apw[ar,"W"] + apw[ar,"L"]
+            nteams = 0
+            for (t in tseen) { a2 = arch_of[t]; if (a2 == "") a2 = "?"; if (a2 == ar) nteams++ }
+            flag = "—"
+            if (aWL > 0) {
+                p2 = apw[ar,"W"] / aWL
+                c2 = (p2 + Z*Z/(2*aWL)) / (1 + Z*Z/aWL)
+                h2 = Z * sqrt(p2*(1-p2)/aWL + Z*Z/(4*aWL*aWL)) / (1 + Z*Z/aWL)
+                if (c2 - h2 > pm)      flag = "above ✓"
+                else if (c2 + h2 < pm) flag = "below ✓"
+            }
+            printf "    %-14s %4d  %-11s %6s  %-14s  %s\n", ar, nteams,
+                   rec(apw[ar,"W"], apw[ar,"L"], apw[ar,"T"]),
+                   rate(apw[ar,"W"], apw[ar,"L"]), wilson(apw[ar,"W"], apw[ar,"L"]), flag
+        }
+        printf "    members (lead mon):\n"
+        for (i = 1; i <= na; i++) {
+            ar = aord[i]; lst = ""
+            for (t in tseen) {
+                a2 = arch_of[t]; if (a2 == "") a2 = "?"
+                if (a2 == ar) lst = lst (lst == "" ? "" : ", ") leadname(t)
+            }
+            printf "      %-12s %s\n", ar, lst
+        }
         printf "\n"
     }
 
