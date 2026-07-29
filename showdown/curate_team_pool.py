@@ -19,6 +19,21 @@ Output: two flat dirs of Showdown-paste .txt files that ladder_session.sh
 rotates over via `shuf`, plus a pool_manifest.json recording provenance and
 the exact validator checkout.
 
+HAND-CURATION SURVIVES A REGEN (2026-07-29). pool_hl is gitignored and this
+script CLEARS it before rewriting, so anything curated by hand inside it used
+to live only until the next regen — a rerun silently restored every benched
+team and deleted every manual addition. The two durable, tracked sidecars are
+applied on every run:
+
+  teams/pool_hl_drops.json   core hashes to remove, with the reason. Keyed on
+                             the core hash (the trailing filename field), not
+                             the index, so drops survive a re-ranking that
+                             renumbers the pool. Applied AFTER the top-N cut,
+                             so the pool shrinks rather than backfilling with
+                             never-benched teams; raise --hl-size for slots.
+  teams/pool_hl_manual/      pastes copied in verbatim after generation, for
+                             teams that aren't in the metamon slice at all.
+
 Usage:
   .venv/bin/python showdown/curate_team_pool.py \
       --ps ~/Developer/grimoire/pokemon-showdown \
@@ -76,16 +91,50 @@ def validate_dir(ps: Path, files: list[Path], fmt: str) -> list[dict]:
     return out
 
 
-def write_pool(dest: Path, entries: list[tuple[Path, list[str]]]) -> None:
-    """Write (file, species) entries as NN_lead_hash.txt, clearing dest."""
+def write_pool(dest: Path, entries: list[tuple[Path, list[str]]],
+               indices: list[int] | None = None) -> None:
+    """Write (file, species) entries as NN_lead_hash.txt, clearing dest.
+
+    `indices` overrides the NN prefix, so pool_hl can number by POPULARITY RANK
+    rather than by surviving position: a dropped team leaves a gap instead of
+    renumbering everything below it. That keeps filenames stable across regens
+    (so a regen is a no-op on an already-curated pool) and keeps the names in
+    pool_hl_drops.json pointing at the ranks they were benched from.
+    """
     dest.mkdir(parents=True, exist_ok=True)
     for old in dest.glob("*.txt"):
         old.unlink()
-    for i, (src, species) in enumerate(entries):
+    for pos, (src, species) in enumerate(entries):
+        i = indices[pos] if indices is not None else pos
         text = src.read_text()
         lead = _lead(text).lower().replace(" ", "").replace("-", "")
         name = f"{i:02d}_{lead}_{_short_hash(_core_key(species))}.txt"
         (dest / name).write_text(text)
+
+
+def load_drops(path: Path) -> dict[str, dict]:
+    """Core-hash -> drop record from the tracked sidecar. Missing file is not
+    an error (a fresh checkout has no curation yet), but a malformed one is —
+    silently curating with an empty drop list is how the state got lost."""
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text()).get("drops", {})
+
+
+def apply_manual(dest: Path, manual: Path) -> list[str]:
+    """Copy the tracked manual additions into the freshly written pool."""
+    if not manual.is_dir():
+        return []
+    added = []
+    for src in sorted(manual.glob("*.txt")):
+        target = dest / src.name
+        if target.exists():
+            print(f"  WARNING: manual add {src.name} collides with a curated "
+                  f"entry and was NOT copied (rename it above the curated range)")
+            continue
+        target.write_text(src.read_text())
+        added.append(src.name)
+    return added
 
 
 def main():
@@ -96,11 +145,16 @@ def main():
     ap.add_argument("--hl-size", type=int, default=40,
                     help="top-N most-popular legal hl cores to keep")
     ap.add_argument("--out", default=str(HERE / "teams"))
+    ap.add_argument("--drops", default=str(HERE / "teams" / "pool_hl_drops.json"),
+                    help="tracked core-hash drop list applied to pool_hl")
+    ap.add_argument("--manual", default=str(HERE / "teams" / "pool_hl_manual"),
+                    help="tracked pastes copied into pool_hl after generation")
     args = ap.parse_args()
 
     ps = Path(args.ps).expanduser()
     teams = Path(args.teams).expanduser()
     out = Path(args.out)
+    drops = load_drops(Path(args.drops).expanduser())
 
     ver = subprocess.run(["git", "-C", str(ps), "log", "-1",
                           "--format=%h %ci"], capture_output=True, text=True
@@ -144,13 +198,27 @@ def main():
         core_count[key] += 1
         core_rep.setdefault(key, (Path(r["path"]), r["species"]))
     top = core_count.most_common(args.hl_size)
-    hl_entries = [core_rep[k] for k, _ in top]
-    write_pool(out / "pool_hl", hl_entries)
+    # Drops apply AFTER the popularity cut: a dropped core frees a slot rather
+    # than promoting the next core in, so a regen reproduces the pool that was
+    # actually benched instead of quietly seeding it with untested teams.
+    dropped_here = [(k, drops[_short_hash(k)]) for k, _ in top
+                    if _short_hash(k) in drops]
+    kept = [(rank, k) for rank, (k, _) in enumerate(top)
+            if _short_hash(k) not in drops]
+    hl_entries = [core_rep[k] for _, k in kept]
+    write_pool(out / "pool_hl", hl_entries, [rank for rank, _ in kept])
+    manual_added = apply_manual(out / "pool_hl", Path(args.manual).expanduser())
     manifest["sources"]["hl_05_26"] = {
         "candidates": len(hl_res), "legal": hl_legal,
         "unique_legal_cores": len(core_count),
         "kept_top_by_popularity": len(hl_entries),
         "top_core_instances": [c for _, c in top[:5]],
+        "dropped_by_curation": [
+            {"hash": _short_hash(k), "was": d.get("was"),
+             "class": d.get("class"), "reason": d.get("reason")}
+            for k, d in dropped_here],
+        "manual_additions": manual_added,
+        "pool_size": len(hl_entries) + len(manual_added),
         "role": "large current-meta rotation (reconstructed, popularity-ranked)"}
 
     (out / "pool_manifest.json").write_text(json.dumps(manifest, indent=2))
@@ -165,6 +233,20 @@ def main():
     if top:
         print(f"  most-popular legal core seen {top[0][1]}x; "
               f"#{len(top)} seen {top[-1][1]}x")
+    for k, d in dropped_here:
+        print(f"  dropped [{d.get('class')}] {d.get('was')} "
+              f"({_short_hash(k)}): {d.get('reason')}")
+    # A drop that matches nothing is worth surfacing: either the core fell out
+    # of the top-N on its own (harmless, the entry is now dead weight) or the
+    # hash is wrong and a benched team is quietly back in the rotation.
+    stale = set(drops) - {_short_hash(k) for k, _ in top}
+    for h in sorted(stale):
+        print(f"  NOTE: drop {h} ({drops[h].get('was')}) matched no team in "
+              f"the top {args.hl_size} — already out of the pool, or a bad hash")
+    for name in manual_added:
+        print(f"  manual add: {name}")
+    print(f"  pool_hl size: {len(hl_entries)} curated "
+          f"+ {len(manual_added)} manual = {len(hl_entries) + len(manual_added)}")
     leads = Counter(_lead((out / 'pool_hl' / f.name).read_text())
                     for f in sorted((out / 'pool_hl').glob('*.txt')))
     print("  hl pool lead spread: " +

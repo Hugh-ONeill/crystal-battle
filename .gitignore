@@ -36,9 +36,14 @@ showdown/desk_reads_*.jsonl
 showdown/gen9ou_replay_sets.json
 
 # curated team pools — derived from the metamon teams dataset (license check
-# pending); reproducible in ~16s via showdown/curate_team_pool.py
+# pending); reproducible in ~16s via showdown/curate_team_pool.py.
+# The HAND-curation is deliberately NOT ignored: pool_hl_drops.json and
+# pool_hl_manual/ are the tracked inputs the curator replays on every run, so
+# a regen no longer wipes it (2026-07-29). pool_hl_benched/ is just the
+# archive of dropped pastes and regenerates from the drop list.
 showdown/teams/pool_competitive/
 showdown/teams/pool_hl/
+showdown/teams/pool_hl_benched/
 showdown/teams/pool_manifest.json
 showdown/grudges.json
 showdown/scouting_book.json
