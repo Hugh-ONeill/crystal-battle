@@ -241,7 +241,32 @@ fi
 # shares the read-only data COW. Env-flag A/B arms share one zygote (env
 # applied post-fork, before any engine OnceLock read); PYTHONPATH
 # build-shadow arms CANNOT (module already loaded pre-fork) and are refused.
-ZY_FIFO=""; ZY_PID=""; ZY_READY=""
+ZY_FIFO=""; ZY_PID=""; ZY_READY=""; LANE_PIDS=""
+
+# Tear down the zygote and the run's scratch files. Runs on normal exit AND on
+# INT/TERM, so an interrupted series doesn't leak the warm-image process —
+# which, under the usual `systemd-inhibit ... sh par_series.sh` launch, also
+# means the sleep block gets dropped. Idempotent: the EXIT trap re-runs it
+# after an INT/TERM path already did.
+cleanup() {
+  for p in $LANE_PIDS; do kill "$p" 2>/dev/null; done
+  LANE_PIDS=""
+  if [ -n "$ZY_PID" ]; then
+    timeout 5 sh -c "echo shutdown > '$ZY_FIFO'" 2>/dev/null
+    sleep 0.5
+    kill "$ZY_PID" 2>/dev/null
+    wait "$ZY_PID" 2>/dev/null
+    ZY_PID=""
+  fi
+  [ -n "$ZY_FIFO" ] && rm -f "$ZY_FIFO" "$ZY_READY" \
+      "$CB"/showdown/bench/"${NAME}"_L*.zyreq \
+      "$CB"/showdown/bench/"${NAME}"_L*.zyresp
+  rm -f "$QUEUE" "$QUEUE.lock" "$QUEUE.verdict"
+}
+trap 'cleanup' EXIT
+trap 'cleanup; exit 130' INT
+trap 'cleanup; exit 143' TERM
+
 # DEFAULT-ON 2026-07-27 (validated end-to-end at 16 lanes: ~5.6GB fleet vs ~17GB
 # cold, private bounded to ~440MB even on a 294-turn stall game). Set CB_ZYGOTE=0
 # to force cold workers. Build-shadow (PYTHONPATH) arms can't fork-share the
@@ -432,18 +457,20 @@ while [ "$lane" -le "$LANES" ]; do
           "$CB/showdown/bench/${NAME}_L${lane}A.team" \
           "$CB/showdown/bench/${NAME}_L${lane}B.team"
   ) &
+  LANE_PIDS="$LANE_PIDS $!"
   lane=$((lane + 1))
 done
-wait
-
-if [ -n "$ZY_PID" ]; then
-  timeout 5 sh -c "echo shutdown > '$ZY_FIFO'" 2>/dev/null
-  sleep 0.5
-  kill "$ZY_PID" 2>/dev/null
-  rm -f "$ZY_FIFO" "$ZY_READY" \
-      "$CB"/showdown/bench/"${NAME}"_L*.zyreq \
-      "$CB"/showdown/bench/"${NAME}"_L*.zyresp
-fi
+# Wait on the LANES ONLY, never a bare `wait`. The zygote is also a background
+# child of this script, and it never exits on its own — it waits for the
+# shutdown message that `cleanup` sends AFTER this point. A bare `wait` is
+# therefore a deadlock against our own zygote: every lane finishes, the series
+# is complete, and the script hangs forever holding whatever inhibitor it was
+# launched under (3 for 3 on 2026-07-27 — cbest dispensed and decided all 200
+# games at 15:23 and the wrapper was still blocking suspend at 17:14).
+for p in $LANE_PIDS; do
+  wait "$p" 2>/dev/null
+done
+LANE_PIDS=""
 
 W=$(tally CBGen9)
 L=$(tally FPSpar1)
@@ -477,4 +504,5 @@ if [ -n "$AB_ENV" ]; then
     fi
   fi
 fi
-rm -f "$QUEUE" "$QUEUE.lock" "$QUEUE.verdict"
+# queue/lock/verdict and the zygote are torn down by the EXIT trap (cleanup),
+# which runs after this summary has read the verdict file.
