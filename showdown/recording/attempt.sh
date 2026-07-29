@@ -103,7 +103,11 @@ if [ -n "${PRISM_SPEECH:-}" ]; then
   # Widening the turn gate means fewer, better-spaced moments rather
   # than a queue of dropped ones.
   TURN_PACE=${PRISM_TURN_PACE:-12}
-  SPEECH_ARGS="--speech --speech-out $LOGDIR/speech$N --speech-budget $SPEECH_BUDGET"
+  # Stable like the sink, and for the same reason: the caster outlives a
+  # take, so a per-take directory means take 2 onward writes its wavs
+  # under take 1's name. Sequence numbers keep rising and the transcript
+  # timestamps say which take a clip belongs to.
+  SPEECH_ARGS="--speech --speech-out $LOGDIR/speech --speech-budget $SPEECH_BUDGET"
   SPEECH_ARGS="$SPEECH_ARGS --speech-sink $SPEECH_SINK"
 fi
 up 8131 || { setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS </dev/null \
