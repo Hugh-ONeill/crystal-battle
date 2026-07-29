@@ -877,6 +877,19 @@ class Gen9PokeEnginePlayer(Player):
         """6x6 MCTS maximin over (our lead, their predicted lead) pairings —
         a fixed lead hands the opponent a free, certain counter-pick every
         game. Falls back to paste order on any failure."""
+        # Ladder double-match guard (layer 1): a single /search can be matched
+        # by the server into TWO battles a few seconds apart — the search flag
+        # doesn't clear on the first match — orphaning the second into a ~5min
+        # inactivity loss (diagnosed 2026-07-29). Cancel any lingering search
+        # the moment our real battle reaches preview, closing that window.
+        # Idempotent, one-shot, ladder mode only (set in main()).
+        if getattr(self, "_cancel_search_after_first", False) \
+                and not getattr(self, "_search_cancelled", False):
+            self._search_cancelled = True
+            try:
+                await self.ps_client.send_message("/cancelsearch")
+            except Exception as e:  # never let it block the preview reply
+                print(f"  /cancelsearch failed: {e!r}", flush=True)
         self._refresh_team_paste()
         self._archetype = None          # re-detected fresh each preview below
         if self._team_paste is None:
@@ -2217,6 +2230,36 @@ async def _ws_closed_watchdog(player, interval: float = 5.0):
             return
 
 
+async def _first_finish_watchdog(player, interval: float = 1.0):
+    """Return once the INTENDED (first-created) battle has FINISHED.
+
+    poke-env's ladder(1) blocks on _battle_count_queue.join(), which does NOT
+    return while a double-matched orphan battle sits unplayed in the queue — so
+    after our real game ends the process idles for the orphan's full inactivity
+    timeout (~5min) before ladder(1) unblocks and main() can shut down. Watching
+    the first-created battle (dicts preserve insertion order, so the earliest
+    key is the intended game; the orphan is the later double-match) lets main()
+    stop as soon as the real game is done; the teardown then forfeits any orphan
+    instead of waiting it out.
+
+    MUST track the intended battle specifically, not "any finished battle": a
+    long grind can still be live when the orphan hits its own inactivity
+    timeout, and firing on the orphan's finish would forfeit our live game."""
+    first_tag = None
+    while True:
+        await asyncio.sleep(interval)
+        try:
+            battles = player._battles
+            if first_tag is None and battles:
+                first_tag = next(iter(battles))
+            if first_tag is not None:
+                b = battles.get(first_tag)
+                if b is not None and b.finished:
+                    return
+        except Exception:
+            return
+
+
 async def main():
     parser = argparse.ArgumentParser(description="gen9 poke-engine live player")
     parser.add_argument("--local", action="store_true",
@@ -2481,18 +2524,34 @@ async def main():
         log_level=args.log_level,
     )
 
+    # Ladder double-match guard (layer 1): let teampreview cancel the lingering
+    # /search once our real battle starts. Ladder mode only (challenge/accept
+    # don't search), so the flag never touches those paths.
+    player._cancel_search_after_first = (args.mode == "ladder")
+
     if bridge is not None:
         await bridge.start()
+
+    # single-ladder-game runs stop as soon as the one real battle finishes,
+    # rather than waiting out a double-matched orphan's inactivity timeout.
+    one_ladder_game = (args.mode == "ladder" and args.n_games == 1)
 
     # Race the connect mode against a socket watchdog: if the websocket dies
     # mid-battle, poke-env leaves the mode coroutine hanging forever (see
     # _ws_closed_watchdog), so we detect the dead socket and bail instead of
-    # wedging the process with its search memory resident.
+    # wedging the process with its search memory resident. For a single ladder
+    # game we also race a first-finish watchdog (layer 2): ladder(1)'s join()
+    # won't return while an orphaned double-match battle sits in the queue.
     try:
         mode = asyncio.ensure_future(_run_player_mode(player, args, parser))
         watch = asyncio.ensure_future(_ws_closed_watchdog(player))
+        racers = {mode, watch}
+        finish = None
+        if one_ladder_game:
+            finish = asyncio.ensure_future(_first_finish_watchdog(player))
+            racers.add(finish)
         done, pending = await asyncio.wait(
-            {mode, watch}, return_when=asyncio.FIRST_COMPLETED)
+            racers, return_when=asyncio.FIRST_COMPLETED)
         for t in pending:
             t.cancel()
         await asyncio.gather(*pending, return_exceptions=True)
@@ -2500,9 +2559,22 @@ async def main():
             print("Showdown connection lost; shutting down cleanly "
                   "(poke-env swallows the socket error and would otherwise "
                   "hang holding the search's memory)", flush=True)
-        elif mode.exception() is not None:
+        elif mode.done() and not mode.cancelled() and mode.exception() is not None:
             print(f"player mode ended with error: {mode.exception()!r}",
                   flush=True)
+        # forfeit any battle still open — the intended game is over, so an
+        # unfinished battle here is a double-matched orphan we never played;
+        # forfeiting ends it instantly instead of bleeding its clock to 0.
+        if args.mode == "ladder":
+            for tag, b in list(player._battles.items()):
+                if not b.finished:
+                    try:
+                        await player.ps_client.send_message(
+                            "/forfeit", b.battle_tag)
+                        print(f"  forfeited orphaned battle {tag} "
+                              f"(ladder double-match)", flush=True)
+                    except Exception as e:
+                        print(f"  forfeit {tag} failed: {e!r}", flush=True)
     finally:
         # release the MCTS worker threads (and any in-flight tree) promptly so
         # a dead-socket exit can never leave ~GBs of search state resident
