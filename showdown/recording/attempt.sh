@@ -62,7 +62,6 @@ cleanup() {
   done
   [ -n "$WIN_ADDR" ] && hyprctl dispatch closewindow "address:$WIN_ADDR" >/dev/null 2>&1
   [ -n "$HEADLESS" ] && hyprctl output remove "$HEADLESS" >/dev/null 2>&1
-  [ -n "${SINK_MOD:-}" ] && pactl unload-module "$SINK_MOD" >/dev/null 2>&1
 }
 trap cleanup EXIT
 
@@ -81,9 +80,18 @@ if [ -n "${PRISM_SPEECH:-}" ]; then
   # take audible in the room, and WHICH device that is changes when
   # headphones come and go. A null sink keeps the capture and drops the
   # noise; it is torn down in cleanup.
-  SPEECH_SINK=prism_take$N
-  SINK_MOD=$(pactl load-module module-null-sink sink_name="$SPEECH_SINK" \
-             sink_properties=device.description=PrismTake 2>/dev/null)
+  # ONE stable sink for every take, NOT one per take. The caster is
+  # deliberately persistent across takes (setsid + disown, and cleanup does
+  # not kill it), so a per-take sink meant take 2 onward played into a device
+  # that had just been unloaded while the recorder listened to a fresh empty
+  # one: take 17 on 2026-07-29 won and was completely silent. Create it only
+  # if absent, and never unload it — a null sink costs nothing and outliving
+  # the batch is the point.
+  SPEECH_SINK=prism_speech
+  if ! pactl list short sinks 2>/dev/null | grep -q "$SPEECH_SINK"; then
+    pactl load-module module-null-sink sink_name="$SPEECH_SINK" \
+          sink_properties=device.description=PrismSpeech >/dev/null 2>&1
+  fi
   # The budget is what stops a busy beat queueing more speech than the
   # floor can hold: the first voice always finishes, the second is
   # dropped when it will not fit. Inert unless durations exist, which
@@ -96,7 +104,7 @@ if [ -n "${PRISM_SPEECH:-}" ]; then
   # than a queue of dropped ones.
   TURN_PACE=${PRISM_TURN_PACE:-12}
   SPEECH_ARGS="--speech --speech-out $LOGDIR/speech$N --speech-budget $SPEECH_BUDGET"
-  [ -n "$SINK_MOD" ] && SPEECH_ARGS="$SPEECH_ARGS --speech-sink $SPEECH_SINK"
+  SPEECH_ARGS="$SPEECH_ARGS --speech-sink $SPEECH_SINK"
 fi
 up 8131 || { setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS </dev/null \
              >"$LOGDIR/caster.log" 2>&1 & disown; }
