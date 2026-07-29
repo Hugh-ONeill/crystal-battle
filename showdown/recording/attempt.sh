@@ -62,13 +62,43 @@ cleanup() {
   done
   [ -n "$WIN_ADDR" ] && hyprctl dispatch closewindow "address:$WIN_ADDR" >/dev/null 2>&1
   [ -n "$HEADLESS" ] && hyprctl output remove "$HEADLESS" >/dev/null 2>&1
+  [ -n "${SINK_MOD:-}" ] && pactl unload-module "$SINK_MOD" >/dev/null 2>&1
 }
 trap cleanup EXIT
 
 # ---- broadcast stack (idempotent; only the clock is restarted, so each take
 # gets its own presentation log)
 cd "$BC" || { log NO-BROADCAST-REPO; exit 1; }
-up 8131 || { setsid $PY crystal_broadcast/caster.py </dev/null \
+# PRISM_SPEECH=1 gives the duo a voice (needs caster-avatars/tts_server.py
+# on :8133). Off by default: audio is opt-in, and a take without it is
+# exactly the take we have been recording all along.
+SPEECH_ARGS=""
+SPEECH_SINK=""
+TURN_PACE=${PRISM_TURN_PACE:-8}
+if [ -n "${PRISM_SPEECH:-}" ]; then
+  # A recorder can only capture audio that reached a SINK, so the take
+  # has to play — but playing to the default sink makes a seven-minute
+  # take audible in the room, and WHICH device that is changes when
+  # headphones come and go. A null sink keeps the capture and drops the
+  # noise; it is torn down in cleanup.
+  SPEECH_SINK=prism_take$N
+  SINK_MOD=$(pactl load-module module-null-sink sink_name="$SPEECH_SINK" \
+             sink_properties=device.description=PrismTake 2>/dev/null)
+  # The budget is what stops a busy beat queueing more speech than the
+  # floor can hold: the first voice always finishes, the second is
+  # dropped when it will not fit. Inert unless durations exist, which
+  # is why it was never set before the TTS layer landed.
+  SPEECH_BUDGET=${PRISM_SPEECH_BUDGET:-8}
+  # Spoken commentary needs more room than written: a line that reads in
+  # a glance takes four seconds to say, so the same beat density that is
+  # comfortable as text arrives faster than the voices can clear it.
+  # Widening the turn gate means fewer, better-spaced moments rather
+  # than a queue of dropped ones.
+  TURN_PACE=${PRISM_TURN_PACE:-12}
+  SPEECH_ARGS="--speech --speech-out $LOGDIR/speech$N --speech-budget $SPEECH_BUDGET"
+  [ -n "$SINK_MOD" ] && SPEECH_ARGS="$SPEECH_ARGS --speech-sink $SPEECH_SINK"
+fi
+up 8131 || { setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS </dev/null \
              >"$LOGDIR/caster.log" 2>&1 & disown; }
 up 8130 || { setsid $PY crystal_broadcast/commentary_overlay.py </dev/null \
              >"$LOGDIR/feed.log" 2>&1 & disown; }
@@ -136,7 +166,7 @@ grep -q "Waiting for a gen9ou challenge" "$LOGDIR/fp_take$N.log" 2>/dev/null \
     --username "$CBNAME" --mode challenge --user-to-challenge "$FPNAME" \
     --format gen9ou --team "$OUR_TEAM" --n-games 1 \
     --search-ms "${PRISM_SEARCH_MS:-2000}" \
-    --airi --airi-turn-pace "${PRISM_TURN_PACE:-8}" ) \
+    --airi --airi-turn-pace "$TURN_PACE" ) \
     >"$LOGDIR/runner_take$N.log" 2>&1 &
 CB_PID=$!
 sleep 12
@@ -179,12 +209,16 @@ for m in json.load(sys.stdin):
         sys.exit(0)
 sys.exit(1)" "$HEADLESS" "$FRAME_W" "$FRAME_H"
 }
+# 8 tries was too tight: take 12 on 2026-07-28 burned a whole attempt on
+# VIRTUAL-OUTPUT-MODE-FAILED, and the race is worse now that TTS shares the GPU
+# and the compositor is busier at exactly this moment. Retries are ~1s each and
+# a lost take is ~7 minutes, so buy the headroom.
 i=0
 until mode_ok; do
   i=$((i + 1))
-  [ "$i" -gt 8 ] && { log "VIRTUAL-OUTPUT-MODE-FAILED (wanted ${FRAME_W}x${FRAME_H})"; exit 1; }
+  [ "$i" -gt 20 ] && { log "VIRTUAL-OUTPUT-MODE-FAILED (wanted ${FRAME_W}x${FRAME_H})"; exit 1; }
   hyprctl keyword monitor "$HEADLESS,${FRAME_W}x${FRAME_H}@60,auto,1" >/dev/null
-  sleep 1
+  sleep 1.5
 done
 HWS=$(hyprctl monitors -j | $PY -c "
 import json, sys
@@ -239,7 +273,16 @@ hyprctl dispatch movetoworkspacesilent "$HWS,address:$WIN_ADDR" >/dev/null
 sleep 4
 
 # ---- recorder
-wf-recorder -o "$HEADLESS" -f "$VID" --overwrite >"$LOGDIR/rec_take$N.log" 2>&1 &
+# With speech on, capture the monitor of the default sink so the voices
+# land IN the video. Audio has to reach a sink to be captured, so this
+# does play out loud for the length of the take.
+REC_AUDIO=""
+if [ -n "${PRISM_SPEECH:-}" ]; then
+  SINK="${SPEECH_SINK:-$(pactl get-default-sink 2>/dev/null)}"
+  [ -n "$SINK" ] && REC_AUDIO="--audio=${SINK}.monitor"
+  log "recording audio from ${SINK:-unknown}.monitor"
+fi
+wf-recorder -o "$HEADLESS" $REC_AUDIO -f "$VID" --overwrite >"$LOGDIR/rec_take$N.log" 2>&1 &
 REC_PID=$!
 sleep 3
 kill -0 $REC_PID 2>/dev/null || { log RECORDER-FAILED; exit 1; }
