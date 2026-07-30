@@ -735,12 +735,25 @@ def test_probabilistic_selection():
     # argmax mode is deterministic top
     assert _select_choice(mappable, rng, sample=False)[1] == "a"
 
-    # lead pool: near-ties on worst-case row values within epsilon
+    # lead pool: near-ties on worst-case row values, RELATIVE epsilon
+    # (rel x spread — absolute 0.08 selected whole teams on the flat
+    # matrices real previews produce; see _near_tie_pool)
     matrix = [[0.5, 0.2], [0.4, 0.18], [0.9, -0.5], [0.1, 0.0],
               [0.3, 0.15], [0.2, -0.1]]
-    pool = _lead_pool(matrix, epsilon=0.08)
-    assert 0 in pool and 1 in pool      # 0.2 and 0.18 within 0.08 of best
+    # row_mins [0.2, 0.18, -0.5, 0.0, 0.15, -0.1]: spread 0.7, eps 0.21
+    pool = _lead_pool(matrix)
+    assert 0 in pool and 1 in pool
     assert 2 not in pool and 5 not in pool
+    # a FLAT matrix (the measured ladder reality, spread ~0.034) must NOT
+    # select the whole team the way absolute-0.08 did
+    flat = [[0.430], [0.428], [0.427], [0.408], [0.398], [0.396]]
+    pool = _lead_pool(flat)
+    assert 0 in pool and len(pool) <= 3, pool
+    assert 5 not in pool and 4 not in pool
+    # a sharp matrix keeps >=2 candidates (anti-read floor)
+    sharp = [[0.9], [0.3], [0.2], [0.1], [0.05], [0.0]]
+    pool = _lead_pool(sharp)
+    assert pool == [0, 1]
 
 
 def test_time_left_parser():

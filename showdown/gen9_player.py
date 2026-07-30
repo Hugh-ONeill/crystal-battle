@@ -569,14 +569,32 @@ def wall_mons(paste: str | None) -> int:
     return count
 
 
-def _lead_pool(matrix, epsilon: float = 0.08) -> list[int]:
-    """Lead indices whose maximin (worst-case row value) is within epsilon
-    of the best. A deterministic maximin lead is optimally predictable — we
-    measured 30/30 identical leads per series, a free read for the opponent.
-    Sampling among near-ties keeps the choice sound but unreadable."""
-    row_mins = [min(row) for row in matrix]
-    best = max(row_mins)
-    return [i for i, v in enumerate(row_mins) if v >= best - epsilon]
+def _near_tie_pool(vals, rel: float = 0.3, min_pool: int = 2) -> list[int]:
+    """Indices whose value is within rel x spread of the best.
+
+    The old ABSOLUTE epsilon (0.08) was calibrated for a matrix that
+    separates leads; measured preview matrices are nearly FLAT (row-min
+    spreads 0.01-0.12 at ANY search depth — offline depth test 2026-07-30,
+    identical #1 at 80ms and 1000ms), so the fixed 0.08 selected the WHOLE
+    team and we led the maximin-worst mon at random, then paid a decisive
+    T1 correction switch back into the #1 — a manufactured share of the
+    T1-switch gap (we 37-50% vs fp 16%). Relative epsilon keeps the
+    anti-read sampling (a deterministic lead was a measured free read,
+    30/30 identical per series) but confines it to GENUINE near-ties;
+    min_pool keeps >=2 candidates so the lead stays unreadable even on a
+    sharp matrix."""
+    best = max(vals)
+    eps = rel * (best - min(vals))
+    pool = [i for i, v in enumerate(vals) if v >= best - eps]
+    if len(pool) < min_pool <= len(vals):
+        pool = sorted(range(len(vals)), key=lambda i: -vals[i])[:min_pool]
+    return pool
+
+
+def _lead_pool(matrix, rel: float = 0.3) -> list[int]:
+    """Near-tie pool over maximin (worst-case row) values — see
+    _near_tie_pool for the relative-epsilon rationale."""
+    return _near_tie_pool([min(row) for row in matrix], rel=rel)
 
 
 def _lead_ev_blend(matrix, opp_species, lead_counts, games,
@@ -910,8 +928,7 @@ class Gen9PokeEnginePlayer(Player):
                 vals = _lead_ev_blend(matrix, opp_species,
                                       self._opp_profile.get("leads"),
                                       self._opp_profile.get("games"))
-                best = max(vals)
-                pool = [i for i, v in enumerate(vals) if v >= best - 0.08]
+                pool = _near_tie_pool(vals)
                 lead_idx = max(range(len(vals)), key=lambda i: vals[i])
                 if self._verbose:
                     print(f"  preview: lead-EV blend active "
@@ -2339,10 +2356,14 @@ async def main():
                              "collapse (protects the speed-pessimistic hedge "
                              "while key sets are ambiguous); 0 disables gate")
     parser.add_argument("--preview-lead-ev", choices=["on", "off"],
-                        default="off",
+                        default="on",
                         help="blend preview maximin with EV under the "
                              "scouting book's observed lead habits "
-                             "(counterpick lean; off until A/B'd)")
+                             "(counterpick lean; ON since 2026-07-30 — the "
+                             "book finally carries richwoman's 205-game lead "
+                             "habits, Ting-Lu 22%%; inert without a profile "
+                             "so benches vs unbooked opponents are untouched; "
+                             "gate = T1-margin instrument + session winrate)")
     parser.add_argument("--scouting-book", default=SCOUTING_BOOK_DEFAULT,
                         help="per-opponent observed-set priors from "
                              "showdown/scouting_book.py; '' disables")
