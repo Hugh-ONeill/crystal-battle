@@ -117,6 +117,20 @@
       ],
       "reason": "rain bench, same evidence as debe17fc (4W-11L board its share of the pooled 29.2%)",
       "dropped": "2026-07-30"
+    },
+    "61cc8129": {
+      "class": "benched",
+      "was": "32_primarina",
+      "species": [
+        "Primarina",
+        "Great Tusk",
+        "Kingambit",
+        "Slowking-Galar",
+        "Ogerpon",
+        "Enamorus"
+      ],
+      "reason": "0-8 board (0-6 vs richwoman; only 'win' a T0 walkover), Wilson upper bound 32% < pool mean. Mechanism, not luck: ZERO Heavy-Duty Boots (the pool's only bootless team) + sole removal is one Rocky Helmet spin-Tusk = maximum chip intake into the hazard-stack queue, Sub Primarina self-chips on top, and the Enamorus set is a metamon-reconstruction incoherence (Choice Scarf + Calm Mind on CONTRARY \u2014 CM inverts to -1/-1 and choice-locks; engine correctly never clicked it, leaving a dead moveslot on a 3-move Scarfer). 2026-07-30.",
+      "dropped": "2026-07-30"
     }
   }
 }
