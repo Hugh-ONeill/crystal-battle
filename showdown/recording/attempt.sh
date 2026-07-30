@@ -61,7 +61,8 @@ cleanup() {
     kill "$p" 2>/dev/null
   done
   [ -n "$WIN_ADDR" ] && hyprctl dispatch closewindow "address:$WIN_ADDR" >/dev/null 2>&1
-  [ -n "$HEADLESS" ] && hyprctl output remove "$HEADLESS" >/dev/null 2>&1
+  # the headless output is PERSISTENT across takes (see its creation below) —
+  # removing it here was the per-take dice roll that burned takes 34-39
 }
 trap cleanup EXIT
 
@@ -197,16 +198,30 @@ log "room: $ROOM"
 FRAME_W=${PRISM_FRAME_W:-1600}
 PANEL=${PRISM_PANEL:-300}
 FRAME_H=$(( FRAME_W * 9 / 16 + PANEL ))
-BEFORE=$(hyprctl monitors -j | $PY -c "
+# ONE persistent headless output, NOT one per take — the prism_speech sink
+# lesson again: a per-take create/remove of a resource the whole batch needs
+# is a dice roll per take, and on the night of 2026-07-29 the create+mode
+# race went chronic (5 of 8 takes burned on VIRTUAL-OUTPUT-MODE-FAILED, one
+# success in six tries, GPU ~23GB loaded). Reuse any existing headless
+# output; create only when absent; cleanup no longer removes it. A wrong-res
+# leftover is fine — the mode loop below re-applies to it.
+HEADLESS=$(hyprctl monitors -j | $PY -c "
+import json, sys
+for m in json.load(sys.stdin):
+    if m['name'].startswith('HEADLESS'):
+        print(m['name']); break")
+if [ -z "$HEADLESS" ]; then
+  BEFORE=$(hyprctl monitors -j | $PY -c "
 import json, sys
 print(' '.join(m['name'] for m in json.load(sys.stdin)))")
-hyprctl output create headless >/dev/null 2>&1
-sleep 2
-HEADLESS=$(hyprctl monitors -j | $PY -c "
+  hyprctl output create headless >/dev/null 2>&1
+  sleep 2
+  HEADLESS=$(hyprctl monitors -j | $PY -c "
 import json, sys
 before = set(sys.argv[1].split())
 new = [m['name'] for m in json.load(sys.stdin) if m['name'] not in before]
 print(new[0] if new else '')" "$BEFORE")
+fi
 [ -z "$HEADLESS" ] && { log NO-VIRTUAL-OUTPUT; exit 1; }
 # Apply-and-verify, don't fire-and-forget: the first `keyword monitor` after
 # `output create` reports "ok" but silently no-ops, leaving the output at its
@@ -228,9 +243,12 @@ sys.exit(1)" "$HEADLESS" "$FRAME_W" "$FRAME_H"
 i=0
 until mode_ok; do
   i=$((i + 1))
-  [ "$i" -gt 20 ] && { log "VIRTUAL-OUTPUT-MODE-FAILED (wanted ${FRAME_W}x${FRAME_H})"; exit 1; }
+  # 40 x 3s: the 20 x 1.5s window lost five takes in one night when the
+  # race went chronic — a 2-minute window is still cheap against a lost
+  # take, and with the persistent output this loop usually no-ops anyway
+  [ "$i" -gt 40 ] && { log "VIRTUAL-OUTPUT-MODE-FAILED (wanted ${FRAME_W}x${FRAME_H})"; exit 1; }
   hyprctl keyword monitor "$HEADLESS,${FRAME_W}x${FRAME_H}@60,auto,1" >/dev/null
-  sleep 1.5
+  sleep 3
 done
 HWS=$(hyprctl monitors -j | $PY -c "
 import json, sys
