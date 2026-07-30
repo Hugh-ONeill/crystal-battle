@@ -92,4 +92,15 @@ echo "=== session wall time: ${MINS} min ==="
       --collapse-examples 3 "$LOG" 2>&1
 } | tee "$ANALYSIS"
 
+# refresh the per-opponent scouting book with everything through this session.
+# The book had gone stale once (richwoman ABSENT through 205 games, played
+# bookless until 2026-07-30); rebuilding from all logs each run keeps the
+# set/lead priors current and is cheap. Failure is non-fatal by design.
+if .venv/bin/python showdown/scouting_book.py --name "$USERNAME" \
+      "$CB"/showdown/bench/overnight_*_ladder.log >/dev/null 2>&1; then
+  echo "scouting book refreshed (all sessions through $TAG)"
+else
+  echo "WARNING: scouting book refresh failed; book may be stale" >&2
+fi
+
 echo "done. analysis saved to $ANALYSIS"
