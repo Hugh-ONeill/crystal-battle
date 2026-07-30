@@ -65,21 +65,36 @@ def classify(text):
     return "balance"
 
 
+# Teams RENAMED in place (git mv): no file exists under the old name in any
+# pool dir, but historical game logs still reference it — without an alias
+# those games fall into the "?" bucket and, worse, drop OUT of the aggregate
+# they belong to (40_greattusk's games are anti-hazard experiment data).
+RENAMED = {
+    "40_greattusk_bootsbal": "anti-hazard",
+}
+
+
 def main():
-    pool = sys.argv[1] if len(sys.argv) > 1 else "showdown/teams/pool_hl"
-    for f in sorted(glob.glob(os.path.join(pool, "*.txt"))):
-        name = os.path.basename(f)[:-4]
-        # ah* = the hand-built anti-hazard subpool (pool_hl_manual). They are
-        # recovery-heavy by DESIGN so the rules read them as stall/fat, which
-        # buried the experiment inside that row; the prefix is the experiment's
-        # aggregation key, so it is the archetype.
-        if name.startswith("ah"):
-            print(f"{name}\tanti-hazard")
-            continue
-        try:
-            arch = classify(open(f, errors="ignore").read())
-        except Exception:
-            arch = "?"
+    # multiple dirs: the live pool first, then benched — a benched team's
+    # HISTORICAL games should keep their real archetype (rain stays "rain"),
+    # not vanish into "?" the day it leaves the rotation.
+    pools = sys.argv[1:] or ["showdown/teams/pool_hl"]
+    for pool in pools:
+        for f in sorted(glob.glob(os.path.join(pool, "*.txt"))):
+            name = os.path.basename(f)[:-4]
+            # ah* = the hand-built anti-hazard subpool (pool_hl_manual). They
+            # are recovery-heavy by DESIGN so the rules read them as stall/fat,
+            # which buried the experiment inside that row; the prefix is the
+            # experiment's aggregation key, so it is the archetype.
+            if name.startswith("ah"):
+                print(f"{name}\tanti-hazard")
+                continue
+            try:
+                arch = classify(open(f, errors="ignore").read())
+            except Exception:
+                arch = "?"
+            print(f"{name}\t{arch}")
+    for name, arch in RENAMED.items():
         print(f"{name}\t{arch}")
 
 
