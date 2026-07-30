@@ -18,6 +18,12 @@ import re
 from pathlib import Path
 
 DATA_PATH = Path(__file__).parent / "ps_sets_gen9.json"
+# Curated meta-tech overlay (tracked): PS's export flattens Smogon's slashed
+# move options to the FIRST choice only (verified 2026-07-30: 0/278 gen9ou
+# sets carry an alternative), so tech moves like Kingambit's slashed Low Kick
+# are invisible to set sampling. The overlay re-adds them; a slot may be a
+# LIST of alternatives, expanded into per-combination candidates below.
+OVERRIDES_PATH = Path(__file__).parent / "ps_sets_overrides.json"
 
 _STATS = ("hp", "atk", "def", "spa", "spd", "spe")
 
@@ -53,9 +59,17 @@ class PSSetsIndex:
     """Per-format index of curated full sets, in _opp_set dict shape."""
 
     def __init__(self, format: str = "gen9ou", path: str | Path | None = None,
-                 base_stats: dict[str, dict] | None = None):
+                 base_stats: dict[str, dict] | None = None,
+                 overrides_path: str | Path | None = OVERRIDES_PATH):
         raw = json.loads(Path(path or DATA_PATH).read_text())
         fmt = raw.get(format, {})
+        # merge the meta-tech overlay: same-name sets REPLACE the vendored
+        # entry (e.g. re-slashing a flattened slot), new names ADD candidates
+        if overrides_path and Path(overrides_path).exists():
+            ov = json.loads(Path(overrides_path).read_text()).get(format, {})
+            for section in ("dex", "stats"):
+                for species, sets in (ov.get(section) or {}).items():
+                    fmt.setdefault(section, {}).setdefault(species, {}).update(sets)
         if base_stats is None:
             from poke_env.data.gen_data import GenData
             pokedex = GenData.from_gen(9).pokedex
@@ -67,15 +81,28 @@ class PSSetsIndex:
                 norm = _normalize(species)
                 bs = base_stats.get(norm, {})
                 for set_name, s in sets.items():
-                    cand = self._parse_set(set_name, s, bs, weight)
-                    if cand is not None:
+                    for cand in self._parse_set(set_name, s, bs, weight):
                         self.candidates.setdefault(norm, []).append(cand)
 
     @staticmethod
-    def _parse_set(set_name: str, s: dict, bs: dict, weight: float) -> dict | None:
-        moves = [_normalize(m) for m in (s.get("moves") or []) if isinstance(m, str)]
-        if not moves:
-            return None
+    def _parse_set(set_name: str, s: dict, bs: dict, weight: float) -> list[dict]:
+        # A slot may be a LIST of slashed alternatives (the overlay restores
+        # what PS's export flattens to the first option). Expand every
+        # combination into its own candidate with the sampling weight split
+        # evenly, so consistent() filtering on revealed moves keeps exactly
+        # the variants the observations allow.
+        slots: list[list[str]] = []
+        for m in (s.get("moves") or []):
+            if isinstance(m, str):
+                slots.append([m])
+            elif isinstance(m, list):
+                opts = [o for o in m if isinstance(o, str)]
+                if opts:
+                    slots.append(opts)
+        if not slots:
+            return []
+        from itertools import product
+        combos = list(product(*slots))[:8]   # slash-blowup guard
         evs = dict.fromkeys(_STATS, 0)
         evs.update({k: v for k, v in (s.get("evs") or {}).items() if k in evs})
         ivs = dict.fromkeys(_STATS, 31)
@@ -84,19 +111,25 @@ class PSSetsIndex:
         pair = _NATURE_TABLE.get(nature.lower())
         spe_mult = 1.1 if pair and pair[0] == "spe" else \
             (0.9 if pair and pair[1] == "spe" else 1.0)
-        return {
-            "name": set_name,
-            "weight": weight,
+        shared = {
+            "weight": weight / len(combos),
             "nature": nature,
             "evs": evs,
             "ivs": ivs,
             "item": _normalize(s.get("item") or "") or "none",
             "ability": _normalize(s.get("ability") or "") or None,
-            "moves": moves[:4],
             "tera_type": (s.get("teraType") or "").lower() or None,
             "spe_stat": _calc_stat(bs.get("spe", 80), ivs["spe"], evs["spe"],
                                    100, spe_mult),
         }
+        out = []
+        for combo in combos:
+            chosen = [m for slot, m in zip(slots, combo) if len(slot) > 1]
+            name = f"{set_name} ({'/'.join(chosen)})" if chosen else set_name
+            out.append({"name": name,
+                        "moves": [_normalize(m) for m in combo][:4],
+                        **shared})
+        return out
 
     def consistent(self, species: str, known_moves: tuple[str, ...] = (),
                    known_item: str | None = None,

@@ -1,0 +1,48 @@
+{
+  "_comment": [
+    "Curated meta-tech OVERLAY merged into the vendored ps_sets_gen9.json by",
+    "ps_sets.PSSetsIndex. Same schema as PS's sets export ({format: {dex|stats:",
+    "{Species: {SetName: set}}}}); a set name that collides with a vendored set",
+    "REPLACES it, a new name ADDS a candidate.",
+    "",
+    "WHY THIS EXISTS: PS's export flattens Smogon's slashed move options to the",
+    "FIRST option only (verified 2026-07-30: 0 of 278 gen9ou sets carry any",
+    "alternative), so every slashed tech move is invisible to world-0 set",
+    "sampling. First casualty found live: Kingambit's 'Iron Head / Low Kick'",
+    "slash — our worlds never saw Low Kick, so switching our own Kingambit into",
+    "theirs read as safe when Low Kick is actually a 4x, 120-BP punish that",
+    "STRICTLY DOMINATES Iron Head in the mirror (ties it vs most stay-ins).",
+    "",
+    "A move slot may be a LIST of alternatives (restoring the Smogon slash) —",
+    "ps_sets.py expands each combination into its own candidate with the set's",
+    "sampling weight split evenly, so `consistent()` filtering on revealed",
+    "moves keeps exactly the variants the observations allow.",
+    "",
+    "Keep entries FEW and justified: this is for tech that changes decisions",
+    "(coverage that punishes the standard answer), not for exhaustive set",
+    "listing — the chaos tier already carries usage marginals."
+  ],
+  "gen9ou": {
+    "dex": {
+      "Kingambit": {
+        "Swords Dance": {
+          "moves": [
+            "Swords Dance",
+            "Sucker Punch",
+            "Kowtow Cleave",
+            ["Iron Head", "Low Kick"]
+          ],
+          "ability": "Supreme Overlord",
+          "item": "Leftovers",
+          "nature": "Adamant",
+          "teraType": "Ghost",
+          "evs": {
+            "atk": 252,
+            "def": 4,
+            "spe": 252
+          }
+        }
+      }
+    }
+  }
+}
