@@ -921,6 +921,15 @@ class Gen9PokeEnginePlayer(Player):
             lead_idx, _, matrix = await loop.run_in_executor(
                 None, lambda: pick_leads(self._team_paste, opp_paste,
                                          search_ms=self._preview_search_ms))
+            # The scouting profile normally loads at the FIRST choose_move —
+            # which is after team preview — so in one-game-per-process ladder
+            # mode the lead-EV blend below could never fire (found 2026-07-30
+            # on the first live game after enabling it: booked opponent, no
+            # blend line). Look it up here too; choose_move's own lookup is
+            # idempotent and still wires the translator's set-prior book.
+            if self._opp_profile is None:
+                self._opp_profile = (self._scouting or {}).get(
+                    battle.opponent_username)
             if self._preview_lead_ev and self._opp_profile:
                 # counterpick lean: blend worst-case with EV under this
                 # opponent's OBSERVED lead habits; near-tie sampling below
