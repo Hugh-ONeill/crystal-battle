@@ -111,7 +111,12 @@ if [ -n "${PRISM_SPEECH:-}" ]; then
   SPEECH_ARGS="--speech --speech-out $LOGDIR/speech --speech-budget $SPEECH_BUDGET"
   SPEECH_ARGS="$SPEECH_ARGS --speech-sink $SPEECH_SINK"
 fi
-up 8131 || { setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS </dev/null \
+# --pts-url: discovered ABSENT 2026-07-30 — the v4 rewrite dropped it, so
+# the caster ran wall-clock all era and TURN_PACE alone carried sync. The
+# clock service restarts per take while the caster persists; the pts client
+# reconnects and resets its camera gate on feed loss by design.
+up 8131 || { setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS \
+             --pts-url ws://127.0.0.1:8132/ </dev/null \
              >"$LOGDIR/caster.log" 2>&1 & disown; }
 up 8130 || { setsid $PY crystal_broadcast/commentary_overlay.py </dev/null \
              >"$LOGDIR/feed.log" 2>&1 & disown; }
@@ -292,14 +297,16 @@ EOF
   log "created clean firefox profile $FF_PROFILE"
 fi
 
-# ---- recorder — started BEFORE the frame spawns, on purpose. The client
-# replays from turn 1 the moment it loads, and starting the recorder after
-# the 15s window-wait sliced the first turns off every video: a REAL
-# first-turn crit callout read as an imagined one because its referent never
-# aired (user-caught, take 54). A few seconds of loading screen at the head
-# is trimmable; a missing first turn is not.
-# With speech on, capture the monitor of the speech sink so the voices
-# land IN the video.
+hyprctl dispatch exec -- \
+  "firefox --no-remote -profile \"$FF_PROFILE\" --kiosk --new-window \"http://127.0.0.1:8129/broadcast.html?battle=$ROOM&panel=$PANEL\"" \
+  >/dev/null
+
+# ---- recorder — started right AFTER the frame spawn, before the client
+# animates. The old post-window-wait start sliced the first turns off every
+# video (a REAL first-turn crit callout read as imagined, take 54); starting
+# BEFORE the spawn put the capture on the output during firefox's WebRender
+# init and coincided with a spawn crash (take 56). The client needs ~10s to
+# load and join, so this window keeps the head fix without the contention.
 REC_AUDIO=""
 if [ -n "${PRISM_SPEECH:-}" ]; then
   SINK="${SPEECH_SINK:-$(pactl get-default-sink 2>/dev/null)}"
@@ -308,20 +315,23 @@ if [ -n "${PRISM_SPEECH:-}" ]; then
 fi
 wf-recorder -o "$HEADLESS" $REC_AUDIO -f "$VID" --overwrite >"$LOGDIR/rec_take$N.log" 2>&1 &
 REC_PID=$!
-sleep 3
+sleep 2
 kill -0 $REC_PID 2>/dev/null || { log RECORDER-FAILED; exit 1; }
 log "recording -> $VID"
 
-hyprctl dispatch exec -- \
-  "firefox --no-remote -profile \"$FF_PROFILE\" --kiosk --new-window \"http://127.0.0.1:8129/broadcast.html?battle=$ROOM&panel=$PANEL\"" \
-  >/dev/null
-sleep 15
-WIN_ADDR=$(hyprctl clients -j | $PY -c "
+# poll for the window instead of one-shot sleeping: a firefox crash-restart
+# (take 56) then costs seconds, not the take
+WIN_ADDR=""
+for i in $(seq 1 22); do
+  sleep 2
+  WIN_ADDR=$(hyprctl clients -j | $PY -c "
 import json, sys
 for c in json.load(sys.stdin):
     t = c.get('title', '')
     if 'Prism Broadcast' in t or 'broadcast.html' in t:
         print(c['address']); break")
+  [ -n "$WIN_ADDR" ] && break
+done
 [ -z "$WIN_ADDR" ] && { log NO-BROADCAST-WINDOW; exit 1; }
 hyprctl dispatch movetoworkspacesilent "$HWS,address:$WIN_ADDR" >/dev/null
 sleep 4
