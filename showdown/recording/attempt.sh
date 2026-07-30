@@ -153,9 +153,13 @@ gate() {
 [ "$(gate)" = OK ] || { log HEALTH-FAIL-NOGEN; exit 1; }
 log health-ok
 
-# ---- transcript tap: the text record, and how we read WIN vs LOSS
-(cd "$CB" && exec $PY -m crystal_broadcast.caster_bridge --watch 2>&1 \
-    | tee "$TRANS") &
+# ---- transcript tap: the text record, and how we read WIN vs LOSS.
+# Straight to the file, NO tee: with a pipeline, $! is the subshell, and
+# killing it ORPHANS python+tee — which reconnect after a caster restart and
+# write the NEXT take's game into THIS take's transcript (caught 2026-07-30:
+# take 49's file carried take 50's beats). exec makes $! the actual tap.
+(cd "$CB" && exec $PY -m crystal_broadcast.caster_bridge --watch \
+    > "$TRANS" 2>&1) &
 TAP_PID=$!
 sleep 2
 
@@ -288,6 +292,26 @@ EOF
   log "created clean firefox profile $FF_PROFILE"
 fi
 
+# ---- recorder — started BEFORE the frame spawns, on purpose. The client
+# replays from turn 1 the moment it loads, and starting the recorder after
+# the 15s window-wait sliced the first turns off every video: a REAL
+# first-turn crit callout read as an imagined one because its referent never
+# aired (user-caught, take 54). A few seconds of loading screen at the head
+# is trimmable; a missing first turn is not.
+# With speech on, capture the monitor of the speech sink so the voices
+# land IN the video.
+REC_AUDIO=""
+if [ -n "${PRISM_SPEECH:-}" ]; then
+  SINK="${SPEECH_SINK:-$(pactl get-default-sink 2>/dev/null)}"
+  [ -n "$SINK" ] && REC_AUDIO="--audio=${SINK}.monitor"
+  log "recording audio from ${SINK:-unknown}.monitor"
+fi
+wf-recorder -o "$HEADLESS" $REC_AUDIO -f "$VID" --overwrite >"$LOGDIR/rec_take$N.log" 2>&1 &
+REC_PID=$!
+sleep 3
+kill -0 $REC_PID 2>/dev/null || { log RECORDER-FAILED; exit 1; }
+log "recording -> $VID"
+
 hyprctl dispatch exec -- \
   "firefox --no-remote -profile \"$FF_PROFILE\" --kiosk --new-window \"http://127.0.0.1:8129/broadcast.html?battle=$ROOM&panel=$PANEL\"" \
   >/dev/null
@@ -301,22 +325,6 @@ for c in json.load(sys.stdin):
 [ -z "$WIN_ADDR" ] && { log NO-BROADCAST-WINDOW; exit 1; }
 hyprctl dispatch movetoworkspacesilent "$HWS,address:$WIN_ADDR" >/dev/null
 sleep 4
-
-# ---- recorder
-# With speech on, capture the monitor of the default sink so the voices
-# land IN the video. Audio has to reach a sink to be captured, so this
-# does play out loud for the length of the take.
-REC_AUDIO=""
-if [ -n "${PRISM_SPEECH:-}" ]; then
-  SINK="${SPEECH_SINK:-$(pactl get-default-sink 2>/dev/null)}"
-  [ -n "$SINK" ] && REC_AUDIO="--audio=${SINK}.monitor"
-  log "recording audio from ${SINK:-unknown}.monitor"
-fi
-wf-recorder -o "$HEADLESS" $REC_AUDIO -f "$VID" --overwrite >"$LOGDIR/rec_take$N.log" 2>&1 &
-REC_PID=$!
-sleep 3
-kill -0 $REC_PID 2>/dev/null || { log RECORDER-FAILED; exit 1; }
-log "recording -> $VID"
 
 # ---- wait for the VIEWER to reach the end, not the engine
 viewer_done() {
