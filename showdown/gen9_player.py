@@ -922,6 +922,22 @@ class Gen9PokeEnginePlayer(Player):
                 lead_idx = self._choice_rng.choice(pool)
             order = _preview_order(lead_idx, 6)
             if self._verbose:
+                # full maximin ranking of OUR leads (matrix rows are in team-
+                # paste order, same indexing the lead pick itself uses). The
+                # preview-vs-T1 agreement question joins this against the T1
+                # choice: a T1 switch INTO the #2-ranked lead says the 80ms
+                # preview and the full-budget search disagree about the same
+                # comparison — preview is then the fixable side. Grep
+                # "preview rank:".
+                try:
+                    names = [p.species for p in battle.team.values()]
+                    row_mins = [min(r) for r in matrix]
+                    by_rank = sorted(range(len(row_mins)),
+                                     key=lambda i: -row_mins[i])
+                    print("  preview rank: " + "  ".join(
+                        f"{names[i]}:{row_mins[i]:.3f}" for i in by_rank))
+                except Exception:
+                    pass
                 print(f"  preview: leading slot {lead_idx + 1} "
                       f"(pool of {len(pool)}) -> {order}")
             try:
@@ -2155,6 +2171,17 @@ class Gen9PokeEnginePlayer(Player):
                 "snap": len(getattr(battle, "_replay_data", None) or []),
             }
         self._log_choice(battle, chosen_result, desc)
+        # T1-3 top-2 visit margin: is an early switch a decisive read or a
+        # near-tie wobble? (T1-switch-gap instrument 2026-07-30: we T1-switch
+        # 37-50% vs fp's 16%, with 29% of those churning into a T2 switch —
+        # this line lets the logs say which kind each one was. Grep "margin:".)
+        if self._verbose and battle.turn <= 3 and len(ranked) >= 2:
+            tot = sum(r.visits for r in ranked) or 1
+            a, b = ranked[0], ranked[1]
+            print(f"  T{battle.turn} margin: {a.move_choice} "
+                  f"{100 * a.visits / tot:.0f}% vs {b.move_choice} "
+                  f"{100 * b.visits / tot:.0f}% "
+                  f"(gap {100 * (a.visits - b.visits) / tot:.0f}pp)")
         if self._desk_log_path is not None:
             try:
                 top = ranked[0]
