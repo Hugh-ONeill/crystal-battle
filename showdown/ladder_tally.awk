@@ -162,7 +162,13 @@ END {
 
         tot[v]++
         oseen[o] = 1; ow[o, v]++; ogames[o]++
-        tseen[team[r]] = 1; tw[team[r], v]++
+        # per-team is BOARD-ONLY, same rule as per-archetype: a walkover
+        # (opponent no-show win, or an orphan clock-loss from the double-match
+        # bug) says nothing about the TEAM that happened to sit in the slot —
+        # counting them flattered rain's pelippers (+2W) and dinged whichever
+        # team drew an orphan (2026-07-30). Walkovers stay in the session
+        # summary above, which is about the account, not the teams.
+        if (!walk) { tseen[team[r]] = 1; tw[team[r], v]++ }
         if (have_arch) {
             ar = arch_of[team[r]]; if (ar == "") ar = "?"
             aseen[ar] = 1
@@ -246,7 +252,7 @@ END {
 
     # ---- per-team ---------------------------------------------------------
     if (show_teams) {
-        printf "  per-team  (%d teams, pool rotation)\n", length(tseen)
+        printf "  per-team  (%d teams, pool rotation, board-only)\n", length(tseen)
         n = 0
         for (t in tseen) { tord[++n] = t; tc[t] = tw[t, "W"] + tw[t, "L"] + tw[t, "T"] }
         for (i = 1; i < n; i++)
