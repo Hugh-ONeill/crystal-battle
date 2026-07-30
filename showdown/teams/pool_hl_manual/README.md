@@ -52,3 +52,30 @@ revival/exotic, so low risk). Watch the next sessions: `ah`-vs-richwoman rate
 against the ~25% non-`ah` baseline. If it doesn't beat ~25%, richwoman is a
 true strength wall and the reweight comes back out (drop the `ah*_v2/_v3`
 copies to de-weight, or the whole subpool via the drops list).
+
+`classify_pool.py` maps the `ah` prefix to its own `anti-hazard` archetype —
+they are recovery-heavy by design, so the rules had filed all 12 under
+stall/fat, which buried both the experiment AND the real stall/fat record
+(that row was 12/16 ah teams before the split, 2026-07-30).
+
+## archetype rebalance (2026-07-30) — lean into the winners
+
+Rain benched (both pelippers, see `../pool_hl_drops.json`): the only archetype
+whose board-only CI cleared BELOW the pool mean (29.2% [15,49] vs 54%). Not an
+accounting artifact — walkovers flattered it and the illegal Pawmot team never
+played a game. Suspected engine cause on record: Swift Swim tempo needs
+weather-turn preservation the search doesn't price; un-bench if a
+weather-handling fix lands. Replaced with more of what wins (HO 63.9%, sun
+63.0% at the time):
+
+- `sun1_torkoal` — Torkoal balance-sun: SR + double spin, Chlorophyll Growth
+  Venusaur, Specs Walking Wake (Hydro Steam), CM Hatterene (Magic Bounce),
+  Low Kick Kingambit.
+- `sun2_ninetales` — Ninetales offense-sun: Encore/Healing Wish support,
+  Victory Dance Lilligant-H, CM Raging Bolt, Slither Wing pivot, Heatran
+  (sun-boosted Magma Storm + SR), Corviknight removal.
+- `ho1_grimmsnarl_screens` — Prankster screens into 4 setup wincons (SD
+  Valiant, DD Dragonite, Agility Moth, Bulk Up Tusk) + Kingambit.
+- `ho2_glimmora_hazards` — Toxic Debris/Sash Glimmora hazard lead, DD Mence,
+  DD Pult, SD Ceruledge, Agility Moth, Low Kick Kingambit. (Roaring Moon was
+  the first pick — Uber, validator caught it.)

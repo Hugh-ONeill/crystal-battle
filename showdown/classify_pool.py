@@ -69,6 +69,13 @@ def main():
     pool = sys.argv[1] if len(sys.argv) > 1 else "showdown/teams/pool_hl"
     for f in sorted(glob.glob(os.path.join(pool, "*.txt"))):
         name = os.path.basename(f)[:-4]
+        # ah* = the hand-built anti-hazard subpool (pool_hl_manual). They are
+        # recovery-heavy by DESIGN so the rules read them as stall/fat, which
+        # buried the experiment inside that row; the prefix is the experiment's
+        # aggregation key, so it is the archetype.
+        if name.startswith("ah"):
+            print(f"{name}\tanti-hazard")
+            continue
         try:
             arch = classify(open(f, errors="ignore").read())
         except Exception:
