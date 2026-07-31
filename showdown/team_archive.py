@@ -111,6 +111,76 @@ class TeamArchive:
                 return False
         return True
 
+    @staticmethod
+    def _book_score(team: list[dict], book_sets: dict) -> float:
+        """How well a candidate agrees with this opponent's OBSERVED history.
+
+        Measured 2026-07-30 (`showdown/belief_accuracy.py`, 230 richwoman
+        games): the archive CONTAINS her team almost always (95.3% move /
+        97.3% item / 90.6% tera for the best candidate) but a blind draw only
+        gets 69.5/68.7/42.1 — the archive's problem was SELECTION, not
+        knowledge, which is why three winrate gates killed it. Ranking the
+        consistent candidates by agreement with the scouting book lifts a
+        top-1 pick to 82.9/91.5/74.1, beating every other tier at preview
+        (chaos-modal 79.9/86.8/65.9, curated-PS 71.1/67.2/44.4) under
+        leave-one-game-out scoring.
+
+        Item and tera are weighted like a move slot each: scoring on moves
+        alone moved only moves (69.5 -> 77.2) and left item/tera flat, and
+        tera is both our weakest axis and the campaign's biggest lever.
+        """
+        hit = tot = 0.0
+        norm_sets = {_norm(k): v for k, v in (book_sets or {}).items()}
+        for mon in team:
+            obs = norm_sets.get(_norm(mon.get("species", "")))
+            if not obs:
+                continue
+            seen_moves = set(obs.get("moves") or ())
+            if seen_moves:
+                mv = {_norm(m) for m in (mon.get("moves") or ())}
+                hit += len(mv & seen_moves)
+                tot += len(mv)
+            seen_items = set(obs.get("items") or ())
+            if seen_items:
+                tot += 1.0
+                if _norm(mon.get("item") or "") in seen_items:
+                    hit += 1.0
+            seen_tera = set(obs.get("tera") or ())
+            if seen_tera:
+                tot += 1.0
+                if _norm(mon.get("tera_type") or "") in seen_tera:
+                    hit += 1.0
+        return (hit / tot) if tot else 0.0
+
+    def sample_booked(self, species: list[str], revealed: dict,
+                      book_sets: dict | None, rng=None, top_k: int = 3):
+        """Consistent candidate chosen by scouting-book agreement.
+
+        Falls back to `sample()` when there is no book (a cold-start opponent
+        degrades to the blind draw rather than failing). Draws from the top_k
+        best-scoring candidates rather than argmax: top-1 is the most accurate
+        single belief but also the most CONFIDENTLY WRONG when the pick is
+        wrong across a whole correlated team, which is the failure mode that
+        killed the earlier gates.
+        """
+        if not book_sets:
+            return self.sample(species, revealed, rng=rng)
+        cand = self.candidates(species)
+        if not cand:
+            return None
+        scored = []
+        for idx in cand:
+            team = self._team(idx)
+            if team and self._consistent(team, revealed):
+                scored.append((self._book_score(team, book_sets), team))
+        if not scored:
+            return None
+        scored.sort(key=lambda x: -x[0])
+        pool = scored[:max(1, top_k)]
+        team = (pool[rng.randrange(len(pool))][1] if rng is not None
+                else pool[0][1])
+        return {m["species"]: m for m in team}
+
     def sample(self, species: list[str], revealed: dict, rng=None):
         """One CORRELATED full team consistent with everything revealed, as
         {normalized species: set-dict}, or None. Deterministic (first

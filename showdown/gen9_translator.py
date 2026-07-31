@@ -25,6 +25,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -405,9 +406,36 @@ class Gen9Translator:
                 obs["ability"] = _normalize(ability)
             revealed[_normalize(mon.species)] = obs
         try:
-            self._archive_team = arch.sample(species, revealed, rng=self._rng)
+            # book-weighted selection (2026-07-30): the archive knows this
+            # opponent (95% best-candidate accuracy) but a blind draw threw
+            # that away at 69% — see TeamArchive._book_score. Falls back to
+            # the blind draw for an opponent we have no history on.
+            book_sets = (self._book or {}).get("sets") if self._book else None
+            self._archive_team = arch.sample_booked(
+                species, revealed, book_sets, rng=self._rng)
         except Exception:
             self._archive_team = None   # advisory tier; never fail a translation
+
+    def _archive_covers(self, known_moves: tuple[str, ...]) -> bool:
+        """Which mons the archive tier is allowed to answer for.
+
+        `unrevealed` (default): only mons that have shown NOTHING yet. That is
+        where a correlated roster match is pure gain — we would otherwise be
+        guessing from marginals — and it is the shape the 2026-07-23 shelving
+        itself proposed after v1's whole-team override lost three gates. Once a
+        mon has revealed a move, the observation-filtered PS/chaos tiers can
+        answer it without betting the rest of its set on one archive variant,
+        which caps the correlated-wrong exposure that killed those gates
+        (top-1 selection is ~83% right on revealed moves, so ~1 in 6 wrong,
+        and wrong across six mons at once when the pick is bad).
+
+        `all` reproduces v1 for A/B purposes. Env: CB_ARCHIVE_MODE.
+        """
+        mode = getattr(self, "_archive_mode", None)
+        if mode is None:
+            mode = os.environ.get("CB_ARCHIVE_MODE", "unrevealed").strip().lower()
+            self._archive_mode = mode
+        return True if mode == "all" else not known_moves
 
     def _opp_set(self, species: str, known_moves: tuple[str, ...] = (),
                  known_item: str | None = None,
@@ -434,7 +462,7 @@ class Gen9Translator:
         # per-species source; the book (this exact opponent's observed
         # behaviour) still overlays it
         arch_team = getattr(self, "_archive_team", None)
-        if arch_team is not None:
+        if arch_team is not None and self._archive_covers(known_moves):
             s = arch_team.get(_normalize(species))
             if s is not None:
                 return self._apply_book(dict(s), booked)
