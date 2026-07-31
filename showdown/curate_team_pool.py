@@ -207,6 +207,24 @@ def main():
             if _short_hash(k) not in drops]
     hl_entries = [core_rep[k] for _, k in kept]
     write_pool(out / "pool_hl", hl_entries, [rank for rank, _ in kept])
+    # Put a plausible lead in slot 1. Curated teams come from reconstructed
+    # replays where paste order is an artifact, not intent — only 12% led with
+    # a lead-ish mon vs 44% of our hand-built teams — which makes slot 1
+    # unusable as a signal and starts the bench's hard-lead paths on an
+    # arbitrary mon. Composition is untouched; see showdown/lead_order.py.
+    try:
+        from showdown.lead_order import reorder as _lead_reorder
+        n_reordered = 0
+        for f in sorted((out / "pool_hl").glob("*.txt")):
+            txt = f.read_text()
+            new, idx, _why = _lead_reorder(txt)
+            if idx:
+                f.write_text(new)
+                n_reordered += 1
+        print(f"  lead-ordered {n_reordered} teams into slot 1")
+    except Exception as e:
+        print(f"  WARNING: lead ordering skipped ({e!r})")
+
     manual_added = apply_manual(out / "pool_hl", Path(args.manual).expanduser())
     manifest["sources"]["hl_05_26"] = {
         "candidates": len(hl_res), "legal": hl_legal,
