@@ -157,7 +157,7 @@
       "ability": "protosynthesis",
       "preserve": "high",
       "review": "unmeasured",
-      "evidence": "MECHANIC certain (Rapid Spin), ECONOMICS unmeasured: hazard chip is our pinned loss mechanism (Stealth Rock = 21% of damage taken in richwoman's 42-turn grinds, ~7 switch-ins/game), so the only remover on a team is a team-persistent resource whose death re-exposes the whole side. `preserve: high` is CONDITIONAL on being the sole remover, which is a team property this per-species file cannot express \u2014 flagged as a schema gap, do not wire blindly."
+      "evidence": "MECHANIC certain (Rapid Spin), ECONOMICS unmeasured: hazard chip is our pinned loss mechanism (Stealth Rock = 21% of damage taken in richwoman's 42-turn grinds, ~7 switch-ins/game), so the only remover on a team is a team-persistent resource whose death re-exposes the whole side. `preserve: high` is CONDITIONAL on being the sole remover, which is a team property this per-species file cannot express \u2014 flagged as a schema gap, do not wire blindly. [RAG ATTEMPTED, NOT GROUNDED: a naive gen9ou-filtered query returned a topically-similar passage for the WRONG species (Deoxys-Speed and Zamazenta respectively) \u2014 retrieval needs a species filter, not just a format filter. Claim remains my inference.]"
     },
     "corviknight": {
       "tags": [
@@ -167,8 +167,8 @@
       ],
       "ability": "pressure",
       "preserve": "high",
-      "review": "unmeasured",
-      "evidence": "Same sole-remover caveat as greattusk (Defog). Pressure additionally taxes opponent PP, which matters in the long grinds where we measured 0 PP-deaths for us and real PP bankruptcy in the stall audit."
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Corviknight (gen9ou) \u2014 Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy."
     },
     "rillaboom": {
       "tags": [
@@ -177,8 +177,8 @@
       "ability": "grassysurge",
       "resource": "grassyterrain",
       "preserve": "med",
-      "review": "unmeasured",
-      "evidence": "Direct parallel to the weather-setter economics: a field state this mon creates and its death ends. Grassy Terrain also heals 1/16/turn and halves Earthquake, so it is a defensive annuity for the whole side, not just a damage buff. The rain audit's finding (43% uptime, abuser moves clicked outside the condition) should be RE-RUN for terrain before assigning preserve pressure \u2014 sun leaked identically and did not care, so the same leak has different costs per field."
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Rillaboom (gen9ou) \u2014 Utility]: Grassy Terrain is described as \"solving its problem with longevity\" for partners and enabling Grassy-Seed setup \u2014 i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care."
     },
     "walkingwake": {
       "tags": [
@@ -200,7 +200,7 @@
       "value_curve": "decays_with_chip",
       "preserve": "high",
       "review": "unmeasured",
-      "evidence": "MECHANIC certain (Multiscale halves damage at FULL HP only, already modelled in damage_calc). ECONOMICS: its defensive half is a one-shot resource that any chip destroys \u2014 the same Stealth-Rock tax that drives our loss mechanism deletes it on a single switch-in, which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep."
+      "evidence": "MECHANIC certain (Multiscale halves damage at FULL HP only, already modelled in damage_calc). ECONOMICS: its defensive half is a one-shot resource that any chip destroys \u2014 the same Stealth-Rock tax that drives our loss mechanism deletes it on a single switch-in, which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [RAG ATTEMPTED, NOT GROUNDED: a naive gen9ou-filtered query returned a topically-similar passage for the WRONG species (Deoxys-Speed and Zamazenta respectively) \u2014 retrieval needs a species filter, not just a format filter. Claim remains my inference.]"
     },
     "ceruledge": {
       "tags": [
@@ -240,17 +240,18 @@
       ],
       "preserve": "low",
       "lead_intent": "strong",
-      "review": "unmeasured",
-      "evidence": "Light Clay is its top item (usage stats), which is only bought to extend screens \u2014 the same expendable team-persistent-support role as grimmsnarl. Same monotype precedent: spending it is correct, saving it is the error."
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) \u2014 Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" \u2014 the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve."
     },
     "pecharunt": {
       "tags": [
-        "wall"
+        "wall",
+        "status-spreader"
       ],
       "ability": "poisonpuppeteer",
       "preserve": "med",
-      "review": "engine-gap",
-      "evidence": "FLAG, not a role claim: Poison Puppeteer (poison -> confusion) is on the confirmed SILENT-ability list for gen9 OU (enum-only, no effect code) alongside Cursed Body / Synchronize / Rock Head / Anger Shell. At 9.2% usage we face it often and model it as a plain wall. Fixing the ability matters more than annotating the role."
+      "review": "measured",
+      "evidence": "CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented \u2014 generate_instructions.rs:907 adds CONFUSION to a foe it poisons, landed in 2e000e6 alongside Rock Head/Anger Shell/Synchronize. An earlier memory note listing it as a silent OU gap was stale. The engine models it correctly; this is now an ordinary role entry."
     }
   }
 }
