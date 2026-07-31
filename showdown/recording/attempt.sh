@@ -169,7 +169,15 @@ gate() {
       "[bridge-test] pre-take health gate $N" >/dev/null 2>&1)
   for i in $(seq 1 40); do          # cold gemma load can take 15-60s
     sleep 2
-    if [ -s "$REPLY_LOG" ] && grep -q "[[:alpha:]]" "$REPLY_LOG"; then
+    # A GENERATED LINE, not merely "some text": the old check grepped for
+    # [[:alpha:]] and the tap's own banner ("-- tap connected, waiting for
+    # commentary --") satisfied it about two seconds in, before the test
+    # beat was even sent. Verified on gate83.log, which held ONLY that
+    # banner while the gate logged health-ok. So it tested CONNECTIVITY and
+    # would have passed a caster that could not generate at all — the take
+    # then records in silence, which is the failure this gate exists to
+    # prevent. Persona lines are the only proof generation happened.
+    if grep -qE "^[[:space:]]*(Prism|Fracture):" "$REPLY_LOG" 2>/dev/null; then
       kill $WATCH 2>/dev/null; echo OK; return
     fi
   done
