@@ -75,11 +75,13 @@
     "                own \u2014 a Choice Specs Dragapult may run either Infiltrator or",
     "                Clear Body \u2014 so an ability split is recorded at species level in",
     "                `ability_split` and mentioned in the fact, not modelled as a",
-    "                separate set. Use it as a signature only when it genuinely",
     "                Some sets have NO positive signature \u2014 an all-out-attacker build",
     "                is defined by what it lacks, and a form item like Wellspring Mask",
-    "                is on every set. Those carry prevalence null plus a",
-    "                prevalence_note rather than a number derived by subtraction,",
+    "                is on every set. Those get a RESIDUAL estimate (whatever the",
+    "                signature-derived sets leave over) with prevalence_method set to",
+    "                'residual' so a reader can weight it accordingly: it absorbs the",
+    "                combined error of the others and assumes the sets partition",
+    "                cleanly. An estimate beats a blank \u2014 but label how it was made.",
     "                which would quietly absorb every estimation error in the others.",
     "                identifies one build.",
     "                out near 25%). It is an ESTIMATE, not ground truth \u2014 shared",
@@ -269,7 +271,8 @@
             "attacks": "special"
           },
           "fact": "Assault Vest adds special bulk at the cost of its status moves, so it checks attackers rather than pivoting.",
-          "prevalence": 0.24
+          "prevalence": 0.24,
+          "prevalence_method": "signature"
         },
         {
           "name": "Defensive Pivot",
@@ -282,7 +285,8 @@
           },
           "fact": "Boots plus Regenerator and Chilly Reception make every switch nearly free.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.5
+          "prevalence": 0.5,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -323,7 +327,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.51
+          "prevalence": 0.51,
+          "prevalence_method": "signature"
         },
         {
           "name": "Choice Scarf",
@@ -336,7 +341,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.34
+          "prevalence": 0.34,
+          "prevalence_method": "signature"
         },
         {
           "name": "Status Hex",
@@ -350,7 +356,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.12
+          "prevalence": 0.12,
+          "prevalence_method": "signature"
         }
       ],
       "axis": {
@@ -407,7 +414,8 @@
             "attacks": "physical"
           },
           "fact": "Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal.",
-          "prevalence": 0.28
+          "prevalence": 0.28,
+          "prevalence_method": "signature"
         },
         {
           "name": "Bulk Up",
@@ -420,7 +428,8 @@
           },
           "fact": "Bulk Up raises Attack and Defence together so it can boost while absorbing physical hits.",
           "deployment": "setup-window",
-          "prevalence": 0.16
+          "prevalence": 0.16,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -460,7 +469,9 @@
           },
           "deployment": "pivot-cycle",
           "fact": "Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards. Item choice splits between Rocky Helmet, which punishes contact, and Leftovers for passive recovery; both play the same defensive role.",
-          "prevalence": null
+          "prevalence": 1.0,
+          "prevalence_method": "residual",
+          "prevalence_note": "The only named set, so ~100% by construction rather than by measurement. Its real variation is item choice (Rocky Helmet or Leftovers) and ability (Pressure or Mirror Armor), neither of which changes the role."
         }
       ],
       "ability_split": {
@@ -491,7 +502,8 @@
             "attacks": "physical"
           },
           "fact": "Choice Band makes Grassy Glide a hard-hitting priority move under its own terrain.",
-          "prevalence": 0.41
+          "prevalence": 0.41,
+          "prevalence_method": "signature"
         },
         {
           "name": "Utility",
@@ -504,7 +516,8 @@
           },
           "fact": "A support build that keeps terrain up and pivots with U-turn rather than attacking outright.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.02
+          "prevalence": 0.02,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -559,7 +572,8 @@
           },
           "fact": "Dragon Dance raises Attack and Speed behind Multiscale, then Extreme Speed cleans up.",
           "deployment": "setup-window",
-          "prevalence": 0.86
+          "prevalence": 0.86,
+          "prevalence_method": "signature"
         },
         {
           "name": "Bulky Phazer",
@@ -572,7 +586,8 @@
           },
           "fact": "Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.35
+          "prevalence": 0.35,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -614,7 +629,8 @@
           "deployment": "setup-window",
           "entry_condition": "full_hp",
           "fact": "Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken.",
-          "prevalence": 0.83
+          "prevalence": 0.83,
+          "prevalence_method": "signature"
         },
         {
           "name": "Bulk Up",
@@ -629,7 +645,8 @@
           "preserve": "high",
           "deployment": "setup-window",
           "fact": "A minority set. Bulk Up raises Attack and Defence together, so it boosts while absorbing physical hits rather than relying on Focus Sash, and Taunt on this set denies Defog. It appears mainly on hyper-offence and screens teams, where the extra turns make boosting practical.",
-          "prevalence": 0.08
+          "prevalence": 0.08,
+          "prevalence_method": "signature"
         }
       ],
       "ability_split": {
@@ -694,7 +711,8 @@
           },
           "fact": "Focus Sash guarantees it survives to set at least one layer before it falls.",
           "deployment": "lead",
-          "prevalence": 0.12
+          "prevalence": 0.12,
+          "prevalence_method": "signature"
         },
         {
           "name": "Nasty Plot",
@@ -706,7 +724,8 @@
           },
           "fact": "Nasty Plot turns its extreme Speed into a sweep instead of hazard support.",
           "deployment": "setup-window",
-          "prevalence": 0.17
+          "prevalence": 0.17,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -735,7 +754,8 @@
           },
           "fact": "Nasty Plot turns it from a status spreader into an attacker behind its bulk.",
           "deployment": "setup-window",
-          "prevalence": 0.28
+          "prevalence": 0.28,
+          "prevalence_method": "signature"
         },
         {
           "name": "Pivot",
@@ -748,7 +768,8 @@
           },
           "fact": "Boots and recovery let it come in repeatedly to spread poison and confusion.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.52
+          "prevalence": 0.52,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -774,7 +795,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.1
+          "prevalence": 0.1,
+          "prevalence_method": "signature"
         },
         {
           "name": "Calm Mind",
@@ -794,7 +816,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.3
+          "prevalence": 0.3,
+          "prevalence_method": "signature"
         },
         {
           "name": "Swords Dance",
@@ -806,7 +829,8 @@
           },
           "fact": "Swords Dance doubles Attack for a physical sweep, with Close Combat and Knock Off as coverage.",
           "deployment": "setup-window",
-          "prevalence": 0.15
+          "prevalence": 0.15,
+          "prevalence_method": "signature"
         },
         {
           "name": "Mixed",
@@ -817,7 +841,8 @@
             "attacks": "mixed"
           },
           "fact": "Booster Energy on entry with both physical and special attacks, so no single wall answers it.",
-          "prevalence": 0.8
+          "prevalence": 0.8,
+          "prevalence_method": "signature"
         }
       ],
       "axis": {
@@ -848,7 +873,8 @@
             "attacks": "special"
           },
           "fact": "Choice Specs locks it in but makes Draco Meteor and Thunderclap break through immediately.",
-          "prevalence": 0.12
+          "prevalence": 0.12,
+          "prevalence_method": "signature"
         },
         {
           "name": "Boots Pivot",
@@ -861,7 +887,8 @@
           },
           "fact": "Boots let it re-enter through hazards while Thunderclap threatens priority every time.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.04
+          "prevalence": 0.04,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -892,7 +919,8 @@
           },
           "fact": "Iron Defense with Body Press turns its Defence into offence, a win condition that needs several turns.",
           "deployment": "setup-window",
-          "prevalence": 0.61
+          "prevalence": 0.61,
+          "prevalence_method": "signature"
         },
         {
           "name": "Offensive Attacker",
@@ -903,7 +931,8 @@
             "attacks": "physical"
           },
           "fact": "Four attacks using its Speed and typing to threaten immediately instead of setting up.",
-          "prevalence": 0.38
+          "prevalence": 0.38,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -940,7 +969,8 @@
           "preserve": "high",
           "deployment": "setup-window",
           "fact": "Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.",
-          "prevalence": 0.61
+          "prevalence": 0.61,
+          "prevalence_method": "signature"
         },
         {
           "name": "All-Out Attacker",
@@ -953,8 +983,9 @@
           "preserve": "med",
           "deployment": null,
           "fact": "Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.",
-          "prevalence": null,
-          "prevalence_note": "No positive signature: it is defined by the ABSENCE of a setup move, and its item (Wellspring Mask) is a form requirement carried by every set. Its share is whatever the Swords Dance and Utility builds leave over, so it is not estimated rather than estimated badly."
+          "prevalence": 0.1,
+          "prevalence_note": "No positive signature \u2014 this set is defined by what it LACKS (no setup move, or an item every set carries), so its share is estimated as whatever the signature-derived sets leave over. Less reliable than a signature estimate: it absorbs their combined error, and the sets may not partition cleanly.",
+          "prevalence_method": "residual"
         },
         {
           "name": "Utility",
@@ -967,7 +998,8 @@
           "preserve": "med",
           "deployment": "pivot-cycle",
           "fact": "Knock Off, U-turn and Encore trade damage for disruption and momentum instead of setting up.",
-          "prevalence": 0.29
+          "prevalence": 0.29,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -995,7 +1027,8 @@
             "attacks": "special"
           },
           "fact": "Choice Specs locks it in but lets Draco Meteor and Shadow Ball break through immediately.",
-          "prevalence": 0.33
+          "prevalence": 0.33,
+          "prevalence_method": "signature"
         },
         {
           "name": "Boots Pivot",
@@ -1007,7 +1040,8 @@
           },
           "fact": "Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.19
+          "prevalence": 0.19,
+          "prevalence_method": "signature"
         }
       ],
       "ability_split": {
@@ -1056,7 +1090,8 @@
           },
           "fact": "Healing Wish trades it away to restore a teammate to full HP and clear their status.",
           "deployment": "bait-switch",
-          "prevalence": 0.35
+          "prevalence": 0.35,
+          "prevalence_method": "signature"
         },
         {
           "name": "Calm Mind",
@@ -1069,7 +1104,8 @@
           },
           "fact": "Calm Mind raises both special stats behind Magic Bounce, turning it into a win condition.",
           "deployment": "setup-window",
-          "prevalence": 0.22
+          "prevalence": 0.22,
+          "prevalence_method": "signature"
         },
         {
           "name": "Pain Split",
@@ -1081,7 +1117,8 @@
           },
           "fact": "Pain Split averages HP with the target, giving it recovery it otherwise lacks.",
           "deployment": "bait-switch",
-          "prevalence": 0.23
+          "prevalence": 0.23,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1114,7 +1151,8 @@
           },
           "fact": "Booster Energy makes it fast enough to set or remove hazards before most leads act.",
           "deployment": "lead",
-          "prevalence": 0.34
+          "prevalence": 0.34,
+          "prevalence_method": "signature"
         },
         {
           "name": "Utility",
@@ -1127,7 +1165,8 @@
           },
           "fact": "Leftovers and bulk let it keep removing hazards across the game rather than once.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.34
+          "prevalence": 0.34,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1152,7 +1191,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.25
+          "prevalence": 0.25,
+          "prevalence_method": "signature"
         },
         {
           "name": "Dragon Dance (Loaded Dice)",
@@ -1171,7 +1211,8 @@
           "axis": {
             "attacks": "physical"
           },
-          "prevalence": 0.27
+          "prevalence": 0.27,
+          "prevalence_method": "signature"
         },
         {
           "name": "Substitute",
@@ -1185,7 +1226,8 @@
           "axis": {
             "attacks": "special"
           },
-          "prevalence": 0.26
+          "prevalence": 0.26,
+          "prevalence_method": "signature"
         }
       ],
       "axis": {
@@ -1226,7 +1268,8 @@
           },
           "fact": "Focus Sash guarantees it survives to set Spikes with Ceaseless Edge.",
           "deployment": "lead",
-          "prevalence": 0.17
+          "prevalence": 0.17,
+          "prevalence_method": "signature"
         },
         {
           "name": "Choice Scarf",
@@ -1237,7 +1280,8 @@
             "attacks": "physical"
           },
           "fact": "A Choice Scarf lets it revenge-kill while still setting Spikes through Ceaseless Edge.",
-          "prevalence": 0.15
+          "prevalence": 0.15,
+          "prevalence_method": "signature"
         },
         {
           "name": "Assault Vest",
@@ -1249,7 +1293,8 @@
             "attacks": "physical"
           },
           "fact": "Assault Vest adds special bulk so it can keep setting Spikes across the game.",
-          "prevalence": 0.38
+          "prevalence": 0.38,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1278,7 +1323,8 @@
           },
           "deployment": "pivot-cycle",
           "prevalence": 0.83,
-          "fact": "Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent."
+          "fact": "Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent.",
+          "prevalence_method": "signature"
         },
         {
           "name": "Choice Band",
@@ -1291,7 +1337,8 @@
           },
           "deployment": null,
           "prevalence": 0.07,
-          "fact": "A Choice Band build that locks in for immediate power, still able to U-turn out of a bad lock."
+          "fact": "A Choice Band build that locks in for immediate power, still able to U-turn out of a bad lock.",
+          "prevalence_method": "signature"
         }
       ],
       "ability_split": {
@@ -1328,7 +1375,8 @@
           },
           "fact": "Rocky Helmet punishes contact while Intimidate and bulk let it check physical attackers repeatedly.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.61
+          "prevalence": 0.61,
+          "prevalence_method": "signature"
         },
         {
           "name": "Offensive",
@@ -1340,7 +1388,8 @@
             "attacks": "physical"
           },
           "fact": "A Choice Scarf turns it into a revenge killer that still pivots with U-turn.",
-          "prevalence": 0.18
+          "prevalence": 0.18,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1373,7 +1422,8 @@
           },
           "fact": "Wish heals a teammate and Flip Turn pivots out, so its bulk is spent supporting the side rather than itself.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.72
+          "prevalence": 0.72,
+          "prevalence_method": "signature"
         },
         {
           "name": "Assault Vest",
@@ -1384,7 +1434,8 @@
             "attacks": "special"
           },
           "fact": "Assault Vest trades its status moves for special bulk, so it walls attackers but can no longer pass Wish.",
-          "prevalence": 0.27
+          "prevalence": 0.27,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1413,7 +1464,8 @@
           },
           "fact": "Nasty Plot doubles Special Attack for a sweep once its checks are gone.",
           "deployment": "setup-window",
-          "prevalence": 0.28
+          "prevalence": 0.28,
+          "prevalence_method": "signature"
         },
         {
           "name": "Choice Specs",
@@ -1424,7 +1476,8 @@
             "attacks": "special"
           },
           "fact": "Choice Specs locks it into one move but breaks walls immediately on entry.",
-          "prevalence": 0.18
+          "prevalence": 0.18,
+          "prevalence_method": "signature"
         },
         {
           "name": "Boots Attacker",
@@ -1436,7 +1489,8 @@
           },
           "fact": "Heavy-Duty Boots let it re-enter through hazards repeatedly while holding four attacks.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.21
+          "prevalence": 0.21,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1466,7 +1520,8 @@
           },
           "fact": "Roost with bulk lets it check physical attackers repeatedly and pivot with Volt Switch.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.81
+          "prevalence": 0.81,
+          "prevalence_method": "signature"
         },
         {
           "name": "Offensive",
@@ -1479,7 +1534,8 @@
           },
           "fact": "Hurricane and Heat Wave threaten damage while Volt Switch keeps momentum.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.33
+          "prevalence": 0.33,
+          "prevalence_method": "signature"
         }
       ]
     },
@@ -1517,7 +1573,8 @@
           },
           "fact": "Iron Defense with Body Press converts Defence into attacking power over several turns.",
           "deployment": "setup-window",
-          "prevalence": 0.25
+          "prevalence": 0.25,
+          "prevalence_method": "signature"
         },
         {
           "name": "Curse",
@@ -1530,7 +1587,8 @@
           },
           "fact": "Curse trades Speed for Attack and Defence, a slower but self-sufficient win condition.",
           "deployment": "setup-window",
-          "prevalence": 0.16
+          "prevalence": 0.16,
+          "prevalence_method": "signature"
         },
         {
           "name": "Stealth Rock",
@@ -1542,7 +1600,8 @@
             "attacks": "physical"
           },
           "fact": "A support build that sets Stealth Rock and chips with Salt Cure instead of setting up.",
-          "prevalence": 0.53
+          "prevalence": 0.53,
+          "prevalence_method": "signature"
         }
       ]
     }

@@ -96,7 +96,9 @@ def render(doc: dict) -> str:
                 if st.get(f) is not None:
                     bits.append(f"**{f}** {st[f]}")
             pv = st.get("prevalence")
-            pvs = f" *(~{int(100*pv)}% of sets)*" if pv is not None else ""
+            meth = st.get("prevalence_method", "")
+            tag = "" if meth == "signature" else " est."
+            pvs = f" *(~{int(100*pv)}%{tag} of sets)*" if pv is not None else ""
             w(f"**Set — {st['name']}**{pvs}: " + " · ".join(bits) + "\n")
             if st.get("fact"):
                 w(f"> {st['fact']}\n")

@@ -226,7 +226,7 @@ Water Absorb heals it whenever it is hit by a Water move, so it can enter freely
 
 > Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.
 
-**Set — All-Out Attacker**: **tags** wallbreaker · **axis** attacks physical · **preserve** med
+**Set — All-Out Attacker** *(~10% est. of sets)*: **tags** wallbreaker · **axis** attacks physical · **preserve** med
 
 > Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.
 
@@ -305,7 +305,7 @@ RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies h
 
 Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.
 
-**Set — Defensive**: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Defensive** *(~100% est. of sets)*: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
 
 > Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards. Item choice splits between Rocky Helmet, which punishes contact, and Leftovers for passive recovery; both play the same defensive role.
 
