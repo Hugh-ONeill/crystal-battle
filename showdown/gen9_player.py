@@ -683,7 +683,7 @@ class Gen9PokeEnginePlayer(Player):
                  airi_min_swing: float = 0.10,
                  airi_turn_pace: float = 0.0,
                  desk_log_path: str | None = DESK_LOG_DEFAULT,
-                 calibrate_reads: bool = False, **kwargs):
+                 calibrate_reads: bool = True, **kwargs):
         # A deep-searching bot can stall the event loop past poke-env's
         # default 20s ping timeout (a 5s grind search + K-world glue + GC),
         # which drops the websocket mid-game (measured: 0 keepalive drops at
@@ -2479,13 +2479,16 @@ async def main():
                              "(one line per game: reads + outcome; "
                              "'off' disables)")
     parser.add_argument("--calibrate-reads", choices=["on", "off"],
-                        default="off",
+                        default="on",
                         help="map the reported position read through the "
                              "isotonic calibration (showdown/read_calibration"
                              ".json) before commentary sees it. REPORTING "
-                             "ONLY — search is untouched. Fixes phrase bands "
-                             "that overclaim by 4-6.5pp; also rescales the "
-                             "director's momentum swings, hence opt-in")
+                             "ONLY — search is untouched. ON by default since "
+                             "2026-07-30: raw phrase bands overclaim by "
+                             "4-6.5pp (calibrated residuals within ~1pp), and "
+                             "the rescaled momentum swings are MORE selective "
+                             "(turns flagged 67%% -> 51%%). 'off' restores the "
+                             "raw read")
     args = parser.parse_args()
 
     server = LOCAL_SERVER if args.local else SERVERS[args.server]
