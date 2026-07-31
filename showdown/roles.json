@@ -41,6 +41,11 @@
     "  preserve     how badly losing it costs beyond its own HP: low|med|high",
     "  resource     field state this mon CREATES; its death ends it",
     "  requires     field state this mon NEEDS to be worth its slot",
+    "  entry_condition  precondition for this mon's PLAN, not its survival: e.g.",
+    "                   full_hp when a Sash/Multiscale sequence needs a clean",
+    "                   entry. Distinct from preserve (cost of losing it) and",
+    "                   requires (a field state). Added 2026-07-31 after the",
+    "                   Ceruledge entry needed a concept neither field had.",
     "  lead_intent  human intent to lead it: avoid | neutral | strong",
     "  evidence     the measurement or commit this claim rests on",
     "",
@@ -208,9 +213,11 @@
         "wincon"
       ],
       "ability": "weakarmor",
-      "preserve": "low",
-      "review": "rag-grounded",
-      "evidence": "RAG-CORRECTED [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: my inference said Focus Sash is a resource chip destroys, i.e. preserve it. The analysis says the opposite \u2014 hitting Ceruledge with weak moves \"to pop the item would only give it a trouble-free Weak Armor boost\", so LOSING the Sash is frequently net-positive because Weak Armor triggers on being hit. Sash is insurance for the setup turn, not a resource to protect. preserve lowered to 'low'; the naive 'one-shot item = preserve' generalisation from Multiscale does NOT transfer here."
+      "preserve": "med",
+      "entry_condition": "full_hp",
+      "value_curve": "decays_with_chip",
+      "review": "user-corrected",
+      "evidence": "TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: popping the Sash with weak moves \"would only give it a trouble-free Weak Armor boost\", so the opponent removing the Sash is often GOOD for Ceruledge \u2014 I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend \u2014 it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price."
     },
     "ironmoth": {
       "tags": [
