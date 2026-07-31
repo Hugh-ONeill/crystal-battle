@@ -80,6 +80,14 @@ while [ "$g" -le "$N_GAMES" ]; do
     echo "=== game $g TIMED OUT (skipped) ===" >> "$LOG"
   fi
   grep -q "finished: 1W" "$LOG" && :  # tally computed at the end
+  # per-game book refresh so a BRAND-NEW opponent is scouted from our second
+  # game against them, not from the next session (LoblollyFreeplayv1 appeared
+  # mid-session 2026-07-31 and would have stayed bookless until teardown).
+  # Each game is its own process, so the next game re-reads the fresh book.
+  # Cheap (~1-2s over all logs) and non-fatal by design, like the teardown's.
+  .venv/bin/python showdown/scouting_book.py --name "$USERNAME" \
+      showdown/bench/overnight_*_ladder.log >/dev/null 2>&1 || \
+      echo "=== book refresh failed after game $g (non-fatal) ===" >> "$LOG"
   g=$((g + 1))
   sleep 3  # courtesy gap between ladder searches
 done
