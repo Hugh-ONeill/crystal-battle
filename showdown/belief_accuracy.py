@@ -90,6 +90,8 @@ def parse_games(opponent: str, me: str = "PAC-Crystal"):
                         p[1].startswith(g["side"] + "a"):
                     sp = p[1].split(": ", 1)[-1]
                     g["rev"][sp]["tera"] = norm(p[2])
+                elif tag == "win" and len(p) > 1:
+                    g["won"] = p[1].strip() == me
             except Exception:
                 pass
         for tag, g in st.items():
