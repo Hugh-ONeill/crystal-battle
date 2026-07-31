@@ -235,22 +235,30 @@ FRAME_H=$(( FRAME_W * 9 / 16 + PANEL ))
 # success in six tries, GPU ~23GB loaded). Reuse any existing headless
 # output; create only when absent; cleanup no longer removes it. A wrong-res
 # leftover is fine — the mode loop below re-applies to it.
+# NAME the output instead of discovering it. `hyprctl output create
+# headless` (no name) stopped yielding a findable HEADLESS-N, and because
+# discovery worked by DIFFING the monitor list around the create, it found
+# nothing and failed silently — the whole 88-97 hunt died on
+# NO-VIRTUAL-OUTPUT, ten takes, before this was spotted. Asking for a name
+# means we already know what to look for, so there is no race and no diff.
+# The HEADLESS-* fallback is only for leftovers from the old scheme.
+VOUT=${PRISM_VOUT:-demo}
 HEADLESS=$(hyprctl monitors -j | $PY -c "
 import json, sys
-for m in json.load(sys.stdin):
-    if m['name'].startswith('HEADLESS'):
-        print(m['name']); break")
+want = sys.argv[1]
+names = [m['name'] for m in json.load(sys.stdin)]
+print(want if want in names
+      else next((n for n in names if n.startswith('HEADLESS')), ''))" "$VOUT")
 if [ -z "$HEADLESS" ]; then
-  BEFORE=$(hyprctl monitors -j | $PY -c "
+  hyprctl output create headless "$VOUT" >/dev/null 2>&1
+  for i in $(seq 1 10); do          # poll: creation is not instant
+    sleep 1
+    HEADLESS=$(hyprctl monitors -j | $PY -c "
 import json, sys
-print(' '.join(m['name'] for m in json.load(sys.stdin)))")
-  hyprctl output create headless >/dev/null 2>&1
-  sleep 2
-  HEADLESS=$(hyprctl monitors -j | $PY -c "
-import json, sys
-before = set(sys.argv[1].split())
-new = [m['name'] for m in json.load(sys.stdin) if m['name'] not in before]
-print(new[0] if new else '')" "$BEFORE")
+names = [m['name'] for m in json.load(sys.stdin)]
+print(sys.argv[1] if sys.argv[1] in names else '')" "$VOUT")
+    [ -n "$HEADLESS" ] && break
+  done
 fi
 [ -z "$HEADLESS" ] && { log NO-VIRTUAL-OUTPUT; exit 1; }
 # Apply-and-verify, don't fire-and-forget: the first `keyword monitor` after
