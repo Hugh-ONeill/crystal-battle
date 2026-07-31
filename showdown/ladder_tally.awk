@@ -33,7 +33,22 @@ FNR == 1 {
 }
 
 # ---- slot markers (written by ladder_session.sh) --------------------------
-/^=== game [0-9]+\/[0-9]+ team: / { slots[cur_file]++; cur_team = $5; next }
+/^=== game [0-9]+\/[0-9]+ team: / {
+    slots[cur_file]++; cur_team = $5
+    # Fold weighting duplicates into the team they copy. A subpool was weighted
+    # by making N byte-identical copies (`ah1_x`, `ah1_x_v2`, `ah1_x_v3`) since
+    # the rotation draws with `ls | shuf`; the copies were deleted when that
+    # weighting came out (2026-07-31), so their historical games had no file
+    # left to classify and fell into the "?" archetype. They are the SAME team,
+    # so their record belongs on the stem — both here and in the per-team rows.
+    # No real pool name ends in _v<digits> (they end in a core hash or a word).
+    sub(/_v[0-9]+$/, "", cur_team)
+    # same idea for teams RENAMED in place: `40_greattusk_bootsbal` became
+    # `ah1_greattusk_bootsbal` when the subpool got its prefix, and its earlier
+    # games would otherwise stand as a separate team that no longer exists
+    if (cur_team == "40_greattusk_bootsbal") cur_team = "ah1_greattusk_bootsbal"
+    next
+}
 /^=== game [0-9]+ TIMED OUT/      { killed[cur_file]++; next }
 
 # ---- config banner --------------------------------------------------------
