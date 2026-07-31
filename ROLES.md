@@ -15,36 +15,36 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 
 | usage | mon | grade | axis | preserve | deployment | tags |
 |---:|---|---|---|---|---|---|
-| 32.9% | **greattusk** ⚡ | Smogon-cited | physical/physical | med | — | hazard-removal, wall, pivot |
+| 32.9% | **greattusk** ⚡ ✳ | Smogon-cited | physical/physical | med | — | hazard-removal, wall, pivot |
 | 22.5% | **kingambit** | measured here | physical/special | high | late-cleaner | cleaner, wincon |
 | 21.9% | **gholdengo** ⚡ ✳ | USER-CORRECTED | special | high | — | spinblocker, glue |
-| 17.9% | **dragonite** ▸ | Smogon-cited | physical | high | setup-window | wincon, setup-sweeper |
+| 17.9% | **dragonite** ✳ ▸ | Smogon-cited | physical | high | setup-window | wincon, setup-sweeper |
 | 15.3% | **ironvaliant** ✳ | Smogon-cited | mixed | med | — | wallbreaker, setup-sweeper |
-| 15.3% | **ragingbolt** | Smogon-cited | special | med | late-cleaner | wallbreaker, priority-attacker |
-| 15.2% | **zamazenta** | Smogon-cited | physical/physical | high | — | wall, wincon, glue |
+| 15.3% | **ragingbolt** ✳ | Smogon-cited | special | med | late-cleaner | wallbreaker, priority-attacker |
+| 15.2% | **zamazenta** ✳ | Smogon-cited | physical/physical | high | — | wall, wincon, glue |
 | 15.1% | **ogerponwellspring** ✳ ▸ | USER-CORRECTED | physical | high | setup-window | setup-sweeper, wallbreaker |
-| 14.6% | **dragapult** | Smogon-cited | mixed | med | pivot-cycle | pivot, wallbreaker |
-| 12.9% | **hatterene** ⚡ | USER-CORRECTED | special/physical | med | bait-switch | wall, sacrificial-support |
-| 12.8% | **corviknight** ⚡ | Smogon-cited | physical/physical | med | pivot-cycle | hazard-removal, pivot, wall |
-| 12.5% | **slowkinggalar** | measured here | special/special | med | pivot-cycle | pivot, wall |
+| 14.6% | **dragapult** ✳ | Smogon-cited | mixed | med | pivot-cycle | pivot, wallbreaker |
+| 12.9% | **hatterene** ⚡ ✳ | USER-CORRECTED | special/physical | med | bait-switch | wall, sacrificial-support |
+| 12.8% | **corviknight** ⚡ ✳ | Smogon-cited | physical/physical | med | pivot-cycle | hazard-removal, pivot, wall |
+| 12.5% | **slowkinggalar** ✳ | measured here | special/special | med | pivot-cycle | pivot, wall |
 | 11.2% | **gliscor** | USER-CORRECTED | physical/special | high | pivot-cycle | annuity, wall |
-| 11.0% | **irontreads** | Smogon-cited | physical | med | lead | hazard-removal, hazard-setter, lead |
+| 11.0% | **irontreads** ✳ | Smogon-cited | physical | med | lead | hazard-removal, hazard-setter, lead |
 | 10.6% | **kyurem** ✳ | Smogon-cited | special | med | — | wallbreaker |
-| 10.3% | **samurotthisui** ⚡ | Smogon-cited | physical | med | lead | hazard-setter, wallbreaker |
-| 10.0% | **cinderace** | Smogon-cited | physical | med | — | pivot, hazard-control |
+| 10.3% | **samurotthisui** ⚡ ✳ | Smogon-cited | physical | med | lead | hazard-setter, wallbreaker |
+| 10.0% | **cinderace** ✳ | Smogon-cited | physical | med | — | pivot, hazard-control |
 | 9.6% | **tinglu** | measured here | physical/special | med | lead | hazard-setter, wall |
-| 9.3% | **landorustherian** | Smogon-cited | physical/physical | high | pivot-cycle | pivot, wall, glue |
+| 9.3% | **landorustherian** ✳ | Smogon-cited | physical/physical | high | pivot-cycle | pivot, wall, glue |
 | 9.2% | **ceruledge** ✳ ▸ | USER-CORRECTED | physical | med | setup-window | setup-sweeper, wincon |
-| 9.2% | **pecharunt** | measured here | special/physical | med | — | wall, status-spreader |
+| 9.2% | **pecharunt** ✳ | measured here | special/physical | med | — | wall, status-spreader |
 | 9.0% | **glimmora** | Smogon-cited | special | low | lead | suicide-lead, hazard-setter |
 | 8.9% | **ironmoth** | Smogon-cited | special | med | — | setup-sweeper |
-| 8.9% | **alomomola** | Smogon-cited | special/physical | high | pivot-cycle | pivot, annuity, wall |
-| 8.1% | **darkrai** | Smogon-cited | special | med | late-cleaner | revenge-killer, wallbreaker |
+| 8.9% | **alomomola** ✳ | Smogon-cited | special/physical | high | pivot-cycle | pivot, annuity, wall |
+| 8.1% | **darkrai** ✳ | Smogon-cited | special | med | late-cleaner | revenge-killer, wallbreaker |
 | 7.3% | **walkingwake** | measured here | special | med | — | weather-abuser, sweeper |
-| 7.3% | **rillaboom** | Smogon-cited | physical | med | — | terrain-setter |
-| 7.0% | **zapdos** | Smogon-cited | special/physical | med | pivot-cycle | pivot |
-| 6.3% | **deoxysspeed** | Smogon-cited | special | low | lead | suicide-lead, screens-setter, hazard-setter |
-| 6.2% | **garganacl** ▸ | Smogon-cited | physical/physical | high | setup-window | wall, wincon |
+| 7.3% | **rillaboom** ✳ | Smogon-cited | physical | med | — | terrain-setter |
+| 7.0% | **zapdos** ✳ | Smogon-cited | special/physical | med | pivot-cycle | pivot |
+| 6.3% | **deoxysspeed** ✳ | Smogon-cited | special | low | lead | suicide-lead, screens-setter, hazard-setter |
+| 6.2% | **garganacl** ✳ ▸ | Smogon-cited | physical/physical | high | setup-window | wall, wincon |
 | 4.7% | **pelipper** | measured here | special/physical | high | lead | weather-setter |
 | 3.3% | **torkoal** | measured here | special/physical | med | lead | weather-setter |
 | 2.6% | **barraskewda** | measured here | physical | med | — | weather-abuser, sweeper |
@@ -59,6 +59,14 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 **tags** hazard-removal, wall, pivot · **axis** attacks physical, defends physical · **ability** protosynthesis · **preserve** med
 
 Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit.
+
+**Set — Offensive Utility** *(~28% of sets)*: **tags** hazard-removal, pivot · **axis** attacks physical
+
+> Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal.
+
+**Set — Bulk Up** *(~16% of sets)*: **tags** setup-sweeper, wall · **axis** attacks physical · **deployment** setup-window
+
+> Bulk Up raises Attack and Defence together so it can boost while absorbing physical hits.
 
 **Conditional — `opponent_has:hazard-setter`:** preserve → high
 
@@ -88,15 +96,15 @@ Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored 
 
 Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin, so hazards its side has set cannot be spun away while it is alive — this is true of every set, being a property of its typing rather than its moves. Air Balloon, its most common item, adds a temporary Ground immunity.
 
-**Set — Nasty Plot:** **tags** setup-sweeper, wallbreaker · **axis** attacks special · **preserve** high · **deployment** setup-window
+**Set — Nasty Plot** *(~51% of sets)*: **tags** setup-sweeper, wallbreaker · **axis** attacks special · **preserve** high · **deployment** setup-window
 
 > Nasty Plot doubles its Special Attack, then Shadow Ball and Make It Rain sweep. Recover sustains it across the game.
 
-**Set — Choice Scarf:** **tags** revenge-killer · **axis** attacks special · **preserve** med · **deployment** late-cleaner
+**Set — Choice Scarf** *(~34% of sets)*: **tags** revenge-killer · **axis** attacks special · **preserve** med · **deployment** late-cleaner
 
 > A Choice Scarf makes it fast enough to revenge-kill, and Trick can pass that Scarf to a wall to cripple it.
 
-**Set — Status Hex:** **tags** status-spreader, wall · **axis** attacks special · **preserve** med · **deployment** pivot-cycle
+**Set — Status Hex** *(~12% of sets)*: **tags** status-spreader, wall · **axis** attacks special · **preserve** med · **deployment** pivot-cycle
 
 > Thunder Wave or Will-O-Wisp inflicts status, then Hex doubles in power against the statused target.
 
@@ -115,6 +123,14 @@ USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocke
 **tags** wincon, setup-sweeper · **axis** attacks physical · **ability** multiscale · **preserve** high · **deployment** setup-window · **entry_condition** full_hp · **value_curve** decays_with_chip
 
 Multiscale halves incoming damage only at full HP, so it needs an undamaged entry to function. Roost restores that condition. Dragon Dance turns one safe turn into a sweep.
+
+**Set — Dragon Dance** *(~86% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks physical · **deployment** setup-window
+
+> Dragon Dance raises Attack and Speed behind Multiscale, then Extreme Speed cleans up.
+
+**Set — Bulky Phazer** *(~35% of sets)*: **tags** wall, pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.
 
 **The play:**
 
@@ -138,13 +154,21 @@ RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy 
 
 High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it.
 
-**Set — Choice Specs:** **tags** wallbreaker · **axis** attacks special · **preserve** med
+**Set — Choice Specs** *(~10% of sets)*: **tags** wallbreaker · **axis** attacks special · **preserve** med
 
 > Choice Specs locks it into one move but lets Moonblast break special walls that would otherwise check it.
 
-**Set — Calm Mind:** **tags** setup-sweeper · **axis** attacks special · **preserve** high · **deployment** setup-window
+**Set — Calm Mind** *(~30% of sets)*: **tags** setup-sweeper · **axis** attacks special · **preserve** high · **deployment** setup-window
 
 > Calm Mind raises Special Attack and Special Defense together, and Encore can manufacture the free turn to use it.
+
+**Set — Swords Dance** *(~15% of sets)*: **tags** setup-sweeper · **axis** attacks physical · **deployment** setup-window
+
+> Swords Dance doubles Attack for a physical sweep, with Close Combat and Knock Off as coverage.
+
+**Set — Mixed** *(~80% of sets)*: **tags** wallbreaker · **axis** attacks mixed
+
+> Booster Energy on entry with both physical and special attacks, so no single wall answers it.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -158,6 +182,14 @@ RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Mo
 
 Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing.
 
+**Set — Choice Specs** *(~12% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Choice Specs locks it in but makes Draco Meteor and Thunderclap break through immediately.
+
+**Set — Boots Pivot** *(~4% of sets)*: **tags** pivot, priority-attacker · **axis** attacks special · **deployment** pivot-cycle
+
+> Boots let it re-enter through hazards while Thunderclap threatens priority every time.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor." Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters — same shape as Ceruledge's Shadow Sneak.
@@ -169,6 +201,14 @@ RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is use
 **tags** wall, wincon, glue · **axis** attacks physical, defends physical · **ability** dauntlessshield · **preserve** high
 
 Dauntless Shield raises its Defense on entry. Bulk and typing let it check many physical attackers, so teams are often built expecting it to hold that job all game.
+
+**Set — IronPress** *(~61% of sets)*: **tags** wall, wincon · **axis** attacks physical · **deployment** setup-window
+
+> Iron Defense with Body Press turns its Defence into offence, a win condition that needs several turns.
+
+**Set — Offensive Attacker** *(~38% of sets)*: **tags** wallbreaker · **axis** attacks physical
+
+> Four attacks using its Speed and typing to threaten immediately instead of setting up.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -182,15 +222,15 @@ RAG-grounded [smogon#Zamazenta (gen9ou)]: "Zamazenta is the tier's most consiste
 
 Water Absorb heals it whenever it is hit by a Water move, so it can enter freely on one. Ivy Cudgel is its signature move and becomes Water-type while it holds the Wellspring Mask, with a raised critical-hit rate. It runs one Grass move alongside it rather than both — usually Horn Leech, which drains HP back, sometimes Power Whip for raw power. Swords Dance doubles its Attack, and Trailblaze can be run to raise its Speed by one stage when it hits.
 
-**Set — Swords Dance:** **tags** setup-sweeper · **axis** attacks physical · **preserve** high · **deployment** setup-window
+**Set — Swords Dance** *(~61% of sets)*: **tags** setup-sweeper · **axis** attacks physical · **preserve** high · **deployment** setup-window
 
 > Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.
 
-**Set — All-Out Attacker:** **tags** wallbreaker · **axis** attacks physical · **preserve** med
+**Set — All-Out Attacker** *(~0% of sets)*: **tags** wallbreaker · **axis** attacks physical · **preserve** med
 
 > Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.
 
-**Set — Utility:** **tags** pivot · **axis** attacks physical · **preserve** med · **deployment** pivot-cycle
+**Set — Utility** *(~28% of sets)*: **tags** pivot · **axis** attacks physical · **preserve** med · **deployment** pivot-cycle
 
 > Knock Off, U-turn and Encore trade damage for disruption and momentum instead of setting up.
 
@@ -215,6 +255,18 @@ RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical
 
 Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes it a momentum pivot rather than a mon to hold back.
 
+**Set — Choice Specs** *(~33% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Choice Specs locks it in but lets Draco Meteor and Shadow Ball break through immediately.
+
+**Set — Boots Pivot** *(~19% of sets)*: **tags** pivot · **axis** attacks mixed · **deployment** pivot-cycle
+
+> Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.
+
+**Set — Clear Body** *(~35% of sets)*: **tags** pivot, wallbreaker · **axis** attacks mixed · **deployment** pivot-cycle
+
+> Clear Body ignores stat drops entirely, trading Infiltrator's ability to bypass Substitutes and screens.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: "Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.
@@ -226,6 +278,18 @@ RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: "Infiltrator is the pr
 **tags** wall, sacrificial-support · **axis** attacks special, defends physical · **ability** magicbounce · **preserve** med · **deployment** bait-switch · **lead_intent** avoid
 
 Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazards rather than removing them — it must be in play when the setter acts. Healing Wish trades it away to fully restore a teammate.
+
+**Set — Healing Wish** *(~35% of sets)*: **tags** sacrificial-support, wall · **axis** attacks special · **deployment** bait-switch
+
+> Healing Wish trades it away to restore a teammate to full HP and clear their status.
+
+**Set — Calm Mind** *(~22% of sets)*: **tags** setup-sweeper, wall · **axis** attacks special · **deployment** setup-window
+
+> Calm Mind raises both special stats behind Magic Bounce, turning it into a win condition.
+
+**Set — Pain Split** *(~23% of sets)*: **tags** wall · **axis** attacks special · **deployment** bait-switch
+
+> Pain Split averages HP with the target, giving it recovery it otherwise lacks.
 
 **Conditional — `opponent_has:hazard-setter`:** preserve → high · tags → ['hazard-denial', 'wall', 'sacrificial-support']
 
@@ -245,6 +309,14 @@ RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies h
 
 Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly.
 
+**Set — Defensive** *(~77% of sets)*: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
+
+> Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards.
+
+**Set — Mirror Armor** *(~22% of sets)*: **tags** wall, pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> Mirror Armor reflects stat drops back at the attacker, so Defog and Intimidate users cannot chip its stats; the trade is losing Pressure's PP tax.
+
 **Conditional — `opponent_has:hazard-setter`:** preserve → high
 
 > Hazard removal is only worth something while the opponent is setting hazards. Against a team that sets none, the removal move is a wasted slot.
@@ -260,6 +332,14 @@ RAG-grounded [smogon#Corviknight (gen9ou) — Defensive]: "Defog allows Corvikni
 **tags** pivot, wall · **axis** attacks special, defends special · **ability** regenerator · **preserve** med · **deployment** pivot-cycle · **lead_intent** neutral
 
 Regenerator restores a third of its HP whenever it switches out, so repeated entries cost it almost nothing. Chilly Reception switches it out while setting snow, and Future Sight lands two turns later so it threatens even after leaving the field.
+
+**Set — Assault Vest** *(~24% of sets)*: **tags** wall · **axis** attacks special
+
+> Assault Vest adds special bulk at the cost of its status moves, so it checks attackers rather than pivoting.
+
+**Set — Defensive Pivot** *(~50% of sets)*: **tags** pivot, wall · **axis** attacks special · **deployment** pivot-cycle
+
+> Boots plus Regenerator and Chilly Reception make every switch nearly free.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -285,6 +365,14 @@ The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL
 
 Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Quark Drive raises a stat on entry.
 
+**Set — Lead** *(~34% of sets)*: **tags** hazard-setter, hazard-removal, lead · **axis** attacks physical · **deployment** lead
+
+> Booster Energy makes it fast enough to set or remove hazards before most leads act.
+
+**Set — Utility** *(~34% of sets)*: **tags** hazard-removal, pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> Leftovers and bulk let it keep removing hazards across the game rather than once.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself for hazard control and "gives it another way to block Defog and Rapid Spin"; coverage choice is explicitly about stopping Raging Bolt boosting or "Pecharunt from blocking Rapid Spin". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.
@@ -297,15 +385,15 @@ RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself 
 
 High mixed offense across several very different sets, so which set it is changes what counters it. Freeze-Dry hits Water types super effectively.
 
-**Set — Choice Specs:** **tags** wallbreaker · **axis** attacks special · **preserve** med
+**Set — Choice Specs** *(~25% of sets)*: **tags** wallbreaker · **axis** attacks special · **preserve** med
 
 > Choice Specs locks it into one move but lets Freeze-Dry and Earth Power break walls outright. Freeze-Dry hits Water types super effectively.
 
-**Set — Dragon Dance (Loaded Dice):** **tags** setup-sweeper · **axis** attacks physical · **preserve** high · **deployment** setup-window
+**Set — Dragon Dance (Loaded Dice)** *(~27% of sets)*: **tags** setup-sweeper · **axis** attacks physical · **preserve** high · **deployment** setup-window
 
 > Dragon Dance raises Attack and Speed, and Loaded Dice makes Icicle Spear and Scale Shot hit four or five times reliably.
 
-**Set — Substitute:** **tags** wall, wallbreaker · **axis** attacks special · **preserve** med · **deployment** pivot-cycle
+**Set — Substitute** *(~26% of sets)*: **tags** wall, wallbreaker · **axis** attacks special · **preserve** med · **deployment** pivot-cycle
 
 > Substitute on a predicted switch blocks status and chip, and Protect with Leftovers stalls further while Freeze-Dry and Earth Power attack from behind it.
 
@@ -320,6 +408,18 @@ RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokem
 **tags** hazard-setter, wallbreaker · **axis** attacks physical · **ability** sharpness · **preserve** med · **deployment** lead · **lead_intent** strong
 
 Ceaseless Edge sets Spikes as part of an attack, so it lays hazards even through Magic Bounce and Taunt, which stop ordinary setters. Sharpness boosts its cutting moves.
+
+**Set — Lead** *(~17% of sets)*: **tags** hazard-setter, lead · **axis** attacks physical · **deployment** lead
+
+> Focus Sash guarantees it survives to set Spikes with Ceaseless Edge.
+
+**Set — Choice Scarf** *(~15% of sets)*: **tags** revenge-killer · **axis** attacks physical
+
+> A Choice Scarf lets it revenge-kill while still setting Spikes through Ceaseless Edge.
+
+**Set — Assault Vest** *(~38% of sets)*: **tags** wall, hazard-setter · **axis** attacks physical
+
+> Assault Vest adds special bulk so it can keep setting Spikes across the game.
 
 **Conditional — `opponent_has:hazard-denial`:** preserve → high
 
@@ -336,6 +436,10 @@ RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: "one of the most prolific entry h
 **tags** pivot, hazard-control · **axis** attacks physical · **ability** libero · **preserve** med
 
 Court Change swaps all side conditions, moving hazards onto the opponent instead of clearing them. Libero changes its type to match its move; U-turn pivots.
+
+**Set — Blaze** *(~31% of sets)*: **tags** pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> Blaze raises Fire damage at low HP instead of Libero's type change, so it keeps its Fire typing and its weaknesses fixed.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -361,6 +465,14 @@ richwoman's most-used lead by a distance (45 of her games) and the anchor of the
 
 Intimidate lowers the opposing Attack every time it enters, so repeated switch-ins compound the effect. U-turn pivots; Earthquake and Stealth Rock add utility.
 
+**Set — Defensive** *(~61% of sets)*: **tags** wall, pivot, glue · **axis** attacks physical · **deployment** pivot-cycle
+
+> Rocky Helmet punishes contact while Intimidate and bulk let it check physical attackers repeatedly.
+
+**Set — Offensive** *(~18% of sets)*: **tags** wallbreaker, pivot · **axis** attacks physical
+
+> A Choice Scarf turns it into a revenge killer that still pivots with U-turn.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Landorus-Therian (gen9ou)]: "one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt." Intimidate is a persistent team-wide defensive effect applied on every entry — an annuity the eval prices only as a one-off stat drop.
@@ -373,11 +485,11 @@ RAG-grounded [smogon#Landorus-Therian (gen9ou)]: "one of OU's premier pivots. It
 
 Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority.
 
-**Set — Swords Dance:** **tags** setup-sweeper, wincon · **axis** attacks physical · **preserve** med · **deployment** setup-window
+**Set — Swords Dance** *(~83% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks physical · **preserve** med · **deployment** setup-window
 
 > Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken.
 
-**Set — Bulk Up:** **tags** setup-sweeper, wallbreaker · **axis** attacks physical, defends physical · **preserve** high · **deployment** setup-window
+**Set — Bulk Up** *(~8% of sets)*: **tags** setup-sweeper, wallbreaker · **axis** attacks physical, defends physical · **preserve** high · **deployment** setup-window
 
 > A minority set. Bulk Up raises Attack and Defence together, so it boosts while absorbing physical hits rather than relying on Focus Sash, and Taunt on this set denies Defog. It appears mainly on hyper-offence and screens teams, where the extra turns make boosting practical.
 
@@ -402,6 +514,14 @@ TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference
 **tags** wall, status-spreader · **axis** attacks special, defends physical · **ability** poisonpuppeteer · **preserve** med
 
 Poison Puppeteer confuses any foe it poisons. Bulk and recovery let it stall and spread status.
+
+**Set — Nasty Plot** *(~28% of sets)*: **tags** setup-sweeper · **axis** attacks special · **deployment** setup-window
+
+> Nasty Plot turns it from a status spreader into an attacker behind its bulk.
+
+**Set — Pivot** *(~52% of sets)*: **tags** wall, status-spreader · **axis** attacks special · **deployment** pivot-cycle
+
+> Boots and recovery let it come in repeatedly to spread poison and confusion.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -439,6 +559,14 @@ RAG-grounded [smogon#Iron Moth (gen9ou) — Booster Energy]: the recommended set
 
 Regenerator restores HP on switch out and Wish heals a teammate, so it is a healing source for the whole side rather than only itself. Flip Turn pivots.
 
+**Set — WishFish** *(~72% of sets)*: **tags** pivot, annuity, wall · **axis** attacks special · **deployment** pivot-cycle
+
+> Wish heals a teammate and Flip Turn pivots out, so its bulk is spent supporting the side rather than itself.
+
+**Set — Assault Vest** *(~27% of sets)*: **tags** wall · **axis** attacks special
+
+> Assault Vest trades its status moves for special bulk, so it walls attackers but can no longer pass Wish.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Alomomola (gen9ou) — WishFish (Wish Passer)]: Recommended set is "Flip Turn; Wish; Protect; Scald / Tickle" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch — so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds.
@@ -450,6 +578,18 @@ RAG-grounded [smogon#Alomomola (gen9ou) — WishFish (Wish Passer)]: Recommended
 **tags** revenge-killer, wallbreaker · **axis** attacks special · **ability** baddreams · **preserve** med · **deployment** late-cleaner
 
 Very high Speed, usually with Choice Scarf, makes it a revenge killer. Trick hands the Choice item to a wall to cripple it.
+
+**Set — Nasty Plot** *(~28% of sets)*: **tags** setup-sweeper · **axis** attacks special · **deployment** setup-window
+
+> Nasty Plot doubles Special Attack for a sweep once its checks are gone.
+
+**Set — Choice Specs** *(~18% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Choice Specs locks it into one move but breaks walls immediately on entry.
+
+**Set — Boots Attacker** *(~21% of sets)*: **tags** wallbreaker · **axis** attacks special · **deployment** pivot-cycle
+
+> Heavy-Duty Boots let it re-enter through hazards repeatedly while holding four attacks.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -475,6 +615,14 @@ Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back
 
 Grassy Surge sets Grassy Terrain, which heals every grounded Pokemon each turn and weakens Earthquake — a benefit to its whole side that ends when it does. Grassy Glide gains priority in terrain.
 
+**Set — Choice Band** *(~41% of sets)*: **tags** wallbreaker · **axis** attacks physical
+
+> Choice Band makes Grassy Glide a hard-hitting priority move under its own terrain.
+
+**Set — Utility** *(~2% of sets)*: **tags** terrain-setter, pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> A support build that keeps terrain up and pivots with U-turn rather than attacking outright.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Rillaboom (gen9ou) — Utility]: Grassy Terrain is described as "solving its problem with longevity" for partners and enabling Grassy-Seed setup — i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care.
@@ -486,6 +634,14 @@ RAG-grounded [smogon#Rillaboom (gen9ou) — Utility]: Grassy Terrain is describe
 **tags** pivot · **axis** attacks special, defends physical · **ability** static · **preserve** med · **deployment** pivot-cycle
 
 Volt Switch pivots while Roost restores HP, so it re-enters many times a game. Heavy-Duty Boots let it ignore entry hazards while doing so.
+
+**Set — Defensive** *(~81% of sets)*: **tags** wall, pivot · **axis** attacks special · **deployment** pivot-cycle
+
+> Roost with bulk lets it check physical attackers repeatedly and pivot with Volt Switch.
+
+**Set — Offensive** *(~33% of sets)*: **tags** wallbreaker, pivot · **axis** attacks special · **deployment** pivot-cycle
+
+> Hurricane and Heat Wave threaten damage while Volt Switch keeps momentum.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -499,6 +655,14 @@ RAG-grounded [smogon#Zapdos (gen9ou) — Offensive]: Recommended set "Hurricane;
 
 Extreme Speed stat lets it set hazards or screens before almost anything else moves. Focus Sash guarantees it acts at least twice.
 
+**Set — Hazard Lead** *(~12% of sets)*: **tags** suicide-lead, hazard-setter · **axis** attacks special · **deployment** lead
+
+> Focus Sash guarantees it survives to set at least one layer before it falls.
+
+**Set — Nasty Plot** *(~17% of sets)*: **tags** setup-sweeper · **axis** attacks special · **deployment** setup-window
+
+> Nasty Plot turns its extreme Speed into a sweep instead of hazard support.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: "Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats" — the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve.
@@ -510,6 +674,18 @@ RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: "Focus Sash guarant
 **tags** wall, wincon · **axis** attacks physical, defends physical · **ability** purifyingsalt · **preserve** high · **deployment** setup-window
 
 Purifying Salt blocks status. Iron Defense with Body Press converts its Defense into attacking power, while Salt Cure chips and Recover sustains — a slow plan that needs several turns to pay off.
+
+**Set — Iron Defense** *(~25% of sets)*: **tags** wall, wincon · **axis** attacks physical · **deployment** setup-window
+
+> Iron Defense with Body Press converts Defence into attacking power over several turns.
+
+**Set — Curse** *(~16% of sets)*: **tags** wall, wincon · **axis** attacks physical · **deployment** setup-window
+
+> Curse trades Speed for Attack and Defence, a slower but self-sufficient win condition.
+
+**Set — Stealth Rock** *(~53% of sets)*: **tags** hazard-setter, wall · **axis** attacks physical
+
+> A support build that sets Stealth Rock and chips with Salt Cure instead of setting up.
 
 **The play:**
 

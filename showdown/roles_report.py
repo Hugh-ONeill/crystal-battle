@@ -95,7 +95,9 @@ def render(doc: dict) -> str:
             for f in ("preserve", "deployment"):
                 if st.get(f) is not None:
                     bits.append(f"**{f}** {st[f]}")
-            w(f"**Set — {st['name']}:** " + " · ".join(bits) + "\n")
+            pv = st.get("prevalence")
+            pvs = f" *(~{int(100*pv)}% of sets)*" if pv is not None else ""
+            w(f"**Set — {st['name']}**{pvs}: " + " · ".join(bits) + "\n")
             if st.get("fact"):
                 w(f"> {st['fact']}\n")
 

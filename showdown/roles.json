@@ -69,6 +69,12 @@
     "                Each set may carry `prevalence`: roughly what fraction of that",
     "                species' sets run it, estimated as the signature move's usage",
     "                divided by 25% (a set holds four moves, so any one move tops",
+    "                Three signature kinds, in order of preference: a MOVE unique to",
+    "                the set (usage / 25%), else the ITEM (usage directly \u2014 one item",
+    "                per set), else the ABILITY (also direct). Ability is what",
+    "                separates sets that share moves and items: Corviknight splits",
+    "                Pressure 77% / Mirror Armor 22%, Dragapult Infiltrator 63% /",
+    "                Clear Body 35%, Cinderace Libero 69% / Blaze 31%.",
     "                out near 25%). It is an ESTIMATE, not ground truth \u2014 shared",
     "                moves and four-move overlap blur it \u2014 but it separates a set",
     "                that is nearly universal from one that is fringe. Ceruledge",
@@ -245,7 +251,33 @@
       "axis": {
         "attacks": "special",
         "defends": "special"
-      }
+      },
+      "sets": [
+        {
+          "name": "Assault Vest",
+          "tags": [
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Assault Vest adds special bulk at the cost of its status moves, so it checks attackers rather than pivoting.",
+          "prevalence": 0.24
+        },
+        {
+          "name": "Defensive Pivot",
+          "tags": [
+            "pivot",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Boots plus Regenerator and Chilly Reception make every switch nearly free.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.5
+        }
+      ]
     },
     "gholdengo": {
       "tags": [
@@ -356,7 +388,34 @@
       "axis": {
         "attacks": "physical",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Offensive Utility",
+          "tags": [
+            "hazard-removal",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal.",
+          "prevalence": 0.28
+        },
+        {
+          "name": "Bulk Up",
+          "tags": [
+            "setup-sweeper",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Bulk Up raises Attack and Defence together so it can boost while absorbing physical hits.",
+          "deployment": "setup-window",
+          "prevalence": 0.16
+        }
+      ]
     },
     "corviknight": {
       "tags": [
@@ -380,7 +439,38 @@
       "axis": {
         "attacks": "physical",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Defensive",
+          "tags": [
+            "hazard-removal",
+            "pivot",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "deployment": "pivot-cycle",
+          "fact": "Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards.",
+          "prevalence": 0.77,
+          "ability": "pressure"
+        },
+        {
+          "name": "Mirror Armor",
+          "tags": [
+            "wall",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "deployment": "pivot-cycle",
+          "fact": "Mirror Armor reflects stat drops back at the attacker, so Defog and Intimidate users cannot chip its stats; the trade is losing Pressure's PP tax.",
+          "prevalence": 0.22,
+          "ability": "mirrorarmor"
+        }
+      ]
     },
     "rillaboom": {
       "tags": [
@@ -394,7 +484,33 @@
       "provenance": "RAG-grounded [smogon#Rillaboom (gen9ou) \u2014 Utility]: Grassy Terrain is described as \"solving its problem with longevity\" for partners and enabling Grassy-Seed setup \u2014 i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care.",
       "axis": {
         "attacks": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Choice Band",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Choice Band makes Grassy Glide a hard-hitting priority move under its own terrain.",
+          "prevalence": 0.41
+        },
+        {
+          "name": "Utility",
+          "tags": [
+            "terrain-setter",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "A support build that keeps terrain up and pivots with U-turn rather than attacking outright.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.02
+        }
+      ]
     },
     "walkingwake": {
       "tags": [
@@ -434,7 +550,35 @@
       "sequence_note": "Roost is not only healing \u2014 returning to full HP restores the Multiscale damage halving, so it effectively refreshes the setup window. Chip damage that prevents reaching full HP removes that option permanently.",
       "axis": {
         "attacks": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Dragon Dance",
+          "tags": [
+            "setup-sweeper",
+            "wincon"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Dragon Dance raises Attack and Speed behind Multiscale, then Extreme Speed cleans up.",
+          "deployment": "setup-window",
+          "prevalence": 0.86
+        },
+        {
+          "name": "Bulky Phazer",
+          "tags": [
+            "wall",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.35
+        }
+      ]
     },
     "ceruledge": {
       "tags": [
@@ -474,7 +618,8 @@
           "deployment": "setup-window",
           "entry_condition": "full_hp",
           "fact": "Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken.",
-          "prevalence": 0.83
+          "prevalence": 0.83,
+          "ability": "weakarmor"
         },
         {
           "name": "Bulk Up",
@@ -537,7 +682,34 @@
       "provenance": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) \u2014 Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" \u2014 the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve.",
       "axis": {
         "attacks": "special"
-      }
+      },
+      "sets": [
+        {
+          "name": "Hazard Lead",
+          "tags": [
+            "suicide-lead",
+            "hazard-setter"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Focus Sash guarantees it survives to set at least one layer before it falls.",
+          "deployment": "lead",
+          "prevalence": 0.12
+        },
+        {
+          "name": "Nasty Plot",
+          "tags": [
+            "setup-sweeper"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Nasty Plot turns its extreme Speed into a sweep instead of hazard support.",
+          "deployment": "setup-window",
+          "prevalence": 0.17
+        }
+      ]
     },
     "pecharunt": {
       "tags": [
@@ -552,7 +724,34 @@
       "axis": {
         "attacks": "special",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Nasty Plot",
+          "tags": [
+            "setup-sweeper"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Nasty Plot turns it from a status spreader into an attacker behind its bulk.",
+          "deployment": "setup-window",
+          "prevalence": 0.28
+        },
+        {
+          "name": "Pivot",
+          "tags": [
+            "wall",
+            "status-spreader"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Boots and recovery let it come in repeatedly to spread poison and confusion.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.52
+        }
+      ]
     },
     "ironvaliant": {
       "tags": [
@@ -575,7 +774,8 @@
           "fact": "Choice Specs locks it into one move but lets Moonblast break special walls that would otherwise check it.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.1
         },
         {
           "name": "Calm Mind",
@@ -596,6 +796,29 @@
             "attacks": "special"
           },
           "prevalence": 0.3
+        },
+        {
+          "name": "Swords Dance",
+          "tags": [
+            "setup-sweeper"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Swords Dance doubles Attack for a physical sweep, with Close Combat and Knock Off as coverage.",
+          "deployment": "setup-window",
+          "prevalence": 0.15
+        },
+        {
+          "name": "Mixed",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "mixed"
+          },
+          "fact": "Booster Energy on entry with both physical and special attacks, so no single wall answers it.",
+          "prevalence": 0.8
         }
       ],
       "axis": {
@@ -615,7 +838,33 @@
       "provenance": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak.",
       "axis": {
         "attacks": "special"
-      }
+      },
+      "sets": [
+        {
+          "name": "Choice Specs",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Choice Specs locks it in but makes Draco Meteor and Thunderclap break through immediately.",
+          "prevalence": 0.12
+        },
+        {
+          "name": "Boots Pivot",
+          "tags": [
+            "pivot",
+            "priority-attacker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Boots let it re-enter through hazards while Thunderclap threatens priority every time.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.04
+        }
+      ]
     },
     "zamazenta": {
       "tags": [
@@ -631,7 +880,33 @@
       "axis": {
         "attacks": "physical",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "IronPress",
+          "tags": [
+            "wall",
+            "wincon"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Iron Defense with Body Press turns its Defence into offence, a win condition that needs several turns.",
+          "deployment": "setup-window",
+          "prevalence": 0.61
+        },
+        {
+          "name": "Offensive Attacker",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Four attacks using its Speed and typing to threaten immediately instead of setting up.",
+          "prevalence": 0.38
+        }
+      ]
     },
     "ogerponwellspring": {
       "tags": [
@@ -678,7 +953,8 @@
           },
           "preserve": "med",
           "deployment": null,
-          "fact": "Four attacks and no setup, hitting immediately on entry rather than asking for a free turn."
+          "fact": "Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.",
+          "prevalence": 0.0
         },
         {
           "name": "Utility",
@@ -690,7 +966,8 @@
           },
           "preserve": "med",
           "deployment": "pivot-cycle",
-          "fact": "Knock Off, U-turn and Encore trade damage for disruption and momentum instead of setting up."
+          "fact": "Knock Off, U-turn and Encore trade damage for disruption and momentum instead of setting up.",
+          "prevalence": 0.29
         }
       ]
     },
@@ -707,7 +984,47 @@
       "provenance": "RAG-grounded [smogon#Dragapult (gen9ou) \u2014 Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.",
       "axis": {
         "attacks": "mixed"
-      }
+      },
+      "sets": [
+        {
+          "name": "Choice Specs",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Choice Specs locks it in but lets Draco Meteor and Shadow Ball break through immediately.",
+          "prevalence": 0.33
+        },
+        {
+          "name": "Boots Pivot",
+          "tags": [
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "mixed"
+          },
+          "fact": "Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.19,
+          "ability": "infiltrator"
+        },
+        {
+          "name": "Clear Body",
+          "tags": [
+            "pivot",
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "mixed"
+          },
+          "deployment": "pivot-cycle",
+          "fact": "Clear Body ignores stat drops entirely, trading Infiltrator's ability to bypass Substitutes and screens.",
+          "prevalence": 0.35,
+          "ability": "clearbody"
+        }
+      ]
     },
     "hatterene": {
       "tags": [
@@ -737,7 +1054,47 @@
       "axis": {
         "attacks": "special",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Healing Wish",
+          "tags": [
+            "sacrificial-support",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Healing Wish trades it away to restore a teammate to full HP and clear their status.",
+          "deployment": "bait-switch",
+          "prevalence": 0.35
+        },
+        {
+          "name": "Calm Mind",
+          "tags": [
+            "setup-sweeper",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Calm Mind raises both special stats behind Magic Bounce, turning it into a win condition.",
+          "deployment": "setup-window",
+          "prevalence": 0.22
+        },
+        {
+          "name": "Pain Split",
+          "tags": [
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Pain Split averages HP with the target, giving it recovery it otherwise lacks.",
+          "deployment": "bait-switch",
+          "prevalence": 0.23
+        }
+      ]
     },
     "irontreads": {
       "tags": [
@@ -754,7 +1111,36 @@
       "provenance": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.",
       "axis": {
         "attacks": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Lead",
+          "tags": [
+            "hazard-setter",
+            "hazard-removal",
+            "lead"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Booster Energy makes it fast enough to set or remove hazards before most leads act.",
+          "deployment": "lead",
+          "prevalence": 0.34
+        },
+        {
+          "name": "Utility",
+          "tags": [
+            "hazard-removal",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Leftovers and bulk let it keep removing hazards across the game rather than once.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.34
+        }
+      ]
     },
     "kyurem": {
       "tags": [
@@ -776,7 +1162,8 @@
           "fact": "Choice Specs locks it into one move but lets Freeze-Dry and Earth Power break walls outright. Freeze-Dry hits Water types super effectively.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.25
         },
         {
           "name": "Dragon Dance (Loaded Dice)",
@@ -837,7 +1224,45 @@
       "provenance": "RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: \"one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt.\" Setting hazards THROUGH Magic Bounce is the counter to hazard-denial \u2014 the other side of the war that decides our long games.",
       "axis": {
         "attacks": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Lead",
+          "tags": [
+            "hazard-setter",
+            "lead"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Focus Sash guarantees it survives to set Spikes with Ceaseless Edge.",
+          "deployment": "lead",
+          "prevalence": 0.17
+        },
+        {
+          "name": "Choice Scarf",
+          "tags": [
+            "revenge-killer"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "A Choice Scarf lets it revenge-kill while still setting Spikes through Ceaseless Edge.",
+          "prevalence": 0.15
+        },
+        {
+          "name": "Assault Vest",
+          "tags": [
+            "wall",
+            "hazard-setter"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Assault Vest adds special bulk so it can keep setting Spikes across the game.",
+          "prevalence": 0.38
+        }
+      ]
     },
     "cinderace": {
       "tags": [
@@ -851,7 +1276,22 @@
       "provenance": "RAG-grounded [smogon#Cinderace (gen9ou) \u2014 Offensive Pivot]: Recommended set is \"Pyro Ball; U-turn; Court Change; ...\" with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT \u2014 it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours.",
       "axis": {
         "attacks": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Blaze",
+          "tags": [
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "deployment": "pivot-cycle",
+          "fact": "Blaze raises Fire damage at low HP instead of Libero's type change, so it keeps its Fire typing and its weaknesses fixed.",
+          "prevalence": 0.31,
+          "ability": "blaze"
+        }
+      ]
     },
     "landorustherian": {
       "tags": [
@@ -868,7 +1308,35 @@
       "axis": {
         "attacks": "physical",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Defensive",
+          "tags": [
+            "wall",
+            "pivot",
+            "glue"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Rocky Helmet punishes contact while Intimidate and bulk let it check physical attackers repeatedly.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.61
+        },
+        {
+          "name": "Offensive",
+          "tags": [
+            "wallbreaker",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "A Choice Scarf turns it into a revenge killer that still pivots with U-turn.",
+          "prevalence": 0.18
+        }
+      ]
     },
     "alomomola": {
       "tags": [
@@ -885,7 +1353,34 @@
       "axis": {
         "attacks": "special",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "WishFish",
+          "tags": [
+            "pivot",
+            "annuity",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Wish heals a teammate and Flip Turn pivots out, so its bulk is spent supporting the side rather than itself.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.72
+        },
+        {
+          "name": "Assault Vest",
+          "tags": [
+            "wall"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Assault Vest trades its status moves for special bulk, so it walls attackers but can no longer pass Wish.",
+          "prevalence": 0.27
+        }
+      ]
     },
     "darkrai": {
       "tags": [
@@ -900,7 +1395,44 @@
       "provenance": "RAG-grounded [smogon#Darkrai (gen9ou) \u2014 Choice Scarf]: \"Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick.\" Trick converts its own item into a liability on their wall \u2014 a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction).",
       "axis": {
         "attacks": "special"
-      }
+      },
+      "sets": [
+        {
+          "name": "Nasty Plot",
+          "tags": [
+            "setup-sweeper"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Nasty Plot doubles Special Attack for a sweep once its checks are gone.",
+          "deployment": "setup-window",
+          "prevalence": 0.28
+        },
+        {
+          "name": "Choice Specs",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Choice Specs locks it into one move but breaks walls immediately on entry.",
+          "prevalence": 0.18
+        },
+        {
+          "name": "Boots Attacker",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Heavy-Duty Boots let it re-enter through hazards repeatedly while holding four attacks.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.21
+        }
+      ]
     },
     "zapdos": {
       "tags": [
@@ -915,7 +1447,35 @@
       "axis": {
         "attacks": "special",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Defensive",
+          "tags": [
+            "wall",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Roost with bulk lets it check physical attackers repeatedly and pivot with Volt Switch.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.81
+        },
+        {
+          "name": "Offensive",
+          "tags": [
+            "wallbreaker",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Hurricane and Heat Wave threaten damage while Volt Switch keeps momentum.",
+          "deployment": "pivot-cycle",
+          "prevalence": 0.33
+        }
+      ]
     },
     "garganacl": {
       "tags": [
@@ -938,7 +1498,47 @@
       "axis": {
         "attacks": "physical",
         "defends": "physical"
-      }
+      },
+      "sets": [
+        {
+          "name": "Iron Defense",
+          "tags": [
+            "wall",
+            "wincon"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Iron Defense with Body Press converts Defence into attacking power over several turns.",
+          "deployment": "setup-window",
+          "prevalence": 0.25
+        },
+        {
+          "name": "Curse",
+          "tags": [
+            "wall",
+            "wincon"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Curse trades Speed for Attack and Defence, a slower but self-sufficient win condition.",
+          "deployment": "setup-window",
+          "prevalence": 0.16
+        },
+        {
+          "name": "Stealth Rock",
+          "tags": [
+            "hazard-setter",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "A support build that sets Stealth Rock and chips with Salt Cure instead of setting up.",
+          "prevalence": 0.53
+        }
+      ]
     }
   }
 }
