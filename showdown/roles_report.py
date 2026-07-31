@@ -46,9 +46,11 @@ def render(doc: dict) -> str:
     w("# Role annotations — review copy\n")
     w(f"Generated from `showdown/roles.json` ({len(roles)} entries). "
       "**Edit the JSON, not this file.**\n")
-    w("Nothing consumes these yet. Every entry carries `evidence` and a review "
-      "grade; an entry whose claim cannot be traced is a guess and should not "
-      "ship.\n")
+    w("Nothing consumes these yet. **The plain paragraph under each entry is the "
+      "`fact`** — the only field a consumer would ever be shown. It is written to "
+      "stand alone: present tense, mechanically true, no named opponents, no "
+      "references to other entries. Everything about where a claim came from lives "
+      "in the collapsed provenance block, which no consumer sees.\n")
     w("| grade | meaning |")
     w("|---|---|")
     w("| measured here | backed by a measurement from this campaign |")
@@ -77,6 +79,8 @@ def render(doc: dict) -> str:
             if v.get(f):
                 bits.append(f"**{f}** {v[f]}")
         w(" · ".join(bits) + "\n")
+        if v.get("fact"):
+            w(v["fact"] + "\n")
 
         if v.get("sequence"):
             w("**The play:**\n")
@@ -95,7 +99,8 @@ def render(doc: dict) -> str:
                     w(f"\n> {cnd[f]}")
             w("")
 
-        w(f"<details><summary>evidence</summary>\n\n{v['evidence']}\n\n</details>\n")
+        w(f"<details><summary>provenance (review only — not shown to any consumer)"
+          f"</summary>\n\n{v['provenance']}\n\n</details>\n")
 
     unver = [k for k, v in roles.items() if v["review"] == "unmeasured"]
     if unver:
