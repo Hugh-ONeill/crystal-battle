@@ -157,6 +157,57 @@ class ArchiveTier:
         return out
 
 
+class BookWeightedArchiveTier(ArchiveTier):
+    """Archive candidates SELECTED by the opponent's own observed history.
+
+    The plain archive knows her (95% BEST) but a blind draw gets 69% — a
+    SELECTION problem. In-game `consistent()` filtering only helps once she has
+    revealed something, yet belief is worth most at preview. Her history is
+    available before turn 1: across prior games we have seen which moves/items/
+    teras she actually runs on each species, so archive candidates that match
+    that history are far likelier to be the team in front of us.
+
+    Scored LEAVE-ONE-GAME-OUT — the profile for a game is built from her OTHER
+    games only, never the one being scored, or this measures memorisation.
+    """
+
+    name = "archive+book"
+
+    def __init__(self, max_cands=80, keep_frac=0.15, min_keep=3):
+        super().__init__(max_cands)
+        self.keep_frac, self.min_keep = keep_frac, min_keep
+        self.hist = None      # species -> observed move set (LOO, set per game)
+
+    def candidates(self, preview):
+        cands = super().candidates(preview)
+        if not cands or not self.hist:
+            return cands
+        scored = []
+        for team, w in cands:
+            hit = tot = 0.0
+            for sp, (moves, item, tera) in team.items():
+                seen = self.hist.get(sp)
+                if not seen:
+                    continue
+                # moves she has been seen using on this species
+                hit += len(moves & seen["moves"]); tot += len(moves)
+                # item and tera are single-valued and high-signal: weight them
+                # like a move slot each, so selection can act on the axes where
+                # the archive's ceiling is highest (item 97%, tera 91%)
+                if seen["items"]:
+                    tot += 1.0
+                    if item in seen["items"]:
+                        hit += 1.0
+                if seen["teras"]:
+                    tot += 1.0
+                    if tera in seen["teras"]:
+                        hit += 1.0
+            scored.append(((hit / tot) if tot else 0.0, team, w))
+        scored.sort(key=lambda x: -x[0])
+        k = max(self.min_keep, int(len(scored) * self.keep_frac))
+        return [(t, w) for _, t, w in scored[:k]]
+
+
 class PSTier:
     """Today's tier-1: PS's curated sets, per species, weight-averaged."""
 
@@ -231,7 +282,21 @@ def score(tier, games):
     tr_hit = tr_tot = 0.0
     tr_best = 0.0
     covered = 0
-    for g in games:
+    for gi, g in enumerate(games):
+        # leave-one-game-out history for any tier that consumes it
+        if hasattr(tier, "hist"):
+            h = defaultdict(lambda: {"moves": set(), "items": set(), "teras": set()})
+            for j, o in enumerate(games):
+                if j == gi:
+                    continue
+                for sp, rev in o["rev"].items():
+                    e = h[norm(sp)]
+                    e["moves"] |= rev["moves"]
+                    if rev["item"]:
+                        e["items"].add(rev["item"])
+                    if rev["tera"]:
+                        e["teras"].add(rev["tera"])
+            tier.hist = h
         cands = tier.candidates(g["preview"])
         if not cands:
             continue
@@ -287,7 +352,12 @@ def main():
     if not games:
         return
 
-    tiers = [ArchiveTier(args.max_cands), PSTier(), ChaosTier()]
+    top1 = BookWeightedArchiveTier(args.max_cands, keep_frac=0.0, min_keep=1)
+    top1.name = "arch+book@1"   # single best-scoring candidate = a MODAL belief,
+                                # the like-for-like comparison against chaos
+    tiers = [ArchiveTier(args.max_cands),
+             BookWeightedArchiveTier(args.max_cands),
+             top1, PSTier(), ChaosTier()]
     print(f"  {'tier':12s} {'games':>6s} | {'move mean':>10s} {'move BEST':>10s} "
           f"| {'item mean':>10s} {'item BEST':>10s} | {'tera mean':>10s} {'tera BEST':>10s}")
     for t in tiers:
