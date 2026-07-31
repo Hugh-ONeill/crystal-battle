@@ -18,7 +18,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 32.9% | **greattusk** ⚡ | Smogon-cited | med | — | hazard-removal, wall, pivot |
 | 22.5% | **kingambit** | measured here | high | late-cleaner | cleaner, wincon |
 | 21.9% | **gholdengo** ⚡ ✳ | USER-CORRECTED | high | None | spinblocker, glue |
-| 17.9% | **dragonite** | Smogon-cited | high | setup-window | wincon, setup-sweeper |
+| 17.9% | **dragonite** ▸ | Smogon-cited | high | setup-window | wincon, setup-sweeper |
 | 15.3% | **ironvaliant** ✳ | Smogon-cited | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** | Smogon-cited | med | late-cleaner | wallbreaker, priority-attacker |
 | 15.2% | **zamazenta** | Smogon-cited | high | — | wall, wincon, glue |
@@ -44,7 +44,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 7.3% | **rillaboom** | Smogon-cited | med | — | terrain-setter |
 | 7.0% | **zapdos** | Smogon-cited | med | pivot-cycle | pivot |
 | 6.3% | **deoxysspeed** | Smogon-cited | low | lead | suicide-lead, screens-setter, hazard-setter |
-| 6.2% | **garganacl** | Smogon-cited | high | setup-window | wall, wincon |
+| 6.2% | **garganacl** ▸ | Smogon-cited | high | setup-window | wall, wincon |
 | 4.7% | **pelipper** | measured here | high | lead | weather-setter |
 | 3.3% | **torkoal** | measured here | med | lead | weather-setter |
 | 2.6% | **barraskewda** | measured here | med | — | weather-abuser, sweeper |
@@ -116,6 +116,16 @@ USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocke
 
 Multiscale halves incoming damage only at full HP, so it needs an undamaged entry to function. Roost restores that condition. Dragon Dance turns one safe turn into a sweep.
 
+**The play:**
+
+1. enter at FULL HP — Multiscale halves the incoming hit only from full, and Heavy-Duty Boots are what keep it full through hazards
+2. Dragon Dance while Multiscale absorbs the first attack, raising Attack and Speed
+3. sweep with Earthquake and its coverage move
+4. Extreme Speed finishes anything faster or already weakened, ignoring Speed entirely
+5. Roost when the sweep stalls: it restores full HP and with it Multiscale, buying another setup turn
+
+> Roost is not only healing — returning to full HP restores the Multiscale damage halving, so it effectively refreshes the setup window. Chip damage that prevents reaching full HP removes that option permanently.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy setup opportunities" and let it check Ogerpon-W, Iron Moth and Rillaboom, "with Multiscale intact". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up — which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep.
@@ -130,15 +140,15 @@ High mixed offense with Booster Energy spent on entry to raise its best stat. Ch
 
 **Set — Choice Specs:** **tags** wallbreaker · **preserve** med
 
-> Choice Specs Moonblast breaks special walls that would otherwise check it.
+> Choice Specs locks it into one move but lets Moonblast break special walls that would otherwise check it.
 
-**Set — Swords Dance:** **tags** setup-sweeper · **preserve** high · **deployment** setup-window
+**Set — Calm Mind:** **tags** setup-sweeper · **preserve** high · **deployment** setup-window
 
-> Swords Dance doubles its Attack for a physical sweep, with Shadow Sneak as priority coverage.
+> Calm Mind raises Special Attack and Special Defense together, and Encore can manufacture the free turn to use it.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor." Booster Energy is its top item by usage — a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question.
+RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor." Booster Energy is its top item by usage — a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question. [CORRECTED 2026-07-31: I had written a Swords Dance set. Usage says Calm Mind 7.6% against Swords Dance 3.9%, with Encore at 8.8% and Booster Energy on 80% of sets — the setup set is special, and Encore is the enabler.]
 
 </details>
 
@@ -277,19 +287,19 @@ High mixed offense across several very different sets, so which set it is change
 
 **Set — Choice Specs:** **tags** wallbreaker · **preserve** med
 
-> Choice Specs locks it into one move but lets it break walls outright.
+> Choice Specs locks it into one move but lets Freeze-Dry and Earth Power break walls outright. Freeze-Dry hits Water types super effectively.
 
-**Set — Loaded Dice Icicle Spear:** **tags** wallbreaker · **preserve** med
+**Set — Dragon Dance (Loaded Dice):** **tags** setup-sweeper · **preserve** high · **deployment** setup-window
 
-> A multi-hit physical set that breaks through Substitutes and Focus Sash.
+> Dragon Dance raises Attack and Speed, and Loaded Dice makes Icicle Spear and Scale Shot hit four or five times reliably.
 
-**Set — Substitute Roost:** **tags** wall, setup-sweeper · **preserve** med · **deployment** setup-window
+**Set — Substitute:** **tags** wall, wallbreaker · **preserve** med · **deployment** pivot-cycle
 
-> Substitute and Roost let it wear down passive teams while avoiding status.
+> Substitute on a predicted switch blocks status and chip, and Protect with Leftovers stalls further while Freeze-Dry and Earth Power attack from behind it.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.]
+RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.] [CORRECTED 2026-07-31: I had written a 'Substitute Roost' set, but Roost does not appear in its moves at all. Usage: Choice Specs 25% / Loaded Dice 23% / Leftovers 23% items; Dragon Dance 6.7% with Icicle Spear 7.0% and Scale Shot 4.7% is the Loaded Dice physical set; Substitute 6.6% with Protect 3.4% is the stall set.]
 
 </details>
 
@@ -480,6 +490,15 @@ RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: "Focus Sash guarant
 **tags** wall, wincon · **ability** purifyingsalt · **preserve** high · **deployment** setup-window
 
 Purifying Salt blocks status. Iron Defense with Body Press converts its Defense into attacking power, while Salt Cure chips and Recover sustains — a slow plan that needs several turns to pay off.
+
+**The play:**
+
+1. enter on a physical attacker it walls — Purifying Salt blocks any status they try to stick on it
+2. Iron Defense, and keep using it while Recover undoes the chip they deal
+3. Body Press attacks using the boosted Defense stat, so every Iron Defense raises its damage too
+4. Salt Cure anything that switches in, chipping it every turn it stays
+
+> This is a slow plan that needs several uninterrupted turns, and each early turn looks like it accomplishes nothing — the payoff only exists once Defense is high enough that Body Press threatens. Anything that forces it out resets the whole attempt.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
