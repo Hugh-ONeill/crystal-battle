@@ -1,11 +1,11 @@
 {
   "_comment": [
-    "STARTER SKETCH — nothing reads this yet. Role/economics annotations for",
+    "STARTER SKETCH \u2014 nothing reads this yet. Role/economics annotations for",
     "the mons whose value the leaf eval structurally cannot price.",
     "",
     "WHY A DATA FILE AND NOT AN LLM CALL. The knowledge here is ENUMERABLE (a",
     "few dozen meta mons, each with a stable role), so it belongs in a",
-    "versioned, diffable artifact with zero inference latency — the same call",
+    "versioned, diffable artifact with zero inference latency \u2014 the same call",
     "made for ps_sets_overrides.json, where a 40-line overlay fixed the",
     "Kingambit Low Kick blindness that would otherwise have needed a model.",
     "An LLM+RAG pass over the smogon corpus is a good way to DRAFT this file",
@@ -15,14 +15,14 @@
     "stay with the search or a later live overlay.",
     "",
     "WHY IT EXISTS AT ALL. Three open items are each blocked on the same",
-    "missing fact — which mons are cleaners, which are resource anchors, which",
+    "missing fact \u2014 which mons are cleaners, which are resource anchors, which",
     "are meant to lead:",
     "  1. Kingambit hold-back annuity: the eval now prices Supreme Overlord's",
     "     fallen-ally scaling (poke-engine c68f15a) but still cannot see the",
     "     OPPORTUNITY COST of spending the cleaner early; it needs to know the",
     "     mon is a cleaner at all.",
     "  2. Weather preservation: measured 43% rain uptime with 41% of Swift Swim",
-    "     moves clicked OUTSIDE rain — the search does not treat the setter's",
+    "     moves clicked OUTSIDE rain \u2014 the search does not treat the setter's",
     "     survival as a resource, or the weather clock as a wasting asset.",
     "  3. Canonical-lead weighting: the preview matrix is nearly flat (row-min",
     "     spreads 0.01-0.12 at any depth) so lead choice is close to a coin",
@@ -45,73 +45,212 @@
     "  evidence     the measurement or commit this claim rests on",
     "",
     "REVIEW RULE: an entry without `evidence` is a guess and should not ship.",
-    "Role tags are TESTABLE against behaviour — the Kingambit timing analysis",
+    "Role tags are TESTABLE against behaviour \u2014 the Kingambit timing analysis",
     "(first-entry turn, allies fallen at entry) is the template; a claimed",
     "'cleaner' whose deployment timing does not move after wiring is a claim",
     "that failed, not a fact."
   ],
-
   "roles": {
     "kingambit": {
-      "tags": ["cleaner", "wincon"],
+      "tags": [
+        "cleaner",
+        "wincon"
+      ],
       "ability": "supremeoverlord",
       "value_curve": "grows_with_own_faints",
       "preserve": "high",
       "lead_intent": "avoid",
-      "evidence": "Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored into threat_vs (c68f15a). Timing instrument: we first deploy it ~T9 with 0.44 allies down and 77% of the time with ZERO down, vs the ladder population's T13.0 / 0.96. fp is equally guilty, so this is absolute strength, not fp-gap."
+      "evidence": "Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored into threat_vs (c68f15a). Timing instrument: we first deploy it ~T9 with 0.44 allies down and 77% of the time with ZERO down, vs the ladder population's T13.0 / 0.96. fp is equally guilty, so this is absolute strength, not fp-gap.",
+      "review": "measured"
     },
-
     "pelipper": {
-      "tags": ["weather-setter"],
+      "tags": [
+        "weather-setter"
+      ],
       "ability": "drizzle",
       "resource": "rain",
       "preserve": "high",
       "lead_intent": "strong",
-      "evidence": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype."
+      "evidence": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.",
+      "review": "measured"
     },
     "barraskewda": {
-      "tags": ["weather-abuser", "sweeper"],
+      "tags": [
+        "weather-abuser",
+        "sweeper"
+      ],
       "ability": "swiftswim",
       "requires": "rain",
       "value_curve": "decays_with_weather_clock",
       "preserve": "med",
-      "evidence": "41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down."
+      "evidence": "41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) \u2014 the search spends the abuser while its enabling condition is down.",
+      "review": "measured"
     },
     "torkoal": {
-      "tags": ["weather-setter"],
+      "tags": [
+        "weather-setter"
+      ],
       "ability": "drought",
       "resource": "sun",
       "preserve": "med",
       "lead_intent": "strong",
-      "evidence": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy — so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule."
+      "evidence": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy \u2014 so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.",
+      "review": "measured"
     },
-
     "glimmora": {
-      "tags": ["suicide-lead", "hazard-setter"],
+      "tags": [
+        "suicide-lead",
+        "hazard-setter"
+      ],
       "preserve": "low",
       "lead_intent": "strong",
-      "evidence": "Toxic Debris + Focus Sash lead; the monotype screens-setter finding generalises — low-HP team-persistent support (hazards/screens/Tailwind) is role-correct to spend, and treating it as a mon to save is the error."
+      "evidence": "Toxic Debris + Focus Sash lead; the monotype screens-setter finding generalises \u2014 low-HP team-persistent support (hazards/screens/Tailwind) is role-correct to spend, and treating it as a mon to save is the error.",
+      "review": "unmeasured"
     },
     "grimmsnarl": {
-      "tags": ["suicide-lead", "screens-setter"],
+      "tags": [
+        "suicide-lead",
+        "screens-setter"
+      ],
       "ability": "prankster",
       "preserve": "low",
       "lead_intent": "strong",
-      "evidence": "project_monotype_screens_setter_role: screens setters are deliberately expendable; their value is the side condition they leave behind."
+      "evidence": "project_monotype_screens_setter_role: screens setters are deliberately expendable; their value is the side condition they leave behind.",
+      "review": "unmeasured"
     },
-
     "slowkinggalar": {
-      "tags": ["pivot", "wall"],
+      "tags": [
+        "pivot",
+        "wall"
+      ],
       "ability": "regenerator",
       "preserve": "med",
       "lead_intent": "neutral",
-      "evidence": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) — the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed."
+      "evidence": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) \u2014 the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed.",
+      "review": "measured"
     },
     "gholdengo": {
-      "tags": ["spinblocker"],
+      "tags": [
+        "spinblocker"
+      ],
       "ability": "goodasgold",
       "preserve": "high",
-      "evidence": "richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work — the mirror of our own removal dependency."
+      "review": "measured",
+      "evidence": "richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work \u2014 the mirror of our own removal dependency."
+    },
+    "gliscor": {
+      "tags": [
+        "annuity",
+        "wall"
+      ],
+      "ability": "poisonheal",
+      "value_curve": "grows_with_own_status",
+      "preserve": "high",
+      "review": "measured",
+      "evidence": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play."
+    },
+    "greattusk": {
+      "tags": [
+        "hazard-removal",
+        "wall"
+      ],
+      "ability": "protosynthesis",
+      "preserve": "high",
+      "review": "unmeasured",
+      "evidence": "MECHANIC certain (Rapid Spin), ECONOMICS unmeasured: hazard chip is our pinned loss mechanism (Stealth Rock = 21% of damage taken in richwoman's 42-turn grinds, ~7 switch-ins/game), so the only remover on a team is a team-persistent resource whose death re-exposes the whole side. `preserve: high` is CONDITIONAL on being the sole remover, which is a team property this per-species file cannot express \u2014 flagged as a schema gap, do not wire blindly."
+    },
+    "corviknight": {
+      "tags": [
+        "hazard-removal",
+        "pivot",
+        "wall"
+      ],
+      "ability": "pressure",
+      "preserve": "high",
+      "review": "unmeasured",
+      "evidence": "Same sole-remover caveat as greattusk (Defog). Pressure additionally taxes opponent PP, which matters in the long grinds where we measured 0 PP-deaths for us and real PP bankruptcy in the stall audit."
+    },
+    "rillaboom": {
+      "tags": [
+        "terrain-setter"
+      ],
+      "ability": "grassysurge",
+      "resource": "grassyterrain",
+      "preserve": "med",
+      "review": "unmeasured",
+      "evidence": "Direct parallel to the weather-setter economics: a field state this mon creates and its death ends. Grassy Terrain also heals 1/16/turn and halves Earthquake, so it is a defensive annuity for the whole side, not just a damage buff. The rain audit's finding (43% uptime, abuser moves clicked outside the condition) should be RE-RUN for terrain before assigning preserve pressure \u2014 sun leaked identically and did not care, so the same leak has different costs per field."
+    },
+    "walkingwake": {
+      "tags": [
+        "weather-abuser",
+        "sweeper"
+      ],
+      "ability": "protosynthesis",
+      "requires": "sun",
+      "preserve": "med",
+      "review": "measured",
+      "evidence": "Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back on Booster Energy when the sun drops \u2014 which is exactly WHY sun tolerates engine piloting (63%) while rain does not (29.2%, benched). Recorded to keep the weather fix from treating all abusers as equally weather-dependent."
+    },
+    "dragonite": {
+      "tags": [
+        "wincon",
+        "setup-sweeper"
+      ],
+      "ability": "multiscale",
+      "value_curve": "decays_with_chip",
+      "preserve": "high",
+      "review": "unmeasured",
+      "evidence": "MECHANIC certain (Multiscale halves damage at FULL HP only, already modelled in damage_calc). ECONOMICS: its defensive half is a one-shot resource that any chip destroys \u2014 the same Stealth-Rock tax that drives our loss mechanism deletes it on a single switch-in, which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep."
+    },
+    "ceruledge": {
+      "tags": [
+        "setup-sweeper",
+        "wincon"
+      ],
+      "ability": "weakarmor",
+      "preserve": "med",
+      "review": "unmeasured",
+      "evidence": "Focus Sash is a one-shot resource in the same family as Multiscale \u2014 consumed by chip, so hazard state silently decides whether the wincon exists. Unmeasured whether our search spends it early."
+    },
+    "ironmoth": {
+      "tags": [
+        "setup-sweeper"
+      ],
+      "ability": "quarkdrive",
+      "preserve": "med",
+      "review": "unmeasured",
+      "evidence": "Booster Energy is consumed on entry and does not come back; the item-polarity work already established that consuming it is the POINT rather than a loss, but the timing (which entry spends it) is an economics question the eval does not price."
+    },
+    "tinglu": {
+      "tags": [
+        "hazard-setter",
+        "wall"
+      ],
+      "ability": "vesselofruin",
+      "preserve": "med",
+      "lead_intent": "strong",
+      "review": "measured",
+      "evidence": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip."
+    },
+    "deoxysspeed": {
+      "tags": [
+        "suicide-lead",
+        "screens-setter",
+        "hazard-setter"
+      ],
+      "preserve": "low",
+      "lead_intent": "strong",
+      "review": "unmeasured",
+      "evidence": "Light Clay is its top item (usage stats), which is only bought to extend screens \u2014 the same expendable team-persistent-support role as grimmsnarl. Same monotype precedent: spending it is correct, saving it is the error."
+    },
+    "pecharunt": {
+      "tags": [
+        "wall"
+      ],
+      "ability": "poisonpuppeteer",
+      "preserve": "med",
+      "review": "engine-gap",
+      "evidence": "FLAG, not a role claim: Poison Puppeteer (poison -> confusion) is on the confirmed SILENT-ability list for gen9 OU (enum-only, no effect code) alongside Cursed Body / Synchronize / Rock Head / Anger Shell. At 9.2% usage we face it often and model it as a plain wall. Fixing the ability matters more than annotating the role."
     }
   }
 }
