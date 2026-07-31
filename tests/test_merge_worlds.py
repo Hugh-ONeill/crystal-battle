@@ -13,6 +13,11 @@ draws from a normalized belief distribution: world 0 is the deterministic
 PS-curated read and the last world is deliberately SPEED-PESSIMISTIC, an
 adversarial hedge against a Scarf. Down-weighting that hedge by its likelihood
 is precisely what would defeat its purpose.
+
+(2026-07-31 source check: current fp has dropped likelihood weighting on the
+standard-battles path too — prepare_battles returns uniform 1/num_battles —
+so both engines are equal-vote by default. Our opt-in CB_WORLD_WEIGHTS stakes
+below are reliability weights set by A/B, a different thing from likelihood.)
 """
 
 from types import SimpleNamespace
