@@ -51,16 +51,29 @@ COMMIT=$(git -C "$CB" rev-parse --short HEAD 2>/dev/null || echo "?")
 [ -n "$(git -C "$CB" status --porcelain --untracked-files=no 2>/dev/null)" ] && COMMIT="$COMMIT+dirty"
 echo "=== session config | commit=$COMMIT | format=$FORMAT | server=$SERVER | pool=$(basename "$POOL") | timeout=${PER_GAME_TIMEOUT} | argv= $*" >> "$LOG"
 
+# Interleaved A/B on the ladder. Set AB_FLAG to an extra argument string and
+# every OTHER game carries it, so both arms see the same opponent mix, the same
+# team rotation and the same code — the only difference is the flag. Ladder
+# opponents cannot be paired the way par_series pairs suite teams (we do not
+# choose who we are matched with), so this is a randomised trial rather than a
+# paired one: unbiased, just needing more games. Arms are stamped into the
+# per-game banner so `ladder tally` can split them.
+#   AB_FLAG='--team-archive showdown/teams/team_archive_gen9ou.json' ladder start
 g=1
 wins=0
 while [ "$g" -le "$N_GAMES" ]; do
   # rotate team: pseudo-random pick from the pool
   TEAM=$(ls "$POOL"/*.txt | shuf -n 1)
-  echo "=== game $g/$N_GAMES team: $(basename "$TEAM" .txt) ($(date +%H:%M:%S)) ===" >> "$LOG"
+  ARM=""; ARM_ARGS=""
+  if [ -n "${AB_FLAG:-}" ]; then
+    if [ $(( g % 2 )) -eq 0 ]; then ARM=" arm=B"; ARM_ARGS="$AB_FLAG"; else ARM=" arm=A"; fi
+  fi
+  echo "=== game $g/$N_GAMES team: $(basename "$TEAM" .txt)$ARM ($(date +%H:%M:%S)) ===" >> "$LOG"
+  # shellcheck disable=SC2086  # ARM_ARGS is an intentional word-split arg list
   timeout "$PER_GAME_TIMEOUT" .venv/bin/python showdown/gen9_player.py \
       --server "$SERVER" --username "$USERNAME" \
       --mode ladder --format "$FORMAT" --team "$TEAM" \
-      --n-games 1 --log-level 20 \
+      --n-games 1 --log-level 20 $ARM_ARGS \
       "$@" >> "$LOG" 2>&1
   status=$?
   if [ "$status" -eq 124 ]; then

@@ -2420,7 +2420,9 @@ async def main():
                              "habits, Ting-Lu 22%%; inert without a profile "
                              "so benches vs unbooked opponents are untouched; "
                              "gate = T1-margin instrument + session winrate)")
-    parser.add_argument("--scouting-book", default=SCOUTING_BOOK_DEFAULT,
+    parser.add_argument("--scouting-book",
+                        default=os.environ.get("CB_SCOUTING_BOOK")
+                        or SCOUTING_BOOK_DEFAULT,
                         help="per-opponent observed-set priors from "
                              "showdown/scouting_book.py; '' disables")
     parser.add_argument("--opp-priors", choices=["on", "off"], default="on",
