@@ -8,9 +8,12 @@ delivery mechanism helps; if they disagree constantly on positions MCTS was
 confident about, acting on them means overriding a confident search, which this
 campaign has repeatedly lost doing.
 
-Reads finished ladder logs — no MCTS runs, no LLM. Each rule below is a direct
+Reads finished logs — no MCTS runs, no LLM. Each rule below is a direct
 encoding of a field already in roles.json, so a rule firing means the file
 would have said something at that moment.
+
+Importable: margin_screen.py reuses games() + opinions() so the rule encoding
+exists exactly once — a drifted copy would silently measure different rules.
 
   .venv/bin/python showdown/roles_screen.py
 """
@@ -26,19 +29,24 @@ R = json.loads((HERE / "roles.json").read_text())["roles"]
 SETUP = {"dragondance","swordsdance","calmmind","nastyplot","bulkup","irondefense","curse","quiverdance"}
 WEATHER_MOVE = {"raindance":"rain","sunnyday":"sun","sandstorm":"sand","snowscape":"snow","chillyreception":"snow"}
 
+# We are PAC-Crystal on the ladder and CBGen9L<lane><arm> on the bench; rooms
+# are battle-gen9oulongtimer-N there, battle-gen9ou-N on the local server.
+US_RE = re.compile(r"PAC-Crystal|CBGen9\w*")
+TAG_RE = re.compile(r">(battle-gen9ou\w*-\d+)")
+
 def games(paths):
     for p in paths:
         cur=None; st={}
         for line in Path(p).read_text(errors="replace").split("\n"):
-            m=re.search(r">(battle-gen9oulongtimer-\d+)", line)
+            m=TAG_RE.search(line)
             if m:
                 cur=m.group(1)
-                st.setdefault(cur, dict(us=None,ours=[],active=None,hp={},fallen=0,
-                                        weather=None,turn=0,events=[]))
+                st.setdefault(cur, dict(tag=cur,us=None,ours=[],active=None,hp={},
+                                        fallen=0,weather=None,turn=0,events=[]))
             if cur is None: continue
             g=st[cur]; s=line.strip()
             pm=re.match(r"\|player\|(p[12])\|([^|]+)", s)
-            if pm and pm.group(2).strip()=="PAC-Crystal": g["us"]=pm.group(1)
+            if pm and US_RE.fullmatch(pm.group(2).strip()): g["us"]=pm.group(1)
             km=re.match(r"\|poke\|(p[12])\|([^,|]+)", s)
             if km and km.group(1)==g["us"]: g["ours"].append(n(km.group(2)))
             if s.startswith("|turn|"): g["turn"]=int(s.split("|")[2])
@@ -66,23 +74,29 @@ def games(paths):
         for g in st.values():
             if g["us"] and g["ours"]: yield g
 
-fire = {}   # rule -> [times it had an opinion, times our play disagreed]
-def note(rule, disagreed):
-    e=fire.setdefault(rule,[0,0]); e[0]+=1; e[1]+=disagreed
-
-for g in games(sorted(glob.glob(str(HERE/"bench"/"overnight_2026*_ladder.log")))):
+def opinions(g):
+    """Every moment a roles rule has an opinion on this game, as
+    dict(rule, turn, disagreed, mode, targets):
+      mode "veto"   — targets are engine-speak choice strings the rule says
+                      NOT to pick ("-tera" suffix counts as its base move)
+      mode "demand" — targets are the choices the rule says TO pick
+    The (mode, targets) pair is what margin_screen.py prices against the
+    ranked visit list; the screen's own tally only reads rule/disagreed."""
     for kind, turn, what, ctx in g["events"]:
         # RULE 1 — cleaner deployment: roles marks Kingambit value_curve
         # grows_with_own_faints and lead_intent avoid, i.e. hold it back.
         if kind=="switch" and what=="kingambit" and R.get("kingambit"):
-            note("hold the cleaner (Kingambit) until allies have fallen",
-                 ctx["fallen"] <= 1)
+            yield dict(rule="hold the cleaner (Kingambit) until allies have fallen",
+                       turn=turn, disagreed=ctx["fallen"] <= 1,
+                       mode="veto", targets=("switch kingambit",))
         # RULE 2 — entry_condition full_hp: a setup plan that needs an
         # undamaged entry is dead once the mon is chipped.
         if kind=="move" and what in SETUP:
             e=R.get(ctx["active"])
             if e and e.get("entry_condition")=="full_hp":
-                note("don't start a full_hp setup plan while chipped", ctx["hp"] < 0.99)
+                yield dict(rule="don't start a full_hp setup plan while chipped",
+                           turn=turn, disagreed=ctx["hp"] < 0.99,
+                           mode="veto", targets=tuple(SETUP))
         # RULE 3 — weather resource: a setter on our team with its field down.
         if kind=="move":
             setters=[m for m in ctx["ours"] if (R.get(m,{}) or {}).get("resource")]
@@ -91,9 +105,19 @@ for g in games(sorted(glob.glob(str(HERE/"bench"/"overnight_2026*_ladder.log")))
                 if ctx["weather"] not in want:
                     # roles says the field is a team resource; the repair is to
                     # switch the setter in (its ability sets the field on entry)
-                    note("our weather/terrain is down while its setter is alive",
-                         not what.startswith("switch"))
-print(f"  RULE COVERAGE AND DISAGREEMENT (490-game log corpus)\n")
-print(f"  {'rule':56s} {'fired':>7s} {'disagreed':>10s} {'rate':>6s}")
-for k,(c,dis) in sorted(fire.items(), key=lambda kv:-kv[1][0]):
-    print(f"  {k:56s} {c:7d} {dis:10d} {100*dis/max(1,c):5.0f}%")
+                    yield dict(rule="our weather/terrain is down while its setter is alive",
+                               turn=turn, disagreed=not what.startswith("switch"),
+                               mode="demand", targets=tuple(f"switch {m}" for m in setters))
+
+def main():
+    fire = {}   # rule -> [times it had an opinion, times our play disagreed]
+    for g in games(sorted(glob.glob(str(HERE/"bench"/"overnight_2026*_ladder.log")))):
+        for op in opinions(g):
+            e=fire.setdefault(op["rule"],[0,0]); e[0]+=1; e[1]+=op["disagreed"]
+    print(f"  RULE COVERAGE AND DISAGREEMENT (490-game log corpus)\n")
+    print(f"  {'rule':56s} {'fired':>7s} {'disagreed':>10s} {'rate':>6s}")
+    for k,(c,dis) in sorted(fire.items(), key=lambda kv:-kv[1][0]):
+        print(f"  {k:56s} {c:7d} {dis:10d} {100*dis/max(1,c):5.0f}%")
+
+if __name__ == "__main__":
+    main()
