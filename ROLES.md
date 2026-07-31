@@ -17,7 +17,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 |---:|---|---|---|---|---|
 | 32.9% | **greattusk** ⚡ | Smogon-cited | med | — | hazard-removal, wall, pivot |
 | 22.5% | **kingambit** | measured here | high | late-cleaner | cleaner, wincon |
-| 21.9% | **gholdengo** ⚡ | measured here | med | — | spinblocker |
+| 21.9% | **gholdengo** ⚡ | USER-CORRECTED | high | setup-window | setup-sweeper, spinblocker, wallbreaker, glue |
 | 17.9% | **dragonite** | Smogon-cited | high | setup-window | wincon, setup-sweeper |
 | 15.3% | **ironvaliant** | Smogon-cited | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** | Smogon-cited | med | late-cleaner | wallbreaker, priority-attacker |
@@ -82,19 +82,19 @@ Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored 
 
 </details>
 
-### gholdengo — 21.9% usage · *measured here*
+### gholdengo — 21.9% usage · *USER-CORRECTED*
 
-**tags** spinblocker · **ability** goodasgold · **preserve** med
+**tags** setup-sweeper, spinblocker, wallbreaker, glue · **ability** goodasgold · **preserve** high · **deployment** setup-window
 
-Good as Gold blocks status moves aimed at it. Being a Ghost type, it is immune to Rapid Spin, so it protects hazards its own side has set.
+Good as Gold makes it immune to status moves, and its Ghost typing blocks Rapid Spin, so hazards on the opposing side survive while it is alive. It is also a primary attacker: Nasty Plot doubles its Special Attack for a Shadow Ball and Make It Rain sweep, Recover sustains it across the game, and Air Balloon gives a temporary Ground immunity. Alternative sets pair Thunder Wave or Will-O-Wisp with Hex, which doubles in power against a statused target, or hold a Choice Scarf and use Trick to hand it to a wall.
 
-**Conditional — `opponent_has:hazard-removal`:** preserve → high · tags → ['spinblocker']
+**Conditional — `opponent_has:hazard-removal`:** tags → ['spinblocker', 'setup-sweeper', 'wallbreaker', 'glue']
 
-> Spinblocking is worth nothing against a team carrying no remover; it is load-bearing on a side that has invested in hazards.
+> Its Ghost typing only matters as spinblocking if the opponent actually has a remover to block. Against a team with none, that half of its value is inactive and it is purely an attacker.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work — the mirror of our own removal dependency.
+USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction — Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it "both a defensive and offensive glue on virtually any team" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy — a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem.
 
 </details>
 

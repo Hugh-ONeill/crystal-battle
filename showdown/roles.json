@@ -183,23 +183,29 @@
     },
     "gholdengo": {
       "tags": [
-        "spinblocker"
+        "setup-sweeper",
+        "spinblocker",
+        "wallbreaker",
+        "glue"
       ],
       "ability": "goodasgold",
-      "preserve": "med",
-      "review": "measured",
+      "preserve": "high",
+      "review": "user-corrected",
       "conditional": [
         {
           "when": "opponent_has:hazard-removal",
-          "preserve": "high",
           "tags": [
-            "spinblocker"
+            "spinblocker",
+            "setup-sweeper",
+            "wallbreaker",
+            "glue"
           ],
-          "note": "Spinblocking is worth nothing against a team carrying no remover; it is load-bearing on a side that has invested in hazards."
+          "note": "Its Ghost typing only matters as spinblocking if the opponent actually has a remover to block. Against a team with none, that half of its value is inactive and it is purely an attacker."
         }
       ],
-      "fact": "Good as Gold blocks status moves aimed at it. Being a Ghost type, it is immune to Rapid Spin, so it protects hazards its own side has set.",
-      "provenance": "richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work \u2014 the mirror of our own removal dependency."
+      "fact": "Good as Gold makes it immune to status moves, and its Ghost typing blocks Rapid Spin, so hazards on the opposing side survive while it is alive. It is also a primary attacker: Nasty Plot doubles its Special Attack for a Shadow Ball and Make It Rain sweep, Recover sustains it across the game, and Air Balloon gives a temporary Ground immunity. Alternative sets pair Thunder Wave or Will-O-Wisp with Hex, which doubles in power against a statused target, or hold a Choice Scarf and use Trick to hand it to a wall.",
+      "provenance": "USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction \u2014 Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it \"both a defensive and offensive glue on virtually any team\" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy \u2014 a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem.",
+      "deployment": "setup-window"
     },
     "gliscor": {
       "tags": [
