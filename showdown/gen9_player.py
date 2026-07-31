@@ -871,6 +871,11 @@ class Gen9PokeEnginePlayer(Player):
                     "state": self._dump_state_str,
                     "choice": str(ranked[0].move_choice),
                     "visits": int(ranked[0].visits),
+                    # the full merged ranking, not just the winner: margin
+                    # analysis needs the visit share of the alternatives the
+                    # winner beat (margin_screen.py joins on tag+turn)
+                    "ranked": [[str(r.move_choice), int(r.visits)]
+                               for r in ranked],
                     "tag": battle.battle_tag,
                     "turn": battle.turn,
                 }) + "\n")
