@@ -47,6 +47,20 @@ LOG = os.environ.get("CB_OVERLAY_LOG",
 TIMEOUT_S = float(os.environ.get("CB_OVERLAY_TIMEOUT", "25"))
 LAMBDAS = (0.25, 0.5, 1.0)      # blend strengths re-solved per consult
 
+# Advocate world (user idea 2026-07-31): world reweighting redistributes
+# EXISTING votes, and the margin measurement showed the starved actions have
+# none to redistribute — the demanded setter switch drew ~zero visits in
+# 184/455 weather disagreements. So when a roles rule nominates an action the
+# merged search starved (<5% share), shadow runs ONE extra search over the
+# world-0 state with our-side root priors concentrated on that action, deep
+# enough to actually price its subtree. It does not pick the move — it
+# subpoenas the search: the deep Q is logged next to the engine choice's Q
+# and the verdict stays with the data. Runs post-commit on the consult
+# thread, usually inside the opponent's thinking window.
+ADVOCATE_MS = int(os.environ.get("CB_ADVOCATE_MS", "600"))
+ADVOCATE_PRIOR = 0.75
+STARVED_SHARE = 0.05
+
 # consumer-facing roles fields only — provenance/review never enter a prompt
 _ENTRY_FIELDS = ("fact", "tags", "axis", "preserve", "deployment",
                  "lead_intent", "entry_condition", "value_curve", "resource",
@@ -297,6 +311,56 @@ class OverlayShadow:
 
     # ---- consult (daemon thread; never blocks the move) ----
 
+    def _nominations(self, reasons, ranked) -> list[str]:
+        """Actions a roles rule demands that the merged search starved."""
+        total = sum(r.visits for r in ranked) or 1
+        share = {r.move_choice: r.visits / total for r in ranked}
+        out = []
+        for r in reasons:
+            if r.startswith("weather-down:"):
+                act = f"switch {r.split(':', 1)[1]}"
+                if share.get(act, 0.0) < STARVED_SHARE:
+                    out.append(act)
+        return out
+
+    @staticmethod
+    def _advocate_priors(options: list[str], action: str) -> list[float] | None:
+        """Our-side root prior array with ADVOCATE_PRIOR on the nominated
+        action, remainder uniform. None when the action isn't a root option
+        (fainted setter, trapped, or a nomination bug) or is the only one."""
+        if action not in options or len(options) < 2:
+            return None
+        rest = (1.0 - ADVOCATE_PRIOR) / (len(options) - 1)
+        return [ADVOCATE_PRIOR if o == action else rest for o in options]
+
+    def _advocate(self, state_str: str, action: str, engine_choice: str) -> dict:
+        import poke_engine as pe
+        out = {"action": action}
+        try:
+            warm = pe.monte_carlo_tree_search(pe.State.from_string(state_str), 1)
+            opts = [r.move_choice for r in warm.side_one]
+            s1 = self._advocate_priors(opts, action)
+            if s1 is None:
+                out["skip"] = "not-a-root-option"
+                return out
+            s2 = [1.0 / (len(warm.side_two) or 1)] * (len(warm.side_two) or 1)
+            res = pe.monte_carlo_tree_search_with_priors(
+                pe.State.from_string(state_str), s1, s2, ADVOCATE_MS)
+            by = {r.move_choice: r for r in res.side_one}
+            adv = by.get(action)
+            eng = by.get(engine_choice)
+            if adv and adv.visits:
+                out["deep_visits"] = int(adv.visits)
+                out["deep_q"] = round(adv.total_score / adv.visits, 4)
+            if eng and eng.visits:
+                out["engine_q_same_tree"] = round(
+                    eng.total_score / eng.visits, 4)
+            if "deep_q" in out and "engine_q_same_tree" in out:
+                out["advocate_prefers"] = out["deep_q"] > out["engine_q_same_tree"]
+        except Exception as e:
+            out["error"] = repr(e)
+        return out
+
     def maybe_consult(self, battle, ranked, results, states):
         reasons = self.consult_reasons(battle, ranked, results)
         if not reasons or len(results or []) < 2:
@@ -314,13 +378,27 @@ class OverlayShadow:
             "worlds": self._emit_worlds(results, states),
             "appendix": self._appendix(battle),
         }
+        rec["nominations"] = self._nominations(reasons, ranked)
+        w0_str = None
+        if rec["nominations"] and states:
+            try:
+                w0_str = states[0].to_string()   # snapshot on the main thread
+            except Exception:
+                pass
         dossier = self._dossier(battle)
         snapshot = list(results)
         threading.Thread(target=self._consult_bg,
-                         args=(rec, dossier, snapshot), daemon=True).start()
+                         args=(rec, dossier, snapshot, w0_str),
+                         daemon=True).start()
 
-    def _consult_bg(self, rec, dossier, results):
+    def _consult_bg(self, rec, dossier, results, w0_str=None):
         t0 = time.monotonic()
+        if w0_str and rec.get("nominations"):
+            # advocate first: pure local CPU, no network dependency — an
+            # ollama outage must not lose the starved-action measurement
+            rec["advocate"] = [
+                self._advocate(w0_str, act, rec["engine_choice"])
+                for act in rec["nominations"][:2]]
         try:
             raw = self._ask(dossier, rec)
             rec["llm"] = raw

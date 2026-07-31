@@ -137,3 +137,26 @@ def test_flips_at_full_lambda_hand_the_vote_to_the_weighted_world():
     # near-uniform blend at lambda=0.25 stays with the engine's balanced vote
     flips_soft = o._flips([0.5, 0.5], [a, b], engine_choice="uturn")
     assert not flips_soft["0.25"]["flip"]
+
+
+# --- advocate world: nominated starved actions get a dedicated search --------
+
+def test_nomination_requires_both_rule_and_starvation():
+    o = overlay()
+    ranked_starved = rr(("hurricane", 950, 500.0), ("switch pelipper", 20, 8.0),
+                        ("uturn", 30, 12.0))
+    ranked_fed = rr(("hurricane", 700, 380.0), ("switch pelipper", 300, 150.0))
+    noms = o._nominations(["weather-down:pelipper", "near-tie"], ranked_starved)
+    assert noms == ["switch pelipper"]
+    assert o._nominations(["weather-down:pelipper"], ranked_fed) == []
+    assert o._nominations(["near-tie"], ranked_starved) == []
+
+
+def test_advocate_priors_concentrate_without_zeroing_the_rest():
+    o = overlay()
+    s1 = o._advocate_priors(["a", "b", "switch pelipper", "d"],
+                            "switch pelipper")
+    assert abs(sum(s1) - 1.0) < 1e-9
+    assert s1[2] == 0.75 and all(w > 0 for w in s1)
+    assert o._advocate_priors(["a", "b"], "missing") is None
+    assert o._advocate_priors(["only"], "only") is None
