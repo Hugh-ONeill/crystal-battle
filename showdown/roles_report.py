@@ -82,7 +82,7 @@ def render(doc: dict) -> str:
             bits.append("**axis** " + ", ".join(f"{kk} {vv}" for kk, vv in ax.items()))
         for f in ("ability", "preserve", "deployment", "lead_intent",
                   "entry_condition", "value_curve", "resource", "requires"):
-            if v.get(f):
+            if v.get(f) is not None:
                 bits.append(f"**{f}** {v[f]}")
         w(" · ".join(bits) + "\n")
         if v.get("fact"):
@@ -93,7 +93,7 @@ def render(doc: dict) -> str:
             if st.get("axis"):
                 bits.append("**axis** " + ", ".join(f"{kk} {vv}" for kk, vv in st["axis"].items()))
             for f in ("preserve", "deployment"):
-                if st.get(f):
+                if st.get(f) is not None:
                     bits.append(f"**{f}** {st[f]}")
             w(f"**Set — {st['name']}:** " + " · ".join(bits) + "\n")
             if st.get("fact"):

@@ -245,7 +245,6 @@
       ],
       "fact": "Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin, so hazards its side has set cannot be spun away while it is alive \u2014 this is true of every set, being a property of its typing rather than its moves. Air Balloon, its most common item, adds a temporary Ground immunity.",
       "provenance": "USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction \u2014 Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it \"both a defensive and offensive glue on virtually any team\" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy \u2014 a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem. [Refined 2026-07-31 (user): spinblocking is a TYPING property so the tag is unconditional \u2014 what is conditional is whether it matters, which needs hazards actually on the field, not merely a hazard-setter on the roster. Split into per-set entries at the same time.]",
-      "deployment": null,
       "sets": [
         {
           "name": "Nasty Plot",
@@ -306,10 +305,10 @@
       "ability": "poisonheal",
       "value_curve": "grows_with_own_status",
       "preserve": "high",
-      "review": "measured",
+      "review": "user-corrected",
       "deployment": "pivot-cycle",
-      "fact": "Poison Heal turns being poisoned into recurring healing, so it must be statused before it works \u2014 activating the Toxic Orb is the enabling step, and losing the orb beforehand disables the whole set. Protect and Substitute stall while it heals.",
-      "provenance": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play.",
+      "fact": "Poison Heal turns being poisoned into recurring healing rather than damage, so it has to be statused before it does anything \u2014 the Toxic Orb it carries applies that poison at the end of a turn. Protect does two jobs: it blocks Knock Off, which matters because losing the orb disables Poison Heal outright, and it stalls turns while the healing ticks. Substitute blocks status and chip from behind.",
+      "provenance": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]",
       "axis": {
         "attacks": "physical",
         "defends": "special"

@@ -17,7 +17,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 |---:|---|---|---|---|---|---|
 | 32.9% | **greattusk** ⚡ | Smogon-cited | physical/physical | med | — | hazard-removal, wall, pivot |
 | 22.5% | **kingambit** | measured here | physical/special | high | late-cleaner | cleaner, wincon |
-| 21.9% | **gholdengo** ⚡ ✳ | USER-CORRECTED | special | high | None | spinblocker, glue |
+| 21.9% | **gholdengo** ⚡ ✳ | USER-CORRECTED | special | high | — | spinblocker, glue |
 | 17.9% | **dragonite** ▸ | Smogon-cited | physical | high | setup-window | wincon, setup-sweeper |
 | 15.3% | **ironvaliant** ✳ | Smogon-cited | mixed | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** | Smogon-cited | special | med | late-cleaner | wallbreaker, priority-attacker |
@@ -27,7 +27,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 12.9% | **hatterene** ⚡ | USER-CORRECTED | special/physical | med | bait-switch | wall, sacrificial-support |
 | 12.8% | **corviknight** ⚡ | Smogon-cited | physical/physical | med | pivot-cycle | hazard-removal, pivot, wall |
 | 12.5% | **slowkinggalar** | measured here | special/special | med | pivot-cycle | pivot, wall |
-| 11.2% | **gliscor** | measured here | physical/special | high | pivot-cycle | annuity, wall |
+| 11.2% | **gliscor** | USER-CORRECTED | physical/special | high | pivot-cycle | annuity, wall |
 | 11.0% | **irontreads** | Smogon-cited | physical | med | lead | hazard-removal, hazard-setter, lead |
 | 10.6% | **kyurem** ✳ | Smogon-cited | special | med | — | wallbreaker |
 | 10.3% | **samurotthisui** ⚡ | Smogon-cited | physical | med | lead | hazard-setter, wallbreaker |
@@ -255,15 +255,15 @@ Regenerator pivots are net-positive on entry (fp routes hazard cycles through th
 
 </details>
 
-### gliscor — 11.2% usage · *measured here*
+### gliscor — 11.2% usage · *USER-CORRECTED*
 
 **tags** annuity, wall · **axis** attacks physical, defends special · **ability** poisonheal · **preserve** high · **deployment** pivot-cycle · **value_curve** grows_with_own_status
 
-Poison Heal turns being poisoned into recurring healing, so it must be statused before it works — activating the Toxic Orb is the enabling step, and losing the orb beforehand disables the whole set. Protect and Substitute stall while it heals.
+Poison Heal turns being poisoned into recurring healing rather than damage, so it has to be statused before it does anything — the Toxic Orb it carries applies that poison at the end of a turn. Protect does two jobs: it blocks Knock Off, which matters because losing the orb disables Poison Heal outright, and it stalls turns while the healing ticks. Substitute blocks status and chip from behind.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play.
+The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]
 
 </details>
 
