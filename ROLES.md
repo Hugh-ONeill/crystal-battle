@@ -22,7 +22,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 15.3% | **ironvaliant** ✳ | Smogon-cited | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** | Smogon-cited | med | late-cleaner | wallbreaker, priority-attacker |
 | 15.2% | **zamazenta** | Smogon-cited | high | — | wall, wincon, glue |
-| 15.1% | **ogerponwellspring** | Smogon-cited | med | — | wallbreaker, sweeper |
+| 15.1% | **ogerponwellspring** ▸ | USER-CORRECTED | high | setup-window | setup-sweeper, wallbreaker |
 | 14.6% | **dragapult** | Smogon-cited | med | pivot-cycle | pivot, wallbreaker |
 | 12.9% | **hatterene** ⚡ | USER-CORRECTED | med | bait-switch | wall, sacrificial-support |
 | 12.8% | **corviknight** ⚡ | Smogon-cited | med | pivot-cycle | hazard-removal, pivot, wall |
@@ -166,15 +166,24 @@ RAG-grounded [smogon#Zamazenta (gen9ou)]: "Zamazenta is the tier's most consiste
 
 </details>
 
-### ogerponwellspring — 15.1% usage · *Smogon-cited*
+### ogerponwellspring — 15.1% usage · *USER-CORRECTED*
 
-**tags** wallbreaker, sweeper · **ability** waterabsorb · **preserve** med
+**tags** setup-sweeper, wallbreaker · **ability** waterabsorb · **preserve** high · **deployment** setup-window
 
-Ivy Cudgel and Power Whip give it high physical power, and Water Absorb heals it from Water moves. Trailblaze trades coverage for a Speed boost to sweep.
+Water Absorb heals it whenever it is hit by a Water move, so it can enter freely on one. Ivy Cudgel is its signature move and becomes Water-type while it holds the Wellspring Mask, with a raised critical-hit rate. It runs one Grass move alongside it rather than both — usually Horn Leech, which drains HP back, sometimes Power Whip for raw power. Swords Dance doubles its Attack, and Trailblaze can be run to raise its Speed by one stage when it hits.
+
+**The play:**
+
+1. enter on something it walls — a Water move heals it outright through Water Absorb
+2. Swords Dance while the opponent switches or attacks into its bulk
+3. optionally click Trailblaze first, trading a turn of damage for +1 Speed when outspeeding is what is missing
+4. sweep with Ivy Cudgel and its single Grass move, Horn Leech draining HP back as it goes
+
+> The Speed boost is a choice, not a given: it is worth a turn only when something relevant would otherwise move first. Setting up costs a turn either way, so the entry has to be genuinely free.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical attackers" with "the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time.
+RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical attackers" with "the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move — usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.]
 
 </details>
 
