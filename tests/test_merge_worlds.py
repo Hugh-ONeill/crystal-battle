@@ -117,3 +117,58 @@ def test_raw_and_normalized_disagree_on_the_fast_world_case():
     spread = abs(norm[0].visits - norm[1].visits) / max(m.visits for m in norm)
     assert raw[0] == "icebeam"        # raw: the cheap world's pick dominates
     assert spread < 0.05              # normalized: essentially a tie
+
+
+# --- world stakes (CB_WORLD_WEIGHTS) ------------------------------------------
+# Per-world RELIABILITY stakes at the merge, opt-in (None = the equal vote
+# above, byte-identical). Distinct from the likelihood weighting rejected in
+# the module docstring: stakes are set by A/B, not by belief probability, and
+# can raise the speed-pessimistic hedge's vote as easily as cut it.
+
+from showdown.gen9_player import _align_world_weights, _parse_world_weights
+
+
+def test_no_weights_is_the_equal_vote_identity():
+    a = world(("icebeam", 600, 360.0), ("uturn", 400, 160.0))
+    b = world(("icebeam", 300, 120.0), ("uturn", 700, 420.0))
+    plain = _merge_mcts_results([a, b])
+    weighted = _merge_mcts_results([a, b], weights=None)
+    assert [(m.move_choice, m.visits) for m in plain] == \
+           [(m.move_choice, m.visits) for m in weighted]
+
+
+def test_extreme_stake_hands_the_vote_to_one_world():
+    a = world(("icebeam", 600, 360.0), ("uturn", 400, 160.0))
+    b = world(("uturn", 900, 540.0), ("icebeam", 100, 30.0))
+    merged = _merge_mcts_results([a, b], weights=[1.0, 0.001])
+    assert ranking(merged)[0] == "icebeam"       # world 0's pick wins outright
+    merged = _merge_mcts_results([a, b], weights=[0.001, 1.0])
+    assert ranking(merged)[0] == "uturn"
+
+
+def test_stakes_shift_a_disagreement_without_silencing_anyone():
+    a = world(("icebeam", 550, 330.0), ("uturn", 450, 180.0))
+    b = world(("uturn", 550, 330.0), ("icebeam", 450, 135.0))
+    even = _merge_mcts_results([a, b])
+    tilted = _merge_mcts_results([a, b], weights=[2.0, 1.0])
+    assert abs(even[0].visits - even[1].visits) <= even[0].visits * 0.05
+    assert ranking(tilted)[0] == "icebeam"
+    assert tilted[1].visits > 0                  # the other world still voted
+
+
+def test_alignment_maps_roles_when_k_collapses():
+    # authored for [curated, chaos, speed-pess]; K=2 drops the CHAOS world,
+    # so the surviving worlds must get the FIRST and LAST stakes
+    assert _align_world_weights([1.0, 0.6, 1.2], 2) == [1.0, 1.2]
+    assert _align_world_weights([1.0, 0.6, 1.2], 3) == [1.0, 0.6, 1.2]
+    assert _align_world_weights([1.0, 0.6, 1.2], 4) == [1.0, 0.6, 0.6, 1.2]
+    assert _align_world_weights([1.0, 0.6, 1.2], 1) is None
+    assert _align_world_weights(None, 3) is None
+
+
+def test_weight_parsing_rejects_junk():
+    assert _parse_world_weights("1.0,0.6,1.2") == [1.0, 0.6, 1.2]
+    assert _parse_world_weights("") is None
+    assert _parse_world_weights("1.0") is None          # one weight is no hedge
+    assert _parse_world_weights("1.0,-2") is None
+    assert _parse_world_weights("1.0,zoroark") is None

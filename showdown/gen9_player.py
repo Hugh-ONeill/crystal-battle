@@ -391,7 +391,42 @@ def _norm_opt(s: str) -> str:
 _MERGE_RAW_DEFAULT = os.environ.get("CB_MERGE_RAW", "") in ("1", "true", "True")
 
 
-def _merge_mcts_results(results, raw: bool | None = None) -> list:
+def _parse_world_weights(raw: str):
+    """CB_WORLD_WEIGHTS="1.0,0.6,1.2" -> per-world merge stakes for the
+    canonical lineup [curated, chaos..., speed-pessimistic]. Empty/invalid ->
+    None (equal vote, the recorded default)."""
+    try:
+        w = [float(x) for x in raw.split(",") if x.strip()]
+    except ValueError:
+        return None
+    return w if len(w) >= 2 and all(v > 0 for v in w) else None
+
+
+_WORLD_WEIGHTS = _parse_world_weights(os.environ.get("CB_WORLD_WEIGHTS", ""))
+
+
+def _align_world_weights(weights, n: int):
+    """Map an authored weight vector onto the n worlds actually searched.
+
+    Weights are authored for the CANONICAL lineup [curated, chaos..., last =
+    speed-pessimistic], but K shrinks as the game collapses worlds, so align
+    by ROLE, not index: first weight -> world 0, last weight -> last world,
+    middle worlds fill from the middle weights (last middle repeats). n <= 1
+    or no weights -> None (a lone world is its own merge)."""
+    if not weights or n <= 1:
+        return None
+    if len(weights) == n:
+        return list(weights)
+    if n == 2:
+        return [weights[0], weights[-1]]
+    mids = list(weights[1:-1]) or [1.0]
+    return ([weights[0]]
+            + [mids[min(i, len(mids) - 1)] for i in range(n - 2)]
+            + [weights[-1]])
+
+
+def _merge_mcts_results(results, raw: bool | None = None,
+                        weights: list | None = None) -> list:
     """Combine side_one results from searches over different sampled opponent
     worlds. A move that only looks good in one world loses to one that holds
     up across all of them.
@@ -410,45 +445,60 @@ def _merge_mcts_results(results, raw: bool | None = None) -> list:
     Down-weighting that hedge by its likelihood is exactly what would defeat
     the reason it exists.
 
+    `weights` (CB_WORLD_WEIGHTS, default None = equal vote) is a DIFFERENT
+    thing than the likelihood weighting rejected above: per-world RELIABILITY
+    stakes, set by A/B rather than by belief probability, motivated by the
+    belief_calibration.py finding that the world sources fail differently
+    (curated-PS: 15% of its certainty claims are false; chaos: calibrated but
+    vague). It can raise the hedge world's stake as easily as cut it. Kept
+    opt-in behind the env because the equal-vote merge is the recorded
+    default and world-composition changes are 0-for-3 on winrate — this dial
+    ships nothing without a paired A/B.
+
     Visit-like magnitudes are preserved (mean world total x share) and kept
     INTEGER, because callers read .visits for near-tie thresholds and flatness
     ratios, and loss_trace.py parses `visits=(\\d+)` out of the choice log — a
     float there would silently stop matching and quietly empty the analysis.
     With one world this is exactly the identity.
     """
+    if weights is not None and len(weights) != len(results):
+        weights = _align_world_weights(weights, len(results))
     if raw is None:
         raw = _MERGE_RAW_DEFAULT
     if raw:
         # legacy behaviour: sum raw visits across worlds
         merged: dict[str, SimpleNamespace] = {}
-        for result in results:
+        for wi, result in enumerate(results):
+            w = weights[wi] if weights else 1.0
             for r in getattr(result, "side_one", []) or []:
                 m = merged.get(r.move_choice)
                 if m is None:
                     merged[r.move_choice] = SimpleNamespace(
-                        move_choice=r.move_choice, visits=r.visits,
-                        total_score=r.total_score)
+                        move_choice=r.move_choice,
+                        visits=int(round(r.visits * w)),
+                        total_score=r.total_score * w)
                 else:
-                    m.visits += r.visits
-                    m.total_score += r.total_score
+                    m.visits += int(round(r.visits * w))
+                    m.total_score += r.total_score * w
         return sorted(merged.values(), key=lambda m: -m.visits)
 
     worlds = []
-    for result in results:
+    for wi, result in enumerate(results):
         side = list(getattr(result, "side_one", []) or [])
         total = sum(r.visits for r in side)
         if total > 0:
-            worlds.append((side, total))
+            worlds.append((side, total, weights[wi] if weights else 1.0))
     if not worlds:
         return []
 
     n = len(worlds)
-    mean_total = sum(t for _, t in worlds) / n
-    # move -> [summed share across worlds, share-weighted score mass]
+    wsum = sum(w for _, _, w in worlds) or 1.0
+    mean_total = sum(t for _, t, _ in worlds) / n
+    # move -> [stake-weighted share sum across worlds, share-weighted score mass]
     agg: dict[str, list[float]] = {}
-    for side, total in worlds:
+    for side, total, w in worlds:
         for r in side:
-            share = r.visits / total
+            share = w * (r.visits / total)
             avg = r.total_score / r.visits if r.visits else 0.0
             slot = agg.setdefault(r.move_choice, [0.0, 0.0])
             slot[0] += share
@@ -456,7 +506,7 @@ def _merge_mcts_results(results, raw: bool | None = None) -> list:
 
     merged = []
     for move, (share_sum, score_mass) in agg.items():
-        visits = int(round(share_sum / n * mean_total))
+        visits = int(round(share_sum / wsum * mean_total))
         avg = score_mass / share_sum if share_sum > 0 else 0.0
         merged.append(SimpleNamespace(move_choice=move, visits=visits,
                                       total_score=avg * visits))
@@ -1505,7 +1555,8 @@ class Gen9PokeEnginePlayer(Player):
                 loop = asyncio.get_event_loop()
                 results = await loop.run_in_executor(
                     None, self._search_samples, battle)
-                order = self._map_choice(_merge_mcts_results(results), battle)
+                order = self._map_choice(
+                    _merge_mcts_results(results, weights=_WORLD_WEIGHTS), battle)
                 if order is not None:
                     return order
             except Exception as e:
@@ -1527,7 +1578,7 @@ class Gen9PokeEnginePlayer(Player):
                       f"choosing randomly")
             return self.choose_random_move(battle)
 
-        ranked = _merge_mcts_results(results)
+        ranked = _merge_mcts_results(results, weights=_WORLD_WEIGHTS)
         if self._dump_states_path is not None and ranked and self._dump_state_str:
             self._dump_position(battle, ranked)
         order = self._map_choice(ranked, battle)
@@ -2157,7 +2208,7 @@ class Gen9PokeEnginePlayer(Player):
         if self._verbose and battle.turn <= 1:
             print(f"  T1 clock base budget {base_ms}ms/world", flush=True)
         probe = self._search_samples(battle, base_ms, use_value=False)
-        merged = _merge_mcts_results(probe)
+        merged = _merge_mcts_results(probe, weights=_WORLD_WEIGHTS)
         total = sum(m.visits for m in merged) or 1
         top_share = merged[0].visits / total if merged else 1.0
         if top_share >= self._flat_threshold or len(merged) <= 1:
