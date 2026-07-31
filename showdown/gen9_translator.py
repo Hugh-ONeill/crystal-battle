@@ -1184,11 +1184,21 @@ class Gen9Translator:
         if self._obs is not None and not revealed_item:
             # speed floor: they outsped something our model says they can't
             if self._obs.scarf_needed(species, spe_stat, item):
-                item = "choicescarf"
-                self._obs.confirmed[species] = "choicescarf"
-                if self._obs.max_speed_needed(species, spe_stat):
-                    spe_stat = _calc_stat_modern(bs.get("spe", 80), 31, 252,
-                                                 mon.level, 1.1, False)
+                # CHEAPEST EXPLANATION FIRST: full Speed investment before any
+                # item claim. Our canonical spread for a bulky mon carries
+                # little Speed, so "they invested" explains most floors — and
+                # a wrong Scarf is not a cosmetic error, it tells the search
+                # the target is CHOICE-LOCKED. Only when max investment still
+                # cannot reach the floor is an item actually required.
+                max_spe = _calc_stat_modern(bs.get("spe", 80), 31, 252,
+                                            mon.level, 1.1, False)
+                if self._obs.max_speed_suffices(species, max_spe):
+                    spe_stat = max_spe
+                else:
+                    item = "choicescarf"
+                    self._obs.confirmed[species] = "choicescarf"
+                    if self._obs.max_speed_needed(species, spe_stat):
+                        spe_stat = max_spe
             # speed ceiling: drop a wrongly-inferred scarf / clamp the stat
             clamp = self._obs.speed_clamp(species, spe_stat, item)
             if clamp is not None:

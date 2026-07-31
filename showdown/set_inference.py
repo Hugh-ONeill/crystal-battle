@@ -426,6 +426,24 @@ class BattleObservations:
         floor = self.speed_floor.get(species)
         return floor is not None and scarfed_spe * 1.5 < floor
 
+    def max_speed_suffices(self, species: str, max_spe: int) -> bool:
+        """True when FULL Speed investment alone clears the observed floor.
+
+        The cheaper hypothesis, and it must be tested BEFORE inferring a Choice
+        Scarf: "they ran more Speed than my canonical spread assumed" is far
+        more common than "they are holding a Scarf", especially for species
+        whose standard sets are bulky with little or no Speed. Caught live
+        2026-07-31 — a Slowking-Galar outsped our PARALYSED Iron Crown (~162
+        effective), which a max-invested no-item Slowking (~174) clears on its
+        own, and the engine announced a Scarf anyway.
+
+        Getting this order wrong is worse than a cosmetic mislabel: believing
+        Choice Scarf also means believing the target is CHOICE-LOCKED, so the
+        search plans against one move it may switch off freely.
+        """
+        floor = self.speed_floor.get(species)
+        return floor is not None and max_spe >= floor
+
     def speed_clamp(self, species: str, modeled_spe: int, item: str) -> tuple[int, str] | None:
         """(clamped_stat, item) when a ceiling contradicts the model: drop an
         inferred scarf first, then clamp the raw stat (covers slower spreads
