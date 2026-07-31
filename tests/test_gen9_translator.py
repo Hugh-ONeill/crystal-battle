@@ -1298,3 +1298,40 @@ def test_unterastallized_faint_still_leaves_tera_available():
     opts = [r.move_choice for r in result.side_one]
     assert any(o.endswith("-tera") for o in opts), \
         f"tera wrongly withheld when it was never used: {opts}"
+
+
+# --- CB_PS_TERA=chaos: world-0 tera from the chaos marginal -------------------
+# belief_calibration.py measured the PS set's single tera as the worst
+# calibration cell (blindsided 30% vs chaos 10%); the draw below replaces it
+# per battle. Pure-function tests: the wiring is a two-line env gate.
+
+from showdown.gen9_translator import _stable_tera_draw
+
+
+def test_tera_draw_is_stable_within_a_battle():
+    dist = {"fairy": 40.0, "flying": 35.0, "fire": 25.0}
+    a = _stable_tera_draw(dist, "battle-gen9ou-123", "kingambit")
+    for _ in range(5):
+        assert _stable_tera_draw(dist, "battle-gen9ou-123", "kingambit") == a
+
+
+def test_tera_draw_varies_across_battles_with_marginal_frequencies():
+    dist = {"fairy": 60.0, "fire": 40.0}
+    draws = [_stable_tera_draw(dist, f"battle-gen9ou-{i}", "kingambit")
+             for i in range(2000)]
+    fairy = draws.count("fairy") / len(draws)
+    assert 0.55 < fairy < 0.65          # ~60% +- sampling noise on n=2000
+    assert set(draws) == {"fairy", "fire"}
+
+
+def test_tera_draw_differs_by_species_under_one_tag():
+    dist = {"fairy": 50.0, "fire": 50.0}
+    draws = {_stable_tera_draw(dist, "battle-gen9ou-7", sp)
+             for sp in ("kingambit", "gholdengo", "dragapult", "ironvaliant",
+                        "greattusk", "kyurem", "zamazenta", "ogerponwellspring")}
+    assert len(draws) == 2              # both types appear across 8 species
+
+
+def test_tera_draw_degrades_to_none():
+    assert _stable_tera_draw({}, "battle-gen9ou-1", "kingambit") is None
+    assert _stable_tera_draw({"fairy": 0.0}, "battle-gen9ou-1", "x") is None

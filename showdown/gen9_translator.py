@@ -26,7 +26,9 @@
 from __future__ import annotations
 
 import os
+import random
 import sys
+import zlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -156,6 +158,38 @@ def _base_format(fmt: str | None) -> str | None:
 # ============================================================
 # TRANSLATOR
 # ============================================================
+
+# CB_PS_TERA=chaos: world 0 keeps the curated PS moves/item/spread but takes
+# its UNREVEALED tera from a chaos-marginal draw instead of the PS set's
+# single type. belief_calibration.py (2026-07-31, 239 games): the PS tera was
+# the worst calibration cell measured — avg probability on the revealed tera
+# 17% vs chaos 24%, and BLINDSIDED (revealed tera priced <=5%) 29.8% of the
+# time vs chaos 10.2%. Moves/item stay curated because there PS wins. A/B'd
+# per process like CB_MERGE_RAW; default unset = current behaviour.
+_PS_TERA_SOURCE = os.environ.get("CB_PS_TERA", "")
+
+
+def _stable_tera_draw(dist: dict, battle_tag: str, species: str) -> str | None:
+    """One probability-weighted draw from a tera marginal, seeded by
+    (battle, species): stable for the whole battle — world 0 stays the
+    reproducible world, no per-turn flapping — while varying across battles,
+    which is what makes the hedge calibrated in aggregate. crc32, not
+    hash(): hash() is salted per process and would silently decohere the
+    zygote's forked workers from a restarted one."""
+    if not dist:
+        return None
+    total = sum(dist.values())
+    if total <= 0:
+        return None
+    seed = zlib.crc32(f"{battle_tag}:{species}".encode())
+    r = random.Random(seed).random() * total
+    acc = 0.0
+    for t, w in sorted(dist.items()):     # sorted: dict order is not contract
+        acc += w
+        if r <= acc:
+            return t
+    return max(dist, key=lambda k: dist[k])
+
 
 class Gen9Translator:
     """Translates poke-env Battle objects to full-fidelity gen9 States.
@@ -478,6 +512,21 @@ class Gen9Translator:
             ps_cand = self._ps_candidate(species, known_moves, known_item,
                                          known_ability)
             if ps_cand is not None:
+                if _PS_TERA_SOURCE == "chaos":
+                    # tera only: the PS set's moves/item are its strength,
+                    # its single tera is its worst-measured cell (see the
+                    # _PS_TERA_SOURCE note). Book (this opponent's own
+                    # observed tera) still overlays below; a revealed tera
+                    # always wins later in _tera_fields.
+                    # getattr: predicted_preview_paste calls _opp_set before
+                    # the first translate() has stashed a battle tag
+                    stats = self._chaos().pokemon.get(species)
+                    t = _stable_tera_draw(
+                        getattr(stats, "_tera_types", None) or {},
+                        getattr(self, "_battle_tag", ""), species) \
+                        if stats else None
+                    if t:
+                        ps_cand = dict(ps_cand, tera_type=t)
                 return self._apply_book(ps_cand, booked)
 
         stats = self._chaos().pokemon.get(species)
@@ -633,6 +682,7 @@ class Gen9Translator:
         self._speed_pess = speed_pessimistic
         self._prefer_ps = prefer_ps
         self._tera_pess = tera_pessimistic
+        self._battle_tag = getattr(battle, "battle_tag", "") or ""
         if tera_pessimistic:
             # worst-case world: the opponent's active still holds Tera and
             # burns it DEFENSIVELY into the type that best walls our active.
