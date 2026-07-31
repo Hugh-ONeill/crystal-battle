@@ -47,6 +47,20 @@
     "                   requires (a field state). Added 2026-07-31 after the",
     "                   Ceruledge entry needed a concept neither field had.",
     "  lead_intent  human intent to lead it: avoid | neutral | strong",
+    "  conditional   list of {when, ...overrides}: role/value that only exists",
+    "                against certain opposing teams. Static fields describe the",
+    "                DEFAULT case; a matching `when` replaces them. Added",
+    "                2026-07-31 \u2014 Magic Bounce Hatterene is a hazard-denial",
+    "                anchor against a team with setters and close to dead weight",
+    "                against one without, and a single `preserve` cannot say",
+    "                both. `when` vocabulary: opponent_has:<tag>, opponent_lacks:<tag>.",
+    "  deployment    HOW the mon is meant to be brought in, which the search",
+    "                cannot infer from the board: lead | bait-switch | pivot-cycle",
+    "                | late-cleaner | sacrifice. Distinct from lead_intent (which",
+    "                only answers 'should it start the game'). bait-switch means",
+    "                it is sent in to INVITE a specific opponent action and punish",
+    "                it \u2014 Hatterene switching in on a predicted hazard turn to",
+    "                bounce it is the type case, and it is explicitly NOT a lead.",
     "  evidence     the measurement or commit this claim rests on",
     "",
     "REVIEW RULE: an entry without `evidence` is a guess and should not ship.",
@@ -139,9 +153,19 @@
         "spinblocker"
       ],
       "ability": "goodasgold",
-      "preserve": "high",
+      "preserve": "med",
       "review": "measured",
-      "evidence": "richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work \u2014 the mirror of our own removal dependency."
+      "evidence": "richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work \u2014 the mirror of our own removal dependency.",
+      "conditional": [
+        {
+          "when": "opponent_has:hazard-removal",
+          "preserve": "high",
+          "tags": [
+            "spinblocker"
+          ],
+          "note": "Spinblocking is worth nothing against a team with no remover. richwoman pairs it with 3+ SR setters, which is exactly when it is load-bearing."
+        }
+      ]
     },
     "gliscor": {
       "tags": [
@@ -161,9 +185,16 @@
         "pivot"
       ],
       "ability": "protosynthesis",
-      "preserve": "high",
+      "preserve": "med",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Great Tusk (gen9ou) \u2014 Offensive Utility / Defensive]: \"Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown\"; also \"a staple on Sticky Web teams\". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover \u2014 a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource."
+      "evidence": "RAG-grounded [smogon#Great Tusk (gen9ou) \u2014 Offensive Utility / Defensive]: \"Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown\"; also \"a staple on Sticky Web teams\". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover \u2014 a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource.",
+      "conditional": [
+        {
+          "when": "opponent_has:hazard-setter",
+          "preserve": "high",
+          "note": "Removal is only a team-persistent resource when they are actually setting. Still carries the unresolved SOLE-REMOVER caveat: value also depends on whether OUR team has another remover, a team property this per-species file cannot express."
+        }
+      ]
     },
     "corviknight": {
       "tags": [
@@ -172,9 +203,16 @@
         "wall"
       ],
       "ability": "pressure",
-      "preserve": "high",
+      "preserve": "med",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Corviknight (gen9ou) \u2014 Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy."
+      "evidence": "RAG-grounded [smogon#Corviknight (gen9ou) \u2014 Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy.",
+      "conditional": [
+        {
+          "when": "opponent_has:hazard-setter",
+          "preserve": "high",
+          "note": "Removal is only a team-persistent resource when they are actually setting. Still carries the unresolved SOLE-REMOVER caveat: value also depends on whether OUR team has another remover, a team property this per-species file cannot express."
+        }
+      ]
     },
     "rillaboom": {
       "tags": [
@@ -315,14 +353,28 @@
     },
     "hatterene": {
       "tags": [
-        "hazard-denial",
         "wall",
         "sacrificial-support"
       ],
       "ability": "magicbounce",
-      "preserve": "high",
-      "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Hatterene (gen9ou) \u2014 Healing Wish]: Magic Bounce denies hazards passively while alive; \"Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health\", and the Healing Wish set trades itself to \"pivot them in safely\". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us \u2014 its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even."
+      "preserve": "med",
+      "review": "user-corrected",
+      "evidence": "RAG-grounded [smogon#Hatterene (gen9ou) \u2014 Healing Wish]: Magic Bounce denies hazards passively while alive; \"Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health\", and the Healing Wish set trades itself to \"pivot them in safely\". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us \u2014 its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even. CONDITIONAL + DEPLOYMENT added 2026-07-31 (user): the static schema could not express that Magic Bounce's worth depends on the OPPONENT's roster, nor that the mon is played as a setup-baiting switch-in rather than a lead.",
+      "deployment": "bait-switch",
+      "lead_intent": "avoid",
+      "conditional": [
+        {
+          "when": "opponent_has:hazard-setter",
+          "tags": [
+            "hazard-denial",
+            "wall",
+            "sacrificial-support"
+          ],
+          "preserve": "high",
+          "note": "Magic Bounce only has a job if they have hazards to bounce. Against a setter-carrying team it is the anchor of the hazard war and its death re-opens the SR channel that costs us 21% of damage taken; against a team without setters the same mon is a bulky attacker and nothing more.",
+          "usage": "NOT a lead \u2014 it is switched in on a PREDICTED hazard turn, baiting the setter into clicking Stealth Rock or Spikes so the layer lands on their own side. The bait is the point, so a conservative pilot that only brings it in when safe never collects the value."
+        }
+      ]
     },
     "irontreads": {
       "tags": [
@@ -354,7 +406,14 @@
       "preserve": "med",
       "lead_intent": "strong",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: \"one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt.\" Setting hazards THROUGH Magic Bounce is the counter to hazard-denial \u2014 the other side of the war that decides our long games."
+      "evidence": "RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: \"one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt.\" Setting hazards THROUGH Magic Bounce is the counter to hazard-denial \u2014 the other side of the war that decides our long games.",
+      "conditional": [
+        {
+          "when": "opponent_has:hazard-denial",
+          "preserve": "high",
+          "note": "Ceaseless Edge sets Spikes THROUGH Magic Bounce and Taunt, so against a Hatterene/Deoxys-style denial team it is the only setter that still functions \u2014 the counter to the counter."
+        }
+      ]
     },
     "cinderace": {
       "tags": [
