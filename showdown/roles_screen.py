@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""Mid-game screen: does the roles knowledge disagree with what we actually did?
+
+Before wiring any consumer (LLM or rule), find out whether the annotations in
+roles.json have an OPINION on real decisions and whether that opinion differs
+from the move MCTS chose. If they never disagree, the knowledge is inert and no
+delivery mechanism helps; if they disagree constantly on positions MCTS was
+confident about, acting on them means overriding a confident search, which this
+campaign has repeatedly lost doing.
+
+Reads finished ladder logs — no MCTS runs, no LLM. Each rule below is a direct
+encoding of a field already in roles.json, so a rule firing means the file
+would have said something at that moment.
+
+  .venv/bin/python showdown/roles_screen.py
+"""
+from __future__ import annotations
+import glob, json, re, sys
+from pathlib import Path
+
+HERE = Path(__file__).parent
+sys.path.insert(0, str(HERE.parent))
+def n(s): return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+R = json.loads((HERE / "roles.json").read_text())["roles"]
+SETUP = {"dragondance","swordsdance","calmmind","nastyplot","bulkup","irondefense","curse","quiverdance"}
+WEATHER_MOVE = {"raindance":"rain","sunnyday":"sun","sandstorm":"sand","snowscape":"snow","chillyreception":"snow"}
+
+def games(paths):
+    for p in paths:
+        cur=None; st={}
+        for line in Path(p).read_text(errors="replace").split("\n"):
+            m=re.search(r">(battle-gen9oulongtimer-\d+)", line)
+            if m:
+                cur=m.group(1)
+                st.setdefault(cur, dict(us=None,ours=[],active=None,hp={},fallen=0,
+                                        weather=None,turn=0,events=[]))
+            if cur is None: continue
+            g=st[cur]; s=line.strip()
+            pm=re.match(r"\|player\|(p[12])\|([^|]+)", s)
+            if pm and pm.group(2).strip()=="PAC-Crystal": g["us"]=pm.group(1)
+            km=re.match(r"\|poke\|(p[12])\|([^,|]+)", s)
+            if km and km.group(1)==g["us"]: g["ours"].append(n(km.group(2)))
+            if s.startswith("|turn|"): g["turn"]=int(s.split("|")[2])
+            wm=re.match(r"\|-weather\|(\w+)", s)
+            if wm: g["weather"]=None if wm.group(1)=="none" else n(wm.group(1))
+            # species may carry a gender/form suffix ("Kingambit, M") before the
+            # HP field — matching only up to the comma then demanding a pipe
+            # silently dropped every gendered mon's switch-in
+            sw=re.match(r"\|(?:switch|drag)\|(p[12])a: [^|]*\|([^,|]+)[^|]*\|(\d+)/(\d+)", s)
+            if sw and sw.group(1)==g["us"]:
+                g["active"]=n(sw.group(2))
+                g["hp"][g["active"]]=(int(sw.group(3)), int(sw.group(4)))
+                g["events"].append(("switch", g["turn"], g["active"], dict(fallen=g["fallen"])))
+            dm=re.match(r"\|-damage\|(p[12])a: [^|]*\|(\d+)/(\d+)", s)
+            if dm and dm.group(1)==g["us"] and g["active"]:
+                g["hp"][g["active"]]=(int(dm.group(2)), int(dm.group(3)))
+            fm=re.match(r"\|faint\|(p[12])a:", s)
+            if fm and fm.group(1)==g["us"]: g["fallen"]+=1
+            tm=re.match(r"^  T(\d+): (\S+)", line)
+            if tm and g["active"]:
+                cur_hp=g["hp"].get(g["active"],(100,100))
+                g["events"].append(("move", int(tm.group(1)), n(tm.group(2)),
+                                    dict(active=g["active"], hp=cur_hp[0]/max(1,cur_hp[1]),
+                                         fallen=g["fallen"], weather=g["weather"], ours=list(g["ours"]))))
+        for g in st.values():
+            if g["us"] and g["ours"]: yield g
+
+fire = {}   # rule -> [times it had an opinion, times our play disagreed]
+def note(rule, disagreed):
+    e=fire.setdefault(rule,[0,0]); e[0]+=1; e[1]+=disagreed
+
+for g in games(sorted(glob.glob(str(HERE/"bench"/"overnight_2026*_ladder.log")))):
+    for kind, turn, what, ctx in g["events"]:
+        # RULE 1 — cleaner deployment: roles marks Kingambit value_curve
+        # grows_with_own_faints and lead_intent avoid, i.e. hold it back.
+        if kind=="switch" and what=="kingambit" and R.get("kingambit"):
+            note("hold the cleaner (Kingambit) until allies have fallen",
+                 ctx["fallen"] <= 1)
+        # RULE 2 — entry_condition full_hp: a setup plan that needs an
+        # undamaged entry is dead once the mon is chipped.
+        if kind=="move" and what in SETUP:
+            e=R.get(ctx["active"])
+            if e and e.get("entry_condition")=="full_hp":
+                note("don't start a full_hp setup plan while chipped", ctx["hp"] < 0.99)
+        # RULE 3 — weather resource: a setter on our team with its field down.
+        if kind=="move":
+            setters=[m for m in ctx["ours"] if (R.get(m,{}) or {}).get("resource")]
+            if setters and ctx["active"] not in setters:
+                want={R[m]["resource"] for m in setters}
+                if ctx["weather"] not in want:
+                    # roles says the field is a team resource; the repair is to
+                    # switch the setter in (its ability sets the field on entry)
+                    note("our weather/terrain is down while its setter is alive",
+                         not what.startswith("switch"))
+print(f"  RULE COVERAGE AND DISAGREEMENT (490-game log corpus)\n")
+print(f"  {'rule':56s} {'fired':>7s} {'disagreed':>10s} {'rate':>6s}")
+for k,(c,dis) in sorted(fire.items(), key=lambda kv:-kv[1][0]):
+    print(f"  {k:56s} {c:7d} {dis:10d} {100*dis/max(1,c):5.0f}%")
