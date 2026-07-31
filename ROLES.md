@@ -990,7 +990,7 @@ A slow, enormous physical wallbreaker on a burn clock: Flame Orb burns it to tri
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28. NB (2026-07-31, user question): richwoman's OWN Ursaluna is an off-meta Bulk Up variant — book shows Body Slam 15 / Bulk Up 13 / Ice Punch 10 / Supercell Slam 8 and ZERO Facade, so hers is likely not orb'd; the per-opponent book tier overrides this entry against her. Bloodmoon forme: no OU chaos presence, no booked roster carries it.
 
 </details>
 
