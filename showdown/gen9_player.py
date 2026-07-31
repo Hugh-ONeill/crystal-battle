@@ -682,7 +682,8 @@ class Gen9PokeEnginePlayer(Player):
                  airi_turn_gap: int = 0,
                  airi_min_swing: float = 0.10,
                  airi_turn_pace: float = 0.0,
-                 desk_log_path: str | None = DESK_LOG_DEFAULT, **kwargs):
+                 desk_log_path: str | None = DESK_LOG_DEFAULT,
+                 calibrate_reads: bool = False, **kwargs):
         # A deep-searching bot can stall the event loop past poke-env's
         # default 20s ping timeout (a 5s grind search + K-world glue + GC),
         # which drops the websocket mid-game (measured: 0 keepalive drops at
@@ -694,6 +695,7 @@ class Gen9PokeEnginePlayer(Player):
         # Brier ledger: numeric desk reads per battle, flushed with the
         # outcome at game end (None path disables)
         self._desk_log_path = desk_log_path
+        self._calibrate_reads = calibrate_reads
         self._desk_reads: dict[str, list] = {}
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers,
@@ -1263,6 +1265,16 @@ class Gen9PokeEnginePlayer(Player):
             self._emit_belief_deltas()
             top = ranked[0]
             value = top.total_score / max(1, top.visits)
+            if self._calibrate_reads:
+                # REPORTING ONLY (never the search): the raw root value is a
+                # badly calibrated win probability and phase-dependently so —
+                # every phrase band overclaims by 4-6.5pp, and in the opening
+                # the read carries no outcome signal at all (Brier >= 0.25).
+                # The isotonic map makes the commentary's claims honest
+                # (residual gaps within ~1pp). It also rescales the director's
+                # momentum swings, which is why it is opt-in.
+                from showdown.read_calibration import calibrate
+                value = calibrate(value, battle.turn)
             me = battle.active_pokemon
             opp = battle.opponent_active_pokemon
 
@@ -2466,6 +2478,14 @@ async def main():
                         help="JSONL file for desk-read calibration logging "
                              "(one line per game: reads + outcome; "
                              "'off' disables)")
+    parser.add_argument("--calibrate-reads", choices=["on", "off"],
+                        default="off",
+                        help="map the reported position read through the "
+                             "isotonic calibration (showdown/read_calibration"
+                             ".json) before commentary sees it. REPORTING "
+                             "ONLY — search is untouched. Fixes phrase bands "
+                             "that overclaim by 4-6.5pp; also rescales the "
+                             "director's momentum swings, hence opt-in")
     args = parser.parse_args()
 
     server = LOCAL_SERVER if args.local else SERVERS[args.server]
@@ -2527,6 +2547,7 @@ async def main():
         airi_min_swing=args.airi_min_swing,
         airi_turn_pace=args.airi_turn_pace,
         desk_log_path=None if args.desk_log == "off" else args.desk_log,
+        calibrate_reads=args.calibrate_reads == "on",
         account_configuration=AccountConfiguration(args.username, args.password),
         server_configuration=server,
         battle_format=args.fmt,
