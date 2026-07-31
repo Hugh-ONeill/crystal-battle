@@ -157,12 +157,13 @@
     "greattusk": {
       "tags": [
         "hazard-removal",
-        "wall"
+        "wall",
+        "pivot"
       ],
       "ability": "protosynthesis",
       "preserve": "high",
-      "review": "unmeasured",
-      "evidence": "MECHANIC certain (Rapid Spin), ECONOMICS unmeasured: hazard chip is our pinned loss mechanism (Stealth Rock = 21% of damage taken in richwoman's 42-turn grinds, ~7 switch-ins/game), so the only remover on a team is a team-persistent resource whose death re-exposes the whole side. `preserve: high` is CONDITIONAL on being the sole remover, which is a team property this per-species file cannot express \u2014 flagged as a schema gap, do not wire blindly. [RAG ATTEMPTED, NOT GROUNDED: a naive gen9ou-filtered query returned a topically-similar passage for the WRONG species (Deoxys-Speed and Zamazenta respectively) \u2014 retrieval needs a species filter, not just a format filter. Claim remains my inference.]"
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Great Tusk (gen9ou) \u2014 Offensive Utility / Defensive]: \"Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown\"; also \"a staple on Sticky Web teams\". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover \u2014 a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource."
     },
     "corviknight": {
       "tags": [
@@ -202,10 +203,11 @@
         "setup-sweeper"
       ],
       "ability": "multiscale",
-      "value_curve": "decays_with_chip",
       "preserve": "high",
-      "review": "unmeasured",
-      "evidence": "MECHANIC certain (Multiscale halves damage at FULL HP only, already modelled in damage_calc). ECONOMICS: its defensive half is a one-shot resource that any chip destroys \u2014 the same Stealth-Rock tax that drives our loss mechanism deletes it on a single switch-in, which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [RAG ATTEMPTED, NOT GROUNDED: a naive gen9ou-filtered query returned a topically-similar passage for the WRONG species (Deoxys-Speed and Zamazenta respectively) \u2014 retrieval needs a species filter, not just a format filter. Claim remains my inference.]"
+      "entry_condition": "full_hp",
+      "value_curve": "decays_with_chip",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets \"give Dragonite easy setup opportunities\" and let it check Ogerpon-W, Iron Moth and Rillaboom, \"with Multiscale intact\". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up \u2014 which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep."
     },
     "ceruledge": {
       "tags": [
@@ -259,6 +261,161 @@
       "preserve": "med",
       "review": "measured",
       "evidence": "CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented \u2014 generate_instructions.rs:907 adds CONFUSION to a foe it poisons, landed in 2e000e6 alongside Rock Head/Anger Shell/Synchronize. An earlier memory note listing it as a silent OU gap was stale. The engine models it correctly; this is now an ordinary role entry."
+    },
+    "ironvaliant": {
+      "tags": [
+        "wallbreaker",
+        "setup-sweeper"
+      ],
+      "ability": "quarkdrive",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Iron Valiant (gen9ou)]: \"Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor.\" Booster Energy is its top item by usage \u2014 a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question."
+    },
+    "ragingbolt": {
+      "tags": [
+        "wallbreaker",
+        "priority-attacker"
+      ],
+      "ability": "protosynthesis",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak."
+    },
+    "zamazenta": {
+      "tags": [
+        "wall",
+        "wincon",
+        "glue"
+      ],
+      "ability": "dauntlessshield",
+      "preserve": "high",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Zamazenta (gen9ou)]: \"Zamazenta is the tier's most consistent glue piece and wincon. Its natural bulk alongside a valuable typing, which can be boosted further by Dauntless Shield, lets it take on many manner of offensive threats like Kingambit, Hisuian Samurott, some Dragonite sets, and Great Tusk.\" Glue = it is what other members are built around; losing it costs more than its own HP."
+    },
+    "ogerponwellspring": {
+      "tags": [
+        "wallbreaker",
+        "sweeper"
+      ],
+      "ability": "waterabsorb",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: \"one of OU's premier physical attackers\" with \"the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes\". Trailblaze makes it a conditional sweeper \u2014 a setup curve the eval prices only one turn at a time."
+    },
+    "dragapult": {
+      "tags": [
+        "pivot",
+        "wallbreaker"
+      ],
+      "ability": "infiltrator",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Dragapult (gen9ou) \u2014 Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back."
+    },
+    "hatterene": {
+      "tags": [
+        "hazard-denial",
+        "wall",
+        "sacrificial-support"
+      ],
+      "ability": "magicbounce",
+      "preserve": "high",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Hatterene (gen9ou) \u2014 Healing Wish]: Magic Bounce denies hazards passively while alive; \"Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health\", and the Healing Wish set trades itself to \"pivot them in safely\". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us \u2014 its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even."
+    },
+    "irontreads": {
+      "tags": [
+        "hazard-removal",
+        "hazard-setter",
+        "lead"
+      ],
+      "ability": "quarkdrive",
+      "preserve": "med",
+      "lead_intent": "strong",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve."
+    },
+    "kyurem": {
+      "tags": [
+        "wallbreaker"
+      ],
+      "ability": "pressure",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Kyurem (gen9ou)]: \"one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker.\" 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here \u2014 relevant to the belief-tier work."
+    },
+    "samurotthisui": {
+      "tags": [
+        "hazard-setter",
+        "wallbreaker"
+      ],
+      "ability": "sharpness",
+      "preserve": "med",
+      "lead_intent": "strong",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: \"one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt.\" Setting hazards THROUGH Magic Bounce is the counter to hazard-denial \u2014 the other side of the war that decides our long games."
+    },
+    "cinderace": {
+      "tags": [
+        "pivot",
+        "hazard-control"
+      ],
+      "ability": "libero",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Cinderace (gen9ou) \u2014 Offensive Pivot]: Recommended set is \"Pyro Ball; U-turn; Court Change; ...\" with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT \u2014 it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours."
+    },
+    "landorustherian": {
+      "tags": [
+        "pivot",
+        "wall",
+        "glue"
+      ],
+      "ability": "intimidate",
+      "preserve": "high",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Landorus-Therian (gen9ou)]: \"one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt.\" Intimidate is a persistent team-wide defensive effect applied on every entry \u2014 an annuity the eval prices only as a one-off stat drop."
+    },
+    "alomomola": {
+      "tags": [
+        "pivot",
+        "annuity",
+        "wall"
+      ],
+      "ability": "regenerator",
+      "preserve": "high",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Alomomola (gen9ou) \u2014 WishFish (Wish Passer)]: Recommended set is \"Flip Turn; Wish; Protect; Scald / Tickle\" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch \u2014 so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds."
+    },
+    "darkrai": {
+      "tags": [
+        "revenge-killer",
+        "wallbreaker"
+      ],
+      "ability": "baddreams",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Darkrai (gen9ou) \u2014 Choice Scarf]: \"Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick.\" Trick converts its own item into a liability on their wall \u2014 a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction)."
+    },
+    "zapdos": {
+      "tags": [
+        "pivot"
+      ],
+      "ability": "static",
+      "preserve": "med",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Zapdos (gen9ou) \u2014 Offensive]: Recommended set \"Hurricane; Volt Switch; Heat Wave; Roost\" with Heavy-Duty Boots: \"a very proactive Pokemon that can help gain momentum.\" Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes."
+    },
+    "garganacl": {
+      "tags": [
+        "wall",
+        "wincon"
+      ],
+      "ability": "purifyingsalt",
+      "preserve": "high",
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Garganacl (gen9ou) \u2014 Iron Defense]: \"With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense\" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat \u2014 the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip."
     }
   }
 }
