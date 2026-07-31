@@ -18,7 +18,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 32.9% | **greattusk** ⚡ ✳ | Smogon-cited | physical/physical | med | — | hazard-removal, wall, pivot |
 | 22.5% | **kingambit** | measured here | physical/special | high | late-cleaner | cleaner, wincon |
 | 21.9% | **gholdengo** ⚡ ✳ | USER-CORRECTED | special | high | — | spinblocker, glue |
-| 17.9% | **dragonite** ✳ ▸ | Smogon-cited | physical | high | setup-window | wincon, setup-sweeper |
+| 17.9% | **dragonite** ✳ ▸ | USER-CORRECTED | physical | high | setup-window | wincon, setup-sweeper |
 | 15.3% | **ironvaliant** ✳ | Smogon-cited | mixed | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** ✳ | Smogon-cited | special | med | late-cleaner | wallbreaker, priority-attacker |
 | 15.2% | **zamazenta** ✳ | Smogon-cited | physical/physical | high | — | wall, wincon, glue |
@@ -118,11 +118,11 @@ USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocke
 
 </details>
 
-### dragonite — 17.9% usage · *Smogon-cited*
+### dragonite — 17.9% usage · *USER-CORRECTED*
 
 **tags** wincon, setup-sweeper · **axis** attacks physical · **ability** multiscale · **preserve** high · **deployment** setup-window · **entry_condition** full_hp · **value_curve** decays_with_chip
 
-Multiscale halves incoming damage only at full HP, so it needs an undamaged entry to function. Roost restores that condition. Dragon Dance turns one safe turn into a sweep.
+Multiscale halves incoming damage only at full HP, so it needs an undamaged entry to function. Roost restores that condition. Dragon Dance turns one safe turn into a sweep. Most sets tera Normal, which gives Extreme Speed same-type damage and turns its priority move into a finisher.
 
 **Set — Dragon Dance** *(~86% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks physical · **deployment** setup-window
 
@@ -137,14 +137,14 @@ Multiscale halves incoming damage only at full HP, so it needs an undamaged entr
 1. enter at FULL HP — Multiscale halves the incoming hit only from full, and Heavy-Duty Boots are what keep it full through hazards
 2. Dragon Dance while Multiscale absorbs the first attack, raising Attack and Speed
 3. sweep with Earthquake and its coverage move
-4. Extreme Speed finishes anything faster or already weakened, ignoring Speed entirely
-5. Roost when the sweep stalls: it restores full HP and with it Multiscale, buying another setup turn
+4. Terastallize to Normal when the sweep needs finishing: it gives Extreme Speed same-type damage on top of the Dragon Dance boost, and priority ignores Speed entirely
+5. Roost when the sweep stalls instead: it restores full HP and with it Multiscale, buying another setup turn
 
-> Roost is not only healing — returning to full HP restores the Multiscale damage halving, so it effectively refreshes the setup window. Chip damage that prevents reaching full HP removes that option permanently.
+> Two ways to close, and they compete for the same turns. Tera Normal converts Extreme Speed into the finisher, beating anything faster or already weakened regardless of Speed; Roost instead refreshes Multiscale for a second setup window. Chip damage that prevents reaching full HP removes the Roost option permanently, which pushes it toward the tera line.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy setup opportunities" and let it check Ogerpon-W, Iron Moth and Rillaboom, "with Multiscale intact". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up — which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep.
+RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy setup opportunities" and let it check Ogerpon-W, Iron Moth and Rillaboom, "with Multiscale intact". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up — which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [USER-CORRECTED 2026-07-31: the sequence omitted terastallizing. Usage confirms Tera Normal on 57% of sets, far ahead of Flying 16%, and Extreme Speed is its third-most-used move at 18% — the tera exists to give that priority move STAB.]
 
 </details>
 
