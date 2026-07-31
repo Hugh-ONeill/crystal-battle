@@ -33,6 +33,7 @@ crystal_engine/target/
 showdown/gen9ou_replay_data_v3.pkl
 showdown/desk_reads.jsonl
 showdown/desk_reads_*.jsonl
+showdown/overlay_shadow.jsonl
 showdown/gen9ou_replay_sets.json
 
 # curated team pools — derived from the metamon teams dataset (license check
