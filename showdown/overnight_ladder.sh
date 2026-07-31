@@ -36,8 +36,22 @@ export LADDER_FORMAT="${LADDER_FORMAT:-gen9oulongtimer}"
 # per-game timeout doubles as the queue-wait: a thin baseline pool means we
 # often sit queued with no match, so keep it long enough for a real long-timer
 # game AND to catch a baseline that queues sporadically, but short enough that
-# a dead slot recycles (re-queues) rather than blocking for ages. 900s = 15min.
-export PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-900}"
+# a dead slot recycles (re-queues) rather than blocking for ages.
+#
+# RAISED 900 -> 2700 on 2026-07-30. At 900s we were KILLING OUR OWN LIVE GAMES:
+# three in one 16-slot session, two of them richwoman grinds already at T85 and
+# T90. That is worse than the wasted time on three counts — the game is a loss
+# we forfeit by disconnect, it never reaches our log so the tally silently
+# EXCLUDES it, and it is biased: the games that hit the cap are the long
+# attrition grinds, which is exactly what the anti-hazard subpool was built to
+# win, so the reweight experiment was being measured with its best cases cut
+# out. Games have also lengthened as the pool shifted (avg 25 -> 40 turns).
+# 2700s covers roughly a 250-turn game at the observed ~10.6s/turn; the server
+# clock (1500s bank/side) is the real terminator, so the wrapper should only
+# ever catch a genuinely wedged process. Cost: a dead-queue slot now blocks 45
+# min instead of 15 — acceptable, since an empty queue means no games either
+# way. TODO: decouple the two by bailing early when no battle room appears.
+export PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-2700}"
 # RUN_DEADLINE bounds the WHOLE session by wall-clock (default 8h) so an empty
 # queue can't turn a 120-slot run into a multi-day churn of search-timeouts.
 # The run stops at whichever comes first: N_GAMES slots or this deadline.
