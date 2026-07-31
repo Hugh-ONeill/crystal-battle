@@ -140,8 +140,10 @@ def main():
     ap.add_argument("--format", default="gen9ou")
     ap.add_argument("--show", type=int, default=99, help="passages per species")
     ap.add_argument("--chars", type=int, default=420)
+    ap.add_argument("--dump", help="write full chunk text for every species here")
     args = ap.parse_args()
 
+    dump = open(args.dump, "w") if args.dump else None
     missing = []
     for sp in args.species:
         try:
@@ -160,10 +162,20 @@ def main():
         sets = sorted({h["source"].split("—")[-1].strip() for h in hits})
         print(f"\n=== {sp} [{args.format}] — {len(hits)} chunk(s), "
               f"{sum(len(h['content']) for h in hits)} chars, sets: {', '.join(sets)}")
+        if dump:
+            dump.write(f"\n\n########## {sp} [{args.format}] "
+                       f"— {len(hits)} chunks, sets: {', '.join(sets)}\n")
+            for h in hits:
+                dump.write(f"\n--- [{h.get('source','?')}]\n"
+                           f"{re.sub(chr(92)+'s+', ' ', h.get('content',''))}\n")
+            dump.flush()
         for p in hits[: args.show]:
             txt = re.sub(r"\s+", " ", p.get("content", ""))
             print(f"  [{p.get('source','?')}]  rerank {p.get('rerank_score', 0):.3f}")
             print(f"    {txt[:args.chars]}...")
+    if dump:
+        dump.close()
+        print(f"\n  full text written to {args.dump}", file=sys.stderr)
     if missing:
         print(f"\n  no evidence found for: {', '.join(missing)}")
 
