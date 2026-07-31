@@ -64,13 +64,22 @@ def games(paths):
             if dm and dm.group(1)==g["us"] and g["active"]:
                 g["hp"][g["active"]]=(int(dm.group(2)), int(dm.group(3)))
             fm=re.match(r"\|faint\|(p[12])a:", s)
-            if fm and fm.group(1)==g["us"]: g["fallen"]+=1
+            if fm and fm.group(1)==g["us"]:
+                g["fallen"]+=1
+                # the fainting mon is whoever is active; the faint line itself
+                # carries only the nickname, so record the tracked active
+                if g["active"]: g.setdefault("dead",set()).add(g["active"])
             tm=re.match(r"^  T(\d+): (\S+)", line)
             if tm and g["active"]:
                 cur_hp=g["hp"].get(g["active"],(100,100))
                 g["events"].append(("move", int(tm.group(1)), n(tm.group(2)),
                                     dict(active=g["active"], hp=cur_hp[0]/max(1,cur_hp[1]),
-                                         fallen=g["fallen"], weather=g["weather"], ours=list(g["ours"]))))
+                                         fallen=g["fallen"], weather=g["weather"], ours=list(g["ours"]),
+                                         # snapshot AT EVENT TIME: opinions()
+                                         # runs post-game, and the end-state
+                                         # dead set would anachronistically
+                                         # filter setters that died later
+                                         dead=set(g.get("dead",set())))))
         for g in st.values():
             if g["us"] and g["ours"]: yield g
 
@@ -99,7 +108,12 @@ def opinions(g):
                            mode="veto", targets=tuple(SETUP))
         # RULE 3 — weather resource: a setter on our team with its field down.
         if kind=="move":
-            setters=[m for m in ctx["ours"] if (R.get(m,{}) or {}).get("resource")]
+            # ALIVE setters only: the 2026-07-31 advocate sweep exposed that
+            # this rule fired on 184 fainted-setter turns (the entire
+            # "no-alternative" bucket) — a demand nobody could satisfy
+            dead=ctx.get("dead",set())
+            setters=[m for m in ctx["ours"]
+                     if (R.get(m,{}) or {}).get("resource") and m not in dead]
             if setters and ctx["active"] not in setters:
                 want={R[m]["resource"] for m in setters}
                 if ctx["weather"] not in want:
