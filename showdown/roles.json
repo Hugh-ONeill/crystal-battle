@@ -66,6 +66,15 @@
     "                species splits: Kyurem's Choice Specs set attacks specially",
     "                while its Dragon Dance set attacks physically.",
     "  sets          for species that genuinely split into different Pokemon",
+    "                Each set may carry `prevalence`: roughly what fraction of that",
+    "                species' sets run it, estimated as the signature move's usage",
+    "                divided by 25% (a set holds four moves, so any one move tops",
+    "                out near 25%). It is an ESTIMATE, not ground truth \u2014 shared",
+    "                moves and four-move overlap blur it \u2014 but it separates a set",
+    "                that is nearly universal from one that is fringe. Ceruledge",
+    "                runs Swords Dance on ~84% of sets and Bulk Up on ~8%; listing",
+    "                both without that weighting would be its own kind of",
+    "                confidently-wrong, hedging into noise instead of calibrating.",
     "                depending on set. The top-level fact/tags hold what is true of",
     "                EVERY set (typing, ability); each entry here carries what is",
     "                true only of that one. A consumer should key off the inferred",
@@ -274,7 +283,8 @@
           "sequence_note": "The item choice decides the entry: Air Balloon buys a free switch-in against Ground moves but pops on any other hit, so the setup turn usually has to be taken before it is gone.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.51
         },
         {
           "name": "Choice Scarf",
@@ -286,7 +296,8 @@
           "fact": "A Choice Scarf makes it fast enough to revenge-kill, and Trick can pass that Scarf to a wall to cripple it.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.34
         },
         {
           "name": "Status Hex",
@@ -299,7 +310,8 @@
           "fact": "Thunder Wave or Will-O-Wisp inflicts status, then Hex doubles in power against the statused target.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.12
         }
       ],
       "axis": {
@@ -461,7 +473,8 @@
           "preserve": "med",
           "deployment": "setup-window",
           "entry_condition": "full_hp",
-          "fact": "Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken."
+          "fact": "Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken.",
+          "prevalence": 0.83
         },
         {
           "name": "Bulk Up",
@@ -475,7 +488,8 @@
           },
           "preserve": "high",
           "deployment": "setup-window",
-          "fact": "Bulk Up raises Attack and Defence together, so it boosts while taking physical hits rather than relying on a Sash. Taunt on this set denies Defog, which is why it appears on hyper-offence and Aurora Veil teams where screens give it several turns to boost."
+          "fact": "A minority set. Bulk Up raises Attack and Defence together, so it boosts while absorbing physical hits rather than relying on Focus Sash, and Taunt on this set denies Defog. It appears mainly on hyper-offence and screens teams, where the extra turns make boosting practical.",
+          "prevalence": 0.08
         }
       ]
     },
@@ -580,7 +594,8 @@
           "sequence_note": "Encore is what makes the setup safe rather than hopeful: without it the free turn has to be predicted, and its frailty means a wrong read ends the attempt immediately.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.3
         }
       ],
       "axis": {
@@ -650,7 +665,8 @@
           },
           "preserve": "high",
           "deployment": "setup-window",
-          "fact": "Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing."
+          "fact": "Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.",
+          "prevalence": 0.61
         },
         {
           "name": "All-Out Attacker",
@@ -778,7 +794,8 @@
           ],
           "axis": {
             "attacks": "physical"
-          }
+          },
+          "prevalence": 0.27
         },
         {
           "name": "Substitute",
@@ -791,7 +808,8 @@
           "fact": "Substitute on a predicted switch blocks status and chip, and Protect with Leftovers stalls further while Freeze-Dry and Earth Power attack from behind it.",
           "axis": {
             "attacks": "special"
-          }
+          },
+          "prevalence": 0.26
         }
       ],
       "axis": {

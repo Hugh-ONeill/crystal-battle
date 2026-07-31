@@ -22,7 +22,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 15.3% | **ironvaliant** ✳ | Smogon-cited | mixed | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** | Smogon-cited | special | med | late-cleaner | wallbreaker, priority-attacker |
 | 15.2% | **zamazenta** | Smogon-cited | physical/physical | high | — | wall, wincon, glue |
-| 15.1% | **ogerponwellspring** ▸ | USER-CORRECTED | physical | high | setup-window | setup-sweeper, wallbreaker |
+| 15.1% | **ogerponwellspring** ✳ ▸ | USER-CORRECTED | physical | high | setup-window | setup-sweeper, wallbreaker |
 | 14.6% | **dragapult** | Smogon-cited | mixed | med | pivot-cycle | pivot, wallbreaker |
 | 12.9% | **hatterene** ⚡ | USER-CORRECTED | special/physical | med | bait-switch | wall, sacrificial-support |
 | 12.8% | **corviknight** ⚡ | Smogon-cited | physical/physical | med | pivot-cycle | hazard-removal, pivot, wall |
@@ -34,7 +34,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 10.0% | **cinderace** | Smogon-cited | physical | med | — | pivot, hazard-control |
 | 9.6% | **tinglu** | measured here | physical/special | med | lead | hazard-setter, wall |
 | 9.3% | **landorustherian** | Smogon-cited | physical/physical | high | pivot-cycle | pivot, wall, glue |
-| 9.2% | **ceruledge** ▸ | USER-CORRECTED | physical | med | setup-window | setup-sweeper, wincon |
+| 9.2% | **ceruledge** ✳ ▸ | USER-CORRECTED | physical | med | setup-window | setup-sweeper, wincon |
 | 9.2% | **pecharunt** | measured here | special/physical | med | — | wall, status-spreader |
 | 9.0% | **glimmora** | Smogon-cited | special | low | lead | suicide-lead, hazard-setter |
 | 8.9% | **ironmoth** | Smogon-cited | special | med | — | setup-sweeper |
@@ -182,6 +182,18 @@ RAG-grounded [smogon#Zamazenta (gen9ou)]: "Zamazenta is the tier's most consiste
 
 Water Absorb heals it whenever it is hit by a Water move, so it can enter freely on one. Ivy Cudgel is its signature move and becomes Water-type while it holds the Wellspring Mask, with a raised critical-hit rate. It runs one Grass move alongside it rather than both — usually Horn Leech, which drains HP back, sometimes Power Whip for raw power. Swords Dance doubles its Attack, and Trailblaze can be run to raise its Speed by one stage when it hits.
 
+**Set — Swords Dance:** **tags** setup-sweeper · **axis** attacks physical · **preserve** high · **deployment** setup-window
+
+> Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.
+
+**Set — All-Out Attacker:** **tags** wallbreaker · **axis** attacks physical · **preserve** med
+
+> Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.
+
+**Set — Utility:** **tags** pivot · **axis** attacks physical · **preserve** med · **deployment** pivot-cycle
+
+> Knock Off, U-turn and Encore trade damage for disruption and momentum instead of setting up.
+
 **The play:**
 
 1. enter on something it walls — a Water move heals it outright through Water Absorb
@@ -193,7 +205,7 @@ Water Absorb heals it whenever it is hit by a Water move, so it can enter freely
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical attackers" with "the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move — usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.]
+RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical attackers" with "the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move — usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.] [EXPANDED 2026-07-31: three named sets, not one. The sequence on this entry is the Swords Dance line; the All-Out Attacker and Utility sets do not set up at all.]
 
 </details>
 
@@ -361,6 +373,14 @@ RAG-grounded [smogon#Landorus-Therian (gen9ou)]: "one of OU's premier pivots. It
 
 Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority.
 
+**Set — Swords Dance:** **tags** setup-sweeper, wincon · **axis** attacks physical · **preserve** med · **deployment** setup-window
+
+> Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken.
+
+**Set — Bulk Up:** **tags** setup-sweeper, wallbreaker · **axis** attacks physical, defends physical · **preserve** high · **deployment** setup-window
+
+> A minority set. Bulk Up raises Attack and Defence together, so it boosts while absorbing physical hits rather than relying on Focus Sash, and Taunt on this set denies Defog. It appears mainly on hyper-offence and screens teams, where the extra turns make boosting practical.
+
 **The play:**
 
 1. enter at FULL HP on a free switch — Focus Sash only functions from full, so entry chip cancels the plan
@@ -373,7 +393,7 @@ Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the d
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) — Swords Dance]: popping the Sash with weak moves "would only give it a trouble-free Weak Armor boost", so the opponent removing the Sash is often GOOD for Ceruledge — I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend — it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.]
+TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) — Swords Dance]: popping the Sash with weak moves "would only give it a trouble-free Weak Armor boost", so the opponent removing the Sash is often GOOD for Ceruledge — I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend — it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.] [EXPANDED 2026-07-31 from full multi-angle retrieval: Smogon names TWO sets and I had only the Swords Dance one. The Bulk Up set is a different mon in practice — it boosts Defence rather than buying a turn with Focus Sash, carries Taunt to stop Defog, and wants screens rather than a clean entry. The sequence recorded on this entry is the Swords Dance line specifically.]
 
 </details>
 
