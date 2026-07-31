@@ -68,6 +68,14 @@ Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its S
 
 > Bulk Up raises Attack and Defence together so it can boost while absorbing physical hits.
 
+**Set — Defensive** *(~18% of sets)*: **tags** wall, hazard-removal, pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> Rocky Helmet with a bulky spread, punishing contact while spinning hazards away across the game.
+
+**Set — Other / unnamed** *(~38% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
+
 **Conditional — `opponent_has:hazard-setter`:** preserve → high
 
 > Hazard removal is only worth something while the opponent is setting hazards. Against a team that sets none, the removal move is a wasted slot.
@@ -128,7 +136,7 @@ Multiscale halves incoming damage only at full HP, so it needs an undamaged entr
 
 > Dragon Dance raises Attack and Speed behind Multiscale, then Extreme Speed cleans up.
 
-**Set — Bulky Phazer** *(~35% of sets)*: **tags** wall, pivot · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Bulky Phazer** *(~14% est. of sets)*: **tags** wall, pivot · **axis** attacks physical · **deployment** pivot-cycle
 
 > Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.
 
@@ -166,7 +174,7 @@ High mixed offense with Booster Energy spent on entry to raise its best stat. Ch
 
 > Swords Dance doubles Attack for a physical sweep, with Close Combat and Knock Off as coverage.
 
-**Set — Mixed** *(~80% of sets)*: **tags** wallbreaker · **axis** attacks mixed
+**Set — Mixed** *(~45% est. of sets)*: **tags** wallbreaker · **axis** attacks mixed
 
 > Booster Energy on entry with both physical and special attacks, so no single wall answers it. The boost applies to its first entry only.
 
@@ -182,6 +190,10 @@ RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Mo
 
 Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
+**Set — Booster Energy** *(~52% of sets)*: **tags** wallbreaker, setup-sweeper, priority-attacker · **axis** attacks special · **deployment** setup-window
+
+> Booster Energy raises its best stat on entry, usually paired with Calm Mind to boost further. The boost applies to its first entry only, so when it comes in decides how much of the game it threatens.
+
 **Set — Choice Specs** *(~12% of sets)*: **tags** wallbreaker · **axis** attacks special
 
 > Choice Specs locks it in but makes Draco Meteor and Thunderclap break through immediately.
@@ -190,9 +202,13 @@ Thunderclap is a priority move, so it revenge-kills faster threats and beats slo
 
 > Boots let it re-enter through hazards while Thunderclap threatens priority every time.
 
+**Set — Other / unnamed** *(~32% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor." Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters — same shape as Ceruledge's Shadow Sneak.
+RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor." Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters — same shape as Ceruledge's Shadow Sneak. [GAP FOUND 2026-07-31: the two named Smogon sets (Choice Specs 12%, Boots Pivot 4%) account for only 16% of usage — the MAJORITY build is Booster Energy at 52%, which the analysis did not name as its own set. A set list taken from written analyses is not guaranteed to cover the meta; check the item and move distributions for a dominant build the prose skipped.]
 
 </details>
 
@@ -262,6 +278,14 @@ Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes i
 **Set — Boots Pivot** *(~19% of sets)*: **tags** pivot · **axis** attacks mixed · **deployment** pivot-cycle
 
 > Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.
+
+**Set — Choice Band** *(~19% of sets)*: **tags** wallbreaker · **axis** attacks physical
+
+> A Choice Band physical build, locking into Dragon Darts rather than attacking specially.
+
+**Set — Other / unnamed** *(~28% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -333,6 +357,10 @@ Regenerator restores a third of its HP whenever it switches out, so repeated ent
 
 > Boots plus Regenerator and Chilly Reception make every switch nearly free.
 
+**Set — Other / unnamed** *(~26% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) — the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed. [Trimmed 2026-07-31: the fact had noted its low Speed investment, which was only interesting because of a speed-inference bug on our side — session detail, not a property a reader needs. Removed.]
@@ -365,6 +393,10 @@ Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. 
 
 > Leftovers and bulk let it keep removing hazards across the game rather than once.
 
+**Set — Other / unnamed** *(~32% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself for hazard control and "gives it another way to block Defog and Rapid Spin"; coverage choice is explicitly about stopping Raging Bolt boosting or "Pecharunt from blocking Rapid Spin". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.
@@ -389,6 +421,10 @@ High mixed offense across several very different sets, so which set it is change
 
 > Substitute on a predicted switch blocks status and chip, and Protect with Leftovers stalls further while Freeze-Dry and Earth Power attack from behind it.
 
+**Set — Other / unnamed** *(~22% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.] [CORRECTED 2026-07-31: I had written a 'Substitute Roost' set, but Roost does not appear in its moves at all. Usage: Choice Specs 25% / Loaded Dice 23% / Leftovers 23% items; Dragon Dance 6.7% with Icicle Spear 7.0% and Scale Shot 4.7% is the Loaded Dice physical set; Substitute 6.6% with Protect 3.4% is the stall set.]
@@ -412,6 +448,10 @@ Ceaseless Edge sets Spikes as part of an attack, so it lays hazards even through
 **Set — Assault Vest** *(~38% of sets)*: **tags** wall, hazard-setter · **axis** attacks physical
 
 > Assault Vest adds special bulk so it can keep setting Spikes across the game.
+
+**Set — Other / unnamed** *(~30% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
 
 **Conditional — `opponent_has:hazard-denial`:** preserve → high
 
@@ -468,6 +508,10 @@ Intimidate lowers the opposing Attack every time it enters, so repeated switch-i
 **Set — Offensive** *(~18% of sets)*: **tags** wallbreaker, pivot · **axis** attacks physical
 
 > A Choice Scarf turns it into a revenge killer that still pivots with U-turn.
+
+**Set — Other / unnamed** *(~21% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -587,6 +631,10 @@ Very high Speed, usually with Choice Scarf, makes it a revenge killer. Trick han
 
 > Heavy-Duty Boots let it re-enter through hazards repeatedly while holding four attacks.
 
+**Set — Choice Scarf** *(~16% of sets)*: **tags** revenge-killer · **axis** attacks special
+
+> A Choice Scarf build that outspeeds the field to revenge-kill, and can Trick the Scarf onto a wall.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Darkrai (gen9ou) — Choice Scarf]: "Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick." Trick converts its own item into a liability on their wall — a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction).
@@ -618,6 +666,14 @@ Grassy Surge sets Grassy Terrain, which heals every grounded Pokemon each turn a
 **Set — Utility** *(~2% of sets)*: **tags** terrain-setter, pivot · **axis** attacks physical · **deployment** pivot-cycle
 
 > A support build that keeps terrain up and pivots with U-turn rather than attacking outright.
+
+**Set — Terrain Extender** *(~15% of sets)*: **tags** terrain-setter, pivot · **axis** attacks physical · **deployment** pivot-cycle
+
+> Terrain Extender pushes Grassy Terrain to eight turns, prioritising the field effect over its own damage.
+
+**Set — Other / unnamed** *(~42% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -658,6 +714,14 @@ Extreme Speed stat lets it set hazards or screens before almost anything else mo
 **Set — Nasty Plot** *(~17% of sets)*: **tags** setup-sweeper · **axis** attacks special · **deployment** setup-window
 
 > Nasty Plot turns its extreme Speed into a sweep instead of hazard support.
+
+**Set — Dual Screens** *(~35% of sets)*: **tags** suicide-lead, screens-setter · **axis** attacks special · **deployment** lead
+
+> Light Clay extends Reflect and Light Screen, using its extreme Speed to get both up before being attacked.
+
+**Set — Other / unnamed** *(~36% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 

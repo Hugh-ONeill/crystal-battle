@@ -86,6 +86,21 @@
     "                Where a single signature cannot separate them, say so in the set",
     "                fact rather than forcing one dimension to carry the split.",
     "                `ability_split` and mentioned in the fact, not modelled as a",
+    "                A set defined by the ABSENCE of a signature must use the",
+    "                residual, never a proxy: Dragonite's non-Dragon-Dance build",
+    "                runs Roost, but so do Dragon Dance sets, so counting Roost",
+    "                double-counts and the two shares summed over 100%.",
+    "                SET SHARES DO NOT PARTITION and should not be forced to 100%.",
+    "                The named sets are overlapping ARCHETYPES, not exclusive",
+    "                categories \u2014 a Booster Energy Iron Valiant can be both the",
+    "                'Calm Mind' and the 'Mixed' build, so shares can legitimately",
+    "                sum over 100 where archetypes overlap and under 100 where the",
+    "                write-ups skip a common build. Where named sets cover under",
+    "                80%, an explicit 'Other / unnamed' entry carries the remainder",
+    "                so a reader can see the uncovered space instead of assuming",
+    "                the list is exhaustive. Raging Bolt was the warning case: its",
+    "                two named sets covered 16% while the real majority build",
+    "                (Booster Energy, 52%) went unnamed by the analysis.",
     "                Some sets have NO positive signature \u2014 an all-out-attacker build",
     "                is defined by what it lacks, and a form item like Wellspring Mask",
     "                is on every set. Those get a RESIDUAL estimate (whatever the",
@@ -298,6 +313,14 @@
           "deployment": "pivot-cycle",
           "prevalence": 0.5,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.26,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ]
     },
@@ -441,6 +464,29 @@
           "deployment": "setup-window",
           "prevalence": 0.16,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Defensive",
+          "tags": [
+            "wall",
+            "hazard-removal",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Rocky Helmet with a bulky spread, punishing contact while spinning hazards away across the game.",
+          "prevalence": 0.18,
+          "prevalence_method": "signature",
+          "deployment": "pivot-cycle"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.38,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ],
       "entry_condition": "first_entry_boost"
@@ -530,6 +576,28 @@
           "deployment": "pivot-cycle",
           "prevalence": 0.02,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Terrain Extender",
+          "tags": [
+            "terrain-setter",
+            "pivot"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "Terrain Extender pushes Grassy Terrain to eight turns, prioritising the field effect over its own damage.",
+          "prevalence": 0.15,
+          "prevalence_method": "signature",
+          "deployment": "pivot-cycle"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.42,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ]
     },
@@ -599,8 +667,9 @@
           },
           "fact": "Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.35,
-          "prevalence_method": "signature"
+          "prevalence": 0.14,
+          "prevalence_method": "residual",
+          "prevalence_note": "Defined by the ABSENCE of Dragon Dance rather than the presence of Roost \u2014 Roost appears on Dragon Dance sets too, so counting it double-counts. Estimated as the residual instead."
         }
       ]
     },
@@ -740,6 +809,28 @@
           "deployment": "setup-window",
           "prevalence": 0.17,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Dual Screens",
+          "tags": [
+            "suicide-lead",
+            "screens-setter"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "Light Clay extends Reflect and Light Screen, using its extreme Speed to get both up before being attacked.",
+          "prevalence": 0.35,
+          "prevalence_method": "signature",
+          "deployment": "lead"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.36,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ]
     },
@@ -855,8 +946,9 @@
             "attacks": "mixed"
           },
           "fact": "Booster Energy on entry with both physical and special attacks, so no single wall answers it. The boost applies to its first entry only.",
-          "prevalence": 0.8,
-          "prevalence_method": "signature"
+          "prevalence": 0.45,
+          "prevalence_method": "residual",
+          "prevalence_note": "Booster Energy is on ~80% of ALL its sets, so it cannot separate this build from the Calm Mind and Swords Dance ones \u2014 a compound signature would be needed. Estimated as the residual."
         }
       ],
       "axis": {
@@ -874,11 +966,26 @@
       "review": "rag-grounded",
       "deployment": "late-cleaner",
       "fact": "Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-      "provenance": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak.",
+      "provenance": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak. [GAP FOUND 2026-07-31: the two named Smogon sets (Choice Specs 12%, Boots Pivot 4%) account for only 16% of usage \u2014 the MAJORITY build is Booster Energy at 52%, which the analysis did not name as its own set. A set list taken from written analyses is not guaranteed to cover the meta; check the item and move distributions for a dominant build the prose skipped.]",
       "axis": {
         "attacks": "special"
       },
       "sets": [
+        {
+          "name": "Booster Energy",
+          "tags": [
+            "wallbreaker",
+            "setup-sweeper",
+            "priority-attacker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "deployment": "setup-window",
+          "prevalence": 0.52,
+          "prevalence_method": "signature",
+          "fact": "Booster Energy raises its best stat on entry, usually paired with Calm Mind to boost further. The boost applies to its first entry only, so when it comes in decides how much of the game it threatens."
+        },
         {
           "name": "Choice Specs",
           "tags": [
@@ -904,6 +1011,14 @@
           "deployment": "pivot-cycle",
           "prevalence": 0.04,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.32,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ],
       "entry_condition": "first_entry_boost"
@@ -1058,6 +1173,26 @@
           "deployment": "pivot-cycle",
           "prevalence": 0.19,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Choice Band",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "fact": "A Choice Band physical build, locking into Dragon Darts rather than attacking specially.",
+          "prevalence": 0.19,
+          "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.29,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ],
       "ability_split": {
@@ -1183,6 +1318,14 @@
           "deployment": "pivot-cycle",
           "prevalence": 0.34,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.32,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ],
       "entry_condition": "first_entry_boost"
@@ -1245,6 +1388,14 @@
           },
           "prevalence": 0.26,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.22,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ],
       "axis": {
@@ -1312,6 +1463,14 @@
           "fact": "Assault Vest adds special bulk so it can keep setting Spikes across the game.",
           "prevalence": 0.38,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.3,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ]
     },
@@ -1407,6 +1566,14 @@
           "fact": "A Choice Scarf turns it into a revenge killer that still pivots with U-turn.",
           "prevalence": 0.18,
           "prevalence_method": "signature"
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.21,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
         }
       ]
     },
@@ -1507,6 +1674,18 @@
           "fact": "Heavy-Duty Boots let it re-enter through hazards repeatedly while holding four attacks.",
           "deployment": "pivot-cycle",
           "prevalence": 0.21,
+          "prevalence_method": "signature"
+        },
+        {
+          "name": "Choice Scarf",
+          "tags": [
+            "revenge-killer"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "fact": "A Choice Scarf build that outspeeds the field to revenge-kill, and can Trick the Scarf onto a wall.",
+          "prevalence": 0.16,
           "prevalence_method": "signature"
         }
       ]
