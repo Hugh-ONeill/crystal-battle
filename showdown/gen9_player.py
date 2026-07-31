@@ -840,6 +840,9 @@ class Gen9PokeEnginePlayer(Player):
         # now), set at teampreview from the SAME signal that sets the eval
         # mode so play and commentary never disagree; None = no call-out
         self._archetype: str | None = None
+        # their six ranked most-dangerous-first by the preview matrix, for
+        # the desk's team-preview read (see _threat_order)
+        self._preview_threats: list[str] = []
         # beat pipeline: protocol -> scanner -> typed events -> director ->
         # composed beat text. All routing/gating logic lives in
         # beat_director (pure, offline-drivable — the gold-set eval runs
@@ -908,6 +911,7 @@ class Gen9PokeEnginePlayer(Player):
         game. Falls back to paste order on any failure."""
         self._refresh_team_paste()
         self._archetype = None          # re-detected fresh each preview below
+        self._preview_threats = []      # ditto
         if self._team_paste is None:
             return "/team 123456"
         try:
@@ -932,6 +936,9 @@ class Gen9PokeEnginePlayer(Player):
             lead_idx, _, matrix = await loop.run_in_executor(
                 None, lambda: pick_leads(self._team_paste, opp_paste,
                                          search_ms=self._preview_search_ms))
+            # the same matrix, read down the columns: whose lead we are
+            # least equipped to answer (see _threat_order)
+            self._preview_threats = self._threat_order(matrix, opp_species)
             # The scouting profile normally loads at the FIRST choose_move —
             # which is after team preview — so in one-game-per-process ladder
             # mode the lead-EV blend below could never fire (found 2026-07-30
@@ -993,6 +1000,30 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_new_battle(battle)
             return "/team 123456"
 
+    @staticmethod
+    def _threat_order(matrix, opp_species) -> list[str]:
+        """THEIR mons ranked most-dangerous-first, off the same preview
+        payoff matrix the lead pick already uses.
+
+        Rows are our leads, columns theirs. `_lead_pool` takes the row
+        minima to rank OUR options by worst case; this is the column-wise
+        mirror — for each of their leads, the best value we can reach if we
+        answer it perfectly. The lowest of those is the one we are least
+        equipped to handle, which is the engine's own opinion about their
+        biggest threat and the only preview read on the board that is not
+        list order or dex reputation.
+        """
+        try:
+            if not matrix or not matrix[0]:
+                return []
+            cols = len(matrix[0])
+            best = [max(row[j] for row in matrix) for j in range(cols)]
+            order = sorted(range(cols), key=lambda j: best[j])
+            return [_species_display(opp_species[j]) for j in order
+                    if j < len(opp_species)]
+        except Exception:
+            return []
+
     def _airi_new_battle(self, battle, lead: str | None = None,
                          preview_text: str | None = None):
         """Emit the match-start event once per battle and reset the beat
@@ -1014,7 +1045,8 @@ class Gen9PokeEnginePlayer(Player):
             text = self._director.match_start(
                 battle.opponent_username, ours, theirs,
                 lead=_species_display(lead) if lead else None,
-                archetype=self._archetype)
+                archetype=self._archetype,
+                threats=self._preview_threats)
             blob = (preview_text if preview_text is not None
                     else (self._team_paste or ""))
             self._airi.send(text, preview_text=blob)
