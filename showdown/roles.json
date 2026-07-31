@@ -35,6 +35,15 @@
     "SCHEMA (per normalized species; `ability` qualifies when the role depends",
     "on it, since the same species with another ability is a different mon):",
     "  tags         role labels, the primary key for consumers",
+    "                `disruptor` is its own role, distinct from wall and attacker:",
+    "                a mon whose job is to deny the opponent's turn rather than to",
+    "                absorb or threaten damage \u2014 forcing switches (Whirlwind, Red",
+    "                Card), locking a move (Encore), shutting off status and setup",
+    "                (Taunt), or punishing an attack directly (Mirror Coat). It is",
+    "                easy to mistake for a lead because it wants to act early, but",
+    "                it is not trying to win the first turn \u2014 it is trying to make",
+    "                the opponent's turn worthless, which is why leading it is a",
+    "                CHOICE rather than its definition.",
     "  ability      role holds only for this ability (omit = any)",
     "  value_curve  how worth changes over a game: flat | grows_with_own_faints",
     "               | decays_with_weather_clock | grows_with_hazards",
@@ -855,6 +864,7 @@
     },
     "tinglu": {
       "tags": [
+        "disruptor",
         "hazard-setter",
         "wall"
       ],
@@ -863,7 +873,7 @@
       "lead_intent": "strong",
       "review": "measured",
       "deployment": "lead",
-      "fact": "Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying.",
+      "fact": "Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying. Whirlwind forces the opponent out regardless of what they intended, which is disruption rather than damage \u2014 it wastes their turn and drags the next mon onto the hazards.",
       "provenance": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip.",
       "axis": {
         "defends": "special"
@@ -1292,8 +1302,9 @@
     },
     "hatterene": {
       "tags": [
-        "wall",
-        "sacrificial-support"
+        "disruptor",
+        "sacrificial-support",
+        "wall"
       ],
       "ability": "magicbounce",
       "preserve": "med",

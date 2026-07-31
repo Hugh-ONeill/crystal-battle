@@ -24,7 +24,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 15.2% | **zamazenta** ✳ | Smogon-cited | physical/physical | high | — | wall, wincon, glue |
 | 15.1% | **ogerponwellspring** ✳ ▸ | USER-CORRECTED | physical | high | setup-window | setup-sweeper, wallbreaker |
 | 14.6% | **dragapult** ✳ | Smogon-cited | mixed | med | pivot-cycle | pivot, wallbreaker |
-| 12.9% | **hatterene** ⚡ ✳ | USER-CORRECTED | special/physical | med | bait-switch | wall, sacrificial-support |
+| 12.9% | **hatterene** ⚡ ✳ | USER-CORRECTED | special/physical | med | bait-switch | disruptor, sacrificial-support, wall |
 | 12.8% | **corviknight** ⚡ ✳ | Smogon-cited | physical | med | pivot-cycle | hazard-removal, pivot, wall |
 | 12.5% | **slowkinggalar** ✳ | measured here | special | med | pivot-cycle | pivot, wall |
 | 11.2% | **gliscor** | USER-CORRECTED | special | high | pivot-cycle | annuity, wall |
@@ -32,7 +32,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 10.6% | **kyurem** ✳ | Smogon-cited | special | med | — | wallbreaker |
 | 10.3% | **samurotthisui** ⚡ ✳ | Smogon-cited | physical | med | lead | hazard-setter, wallbreaker |
 | 10.0% | **cinderace** ✳ | Smogon-cited | physical | med | — | pivot, hazard-control |
-| 9.6% | **tinglu** | measured here | special | med | lead | hazard-setter, wall |
+| 9.6% | **tinglu** | measured here | special | med | lead | disruptor, hazard-setter, wall |
 | 9.3% | **landorustherian** ✳ | Smogon-cited | physical/physical | high | pivot-cycle | pivot, wall, glue |
 | 9.2% | **ceruledge** ✳ ▸ | USER-CORRECTED | physical | med | setup-window | setup-sweeper, wincon |
 | 9.2% | **pecharunt** ✳ | measured here | special/physical | med | — | wall, status-spreader |
@@ -304,7 +304,7 @@ RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: "Infiltrator is the pr
 
 ### hatterene — 12.9% usage · *USER-CORRECTED*
 
-**tags** wall, sacrificial-support · **axis** attacks special, defends physical · **ability** magicbounce · **preserve** med · **deployment** bait-switch · **lead_intent** avoid
+**tags** disruptor, sacrificial-support, wall · **axis** attacks special, defends physical · **ability** magicbounce · **preserve** med · **deployment** bait-switch · **lead_intent** avoid
 
 Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazards rather than removing them — it must be in play when the setter acts. Healing Wish trades it away to fully restore a teammate.
 
@@ -496,9 +496,9 @@ RAG-grounded [smogon#Cinderace (gen9ou) — Offensive Pivot]: Recommended set is
 
 ### tinglu — 9.6% usage · *measured here*
 
-**tags** hazard-setter, wall · **axis** defends special · **ability** vesselofruin · **preserve** med · **deployment** lead · **lead_intent** strong
+**tags** disruptor, hazard-setter, wall · **axis** defends special · **ability** vesselofruin · **preserve** med · **deployment** lead · **lead_intent** strong
 
-Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying.
+Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying. Whirlwind forces the opponent out regardless of what they intended, which is disruption rather than damage — it wastes their turn and drags the next mon onto the hazards.
 
 *Single build.* Leftovers is on ~73% of sets; a Red Card variant drags attackers into its hazards, but the defensive hazard-setter role is the same.
 
