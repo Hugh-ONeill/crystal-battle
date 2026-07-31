@@ -25,12 +25,25 @@ richwoman is ~half our games, a 25%-of-pool anti-hazard slice puts anti-hazard
 tools into ~25% of the richwoman games too. Boots-balance are strong
 generalists, so this should not cost us vs the LLM bots we already beat 75–93%.
 
-Each of the four distinct teams is present **3×** (`_v2`/`_v3` copies) so the
-subpool is ~25% of the 47-team live pool (12 anti-hazard of 47). The `ah`
-prefix is the aggregation key: `grep '^ah'` on the tally's team column pools
-every anti-hazard game regardless of which of the four played; the `ah1..ah4`
-stems split it per distinct team (so one bad team can't silently sink the
-aggregate read).
+The `ah` prefix is the aggregation key: `grep '^ah'` on the tally's team column
+pools every anti-hazard game regardless of which of the four played; the
+`ah1..ah4` stems split it per distinct team (so one bad team can't silently
+sink the aggregate read).
+
+**VERDICT 2026-07-31: NULL — the 3× weighting is REMOVED, one copy of each
+remains.** Over 250 decided games the subpool matched the rest of the pool
+exactly: **vs richwoman 8W-21L (28%) against other teams' 21W-51L (29%); all
+opponents 37W-29L (56%) vs 104W-80L (57%)**. The hypothesis was sound and the
+mechanism was real — Stealth Rock chip measured at 21% of damage taken in her
+42-turn grinds, and these teams demonstrably delete that tax — but it did not
+convert into wins, and richwoman stayed at her usual ~29% across the window.
+The teams are not worse (56 vs 57), so they stay in the rotation at 1× for
+diversity; only the `_v2`/`_v3` weighting duplicates are gone.
+
+Worth carrying forward: **fixing an accurately-measured loss mechanism does not
+imply winning.** Team-comp now sits alongside eval, search and opponent-model
+as a lever class that moves behaviour but not outcomes against an fp-class
+opponent — four independent classes with the same answer.
 
 - `ah1_greattusk_bootsbal` — Great Tusk / Zapdos / Slowking-Galar / Corviknight
   / Kingambit / Dragapult. Rapid Spin + Defog removal, Regen pivot, two
