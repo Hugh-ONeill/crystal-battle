@@ -411,8 +411,15 @@ class Gen9Translator:
             # that away at 69% — see TeamArchive._book_score. Falls back to
             # the blind draw for an opponent we have no history on.
             book_sets = (self._book or {}).get("sets") if self._book else None
-            self._archive_team = arch.sample_booked(
-                species, revealed, book_sets, rng=self._rng)
+            # CB_ARCHIVE_SELECT=blind reproduces the pre-2026-07-31 draw (first
+            # consistent candidate) so the selection component can be ABLATED:
+            # the +9.2pp A/B bundled archive tier + selection + gate, and only
+            # selection obviously transfers to a booked ladder opponent.
+            if os.environ.get("CB_ARCHIVE_SELECT", "book").strip().lower() == "blind":
+                self._archive_team = arch.sample(species, revealed, rng=self._rng)
+            else:
+                self._archive_team = arch.sample_booked(
+                    species, revealed, book_sets, rng=self._rng)
         except Exception:
             self._archive_team = None   # advisory tier; never fail a translation
 
