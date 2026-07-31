@@ -59,14 +59,15 @@ def render(doc: dict) -> str:
     w("| UNVERIFIED | my inference only — scrutinise these |\n")
 
     w("## At a glance\n")
-    w("| usage | mon | grade | preserve | deployment | tags |")
-    w("|---:|---|---|---|---|---|")
+    w("| usage | mon | grade | axis | preserve | deployment | tags |")
+    w("|---:|---|---|---|---|---|---|")
     for k, v in order:
         u = use.get(k, 0.0)
         cond = " ⚡" if v.get("conditional") else ""
         multi = " ✳" if v.get("sets") else ""
         seq = " ▸" if v.get("sequence") else ""
         w(f"| {100*u:.1f}% | **{k}**{cond}{multi}{seq} | {GRADE.get(v['review'], v['review'])} "
+          f"| {'/'.join(( v.get('axis') or {}).values()) or '—'} "
           f"| {v.get('preserve','—')} | {v.get('deployment','—')} | {', '.join(v['tags'])} |")
     w("\n⚡ = value is conditional  ✳ = splits into distinct sets  "
       "▸ = has a written play sequence\n")
@@ -76,6 +77,9 @@ def render(doc: dict) -> str:
         u = use.get(k, 0.0)
         w(f"### {k} — {100*u:.1f}% usage · *{GRADE.get(v['review'], v['review'])}*\n")
         bits = [f"**tags** {', '.join(v['tags'])}"]
+        ax = v.get("axis") or {}
+        if ax:
+            bits.append("**axis** " + ", ".join(f"{kk} {vv}" for kk, vv in ax.items()))
         for f in ("ability", "preserve", "deployment", "lead_intent",
                   "entry_condition", "value_curve", "resource", "requires"):
             if v.get(f):
@@ -86,6 +90,8 @@ def render(doc: dict) -> str:
 
         for st in v.get("sets", []):
             bits = [f"**tags** {', '.join(st['tags'])}"]
+            if st.get("axis"):
+                bits.append("**axis** " + ", ".join(f"{kk} {vv}" for kk, vv in st["axis"].items()))
             for f in ("preserve", "deployment"):
                 if st.get(f):
                     bits.append(f"**{f}** {st[f]}")
