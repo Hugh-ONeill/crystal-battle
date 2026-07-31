@@ -56,13 +56,13 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 
 ### greattusk — 32.9% usage · *Smogon-cited*
 
-**tags** hazard-removal, wall, pivot · **axis** attacks physical, defends physical · **ability** protosynthesis · **preserve** med
+**tags** hazard-removal, wall, pivot · **axis** attacks physical, defends physical · **ability** protosynthesis · **preserve** med · **entry_condition** first_entry_boost
 
-Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit.
+Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
 **Set — Offensive Utility** *(~28% of sets)*: **tags** hazard-removal, pivot · **axis** attacks physical
 
-> Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal.
+> Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal. The boost applies to its first entry only.
 
 **Set — Bulk Up** *(~16% of sets)*: **tags** setup-sweeper, wall · **axis** attacks physical · **deployment** setup-window
 
@@ -150,9 +150,9 @@ RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy 
 
 ### ironvaliant — 15.3% usage · *Smogon-cited*
 
-**tags** wallbreaker, setup-sweeper · **axis** attacks mixed · **ability** quarkdrive · **preserve** med
+**tags** wallbreaker, setup-sweeper · **axis** attacks mixed · **ability** quarkdrive · **preserve** med · **entry_condition** first_entry_boost
 
-High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it.
+High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
 **Set — Choice Specs** *(~10% of sets)*: **tags** wallbreaker · **axis** attacks special · **preserve** med
 
@@ -168,7 +168,7 @@ High mixed offense with Booster Energy spent on entry to raise its best stat. Ch
 
 **Set — Mixed** *(~80% of sets)*: **tags** wallbreaker · **axis** attacks mixed
 
-> Booster Energy on entry with both physical and special attacks, so no single wall answers it.
+> Booster Energy on entry with both physical and special attacks, so no single wall answers it. The boost applies to its first entry only.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -178,9 +178,9 @@ RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Mo
 
 ### ragingbolt — 15.3% usage · *Smogon-cited*
 
-**tags** wallbreaker, priority-attacker · **axis** attacks special · **ability** protosynthesis · **preserve** med · **deployment** late-cleaner
+**tags** wallbreaker, priority-attacker · **axis** attacks special · **ability** protosynthesis · **preserve** med · **deployment** late-cleaner · **entry_condition** first_entry_boost
 
-Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing.
+Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
 **Set — Choice Specs** *(~12% of sets)*: **tags** wallbreaker · **axis** attacks special
 
@@ -353,13 +353,13 @@ The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL
 
 ### irontreads — 11.0% usage · *Smogon-cited*
 
-**tags** hazard-removal, hazard-setter, lead · **axis** attacks physical · **ability** quarkdrive · **preserve** med · **deployment** lead · **lead_intent** strong
+**tags** hazard-removal, hazard-setter, lead · **axis** attacks physical · **ability** quarkdrive · **preserve** med · **deployment** lead · **lead_intent** strong · **entry_condition** first_entry_boost
 
-Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Quark Drive raises a stat on entry.
+Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
 **Set — Lead** *(~34% of sets)*: **tags** hazard-setter, hazard-removal, lead · **axis** attacks physical · **deployment** lead
 
-> Booster Energy makes it fast enough to set or remove hazards before most leads act.
+> Booster Energy makes it fast enough to set or remove hazards before most leads act. The boost applies to its first entry only.
 
 **Set — Utility** *(~34% of sets)*: **tags** hazard-removal, pivot · **axis** attacks physical · **deployment** pivot-cycle
 
@@ -539,9 +539,9 @@ RAG-grounded [smogon#Glimmora (gen9ou) — Lead]: the Lead set exists to deny se
 
 ### ironmoth — 8.9% usage · *Smogon-cited*
 
-**tags** setup-sweeper · **axis** attacks special · **ability** quarkdrive · **preserve** med
+**tags** setup-sweeper · **axis** attacks special · **ability** quarkdrive · **preserve** med · **entry_condition** first_entry_boost
 
-Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted.
+Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -595,9 +595,9 @@ RAG-grounded [smogon#Darkrai (gen9ou) — Choice Scarf]: "Darkrai can also cripp
 
 ### walkingwake — 7.3% usage · *measured here*
 
-**tags** weather-abuser, sweeper · **axis** attacks special · **ability** protosynthesis · **preserve** med · **requires** sun
+**tags** weather-abuser, sweeper · **axis** attacks special · **ability** protosynthesis · **preserve** med · **entry_condition** first_entry_boost · **requires** sun
 
-Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone.
+Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 

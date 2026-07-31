@@ -46,6 +46,11 @@
     "                   entry. Distinct from preserve (cost of losing it) and",
     "                   requires (a field state). Added 2026-07-31 after the",
     "                   Ceruledge entry needed a concept neither field had.",
+    "                first_entry_boost marks a one-shot entry resource: Booster",
+    "                Energy is consumed the first time the mon comes in and never",
+    "                returns, so a Booster set is a different Pokemon on its second",
+    "                switch-in than its first. WHEN it is spent is a real decision",
+    "                the leaf eval does not price.",
     "  lead_intent  human intent to lead it: avoid | neutral | strong",
     "  conditional   list of {when, ...overrides}: role/value that only exists",
     "                `when` vocabulary is of TWO kinds and they are not",
@@ -74,6 +79,12 @@
     "                Ability is often ORTHOGONAL to the set rather than a set of its",
     "                own \u2014 a Choice Specs Dragapult may run either Infiltrator or",
     "                Clear Body \u2014 so an ability split is recorded at species level in",
+    "                Signatures are NOT always one-dimensional. A set can be defined",
+    "                by a COMBINATION \u2014 a particular move with a particular item, or",
+    "                move+item+ability together \u2014 and two sets may share a move while",
+    "                differing on item, or share an item while differing on ability.",
+    "                Where a single signature cannot separate them, say so in the set",
+    "                fact rather than forcing one dimension to carry the split.",
     "                `ability_split` and mentioned in the fact, not modelled as a",
     "                Some sets have NO positive signature \u2014 an all-out-attacker build",
     "                is defined by what it lacks, and a form item like Wellspring Mask",
@@ -397,7 +408,7 @@
           "note": "Hazard removal is only worth something while the opponent is setting hazards. Against a team that sets none, the removal move is a wasted slot."
         }
       ],
-      "fact": "Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit.",
+      "fact": "Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Great Tusk (gen9ou) \u2014 Offensive Utility / Defensive]: \"Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown\"; also \"a staple on Sticky Web teams\". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover \u2014 a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover \u2014 a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
       "axis": {
         "attacks": "physical",
@@ -413,7 +424,7 @@
           "axis": {
             "attacks": "physical"
           },
-          "fact": "Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal.",
+          "fact": "Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal. The boost applies to its first entry only.",
           "prevalence": 0.28,
           "prevalence_method": "signature"
         },
@@ -431,7 +442,8 @@
           "prevalence": 0.16,
           "prevalence_method": "signature"
         }
-      ]
+      ],
+      "entry_condition": "first_entry_boost"
     },
     "corviknight": {
       "tags": [
@@ -530,11 +542,12 @@
       "requires": "sun",
       "preserve": "med",
       "review": "measured",
-      "fact": "Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone.",
+      "fact": "Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back on Booster Energy when the sun drops \u2014 which is exactly WHY sun tolerates engine piloting (63%) while rain does not (29.2%, benched). Recorded to keep the weather fix from treating all abusers as equally weather-dependent.",
       "axis": {
         "attacks": "special"
-      }
+      },
+      "entry_condition": "first_entry_boost"
     },
     "dragonite": {
       "tags": [
@@ -661,11 +674,12 @@
       "ability": "quarkdrive",
       "preserve": "med",
       "review": "rag-grounded",
-      "fact": "Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted.",
+      "fact": "Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Iron Moth (gen9ou) \u2014 Booster Energy]: the recommended set is Booster Energy with Fiery Dance / Sludge Wave / coverage / Substitute, i.e. the item is spent on entry BY DESIGN to switch on Quark Drive. Consistent with the item-polarity finding (consumption is the point, not a loss). Remaining unpriced question is TIMING \u2014 which entry spends it \u2014 which the eval does not model.",
       "axis": {
         "attacks": "special"
-      }
+      },
+      "entry_condition": "first_entry_boost"
     },
     "tinglu": {
       "tags": [
@@ -781,7 +795,7 @@
       "ability": "quarkdrive",
       "preserve": "med",
       "review": "rag-grounded",
-      "fact": "High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it.",
+      "fact": "High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Iron Valiant (gen9ou)]: \"Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor.\" Booster Energy is its top item by usage \u2014 a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question. [CORRECTED 2026-07-31: I had written a Swords Dance set. Usage says Calm Mind 7.6% against Swords Dance 3.9%, with Encore at 8.8% and Booster Energy on 80% of sets \u2014 the setup set is special, and Encore is the enabler.]",
       "sets": [
         {
@@ -840,14 +854,15 @@
           "axis": {
             "attacks": "mixed"
           },
-          "fact": "Booster Energy on entry with both physical and special attacks, so no single wall answers it.",
+          "fact": "Booster Energy on entry with both physical and special attacks, so no single wall answers it. The boost applies to its first entry only.",
           "prevalence": 0.8,
           "prevalence_method": "signature"
         }
       ],
       "axis": {
         "attacks": "mixed"
-      }
+      },
+      "entry_condition": "first_entry_boost"
     },
     "ragingbolt": {
       "tags": [
@@ -858,7 +873,7 @@
       "preserve": "med",
       "review": "rag-grounded",
       "deployment": "late-cleaner",
-      "fact": "Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing.",
+      "fact": "Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak.",
       "axis": {
         "attacks": "special"
@@ -890,7 +905,8 @@
           "prevalence": 0.04,
           "prevalence_method": "signature"
         }
-      ]
+      ],
+      "entry_condition": "first_entry_boost"
     },
     "zamazenta": {
       "tags": [
@@ -1133,7 +1149,7 @@
       "lead_intent": "strong",
       "review": "rag-grounded",
       "deployment": "lead",
-      "fact": "Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Quark Drive raises a stat on entry.",
+      "fact": "Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.",
       "axis": {
         "attacks": "physical"
@@ -1149,7 +1165,7 @@
           "axis": {
             "attacks": "physical"
           },
-          "fact": "Booster Energy makes it fast enough to set or remove hazards before most leads act.",
+          "fact": "Booster Energy makes it fast enough to set or remove hazards before most leads act. The boost applies to its first entry only.",
           "deployment": "lead",
           "prevalence": 0.34,
           "prevalence_method": "signature"
@@ -1168,7 +1184,8 @@
           "prevalence": 0.34,
           "prevalence_method": "signature"
         }
-      ]
+      ],
+      "entry_condition": "first_entry_boost"
     },
     "kyurem": {
       "tags": [
