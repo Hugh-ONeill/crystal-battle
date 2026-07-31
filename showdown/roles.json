@@ -69,6 +69,13 @@
     "                'wall' or 'setup-sweeper' tag leaves out the thing that decides",
     "                whether it checks the mon in front of it. Set per-set where a",
     "                species splits: Kyurem's Choice Specs set attacks specially",
+    "                `defends` belongs on anything that WALLS \u2014 it is the field that",
+    "                says what the mon actually checks, and a bare 'wall' tag without",
+    "                it is close to useless. It does NOT belong on an offensive pivot,",
+    "                which switches for momentum rather than to absorb a side. Read it",
+    "                off the EV spread: Slowking-Galar's 252 HP / 252 SpD spreads make",
+    "                it a SPECIAL wall on both its sets, while Corviknight's Impish",
+    "                248 / 252 Def makes it a physical one.",
     "                while its Dragon Dance set attacks physically.",
     "  sets          for species that genuinely split into different Pokemon",
     "                Each set may carry `prevalence`: roughly what fraction of that",
@@ -294,7 +301,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "special"
           },
           "fact": "Assault Vest adds special bulk at the cost of its status moves, so it checks attackers rather than pivoting.",
           "prevalence": 0.24,
@@ -307,7 +315,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "special"
           },
           "fact": "Boots plus Regenerator and Chilly Reception make every switch nearly free.",
           "deployment": "pivot-cycle",
@@ -388,7 +397,8 @@
           "deployment": "pivot-cycle",
           "fact": "Thunder Wave or Will-O-Wisp inflicts status, then Hex doubles in power against the statused target.",
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "special"
           },
           "prevalence": 0.12,
           "prevalence_method": "signature"
@@ -458,7 +468,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Bulk Up raises Attack and Defence together so it can boost while absorbing physical hits.",
           "deployment": "setup-window",
@@ -473,7 +484,8 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Rocky Helmet with a bulky spread, punishing contact while spinning hazards away across the game.",
           "prevalence": 0.18,
@@ -523,7 +535,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "deployment": "pivot-cycle",
           "fact": "Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards. Item choice splits between Rocky Helmet, which punishes contact, and Leftovers for passive recovery; both play the same defensive role.",
@@ -663,7 +676,8 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.",
           "deployment": "pivot-cycle",
@@ -869,7 +883,8 @@
             "status-spreader"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "physical"
           },
           "fact": "Boots and recovery let it come in repeatedly to spread poison and confusion.",
           "deployment": "pivot-cycle",
@@ -1046,7 +1061,8 @@
             "wincon"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Iron Defense with Body Press turns its Defence into offence, a win condition that needs several turns.",
           "deployment": "setup-window",
@@ -1237,7 +1253,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "physical"
           },
           "fact": "Healing Wish trades it away to restore a teammate to full HP and clear their status.",
           "deployment": "bait-switch",
@@ -1251,7 +1268,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "special"
           },
           "fact": "Calm Mind raises both special stats behind Magic Bounce, turning it into a win condition.",
           "deployment": "setup-window",
@@ -1264,7 +1282,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "physical"
           },
           "fact": "Pain Split averages HP with the target, giving it recovery it otherwise lacks.",
           "deployment": "bait-switch",
@@ -1312,7 +1331,8 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Leftovers and bulk let it keep removing hazards across the game rather than once.",
           "deployment": "pivot-cycle",
@@ -1384,7 +1404,8 @@
           "deployment": "pivot-cycle",
           "fact": "Substitute on a predicted switch blocks status and chip, and Protect with Leftovers stalls further while Freeze-Dry and Earth Power attack from behind it.",
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "special"
           },
           "prevalence": 0.26,
           "prevalence_method": "signature"
@@ -1458,7 +1479,8 @@
             "hazard-setter"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "special"
           },
           "fact": "Assault Vest adds special bulk so it can keep setting Spikes across the game.",
           "prevalence": 0.38,
@@ -1547,7 +1569,8 @@
             "glue"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Rocky Helmet punishes contact while Intimidate and bulk let it check physical attackers repeatedly.",
           "deployment": "pivot-cycle",
@@ -1602,7 +1625,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "physical"
           },
           "fact": "Wish heals a teammate and Flip Turn pivots out, so its bulk is spent supporting the side rather than itself.",
           "deployment": "pivot-cycle",
@@ -1615,7 +1639,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "special"
           },
           "fact": "Assault Vest trades its status moves for special bulk, so it walls attackers but can no longer pass Wish.",
           "prevalence": 0.27,
@@ -1712,7 +1737,8 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "special"
+            "attacks": "special",
+            "defends": "physical"
           },
           "fact": "Roost with bulk lets it check physical attackers repeatedly and pivot with Volt Switch.",
           "deployment": "pivot-cycle",
@@ -1765,7 +1791,8 @@
             "wincon"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Iron Defense with Body Press converts Defence into attacking power over several turns.",
           "deployment": "setup-window",
@@ -1779,7 +1806,8 @@
             "wincon"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "physical"
           },
           "fact": "Curse trades Speed for Attack and Defence, a slower but self-sufficient win condition.",
           "deployment": "setup-window",
@@ -1793,7 +1821,8 @@
             "wall"
           ],
           "axis": {
-            "attacks": "physical"
+            "attacks": "physical",
+            "defends": "special"
           },
           "fact": "A support build that sets Stealth Rock and chips with Salt Cure instead of setting up.",
           "prevalence": 0.53,

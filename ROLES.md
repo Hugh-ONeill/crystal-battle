@@ -64,11 +64,11 @@ Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its S
 
 > Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal. The boost applies to its first entry only.
 
-**Set — Bulk Up** *(~16% of sets)*: **tags** setup-sweeper, wall · **axis** attacks physical · **deployment** setup-window
+**Set — Bulk Up** *(~16% of sets)*: **tags** setup-sweeper, wall · **axis** attacks physical, defends physical · **deployment** setup-window
 
 > Bulk Up raises Attack and Defence together so it can boost while absorbing physical hits.
 
-**Set — Defensive** *(~18% of sets)*: **tags** wall, hazard-removal, pivot · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Defensive** *(~18% of sets)*: **tags** wall, hazard-removal, pivot · **axis** attacks physical, defends physical · **deployment** pivot-cycle
 
 > Rocky Helmet with a bulky spread, punishing contact while spinning hazards away across the game.
 
@@ -112,7 +112,7 @@ Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin
 
 > A Choice Scarf makes it fast enough to revenge-kill, and Trick can pass that Scarf to a wall to cripple it.
 
-**Set — Status Hex** *(~12% of sets)*: **tags** status-spreader, wall · **axis** attacks special · **preserve** med · **deployment** pivot-cycle
+**Set — Status Hex** *(~12% of sets)*: **tags** status-spreader, wall · **axis** attacks special, defends special · **preserve** med · **deployment** pivot-cycle
 
 > Thunder Wave or Will-O-Wisp inflicts status, then Hex doubles in power against the statused target.
 
@@ -136,7 +136,7 @@ Multiscale halves incoming damage only at full HP, so it needs an undamaged entr
 
 > Dragon Dance raises Attack and Speed behind Multiscale, then Extreme Speed cleans up.
 
-**Set — Bulky Phazer** *(~14% est. of sets)*: **tags** wall, pivot · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Bulky Phazer** *(~14% est. of sets)*: **tags** wall, pivot · **axis** attacks physical, defends physical · **deployment** pivot-cycle
 
 > Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.
 
@@ -218,7 +218,7 @@ RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is use
 
 Dauntless Shield raises its Defense on entry. Bulk and typing let it check many physical attackers, so teams are often built expecting it to hold that job all game.
 
-**Set — IronPress** *(~61% of sets)*: **tags** wall, wincon · **axis** attacks physical · **deployment** setup-window
+**Set — IronPress** *(~61% of sets)*: **tags** wall, wincon · **axis** attacks physical, defends physical · **deployment** setup-window
 
 > Iron Defense with Body Press turns its Defence into offence, a win condition that needs several turns.
 
@@ -299,15 +299,15 @@ RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: "Infiltrator is the pr
 
 Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazards rather than removing them — it must be in play when the setter acts. Healing Wish trades it away to fully restore a teammate.
 
-**Set — Healing Wish** *(~35% of sets)*: **tags** sacrificial-support, wall · **axis** attacks special · **deployment** bait-switch
+**Set — Healing Wish** *(~35% of sets)*: **tags** sacrificial-support, wall · **axis** attacks special, defends physical · **deployment** bait-switch
 
 > Healing Wish trades it away to restore a teammate to full HP and clear their status.
 
-**Set — Calm Mind** *(~22% of sets)*: **tags** setup-sweeper, wall · **axis** attacks special · **deployment** setup-window
+**Set — Calm Mind** *(~22% of sets)*: **tags** setup-sweeper, wall · **axis** attacks special, defends special · **deployment** setup-window
 
 > Calm Mind raises both special stats behind Magic Bounce, turning it into a win condition.
 
-**Set — Pain Split** *(~23% of sets)*: **tags** wall · **axis** attacks special · **deployment** bait-switch
+**Set — Pain Split** *(~23% of sets)*: **tags** wall · **axis** attacks special, defends physical · **deployment** bait-switch
 
 > Pain Split averages HP with the target, giving it recovery it otherwise lacks.
 
@@ -329,7 +329,7 @@ RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies h
 
 Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.
 
-**Set — Defensive** *(~100% est. of sets)*: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Defensive** *(~100% est. of sets)*: **tags** hazard-removal, pivot, wall · **axis** attacks physical, defends physical · **deployment** pivot-cycle
 
 > Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards. Item choice splits between Rocky Helmet, which punishes contact, and Leftovers for passive recovery; both play the same defensive role.
 
@@ -349,11 +349,11 @@ RAG-grounded [smogon#Corviknight (gen9ou) — Defensive]: "Defog allows Corvikni
 
 Regenerator restores a third of its HP whenever it switches out, so repeated entries cost it almost nothing. Chilly Reception switches it out while setting snow, and Future Sight lands two turns later so it threatens even after leaving the field.
 
-**Set — Assault Vest** *(~24% of sets)*: **tags** wall · **axis** attacks special
+**Set — Assault Vest** *(~24% of sets)*: **tags** wall · **axis** attacks special, defends special
 
 > Assault Vest adds special bulk at the cost of its status moves, so it checks attackers rather than pivoting.
 
-**Set — Defensive Pivot** *(~50% of sets)*: **tags** pivot, wall · **axis** attacks special · **deployment** pivot-cycle
+**Set — Defensive Pivot** *(~50% of sets)*: **tags** pivot, wall · **axis** attacks special, defends special · **deployment** pivot-cycle
 
 > Boots plus Regenerator and Chilly Reception make every switch nearly free.
 
@@ -389,7 +389,7 @@ Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. 
 
 > Booster Energy makes it fast enough to set or remove hazards before most leads act. The boost applies to its first entry only.
 
-**Set — Utility** *(~34% of sets)*: **tags** hazard-removal, pivot · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Utility** *(~34% of sets)*: **tags** hazard-removal, pivot · **axis** attacks physical, defends physical · **deployment** pivot-cycle
 
 > Leftovers and bulk let it keep removing hazards across the game rather than once.
 
@@ -417,7 +417,7 @@ High mixed offense across several very different sets, so which set it is change
 
 > Dragon Dance raises Attack and Speed, and Loaded Dice makes Icicle Spear and Scale Shot hit four or five times reliably.
 
-**Set — Substitute** *(~26% of sets)*: **tags** wall, wallbreaker · **axis** attacks special · **preserve** med · **deployment** pivot-cycle
+**Set — Substitute** *(~26% of sets)*: **tags** wall, wallbreaker · **axis** attacks special, defends special · **preserve** med · **deployment** pivot-cycle
 
 > Substitute on a predicted switch blocks status and chip, and Protect with Leftovers stalls further while Freeze-Dry and Earth Power attack from behind it.
 
@@ -445,7 +445,7 @@ Ceaseless Edge sets Spikes as part of an attack, so it lays hazards even through
 
 > A Choice Scarf lets it revenge-kill while still setting Spikes through Ceaseless Edge.
 
-**Set — Assault Vest** *(~38% of sets)*: **tags** wall, hazard-setter · **axis** attacks physical
+**Set — Assault Vest** *(~38% of sets)*: **tags** wall, hazard-setter · **axis** attacks physical, defends special
 
 > Assault Vest adds special bulk so it can keep setting Spikes across the game.
 
@@ -501,7 +501,7 @@ richwoman's most-used lead by a distance (45 of her games) and the anchor of the
 
 Intimidate lowers the opposing Attack every time it enters, so repeated switch-ins compound the effect. U-turn pivots; Earthquake and Stealth Rock add utility.
 
-**Set — Defensive** *(~61% of sets)*: **tags** wall, pivot, glue · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Defensive** *(~61% of sets)*: **tags** wall, pivot, glue · **axis** attacks physical, defends physical · **deployment** pivot-cycle
 
 > Rocky Helmet punishes contact while Intimidate and bulk let it check physical attackers repeatedly.
 
@@ -559,7 +559,7 @@ Poison Puppeteer confuses any foe it poisons. Bulk and recovery let it stall and
 
 > Nasty Plot turns it from a status spreader into an attacker behind its bulk.
 
-**Set — Pivot** *(~52% of sets)*: **tags** wall, status-spreader · **axis** attacks special · **deployment** pivot-cycle
+**Set — Pivot** *(~52% of sets)*: **tags** wall, status-spreader · **axis** attacks special, defends physical · **deployment** pivot-cycle
 
 > Boots and recovery let it come in repeatedly to spread poison and confusion.
 
@@ -599,11 +599,11 @@ RAG-grounded [smogon#Iron Moth (gen9ou) — Booster Energy]: the recommended set
 
 Regenerator restores HP on switch out and Wish heals a teammate, so it is a healing source for the whole side rather than only itself. Flip Turn pivots.
 
-**Set — WishFish** *(~72% of sets)*: **tags** pivot, annuity, wall · **axis** attacks special · **deployment** pivot-cycle
+**Set — WishFish** *(~72% of sets)*: **tags** pivot, annuity, wall · **axis** attacks special, defends physical · **deployment** pivot-cycle
 
 > Wish heals a teammate and Flip Turn pivots out, so its bulk is spent supporting the side rather than itself.
 
-**Set — Assault Vest** *(~27% of sets)*: **tags** wall · **axis** attacks special
+**Set — Assault Vest** *(~27% of sets)*: **tags** wall · **axis** attacks special, defends special
 
 > Assault Vest trades its status moves for special bulk, so it walls attackers but can no longer pass Wish.
 
@@ -687,7 +687,7 @@ RAG-grounded [smogon#Rillaboom (gen9ou) — Utility]: Grassy Terrain is describe
 
 Volt Switch pivots while Roost restores HP, so it re-enters many times a game. Heavy-Duty Boots let it ignore entry hazards while doing so.
 
-**Set — Defensive** *(~81% of sets)*: **tags** wall, pivot · **axis** attacks special · **deployment** pivot-cycle
+**Set — Defensive** *(~81% of sets)*: **tags** wall, pivot · **axis** attacks special, defends physical · **deployment** pivot-cycle
 
 > Roost with bulk lets it check physical attackers repeatedly and pivot with Volt Switch.
 
@@ -735,15 +735,15 @@ RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: "Focus Sash guarant
 
 Purifying Salt blocks status. Iron Defense with Body Press converts its Defense into attacking power, while Salt Cure chips and Recover sustains — a slow plan that needs several turns to pay off.
 
-**Set — Iron Defense** *(~25% of sets)*: **tags** wall, wincon · **axis** attacks physical · **deployment** setup-window
+**Set — Iron Defense** *(~25% of sets)*: **tags** wall, wincon · **axis** attacks physical, defends physical · **deployment** setup-window
 
 > Iron Defense with Body Press converts Defence into attacking power over several turns.
 
-**Set — Curse** *(~16% of sets)*: **tags** wall, wincon · **axis** attacks physical · **deployment** setup-window
+**Set — Curse** *(~16% of sets)*: **tags** wall, wincon · **axis** attacks physical, defends physical · **deployment** setup-window
 
 > Curse trades Speed for Attack and Defence, a slower but self-sufficient win condition.
 
-**Set — Stealth Rock** *(~53% of sets)*: **tags** hazard-setter, wall · **axis** attacks physical
+**Set — Stealth Rock** *(~53% of sets)*: **tags** hazard-setter, wall · **axis** attacks physical, defends special
 
 > A support build that sets Stealth Rock and chips with Salt Cure instead of setting up.
 
