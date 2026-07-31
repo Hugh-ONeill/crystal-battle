@@ -305,9 +305,9 @@ RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies h
 
 Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.
 
-**Set — Defensive** *(~77% of sets)*: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Defensive**: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
 
-> Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards.
+> Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards. Item choice splits between Rocky Helmet, which punishes contact, and Leftovers for passive recovery; both play the same defensive role.
 
 **Conditional — `opponent_has:hazard-setter`:** preserve → high
 
@@ -433,9 +433,9 @@ Court Change swaps all side conditions, moving hazards onto the opponent instead
 
 > Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent.
 
-**Set — Bulky Pivot** *(~0% of sets)*: **tags** pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Choice Band** *(~7% of sets)*: **tags** wallbreaker, pivot · **axis** attacks physical
 
-> A bulkier spread that trades immediate damage for the ability to keep pivoting and using Court Change late.
+> A Choice Band build that locks in for immediate power, still able to U-turn out of a bad lock.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 

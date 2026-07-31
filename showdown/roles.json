@@ -454,8 +454,8 @@
             "attacks": "physical"
           },
           "deployment": "pivot-cycle",
-          "fact": "Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards.",
-          "prevalence": 0.77
+          "fact": "Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards. Item choice splits between Rocky Helmet, which punishes contact, and Leftovers for passive recovery; both play the same defensive role.",
+          "prevalence": null
         }
       ],
       "ability_split": {
@@ -1275,17 +1275,17 @@
           "fact": "Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent."
         },
         {
-          "name": "Bulky Pivot",
+          "name": "Choice Band",
           "tags": [
-            "pivot",
-            "wall"
+            "wallbreaker",
+            "pivot"
           ],
           "axis": {
             "attacks": "physical"
           },
-          "deployment": "pivot-cycle",
-          "prevalence": 0.0,
-          "fact": "A bulkier spread that trades immediate damage for the ability to keep pivoting and using Court Change late."
+          "deployment": null,
+          "prevalence": 0.07,
+          "fact": "A Choice Band build that locks in for immediate power, still able to U-turn out of a bad lock."
         }
       ],
       "ability_split": {
