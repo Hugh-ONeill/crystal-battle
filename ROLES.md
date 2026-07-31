@@ -1,6 +1,6 @@
 # Role annotations — review copy
 
-Generated from `showdown/roles.json` (34 entries). **Edit the JSON, not this file.**
+Generated from `showdown/roles.json` (42 entries). **Edit the JSON, not this file.**
 
 Nothing consumes these yet. **The plain paragraph under each entry is the `fact`** — the only field a consumer would ever be shown. It is written to stand alone: present tense, mechanically true, no named opponents, no references to other entries. Everything about where a claim came from lives in the collapsed provenance block, which no consumer sees.
 
@@ -45,9 +45,17 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 7.0% | **zapdos** ✳ | Smogon-cited | special/physical | med | pivot-cycle | pivot |
 | 6.3% | **deoxysspeed** ✳ | Smogon-cited | special | low | lead | suicide-lead, screens-setter, hazard-setter |
 | 6.2% | **garganacl** ✳ ▸ | Smogon-cited | physical/physical | high | setup-window | wall, wincon |
+| 6.1% | **heatran** ✳ ▸ | Smogon-cited | special/special | med | — | special-wall, stallbreaker, hazard-setter |
+| 5.6% | **primarina** ✳ | Smogon-cited | special/special | med | — | special-tank, wallbreaker |
+| 5.0% | **clefable** ✳ | Smogon-cited | physical | med | — | wall, hazard-setter |
+| 4.8% | **enamorus** ✳ | Smogon-cited | special | med | — | wallbreaker, support |
+| 4.7% | **moltres** | Smogon-cited | physical | med | — | wall, pivot, disruptor |
 | 4.7% | **pelipper** | measured here | physical | high | lead | weather-setter |
+| 3.9% | **ironcrown** ✳ | Smogon-cited | special | med | — | pivot, setup-sweeper, wallbreaker |
 | 3.3% | **torkoal** | measured here | physical | med | lead | weather-setter |
+| 3.2% | **ursaluna** ▸ | Smogon-cited | physical | med | bait-switch | wallbreaker |
 | 2.6% | **barraskewda** | measured here | physical | med | — | weather-abuser, sweeper |
+| 1.8% | **skarmory** ✳ | Smogon-cited | physical | high | — | wall, hazard-setter |
 | 1.8% | **grimmsnarl** | Smogon-cited | special | low | lead | suicide-lead, screens-setter |
 
 ⚡ = value is conditional  ✳ = splits into distinct sets  ▸ = has a written play sequence
@@ -808,6 +816,111 @@ RAG-grounded [smogon#Garganacl (gen9ou) — Iron Defense]: "With fantastic bulk,
 
 </details>
 
+### heatran — 6.1% usage · *Smogon-cited*
+
+**tags** special-wall, stallbreaker, hazard-setter · **axis** attacks special, defends special · **preserve** med
+
+A Fire/Steel glue mon whose signature play kills walls: Magma Storm traps the target in place and chips it every turn, Taunt shuts off its recovery, and the wall dies inside the storm unable to switch or heal. It also sets Stealth Rock, threatens the common removers, and checks big special attackers. Flash Fire (88%) means a Fire move into it is a free boost for it; Air Balloon variants (25% of items) enter immune to Ground moves and Spikes until the balloon is popped.
+
+**Set — Specially Defensive** *(~55% est. of sets)*: **tags** special-wall, hazard-setter · **axis** attacks special, defends special
+
+> Max-HP frame that walls special attackers while stallbreaking.
+
+**Set — Offensive** *(~40% est. of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Max-Speed max-SpA frame: same trap kit, real damage, no bulk.
+
+**The play:**
+
+1. come in on a special wall, a Fire move, or (with Balloon) a Ground move
+2. Magma Storm as it stays or heals: it is now trapped
+3. Taunt: no recovery, no pivot, no status back
+4. the storm plus Earth Power finish it — the wall never leaves
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. The two smogon sets share items AND core moves — flagged estimate, the shape the user named for non-separable splits. Magma Storm 78 / Taunt 55 / Stealth Rock 62 marginals.
+
+</details>
+
+### primarina — 5.6% usage · *Smogon-cited*
+
+**tags** special-tank, wallbreaker · **axis** attacks special, defends special · **preserve** med
+
+A Water/Fairy special tank that trades hits rather than walls: it checks big special attackers while 2HKOing back. Psychic Noise blocks its target's healing for the turn, which is how it chips walls down. Whirlpool variants trap a wall and win the 1v1. Flip Turn makes it a slow pivot into its breakers.
+
+**Set — Assault Vest** *(~48% of sets)*: **tags** special-tank, pivot · **axis** attacks special, defends special
+
+> The vest build eats special hits it has no business surviving.
+
+**Set — Calm Mind Leftovers** *(~28% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks special · **deployment** setup-window
+
+> Calm Mind behind its natural bulk turns it into a slow win-condition that walls special setup mirrors via raw stats.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. AV 48% item-signature; ability split is orthogonal (Liquid Voice only matters on Psychic Noise-as-STAB builds).
+
+</details>
+
+### clefable — 5.0% usage · *Smogon-cited*
+
+**tags** wall, hazard-setter · **axis** defends physical · **preserve** med
+
+A Fairy wall whose ABILITY is the real set split. Magic Guard (71%): takes zero damage from hazards, status, weather, and Rocky Helmet-style chip — it switches into Stealth Rock and Spikes for free, poison does nothing, and only direct attacks touch it. Unaware (28%): ignores the opponent's stat boosts entirely, walling setup sweepers at +6 as if they were at +0. Both frames run Moonblast plus recovery; Magic Guard builds usually carry Stealth Rock or Calm Mind, and Knock Off/Thunder Wave for utility.
+
+**Set — Utility (Magic Guard)** *(~40% of sets)*: **tags** wall, hazard-setter · **axis** defends physical
+
+> Rocks + Moonlight + a utility move; immune to chip war attrition.
+
+**Set — Calm Mind (Magic Guard)** *(~37% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks special, defends physical · **deployment** setup-window
+
+> Calm Mind behind chip-immunity: nothing passive can stop the accumulation, only direct super-effective damage or Haze.
+
+**Set — Unaware wall** *(~28% of sets)*: **tags** wall · **axis** defends physical
+
+> The anti-setup answer: boosts simply do not exist against it.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Ability split doubles as the set split (the ironvaliant lesson does NOT apply here — Magic Guard vs Unaware genuinely define different sets, unlike orthogonal ability cosmetics). CM 37% crosses only the Magic Guard side per the smogon analyses.
+
+</details>
+
+### enamorus — 4.8% usage · *Smogon-cited*
+
+**tags** wallbreaker, support · **axis** attacks special · **preserve** med
+
+A special Fairy wallbreaker whose two builds run the SAME four moves (Moonblast, Earth Power, Mystical Fire, Healing Wish) — only the item changes the job. Contrary inverts stat drops, so Intimidate-style drops and its own Superpower raise it instead. Healing Wish lets it sacrifice itself late to fully restore a teammate, so a low-HP Enamorus is still worth a full heal.
+
+**Set — Choice Scarf** *(~57% of sets)*: **tags** cleaner, revenge-killer · **axis** attacks special · **preserve** med
+
+> Scarf makes it speed control: it outspeeds and revenge-kills fast threats, then often ends the game as a Healing Wish battery for a worn sweeper.
+
+**Set — Choice Specs** *(~18% of sets)*: **tags** wallbreaker · **axis** attacks special · **preserve** med
+
+> Specs Moonblast 2HKOes bulky pivots; Earth Power and Mystical Fire cover the Steels and Poisons that resist it.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal.
+
+</details>
+
+### moltres — 4.7% usage · *Smogon-cited*
+
+**tags** wall, pivot, disruptor · **axis** defends physical · **preserve** med
+
+A defensive Fire/Flying pivot: Will-O-Wisp cripples physical attackers (and, being a status move, cannot be Sucker Punched), Flame Body threatens a burn on every contact hit against it, U-turn keeps momentum, and Roar throws out anything that tries to set up on it, cashing hazard chip on the replacement. Boots make it indifferent to hazards itself; its checks are strong special attacks, Electric- and Rock-type moves, and Knock Off removing the Boots.
+
+*Single build.* One build: defensive Heavy-Duty Boots (95%), Flame Body (98%).
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Boots 95 / Flame Body 98 / Roost 95 / U-turn 77 / Roar 50 marginals; single smogon Defensive analysis.
+
+</details>
+
 ### pelipper — 4.7% usage · *measured here*
 
 **tags** weather-setter · **axis** defends physical · **ability** drizzle · **preserve** high · **deployment** lead · **lead_intent** strong · **resource** rain
@@ -819,6 +932,30 @@ Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.
+
+</details>
+
+### ironcrown — 3.9% usage · *Smogon-cited*
+
+**tags** pivot, setup-sweeper, wallbreaker · **axis** attacks special · **preserve** med
+
+A special Steel/Psychic attacker with three genuinely distinct builds separated by item. Tachyon Cutter hits twice, so Focus Sash and Substitute do not protect against it. Focus Blast is its way past Steels and Ting-Lu; Tera Fighting/Fairy commonly turns its Dark weakness into a resistance mid-sweep.
+
+**Set — Choice Specs** *(~31% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Specs with Volt Switch pivoting — it hits hard and leaves.
+
+**Set — Calm Mind + Booster Energy** *(~31% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks special · **deployment** setup-window
+
+> Booster Energy is consumed on its FIRST entry for a one-time Speed boost; a Calm Mind behind that makes it a late-game sweeper. Re-entering later has no boost left.
+
+**Set — Assault Vest** *(~24% of sets)*: **tags** pivot, special-check · **axis** attacks special, defends special
+
+> The vest build checks strong special attackers and pivots with Volt Switch; Future Sight variants layer delayed damage onto whatever its physical partners force in.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Item three-way split 31/31/24 (specs/booster/vest); Quark Drive 100%.
 
 </details>
 
@@ -836,6 +973,27 @@ same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) be
 
 </details>
 
+### ursaluna — 3.2% usage · *Smogon-cited*
+
+**tags** wallbreaker · **axis** attacks physical · **preserve** med · **deployment** bait-switch · **requires** a free turn to activate Flame Orb before it can breach
+
+A slow, enormous physical wallbreaker on a burn clock: Flame Orb burns it to trigger Guts, after which Facade doubles and very little walls it — but the same burn drains it every turn, so its value decays the longer it stays active. It must take one un-statused turn for the orb to trigger; Protect variants buy that turn safely (and dodge Knock Off), Swords Dance variants spend it boosting into a forced switch. Burn also makes it immune to further status, and on Trick Room teams its low Speed becomes the payoff.
+
+*Single build.* Flame Orb Guts is 91% of items — effectively the only build; the split is Swords Dance (41%) vs Protect (28%) in the last slot.
+
+**The play:**
+
+1. enter on a forced switch or into a passive wall
+2. activate the orb: Protect the first turn (or absorb a status attempt)
+3. from then on Guts Facade 2HKOes most of the tier — trade HP for kills
+4. the burn ticks every turn: it is breaking on a timer, not walling
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28.
+
+</details>
+
 ### barraskewda — 2.6% usage · *measured here*
 
 **tags** weather-abuser, sweeper · **axis** attacks physical · **ability** swiftswim · **preserve** med · **value_curve** decays_with_weather_clock · **requires** rain
@@ -847,6 +1005,28 @@ Swift Swim doubles its Speed in rain, so it outspeeds most of the field only whi
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down.
+
+</details>
+
+### skarmory — 1.8% usage · *Smogon-cited*
+
+**tags** wall, hazard-setter · **axis** defends physical · **preserve** high
+
+A physical wall that sets multiple Spikes layers and heals with Roost. The Iron Defense variant stacks Defense until Body Press — which attacks USING its Defense stat — beats the physical attackers cornering it, becoming a late-game win condition that only taking special hits or Ghosts stop. The Whirlwind variant instead throws boosted sweepers out and drags the replacement onto its own Spikes.
+
+*Single build.* One defensive frame (Sturdy 94%; Rocky Helmet 60% / Covert Cloak 19% / Leftovers 13%) — the real fork is the LAST SLOT: Iron Defense (~50%) makes it a Body Press win-condition, Whirlwind (~40%) makes it a phazer.
+
+**Set — Iron Defense + Body Press** *(~50% of sets)*: **tags** wall, wincon · **axis** attacks physical, defends physical · **deployment** setup-window
+
+> Defense boosts are also attack boosts for Body Press.
+
+**Set — Whirlwind phazer** *(~40% of sets)*: **tags** wall, disruptor · **axis** defends physical
+
+> Whirlwind denies setup outright and cashes Spikes chip on whatever gets dragged in — its turn spent to waste yours.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Slot-4 slash Iron Defense/Whirlwind is the split (50/40 move-signatures on one slot); Spikes 79%, Roost 93%, Body Press 70%.
 
 </details>
 

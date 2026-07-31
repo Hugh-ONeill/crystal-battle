@@ -113,8 +113,12 @@ SYSTEM = (
     "cited roles rule (flags are logged, never applied). You never pick a "
     "move and you have no channel to do so. Hedge: when the reveals do not "
     "clearly separate the worlds, keep weights near-uniform — a confidently "
-    "wrong weight vector is the one failure mode that matters. Respond only "
-    "with the JSON."
+    "wrong weight vector is the one failure mode that matters. A flag's "
+    "'rule' must be an EXISTING roles field cited as '<species>.<field>' "
+    "exactly as shown in the team knowledge (e.g. 'kingambit.value_curve', "
+    "'ceruledge.entry_condition') — invented rule names are discarded "
+    "mechanically, so a flag without a real citation is wasted output. "
+    "Respond only with the JSON."
 )
 
 
