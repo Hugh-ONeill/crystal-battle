@@ -253,7 +253,7 @@ RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical
 
 **tags** pivot, wallbreaker · **axis** attacks mixed · **ability** infiltrator · **preserve** med · **deployment** pivot-cycle
 
-Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes it a momentum pivot rather than a mon to hold back.
+Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes it a momentum pivot rather than a mon to hold back. Roughly a third of sets run Clear Body instead of Infiltrator, trading the ability to bypass Substitutes and screens for immunity to stat drops.
 
 **Set — Choice Specs** *(~33% of sets)*: **tags** wallbreaker · **axis** attacks special
 
@@ -262,10 +262,6 @@ Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes i
 **Set — Boots Pivot** *(~19% of sets)*: **tags** pivot · **axis** attacks mixed · **deployment** pivot-cycle
 
 > Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.
-
-**Set — Clear Body** *(~35% of sets)*: **tags** pivot, wallbreaker · **axis** attacks mixed · **deployment** pivot-cycle
-
-> Clear Body ignores stat drops entirely, trading Infiltrator's ability to bypass Substitutes and screens.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -307,15 +303,11 @@ RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies h
 
 **tags** hazard-removal, pivot, wall · **axis** attacks physical, defends physical · **ability** pressure · **preserve** med · **deployment** pivot-cycle
 
-Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly.
+Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.
 
 **Set — Defensive** *(~77% of sets)*: **tags** hazard-removal, pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
 
 > Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards.
-
-**Set — Mirror Armor** *(~22% of sets)*: **tags** wall, pivot · **axis** attacks physical · **deployment** pivot-cycle
-
-> Mirror Armor reflects stat drops back at the attacker, so Defog and Intimidate users cannot chip its stats; the trade is losing Pressure's PP tax.
 
 **Conditional — `opponent_has:hazard-setter`:** preserve → high
 
@@ -435,11 +427,15 @@ RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: "one of the most prolific entry h
 
 **tags** pivot, hazard-control · **axis** attacks physical · **ability** libero · **preserve** med
 
-Court Change swaps all side conditions, moving hazards onto the opponent instead of clearing them. Libero changes its type to match its move; U-turn pivots.
+Court Change swaps all side conditions, moving hazards onto the opponent instead of clearing them. Libero changes its type to match the move it uses, and U-turn pivots. Roughly a third of sets run Blaze instead of Libero, keeping a fixed Fire typing.
 
-**Set — Blaze** *(~31% of sets)*: **tags** pivot · **axis** attacks physical · **deployment** pivot-cycle
+**Set — Offensive Pivot** *(~83% of sets)*: **tags** pivot, hazard-control · **axis** attacks physical · **deployment** pivot-cycle
 
-> Blaze raises Fire damage at low HP instead of Libero's type change, so it keeps its Fire typing and its weaknesses fixed.
+> Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent.
+
+**Set — Bulky Pivot** *(~0% of sets)*: **tags** pivot, wall · **axis** attacks physical · **deployment** pivot-cycle
+
+> A bulkier spread that trades immediate damage for the ability to keep pivoting and using Court Change late.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -483,7 +479,7 @@ RAG-grounded [smogon#Landorus-Therian (gen9ou)]: "one of OU's premier pivots. It
 
 **tags** setup-sweeper, wincon · **axis** attacks physical · **ability** weakarmor · **preserve** med · **deployment** setup-window · **entry_condition** full_hp · **value_curve** decays_with_chip
 
-Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority.
+Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority. Most sets carry Weak Armor; a minority run Flash Fire instead, which grants a Fire immunity rather than a Speed boost when hit.
 
 **Set — Swords Dance** *(~83% of sets)*: **tags** setup-sweeper, wincon · **axis** attacks physical · **preserve** med · **deployment** setup-window
 

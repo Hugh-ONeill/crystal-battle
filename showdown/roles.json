@@ -71,10 +71,12 @@
     "                divided by 25% (a set holds four moves, so any one move tops",
     "                Three signature kinds, in order of preference: a MOVE unique to",
     "                the set (usage / 25%), else the ITEM (usage directly \u2014 one item",
-    "                per set), else the ABILITY (also direct). Ability is what",
-    "                separates sets that share moves and items: Corviknight splits",
-    "                Pressure 77% / Mirror Armor 22%, Dragapult Infiltrator 63% /",
-    "                Clear Body 35%, Cinderace Libero 69% / Blaze 31%.",
+    "                Ability is often ORTHOGONAL to the set rather than a set of its",
+    "                own \u2014 a Choice Specs Dragapult may run either Infiltrator or",
+    "                Clear Body \u2014 so an ability split is recorded at species level in",
+    "                `ability_split` and mentioned in the fact, not modelled as a",
+    "                separate set. Use it as a signature only when it genuinely",
+    "                identifies one build.",
     "                out near 25%). It is an ESTIMATE, not ground truth \u2014 shared",
     "                moves and four-move overlap blur it \u2014 but it separates a set",
     "                that is nearly universal from one that is fringe. Ceruledge",
@@ -434,7 +436,7 @@
         }
       ],
       "deployment": "pivot-cycle",
-      "fact": "Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly.",
+      "fact": "Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.",
       "provenance": "RAG-grounded [smogon#Corviknight (gen9ou) \u2014 Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover \u2014 a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
       "axis": {
         "attacks": "physical",
@@ -453,24 +455,13 @@
           },
           "deployment": "pivot-cycle",
           "fact": "Pressure makes opponents spend two PP per move, wearing down attackers across long games while Defog clears hazards.",
-          "prevalence": 0.77,
-          "ability": "pressure"
-        },
-        {
-          "name": "Mirror Armor",
-          "tags": [
-            "wall",
-            "pivot"
-          ],
-          "axis": {
-            "attacks": "physical"
-          },
-          "deployment": "pivot-cycle",
-          "fact": "Mirror Armor reflects stat drops back at the attacker, so Defog and Intimidate users cannot chip its stats; the trade is losing Pressure's PP tax.",
-          "prevalence": 0.22,
-          "ability": "mirrorarmor"
+          "prevalence": 0.77
         }
-      ]
+      ],
+      "ability_split": {
+        "pressure": 0.77,
+        "mirrorarmor": 0.22
+      }
     },
     "rillaboom": {
       "tags": [
@@ -599,7 +590,7 @@
         "hold Shadow Sneak in reserve for anything that still outspeeds or carries priority"
       ],
       "sequence_note": "Every step scores badly on its own \u2014 1 HP, no item, lowered Defense \u2014 and only the finished chain is a sweep. Judging any single turn of it in isolation rejects the plan.",
-      "fact": "Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority.",
+      "fact": "Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority. Most sets carry Weak Armor; a minority run Flash Fire instead, which grants a Fire immunity rather than a Speed boost when hit.",
       "provenance": "TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: popping the Sash with weak moves \"would only give it a trouble-free Weak Armor boost\", so the opponent removing the Sash is often GOOD for Ceruledge \u2014 I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend \u2014 it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.] [EXPANDED 2026-07-31 from full multi-angle retrieval: Smogon names TWO sets and I had only the Swords Dance one. The Bulk Up set is a different mon in practice \u2014 it boosts Defence rather than buying a turn with Focus Sash, carries Taunt to stop Defog, and wants screens rather than a clean entry. The sequence recorded on this entry is the Swords Dance line specifically.]",
       "axis": {
         "attacks": "physical"
@@ -618,8 +609,7 @@
           "deployment": "setup-window",
           "entry_condition": "full_hp",
           "fact": "Swords Dance doubles Attack for a fast sweep, with Focus Sash surviving one hit from full HP so the boost can be taken.",
-          "prevalence": 0.83,
-          "ability": "weakarmor"
+          "prevalence": 0.83
         },
         {
           "name": "Bulk Up",
@@ -636,7 +626,11 @@
           "fact": "A minority set. Bulk Up raises Attack and Defence together, so it boosts while absorbing physical hits rather than relying on Focus Sash, and Taunt on this set denies Defog. It appears mainly on hyper-offence and screens teams, where the extra turns make boosting practical.",
           "prevalence": 0.08
         }
-      ]
+      ],
+      "ability_split": {
+        "weakarmor": 0.84,
+        "flashfire": 0.16
+      }
     },
     "ironmoth": {
       "tags": [
@@ -980,7 +974,7 @@
       "preserve": "med",
       "review": "rag-grounded",
       "deployment": "pivot-cycle",
-      "fact": "Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes it a momentum pivot rather than a mon to hold back.",
+      "fact": "Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes it a momentum pivot rather than a mon to hold back. Roughly a third of sets run Clear Body instead of Infiltrator, trading the ability to bypass Substitutes and screens for immunity to stat drops.",
       "provenance": "RAG-grounded [smogon#Dragapult (gen9ou) \u2014 Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.",
       "axis": {
         "attacks": "mixed"
@@ -1007,24 +1001,13 @@
           },
           "fact": "Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.",
           "deployment": "pivot-cycle",
-          "prevalence": 0.19,
-          "ability": "infiltrator"
-        },
-        {
-          "name": "Clear Body",
-          "tags": [
-            "pivot",
-            "wallbreaker"
-          ],
-          "axis": {
-            "attacks": "mixed"
-          },
-          "deployment": "pivot-cycle",
-          "fact": "Clear Body ignores stat drops entirely, trading Infiltrator's ability to bypass Substitutes and screens.",
-          "prevalence": 0.35,
-          "ability": "clearbody"
+          "prevalence": 0.19
         }
-      ]
+      ],
+      "ability_split": {
+        "infiltrator": 0.63,
+        "clearbody": 0.35
+      }
     },
     "hatterene": {
       "tags": [
@@ -1272,26 +1255,43 @@
       "ability": "libero",
       "preserve": "med",
       "review": "rag-grounded",
-      "fact": "Court Change swaps all side conditions, moving hazards onto the opponent instead of clearing them. Libero changes its type to match its move; U-turn pivots.",
+      "fact": "Court Change swaps all side conditions, moving hazards onto the opponent instead of clearing them. Libero changes its type to match the move it uses, and U-turn pivots. Roughly a third of sets run Blaze instead of Libero, keeping a fixed Fire typing.",
       "provenance": "RAG-grounded [smogon#Cinderace (gen9ou) \u2014 Offensive Pivot]: Recommended set is \"Pyro Ball; U-turn; Court Change; ...\" with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT \u2014 it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours.",
       "axis": {
         "attacks": "physical"
       },
       "sets": [
         {
-          "name": "Blaze",
+          "name": "Offensive Pivot",
           "tags": [
-            "pivot"
+            "pivot",
+            "hazard-control"
           ],
           "axis": {
             "attacks": "physical"
           },
           "deployment": "pivot-cycle",
-          "fact": "Blaze raises Fire damage at low HP instead of Libero's type change, so it keeps its Fire typing and its weaknesses fixed.",
-          "prevalence": 0.31,
-          "ability": "blaze"
+          "prevalence": 0.83,
+          "fact": "Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent."
+        },
+        {
+          "name": "Bulky Pivot",
+          "tags": [
+            "pivot",
+            "wall"
+          ],
+          "axis": {
+            "attacks": "physical"
+          },
+          "deployment": "pivot-cycle",
+          "prevalence": 0.0,
+          "fact": "A bulkier spread that trades immediate damage for the ability to keep pivoting and using Court Change late."
         }
-      ]
+      ],
+      "ability_split": {
+        "libero": 0.69,
+        "blaze": 0.31
+      }
     },
     "landorustherian": {
       "tags": [
