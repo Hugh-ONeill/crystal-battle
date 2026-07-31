@@ -104,8 +104,8 @@
       ],
       "preserve": "low",
       "lead_intent": "strong",
-      "evidence": "Toxic Debris + Focus Sash lead; the monotype screens-setter finding generalises \u2014 low-HP team-persistent support (hazards/screens/Tailwind) is role-correct to spend, and treating it as a mon to save is the error.",
-      "review": "unmeasured"
+      "evidence": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).",
+      "review": "rag-grounded"
     },
     "grimmsnarl": {
       "tags": [
@@ -115,8 +115,8 @@
       "ability": "prankster",
       "preserve": "low",
       "lead_intent": "strong",
-      "evidence": "project_monotype_screens_setter_role: screens setters are deliberately expendable; their value is the side condition they leave behind.",
-      "review": "unmeasured"
+      "evidence": "RAG-grounded [smogon#Grimmsnarl (gen9ou) \u2014 Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind \u2014 the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.",
+      "review": "rag-grounded"
     },
     "slowkinggalar": {
       "tags": [
@@ -208,9 +208,9 @@
         "wincon"
       ],
       "ability": "weakarmor",
-      "preserve": "med",
-      "review": "unmeasured",
-      "evidence": "Focus Sash is a one-shot resource in the same family as Multiscale \u2014 consumed by chip, so hazard state silently decides whether the wincon exists. Unmeasured whether our search spends it early."
+      "preserve": "low",
+      "review": "rag-grounded",
+      "evidence": "RAG-CORRECTED [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: my inference said Focus Sash is a resource chip destroys, i.e. preserve it. The analysis says the opposite \u2014 hitting Ceruledge with weak moves \"to pop the item would only give it a trouble-free Weak Armor boost\", so LOSING the Sash is frequently net-positive because Weak Armor triggers on being hit. Sash is insurance for the setup turn, not a resource to protect. preserve lowered to 'low'; the naive 'one-shot item = preserve' generalisation from Multiscale does NOT transfer here."
     },
     "ironmoth": {
       "tags": [
@@ -218,8 +218,8 @@
       ],
       "ability": "quarkdrive",
       "preserve": "med",
-      "review": "unmeasured",
-      "evidence": "Booster Energy is consumed on entry and does not come back; the item-polarity work already established that consuming it is the POINT rather than a loss, but the timing (which entry spends it) is an economics question the eval does not price."
+      "review": "rag-grounded",
+      "evidence": "RAG-grounded [smogon#Iron Moth (gen9ou) \u2014 Booster Energy]: the recommended set is Booster Energy with Fiery Dance / Sludge Wave / coverage / Substitute, i.e. the item is spent on entry BY DESIGN to switch on Quark Drive. Consistent with the item-polarity finding (consumption is the point, not a loss). Remaining unpriced question is TIMING \u2014 which entry spends it \u2014 which the eval does not model."
     },
     "tinglu": {
       "tags": [
