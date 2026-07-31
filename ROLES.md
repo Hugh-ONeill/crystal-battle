@@ -17,9 +17,9 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 |---:|---|---|---|---|---|
 | 32.9% | **greattusk** ⚡ | Smogon-cited | med | — | hazard-removal, wall, pivot |
 | 22.5% | **kingambit** | measured here | high | late-cleaner | cleaner, wincon |
-| 21.9% | **gholdengo** ⚡ | USER-CORRECTED | high | setup-window | setup-sweeper, spinblocker, wallbreaker, glue |
+| 21.9% | **gholdengo** ⚡ ✳ | USER-CORRECTED | high | None | spinblocker, glue |
 | 17.9% | **dragonite** | Smogon-cited | high | setup-window | wincon, setup-sweeper |
-| 15.3% | **ironvaliant** | Smogon-cited | med | — | wallbreaker, setup-sweeper |
+| 15.3% | **ironvaliant** ✳ | Smogon-cited | med | — | wallbreaker, setup-sweeper |
 | 15.3% | **ragingbolt** | Smogon-cited | med | late-cleaner | wallbreaker, priority-attacker |
 | 15.2% | **zamazenta** | Smogon-cited | high | — | wall, wincon, glue |
 | 15.1% | **ogerponwellspring** | Smogon-cited | med | — | wallbreaker, sweeper |
@@ -29,7 +29,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 12.5% | **slowkinggalar** | measured here | med | pivot-cycle | pivot, wall |
 | 11.2% | **gliscor** | measured here | high | pivot-cycle | annuity, wall |
 | 11.0% | **irontreads** | Smogon-cited | med | lead | hazard-removal, hazard-setter, lead |
-| 10.6% | **kyurem** | Smogon-cited | med | — | wallbreaker |
+| 10.6% | **kyurem** ✳ | Smogon-cited | med | — | wallbreaker |
 | 10.3% | **samurotthisui** ⚡ | Smogon-cited | med | lead | hazard-setter, wallbreaker |
 | 10.0% | **cinderace** | Smogon-cited | med | — | pivot, hazard-control |
 | 9.6% | **tinglu** | measured here | med | lead | hazard-setter, wall |
@@ -50,7 +50,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 2.6% | **barraskewda** | measured here | med | — | weather-abuser, sweeper |
 | 1.8% | **grimmsnarl** | Smogon-cited | low | lead | suicide-lead, screens-setter |
 
-⚡ = value depends on the opponent's team ▸ = has a written play sequence
+⚡ = value is conditional  ✳ = splits into distinct sets  ▸ = has a written play sequence
 
 ## Entries
 
@@ -84,17 +84,29 @@ Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored 
 
 ### gholdengo — 21.9% usage · *USER-CORRECTED*
 
-**tags** setup-sweeper, spinblocker, wallbreaker, glue · **ability** goodasgold · **preserve** high · **deployment** setup-window
+**tags** spinblocker, glue · **ability** goodasgold · **preserve** high
 
-Good as Gold makes it immune to status moves, and its Ghost typing blocks Rapid Spin, so hazards on the opposing side survive while it is alive. It is also a primary attacker: Nasty Plot doubles its Special Attack for a Shadow Ball and Make It Rain sweep, Recover sustains it across the game, and Air Balloon gives a temporary Ground immunity. Alternative sets pair Thunder Wave or Will-O-Wisp with Hex, which doubles in power against a statused target, or hold a Choice Scarf and use Trick to hand it to a wall.
+Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin, so hazards its side has set cannot be spun away while it is alive — this is true of every set, being a property of its typing rather than its moves. Air Balloon, its most common item, adds a temporary Ground immunity.
 
-**Conditional — `opponent_has:hazard-removal`:** tags → ['spinblocker', 'setup-sweeper', 'wallbreaker', 'glue']
+**Set — Nasty Plot:** **tags** setup-sweeper, wallbreaker · **preserve** high · **deployment** setup-window
 
-> Its Ghost typing only matters as spinblocking if the opponent actually has a remover to block. Against a team with none, that half of its value is inactive and it is purely an attacker.
+> Nasty Plot doubles its Special Attack, then Shadow Ball and Make It Rain sweep. Recover sustains it across the game.
+
+**Set — Choice Scarf:** **tags** revenge-killer · **preserve** med · **deployment** late-cleaner
+
+> A Choice Scarf makes it fast enough to revenge-kill, and Trick can pass that Scarf to a wall to cripple it.
+
+**Set — Status Hex:** **tags** status-spreader, wall · **preserve** med · **deployment** pivot-cycle
+
+> Thunder Wave or Will-O-Wisp inflicts status, then Hex doubles in power against the statused target.
+
+**Conditional — `board:hazards_up AND opponent_has:hazard-removal`:** 
+
+> The spinblock only cashes in when hazards are actually standing that the other side wants to clear. The typing blocks Rapid Spin regardless, but with an empty field or an opponent carrying no removal it changes nothing, and the mon is being kept for its attacking sets instead.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction — Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it "both a defensive and offensive glue on virtually any team" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy — a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem.
+USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction — Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it "both a defensive and offensive glue on virtually any team" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy — a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem. [Refined 2026-07-31 (user): spinblocking is a TYPING property so the tag is unconditional — what is conditional is whether it matters, which needs hazards actually on the field, not merely a hazard-setter on the roster. Split into per-set entries at the same time.]
 
 </details>
 
@@ -115,6 +127,14 @@ RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy 
 **tags** wallbreaker, setup-sweeper · **ability** quarkdrive · **preserve** med
 
 High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it.
+
+**Set — Choice Specs:** **tags** wallbreaker · **preserve** med
+
+> Choice Specs Moonblast breaks special walls that would otherwise check it.
+
+**Set — Swords Dance:** **tags** setup-sweeper · **preserve** high · **deployment** setup-window
+
+> Swords Dance doubles its Attack for a physical sweep, with Shadow Sneak as priority coverage.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -246,9 +266,21 @@ RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself 
 
 High mixed offense across several very different sets, so which set it is changes what counters it. Freeze-Dry hits Water types super effectively.
 
+**Set — Choice Specs:** **tags** wallbreaker · **preserve** med
+
+> Choice Specs locks it into one move but lets it break walls outright.
+
+**Set — Loaded Dice Icicle Spear:** **tags** wallbreaker · **preserve** med
+
+> A multi-hit physical set that breaks through Substitutes and Focus Sash.
+
+**Set — Substitute Roost:** **tags** wall, setup-sweeper · **preserve** med · **deployment** setup-window
+
+> Substitute and Roost let it wear down passive teams while avoiding status.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work.
+RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.]
 
 </details>
 

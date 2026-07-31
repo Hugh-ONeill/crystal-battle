@@ -64,10 +64,12 @@ def render(doc: dict) -> str:
     for k, v in order:
         u = use.get(k, 0.0)
         cond = " ⚡" if v.get("conditional") else ""
+        multi = " ✳" if v.get("sets") else ""
         seq = " ▸" if v.get("sequence") else ""
-        w(f"| {100*u:.1f}% | **{k}**{cond}{seq} | {GRADE.get(v['review'], v['review'])} "
+        w(f"| {100*u:.1f}% | **{k}**{cond}{multi}{seq} | {GRADE.get(v['review'], v['review'])} "
           f"| {v.get('preserve','—')} | {v.get('deployment','—')} | {', '.join(v['tags'])} |")
-    w("\n⚡ = value depends on the opponent's team ▸ = has a written play sequence\n")
+    w("\n⚡ = value is conditional  ✳ = splits into distinct sets  "
+      "▸ = has a written play sequence\n")
 
     w("## Entries\n")
     for k, v in order:
@@ -81,6 +83,15 @@ def render(doc: dict) -> str:
         w(" · ".join(bits) + "\n")
         if v.get("fact"):
             w(v["fact"] + "\n")
+
+        for st in v.get("sets", []):
+            bits = [f"**tags** {', '.join(st['tags'])}"]
+            for f in ("preserve", "deployment"):
+                if st.get(f):
+                    bits.append(f"**{f}** {st[f]}")
+            w(f"**Set — {st['name']}:** " + " · ".join(bits) + "\n")
+            if st.get("fact"):
+                w(f"> {st['fact']}\n")
 
         if v.get("sequence"):
             w("**The play:**\n")
