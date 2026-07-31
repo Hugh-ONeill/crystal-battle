@@ -61,6 +61,15 @@
     "                it is sent in to INVITE a specific opponent action and punish",
     "                it \u2014 Hatterene switching in on a predicted hazard turn to",
     "                bounce it is the type case, and it is explicitly NOT a lead.",
+    "                Values: lead | bait-switch | pivot-cycle | late-cleaner |",
+    "                sacrifice | setup-window (needs a FREE entry to begin a",
+    "                multi-turn plan \u2014 Ceruledge and Multiscale Dragonite).",
+    "  sequence      the ordered play a mon's value actually comes from, for the",
+    "                cases where no single turn of it looks good. Added 2026-07-31",
+    "                (user): Ceruledge's line deliberately TAKES a hit, so a search",
+    "                scoring each turn on immediate safety declines the whole plan.",
+    "                This is the beyond-horizon knowledge in its most explicit form",
+    "                \u2014 write the chain down rather than hoping depth finds it.",
     "  evidence     the measurement or commit this claim rests on",
     "",
     "REVIEW RULE: an entry without `evidence` is a guess and should not ship.",
@@ -80,7 +89,8 @@
       "preserve": "high",
       "lead_intent": "avoid",
       "evidence": "Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored into threat_vs (c68f15a). Timing instrument: we first deploy it ~T9 with 0.44 allies down and 77% of the time with ZERO down, vs the ladder population's T13.0 / 0.96. fp is equally guilty, so this is absolute strength, not fp-gap.",
-      "review": "measured"
+      "review": "measured",
+      "deployment": "late-cleaner"
     },
     "pelipper": {
       "tags": [
@@ -91,7 +101,8 @@
       "preserve": "high",
       "lead_intent": "strong",
       "evidence": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.",
-      "review": "measured"
+      "review": "measured",
+      "deployment": "lead"
     },
     "barraskewda": {
       "tags": [
@@ -114,7 +125,8 @@
       "preserve": "med",
       "lead_intent": "strong",
       "evidence": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy \u2014 so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.",
-      "review": "measured"
+      "review": "measured",
+      "deployment": "lead"
     },
     "glimmora": {
       "tags": [
@@ -124,7 +136,8 @@
       "preserve": "low",
       "lead_intent": "strong",
       "evidence": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).",
-      "review": "rag-grounded"
+      "review": "rag-grounded",
+      "deployment": "lead"
     },
     "grimmsnarl": {
       "tags": [
@@ -135,7 +148,8 @@
       "preserve": "low",
       "lead_intent": "strong",
       "evidence": "RAG-grounded [smogon#Grimmsnarl (gen9ou) \u2014 Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind \u2014 the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.",
-      "review": "rag-grounded"
+      "review": "rag-grounded",
+      "deployment": "lead"
     },
     "slowkinggalar": {
       "tags": [
@@ -146,7 +160,8 @@
       "preserve": "med",
       "lead_intent": "neutral",
       "evidence": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) \u2014 the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed.",
-      "review": "measured"
+      "review": "measured",
+      "deployment": "pivot-cycle"
     },
     "gholdengo": {
       "tags": [
@@ -176,7 +191,8 @@
       "value_curve": "grows_with_own_status",
       "preserve": "high",
       "review": "measured",
-      "evidence": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play."
+      "evidence": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play.",
+      "deployment": "pivot-cycle"
     },
     "greattusk": {
       "tags": [
@@ -212,7 +228,8 @@
           "preserve": "high",
           "note": "Removal is only a team-persistent resource when they are actually setting. Still carries the unresolved SOLE-REMOVER caveat: value also depends on whether OUR team has another remover, a team property this per-species file cannot express."
         }
-      ]
+      ],
+      "deployment": "pivot-cycle"
     },
     "rillaboom": {
       "tags": [
@@ -245,7 +262,8 @@
       "entry_condition": "full_hp",
       "value_curve": "decays_with_chip",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets \"give Dragonite easy setup opportunities\" and let it check Ogerpon-W, Iron Moth and Rillaboom, \"with Multiscale intact\". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up \u2014 which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep."
+      "evidence": "RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets \"give Dragonite easy setup opportunities\" and let it check Ogerpon-W, Iron Moth and Rillaboom, \"with Multiscale intact\". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up \u2014 which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep.",
+      "deployment": "setup-window"
     },
     "ceruledge": {
       "tags": [
@@ -257,7 +275,16 @@
       "entry_condition": "full_hp",
       "value_curve": "decays_with_chip",
       "review": "user-corrected",
-      "evidence": "TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: popping the Sash with weak moves \"would only give it a trouble-free Weak Armor boost\", so the opponent removing the Sash is often GOOD for Ceruledge \u2014 I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend \u2014 it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price."
+      "evidence": "TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: popping the Sash with weak moves \"would only give it a trouble-free Weak Armor boost\", so the opponent removing the Sash is often GOOD for Ceruledge \u2014 I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend \u2014 it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price.",
+      "deployment": "setup-window",
+      "sequence": [
+        "enter at FULL HP on a free switch \u2014 Focus Sash only functions from full, so entry chip cancels the plan",
+        "Swords Dance while they attack or switch",
+        "TAKE the hit: Sash holds at 1 HP, which procs Weak Armor for +Speed (losing the Sash here is the mechanism, not a loss)",
+        "now outspeeding: attack with Bitter Blade, whose drain heals back off 1 HP",
+        "hold Shadow Sneak in reserve for anything that still outspeeds or carries priority"
+      ],
+      "sequence_note": "Every intermediate state scores badly in isolation \u2014 1 HP, no item, minus Defense \u2014 and only the completed chain is a sweep. Same failure family as the Curse/Dondozo accumulation the eval prunes, and as Hatterene's bait-switch: the correct play looks locally unsafe."
     },
     "ironmoth": {
       "tags": [
@@ -277,7 +304,8 @@
       "preserve": "med",
       "lead_intent": "strong",
       "review": "measured",
-      "evidence": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip."
+      "evidence": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip.",
+      "deployment": "lead"
     },
     "deoxysspeed": {
       "tags": [
@@ -288,7 +316,8 @@
       "preserve": "low",
       "lead_intent": "strong",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) \u2014 Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" \u2014 the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve."
+      "evidence": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) \u2014 Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" \u2014 the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve.",
+      "deployment": "lead"
     },
     "pecharunt": {
       "tags": [
@@ -318,7 +347,8 @@
       "ability": "protosynthesis",
       "preserve": "med",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak."
+      "evidence": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak.",
+      "deployment": "late-cleaner"
     },
     "zamazenta": {
       "tags": [
@@ -349,7 +379,8 @@
       "ability": "infiltrator",
       "preserve": "med",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Dragapult (gen9ou) \u2014 Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back."
+      "evidence": "RAG-grounded [smogon#Dragapult (gen9ou) \u2014 Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.",
+      "deployment": "pivot-cycle"
     },
     "hatterene": {
       "tags": [
@@ -386,7 +417,8 @@
       "preserve": "med",
       "lead_intent": "strong",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve."
+      "evidence": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.",
+      "deployment": "lead"
     },
     "kyurem": {
       "tags": [
@@ -413,7 +445,8 @@
           "preserve": "high",
           "note": "Ceaseless Edge sets Spikes THROUGH Magic Bounce and Taunt, so against a Hatterene/Deoxys-style denial team it is the only setter that still functions \u2014 the counter to the counter."
         }
-      ]
+      ],
+      "deployment": "lead"
     },
     "cinderace": {
       "tags": [
@@ -434,7 +467,8 @@
       "ability": "intimidate",
       "preserve": "high",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Landorus-Therian (gen9ou)]: \"one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt.\" Intimidate is a persistent team-wide defensive effect applied on every entry \u2014 an annuity the eval prices only as a one-off stat drop."
+      "evidence": "RAG-grounded [smogon#Landorus-Therian (gen9ou)]: \"one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt.\" Intimidate is a persistent team-wide defensive effect applied on every entry \u2014 an annuity the eval prices only as a one-off stat drop.",
+      "deployment": "pivot-cycle"
     },
     "alomomola": {
       "tags": [
@@ -445,7 +479,8 @@
       "ability": "regenerator",
       "preserve": "high",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Alomomola (gen9ou) \u2014 WishFish (Wish Passer)]: Recommended set is \"Flip Turn; Wish; Protect; Scald / Tickle\" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch \u2014 so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds."
+      "evidence": "RAG-grounded [smogon#Alomomola (gen9ou) \u2014 WishFish (Wish Passer)]: Recommended set is \"Flip Turn; Wish; Protect; Scald / Tickle\" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch \u2014 so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds.",
+      "deployment": "pivot-cycle"
     },
     "darkrai": {
       "tags": [
@@ -455,7 +490,8 @@
       "ability": "baddreams",
       "preserve": "med",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Darkrai (gen9ou) \u2014 Choice Scarf]: \"Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick.\" Trick converts its own item into a liability on their wall \u2014 a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction)."
+      "evidence": "RAG-grounded [smogon#Darkrai (gen9ou) \u2014 Choice Scarf]: \"Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick.\" Trick converts its own item into a liability on their wall \u2014 a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction).",
+      "deployment": "late-cleaner"
     },
     "zapdos": {
       "tags": [
@@ -464,7 +500,8 @@
       "ability": "static",
       "preserve": "med",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Zapdos (gen9ou) \u2014 Offensive]: Recommended set \"Hurricane; Volt Switch; Heat Wave; Roost\" with Heavy-Duty Boots: \"a very proactive Pokemon that can help gain momentum.\" Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes."
+      "evidence": "RAG-grounded [smogon#Zapdos (gen9ou) \u2014 Offensive]: Recommended set \"Hurricane; Volt Switch; Heat Wave; Roost\" with Heavy-Duty Boots: \"a very proactive Pokemon that can help gain momentum.\" Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes.",
+      "deployment": "pivot-cycle"
     },
     "garganacl": {
       "tags": [
@@ -474,7 +511,8 @@
       "ability": "purifyingsalt",
       "preserve": "high",
       "review": "rag-grounded",
-      "evidence": "RAG-grounded [smogon#Garganacl (gen9ou) \u2014 Iron Defense]: \"With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense\" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat \u2014 the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip."
+      "evidence": "RAG-grounded [smogon#Garganacl (gen9ou) \u2014 Iron Defense]: \"With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense\" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat \u2014 the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip.",
+      "deployment": "setup-window"
     }
   }
 }
