@@ -50,6 +50,20 @@ CHAOS = "gen9ou_chaos.json"
 ROLE_QUESTION = ("{species} {fmt} {moves} {ability} set analysis: what does "
                  "{species} do for its team and why does it run that item?")
 
+# One query returns ONE fragment. Analyses are chunked and a top-30 Pokemon
+# carries several sets across several chunks — Great Tusk has 5 chunks / ~4.5k
+# characters spanning Offensive Utility, Defensive and Bulk Up, and a single
+# query surfaced ~300 characters of that. Sweeping several angles and deduping
+# by passage id recovers the whole analysis instead of whichever chunk happened
+# to rank first.
+ANGLES = [
+    "{species} {fmt} {moves} {ability} set analysis: what does it do for its team?",
+    "{species} {fmt} checks and counters: how is it beaten?",
+    "{species} {fmt} teammates and team support",
+    "{species} {fmt} defensive set: bulk, recovery, what it walls",
+    "{species} {fmt} offensive set: setup, coverage, what it breaks",
+]
+
 
 def norm(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", s.lower())
@@ -90,23 +104,31 @@ def chaos_anchor(species: str) -> tuple[str, str]:
 
 
 def species_passages(species: str, fmt: str = "gen9ou") -> list[dict]:
-    """Passages whose SOURCE is this species in this format, best first."""
+    """Every distinct chunk of this species' analysis, best first.
+
+    Sweeps several query angles and dedupes by passage id, because one query
+    returns one fragment of a chunked, multi-set analysis.
+    """
     moves, ability = chaos_anchor(species)
-    d = retrieve(ROLE_QUESTION.format(species=species, fmt=fmt,
-                                      moves=moves, ability=ability))
     want = norm(species)
-    hits = []
-    for p in d.get("passages") or []:
-        src = str(p.get("source", ""))
-        if not src.startswith("smogon#") or fmt not in src:
-            continue
-        # source: "smogon#<Species> (<fmt>) - <SetName>" — match the part
-        # before the format tag so "Great Tusk" cannot match "Iron Treads"
-        head = src.split("(")[0]
-        head = head.split("#", 1)[-1]
-        if norm(head) != want:
-            continue
-        hits.append(p)
+    seen: dict = {}
+    for tmpl in ANGLES:
+        try:
+            d = retrieve(tmpl.format(species=species, fmt=fmt,
+                                     moves=moves, ability=ability))
+        except Exception:
+            continue                      # one bad angle must not lose the rest
+        for p in d.get("passages") or []:
+            src = str(p.get("source", ""))
+            if not src.startswith("smogon#") or fmt not in src:
+                continue
+            # source: "smogon#<Species> (<fmt>) - <SetName>" — match the part
+            # before the format tag so "Great Tusk" cannot match "Iron Treads"
+            head = src.split("(")[0].split("#", 1)[-1]
+            if norm(head) != want:
+                continue
+            seen.setdefault(p["id"], p)
+    hits = list(seen.values())
     hits.sort(key=lambda p: -(p.get("rerank_score") or 0))
     return hits
 
@@ -115,7 +137,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("species", nargs="+")
     ap.add_argument("--format", default="gen9ou")
-    ap.add_argument("--show", type=int, default=2, help="passages per species")
+    ap.add_argument("--show", type=int, default=99, help="passages per species")
     ap.add_argument("--chars", type=int, default=420)
     args = ap.parse_args()
 
@@ -134,7 +156,9 @@ def main():
                   "lacks an analysis for it or the query missed. Leave the "
                   "entry marked unmeasured.")
             continue
-        print(f"\n=== {sp} [{args.format}] — {len(hits)} species-matched passage(s)")
+        sets = sorted({h["source"].split("—")[-1].strip() for h in hits})
+        print(f"\n=== {sp} [{args.format}] — {len(hits)} chunk(s), "
+              f"{sum(len(h['content']) for h in hits)} chars, sets: {', '.join(sets)}")
         for p in hits[: args.show]:
             txt = re.sub(r"\s+", " ", p.get("content", ""))
             print(f"  [{p['source']}]  rerank {p.get('rerank_score', 0):.3f}")
