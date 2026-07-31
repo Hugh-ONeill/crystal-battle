@@ -1,0 +1,117 @@
+{
+  "_comment": [
+    "STARTER SKETCH — nothing reads this yet. Role/economics annotations for",
+    "the mons whose value the leaf eval structurally cannot price.",
+    "",
+    "WHY A DATA FILE AND NOT AN LLM CALL. The knowledge here is ENUMERABLE (a",
+    "few dozen meta mons, each with a stable role), so it belongs in a",
+    "versioned, diffable artifact with zero inference latency — the same call",
+    "made for ps_sets_overrides.json, where a 40-line overlay fixed the",
+    "Kingambit Low Kick blindness that would otherwise have needed a model.",
+    "An LLM+RAG pass over the smogon corpus is a good way to DRAFT this file",
+    "(Phase 0 of the overlay plan) but the artifact is the deliverable, and it",
+    "must be human-reviewed before anything consumes it. Contextual judgements",
+    "that cannot be enumerated ('is THIS Kingambit worth holding on THIS board')",
+    "stay with the search or a later live overlay.",
+    "",
+    "WHY IT EXISTS AT ALL. Three open items are each blocked on the same",
+    "missing fact — which mons are cleaners, which are resource anchors, which",
+    "are meant to lead:",
+    "  1. Kingambit hold-back annuity: the eval now prices Supreme Overlord's",
+    "     fallen-ally scaling (poke-engine c68f15a) but still cannot see the",
+    "     OPPORTUNITY COST of spending the cleaner early; it needs to know the",
+    "     mon is a cleaner at all.",
+    "  2. Weather preservation: measured 43% rain uptime with 41% of Swift Swim",
+    "     moves clicked OUTSIDE rain — the search does not treat the setter's",
+    "     survival as a resource, or the weather clock as a wasting asset.",
+    "  3. Canonical-lead weighting: the preview matrix is nearly flat (row-min",
+    "     spreads 0.01-0.12 at any depth) so lead choice is close to a coin",
+    "     flip among near-ties; paste slot-1 and role are real human priors.",
+    "",
+    "SAFETY CONTRACT: every consumer must degrade to current behaviour on a",
+    "missing entry. This file may only ADD information; it must never be",
+    "required. Absent species = today's engine, unchanged.",
+    "",
+    "SCHEMA (per normalized species; `ability` qualifies when the role depends",
+    "on it, since the same species with another ability is a different mon):",
+    "  tags         role labels, the primary key for consumers",
+    "  ability      role holds only for this ability (omit = any)",
+    "  value_curve  how worth changes over a game: flat | grows_with_own_faints",
+    "               | decays_with_weather_clock | grows_with_hazards",
+    "  preserve     how badly losing it costs beyond its own HP: low|med|high",
+    "  resource     field state this mon CREATES; its death ends it",
+    "  requires     field state this mon NEEDS to be worth its slot",
+    "  lead_intent  human intent to lead it: avoid | neutral | strong",
+    "  evidence     the measurement or commit this claim rests on",
+    "",
+    "REVIEW RULE: an entry without `evidence` is a guess and should not ship.",
+    "Role tags are TESTABLE against behaviour — the Kingambit timing analysis",
+    "(first-entry turn, allies fallen at entry) is the template; a claimed",
+    "'cleaner' whose deployment timing does not move after wiring is a claim",
+    "that failed, not a fact."
+  ],
+
+  "roles": {
+    "kingambit": {
+      "tags": ["cleaner", "wincon"],
+      "ability": "supremeoverlord",
+      "value_curve": "grows_with_own_faints",
+      "preserve": "high",
+      "lead_intent": "avoid",
+      "evidence": "Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored into threat_vs (c68f15a). Timing instrument: we first deploy it ~T9 with 0.44 allies down and 77% of the time with ZERO down, vs the ladder population's T13.0 / 0.96. fp is equally guilty, so this is absolute strength, not fp-gap."
+    },
+
+    "pelipper": {
+      "tags": ["weather-setter"],
+      "ability": "drizzle",
+      "resource": "rain",
+      "preserve": "high",
+      "lead_intent": "strong",
+      "evidence": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype."
+    },
+    "barraskewda": {
+      "tags": ["weather-abuser", "sweeper"],
+      "ability": "swiftswim",
+      "requires": "rain",
+      "value_curve": "decays_with_weather_clock",
+      "preserve": "med",
+      "evidence": "41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down."
+    },
+    "torkoal": {
+      "tags": ["weather-setter"],
+      "ability": "drought",
+      "resource": "sun",
+      "preserve": "med",
+      "lead_intent": "strong",
+      "evidence": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy — so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule."
+    },
+
+    "glimmora": {
+      "tags": ["suicide-lead", "hazard-setter"],
+      "preserve": "low",
+      "lead_intent": "strong",
+      "evidence": "Toxic Debris + Focus Sash lead; the monotype screens-setter finding generalises — low-HP team-persistent support (hazards/screens/Tailwind) is role-correct to spend, and treating it as a mon to save is the error."
+    },
+    "grimmsnarl": {
+      "tags": ["suicide-lead", "screens-setter"],
+      "ability": "prankster",
+      "preserve": "low",
+      "lead_intent": "strong",
+      "evidence": "project_monotype_screens_setter_role: screens setters are deliberately expendable; their value is the side condition they leave behind."
+    },
+
+    "slowkinggalar": {
+      "tags": ["pivot", "wall"],
+      "ability": "regenerator",
+      "preserve": "med",
+      "lead_intent": "neutral",
+      "evidence": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) — the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed."
+    },
+    "gholdengo": {
+      "tags": ["spinblocker"],
+      "ability": "goodasgold",
+      "preserve": "high",
+      "evidence": "richwoman's hazard-stack identity runs Gholdengo as the spinblock behind 3+ SR setters (11/23 of her games); its survival is what makes her chip mechanism work — the mirror of our own removal dependency."
+    }
+  }
+}
