@@ -127,7 +127,8 @@ def species_passages(species: str, fmt: str = "gen9ou") -> list[dict]:
             head = src.split("(")[0].split("#", 1)[-1]
             if norm(head) != want:
                 continue
-            seen.setdefault(p["id"], p)
+            key = p.get("id") or (src, (p.get("content") or "")[:80])
+            seen.setdefault(key, p)
     hits = list(seen.values())
     hits.sort(key=lambda p: -(p.get("rerank_score") or 0))
     return hits
@@ -161,7 +162,7 @@ def main():
               f"{sum(len(h['content']) for h in hits)} chars, sets: {', '.join(sets)}")
         for p in hits[: args.show]:
             txt = re.sub(r"\s+", " ", p.get("content", ""))
-            print(f"  [{p['source']}]  rerank {p.get('rerank_score', 0):.3f}")
+            print(f"  [{p.get('source','?')}]  rerank {p.get('rerank_score', 0):.3f}")
             print(f"    {txt[:args.chars]}...")
     if missing:
         print(f"\n  no evidence found for: {', '.join(missing)}")
