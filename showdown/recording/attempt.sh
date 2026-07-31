@@ -115,9 +115,30 @@ fi
 # the caster ran wall-clock all era and TURN_PACE alone carried sync. The
 # clock service restarts per take while the caster persists; the pts client
 # reconnects and resets its camera gate on feed loss by design.
-up 8131 || { setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS \
-             --pts-url ws://127.0.0.1:8132/ </dev/null \
-             >"$LOGDIR/caster.log" 2>&1 & disown; }
+# The caster persisting across takes means caster.py EDITS DO NOT APPLY until
+# it is bounced — which silently voided a whole evening's guard validation on
+# 2026-07-30 (takes 72-75 ran a caster booted hours earlier; the new guards
+# were never loaded, and their clean hunts proved nothing). Stamp the SHA the
+# running caster was started from so staleness is one visible line instead of
+# something inferred from a missing log suffix. Bouncing is left MANUAL on
+# purpose: killing a caster mid-hunt costs the take in flight, and only the
+# operator knows whether that trade is wanted right now.
+CASTER_STAMP=$LOGDIR/caster.sha
+HEAD_SHA=$(cd "$BC" && git rev-parse --short HEAD 2>/dev/null || echo unknown)
+if up 8131; then
+  RUNNING_SHA=$(cat "$CASTER_STAMP" 2>/dev/null || echo unknown)
+  if [ "$RUNNING_SHA" != "$HEAD_SHA" ]; then
+    log "WARNING: caster is running $RUNNING_SHA but crystal-broadcast HEAD is $HEAD_SHA — caster.py changes are NOT live; bounce it between takes to pick them up"
+  else
+    log "caster reused (crystal-broadcast $RUNNING_SHA, matches HEAD)"
+  fi
+else
+  setsid $PY crystal_broadcast/caster.py $SPEECH_ARGS \
+         --pts-url ws://127.0.0.1:8132/ </dev/null \
+         >"$LOGDIR/caster.log" 2>&1 & disown
+  echo "$HEAD_SHA" > "$CASTER_STAMP"
+  log "caster started fresh (crystal-broadcast $HEAD_SHA)"
+fi
 up 8130 || { setsid $PY crystal_broadcast/commentary_overlay.py </dev/null \
              >"$LOGDIR/feed.log" 2>&1 & disown; }
 up 8127 || { setsid $PY crystal_broadcast/serve_client.py </dev/null \
