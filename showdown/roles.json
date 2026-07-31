@@ -76,6 +76,11 @@
     "                Clear Body \u2014 so an ability split is recorded at species level in",
     "                `ability_split` and mentioned in the fact, not modelled as a",
     "                separate set. Use it as a signature only when it genuinely",
+    "                Some sets have NO positive signature \u2014 an all-out-attacker build",
+    "                is defined by what it lacks, and a form item like Wellspring Mask",
+    "                is on every set. Those carry prevalence null plus a",
+    "                prevalence_note rather than a number derived by subtraction,",
+    "                which would quietly absorb every estimation error in the others.",
     "                identifies one build.",
     "                out near 25%). It is an ESTIMATE, not ground truth \u2014 shared",
     "                moves and four-move overlap blur it \u2014 but it separates a set",
@@ -948,7 +953,8 @@
           "preserve": "med",
           "deployment": null,
           "fact": "Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.",
-          "prevalence": 0.0
+          "prevalence": null,
+          "prevalence_note": "No positive signature: it is defined by the ABSENCE of a setup move, and its item (Wellspring Mask) is a form requirement carried by every set. Its share is whatever the Swords Dance and Utility builds leave over, so it is not estimated rather than estimated badly."
         },
         {
           "name": "Utility",

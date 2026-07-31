@@ -226,7 +226,7 @@ Water Absorb heals it whenever it is hit by a Water move, so it can enter freely
 
 > Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.
 
-**Set — All-Out Attacker** *(~0% of sets)*: **tags** wallbreaker · **axis** attacks physical · **preserve** med
+**Set — All-Out Attacker**: **tags** wallbreaker · **axis** attacks physical · **preserve** med
 
 > Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.
 
