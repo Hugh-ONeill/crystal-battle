@@ -142,6 +142,13 @@ Multiscale halves incoming damage only at full HP, so it needs an undamaged entr
 
 > Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.
 
+**Ways in** (manufacture or restore its entry condition):
+
+- entry after a faint (free switch, takes no hit)
+- slow pivot, so Multiscale is still intact on arrival
+- Healing Wish, which restores full HP and with it Multiscale
+- its own Roost, which restores Multiscale without needing to leave
+
 **The play:**
 
 1. enter at FULL HP — Multiscale halves the incoming hit only from full, and Heavy-Duty Boots are what keep it full through hazards
@@ -303,7 +310,7 @@ Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazard
 
 **Set — Healing Wish** *(~35% of sets)*: **tags** sacrificial-support, wall · **axis** defends physical · **deployment** bait-switch
 
-> Healing Wish trades it away to restore a teammate to full HP and clear their status.
+> Healing Wish trades it away to restore a teammate to full HP and clear their status. Because it restores full HP, it can RE-ENABLE a teammate whose plan requires an undamaged entry, turning a spent win condition back into a live one.
 
 **Set — Calm Mind** *(~22% of sets)*: **tags** setup-sweeper, wall · **axis** attacks special, defends special · **deployment** setup-window
 
@@ -538,6 +545,13 @@ Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the d
 **Set — Bulk Up** *(~8% of sets)*: **tags** setup-sweeper, wallbreaker · **axis** attacks physical, defends physical · **preserve** high · **deployment** setup-window
 
 > A minority set. Bulk Up raises Attack and Defence together, so it boosts while absorbing physical hits rather than relying on Focus Sash, and Taunt on this set denies Defog. It appears mainly on hyper-offence and screens teams, where the extra turns make boosting practical.
+
+**Ways in** (manufacture or restore its entry condition):
+
+- entry after a faint (free switch, takes no hit)
+- slow pivot from a slower U-turn / Volt Switch / Flip Turn user
+- Healing Wish from a teammate, which restores full HP and re-enables the Focus Sash plan
+- hazard removal or Heavy-Duty Boots, which protect the entry rather than create it
 
 **The play:**
 

@@ -51,6 +51,24 @@
     "                returns, so a Booster set is a different Pokemon on its second",
     "                switch-in than its first. WHEN it is spent is a real decision",
     "                the leaf eval does not price.",
+    "                An entry condition is not only LOST \u2014 it can be MANUFACTURED",
+    "                and even RESTORED, which the field alone does not say. The",
+    "                avenues, cheapest first: (1) entry after a faint, which is a",
+    "                free switch that takes no hit; (2) a SLOW PIVOT \u2014 Chilly",
+    "                Reception, or U-turn/Volt Switch/Flip Turn from something",
+    "                slower \u2014 which brings the mon in without it taking that turn's",
+    "                attack, strictly safer than a hard switch; (3) HEALING WISH,",
+    "                which restores a teammate to full HP and so RE-ENABLES a",
+    "                full_hp condition outright; (4) Wish passing, partially;",
+    "                (5) hazard removal or Boots, which protect the entry rather",
+    "                than create it. Measured over 490 games: of our full_hp mons",
+    "                that went on to set up, 58% came in on a HARD SWITCH (the",
+    "                riskiest route), 25% off a faint, and only 6% off a slow pivot.",
+    "  entry_enablers  teammates or moves that manufacture or restore this mon's",
+    "                entry condition. Recorded because it is a TEAM property the",
+    "                per-species fields cannot express, and because it turns a",
+    "                constraint into something actionable: a Healing Wish user on",
+    "                the same side means the condition is recoverable, not spent.",
     "  lead_intent  human intent to lead it: avoid | neutral | strong",
     "  conditional   list of {when, ...overrides}: role/value that only exists",
     "                `when` vocabulary is of TWO kinds and they are not",
@@ -743,6 +761,12 @@
           "prevalence_method": "residual",
           "prevalence_note": "Defined by the ABSENCE of Dragon Dance rather than the presence of Roost \u2014 Roost appears on Dragon Dance sets too, so counting it double-counts. Estimated as the residual instead."
         }
+      ],
+      "entry_enablers": [
+        "entry after a faint (free switch, takes no hit)",
+        "slow pivot, so Multiscale is still intact on arrival",
+        "Healing Wish, which restores full HP and with it Multiscale",
+        "its own Roost, which restores Multiscale without needing to leave"
       ]
     },
     "ceruledge": {
@@ -806,7 +830,13 @@
       "ability_split": {
         "weakarmor": 0.84,
         "flashfire": 0.16
-      }
+      },
+      "entry_enablers": [
+        "entry after a faint (free switch, takes no hit)",
+        "slow pivot from a slower U-turn / Volt Switch / Flip Turn user",
+        "Healing Wish from a teammate, which restores full HP and re-enables the Focus Sash plan",
+        "hazard removal or Heavy-Duty Boots, which protect the entry rather than create it"
+      ]
     },
     "ironmoth": {
       "tags": [
@@ -1299,7 +1329,7 @@
           "axis": {
             "defends": "physical"
           },
-          "fact": "Healing Wish trades it away to restore a teammate to full HP and clear their status.",
+          "fact": "Healing Wish trades it away to restore a teammate to full HP and clear their status. Because it restores full HP, it can RE-ENABLE a teammate whose plan requires an undamaged entry, turning a spent win condition back into a live one.",
           "deployment": "bait-switch",
           "prevalence": 0.35,
           "prevalence_method": "signature"

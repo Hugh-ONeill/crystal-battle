@@ -105,6 +105,12 @@ def render(doc: dict) -> str:
             if st.get("fact"):
                 w(f"> {st['fact']}\n")
 
+        if v.get("entry_enablers"):
+            w("**Ways in** (manufacture or restore its entry condition):\n")
+            for e in v["entry_enablers"]:
+                w(f"- {e}")
+            w("")
+
         if v.get("sequence"):
             w("**The play:**\n")
             for n, step in enumerate(v["sequence"], 1):
