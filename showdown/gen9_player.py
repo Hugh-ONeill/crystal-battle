@@ -696,6 +696,10 @@ class Gen9PokeEnginePlayer(Player):
         # outcome at game end (None path disables)
         self._desk_log_path = desk_log_path
         self._calibrate_reads = calibrate_reads
+        # ladder double-match guard (see _create_battle); armed in main() for
+        # ladder mode only — challenge/accept never issue a search
+        self._cancel_search_on_battle = False
+        self._cancelled_searches: set = set()
         self._desk_reads: dict[str, list] = {}
         self._translator = Gen9Translator(set_source=set_source,
                                           use_data_tiers=data_tiers,
@@ -1012,6 +1016,37 @@ class Gen9PokeEnginePlayer(Player):
             self._airi_last_sent = time.monotonic()
         except Exception:
             pass
+
+    async def _create_battle(self, split_message):
+        """Defer to the base creator, then kill any lingering ladder search.
+
+        LADDER DOUBLE-MATCH GUARD. One `/search` can be matched by the server
+        into TWO battles seconds apart — the search flag does not clear on the
+        first match — and poke-env (max_concurrent_battles=1) plays only the
+        first, leaving the second to bleed its clock out at team preview as an
+        inactivity loss. Measured ~1-5 per session.
+
+        Timing is the whole fix and the reason the first attempt (2026-07-29,
+        reverted) failed: it cancelled at TEAM PREVIEW, but the second battle
+        is assigned ~3s after the first match, which is BEFORE preview. Battle
+        init is the earliest hook we get, so the cancel goes here. Deliberately
+        layer-1 only — the reverted version also raced an early-exit against
+        the search-pool shutdown, which is what actually broke that run.
+
+        Cancelling when no search is pending is a harmless no-op, so this is
+        safe to fire per battle; the tag set just avoids duplicate sends when
+        poke-env re-enters for an already-known battle.
+        """
+        battle = await super()._create_battle(split_message)
+        if self._cancel_search_on_battle:
+            tag = getattr(battle, "battle_tag", None)
+            if tag not in self._cancelled_searches:
+                self._cancelled_searches.add(tag)
+                try:
+                    await self.ps_client.send_message("/cancelsearch")
+                except Exception as e:  # never let it disturb the battle
+                    print(f"  /cancelsearch failed: {e!r}", flush=True)
+        return battle
 
     async def _handle_battle_message(self, split_messages):
         """Defer to the base handler, then scrape dramatic protocol events
@@ -2561,6 +2596,11 @@ async def main():
         # without the OTS rule never send -> guaranteed timer loss
         log_level=args.log_level,
     )
+
+    # arm the ladder double-match guard: cancel the lingering /search as soon
+    # as a battle inits (see _create_battle). Ladder mode only — the other
+    # modes never search, so the message would be pointless there.
+    player._cancel_search_on_battle = (args.mode == "ladder")
 
     if bridge is not None:
         await bridge.start()
