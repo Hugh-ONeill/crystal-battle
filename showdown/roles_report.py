@@ -88,6 +88,8 @@ def render(doc: dict) -> str:
         if v.get("fact"):
             w(v["fact"] + "\n")
 
+        if v.get("single_build_note"):
+            w(f"*Single build.* {v['single_build_note']}\n")
         for st in v.get("sets", []):
             bits = [f"**tags** {', '.join(st['tags'])}"]
             if st.get("axis"):

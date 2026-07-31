@@ -36,11 +36,11 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 9.3% | **landorustherian** ✳ | Smogon-cited | physical/physical | high | pivot-cycle | pivot, wall, glue |
 | 9.2% | **ceruledge** ✳ ▸ | USER-CORRECTED | physical | med | setup-window | setup-sweeper, wincon |
 | 9.2% | **pecharunt** ✳ | measured here | special/physical | med | — | wall, status-spreader |
-| 9.0% | **glimmora** | Smogon-cited | — | low | lead | suicide-lead, hazard-setter |
+| 9.0% | **glimmora** ✳ | Smogon-cited | — | low | lead | suicide-lead, hazard-setter |
 | 8.9% | **ironmoth** | Smogon-cited | special | med | — | setup-sweeper |
 | 8.9% | **alomomola** ✳ | Smogon-cited | physical | high | pivot-cycle | pivot, annuity, wall |
 | 8.1% | **darkrai** ✳ | Smogon-cited | special | med | late-cleaner | revenge-killer, wallbreaker |
-| 7.3% | **walkingwake** | measured here | special | med | — | weather-abuser, sweeper |
+| 7.3% | **walkingwake** ✳ | measured here | special | med | — | weather-abuser, sweeper |
 | 7.3% | **rillaboom** ✳ | Smogon-cited | physical | med | — | terrain-setter |
 | 7.0% | **zapdos** ✳ | Smogon-cited | special/physical | med | pivot-cycle | pivot |
 | 6.3% | **deoxysspeed** ✳ | Smogon-cited | special | low | lead | suicide-lead, screens-setter, hazard-setter |
@@ -91,6 +91,8 @@ RAG-grounded [smogon#Great Tusk (gen9ou) — Offensive Utility / Defensive]: "Ra
 **tags** cleaner, wincon · **axis** attacks physical, defends special · **ability** supremeoverlord · **preserve** high · **deployment** late-cleaner · **lead_intent** avoid · **value_curve** grows_with_own_faints
 
 Supreme Overlord raises its power by 10% for each fallen ally, so it is weakest at full team and strongest last. Sucker Punch gives it priority. Spending it early forfeits the scaling it exists for.
+
+*Single build.* Item choice varies (Leftovers 45%, Black Glasses 23%, Air Balloon 11%) but the Swords Dance role does not change with it.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -373,6 +375,8 @@ Regenerator pivots are net-positive on entry (fp routes hazard cycles through th
 
 Poison Heal turns being poisoned into recurring healing rather than damage, so it has to be statused before it does anything — the Toxic Orb it carries applies that poison at the end of a turn. Protect does two jobs: it blocks Knock Off, which matters because losing the orb disables Poison Heal outright, and it stalls turns while the healing ticks. Substitute blocks status and chip from behind.
 
+*Single build.* One build: Toxic Orb on 99% of sets — Poison Heal requires it.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]
@@ -489,6 +493,8 @@ RAG-grounded [smogon#Cinderace (gen9ou) — Offensive Pivot]: Recommended set is
 
 Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying.
 
+*Single build.* Leftovers is on ~73% of sets; a Red Card variant drags attackers into its hazards, but the defensive hazard-setter role is the same.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination — Whirlwind is what converts her hazards into forced-switch chip.
@@ -575,6 +581,18 @@ CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented 
 
 Toxic Debris sets Toxic Spikes when it is hit by a physical move. Stealth Rock and Mortal Spin give it hazard control, and Focus Sash guarantees it gets at least one layer down.
 
+**Set — Lead** *(~38% of sets)*: **tags** suicide-lead, hazard-setter · **deployment** lead
+
+> Focus Sash guarantees it survives to set Stealth Rock, and Toxic Debris adds Toxic Spikes when it is hit physically.
+
+**Set — Offensive (Power Herb)** *(~32% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Power Herb fires Meteor Beam immediately, raising Special Attack and hitting hard on entry instead of setting hazards.
+
+**Set — Red Card** *(~14% of sets)*: **tags** suicide-lead, hazard-setter · **deployment** lead
+
+> Red Card drags the attacker out after it is hit, forcing a random switch into the hazards it has just set.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 RAG-grounded [smogon#Glimmora (gen9ou) — Lead]: the Lead set exists to deny setup — it stops "Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).
@@ -586,6 +604,8 @@ RAG-grounded [smogon#Glimmora (gen9ou) — Lead]: the Lead set exists to deny se
 **tags** setup-sweeper · **axis** attacks special · **ability** quarkdrive · **preserve** med · **entry_condition** first_entry_boost
 
 Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
+
+*Single build.* One build: Booster Energy on 85% of sets.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -646,6 +666,18 @@ RAG-grounded [smogon#Darkrai (gen9ou) — Choice Scarf]: "Darkrai can also cripp
 **tags** weather-abuser, sweeper · **axis** attacks special · **ability** protosynthesis · **preserve** med · **entry_condition** first_entry_boost · **requires** sun
 
 Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.
+
+**Set — Choice Specs** *(~49% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Choice Specs locks it in but makes sun-boosted Hydro Steam and Draco Meteor break walls immediately.
+
+**Set — Booster Energy** *(~10% of sets)*: **tags** wallbreaker, sweeper · **axis** attacks special
+
+> Booster Energy raises its best stat on entry without needing sun, but only on its first switch-in, and leaves it free to change moves.
+
+**Set — Other / unnamed** *(~41% est. of sets)*: **tags** 
+
+> No named analysis set covers this share — treat it as the chance the build is not one listed.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -768,6 +800,8 @@ RAG-grounded [smogon#Garganacl (gen9ou) — Iron Defense]: "With fantastic bulk,
 
 Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The rain ends early if another weather setter replaces it.
 
+*Single build.* One build: Damp Rock on 85% of sets.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.
@@ -779,6 +813,8 @@ rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock
 **tags** weather-setter · **axis** defends physical · **ability** drought · **preserve** med · **deployment** lead · **lead_intent** strong · **resource** sun
 
 Drought sets sun on entry and Heat Rock extends it. Its own Speed is very low, so it exists to enable partners.
+
+*Single build.* One build: Heat Rock on 82% of sets.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -792,6 +828,8 @@ same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) be
 
 Swift Swim doubles its Speed in rain, so it outspeeds most of the field only while rain is up and is ordinary without it.
 
+*Single build.* One build: Choice Band on 86% of sets.
+
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down.
@@ -803,6 +841,8 @@ Swift Swim doubles its Speed in rain, so it outspeeds most of the field only whi
 **tags** suicide-lead, screens-setter · **axis** defends special · **ability** prankster · **preserve** low · **deployment** lead · **lead_intent** strong
 
 Prankster gives its status moves priority, so it sets Reflect and Light Screen before being attacked. Light Clay extends both to eight turns.
+
+*Single build.* One build: Light Clay on 85% of sets.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 

@@ -199,7 +199,8 @@
       "axis": {
         "attacks": "physical",
         "defends": "special"
-      }
+      },
+      "single_build_note": "Item choice varies (Leftovers 45%, Black Glasses 23%, Air Balloon 11%) but the Swords Dance role does not change with it."
     },
     "pelipper": {
       "tags": [
@@ -215,7 +216,8 @@
       "provenance": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.",
       "axis": {
         "defends": "physical"
-      }
+      },
+      "single_build_note": "One build: Damp Rock on 85% of sets."
     },
     "barraskewda": {
       "tags": [
@@ -231,7 +233,8 @@
       "provenance": "41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) \u2014 the search spends the abuser while its enabling condition is down.",
       "axis": {
         "attacks": "physical"
-      }
+      },
+      "single_build_note": "One build: Choice Band on 86% of sets."
     },
     "torkoal": {
       "tags": [
@@ -247,7 +250,8 @@
       "provenance": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy \u2014 so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.",
       "axis": {
         "defends": "physical"
-      }
+      },
+      "single_build_note": "One build: Heat Rock on 82% of sets."
     },
     "glimmora": {
       "tags": [
@@ -259,7 +263,45 @@
       "review": "rag-grounded",
       "deployment": "lead",
       "fact": "Toxic Debris sets Toxic Spikes when it is hit by a physical move. Stealth Rock and Mortal Spin give it hazard control, and Focus Sash guarantees it gets at least one layer down.",
-      "provenance": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads)."
+      "provenance": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).",
+      "sets": [
+        {
+          "name": "Lead",
+          "tags": [
+            "suicide-lead",
+            "hazard-setter"
+          ],
+          "deployment": "lead",
+          "prevalence": 0.38,
+          "prevalence_method": "signature",
+          "fact": "Focus Sash guarantees it survives to set Stealth Rock, and Toxic Debris adds Toxic Spikes when it is hit physically.",
+          "axis": {}
+        },
+        {
+          "name": "Offensive (Power Herb)",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "prevalence": 0.32,
+          "prevalence_method": "signature",
+          "fact": "Power Herb fires Meteor Beam immediately, raising Special Attack and hitting hard on entry instead of setting hazards."
+        },
+        {
+          "name": "Red Card",
+          "tags": [
+            "suicide-lead",
+            "hazard-setter"
+          ],
+          "deployment": "lead",
+          "prevalence": 0.14,
+          "prevalence_method": "signature",
+          "fact": "Red Card drags the attacker out after it is hit, forcing a random switch into the hazards it has just set.",
+          "axis": {}
+        }
+      ]
     },
     "grimmsnarl": {
       "tags": [
@@ -275,7 +317,8 @@
       "provenance": "RAG-grounded [smogon#Grimmsnarl (gen9ou) \u2014 Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind \u2014 the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.",
       "axis": {
         "defends": "special"
-      }
+      },
+      "single_build_note": "One build: Light Clay on 85% of sets."
     },
     "slowkinggalar": {
       "tags": [
@@ -417,7 +460,8 @@
       "provenance": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]",
       "axis": {
         "defends": "special"
-      }
+      },
+      "single_build_note": "One build: Toxic Orb on 99% of sets \u2014 Poison Heal requires it."
     },
     "greattusk": {
       "tags": [
@@ -608,7 +652,42 @@
       "axis": {
         "attacks": "special"
       },
-      "entry_condition": "first_entry_boost"
+      "entry_condition": "first_entry_boost",
+      "sets": [
+        {
+          "name": "Choice Specs",
+          "tags": [
+            "wallbreaker"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "prevalence": 0.49,
+          "prevalence_method": "signature",
+          "fact": "Choice Specs locks it in but makes sun-boosted Hydro Steam and Draco Meteor break walls immediately."
+        },
+        {
+          "name": "Booster Energy",
+          "tags": [
+            "wallbreaker",
+            "sweeper"
+          ],
+          "axis": {
+            "attacks": "special"
+          },
+          "prevalence": 0.1,
+          "prevalence_method": "signature",
+          "fact": "Booster Energy raises its best stat on entry without needing sun, but only on its first switch-in, and leaves it free to change moves."
+        },
+        {
+          "name": "Other / unnamed",
+          "tags": [],
+          "axis": {},
+          "prevalence": 0.41,
+          "prevalence_method": "residual",
+          "fact": "No named analysis set covers this share \u2014 treat it as the chance the build is not one listed."
+        }
+      ]
     },
     "dragonite": {
       "tags": [
@@ -741,7 +820,8 @@
       "axis": {
         "attacks": "special"
       },
-      "entry_condition": "first_entry_boost"
+      "entry_condition": "first_entry_boost",
+      "single_build_note": "One build: Booster Energy on 85% of sets."
     },
     "tinglu": {
       "tags": [
@@ -757,7 +837,8 @@
       "provenance": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip.",
       "axis": {
         "defends": "special"
-      }
+      },
+      "single_build_note": "Leftovers is on ~73% of sets; a Red Card variant drags attackers into its hazards, but the defensive hazard-setter role is the same."
     },
     "deoxysspeed": {
       "tags": [
