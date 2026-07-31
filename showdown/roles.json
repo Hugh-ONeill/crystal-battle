@@ -76,6 +76,11 @@
     "                off the EV spread: Slowking-Galar's 252 HP / 252 SpD spreads make",
     "                it a SPECIAL wall on both its sets, while Corviknight's Impish",
     "                248 / 252 Def makes it a physical one.",
+    "                `attacks` belongs on ATTACKERS. A genuinely utility set \u2014 a",
+    "                weather setter, a screens lead, a Wish passer \u2014 carrying one",
+    "                weak attack does not have a meaningful offensive axis, and",
+    "                listing one implies a threat it does not pose. Omit it unless a",
+    "                tag actually claims an offensive role.",
     "                while its Dragon Dance set attacks physically.",
     "  sets          for species that genuinely split into different Pokemon",
     "                Each set may carry `prevalence`: roughly what fraction of that",
@@ -209,7 +214,6 @@
       "fact": "Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The rain ends early if another weather setter replaces it.",
       "provenance": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.",
       "axis": {
-        "attacks": "special",
         "defends": "physical"
       }
     },
@@ -242,7 +246,6 @@
       "fact": "Drought sets sun on entry and Heat Rock extends it. Its own Speed is very low, so it exists to enable partners.",
       "provenance": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy \u2014 so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.",
       "axis": {
-        "attacks": "special",
         "defends": "physical"
       }
     },
@@ -256,10 +259,7 @@
       "review": "rag-grounded",
       "deployment": "lead",
       "fact": "Toxic Debris sets Toxic Spikes when it is hit by a physical move. Stealth Rock and Mortal Spin give it hazard control, and Focus Sash guarantees it gets at least one layer down.",
-      "provenance": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).",
-      "axis": {
-        "attacks": "special"
-      }
+      "provenance": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads)."
     },
     "grimmsnarl": {
       "tags": [
@@ -274,7 +274,6 @@
       "fact": "Prankster gives its status moves priority, so it sets Reflect and Light Screen before being attacked. Light Clay extends both to eight turns.",
       "provenance": "RAG-grounded [smogon#Grimmsnarl (gen9ou) \u2014 Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind \u2014 the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.",
       "axis": {
-        "attacks": "physical",
         "defends": "special"
       }
     },
@@ -291,7 +290,6 @@
       "fact": "Regenerator restores a third of its HP whenever it switches out, so repeated entries cost it almost nothing. Chilly Reception switches it out while setting snow, and Future Sight lands two turns later so it threatens even after leaving the field.",
       "provenance": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) \u2014 the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed. [Trimmed 2026-07-31: the fact had noted its low Speed investment, which was only interesting because of a speed-inference bug on our side \u2014 session detail, not a property a reader needs. Removed.]",
       "axis": {
-        "attacks": "special",
         "defends": "special"
       },
       "sets": [
@@ -301,7 +299,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "special"
           },
           "fact": "Assault Vest adds special bulk at the cost of its status moves, so it checks attackers rather than pivoting.",
@@ -315,7 +312,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "special"
           },
           "fact": "Boots plus Regenerator and Chilly Reception make every switch nearly free.",
@@ -326,7 +322,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.26,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -421,7 +416,6 @@
       "fact": "Poison Heal turns being poisoned into recurring healing rather than damage, so it has to be statused before it does anything \u2014 the Toxic Orb it carries applies that poison at the end of a turn. Protect does two jobs: it blocks Knock Off, which matters because losing the orb disables Poison Heal outright, and it stalls turns while the healing ticks. Substitute blocks status and chip from behind.",
       "provenance": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]",
       "axis": {
-        "attacks": "physical",
         "defends": "special"
       }
     },
@@ -454,9 +448,6 @@
             "hazard-removal",
             "pivot"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "fact": "Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal. The boost applies to its first entry only.",
           "prevalence": 0.28,
           "prevalence_method": "signature"
@@ -484,7 +475,6 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "physical"
           },
           "fact": "Rocky Helmet with a bulky spread, punishing contact while spinning hazards away across the game.",
@@ -495,7 +485,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.38,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -523,7 +512,6 @@
       "fact": "Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.",
       "provenance": "RAG-grounded [smogon#Corviknight (gen9ou) \u2014 Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover \u2014 a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
       "axis": {
-        "attacks": "physical",
         "defends": "physical"
       },
       "sets": [
@@ -535,7 +523,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "physical"
           },
           "deployment": "pivot-cycle",
@@ -582,9 +569,6 @@
             "terrain-setter",
             "pivot"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "fact": "A support build that keeps terrain up and pivots with U-turn rather than attacking outright.",
           "deployment": "pivot-cycle",
           "prevalence": 0.02,
@@ -596,9 +580,6 @@
             "terrain-setter",
             "pivot"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "fact": "Terrain Extender pushes Grassy Terrain to eight turns, prioritising the field effect over its own damage.",
           "prevalence": 0.15,
           "prevalence_method": "signature",
@@ -607,7 +588,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.42,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -676,7 +656,6 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "physical"
           },
           "fact": "Three attacks with Roost, using Multiscale and recovery to check threats rather than to set up.",
@@ -777,7 +756,6 @@
       "fact": "Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying.",
       "provenance": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip.",
       "axis": {
-        "attacks": "physical",
         "defends": "special"
       }
     },
@@ -803,9 +781,6 @@
             "suicide-lead",
             "hazard-setter"
           ],
-          "axis": {
-            "attacks": "special"
-          },
           "fact": "Focus Sash guarantees it survives to set at least one layer before it falls.",
           "deployment": "lead",
           "prevalence": 0.12,
@@ -830,9 +805,6 @@
             "suicide-lead",
             "screens-setter"
           ],
-          "axis": {
-            "attacks": "special"
-          },
           "fact": "Light Clay extends Reflect and Light Screen, using its extreme Speed to get both up before being attacked.",
           "prevalence": 0.35,
           "prevalence_method": "signature",
@@ -841,7 +813,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.36,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1030,7 +1001,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.32,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1139,9 +1109,6 @@
           "tags": [
             "pivot"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "preserve": "med",
           "deployment": "pivot-cycle",
           "fact": "Knock Off, U-turn and Encore trade damage for disruption and momentum instead of setting up.",
@@ -1182,9 +1149,6 @@
           "tags": [
             "pivot"
           ],
-          "axis": {
-            "attacks": "mixed"
-          },
           "fact": "Heavy-Duty Boots plus U-turn make it a repeated-entry momentum pivot.",
           "deployment": "pivot-cycle",
           "prevalence": 0.19,
@@ -1205,7 +1169,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.29,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1253,7 +1216,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "physical"
           },
           "fact": "Healing Wish trades it away to restore a teammate to full HP and clear their status.",
@@ -1282,7 +1244,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "physical"
           },
           "fact": "Pain Split averages HP with the target, giving it recovery it otherwise lacks.",
@@ -1305,9 +1266,6 @@
       "deployment": "lead",
       "fact": "Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.",
-      "axis": {
-        "attacks": "physical"
-      },
       "sets": [
         {
           "name": "Lead",
@@ -1316,9 +1274,6 @@
             "hazard-removal",
             "lead"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "fact": "Booster Energy makes it fast enough to set or remove hazards before most leads act. The boost applies to its first entry only.",
           "deployment": "lead",
           "prevalence": 0.34,
@@ -1331,7 +1286,6 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "physical"
           },
           "fact": "Leftovers and bulk let it keep removing hazards across the game rather than once.",
@@ -1342,7 +1296,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.32,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1413,7 +1366,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.22,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1452,9 +1404,6 @@
             "hazard-setter",
             "lead"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "fact": "Focus Sash guarantees it survives to set Spikes with Ceaseless Edge.",
           "deployment": "lead",
           "prevalence": 0.17,
@@ -1479,7 +1428,6 @@
             "hazard-setter"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "special"
           },
           "fact": "Assault Vest adds special bulk so it can keep setting Spikes across the game.",
@@ -1489,7 +1437,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.3,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1516,9 +1463,6 @@
             "pivot",
             "hazard-control"
           ],
-          "axis": {
-            "attacks": "physical"
-          },
           "deployment": "pivot-cycle",
           "prevalence": 0.83,
           "fact": "Heavy-Duty Boots with Pyro Ball, U-turn and Court Change, pivoting freely through hazards while moving them onto the opponent.",
@@ -1569,7 +1513,6 @@
             "glue"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "physical"
           },
           "fact": "Rocky Helmet punishes contact while Intimidate and bulk let it check physical attackers repeatedly.",
@@ -1593,7 +1536,6 @@
         {
           "name": "Other / unnamed",
           "tags": [],
-          "axis": {},
           "prevalence": 0.21,
           "prevalence_method": "residual",
           "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
@@ -1613,7 +1555,6 @@
       "fact": "Regenerator restores HP on switch out and Wish heals a teammate, so it is a healing source for the whole side rather than only itself. Flip Turn pivots.",
       "provenance": "RAG-grounded [smogon#Alomomola (gen9ou) \u2014 WishFish (Wish Passer)]: Recommended set is \"Flip Turn; Wish; Protect; Scald / Tickle\" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch \u2014 so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds.",
       "axis": {
-        "attacks": "special",
         "defends": "physical"
       },
       "sets": [
@@ -1625,7 +1566,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "physical"
           },
           "fact": "Wish heals a teammate and Flip Turn pivots out, so its bulk is spent supporting the side rather than itself.",
@@ -1639,7 +1579,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "special"
           },
           "fact": "Assault Vest trades its status moves for special bulk, so it walls attackers but can no longer pass Wish.",
@@ -1737,7 +1676,6 @@
             "pivot"
           ],
           "axis": {
-            "attacks": "special",
             "defends": "physical"
           },
           "fact": "Roost with bulk lets it check physical attackers repeatedly and pivot with Volt Switch.",
@@ -1821,7 +1759,6 @@
             "wall"
           ],
           "axis": {
-            "attacks": "physical",
             "defends": "special"
           },
           "fact": "A support build that sets Stealth Rock and chips with Salt Cure instead of setting up.",
