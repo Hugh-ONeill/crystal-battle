@@ -704,6 +704,7 @@ class Gen9PokeEnginePlayer(Player):
                  team_paste: str | None = None,
                  team_reload_path: str | None = None,
                  dump_states_path: str | None = None,
+                 overlay: str = "off",
                  team_archive_index: str | None = None,
                  preview_search_ms: int = 80, stall_mode: bool = False,
                  set_samples: int = 2, data_tiers: bool = True,
@@ -865,6 +866,13 @@ class Gen9PokeEnginePlayer(Player):
         self._team_paste = team_paste
         self._team_reload_path = team_reload_path
         self._dump_states_path = dump_states_path
+        # LLM overlay, shadow mode only for now: consults on a daemon thread
+        # AFTER the move is committed, logs hypothetical flips, applies
+        # nothing (showdown/LLM_OVERLAY.md sequencing step 2)
+        self._overlay = None
+        if overlay == "shadow":
+            from showdown.overlay import OverlayShadow
+            self._overlay = OverlayShadow()
         self._dump_state_str = None
         self._preview_search_ms = preview_search_ms
         self._stall_mode = stall_mode
@@ -1581,6 +1589,12 @@ class Gen9PokeEnginePlayer(Player):
         ranked = _merge_mcts_results(results, weights=_WORLD_WEIGHTS)
         if self._dump_states_path is not None and ranked and self._dump_state_str:
             self._dump_position(battle, ranked)
+        if self._overlay is not None and ranked:
+            try:
+                self._overlay.maybe_consult(battle, ranked, results,
+                                            getattr(self, "_last_states", None))
+            except Exception:
+                pass    # shadow instrumentation must never cost a move
         order = self._map_choice(ranked, battle)
         if order is not None:
             return order
@@ -1868,6 +1882,9 @@ class Gen9PokeEnginePlayer(Player):
             states.append(self._translator.translate(
                 battle, rng=rng, speed_pessimistic=pessimistic,
                 prefer_ps=False, tera_pessimistic=tera_pess))
+        # shadow-overlay emission needs each world's assumed sets alongside
+        # its search result; results alone don't carry them
+        self._last_states = states
         # value net defaults to on-when-loaded, but callers override: the
         # adaptive probe forces it OFF (fast plain MCTS), and only the
         # escalated deep-think turns it ON — spend the learned eval where a
@@ -2430,6 +2447,12 @@ async def main():
                         help="JSONL file to append one (state, chosen move) "
                              "record per decision — position-pool collection "
                              "for the eval instrument (position_ab.py)")
+    parser.add_argument("--overlay", choices=["off", "shadow"],
+                        default=os.environ.get("CB_OVERLAY") or "off",
+                        help="LLM overlay mode: 'shadow' consults local Gemma "
+                             "on gated turns AFTER the move commits, logs "
+                             "hypothetical world-reweight flips, applies "
+                             "nothing (LLM_OVERLAY.md). Env CB_OVERLAY")
     parser.add_argument("--team-reload", choices=["on", "off"], default="off",
                         help="re-read --team from disk for every game, so a "
                              "persistent accept-mode worker can play a "
@@ -2632,6 +2655,7 @@ async def main():
         team_paste=team,
         team_reload_path=args.team if team_reload else None,
         dump_states_path=args.dump_states,
+        overlay=args.overlay,
         team_archive_index=args.team_archive,
         set_samples=args.set_samples,
         world_style=args.world_style,
