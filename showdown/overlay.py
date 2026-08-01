@@ -113,7 +113,11 @@ SCHEMA = {
         },
         "confidence": {"type": "number"},
     },
-    "required": ["world_weights", "confidence"],
+    # worry became required 2026-08-01: schema-constrained decoding takes the
+    # shortest valid path, so the optional field was emitted in 0 of 504
+    # consults — and the worry stream is where both-worlds-wrong evidence
+    # (the LLM-authored-world case) would show up. ~20 tokens per consult.
+    "required": ["world_weights", "worry", "confidence"],
 }
 
 SYSTEM = (
@@ -434,6 +438,11 @@ class OverlayShadow:
                     rec["applied_top"] = merged[0].move_choice
                     rec["applied_flip"] = (merged[0].move_choice
                                            != ranked[0].move_choice)
+                    if rec["applied_flip"] and states:
+                        try:
+                            rec["w0_state"] = states[0].to_string()
+                        except Exception:
+                            pass
                     out = merged
         self._log(rec)
         return out
@@ -450,8 +459,11 @@ class OverlayShadow:
         # session RSS ratchet (glibc arena retention; 3 oom-kills in 12h).
         rec["nominations"] = (self._nominations(reasons, ranked)
                               if ADVOCATE_MS > 0 else [])
+        # always snapshot world-0 (a few KB): flips store it so flip_audit
+        # can oracle them WITHOUT a --dump-states pool join — the reweight
+        # A/B's 39 played flips were unauditable for lack of this
         w0_str = None
-        if rec["nominations"] and states:
+        if states:
             try:
                 w0_str = states[0].to_string()   # snapshot on the main thread
             except Exception:
@@ -480,6 +492,9 @@ class OverlayShadow:
                 rec["flips"] = self._flips(parsed["world_weights"], results,
                                            rec["engine_choice"])
                 rec["dropped_flags"] = parsed["dropped_flags"]
+                if w0_str and any(v.get("flip") for v in rec["flips"].values()
+                                  if isinstance(v, dict)):
+                    rec["w0_state"] = w0_str
         except Exception as e:
             rec["error"] = repr(e)
             rec["latency_s"] = round(time.monotonic() - t0, 2)
