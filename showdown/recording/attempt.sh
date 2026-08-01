@@ -66,6 +66,29 @@ cleanup() {
 }
 trap cleanup EXIT
 
+# ---- stale-tap sweep. cleanup() kills THIS take's tap, but a tap that
+# outlives its take never gets killed by anyone — and it stays SUBSCRIBED to
+# the caster, so it keeps appending every later game's beats to its own old
+# transcript. Found 2026-08-01: 28 orphans from two days earlier, one file
+# holding 45 games' worth of RESULT lines and take 27's transcript ending
+# with take 111's wrap-up. `exec`-not-tee (5ccb3ab) stopped NEW leaks; it
+# could not clean up the ones already running. Safe to sweep unconditionally
+# here: this runs BEFORE this take starts its own tap or the gate's watcher,
+# so anything alive belongs to a take that is already over.
+# The comm check is load-bearing: `pgrep -f` matches the PATTERN TEXT, so a
+# shell whose command line merely CONTAINS it matches too — a dry run of this
+# sweep duly offered to kill the shell running the sweep. Only real python
+# processes are taps.
+STALE=""
+for p in $(pgrep -f "crystal_broadcast.caster_bridge --watch" 2>/dev/null); do
+  [ "$p" = "$$" ] && continue
+  case "$(ps -p "$p" -o comm= 2>/dev/null)" in python*) STALE="$STALE $p";; esac
+done
+if [ -n "${STALE// /}" ]; then
+  log "sweeping stale transcript tap(s):$STALE"
+  for p in $STALE; do kill "$p" 2>/dev/null; done
+fi
+
 # ---- broadcast stack (idempotent; only the clock is restarted, so each take
 # gets its own presentation log)
 cd "$BC" || { log NO-BROADCAST-REPO; exit 1; }
