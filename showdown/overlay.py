@@ -61,6 +61,19 @@ ADVOCATE_MS = int(os.environ.get("CB_ADVOCATE_MS", "600"))
 ADVOCATE_PRIOR = 0.75
 STARVED_SHARE = 0.05
 
+# LIVE mode (2026-08-01): apply the reweighted merge to the actual move, but
+# ONLY when the LLM's world weights are EXTREME — the flip audit's evidence
+# lives in the near-certain vectors ([0.999, 0.001]-shaped: "one of your
+# worlds is contradicted by the reveals"), and the near-uniform flips priced
+# as coin-flips at oracle depth. Fire rate at 0.8 is ~0.11 applied flips per
+# game (measured, session 20260731_220522), so a 480-game A/B is a
+# NON-REGRESSION gate + live validation, not a detection instrument — the
+# conversion evidence keeps coming from flip_audit over accruing shadow data.
+# Failure is always the identity: timeout, invalid JSON, or ollama down mean
+# the engine's own choice plays, logged as such.
+APPLY_MIN = float(os.environ.get("CB_OVERLAY_APPLY_MIN", "0.8"))
+LIVE_TIMEOUT_S = float(os.environ.get("CB_OVERLAY_LIVE_TIMEOUT", "10"))
+
 # consumer-facing roles fields only — provenance/review never enter a prompt
 _ENTRY_FIELDS = ("fact", "tags", "axis", "preserve", "deployment",
                  "lead_intent", "entry_condition", "value_curve", "resource",
@@ -365,11 +378,8 @@ class OverlayShadow:
             out["error"] = repr(e)
         return out
 
-    def maybe_consult(self, battle, ranked, results, states):
-        reasons = self.consult_reasons(battle, ranked, results)
-        if not reasons or len(results or []) < 2:
-            return
-        rec = {
+    def _build_rec(self, battle, ranked, results, states, reasons) -> dict:
+        return {
             "ts": time.time(),
             "tag": getattr(battle, "battle_tag", "?"),
             "turn": battle.turn,
@@ -382,6 +392,57 @@ class OverlayShadow:
             "worlds": self._emit_worlds(results, states),
             "appendix": self._appendix(battle),
         }
+
+    def _log(self, rec) -> None:
+        try:
+            with self._lock, open(LOG, "a") as f:
+                f.write(json.dumps(rec) + "\n")
+        except Exception:
+            pass
+
+    def live_consult(self, battle, ranked, results, states):
+        """SYNCHRONOUS consult for live mode: returns the reweighted merged
+        ranking to PLAY when the LLM clears the extreme-weight gate, else
+        None (identity — the engine's own choice stands). Everything is
+        logged in the shadow format with mode='live'."""
+        reasons = self.consult_reasons(battle, ranked, results)
+        if not reasons or len(results or []) < 2:
+            return None
+        rec = self._build_rec(battle, ranked, results, states, reasons)
+        rec["mode"] = "live"
+        rec["applied"] = False
+        t0 = time.monotonic()
+        parsed = None
+        try:
+            raw = self._ask(self._dossier(battle), rec,
+                            timeout=LIVE_TIMEOUT_S)
+            rec["llm"] = raw
+            parsed = self._validate(raw, len(rec["worlds"]))
+            rec["valid"] = parsed is not None
+        except Exception as e:
+            rec["error"] = repr(e)
+        rec["latency_s"] = round(time.monotonic() - t0, 2)
+        out = None
+        if parsed:
+            w = parsed["world_weights"]
+            rec["llm_weights"] = [round(x, 3) for x in w]
+            if max(w) >= APPLY_MIN:
+                from showdown.gen9_player import _merge_mcts_results
+                merged = _merge_mcts_results(results, weights=w)
+                if merged:
+                    rec["applied"] = True
+                    rec["applied_top"] = merged[0].move_choice
+                    rec["applied_flip"] = (merged[0].move_choice
+                                           != ranked[0].move_choice)
+                    out = merged
+        self._log(rec)
+        return out
+
+    def maybe_consult(self, battle, ranked, results, states):
+        reasons = self.consult_reasons(battle, ranked, results)
+        if not reasons or len(results or []) < 2:
+            return
+        rec = self._build_rec(battle, ranked, results, states, reasons)
         rec["nominations"] = self._nominations(reasons, ranked)
         w0_str = None
         if rec["nominations"] and states:
@@ -416,13 +477,9 @@ class OverlayShadow:
         except Exception as e:
             rec["error"] = repr(e)
             rec["latency_s"] = round(time.monotonic() - t0, 2)
-        try:
-            with self._lock, open(LOG, "a") as f:
-                f.write(json.dumps(rec) + "\n")
-        except Exception:
-            pass
+        self._log(rec)
 
-    def _ask(self, dossier, rec) -> dict:
+    def _ask(self, dossier, rec, timeout: float = TIMEOUT_S) -> dict:
         turn_block = json.dumps(
             {k: rec[k] for k in ("turn", "reasons", "engine_choice",
                                  "engine_margin", "worlds", "appendix")},
@@ -444,7 +501,7 @@ class OverlayShadow:
         req = urllib.request.Request(
             OLLAMA, data=json.dumps(body).encode(),
             headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as r:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
             out = json.loads(r.read())
         return json.loads(out["message"]["content"])
 

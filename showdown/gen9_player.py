@@ -870,7 +870,8 @@ class Gen9PokeEnginePlayer(Player):
         # AFTER the move is committed, logs hypothetical flips, applies
         # nothing (showdown/LLM_OVERLAY.md sequencing step 2)
         self._overlay = None
-        if overlay == "shadow":
+        self._overlay_live = overlay == "live"
+        if overlay in ("shadow", "live"):
             from showdown.overlay import OverlayShadow
             self._overlay = OverlayShadow()
         self._dump_state_str = None
@@ -1587,9 +1588,20 @@ class Gen9PokeEnginePlayer(Player):
             return self.choose_random_move(battle)
 
         ranked = _merge_mcts_results(results, weights=_WORLD_WEIGHTS)
+        if self._overlay is not None and ranked and self._overlay_live:
+            # live overlay: synchronous consult; the reweighted merge PLAYS
+            # when the extreme-weight gate clears, identity on any failure
+            try:
+                applied = self._overlay.live_consult(
+                    battle, ranked, results,
+                    getattr(self, "_last_states", None))
+                if applied:
+                    ranked = applied
+            except Exception:
+                pass
         if self._dump_states_path is not None and ranked and self._dump_state_str:
             self._dump_position(battle, ranked)
-        if self._overlay is not None and ranked:
+        if self._overlay is not None and ranked and not self._overlay_live:
             try:
                 self._overlay.maybe_consult(battle, ranked, results,
                                             getattr(self, "_last_states", None))
@@ -2447,12 +2459,16 @@ async def main():
                         help="JSONL file to append one (state, chosen move) "
                              "record per decision — position-pool collection "
                              "for the eval instrument (position_ab.py)")
-    parser.add_argument("--overlay", choices=["off", "shadow"],
+    parser.add_argument("--overlay", choices=["off", "shadow", "live"],
                         default=os.environ.get("CB_OVERLAY") or "off",
                         help="LLM overlay mode: 'shadow' consults local Gemma "
                              "on gated turns AFTER the move commits, logs "
                              "hypothetical world-reweight flips, applies "
-                             "nothing (LLM_OVERLAY.md). Env CB_OVERLAY")
+                             "nothing. 'live' consults synchronously and "
+                             "PLAYS the reweighted merge when the LLM's "
+                             "world weights clear CB_OVERLAY_APPLY_MIN "
+                             "(default 0.8) — identity on any failure "
+                             "(LLM_OVERLAY.md). Env CB_OVERLAY")
     parser.add_argument("--team-reload", choices=["on", "off"], default="off",
                         help="re-read --team from disk for every game, so a "
                              "persistent accept-mode worker can play a "

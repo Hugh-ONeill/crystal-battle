@@ -160,3 +160,44 @@ def test_advocate_priors_concentrate_without_zeroing_the_rest():
     assert s1[2] == 0.75 and all(w > 0 for w in s1)
     assert o._advocate_priors(["a", "b"], "missing") is None
     assert o._advocate_priors(["only"], "only") is None
+
+
+# --- live mode: extreme-weight gate + identity-on-failure ---------------------
+
+def test_live_consult_applies_only_extreme_weights(monkeypatch):
+    import showdown.overlay as ov
+    o = overlay()
+    a = world(("icebeam", 600, 360.0), ("uturn", 400, 160.0))
+    b_w = world(("uturn", 900, 540.0), ("icebeam", 100, 30.0))
+    btl = battle(team=[mon("kyurem", active=True)])
+    ranked = rr(("icebeam", 550, 300.0), ("uturn", 450, 250.0))
+
+    def fake_ask(dossier, rec, timeout=None, _resp={}):
+        return dict(fake_ask.resp)
+    fake_ask.resp = {"world_weights": {"0": 0.05, "1": 0.95}, "confidence": 0.9}
+    monkeypatch.setattr(o, "_ask", fake_ask)
+    monkeypatch.setattr(o, "_log", lambda rec: fake_ask.__setattr__("rec", rec))
+
+    out = o.live_consult(btl, ranked, [a, b_w], None)
+    assert out is not None and out[0].move_choice == "uturn"
+    assert fake_ask.rec["applied"] and fake_ask.rec["applied_flip"]
+
+    fake_ask.resp = {"world_weights": {"0": 0.4, "1": 0.6}, "confidence": 0.9}
+    assert o.live_consult(btl, ranked, [a, b_w], None) is None
+    assert fake_ask.rec["applied"] is False
+
+
+def test_live_consult_identity_on_llm_failure(monkeypatch):
+    o = overlay()
+    a = world(("icebeam", 600, 360.0))
+    b_w = world(("uturn", 900, 540.0))
+    btl = battle(team=[mon("kyurem", active=True)])
+    ranked = rr(("icebeam", 550, 300.0), ("uturn", 450, 250.0))
+
+    def boom(dossier, rec, timeout=None):
+        raise TimeoutError("ollama down")
+    monkeypatch.setattr(o, "_ask", boom)
+    logged = {}
+    monkeypatch.setattr(o, "_log", lambda rec: logged.update(rec))
+    assert o.live_consult(btl, ranked, [a, b_w], None) is None
+    assert logged["applied"] is False and "error" in logged
