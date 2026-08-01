@@ -443,7 +443,13 @@ class OverlayShadow:
         if not reasons or len(results or []) < 2:
             return
         rec = self._build_rec(battle, ranked, results, states, reasons)
-        rec["nominations"] = self._nominations(reasons, ranked)
+        # CB_ADVOCATE_MS=0 disables the advocate entirely (shadow-path only —
+        # live_consult never runs it). Retired on the ladder 2026-08-01: its
+        # question is answered (95% confirms offline, 52/53 live) and its
+        # thread-per-firing search bursts are the prime suspect for the
+        # session RSS ratchet (glibc arena retention; 3 oom-kills in 12h).
+        rec["nominations"] = (self._nominations(reasons, ranked)
+                              if ADVOCATE_MS > 0 else [])
         w0_str = None
         if rec["nominations"] and states:
             try:
