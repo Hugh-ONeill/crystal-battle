@@ -129,6 +129,15 @@ if ! "$CB/.venv/bin/python" -c \
     2>/dev/null; then
   echo "FATAL: local Showdown server not up on :8000" >&2; exit 1
 fi
+
+# tenancy preflight (2026-08-01): a 9G bench sharing a 30G box with resident
+# Gemma and a Blender session took the whole SYSTEM down (reboot required).
+# Non-fatal — the operator may know better — but say it loudly.
+AVAIL_G=$(awk '/MemAvailable/{print int($2/1048576)}' /proc/meminfo)
+if [ "$AVAIL_G" -lt 12 ]; then
+  echo "WARNING: only ${AVAIL_G}G MemAvailable — a 9G bench on a busy box" >&2
+  echo "         risks a SYSTEM oom (2026-08-01 reboot). Consider waiting." >&2
+fi
 if pgrep -f "gen9_player[.]py .*--mode accept" >/dev/null 2>&1; then
   echo "FATAL: a bench series is already running" >&2; exit 1
 fi
