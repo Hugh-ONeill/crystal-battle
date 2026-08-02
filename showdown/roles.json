@@ -72,20 +72,38 @@
   "                                 payoff, so a search that models it correctly",
   "                                 sees a different game tree, not a different",
   "                                 number.",
-  "                  status-absorber THE DESIGNATED status switch-in for the team —",
-  "                                 the mon you send in KNOWING status is coming,",
-  "                                 whose loss means the team starts eating it.",
-  "                                 NOT a tag for bare type immunity: the engine",
-  "                                 already models every type-based status",
-  "                                 immunity exactly (Steel/Poison cannot be",
-  "                                 poisoned; a grounded Poison-type CLEARS Toxic",
-  "                                 Spikes on entry — both verified in",
-  "                                 poke-engine 2026-08-02), so tagging a mon for",
-  "                                 having the typing tells the search nothing it",
-  "                                 does not compute, and dilutes the tag toward",
-  "                                 every Steel and Poison mon in the tier. The",
-  "                                 role content is the TEAM DEPENDENCY, which is",
-  "                                 what the eval cannot see.",
+  "                  status-absorber THE DESIGNATED status switch-in: handling status",
+  "                                 is part of what this mon is FOR, so the team",
+  "                                 routes status at it and starts eating status",
+  "                                 when it dies. Two flavours, both tagged:",
+  "                                 ABSORB — takes it harmlessly or undoes it:",
+  "                                   Natural Cure cures on switch-out (Blissey),",
+  "                                   a defensive Poison-type eats Toxic and clears",
+  "                                   Toxic Spikes by entering (Clodsire), or the",
+  "                                   mon is ALREADY statused ON PURPOSE so nothing",
+  "                                   else can land — Flame Orb Guts (Ursaluna),",
+  "                                   Toxic Orb Poison Heal (Gliscor), which also",
+  "                                   turns the status into recovery.",
+  "                                 BLOCK — the status move never lands at all:",
+  "                                   Good as Gold refuses opposing status moves",
+  "                                   outright (Gholdengo).",
+  "                                 NOT for INCIDENTAL type immunity. Every Steel",
+  "                                 and Poison mon in the tier resists poison; that",
+  "                                 does not make a Choice Band attacker its team's",
+  "                                 status sponge, and tagging on typing alone",
+  "                                 dilutes the tag to uselessness (Scizor was",
+  "                                 tagged this way and dropped 2026-08-02). The",
+  "                                 test is whether the mon is BUILT for the job —",
+  "                                 by ability, by item, by deliberate self-status,",
+  "                                 or by being the defensive sponge — not whether",
+  "                                 it happens to be immune.",
+  "                                 ENGINE NOTE: every mechanic named here is",
+  "                                 already modelled exactly (Good as Gold, Natural",
+  "                                 Cure, Poison Heal, already-statused blocking,",
+  "                                 Poison-type Toxic Spikes clearing — all",
+  "                                 verified in poke-engine 2026-08-02). The tag",
+  "                                 does NOT restate the mechanic; it names the TEAM",
+  "                                 DEPENDENCY, which is what no leaf eval sees.",
   "                  cleric         heals or cures THE TEAM and survives to do it",
   "                                 again: Wish passing, Heal Bell, Aromatherapy.",
   "                                 A Healing Wish / Lunar Dance user is NOT this —",
@@ -521,7 +539,8 @@
   "gholdengo": {
    "tags": [
     "spinblocker",
-    "glue"
+    "glue",
+    "status-absorber"
    ],
    "ability": "goodasgold",
    "preserve": "high",
@@ -596,7 +615,8 @@
   "gliscor": {
    "tags": [
     "annuity",
-    "wall"
+    "wall",
+    "status-absorber"
    ],
    "ability": "poisonheal",
    "value_curve": "grows_with_own_status",
@@ -2221,7 +2241,8 @@
   },
   "ursaluna": {
    "tags": [
-    "wallbreaker"
+    "wallbreaker",
+    "status-absorber"
    ],
    "review": "rag-grounded",
    "axis": {
@@ -2751,7 +2772,8 @@
    "tags": [
     "wall",
     "hazard-setter",
-    "support"
+    "support",
+    "status-absorber"
    ],
    "preserve": "high",
    "axis": {
