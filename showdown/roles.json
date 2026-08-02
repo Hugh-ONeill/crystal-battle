@@ -534,7 +534,8 @@
      "prevalence_method": "residual",
      "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
-   ]
+   ],
+   "single_build_note": "Distinct from slowking (Kantonian), which is the Water/Psychic Future Sight pivot; this one is the Poison/Psychic special wall."
   },
   "gholdengo": {
    "tags": [
@@ -1376,7 +1377,8 @@
      "prevalence": 0.29,
      "prevalence_method": "signature"
     }
-   ]
+   ],
+   "single_build_note": "Distinct from ogerpon (base/Teal) and ogerponcornerstone: the Wellspring Mask is mandatory and locks its Tera to Water."
   },
   "dragapult": {
    "tags": [
@@ -2086,7 +2088,8 @@
      }
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25%-of-move-slots rule is correct as written, but was misapplied to share-of-RAW-COUNT: this dump's weighted counts run ~0.57 of Raw count for Enamorus, so raw shares need dividing by sum(Items)/Raw first — deflation-corrected superpower is ~15%, matching the anchor ratio). User had observed Contrary+Superpower in play."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25%-of-move-slots rule is correct as written, but was misapplied to share-of-RAW-COUNT: this dump's weighted counts run ~0.57 of Raw count for Enamorus, so raw shares need dividing by sum(Items)/Raw first — deflation-corrected superpower is ~15%, matching the anchor ratio). User had observed Contrary+Superpower in play.",
+   "single_build_note": "Distinct from enamorustherian, which is the bulky Overcoat Calm Mind attacker — different stats, different ability, effectively a different Pokemon."
   },
   "ironcrown": {
    "tags": [
@@ -2272,7 +2275,7 @@
     "defends": "physical"
    },
    "preserve": "med",
-   "single_build_note": "One build: defensive Heavy-Duty Boots (95%), Flame Body (98%).",
+   "single_build_note": "One build: defensive Heavy-Duty Boots (95%), Flame Body (98%). Distinct from moltresgalar, which is the Dark/Flying Berserk setup sweeper — same line, opposite role.",
    "fact": "A defensive Fire/Flying pivot: Will-O-Wisp cripples physical attackers (and, being a status move, cannot be Sucker Punched), Flame Body threatens a burn on every contact hit against it, U-turn keeps momentum, and Roar throws out anything that tries to set up on it, cashing hazard chip on the replacement. Boots make it indifferent to hazards itself; its checks are strong special attacks, Electric- and Rock-type moves, and Knock Off removing the Boots.",
    "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Boots 95 / Flame Body 98 / Roost 95 / U-turn 77 / Roar 50 marginals; single smogon Defensive analysis."
   },
@@ -2458,7 +2461,8 @@
     }
    ],
    "review": "rag-grounded",
-   "provenance": "Mask and ability are format-locked, hence 100% — not an estimate. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+   "provenance": "Mask and ability are format-locked, hence 100% — not an estimate. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.",
+   "single_build_note": "Distinct from ogerpon (base/Teal) and ogerponwellspring: the Cornerstone Mask is mandatory, its ability is Sturdy, and its Tera is locked to Rock."
   },
   "hydrapple": {
    "tags": [
@@ -2635,7 +2639,7 @@
    "lead_intent": "strong",
    "value_curve": "decays_with_weather_clock",
    "fact": "The sun setter: Drought (100%) starts sun on entry and Heat Rock (94% of items) extends it to eight turns, which is the resource its whole team is built to spend. Its own kit is support — Encore (88%) locks a foe into one move, Will-O-Wisp (80%) halves physical attackers, and Healing Wish (86%) lets it sacrifice itself to fully restore a worn teammate. Weather Ball (53%) becomes a strong Fire attack under its own sun. If it dies before the team has cashed the sun, the team loses its engine, not just a slot.",
-   "single_build_note": "One sun-setter build; offensive variants swap Will-O-Wisp for a coverage move.",
+   "single_build_note": "One sun-setter build; offensive variants swap Will-O-Wisp for a coverage move. Distinct from ninetalesalola, which sets SNOW and Aurora Veil rather than sun.",
    "review": "rag-grounded",
    "provenance": "The weather-preservation motivation in this file's header names exactly this mon class. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
   },
@@ -3022,7 +3026,7 @@
    "lead_intent": "strong",
    "value_curve": "decays_with_weather_clock",
    "fact": "The Aurora Veil lead: Snow Warning (100%) sets snow on entry, which is the PRECONDITION for Aurora Veil (98%) — a single move that reduces both physical and special damage at once, and which cannot be used at all without snow up. Light Clay (85% of items) extends the veil from five turns to eight. Its whole job is those turns: the team behind it sets up inside the veil. Encore (78%) locks a foe into one move to buy a free turn, and Freeze-Dry (76%) is an Ice move that is SUPER EFFECTIVE against Water-types, which is how it threatens the rain setters that would otherwise erase its snow unpunished.",
-   "single_build_note": "One Aurora Veil lead build; the veil turns, not the mon, are the resource.",
+   "single_build_note": "One Aurora Veil lead build; the veil turns, not the mon, are the resource. Distinct from ninetales (Kantonian), which is the Drought sun setter.",
    "review": "rag-grounded",
    "provenance": "Screens-setter role class: a suicide-support lead whose value is the window it opens, not its own survival. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
   },
@@ -3246,7 +3250,8 @@
     }
    ],
    "review": "rag-grounded",
-   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.",
+   "single_build_note": "Distinct from the masked forms (ogerponwellspring, ogerponcornerstone): the base Teal form holds a NORMAL item — which is why Choice Band works on it — and its ability is Defiant."
   },
   "lokix": {
    "tags": [
@@ -3583,7 +3588,8 @@
     "sweep: at +2/+2 with Sitrus recovery behind it, revenge-killing is the only answer left"
    ],
    "review": "rag-grounded",
-   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed."
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.",
+   "single_build_note": "Distinct from moltres (Kantonian), which is the Fire/Flying defensive Will-O-Wisp pivot."
   },
   "quaquaval": {
    "tags": [
@@ -3787,7 +3793,8 @@
    "ability": "rockhead",
    "fact": "A Fire/Rock physical breaker whose ability removes the usual cost of its moves: Rock Head (94%) cancels RECOIL entirely, so Head Smash (95%, 150 BP) and Flare Blitz (98%, 120 BP) hit at full power for free — normally those cost a third and a quarter of the damage back. Extreme Speed (86%) is +2 priority, so it also picks off weakened fast threats. Choice Band (53%) is the common item, making it a locked but enormous hitter.",
    "review": "rag-grounded",
-   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed."
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.",
+   "single_build_note": "Distinct from arcanine (Kantonian), which is the Intimidate/Extreme Speed bulky pivot that DOES pay Flare Blitz recoil."
   },
   "indeedee": {
    "tags": [

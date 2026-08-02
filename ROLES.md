@@ -327,6 +327,8 @@ RAG-grounded [smogon#Zamazenta (gen9ou)]: "Zamazenta is the tier's most consiste
 
 Water Absorb heals it whenever it is hit by a Water move, so it can enter freely on one. Ivy Cudgel is its signature move and becomes Water-type while it holds the Wellspring Mask, with a raised critical-hit rate. It runs one Grass move alongside it rather than both — usually Horn Leech, which drains HP back, sometimes Power Whip for raw power. Swords Dance doubles its Attack, and Trailblaze can be run to raise its Speed by one stage when it hits.
 
+*Single build.* Distinct from ogerpon (base/Teal) and ogerponcornerstone: the Wellspring Mask is mandatory and locks its Tera to Water.
+
 **Set — Swords Dance** *(~61% of sets)*: **tags** setup-sweeper · **axis** attacks physical · **preserve** high · **deployment** setup-window
 
 > Swords Dance doubles Attack, with Trailblaze optionally traded in for a Speed boost when outspeeding is what is missing.
@@ -437,6 +439,8 @@ RAG-grounded [smogon#Corviknight (gen9ou) — Defensive]: "Defog allows Corvikni
 **tags** pivot, wall · **axis** defends special · **ability** regenerator · **preserve** med · **deployment** pivot-cycle · **lead_intent** neutral
 
 Regenerator restores a third of its HP whenever it switches out, so repeated entries cost it almost nothing. Chilly Reception switches it out while setting snow, and Future Sight lands two turns later so it threatens even after leaving the field.
+
+*Single build.* Distinct from slowking (Kantonian), which is the Water/Psychic Future Sight pivot; this one is the Poison/Psychic special wall.
 
 **Set — Assault Vest** *(~24% of sets)*: **tags** wall · **axis** defends special
 
@@ -989,6 +993,8 @@ Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch
 
 A special Fairy wallbreaker whose builds share a Moonblast + Earth Power core with two flex slots drawn from Healing Wish, Mystical Fire, Superpower, and Tera Blast — the item picks the job (Scarf revenge-killer vs Specs breaker) more than the moves do. Contrary inverts every stat change it would suffer: Sticky Web and Icy Wind RAISE its Speed, Intimidate feeds it, and its own Superpower boosts Attack and Defense instead of dropping them — that last one is the ability's designed payoff, carried by roughly a sixth of sets. Healing Wish lets it sacrifice itself late to fully restore a teammate, so a low-HP Enamorus is still worth a full heal.
 
+*Single build.* Distinct from enamorustherian, which is the bulky Overcoat Calm Mind attacker — different stats, different ability, effectively a different Pokemon.
+
 **Set — Choice Scarf** *(~57% of sets)*: **tags** cleaner, revenge-killer · **axis** attacks special · **preserve** med
 
 > Scarf makes it speed control: it outspeeds and revenge-kills fast threats, then often ends the game as a Healing Wish battery for a worn sweeper.
@@ -1013,7 +1019,7 @@ Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch
 
 A defensive Fire/Flying pivot: Will-O-Wisp cripples physical attackers (and, being a status move, cannot be Sucker Punched), Flame Body threatens a burn on every contact hit against it, U-turn keeps momentum, and Roar throws out anything that tries to set up on it, cashing hazard chip on the replacement. Boots make it indifferent to hazards itself; its checks are strong special attacks, Electric- and Rock-type moves, and Knock Off removing the Boots.
 
-*Single build.* One build: defensive Heavy-Duty Boots (95%), Flame Body (98%).
+*Single build.* One build: defensive Heavy-Duty Boots (95%), Flame Body (98%). Distinct from moltresgalar, which is the Dark/Flying Berserk setup sweeper — same line, opposite role.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -1195,6 +1201,8 @@ Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch
 
 The base (Teal Mask) Ogerpon: a fast physical Grass attacker holding a NORMAL item, unlike its masked forms — Choice Band on 62% of sets. Defiant (100%) is the reason it punishes support: any stat drop inflicted by the opponent RAISES its Attack by two stages, so Intimidate, Sticky Web's Speed drop, Parting Shot and Icy Wind all hand it a boost instead of weakening it. Ivy Cudgel (97%) is its STAB, Knock Off (83%) strips items, and U-turn (76%) pivots out of its bad matchups. Its Tera is locked to Grass.
 
+*Single build.* Distinct from the masked forms (ogerponwellspring, ogerponcornerstone): the base Teal form holds a NORMAL item — which is why Choice Band works on it — and its ability is Defiant.
+
 **Set — Choice Band** *(~62% of sets)*: **tags** wallbreaker · **axis** attacks physical
 
 > Locked-in Ivy Cudgel or Knock Off; U-turn is the escape from the lock.
@@ -1215,7 +1223,7 @@ The base (Teal Mask) Ogerpon: a fast physical Grass attacker holding a NORMAL it
 
 The sun setter: Drought (100%) starts sun on entry and Heat Rock (94% of items) extends it to eight turns, which is the resource its whole team is built to spend. Its own kit is support — Encore (88%) locks a foe into one move, Will-O-Wisp (80%) halves physical attackers, and Healing Wish (86%) lets it sacrifice itself to fully restore a worn teammate. Weather Ball (53%) becomes a strong Fire attack under its own sun. If it dies before the team has cashed the sun, the team loses its engine, not just a slot.
 
-*Single build.* One sun-setter build; offensive variants swap Will-O-Wisp for a coverage move.
+*Single build.* One sun-setter build; offensive variants swap Will-O-Wisp for a coverage move. Distinct from ninetalesalola, which sets SNOW and Aurora Veil rather than sun.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -1472,6 +1480,8 @@ A fast Grass attacker built on one interaction: Contrary INVERTS its own stat dr
 
 A physical Grass breaker locked to the Cornerstone Mask (100%) and Sturdy (100%): at full HP it always survives one hit, which is what buys the Swords Dance turn. Its Tera is locked to Rock, and terastallizing both powers up Ivy Cudgel enormously and grants a permanent Defense boost, so the tera is part of the plan rather than an escape. Ivy Cudgel is on every set (100%).
 
+*Single build.* Distinct from ogerpon (base/Teal) and ogerponwellspring: the Cornerstone Mask is mandatory, its ability is Sturdy, and its Tera is locked to Rock.
+
 **Set — Swords Dance** *(~63% of sets)*: **tags** setup-sweeper, wallbreaker · **axis** attacks physical
 
 > Swords Dance behind Sturdy, then Tera Rock Ivy Cudgel through the defensive core.
@@ -1534,7 +1544,7 @@ A bulky Grass/Ghost Calm Mind wincon. Strength Sap (97%) does two jobs in one tu
 
 The Aurora Veil lead: Snow Warning (100%) sets snow on entry, which is the PRECONDITION for Aurora Veil (98%) — a single move that reduces both physical and special damage at once, and which cannot be used at all without snow up. Light Clay (85% of items) extends the veil from five turns to eight. Its whole job is those turns: the team behind it sets up inside the veil. Encore (78%) locks a foe into one move to buy a free turn, and Freeze-Dry (76%) is an Ice move that is SUPER EFFECTIVE against Water-types, which is how it threatens the rain setters that would otherwise erase its snow unpunished.
 
-*Single build.* One Aurora Veil lead build; the veil turns, not the mon, are the resource.
+*Single build.* One Aurora Veil lead build; the veil turns, not the mon, are the resource. Distinct from ninetales (Kantonian), which is the Drought sun setter.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -1776,6 +1786,8 @@ A Steel/Dragon special wall with an enormous Special Defense, further inflated b
 
 A Dark/Flying setup sweeper with an unusual engine: Berserk raises its Special Attack by one stage whenever a hit drops it below half HP, and Sitrus Berry (81% of items) then restores that HP — so TAKING a hit is part of the setup rather than a cost. Nasty Plot (92%) and Agility (89%) are both on nearly every set, so it can boost power and speed in consecutive turns and come out faster and far stronger than it went in. Fiery Wrath (99%) is its STAB, with a flinch chance.
 
+*Single build.* Distinct from moltres (Kantonian), which is the Fire/Flying defensive Will-O-Wisp pivot.
+
 **The play:**
 
 1. get in safely — it needs turns, not chip
@@ -1948,6 +1960,8 @@ A Dragon/Fighting setup wincon with an all-in boosting move: Clangorous Soul (84
 **tags** wallbreaker, priority-attacker · **axis** attacks physical · **ability** rockhead · **preserve** med
 
 A Fire/Rock physical breaker whose ability removes the usual cost of its moves: Rock Head (94%) cancels RECOIL entirely, so Head Smash (95%, 150 BP) and Flare Blitz (98%, 120 BP) hit at full power for free — normally those cost a third and a quarter of the damage back. Extreme Speed (86%) is +2 priority, so it also picks off weakened fast threats. Choice Band (53%) is the common item, making it a locked but enormous hitter.
+
+*Single build.* Distinct from arcanine (Kantonian), which is the Intimidate/Extreme Speed bulky pivot that DOES pay Flare Blitz recoil.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
