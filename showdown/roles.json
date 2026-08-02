@@ -35,26 +35,93 @@
   "SCHEMA (per normalized species; `ability` qualifies when the role depends",
   "on it, since the same species with another ability is a different mon):",
   "  tags         role labels, the primary key for consumers",
-  "                VOCABULARY (reconciled 2026-08-02; hazard-removal and",
-  "                hazard-control were merged into hazard-remover — three",
-  "                spellings of one role meant a consumer keying on any single",
-  "                one silently missed most of them):",
-  "                  attack     wallbreaker, setup-sweeper, sweeper, cleaner,",
-  "                             revenge-killer, priority-attacker, weather-abuser",
-  "                  defend     wall, special-wall, special-tank, special-check,",
-  "                             glue, spinblocker",
-  "                  field      hazard-setter, hazard-remover, weather-setter,",
-  "                             terrain-setter, screens-setter, status-spreader",
-  "                  tempo      pivot, disruptor, stallbreaker, lead, suicide-lead,",
-  "                             sacrificial-support, support",
-  "                  economics  wincon, annuity",
-  "                STILL AMBIGUOUS, deliberately not auto-merged because the",
-  "                distinctions may be real — resolve at review, then canonicalize:",
-  "                  sweeper vs setup-sweeper vs cleaner (does `sweeper` mean",
-  "                    \"sweeps without setup\", or is it an unqualified duplicate?)",
-  "                  wall vs special-wall vs special-tank (is `special-tank` a wall",
-  "                    that attacks back, or just `wall` + axis.defends:special?)",
-  "                  wincon vs cleaner (both name \"the mon that ends the game\")",
+  "                VOCABULARY. Resolved with the user 2026-08-02; the OFFENSIVE",
+  "                roles are separated by WHAT THEY NEED, not by how hard they hit,",
+  "                because that is the part a search cannot infer:",
+  "                  sweeper        OHKOs (at worst 2HKOs) a FULL-HEALTH mon with",
+  "                                 NO setup — a Choice-item attacker, Guts",
+  "                                 Ursaluna. Threat is available immediately.",
+  "                  setup-sweeper  the same bar, but only AFTER a setup move. The",
+  "                                 setup turn is the cost, and the reason these",
+  "                                 need a free entry.",
+  "                  cleaner        sits between sweeper (attack-focused) and",
+  "                                 revenge-killer (speed/priority-focused): it",
+  "                                 picks off CHIPPED mons late, and may or may not",
+  "                                 need setup. Defining limit: it is only useful",
+  "                                 once enough chip exists that the remaining HP",
+  "                                 is in range — early, it is not a cleaner yet.",
+  "                  revenge-killer kills what just came in or just KOd, on speed or",
+  "                                 priority rather than raw power.",
+  "                DEFENSIVE roles read their side off `axis.defends`, never off the",
+  "                tag — `wall` is the general tag, and wall + axis.defends:special",
+  "                IS the special wall (no separate tag; merged 2026-08-02):",
+  "                  wall           absorbs a side; may be near-passive.",
+  "                  tank           a wall with a LEGITIMATE attack axis, but not",
+  "                                 enough of one to be called a bulky attacker.",
+  "                                 Carries axis.attacks as well as axis.defends.",
+  "                  anti-setup     nullifies or erases the opponent's boosts —",
+  "                                 Unaware ignores them, Haze/Clear Smog ERASES",
+  "                                 boosts already banked. Answers \"who can I set",
+  "                                 up against\", which is exactly what a leaf eval",
+  "                                 cannot price. Distinct from disruptor: it does",
+  "                                 not deny the turn, it voids what the turn bought.",
+  "                  trapper        PREVENTS THE SWITCH (Magma Storm, Whirlpool,",
+  "                                 Infestation, Shadow Tag). Structurally the",
+  "                                 strongest tag here: it removes an option from",
+  "                                 the opponent's move set rather than changing a",
+  "                                 payoff, so a search that models it correctly",
+  "                                 sees a different game tree, not a different",
+  "                                 number.",
+  "                  status-absorber a mon that takes status for the team: immune",
+  "                                 already (Poison to Toxic, Steel to poison),",
+  "                                 status-cured on switch (Natural Cure), already",
+  "                                 statused on purpose (Guts/Poison Heal), or it",
+  "                                 clears the hazard by entering (Poison-types",
+  "                                 absorb Toxic Spikes).",
+  "                  cleric         heals or cures THE TEAM and survives to do it",
+  "                                 again: Wish passing, Heal Bell, Aromatherapy.",
+  "                                 A Healing Wish / Lunar Dance user is NOT this —",
+  "                                 it spends itself, so it is sacrificial-support.",
+  "                  bulky-attacker real bulk AND a real offensive presence — the",
+  "                                 step past tank, where the attack, not the",
+  "                                 absorption, is the point.",
+  "                  trick-room-setter  sets Trick Room, which INVERTS the speed",
+  "                                 order while it lasts. Grouped with the other",
+  "                                 field-setters; a slow beneficiary is not tagged",
+  "                                 but declares `requires` or a `conditional`,",
+  "                                 since being slow is only an asset while the",
+  "                                 room is up. (No entry sets it yet — the tag is",
+  "                                 documented ahead of the dedicated-TR builds.)",
+  "                ECONOMICS — `wincon` is not a synonym for `cleaner`, and the two",
+  "                are not exclusive; they answer different questions:",
+  "                  cleaner        WHEN: only at the end, gated on accumulated chip.",
+  "                  wincon         IF: given the right opportunity — which can",
+  "                                 arrive at ANY point, and depends on the",
+  "                                 opponent and on luck — setting this mon up",
+  "                                 correctly basically wins the game. Wincons",
+  "                                 tend to have something extra: a setup-sweeper",
+  "                                 with sustain or bulk, a cleaner whose boosting",
+  "                                 attacks snowball, or an off-colour case like an",
+  "                                 Iron Defense/Body Press wall against a team that",
+  "                                 has lost its special attackers, or a Calm Mind",
+  "                                 special wall against one that has lost its",
+  "                                 physical attackers. That last kind is why wincon",
+  "                                 status is often CONDITIONAL — prefer a",
+  "                                 `conditional` entry over an unqualified tag when",
+  "                                 the opportunity is what creates the role.",
+  "                  annuity        value accrues by being kept ALIVE, not by acting.",
+  "                Remaining groups: field (hazard-setter, hazard-remover,",
+  "                weather-setter, terrain-setter, screens-setter, status-spreader);",
+  "                tempo (pivot, disruptor, stallbreaker, lead, suicide-lead,",
+  "                sacrificial-support, support); plus wallbreaker,",
+  "                priority-attacker, weather-abuser, glue, spinblocker.",
+  "                NAMED SUBTYPES that deliberately get NO tag of their own, because",
+  "                an existing tag already covers them — recorded so they are not",
+  "                re-invented: a PHAZER (Whirlwind/Roar/Dragon Tail: force the",
+  "                switch, reset boosts, cash hazards on whatever is dragged in) is",
+  "                a disruptor; SPEED CONTROL (Choice Scarf, Tailwind) is a",
+  "                revenge-killer plus its item; a DEFOGGER/SPINNER is a",
+  "                hazard-remover; a WEBS setter is a hazard-setter.",
   "                A NEW TAG MUST BE ADDED HERE when first used. Consumers should",
   "                treat an unknown tag as no-information, never as an error.",
   "                `disruptor` is its own role, distinct from wall and attacker:",
@@ -1713,7 +1780,8 @@
    "tags": [
     "pivot",
     "annuity",
-    "wall"
+    "wall",
+    "cleric"
    ],
    "ability": "regenerator",
    "preserve": "high",
@@ -2036,7 +2104,7 @@
      "name": "Assault Vest",
      "tags": [
       "pivot",
-      "special-check"
+      "tank"
      ],
      "axis": {
       "attacks": "special",
@@ -2051,8 +2119,9 @@
   },
   "primarina": {
    "tags": [
-    "special-tank",
-    "wallbreaker"
+    "tank",
+    "wallbreaker",
+    "trapper"
    ],
    "review": "rag-grounded",
    "axis": {
@@ -2069,7 +2138,7 @@
     {
      "name": "Assault Vest",
      "tags": [
-      "special-tank",
+      "tank",
       "pivot"
      ],
      "axis": {
@@ -2144,7 +2213,8 @@
   },
   "ursaluna": {
    "tags": [
-    "wallbreaker"
+    "wallbreaker",
+    "status-absorber"
    ],
    "review": "rag-grounded",
    "axis": {
@@ -2180,9 +2250,10 @@
   },
   "heatran": {
    "tags": [
-    "special-wall",
+    "wall",
     "stallbreaker",
-    "hazard-setter"
+    "hazard-setter",
+    "trapper"
    ],
    "review": "rag-grounded",
    "axis": {
@@ -2205,7 +2276,7 @@
     {
      "name": "Specially Defensive",
      "tags": [
-      "special-wall",
+      "wall",
       "hazard-setter"
      ],
      "axis": {
@@ -2235,7 +2306,8 @@
   "clefable": {
    "tags": [
     "wall",
-    "hazard-setter"
+    "hazard-setter",
+    "anti-setup"
    ],
    "review": "rag-grounded",
    "axis": {
@@ -2484,7 +2556,7 @@
      "name": "Assault Vest",
      "tags": [
       "wallbreaker",
-      "special-wall"
+      "wall"
      ],
      "axis": {
       "attacks": "mixed",
@@ -2562,7 +2634,8 @@
    "tags": [
     "revenge-killer",
     "wallbreaker",
-    "pivot"
+    "pivot",
+    "status-absorber"
    ],
    "preserve": "med",
    "axis": {
@@ -2670,7 +2743,7 @@
   },
   "blissey": {
    "tags": [
-    "special-wall",
+    "wall",
     "hazard-setter",
     "support"
    ],
@@ -2684,7 +2757,7 @@
     {
      "name": "Utility / Stealth Rock",
      "tags": [
-      "special-wall",
+      "wall",
       "hazard-setter"
      ],
      "axis": {
@@ -2697,7 +2770,7 @@
     {
      "name": "Calm Mind",
      "tags": [
-      "special-wall",
+      "wall",
       "setup-sweeper"
      ],
      "axis": {
@@ -2747,7 +2820,7 @@
      "name": "Assault Vest",
      "tags": [
       "pivot",
-      "special-wall"
+      "wall"
      ],
      "axis": {
       "attacks": "special",
@@ -2789,7 +2862,8 @@
   "dondozo": {
    "tags": [
     "wall",
-    "setup-sweeper"
+    "setup-sweeper",
+    "anti-setup"
    ],
    "preserve": "high",
    "axis": {
@@ -2990,7 +3064,8 @@
    "tags": [
     "wall",
     "setup-sweeper",
-    "pivot"
+    "pivot",
+    "anti-setup"
    ],
    "preserve": "med",
    "axis": {
@@ -3024,7 +3099,8 @@
    "tags": [
     "wall",
     "disruptor",
-    "hazard-setter"
+    "hazard-setter",
+    "anti-setup"
    ],
    "preserve": "high",
    "axis": {
@@ -3085,8 +3161,10 @@
   },
   "clodsire": {
    "tags": [
-    "special-wall",
-    "hazard-setter"
+    "wall",
+    "hazard-setter",
+    "anti-setup",
+    "status-absorber"
    ],
    "preserve": "high",
    "axis": {
