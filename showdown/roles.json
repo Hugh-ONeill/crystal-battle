@@ -72,12 +72,20 @@
   "                                 payoff, so a search that models it correctly",
   "                                 sees a different game tree, not a different",
   "                                 number.",
-  "                  status-absorber a mon that takes status for the team: immune",
-  "                                 already (Poison to Toxic, Steel to poison),",
-  "                                 status-cured on switch (Natural Cure), already",
-  "                                 statused on purpose (Guts/Poison Heal), or it",
-  "                                 clears the hazard by entering (Poison-types",
-  "                                 absorb Toxic Spikes).",
+  "                  status-absorber THE DESIGNATED status switch-in for the team —",
+  "                                 the mon you send in KNOWING status is coming,",
+  "                                 whose loss means the team starts eating it.",
+  "                                 NOT a tag for bare type immunity: the engine",
+  "                                 already models every type-based status",
+  "                                 immunity exactly (Steel/Poison cannot be",
+  "                                 poisoned; a grounded Poison-type CLEARS Toxic",
+  "                                 Spikes on entry — both verified in",
+  "                                 poke-engine 2026-08-02), so tagging a mon for",
+  "                                 having the typing tells the search nothing it",
+  "                                 does not compute, and dilutes the tag toward",
+  "                                 every Steel and Poison mon in the tier. The",
+  "                                 role content is the TEAM DEPENDENCY, which is",
+  "                                 what the eval cannot see.",
   "                  cleric         heals or cures THE TEAM and survives to do it",
   "                                 again: Wish passing, Heal Bell, Aromatherapy.",
   "                                 A Healing Wish / Lunar Dance user is NOT this —",
@@ -2213,8 +2221,7 @@
   },
   "ursaluna": {
    "tags": [
-    "wallbreaker",
-    "status-absorber"
+    "wallbreaker"
    ],
    "review": "rag-grounded",
    "axis": {
@@ -2634,8 +2641,7 @@
    "tags": [
     "revenge-killer",
     "wallbreaker",
-    "pivot",
-    "status-absorber"
+    "pivot"
    ],
    "preserve": "med",
    "axis": {
