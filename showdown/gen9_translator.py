@@ -515,12 +515,16 @@ class Gen9Translator:
 
         booked = self._book_set(species, known_moves)
 
-        # behavioral disproof: this mon used two moves in one stint, so no
-        # tier may hand it a Choice item (revealed items still win)
+        # CONSTRAINT LAYER: everything the observations have PROVEN this mon
+        # cannot hold, applied to every tier below (curated, archive, chaos)
+        # rather than checked ad hoc per tier — the scattered version is how
+        # the Choice Band Gliscor survived a game's worth of contrary
+        # evidence. Revealed items still win over all of it.
         disproven = frozenset()
-        if self._obs is not None \
-                and _normalize(species) in self._obs.choice_disproven:
-            disproven = _CHOICE_LOCKERS
+        if self._obs is not None:
+            disproven = self._obs.forbidden(species)
+            if _normalize(species) in self._obs.choice_disproven:
+                disproven = disproven | _CHOICE_LOCKERS
 
         # full-set archive tier: a correlated whole-team match beats every
         # per-species source; the book (this exact opponent's observed

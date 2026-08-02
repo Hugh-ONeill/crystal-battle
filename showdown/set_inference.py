@@ -149,6 +149,22 @@ class BattleObservations:
         # Talk, Dancer, locked-move continuations) and Struggle don't count.
         self.choice_disproven: set[str] = set()
         self._stint_moves: dict[str, set] = {}   # role -> move ids this stint
+
+        # UNIFIED CONSTRAINT LAYER (2026-08-02). Before this, eliminations
+        # lived in four separate places (`boots`, `speed_floor`, `confirmed`,
+        # `choice_disproven`), each consulted by SOME tiers and not others —
+        # which is how the Choice Band Gliscor survived: the damage-bracket
+        # wrote `confirmed` and no later evidence re-checked it. This is one
+        # per-species set of items the mon PROVABLY does not hold, and every
+        # tier filters through it. Eliminations are DEDUCTIVE and therefore
+        # safe to apply blindly; positive assertions (Boots from zero chip)
+        # stay separate because they are abductive and need a uniqueness
+        # argument (Magic Guard explains the same observation).
+        self.impossible_items: dict[str, set] = {}
+        # per-species HP state at the last end-of-turn, for upkeep proofs
+        self._opp_hp: dict[str, tuple[int, int]] = {}
+        self._healed_this_turn: set[str] = set()
+        self._opp_unstatused: set[str] = set()
         self._side_sr = {"p1": False, "p2": False}      # Stealth Rock per side
         self._side_spikes = {"p1": False, "p2": False}  # Spikes per side
         self._gravity = False                    # grounds everyone for Spikes
@@ -173,6 +189,40 @@ class BattleObservations:
     @staticmethod
     def _boost_mult(stages: int) -> float:
         return (2 + stages) / 2 if stages >= 0 else 2 / (2 - stages)
+
+    def _forbid(self, species: str, *items: str):
+        """Record items this species PROVABLY does not hold."""
+        if not species:
+            return
+        self.impossible_items.setdefault(species, set()).update(items)
+
+    def forbidden(self, species: str) -> frozenset:
+        """Items ruled out for this species. Every set tier filters on this."""
+        return frozenset(self.impossible_items.get(_normalize(species), ()))
+
+    def _close_turn_upkeep(self):
+        """End-of-turn proofs from what did NOT happen.
+
+        An item that heals or triggers at upkeep announces itself when it
+        does. So a mon sitting below max HP through an end-of-turn WITHOUT a
+        heal cannot be holding Leftovers or Black Sludge, and one that ends a
+        turn unstatused cannot be holding Flame Orb or Toxic Orb (they self-
+        inflict on the first upkeep they are held through).
+
+        This is the elimination that actually pays: 5.0% of our assumptions
+        about such mons still said Leftovers (measured 2026-08-02, 6,339
+        assumptions), against 0.2% for the equivalent Boots case — because
+        Leftovers is the most common item in the tier at 16.1% prior, so the
+        prior puts real mass on exactly what the observation refutes.
+        """
+        for sp, (hp, maxhp) in self._opp_hp.items():
+            if sp in self._healed_this_turn or hp <= 0:
+                continue
+            if hp < maxhp:
+                self._forbid(sp, "leftovers", "blacksludge")
+            if sp in self._opp_unstatused:
+                self._forbid(sp, "flameorb", "toxicorb")
+        self._healed_this_turn = set()
 
     def _capture_reveals(self, event, opp_role):
         """Record [from] item:/ability: tags. An [of] tag reassigns the
@@ -294,6 +344,7 @@ class BattleObservations:
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
             if kind == "turn":
+                self._close_turn_upkeep()   # proofs from what did NOT happen
                 self._resolve_entry()  # switch-in window closes at end of turn
                 self._eval_turn_order(battle)
                 self._turn_moves = []
@@ -362,10 +413,28 @@ class BattleObservations:
                 role = event[2][:2]
                 # opponent's incoming mon took hazard chip -> it does NOT
                 # have Boots; cancel the negative-evidence latch
-                if (role == opp_role and self._entry_latch is not None
-                        and any(("Stealth Rock" in a or "Spikes" in a)
-                                for a in event[4:])):
-                    self._entry_latch["chipped"] = True
+                if role == opp_role and any(
+                        ("Stealth Rock" in a or "Spikes" in a)
+                        for a in event[4:]):
+                    if self._entry_latch is not None:
+                        self._entry_latch["chipped"] = True
+                    # hazard chip PROVES no Boots. Measured rare (0.2% of
+                    # assumptions) because the mons that take chip are the
+                    # ones whose builds do not run Boots anyway — kept
+                    # because it costs one line on the constraint layer.
+                    sp = _normalize(event[2].split(":")[1])
+                    self._forbid(sp, "heavydutyboots")
+                if role == opp_role and "/" in str(event[3]):
+                    sp = _normalize(event[2].split(":")[1])
+                    try:
+                        cur, mx = event[3].split(" ")[0].split("/")
+                        self._opp_hp[sp] = (int(cur), int(mx))
+                    except ValueError:
+                        pass
+                    if len(event[3].split(" ")) == 1:
+                        self._opp_unstatused.add(sp)
+                    else:
+                        self._opp_unstatused.discard(sp)
                 if role == our_role:
                     species = _normalize(event[2].split(":")[1])
                     new_hp = 0
@@ -382,12 +451,29 @@ class BattleObservations:
                     self._hp[species] = new_hp
             elif kind == "-heal" and len(event) >= 4:
                 role = event[2][:2]
+                if role == opp_role:
+                    sp = _normalize(event[2].split(":")[1])
+                    self._healed_this_turn.add(sp)
+                    if "/" in str(event[3]):
+                        try:
+                            cur, mx = event[3].split(" ")[0].split("/")
+                            self._opp_hp[sp] = (int(cur), int(mx))
+                        except ValueError:
+                            pass
                 if role == our_role and "/" in event[3]:
                     species = _normalize(event[2].split(":")[1])
                     try:
                         self._hp[species] = int(event[3].split("/")[0])
                     except ValueError:
                         pass
+            elif kind == "-status" and len(event) >= 3:
+                if event[2][:2] == opp_role:
+                    self._opp_unstatused.discard(
+                        _normalize(event[2].split(":")[1]))
+            elif kind == "-curestatus" and len(event) >= 3:
+                if event[2][:2] == opp_role:
+                    self._opp_unstatused.add(
+                        _normalize(event[2].split(":")[1]))
             elif kind == "-crit":
                 if self._pending is not None:
                     self._pending["invalid"] = True
