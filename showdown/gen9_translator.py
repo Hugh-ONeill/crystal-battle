@@ -649,9 +649,21 @@ class Gen9Translator:
                               known_item=known_item,
                               known_ability=known_ability,
                               speed_floor=floor)
+        # An item ruled out does NOT rule out the SET. Most builds tolerate
+        # several items that shift them subtly (Kingambit's Leftovers vs
+        # Black Glasses vs Air Balloon are the same set), so dropping the
+        # candidate would discard its moveset and spread — the very things
+        # the curated tier exists to supply — over one refuted axis. Prefer
+        # candidates whose item survives; if NONE do, keep them and re-draw
+        # the item instead of falling through to a fully chaos-composed set.
+        redraw_item = False
         if exclude_items:
-            cands = [c for c in cands
-                     if _normalize(c.get("item") or "") not in exclude_items]
+            ok = [c for c in cands
+                  if _normalize(c.get("item") or "") not in exclude_items]
+            if ok:
+                cands = ok
+            else:
+                redraw_item = True
         # confidence gate: with nothing revealed, an editorial dex set is
         # only trusted if the ladder corpus corroborates it — the suite A/B
         # showed uncorroborated curated sets cost more than chaos sampling
@@ -677,6 +689,16 @@ class Gen9Translator:
             cand = rng.choices(cands, weights=[c["weight"] for c in cands])[0]
 
         item = cand["item"]
+        if redraw_item and known_item is None:
+            stats = self._chaos().pokemon.get(species)
+            pool = {i: p for i, p in (stats._items if stats else {}).items()
+                    if i not in exclude_items}
+            if pool:
+                rng2 = rng or random.Random(0)
+                item = rng2.choices(list(pool),
+                                    weights=list(pool.values()))[0]
+            else:
+                item = "none"
         if (getattr(self, "_speed_pess", False) and known_item is None
                 and item != "choicescarf"):
             stats = self._chaos().pokemon.get(species)

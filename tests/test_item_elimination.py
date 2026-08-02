@@ -88,25 +88,41 @@ def test_forbidden_is_empty_for_an_unseen_species():
     assert obs(["|turn|1"]).forbidden("weavile") == frozenset()
 
 
-def test_the_constraint_can_empty_a_tier_and_that_is_correct(tmp_path):
-    """If every curated candidate is refuted, the tier must yield nothing and
-    the caller falls through — not return a set the evidence rules out.
+def test_a_refuted_item_does_not_discard_the_set(tmp_path):
+    """A ruled-out ITEM must not rule out the SET.
 
-    Kingambit is the live case: all three curated sets hold Leftovers, so a
-    Kingambit proven Leftovers-less has NO consistent curated build and must
-    be drawn from chaos (with the same constraint applied there).
+    User correction 2026-08-02: most builds tolerate several items that shift
+    them subtly — Kingambit's Leftovers vs Black Glasses vs Air Balloon are
+    the same set — so dropping the candidate would throw away its moveset and
+    spread, the very things the curated tier exists to supply, over one
+    refuted axis. Kingambit is the live case: all three curated sets hold
+    Leftovers, so a Leftovers-less Kingambit must keep a curated MOVESET and
+    have only its item re-drawn.
     """
-    import showdown.ps_sets as ps_mod
-    cls = next(getattr(ps_mod, n) for n in dir(ps_mod)
-               if n[0].isupper() and hasattr(getattr(ps_mod, n), "consistent"))
+    import random
+
+    from showdown.gen9_translator import Gen9Translator
+
     o = obs(["|switch|p2a: Kingambit|Kingambit, M|100/100",
              "|-damage|p2a: Kingambit|60/100",
              "|turn|3"])
     banned = o.forbidden("kingambit")
-    cands = cls().consistent("kingambit")
-    assert cands, "fixture assumes curated kingambit sets exist"
-    kept = [c for c in cands if c["item"] not in banned]
-    assert not kept, "expected every curated kingambit set to be refuted"
+    assert "leftovers" in banned
+
+    tr = Gen9Translator(set_source="gen9ou")
+    tr._obs, tr._rng, tr._prefer_ps = o, random.Random(5), True
+    items, movesets = set(), set()
+    for _ in range(12):
+        s = tr._opp_set("kingambit")
+        assert s is not None, "the set must survive a refuted item"
+        items.add(s["item"])
+        movesets.add(tuple(sorted(s["moves"])))
+    assert not (items & banned), f"drew a ruled-out item: {items & banned}"
+    assert items - {"leftovers"}, "item must actually be re-drawn"
+    # the curated movesets are the point: they must be preserved, not
+    # replaced by a chaos composition
+    for ms in movesets:
+        assert "suckerpunch" in ms and len(ms) == 4, ms
 
 
 def test_chaos_sampling_respects_the_same_constraint():
