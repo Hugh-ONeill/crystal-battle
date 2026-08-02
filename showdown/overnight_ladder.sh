@@ -90,8 +90,19 @@ START=$(date +%s)
 # budget-by-clock escalation path; a dated desk-log accrues calibration data.
 # `timeout $RUN_DEADLINE` caps the whole session by wall-clock so a thin/empty
 # queue can't churn search-timeouts past the night.
-systemd-inhibit --mode=block --what=sleep:idle \
-    --why="crystal-battle overnight ladder ($N_GAMES games)" \
+#
+# Probe the inhibitor FIRST and fall back to running uninhibited: on
+# 2026-08-02 02:29 the timer fired mid-suspend-cycle, systemd-inhibit failed
+# with "operation already running", and the whole session died in 1s — a
+# session without an inhibitor beats no session. (Probe-then-run has a tiny
+# race; acceptable. Wrapping with `|| retry` instead would re-run the whole
+# session whenever the INNER command exits nonzero — do not do that.)
+INHIBIT="systemd-inhibit --mode=block --what=sleep:idle --why=crystal-battle-overnight-ladder"
+if ! $INHIBIT true 2>/dev/null; then
+  echo "WARNING: suspend inhibitor unavailable (mid-suspend-cycle?); running uninhibited"
+  INHIBIT=""
+fi
+$INHIBIT \
     timeout "$RUN_DEADLINE" \
     sh showdown/ladder_session.sh "$TAG" "$N_GAMES" "$SERVER" "$POOL" \
         --adaptive on --desk-log "$DESK" "$@"
