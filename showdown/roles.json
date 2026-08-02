@@ -1899,7 +1899,7 @@
     "attacks": "special"
    },
    "preserve": "med",
-   "fact": "A special Fairy wallbreaker whose two builds run the SAME four moves (Moonblast, Earth Power, Mystical Fire, Healing Wish) — only the item changes the job. Contrary inverts stat drops, so Intimidate-style drops and its own Superpower raise it instead. Healing Wish lets it sacrifice itself late to fully restore a teammate, so a low-HP Enamorus is still worth a full heal.",
+   "fact": "A special Fairy wallbreaker whose builds share a Moonblast + Earth Power core with two flex slots drawn from Healing Wish, Mystical Fire, Superpower, and Tera Blast — the item picks the job (Scarf revenge-killer vs Specs breaker) more than the moves do. Contrary inverts every stat change it would suffer: Sticky Web and Icy Wind RAISE its Speed, Intimidate feeds it, and its own Superpower boosts Attack and Defense instead of dropping them — that last one is the ability's designed payoff, carried by roughly a sixth of sets. Healing Wish lets it sacrifice itself late to fully restore a teammate, so a low-HP Enamorus is still worth a full heal.",
    "ability_split": {
     "contrary": 0.9,
     "cutecharm": 0.1
@@ -1931,9 +1931,21 @@
      "prevalence": 0.18,
      "prevalence_method": "signature",
      "fact": "Specs Moonblast 2HKOes bulky pivots; Earth Power and Mystical Fire cover the Steels and Poisons that resist it."
+    },
+    {
+     "name": "Superpower (Contrary)",
+     "prevalence": 0.16,
+     "prevalence_method": "signature",
+     "fact": "Runs Superpower in a flex slot: with Contrary it comes out at +1 Atk/+1 Def per use, turning the usual self-cripple into a snowball and punishing the Kingambit/Heatran/Tyranitar class that walls its special core.",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "mixed"
+     }
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25% rule misfires here because this dump's weighted move counts deflate vs Raw count; anchor-ratio used instead). User had observed Contrary+Superpower in play."
   },
   "ironcrown": {
    "tags": [
