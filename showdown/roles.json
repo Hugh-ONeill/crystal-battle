@@ -2860,6 +2860,291 @@
    "fact": "The sand setter: Sand Stream (98%) starts sand on entry, and Smooth Rock (34% of items) extends it to eight turns — the resource a sand team's Sand Rush sweeper is built to spend. It is a genuine physical wall too, with Slack Off (91%) recovery, Stealth Rock (78%), and Whirlwind (55%) to force setup sweepers out and drag the replacement onto its hazards. Eject Button (13%) is a real minority: it flips the setter out the instant it is hit, bringing a teammate in for free with the sand already up.",
    "single_build_note": "One defensive sand-setter build; the item chooses the job — Smooth Rock 34% (longest sand), Leftovers 27%, Rocky Helmet 16%, Eject Button 13%.",
    "provenance": "NO SMOGON ANALYSIS EXISTS for this species in the gen9ou corpus (0.47% usage is below the analysis cutoff) — every claim here is from usage stats plus verified move/ability mechanics, never from role prose, hence review=usage-only. We have faced it 31 times on the ladder, which is why it is entered at all: our opponent pool skews off-meta relative to Smogon usage. User-flagged 2026-08-02, including the Eject Button read (confirmed at 13%). NOTE for anyone carrying monotype habits over: Smooth Rock is NOT banned in gen9 OU (Hippowdon 34%, Tyranitar 31%); the Smooth/Damp Rock ban is a MONOTYPE rule. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "ninetalesalola": {
+   "tags": [
+    "screens-setter",
+    "weather-setter",
+    "support",
+    "disruptor"
+   ],
+   "preserve": "high",
+   "ability": "snowwarning",
+   "resource": "snow + Aurora Veil",
+   "deployment": "lead",
+   "lead_intent": "strong",
+   "value_curve": "decays_with_weather_clock",
+   "fact": "The Aurora Veil lead: Snow Warning (100%) sets snow on entry, which is the PRECONDITION for Aurora Veil (98%) — a single move that reduces both physical and special damage at once, and which cannot be used at all without snow up. Light Clay (85% of items) extends the veil from five turns to eight. Its whole job is those turns: the team behind it sets up inside the veil. Encore (78%) locks a foe into one move to buy a free turn, and Freeze-Dry (76%) is an Ice move that is SUPER EFFECTIVE against Water-types, which is how it threatens the rain setters that would otherwise erase its snow unpunished.",
+   "single_build_note": "One Aurora Veil lead build; the veil turns, not the mon, are the resource.",
+   "review": "rag-grounded",
+   "provenance": "Screens-setter role class: a suicide-support lead whose value is the window it opens, not its own survival. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "blaziken": {
+   "tags": [
+    "setup-sweeper",
+    "wallbreaker"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "speedboost",
+   "deployment": "setup-window",
+   "value_curve": "grows_with_turns_active",
+   "fact": "A Fire/Fighting sweeper whose threat grows every turn it survives: Speed Boost (98%) raises its Speed by one stage at the END of every turn it is on the field, so a mon that starts slower than the field ends up faster than all of it. Protect (54%) is the standard way to bank a boost safely without taking a hit. Swords Dance (73%) stacks power on top of that speed. Close Combat (81%) drops its own defenses; Flare Blitz (60%) costs it recoil. It offers nothing defensively — it is on the field to accumulate boosts and then end the game.",
+   "sequence": [
+    "get in safely — on a faint or a slow pivot, since it cannot afford chip",
+    "Protect or force a switch: the turn ends and Speed rises one stage",
+    "Swords Dance once the Speed tier is already won",
+    "sweep before recoil and hazard chip run the clock out"
+   ],
+   "single_build_note": "One Swords Dance build; items split Life Orb 34% / Focus Sash 19% / Leftovers 16%.",
+   "review": "rag-grounded",
+   "provenance": "value_curve 'grows_with_turns_active' (per-turn accumulators like Speed Boost) is not in the schema comment's list, but nor are 'grows_with_own_status' and 'decays_with_chip' already in use — the header enum has DRIFTED from the file and should be reconciled at review; adding a value follows existing practice rather than breaking it. Nothing consumes the field yet. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "hawlucha": {
+   "tags": [
+    "setup-sweeper"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "unburden",
+   "deployment": "setup-window",
+   "requires": "a TERRAIN its seed can consume — the seed is what starts the whole plan",
+   "entry_condition": "terrain_up",
+   "fact": "A terrain-dependent sweeper built on a two-step item trick. It carries a Seed (Grassy 51%, Psychic 17%) which is CONSUMED on entry if the matching terrain is up, giving it a free defensive boost; consuming the item then triggers Unburden (88%), which DOUBLES its Speed; and having no item afterwards DOUBLES the power of Acrobatics (88%), its STAB. One seed pays three times. Swords Dance (90%) is on nearly every set, and Encore (52%) locks a foe into a status move to buy the setup turn. Without terrain the seed never fires and none of it happens.",
+   "sequence": [
+    "a teammate sets the terrain (or it comes in under an existing one)",
+    "switch in: the seed is consumed, defense rises, Unburden doubles Speed",
+    "Swords Dance — often on an Encore-locked foe",
+    "Acrobatics at double power, now item-less and faster than the field"
+   ],
+   "single_build_note": "One Unburden sweeper build; which seed it holds tells you which terrain its team sets.",
+   "review": "rag-grounded",
+   "provenance": "Unburden's Speed doubling, Acrobatics' no-item doubling and seed consumption verified in sim data — the three-way synergy is mechanical, not editorial. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "manaphy": {
+   "tags": [
+    "setup-sweeper",
+    "wallbreaker"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special"
+   },
+   "ability": "hydration",
+   "deployment": "setup-window",
+   "fact": "A bulky Water setup sweeper with the fastest boost in the tier: Tail Glow (76%) raises its Special Attack by THREE stages in a single turn, so one free turn is the whole setup rather than the first of several. It has the bulk to find that turn against passive mons. Surf (64%), Energy Ball (46%) and Ice Beam (43%) cover what Water alone cannot; Alluring Voice (33%) punishes a foe that boosts in front of it. Hydration (100%) cures its status instantly while rain is up, so against a rain team it cannot be crippled by status. Its Speed is middling — it breaks, then needs support to clean.",
+   "single_build_note": "One Tail Glow build; Leftovers 57% is the default, with Mystic Water 17% and Sitrus Berry 15% behind it.",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "skeledirge": {
+   "tags": [
+    "wall",
+    "setup-sweeper",
+    "pivot"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special",
+    "defends": "special"
+   },
+   "ability": "unaware",
+   "fact": "A Fire/Ghost defensive wincon. Unaware (97%) ignores the opponent's stat boosts entirely, so a setup sweeper gains nothing against it. Torch Song (99%) is the trick: it damages AND raises its own Special Attack every time it is used, so simply attacking is also setting up — a wall that becomes a threat without ever spending a turn on a boost move. Slack Off (87%) is reliable recovery, Will-O-Wisp (71%) burns physical attackers, and Hex (53%) deals DOUBLE damage to a statused target, which pairs directly with its own burns. Its Ghost typing blocks Rapid Spin.",
+   "single_build_note": "One defensive build; the EV spread chooses the side it walls (special-defensive vs physically defensive) more than the moves do.",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "ironhands": {
+   "tags": [
+    "wallbreaker",
+    "setup-sweeper"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "quarkdrive",
+   "entry_condition": "first_entry_boost",
+   "deployment": "bait-switch",
+   "fact": "An enormous, very slow Electric/Fighting attacker. Booster Energy (59% of items) is consumed on its FIRST entry and boosts its highest stat through Quark Drive (100%) — a one-shot resource, so its second switch-in is a weaker Pokemon than its first. Drain Punch (80%) heals it as it attacks, which is how something this slow survives repeated entries; Ice Punch (90%) covers the Dragons and Grounds. Swords Dance (61%) turns its huge Attack into an unanswerable one. Its very low Speed is an ASSET under Trick Room, where it moves first instead of last.",
+   "single_build_note": "One Swords Dance build; the Assault Vest minority (17%) trades setup for special bulk.",
+   "review": "rag-grounded",
+   "provenance": "Trick Room relevance is mechanical (lowest Speed moves first while the room is up), and matches this pool's dedicated-TR archetypes. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "toxapex": {
+   "tags": [
+    "wall",
+    "disruptor",
+    "hazard-setter"
+   ],
+   "preserve": "high",
+   "axis": {
+    "defends": "physical"
+   },
+   "ability": "regenerator",
+   "fact": "The archetypal defensive pivot: Regenerator (96%) restores a third of its HP every time it switches out, so it never needs to spend turns healing what chip took. Recover (86%) covers the rest. Haze (70%) is its answer to setup — it RESETS EVERY STAT CHANGE ON THE FIELD, wiping a sweeper's boosts no matter how many it has, and unlike Unaware it also erases boosts already banked. Toxic (76%) and Toxic Spikes (37%) put the opponent on a clock. Baneful Bunker (32%) is a Protect that POISONS anything making contact with it. Its own damage output is negligible: it wins by outlasting, and loses to Taunt and to foes that ignore poison.",
+   "sets": [
+    {
+     "name": "Defensive",
+     "tags": [
+      "wall",
+      "disruptor"
+     ],
+     "axis": {
+      "defends": "physical"
+     },
+     "prevalence": 0.7,
+     "prevalence_method": "signature",
+     "fact": "Leftovers or Black Sludge with Recover/Haze/Toxic: the classic unkillable pivot."
+    },
+    {
+     "name": "Assault Vest",
+     "tags": [
+      "wall",
+      "pivot"
+     ],
+     "axis": {
+      "defends": "special"
+     },
+     "prevalence": 0.21,
+     "prevalence_method": "estimate",
+     "prevalence_note": "Item share is ambiguous here — Boots 21% overlaps both builds; the vest build is the one that cannot click Recover, Haze or Toxic at all.",
+     "fact": "Trades every status and recovery move for special bulk, becoming a special sponge that attacks back."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "greninja": {
+   "tags": [
+    "wallbreaker",
+    "revenge-killer"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special"
+   },
+   "value_curve": "grows_after_first_ko",
+   "fact": "A very fast, frail special attacker. Battle Bond (68%) is a ONE-TIME transformation: the first time Greninja causes a faint, it permanently gains +1 Attack, +1 Special Attack and +1 Speed for the rest of the battle — so the first kill it takes makes every later one easier, and trading a weakened mon into it is more expensive than it looks. Water Shuriken (56%) is a multi-hit PRIORITY move, letting it finish faster threats and break Substitutes and Sashes. Dark Pulse (85%) and Ice Beam (79%) cover the tier. The Protean minority (29%) instead changes its type to match its move once per switch-in.",
+   "ability_split": {
+    "battlebond": 0.68,
+    "protean": 0.29
+   },
+   "single_build_note": "One Battle Bond attacker build; Life Orb 47% is the default item, Choice Specs 17% the locked variant.",
+   "review": "rag-grounded",
+   "provenance": "Battle Bond verified in sim data as a once-per-battle +1/+1/+1 on causing a faint (bondTriggered flag), NOT the older transformation. value_curve 'grows_after_first_ko' is likewise outside the header's documented list (see the blaziken note on enum drift). Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "clodsire": {
+   "tags": [
+    "special-wall",
+    "hazard-setter"
+   ],
+   "preserve": "high",
+   "axis": {
+    "defends": "special"
+   },
+   "fact": "A Poison/Ground special wall with Recover (95%) and, on most builds, Unaware (63%) — the opponent's stat boosts simply do not apply to it, so special setup sweepers cannot break through by boosting. The Water Absorb minority (36%) is a different mon: it takes ZERO damage from Water moves and heals instead. Toxic (70%) puts things on a clock it will outlast; Earthquake (84%) keeps it from being passive. Being Poison-type, it ABSORBS Toxic Spikes on entry, clearing them for its team. It compresses hazards on many builds (Stealth Rock 40%, Spikes 20%).",
+   "ability_split": {
+    "unaware": 0.63,
+    "waterabsorb": 0.36
+   },
+   "single_build_note": "One defensive build; the ability is the real fork, and it decides which sweepers it actually stops.",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "ogerpon": {
+   "tags": [
+    "wallbreaker",
+    "pivot"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "defiant",
+   "fact": "The base (Teal Mask) Ogerpon: a fast physical Grass attacker holding a NORMAL item, unlike its masked forms — Choice Band on 62% of sets. Defiant (100%) is the reason it punishes support: any stat drop inflicted by the opponent RAISES its Attack by two stages, so Intimidate, Sticky Web's Speed drop, Parting Shot and Icy Wind all hand it a boost instead of weakening it. Ivy Cudgel (97%) is its STAB, Knock Off (83%) strips items, and U-turn (76%) pivots out of its bad matchups. Its Tera is locked to Grass.",
+   "sets": [
+    {
+     "name": "Choice Band",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.62,
+     "prevalence_method": "signature",
+     "fact": "Locked-in Ivy Cudgel or Knock Off; U-turn is the escape from the lock."
+    },
+    {
+     "name": "Boots Pivot",
+     "tags": [
+      "pivot",
+      "disruptor"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.19,
+     "prevalence_method": "signature",
+     "fact": "Boots ignore hazards on its repeated entries; Encore (22%) locks walls and setup sweepers into a dead move."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "lokix": {
+   "tags": [
+    "revenge-killer",
+    "wallbreaker",
+    "pivot"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "tintedlens",
+   "deployment": "bait-switch",
+   "fact": "A Bug/Dark attacker whose ability removes the usual way of answering it: Tinted Lens (99%) DOUBLES the damage of NOT-VERY-EFFECTIVE hits, so resisting its STAB stops mattering — resisted and neutral land in the same place. First Impression (85%) is a strong +2 PRIORITY move that ONLY works on the turn it comes in, so its entry turn is its best turn and every turn after is a different, weaker Pokemon. Knock Off (91%) strips items, U-turn (79%) leaves before that decay sets in, and Sucker Punch (47%) is a second priority option that fails if the target does not attack. Leech Life (64%) heals back hazard and Rocky Helmet chip.",
+   "sequence": [
+    "bring it in on a faint or a slow pivot — the entry turn is the payload",
+    "First Impression immediately: +2 priority, resisted-damage doubled by Tinted Lens",
+    "U-turn out before turn two, when First Impression is dead and it is merely fast"
+   ],
+   "sets": [
+    {
+     "name": "Choice Band",
+     "tags": [
+      "revenge-killer",
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.57,
+     "prevalence_method": "signature",
+     "fact": "Banded First Impression as an entry nuke nothing resists meaningfully."
+    },
+    {
+     "name": "Boots / Life Orb attacker",
+     "tags": [
+      "wallbreaker",
+      "pivot"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.32,
+     "prevalence_method": "signature",
+     "fact": "Unlocked: it can First Impression on entry, then choose Knock Off, Sucker Punch or U-turn instead of being committed."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": "Tinted Lens (chainModify(2) on typeMod<0) and First Impression (+2 priority, first-turn-only) verified in sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
   }
  }
 }
