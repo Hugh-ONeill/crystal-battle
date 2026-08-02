@@ -34,9 +34,12 @@ class Cond:
     name: str
 
 
-def battle(foe_effects=(), self_effects=(), side=(), weather=()):
+def battle(foe_effects=(), self_effects=(), side=(), weather=(),
+           foe_species="Kingambit", foe_moves=()):
     return NS(
-        opponent_active_pokemon=NS(effects={e: 1 for e in foe_effects}),
+        opponent_active_pokemon=NS(effects={e: 1 for e in foe_effects},
+                                   species=foe_species,
+                                   moves={m: None for m in foe_moves}),
         active_pokemon=NS(effects={e: 1 for e in self_effects}),
         side_conditions={Cond(s): 1 for s in side},
         weather={Cond(w): 1 for w in weather},
@@ -95,12 +98,15 @@ def test_trick_room_is_deliberately_not_filtered():
     assert not _is_noop_volatile("trickroom", battle(side=["TRICK_ROOM"]))
 
 
-def pending_battle(hp=1.0, self_effects=(), foe_effects=(), side=()):
+def pending_battle(hp=1.0, self_effects=(), foe_effects=(), side=(),
+                   foe_species="Kingambit", foe_moves=()):
     return NS(
         active_pokemon=NS(effects={e: 1 for e in self_effects},
                           current_hp_fraction=hp),
         opponent_active_pokemon=NS(effects={e: 1 for e in foe_effects},
-                                   current_hp_fraction=1.0),
+                                   current_hp_fraction=1.0,
+                                   species=foe_species,
+                                   moves={m: None for m in foe_moves}),
         side_conditions={Cond(s): 1 for s in side},
         weather={},
     )
@@ -146,12 +152,35 @@ if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
 
 
-def test_the_filters_are_off_by_default(monkeypatch):
-    """Default behaviour must be unchanged: the Mirror Coat specimen showed a
-    guaranteed-fail move is sometimes the BEST play, so this ships gated."""
+def test_trimming_is_conditional_not_blanket():
+    """Reflectors are 0.71% of the meta — about one team in twenty, and only
+    6 of 530 logged failures had one on the field — so trim by default and
+    keep the idle exactly where it is priced."""
+    from showdown.gen9_player import _is_noop_volatile, _is_noop_pending
+
+    plain = battle(foe_effects=[Effect.TAUNT])
+    assert _is_noop_volatile("taunt", plain)          # the 524 case
+
+    revealed = battle(foe_effects=[Effect.TAUNT], foe_moves=["Mirror Coat"])
+    assert not _is_noop_volatile("taunt", revealed)   # the 6 case
+
+    prone = battle(foe_effects=[Effect.TAUNT], foe_species="Alomomola")
+    assert not _is_noop_volatile("taunt", prone)      # 37% of its sets
+
+    assert not _is_noop_pending("roost",
+                                pending_battle(hp=1.0, foe_species="Alomomola"))
+    assert _is_noop_pending("roost", pending_battle(hp=1.0))
+
+
+def test_the_kill_switch_still_disables_everything(monkeypatch):
     import importlib
-    monkeypatch.delenv("CB_NOOP_FAIL", raising=False)
+    monkeypatch.setenv("CB_NOOP_FAIL", "0")
     import showdown.gen9_player as gp
     importlib.reload(gp)
-    assert gp._NOOP_FAIL_ON is False
-    assert not gp._is_noop_volatile("taunt", battle(foe_effects=[Effect.TAUNT]))
+    try:
+        assert gp._NOOP_FAIL_ON is False
+        assert not gp._is_noop_volatile("taunt",
+                                        battle(foe_effects=[Effect.TAUNT]))
+    finally:
+        monkeypatch.delenv("CB_NOOP_FAIL", raising=False)
+        importlib.reload(gp)

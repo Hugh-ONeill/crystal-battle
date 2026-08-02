@@ -167,22 +167,47 @@ _SELF_SIDE = {"reflect": "REFLECT", "lightscreen": "LIGHT_SCREEN",
 #   DETERMINISTIC — Future Sight while one is pending (49), Wish while one is
 #   pending (34), Substitute already up or below its HP cost (24), Roost at
 #   full HP (20), Taunt duplicate (19). 146 turns thrown away for no gamble.
-# GATED OFF BY DEFAULT (CB_NOOP_FAIL=1 to enable). The "wasted turn" framing
-# that motivated these does not survive scrutiny: a move that FAILS deals no
+# CONDITIONAL TRIM (CB_NOOP_FAIL=0 disables). A move that FAILS deals no
 # damage, and the engine has no explicit pass, so a guaranteed-fail move is
-# how we express "idle safely". The specimen is the game that prompted the
-# whole audit — our failed Taunt into Alomomola gave Mirror Coat nothing to
-# reflect, which beat every attacking option we had. Filtering it at the root
-# would have FORCED the attack and fed the Mirror Coat. Whether the 146
-# deterministic failures are net-negative is therefore an open A/B question,
-# not a bug: they are only waste when nothing on the field punishes acting.
-_NOOP_FAIL_ON = os.environ.get("CB_NOOP_FAIL", "") in ("1", "true", "True")
+# also how we express "idle safely" — our failed Taunt into Alomomola gave
+# Mirror Coat nothing to reflect, which beat every attack we had. But that
+# defence is NARROW: damage reflectors are 0.71% of the metagame, and of 530
+# failed moves in 222 logged games only SIX had a reflector on the field.
+# So trim by default and keep the option exactly where idling is priced —
+# when the opponent's active has revealed a reflector, or is a species that
+# runs one often enough to respect unrevealed (Alomomola 37% of its sets,
+# Araquanid 16%, Milotic 15%, Quagsire 13%, Snorlax 12%, Magnezone 11%).
+_NOOP_FAIL_ON = os.environ.get("CB_NOOP_FAIL", "1") not in ("0", "false", "False")
+
+_REFLECT_MOVES = {"counter", "mirrorcoat", "metalburst", "comeuppance"}
+_REFLECT_PRONE = {"alomomola", "araquanid", "milotic", "quagsire", "snorlax",
+                  "magnezone", "gastrodon", "houndoom", "swampert"}
+
+
+def _idling_is_priced(battle) -> bool:
+    """True when NOT attacking has real value, so a guaranteed-fail move must
+    stay on the table: the opponent can punish damage with a reflector."""
+    opp = getattr(battle, "opponent_active_pokemon", None)
+    if opp is None:
+        return False
+    if _norm_species(getattr(opp, "species", "")) in _REFLECT_PRONE:
+        return True
+    return any(_normalize_move_id(m) in _REFLECT_MOVES
+               for m in (getattr(opp, "moves", None) or {}))
+
+
+def _norm_species(s) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(s or "").lower())
+
+
+def _normalize_move_id(m) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(m or "").lower())
 
 
 def _is_noop_pending(move_id: str, battle) -> bool:
     """True for moves that fail because their own effect is already pending
     or their precondition is unmet."""
-    if not _NOOP_FAIL_ON:
+    if not _NOOP_FAIL_ON or _idling_is_priced(battle):
         return False
     from poke_env.battle.effect import Effect
     me = battle.active_pokemon
@@ -220,7 +245,7 @@ def _is_noop_volatile(move_id: str, battle) -> bool:
 
     Same gate and reasoning as _is_noop_pending: a failed re-Taunt is a
     zero-damage idle, exactly what you want against Mirror Coat or Counter."""
-    if not _NOOP_FAIL_ON:
+    if not _NOOP_FAIL_ON or _idling_is_priced(battle):
         return False
     from poke_env.battle.effect import Effect
 
