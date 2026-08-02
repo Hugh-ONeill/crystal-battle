@@ -1945,7 +1945,7 @@
      }
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25% rule misfires here because this dump's weighted move counts deflate vs Raw count; anchor-ratio used instead). User had observed Contrary+Superpower in play."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25%-of-move-slots rule is correct as written, but was misapplied to share-of-RAW-COUNT: this dump's weighted counts run ~0.57 of Raw count for Enamorus, so raw shares need dividing by sum(Items)/Raw first — deflation-corrected superpower is ~15%, matching the anchor ratio). User had observed Contrary+Superpower in play."
   },
   "ironcrown": {
    "tags": [
@@ -2247,6 +2247,619 @@
     }
    ],
    "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Ability split doubles as the set split (the ironvaliant lesson does NOT apply here — Magic Guard vs Unaware genuinely define different sets, unlike orthogonal ability cosmetics). CM 37% crosses only the Magic Guard side per the smogon analyses."
+  },
+  "tinkaton": {
+   "tags": [
+    "hazard-setter",
+    "disruptor",
+    "support"
+   ],
+   "preserve": "med",
+   "axis": {
+    "defends": "physical"
+   },
+   "fact": "A Steel/Fairy utility piece: it sets Stealth Rock, locks a foe into one move with Encore, and clicks Gigaton Hammer, a 160-BP STAB that CANNOT be used twice in a row — the turn after it fires, Tinkaton is holding a blank. Air Balloon (73% of items) makes it Ground-immune until the balloon pops. It has no recovery of its own. Its ability decides whether its utility works at all against Good as Gold Gholdengo: Mold Breaker ignores that immunity, Pickpocket does not.",
+   "ability_split": {
+    "pickpocket": 0.51,
+    "moldbreaker": 0.47
+   },
+   "single_build_note": "One utility build: Gigaton Hammer 96%, Stealth Rock 80%, Encore 78%, with Thunder Wave 45% / Ice Hammer 36% / Knock Off 26% contesting the last slot.",
+   "review": "rag-grounded",
+   "provenance": "Gigaton Hammer's once-per-two-turns restriction and the Mold Breaker/Good as Gold interaction verified against pokemon-showdown data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "ogerponcornerstone": {
+   "tags": [
+    "wallbreaker",
+    "setup-sweeper"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "deployment": "setup-window",
+   "entry_condition": "full_hp",
+   "fact": "A physical Grass breaker locked to the Cornerstone Mask (100%) and Sturdy (100%): at full HP it always survives one hit, which is what buys the Swords Dance turn. Its Tera is locked to Rock, and terastallizing both powers up Ivy Cudgel enormously and grants a permanent Defense boost, so the tera is part of the plan rather than an escape. Ivy Cudgel is on every set (100%).",
+   "sequence": [
+    "come in at full HP — Sturdy is the setup insurance and only exists undamaged",
+    "Swords Dance as the check switches in, eating one hit",
+    "Tera Rock: Ivy Cudgel's power spikes and Defense rises with it",
+    "break the wall the team's cleaners cannot"
+   ],
+   "sets": [
+    {
+     "name": "Swords Dance",
+     "tags": [
+      "setup-sweeper",
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.63,
+     "prevalence_method": "signature",
+     "fact": "Swords Dance behind Sturdy, then Tera Rock Ivy Cudgel through the defensive core."
+    },
+    {
+     "name": "All-out attacker",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.37,
+     "prevalence_method": "residual",
+     "fact": "No boosting move: four attacks (Power Whip 56%, Knock Off 48%, Low Kick 45%, Horn Leech 37%) picking coverage instead."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": "Mask and ability are format-locked, hence 100% — not an estimate. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "hydrapple": {
+   "tags": [
+    "setup-sweeper",
+    "wallbreaker"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special"
+   },
+   "deployment": "setup-window",
+   "fact": "A Grass/Dragon special setup breaker with Regenerator (98%), so it heals a third of its HP every time it pivots out and can attempt setup more than once a game. Nasty Plot (81%) doubles its Special Attack; Fickle Beam (85%) is its no-drawback STAB with an upside roll, Giga Drain (83%) heals as it damages, and Earth Power (93%) covers the Steels and Poisons that wall it. It is slow, so its setup turn comes from bulk, not speed.",
+   "single_build_note": "One Nasty Plot build; the split is items — Boots 44% / Rocky Helmet 21% / Life Orb 12%.",
+   "review": "rag-grounded",
+   "provenance": "Regenerator recovery fraction and Fickle Beam's damage-roll mechanic verified against sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "latios": {
+   "tags": [
+    "wallbreaker",
+    "setup-sweeper",
+    "pivot"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special"
+   },
+   "ability": "levitate",
+   "fact": "A fast Dragon/Psychic special attacker, Ground-immune through Levitate (100%) and so immune to Spikes as well. Draco Meteor (79%) is its nuke but halves its own Special Attack after use, which is why the Soul Dew builds carry Recover (40%) and Calm Mind (35%) to rebuild instead of switching out. Psychic Noise (38%) blocks the target's healing for two turns, which is how it beats recovery walls. Three item builds do genuinely different jobs.",
+   "sets": [
+    {
+     "name": "Soul Dew",
+     "tags": [
+      "wallbreaker",
+      "setup-sweeper"
+     ],
+     "axis": {
+      "attacks": "special"
+     },
+     "prevalence": 0.36,
+     "prevalence_method": "signature",
+     "fact": "Soul Dew boosts its two STABs and cannot be removed the way a Choice item can; Calm Mind plus Recover turns it into a durable win condition rather than a one-shot breaker."
+    },
+    {
+     "name": "Choice Scarf",
+     "tags": [
+      "revenge-killer",
+      "pivot"
+     ],
+     "axis": {
+      "attacks": "special"
+     },
+     "prevalence": 0.21,
+     "prevalence_method": "signature",
+     "fact": "Speed control: revenge-kills, and Trick (21%) hands the scarf to a wall to cripple it."
+    },
+    {
+     "name": "Choice Specs",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "special"
+     },
+     "prevalence": 0.15,
+     "prevalence_method": "signature",
+     "fact": "Maximum immediate power on a locked move; the Draco Meteor drop makes each click a commitment."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "rotomwash": {
+   "tags": [
+    "pivot",
+    "wall",
+    "disruptor"
+   ],
+   "preserve": "med",
+   "axis": {
+    "defends": "physical"
+   },
+   "ability": "levitate",
+   "deployment": "pivot-cycle",
+   "fact": "An Electric/Water defensive pivot that is Ground-immune through Levitate (100%) — which also means it ignores Spikes on entry, and keeps that immunity after terastallizing since the ability, not its typing, provides it. Volt Switch (93%) leaves on its own terms, Will-O-Wisp (74%) halves physical attackers' damage, and Pain Split (60%) is its only recovery: it AVERAGES its HP with the target's, so it heals a lot against a healthy foe and nothing against a weak one.",
+   "single_build_note": "One defensive build (Leftovers 64%); a Choice Scarf minority (17%) plays as speed control with Trick instead.",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "excadrill": {
+   "tags": [
+    "setup-sweeper",
+    "hazard-remover"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "requires": "sand up — Sand Rush doubles its Speed and is its whole speed tier",
+   "value_curve": "decays_with_weather_clock",
+   "deployment": "late-cleaner",
+   "fact": "A physical Ground sweeper that lives on sand: Sand Rush (84%) doubles its Speed while sand is up, turning a middling speed tier into the fastest thing on the field, and it is essentially a different Pokemon once the sand stops. It also compresses hazard removal with Rapid Spin (84%). Earthquake is universal (97%); Swords Dance (62%) converts a free turn into a sweep. Air Balloon (41%) buys a Ground immunity until any damaging hit pops it.",
+   "single_build_note": "One Sand Rush sweeper build; the 15% Mold Breaker minority is a different plan (ignoring Levitate/abilities) and does not want sand.",
+   "ability_split": {
+    "sandrush": 0.84,
+    "moldbreaker": 0.15
+   },
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "hoopaunbound": {
+   "tags": [
+    "wallbreaker"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "mixed"
+   },
+   "ability": "magician",
+   "fact": "A huge mixed Psychic/Dark attacker with no defensive role: it comes in and forces damage. Hyperspace Fury is its signature — it BYPASSES Protect and Substitute, so neither buys a turn against it, at the cost of dropping its own Defense each use. Knock Off (46%) strips items, Psychic Noise (40%) blocks healing for two turns, and Drain Punch (62%) gives it its only recovery. It is slow and frail on the physical side, so it needs to be brought in safely.",
+   "deployment": "bait-switch",
+   "sets": [
+    {
+     "name": "Assault Vest",
+     "tags": [
+      "wallbreaker",
+      "special-wall"
+     ],
+     "axis": {
+      "attacks": "mixed",
+      "defends": "special"
+     },
+     "prevalence": 0.32,
+     "prevalence_method": "signature",
+     "fact": "The vest lets it eat a special hit and answer; it cannot click status moves while holding it."
+    },
+    {
+     "name": "Choice Band",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.18,
+     "prevalence_method": "signature",
+     "fact": "Locked physical breaker leaning on Hyperspace Fury and Knock Off."
+    },
+    {
+     "name": "Choice Scarf",
+     "tags": [
+      "revenge-killer"
+     ],
+     "axis": {
+      "attacks": "mixed"
+     },
+     "prevalence": 0.13,
+     "prevalence_method": "signature",
+     "fact": "Patches its bad Speed to revenge-kill instead of break."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "ninetales": {
+   "tags": [
+    "weather-setter",
+    "support",
+    "disruptor"
+   ],
+   "preserve": "high",
+   "ability": "drought",
+   "resource": "sun",
+   "deployment": "lead",
+   "lead_intent": "strong",
+   "value_curve": "decays_with_weather_clock",
+   "fact": "The sun setter: Drought (100%) starts sun on entry and Heat Rock (94% of items) extends it to eight turns, which is the resource its whole team is built to spend. Its own kit is support — Encore (88%) locks a foe into one move, Will-O-Wisp (80%) halves physical attackers, and Healing Wish (86%) lets it sacrifice itself to fully restore a worn teammate. Weather Ball (53%) becomes a strong Fire attack under its own sun. If it dies before the team has cashed the sun, the team loses its engine, not just a slot.",
+   "single_build_note": "One sun-setter build; offensive variants swap Will-O-Wisp for a coverage move.",
+   "review": "rag-grounded",
+   "provenance": "The weather-preservation motivation in this file's header names exactly this mon class. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "weezinggalar": {
+   "tags": [
+    "wall",
+    "hazard-remover",
+    "disruptor"
+   ],
+   "preserve": "med",
+   "axis": {
+    "defends": "physical"
+   },
+   "fact": "A Poison/Fairy defensive utility mon: Defog (89%) clears hazards, Will-O-Wisp (84%) burns physical attackers, and Pain Split (65%) averages HP with its target as pseudo-recovery. Its ability is the real decision: Neutralizing Gas (77%) SUPPRESSES EVERY ABILITY ON THE FIELD while it is active — weather abilities stop setting, Protosynthesis and Sand Rush switch off, Regenerator stops healing — and it all comes back the moment this mon leaves. The Levitate minority (21%) is a different Pokemon: a Ground immunity and no suppression at all.",
+   "ability_split": {
+    "neutralizinggas": 0.77,
+    "levitate": 0.21
+   },
+   "single_build_note": "One utility build; the ability, not the moves, defines which mon you are facing.",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "scizor": {
+   "tags": [
+    "revenge-killer",
+    "wallbreaker",
+    "pivot"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "technician",
+   "fact": "A Bug/Steel physical attacker built around priority: Technician (98%) boosts Bullet Punch (99%), giving it a strong move that ALWAYS moves first regardless of Speed — it revenge-kills weakened threats no matter how fast they are. Knock Off (73%) strips items, U-turn (64%) keeps momentum, and Close Combat (58%) is its answer to the Steels that wall it. Its Steel typing makes it a free Toxic absorber. Physically defensive walls with recovery blank it.",
+   "sets": [
+    {
+     "name": "Choice Band",
+     "tags": [
+      "wallbreaker",
+      "revenge-killer"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.39,
+     "prevalence_method": "signature",
+     "fact": "Banded Bullet Punch as immediate priority damage; locked in, so U-turn is its escape."
+    },
+    {
+     "name": "Swords Dance",
+     "tags": [
+      "setup-sweeper"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.45,
+     "prevalence_method": "signature",
+     "fact": "A boost turns priority into a wincon: +2 Bullet Punch cleans without needing to outspeed anything."
+    },
+    {
+     "name": "Utility",
+     "tags": [
+      "pivot",
+      "hazard-remover"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.19,
+     "prevalence_method": "signature",
+     "fact": "Defog (19%) plus pivoting on a bulkier frame, trading power for team support."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "weavile": {
+   "tags": [
+    "wallbreaker",
+    "revenge-killer"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "fact": "A very fast physical Dark/Ice attacker whose job is item removal and speed. Knock Off (86%) strips the target's item permanently — Boots off a hazard-weak wall, Leftovers off a staller — which is often worth more than the damage. Ice Shard (79%) is priority for finishing weakened fast threats, Triple Axel (75%) hits three times so it breaks Substitutes and Focus Sashes, and Low Kick (54%) handles heavy Steels. It is frail: it trades, it does not tank.",
+   "ability_split": {
+    "pressure": 0.67,
+    "pickpocket": 0.33
+   },
+   "sets": [
+    {
+     "name": "Boots Attacker",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.34,
+     "prevalence_method": "signature",
+     "fact": "Boots ignore hazard chip on its many switch-ins, keeping a frail mon alive to keep clicking Knock Off."
+    },
+    {
+     "name": "Choice Band",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.32,
+     "prevalence_method": "signature",
+     "fact": "Maximum damage, locked in — a banded Knock Off or Triple Axel forces the switch itself."
+    },
+    {
+     "name": "Focus Sash",
+     "tags": [
+      "revenge-killer"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.18,
+     "prevalence_method": "signature",
+     "fact": "Guarantees one turn from full HP; hazard chip destroys it, so it wants a clean field."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "blissey": {
+   "tags": [
+    "special-wall",
+    "hazard-setter",
+    "support"
+   ],
+   "preserve": "high",
+   "axis": {
+    "defends": "special"
+   },
+   "ability": "naturalcure",
+   "fact": "The special wall: enormous HP with Soft-Boiled (97%) recovery, and Natural Cure (95%) heals any status the moment it switches out, so poison and burn never stick. Seismic Toss (81%) deals a flat 100 damage regardless of its own near-zero Attack, which is what stops it being entirely passive. It compresses Stealth Rock (60%) on many builds. Calm Mind (55%) is common enough to be a real threat rather than a curiosity: behind that recovery it out-stalls other special attackers outright. Physical attackers and Taunt are how it loses.",
+   "sets": [
+    {
+     "name": "Utility / Stealth Rock",
+     "tags": [
+      "special-wall",
+      "hazard-setter"
+     ],
+     "axis": {
+      "defends": "special"
+     },
+     "prevalence": 0.6,
+     "prevalence_method": "signature",
+     "fact": "Rocks plus Soft-Boiled plus Seismic Toss: a wall that also pays hazard rent."
+    },
+    {
+     "name": "Calm Mind",
+     "tags": [
+      "special-wall",
+      "setup-sweeper"
+     ],
+     "axis": {
+      "attacks": "special",
+      "defends": "special"
+     },
+     "prevalence": 0.55,
+     "prevalence_method": "signature",
+     "prevalence_note": "Overlaps the utility build (a set can run both Rocks and Calm Mind), so the shares do not partition.",
+     "fact": "Calm Mind behind Soft-Boiled makes it a slow win condition that special attackers cannot break through."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "sinistcha": {
+   "tags": [
+    "wall",
+    "setup-sweeper"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special",
+    "defends": "physical"
+   },
+   "ability": "heatproof",
+   "deployment": "setup-window",
+   "fact": "A bulky Grass/Ghost Calm Mind wincon. Strength Sap (97%) does two jobs in one turn: it heals based on the target's Attack stat AND lowers that Attack, so each use makes the physical attacker in front of it weaker. Matcha Gotcha (95%) drains HP and can burn. Heatproof (97%) halves Fire damage, which is how it sets up on Fire-types. Its Ghost typing blocks Rapid Spin. Calm Mind (84%) is on nearly every set — this is a wall that wins games, not one that just absorbs.",
+   "single_build_note": "One Calm Mind build; Boots 57% / Leftovers 23% is the only real item split.",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "tornadustherian": {
+   "tags": [
+    "pivot",
+    "wallbreaker"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special"
+   },
+   "ability": "regenerator",
+   "deployment": "pivot-cycle",
+   "fact": "A fast Flying special attacker whose durability comes from Regenerator (100%): a third of its HP back every time it pivots out, so it can keep re-entering all game. Bleakwind Storm (89%) is its STAB, Heat Wave (77%) hits the Steels, Knock Off (68%) strips items, and U-turn (74%) is the pivot that banks the Regenerator heal. Nasty Plot builds (20%) convert that same durability into a breaking role instead.",
+   "sets": [
+    {
+     "name": "Assault Vest",
+     "tags": [
+      "pivot",
+      "special-wall"
+     ],
+     "axis": {
+      "attacks": "special",
+      "defends": "special"
+     },
+     "prevalence": 0.5,
+     "prevalence_method": "signature",
+     "fact": "Vest plus Regenerator makes it a special sponge that also threatens back; no status moves while held."
+    },
+    {
+     "name": "Boots Pivot",
+     "tags": [
+      "pivot"
+     ],
+     "axis": {
+      "attacks": "special"
+     },
+     "prevalence": 0.26,
+     "prevalence_method": "signature",
+     "fact": "Boots ignore hazards on its many entries; Taunt variants deny Defog and recovery outright."
+    },
+    {
+     "name": "Nasty Plot",
+     "tags": [
+      "wallbreaker",
+      "setup-sweeper"
+     ],
+     "axis": {
+      "attacks": "special"
+     },
+     "prevalence": 0.2,
+     "prevalence_method": "signature",
+     "fact": "Plot turns the pivot into a breaker that beats the walls physical sweepers cannot."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "dondozo": {
+   "tags": [
+    "wall",
+    "setup-sweeper"
+   ],
+   "preserve": "high",
+   "axis": {
+    "defends": "physical"
+   },
+   "ability": "unaware",
+   "fact": "The physical wall that ignores setup: Unaware (99%) means the opponent's Attack boosts do not exist for it — a +6 sweeper hits it as though unboosted. Rest (91%) is full-HP recovery at the cost of two turns asleep, which Sleep Talk (69%) covers. Curse (66%) raises its own Attack and Defense while lowering Speed, and Body Press (51%) attacks USING its Defense stat, so every Curse is also a damage boost. Its special bulk is the weakness — special attackers go through it.",
+   "single_build_note": "One wall build; the split is which attack it carries (Body Press 51% vs Waterfall/Avalanche/Liquidation).",
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "meowscarada": {
+   "tags": [
+    "wallbreaker",
+    "revenge-killer",
+    "pivot"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "protean",
+   "fact": "A very fast physical Grass/Dark attacker. Flower Trick (93%) is the reason it breaks walls: it NEVER MISSES and ALWAYS CRITS, and a critical hit ignores the target's Defense boosts entirely — so no amount of Iron Defense or Curse stops it, and screens do not reduce it. Knock Off (89%) strips items, U-turn (87%) pivots, and Triple Axel (75%) breaks Substitutes and Sashes with its three hits. Protean (96%) changes its type to match its move once per switch-in, which can gain a resistance as easily as it loses one. It is frail and dies to priority.",
+   "sets": [
+    {
+     "name": "Choice Band",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.4,
+     "prevalence_method": "signature",
+     "fact": "Banded Flower Trick as an always-critical wallbreaking hit; U-turn is its way out of the lock."
+    },
+    {
+     "name": "Choice Scarf",
+     "tags": [
+      "revenge-killer",
+      "pivot"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.31,
+     "prevalence_method": "signature",
+     "fact": "Outruns other speed control; Trick (9%) can hand the scarf to a wall and ruin it."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "garchomp": {
+   "tags": [
+    "hazard-setter",
+    "wall",
+    "setup-sweeper"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical",
+    "defends": "physical"
+   },
+   "ability": "roughskin",
+   "fact": "A Dragon/Ground that appears in two opposite roles. Rough Skin (100%) chips anything that makes contact with it, and with Rocky Helmet (47% of items) the two stack, so contact moves — Rapid Spin especially — cost the attacker real HP. The defensive build sets both Stealth Rock (45%) and Spikes (31%) and phazes with Dragon Tail (40%), which forces the switch and cashes its own hazards. The offensive build instead runs Swords Dance (45%) with Loaded Dice (30%) Scale Shot (36%), a multi-hit that also raises its Speed. Earthquake is universal (96%).",
+   "sets": [
+    {
+     "name": "TankChomp",
+     "tags": [
+      "hazard-setter",
+      "wall",
+      "disruptor"
+     ],
+     "axis": {
+      "defends": "physical"
+     },
+     "prevalence": 0.47,
+     "prevalence_method": "signature",
+     "fact": "Rocky Helmet plus Rough Skin punishes every contact move and every spin attempt while it stacks Rocks and Spikes; Dragon Tail throws setup out onto its own hazards."
+    },
+    {
+     "name": "Swords Dance",
+     "tags": [
+      "setup-sweeper"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.3,
+     "prevalence_method": "signature",
+     "fact": "Loaded Dice guarantees Scale Shot's later hits, so one click boosts Speed and breaks Sturdy/Sash at the same time."
+    }
+   ],
+   "review": "rag-grounded",
+   "provenance": " Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
+  },
+  "hippowdon": {
+   "review": "usage-only",
+   "tags": [
+    "weather-setter",
+    "wall",
+    "hazard-setter",
+    "disruptor"
+   ],
+   "preserve": "high",
+   "axis": {
+    "defends": "physical"
+   },
+   "ability": "sandstream",
+   "resource": "sand",
+   "deployment": "lead",
+   "fact": "The sand setter: Sand Stream (98%) starts sand on entry, and Smooth Rock (34% of items) extends it to eight turns — the resource a sand team's Sand Rush sweeper is built to spend. It is a genuine physical wall too, with Slack Off (91%) recovery, Stealth Rock (78%), and Whirlwind (55%) to force setup sweepers out and drag the replacement onto its hazards. Eject Button (13%) is a real minority: it flips the setter out the instant it is hit, bringing a teammate in for free with the sand already up.",
+   "single_build_note": "One defensive sand-setter build; the item chooses the job — Smooth Rock 34% (longest sand), Leftovers 27%, Rocky Helmet 16%, Eject Button 13%.",
+   "provenance": "NO SMOGON ANALYSIS EXISTS for this species in the gen9ou corpus (0.47% usage is below the analysis cutoff) — every claim here is from usage stats plus verified move/ability mechanics, never from role prose, hence review=usage-only. We have faced it 31 times on the ladder, which is why it is entered at all: our opponent pool skews off-meta relative to Smogon usage. User-flagged 2026-08-02, including the Eject Button read (confirmed at 13%). NOTE for anyone carrying monotype habits over: Smooth Rock is NOT banned in gen9 OU (Hippowdon 34%, Tyranitar 31%); the Smooth/Damp Rock ban is a MONOTYPE rule. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed."
   }
  }
 }
