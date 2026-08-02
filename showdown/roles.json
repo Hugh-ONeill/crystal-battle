@@ -4429,6 +4429,130 @@
    "review": "usage-only",
    "provenance": "USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
    "reviewed_on": "2026-08-02"
+  },
+  "pincurchin": {
+   "tags": [
+    "terrain-setter",
+    "hazard-setter",
+    "suicide-lead",
+    "sacrificial-support"
+   ],
+   "preserve": "high",
+   "ability": "electricsurge",
+   "resource": "Electric Terrain",
+   "deployment": "lead",
+   "value_curve": "decays_with_weather_clock",
+   "fact": "The Electric Terrain setter: Electric Surge (99%) sets it on entry and Terrain Extender (89% of items) stretches it to eight turns. Electric Terrain does three things — it powers up Electric moves for grounded mons, it makes grounded mons IMMUNE TO SLEEP, and it is what a Grassy/Electric Seed holder consumes on entry. It is slow and weak, so its own kit is support: Spikes (71%), Memento (66%) to sacrifice itself while halving an attacker's stats, and Thunder Wave (56%). Its value is the terrain clock, not its own turns.",
+   "review": "usage-only",
+   "reviewed_on": "2026-08-02",
+   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
+  },
+  "cetitan": {
+   "tags": [
+    "setup-sweeper",
+    "weather-abuser",
+    "priority-attacker",
+    "wincon"
+   ],
+   "preserve": "med",
+   "ability": "slushrush",
+   "requires": "SNOW — Slush Rush doubles its Speed, and without it Cetitan is slow",
+   "value_curve": "decays_with_weather_clock",
+   "deployment": "setup-window",
+   "entry_condition": "full_hp",
+   "fact": "A snow sweeper and an all-in one: Slush Rush (78%) DOUBLES its Speed while snow is up, and Belly Drum (86%) raises Attack by SIX stages at the cost of HALF its maximum HP — it fails at or below 50% HP, so the window needs a healthy entry. Sitrus Berry (72%) refunds part of that cost. Ice Shard (88%) gives it priority for after the Drum, so even without the snow speed it can clean. Earthquake (83%) covers the Steels that resist Ice.",
+   "review": "usage-only",
+   "reviewed_on": "2026-08-02",
+   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
+  },
+  "sandyshocks": {
+   "tags": [
+    "hazard-setter",
+    "pivot",
+    "wallbreaker"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "special"
+   },
+   "ability": "protosynthesis",
+   "entry_condition": "first_entry_boost",
+   "fact": "A fast Electric/Ground special attacker that compresses hazards: Earth Power (97%) is its near-universal STAB and Stealth Rock (55%) is on most sets. Booster Energy (62% of items) is consumed on its FIRST entry for a Protosynthesis boost and never returns, so its second switch-in is weaker. Volt Switch (42%) pivots out. Its Electric/Ground typing means it is grounded — it takes Spikes and can be caught by Electric Terrain effects.",
+   "review": "usage-only",
+   "reviewed_on": "2026-08-02",
+   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
+  },
+  "lilliganthisui": {
+   "tags": [
+    "setup-sweeper",
+    "weather-abuser"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "ability": "chlorophyll",
+   "requires": "SUN — Chlorophyll doubles its Speed; without it this is a slow physical attacker",
+   "value_curve": "decays_with_weather_clock",
+   "deployment": "setup-window",
+   "fact": "A physical sun sweeper: Chlorophyll (90%) DOUBLES its Speed while sun is up, and Victory Dance (39%) raises Attack, Defense AND Speed by one stage each in a single turn. Close Combat (88%) is its Fighting STAB at the cost of its own defenses, and Solar Blade (69%) is its Grass STAB — which needs no charge turn UNDER SUN, so the same weather that makes it fast also makes its strongest move instant. Outside sun both halves of that fall apart.",
+   "review": "rag-grounded",
+   "reviewed_on": "2026-08-02",
+   "provenance": " Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
+  },
+  "salamence": {
+   "tags": [
+    "setup-sweeper",
+    "wincon"
+   ],
+   "preserve": "med",
+   "axis": {
+    "attacks": "physical"
+   },
+   "deployment": "setup-window",
+   "value_curve": "grows_after_first_ko",
+   "fact": "A Dragon/Flying physical setup sweeper. Dragon Dance (65%) raises Attack and Speed together, and its ability decides how the sweep compounds: Moxie (60%) adds another Attack stage on every KO, so a Dance plus one kill is already +2/+1 and climbing; Intimidate (40%) instead lowers the opposing Attack on entry, which is a defensive tool and makes it a safer switch-in. Earthquake (71%) and Dual Wingbeat (46%) are the coverage; Boots (28%) protect it from hazard chip its Flying typing would otherwise dodge only from Spikes.",
+   "ability_split": {
+    "moxie": 0.6,
+    "intimidate": 0.4
+   },
+   "review": "usage-only",
+   "reviewed_on": "2026-08-02",
+   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
+  },
+  "umbreon": {
+   "tags": [
+    "wall",
+    "cleric",
+    "status-spreader"
+   ],
+   "preserve": "high",
+   "axis": {
+    "defends": "special"
+   },
+   "ability": "synchronize",
+   "fact": "A Dark-type special wall built to keep OTHERS alive: Wish (84%) passes a heal to a teammate — its own huge HP makes the Wish large — and Protect (82%) guarantees it survives to deliver it, the pair being its whole engine. Foul Play (88%) damages using the TARGET'S Attack stat, so it punishes physical attackers without needing offense of its own. Toxic (60%) puts walls on a clock. Synchronize (65%) reflects status back onto whoever inflicted it.",
+   "review": "rag-grounded",
+   "reviewed_on": "2026-08-02",
+   "provenance": " Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
+  },
+  "azelf": {
+   "tags": [
+    "hazard-setter",
+    "suicide-lead",
+    "sacrificial-support"
+   ],
+   "preserve": "low",
+   "axis": {
+    "attacks": "special"
+   },
+   "ability": "levitate",
+   "deployment": "lead",
+   "lead_intent": "strong",
+   "fact": "A fast, frail Psychic-type suicide lead: Stealth Rock (40%) is its job and Explosion (41%) is how it leaves — a huge one-shot hit that faints the user, so it sets hazards and then trades itself for damage rather than being switched out. Focus Sash (33%) guarantees it survives one hit to do both. Levitate (100%) makes it immune to Ground moves and to Spikes. Its coverage moves are spread thin (Psychic 42%, Flamethrower 41%, Thunderbolt 33%), so it is not a threat to be respected beyond its lead turn.",
+   "review": "usage-only",
+   "reviewed_on": "2026-08-02",
+   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off)."
   }
  }
 }

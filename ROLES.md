@@ -1,6 +1,6 @@
 # Role annotations — review copy
 
-Generated from `showdown/roles.json` (114 entries). **Edit the JSON, not this file.**
+Generated from `showdown/roles.json` (121 entries). **Edit the JSON, not this file.**
 
 Nothing consumes these yet. **The plain paragraph under each entry is the `fact`** — the only field a consumer would ever be shown. It is written to stand alone: present tense, mechanically true, no named opponents, no references to other entries. Everything about where a claim came from lives in the collapsed provenance block, which no consumer sees.
 
@@ -117,17 +117,24 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 0.8% | **mamoswine** | Smogon-cited | physical | med | — | wallbreaker, priority-attacker |
 | 0.8% | **azumarill** ▸ | usage-only | physical | med | setup-window | setup-sweeper, priority-attacker, wincon |
 | 0.7% | **okidogi** ✳ | USER-CORRECTED | physical/special | med | — | setup-sweeper, tank, status-spreader, wallbreaker |
+| 0.7% | **lilliganthisui** | Smogon-cited | physical | med | setup-window | setup-sweeper, weather-abuser |
 | 0.7% | **ironboulder** | Smogon-cited | physical | med | setup-window | setup-sweeper, wallbreaker |
+| 0.7% | **umbreon** | Smogon-cited | special | high | — | wall, cleric, status-spreader |
 | 0.7% | **amoonguss** | Smogon-cited | special | med | — | wall, anti-setup, status-spreader, pivot |
+| 0.7% | **sandyshocks** | usage-only | special | med | — | hazard-setter, pivot, wallbreaker |
 | 0.6% | **whimsicott** | USER-CORRECTED | special | med | — | disruptor, support, setup-sweeper, tailwind-setter |
 | 0.6% | **comfey** ▸ | Smogon-cited | special | med | setup-window | setup-sweeper, cleric, wincon |
 | 0.6% | **mew** | usage-only | mixed | med | — | setup-sweeper, hazard-setter, support |
+| 0.6% | **salamence** | usage-only | physical | med | setup-window | setup-sweeper, wincon |
 | 0.5% | **galvantula** | usage-only | — | med | lead | hazard-setter, suicide-lead, status-spreader |
 | 0.5% | **chesnaught** | Smogon-cited | physical/physical | med | — | wall, hazard-setter, anti-setup |
 | 0.5% | **hippowdon** | USER-CORRECTED | physical | high | lead | weather-setter, wall, hazard-setter, disruptor |
 | 0.5% | **ironjugulis** | Smogon-cited | special | med | — | wallbreaker, disruptor |
+| 0.3% | **pincurchin** | usage-only | — | high | lead | terrain-setter, hazard-setter, suicide-lead, sacrificial-support |
+| 0.3% | **cetitan** | usage-only | — | med | setup-window | setup-sweeper, weather-abuser, priority-attacker, wincon |
 | 0.3% | **necrozma** | usage-only | mixed/special | med | — | setup-sweeper, wallbreaker, tank |
 | 0.2% | **enamorustherian** | Smogon-cited | special/special | med | — | wall, setup-sweeper, tank |
+| 0.2% | **azelf** | usage-only | special | low | lead | hazard-setter, suicide-lead, sacrificial-support |
 | 0.2% | **arcanine** | usage-only | physical/physical | med | — | priority-attacker, pivot, status-spreader |
 
 ⚡ = value is conditional  ✳ = splits into distinct sets  ▸ = has a written play sequence
@@ -2148,6 +2155,18 @@ ENTERED BECAUSE THE OVERLAY KEPT ASKING FOR IT: `okidogi.ability` was the single
 
 </details>
 
+### lilliganthisui — 0.7% usage · *Smogon-cited*
+
+**tags** setup-sweeper, weather-abuser · **axis** attacks physical · **ability** chlorophyll · **preserve** med · **deployment** setup-window · **value_curve** decays_with_weather_clock · **requires** SUN — Chlorophyll doubles its Speed; without it this is a slow physical attacker
+
+A physical sun sweeper: Chlorophyll (90%) DOUBLES its Speed while sun is up, and Victory Dance (39%) raises Attack, Defense AND Speed by one stage each in a single turn. Close Combat (88%) is its Fighting STAB at the cost of its own defenses, and Solar Blade (69%) is its Grass STAB — which needs no charge turn UNDER SUN, so the same weather that makes it fast also makes its strongest move instant. Outside sun both halves of that fall apart.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
+
+</details>
+
 ### ironboulder — 0.7% usage · *Smogon-cited*
 
 **tags** setup-sweeper, wallbreaker · **axis** attacks physical · **ability** quarkdrive · **preserve** med · **deployment** setup-window · **entry_condition** first_entry_boost
@@ -2160,6 +2179,18 @@ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch
 
 </details>
 
+### umbreon — 0.7% usage · *Smogon-cited*
+
+**tags** wall, cleric, status-spreader · **axis** defends special · **ability** synchronize · **preserve** high
+
+A Dark-type special wall built to keep OTHERS alive: Wish (84%) passes a heal to a teammate — its own huge HP makes the Wish large — and Protect (82%) guarantees it survives to deliver it, the pair being its whole engine. Foul Play (88%) damages using the TARGET'S Attack stat, so it punishes physical attackers without needing offense of its own. Toxic (60%) puts walls on a clock. Synchronize (65%) reflects status back onto whoever inflicted it.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
+
+</details>
+
 ### amoonguss — 0.7% usage · *Smogon-cited*
 
 **tags** wall, anti-setup, status-spreader, pivot · **axis** defends special · **ability** regenerator · **preserve** med
@@ -2169,6 +2200,18 @@ A Grass/Poison defensive pivot with Regenerator (93%), healing a third of its HP
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
+
+</details>
+
+### sandyshocks — 0.7% usage · *usage-only*
+
+**tags** hazard-setter, pivot, wallbreaker · **axis** attacks special · **ability** protosynthesis · **preserve** med · **entry_condition** first_entry_boost
+
+A fast Electric/Ground special attacker that compresses hazards: Earth Power (97%) is its near-universal STAB and Stealth Rock (55%) is on most sets. Booster Energy (62% of items) is consumed on its FIRST entry for a Protosynthesis boost and never returns, so its second switch-in is weaker. Volt Switch (42%) pivots out. Its Electric/Ground typing means it is grounded — it takes Spikes and can be caught by Electric Terrain effects.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
 
 </details>
 
@@ -2212,6 +2255,18 @@ A Psychic-type generalist with no modal build at all — its most common move ap
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
+
+</details>
+
+### salamence — 0.6% usage · *usage-only*
+
+**tags** setup-sweeper, wincon · **axis** attacks physical · **preserve** med · **deployment** setup-window · **value_curve** grows_after_first_ko
+
+A Dragon/Flying physical setup sweeper. Dragon Dance (65%) raises Attack and Speed together, and its ability decides how the sweep compounds: Moxie (60%) adds another Attack stage on every KO, so a Dance plus one kill is already +2/+1 and climbing; Intimidate (40%) instead lowers the opposing Attack on entry, which is a defensive tool and makes it a safer switch-in. Earthquake (71%) and Dual Wingbeat (46%) are the coverage; Boots (28%) protect it from hazard chip its Flying typing would otherwise dodge only from Spikes.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
 
 </details>
 
@@ -2265,6 +2320,30 @@ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch
 
 </details>
 
+### pincurchin — 0.3% usage · *usage-only*
+
+**tags** terrain-setter, hazard-setter, suicide-lead, sacrificial-support · **ability** electricsurge · **preserve** high · **deployment** lead · **value_curve** decays_with_weather_clock · **resource** Electric Terrain
+
+The Electric Terrain setter: Electric Surge (99%) sets it on entry and Terrain Extender (89% of items) stretches it to eight turns. Electric Terrain does three things — it powers up Electric moves for grounded mons, it makes grounded mons IMMUNE TO SLEEP, and it is what a Grassy/Electric Seed holder consumes on entry. It is slow and weak, so its own kit is support: Spikes (71%), Memento (66%) to sacrifice itself while halving an attacker's stats, and Thunder Wave (56%). Its value is the terrain clock, not its own turns.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
+
+</details>
+
+### cetitan — 0.3% usage · *usage-only*
+
+**tags** setup-sweeper, weather-abuser, priority-attacker, wincon · **ability** slushrush · **preserve** med · **deployment** setup-window · **entry_condition** full_hp · **value_curve** decays_with_weather_clock · **requires** SNOW — Slush Rush doubles its Speed, and without it Cetitan is slow
+
+A snow sweeper and an all-in one: Slush Rush (78%) DOUBLES its Speed while snow is up, and Belly Drum (86%) raises Attack by SIX stages at the cost of HALF its maximum HP — it fails at or below 50% HP, so the window needs a healthy entry. Sitrus Berry (72%) refunds part of that cost. Ice Shard (88%) gives it priority for after the Drum, so even without the snow speed it can clean. Earthquake (83%) covers the Steels that resist Ice.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
+
+</details>
+
 ### necrozma — 0.3% usage · *usage-only*
 
 **tags** setup-sweeper, wallbreaker, tank · **axis** attacks mixed, defends special · **ability** prismarmor · **preserve** med
@@ -2288,6 +2367,18 @@ The Therian form is a bulky special attacker, not the fast breaker its Incarnate
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
+
+</details>
+
+### azelf — 0.2% usage · *usage-only*
+
+**tags** hazard-setter, suicide-lead, sacrificial-support · **axis** attacks special · **ability** levitate · **preserve** low · **deployment** lead · **lead_intent** strong
+
+A fast, frail Psychic-type suicide lead: Stealth Rock (40%) is its job and Explosion (41%) is how it leaves — a huge one-shot hit that faints the user, so it sets hazards and then trades itself for damage rather than being switched out. Focus Sash (33%) guarantees it survives one hit to do both. Levitate (100%) makes it immune to Ground moves and to Spikes. Its coverage moves are spread thin (Psychic 42%, Flamethrower 41%, Thunderbolt 33%), so it is not a threat to be respected beyond its lead turn.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).
 
 </details>
 
