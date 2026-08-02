@@ -139,6 +139,98 @@ _HAZARD_MAX = {"stealthrock": ("STEALTH_ROCK", 1), "spikes": ("SPIKES", 3),
                "toxicspikes": ("TOXIC_SPIKES", 2), "stickyweb": ("STICKY_WEB", 1)}
 
 
+# VOLATILE DUPLICATES (user-raised 2026-08-02): re-applying a volatile the
+# target already carries simply FAILS — Taunt into an already-taunted mon is
+# the type case. Same flat-eval trap as the maxed-hazard repeat: the state
+# after the failed move is identical to the state after doing nothing, so a
+# search whose eval cannot separate them will happily spend the turn. Split
+# by who carries the volatile, because Substitute is checked on OUR side and
+# Taunt on theirs.
+_FOE_VOLATILE = {"taunt": "TAUNT", "encore": "ENCORE",
+                 "leechseed": "LEECH_SEED", "yawn": "YAWN",
+                 "disable": "DISABLE", "attract": "ATTRACT",
+                 "confuseray": "CONFUSION", "swagger": "CONFUSION",
+                 "flatter": "CONFUSION"}
+_SELF_VOLATILE = {"substitute": "SUBSTITUTE", "imprison": "IMPRISON"}
+# our-side field moves that fail while the condition is already standing.
+# Trick Room is deliberately ABSENT: re-using it ENDS the room early, which
+# is a real (sometimes correct) choice rather than a no-op.
+_SELF_SIDE = {"reflect": "REFLECT", "lightscreen": "LIGHT_SCREEN",
+              "auroraveil": "AURORA_VEIL", "tailwind": "TAILWIND"}
+
+
+# GUARANTEED-FAIL MOVES beyond the volatile duplicates. Measured across 222
+# logged ladder games: 524 of our moves failed outright, ~2.4 wasted turns
+# per game. They split in two, and only one half is a bug:
+#   GAMBLES, correctly attempted — Sucker Punch (89 fails) and Thunderclap
+#   (42) fail by design when the read is wrong. NEVER filter these.
+#   DETERMINISTIC — Future Sight while one is pending (49), Wish while one is
+#   pending (34), Substitute already up or below its HP cost (24), Roost at
+#   full HP (20), Taunt duplicate (19). 146 turns thrown away for no gamble.
+def _is_noop_pending(move_id: str, battle) -> bool:
+    """True for moves that fail because their own effect is already pending
+    or their precondition is unmet."""
+    from poke_env.battle.effect import Effect
+    me = battle.active_pokemon
+    if me is None:
+        return False
+    if move_id in ("futuresight", "doomdesire"):
+        # a second Future Sight fails while the first is still in flight;
+        # it is queued against the SIDE, so check both actives
+        want = Effect.FUTURE_SIGHT if move_id == "futuresight" \
+            else Effect.DOOM_DESIRE
+        for mon in (me, battle.opponent_active_pokemon):
+            if mon is not None and want in (mon.effects or {}):
+                return True
+        return False
+    if move_id == "wish":
+        # poke-env exposes a pending Wish as a side condition on our side
+        for cond in (battle.side_conditions or {}):
+            if "WISH" in cond.name:
+                return True
+        return False
+    if move_id == "substitute":
+        # costs 1/4 max HP and fails at or below it (the already-behind-a-Sub
+        # case is handled by _is_noop_volatile)
+        frac = me.current_hp_fraction
+        return frac is not None and frac <= 0.25
+    if move_id in ("roost", "recover", "softboiled", "slackoff", "moonlight",
+                   "morningsun", "synthesis", "shoreup", "milkdrink"):
+        frac = me.current_hp_fraction
+        return frac is not None and frac >= 1.0
+    return False
+
+
+def _is_noop_volatile(move_id: str, battle) -> bool:
+    """True if the move re-applies something already in place, so it fails."""
+    from poke_env.battle.effect import Effect
+
+    def has(mon, name) -> bool:
+        if mon is None:
+            return False
+        eff = getattr(Effect, name, None)
+        return eff is not None and eff in (mon.effects or {})
+
+    name = _FOE_VOLATILE.get(move_id)
+    if name and has(battle.opponent_active_pokemon, name):
+        return True
+    name = _SELF_VOLATILE.get(move_id)
+    if name and has(battle.active_pokemon, name):
+        return True
+    name = _SELF_SIDE.get(move_id)
+    if name:
+        for cond, val in (battle.side_conditions or {}).items():
+            if cond.name == name:
+                return True
+        # Aurora Veil additionally REQUIRES snow to be up at all
+        if move_id == "auroraveil":
+            up = {str(getattr(w, "name", w)).upper()
+                  for w in (battle.weather or {})}
+            if not (up & {"SNOW", "SNOWSCAPE", "HAIL"}):
+                return True
+    return False
+
+
 def _is_noop_hazard(move_id: str, battle) -> bool:
     """True if move_id sets a hazard already at max on the opponent's side."""
     hz = _HAZARD_MAX.get(move_id)
@@ -2341,6 +2433,8 @@ class Gen9PokeEnginePlayer(Player):
             mv = moves_by_id.get(m[3])
             return (_is_noop_hazard(m[3], battle)
                     or _is_noop_status(m[3], battle)
+                    or _is_noop_volatile(m[3], battle)
+                    or _is_noop_pending(m[3], battle)
                     or _is_noop_attack(mv, battle)
                     or _is_noop_prankster(mv, battle)
                     or _is_noop_ability(mv, battle)
