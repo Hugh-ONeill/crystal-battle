@@ -108,7 +108,17 @@ def load_roles() -> dict:
 
 
 def analyze(team_path: str, roles: dict) -> dict:
-    mons = parse_showdown_team(Path(team_path).read_text())
+    """Analyse a team PASTE on disk."""
+    return analyze_roster(parse_showdown_team(Path(team_path).read_text()),
+                          roles, name=Path(team_path).stem)
+
+
+def analyze_roster(mons: list[dict], roles: dict, name: str = "team") -> dict:
+    """Analyse a roster given as [{species, moves, item}, ...].
+
+    Split out from analyze() so a LIVE consumer (the overlay dossier) can
+    pass battle.team directly instead of round-tripping through a paste.
+    """
     roster = []
     for m in mons:
         sp = _norm(m.get("species", ""))
@@ -157,7 +167,7 @@ def analyze(team_path: str, roles: dict) -> dict:
              for r in known if r["entry"].get("entry_condition")]
 
     return {
-        "team": Path(team_path).stem,
+        "team": name,
         "roster": [r["species"] for r in roster],
         "unknown": [r["species"] for r in roster if not r["entry"]],
         "sole": sole,

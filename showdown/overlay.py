@@ -216,15 +216,64 @@ class OverlayShadow:
             if e:
                 lines.extend("  " + ln for ln in _entry_lines(sp, e))
         lines.append("=== THEIR PREVIEW (roles knowledge) ===")
+        their = []
         for mon in battle.opponent_team.values():
             sp = _norm(mon.species)
+            their.append(sp)
             e = self.roles.get(sp)
             lines.extend(_entry_lines(sp, e) if e else [f"{sp}: (no entry)"])
+        lines.extend(self._team_level(battle, their))
         d = "\n".join(lines)
         if len(self._dossiers) > 8:        # one-game-per-process anyway
             self._dossiers.clear()
         self._dossiers[tag] = d
         return d
+
+    def _team_level(self, battle, their: list[str]) -> list[str]:
+        """Team-derived knowledge no per-species entry can carry.
+
+        Three things the leaf eval structurally cannot compute: which of our
+        mons is the SOLE holder of a role (so losing it is permanent, not
+        incremental), which field resource each mon depends on and who
+        provides it (its setter's death disables them), and — the timing
+        signal — which of THEIR mons currently blank each of our wincons, so
+        a wincon is described as live or as waiting on a specific removal.
+        Degrades to nothing on any failure; the dossier must never break.
+        """
+        try:
+            from showdown.team_roles import (analyze_roster, wincon_outlook,
+                                             wincon_report)
+            ours = [{"species": _norm(m.species),
+                     "moves": list(m.moves.keys()),
+                     "item": m.item or ""} for m in battle.team.values()]
+            a = analyze_roster(ours, self.roles, name="ours")
+            out = ["=== OUR TEAM STRUCTURE (derived; the eval cannot see this) ==="]
+            for sp, roles_ in (a.get("sole") or {}).items():
+                out.append(f"{sp} is our ONLY {', '.join(roles_)} — losing it "
+                           f"forfeits that role for the rest of the game")
+            for sp, toks in (a.get("provides") or {}).items():
+                dep = (a.get("dependents") or {}).get(sp)
+                if dep:
+                    verb = "depends" if len(dep) == 1 else "depend"
+                    out.append(f"{sp} provides {'/'.join(toks)}; "
+                               f"{', '.join(dep)} {verb} on it and "
+                               f"{'is' if len(dep) == 1 else 'are'} much "
+                               f"weaker once it dies")
+            for o in a.get("orphans") or []:
+                out.append(f"{o['species']} needs {o['needs']} and NOBODY on "
+                           f"our side provides it")
+            rows = wincon_outlook(a, their, self.roles)
+            body = wincon_report(rows)
+            if body:
+                out.append("--- wincon timing (a wincon is not live until the "
+                           "answers to it are gone)")
+                # keep one level of nesting: the sub-lines belong to the
+                # wincon above them, and a flat list reads as unrelated claims
+                out.extend(ln[2:] if ln.startswith("    ") else ln.strip()
+                           for ln in body)
+            return out if len(out) > 1 else []
+        except Exception:
+            return []
 
     # ---- gating ----
 
