@@ -35,6 +35,28 @@
   "SCHEMA (per normalized species; `ability` qualifies when the role depends",
   "on it, since the same species with another ability is a different mon):",
   "  tags         role labels, the primary key for consumers",
+  "                VOCABULARY (reconciled 2026-08-02; hazard-removal and",
+  "                hazard-control were merged into hazard-remover — three",
+  "                spellings of one role meant a consumer keying on any single",
+  "                one silently missed most of them):",
+  "                  attack     wallbreaker, setup-sweeper, sweeper, cleaner,",
+  "                             revenge-killer, priority-attacker, weather-abuser",
+  "                  defend     wall, special-wall, special-tank, special-check,",
+  "                             glue, spinblocker",
+  "                  field      hazard-setter, hazard-remover, weather-setter,",
+  "                             terrain-setter, screens-setter, status-spreader",
+  "                  tempo      pivot, disruptor, stallbreaker, lead, suicide-lead,",
+  "                             sacrificial-support, support",
+  "                  economics  wincon, annuity",
+  "                STILL AMBIGUOUS, deliberately not auto-merged because the",
+  "                distinctions may be real — resolve at review, then canonicalize:",
+  "                  sweeper vs setup-sweeper vs cleaner (does `sweeper` mean",
+  "                    \"sweeps without setup\", or is it an unqualified duplicate?)",
+  "                  wall vs special-wall vs special-tank (is `special-tank` a wall",
+  "                    that attacks back, or just `wall` + axis.defends:special?)",
+  "                  wincon vs cleaner (both name \"the mon that ends the game\")",
+  "                A NEW TAG MUST BE ADDED HERE when first used. Consumers should",
+  "                treat an unknown tag as no-information, never as an error.",
   "                `disruptor` is its own role, distinct from wall and attacker:",
   "                a mon whose job is to deny the opponent's turn rather than to",
   "                absorb or threaten damage — forcing switches (Whirlwind, Red",
@@ -45,14 +67,37 @@
   "                the opponent's turn worthless, which is why leading it is a",
   "                CHOICE rather than its definition.",
   "  ability      role holds only for this ability (omit = any)",
-  "  value_curve  how worth changes over a game: flat | grows_with_own_faints",
-  "               | decays_with_weather_clock | grows_with_hazards",
+  "  review       PROVENANCE CLASS of the entry, undocumented until 2026-08-02:",
+  "                 measured        derived from our own logged games",
+  "                 rag-grounded    drafted from species-matched smogon passages",
+  "                 user-corrected  a human fixed a claim that was wrong",
+  "                 usage-only      NO analysis exists for the species (below the",
+  "                                 Smogon cutoff): mechanics + usage stats only,",
+  "                                 no role prose. Weight it accordingly.",
+  "  value_curve  how worth changes over a game. Omit for flat — a curve is",
+  "               only worth stating when it MOVES. Values in use (2026-08-02,",
+  "               reconciled against the file after drift):",
+  "                 grows_with_own_faints      Supreme Overlord-style scaling",
+  "                 grows_with_own_status      Guts/Poison Heal, once statused",
+  "                 grows_with_turns_active    per-turn accumulators (Speed Boost)",
+  "                 grows_after_first_ko       one-shot on-KO gains (Battle Bond)",
+  "                 grows_with_hazards         value rises as chip accumulates",
+  "                 decays_with_weather_clock  needs a weather/terrain timer",
+  "                 decays_with_chip           a resource burns down as it plays",
+  "               ADDING A VALUE IS FINE — this list is descriptive, and every",
+  "               consumer must treat an unknown curve as flat. But add it HERE",
+  "               at the same time: the enum silently drifted twice before this",
+  "               reconciliation, which is how a documented vocabulary stops",
+  "               being usable as one.",
   "  preserve     how badly losing it costs beyond its own HP: low|med|high",
   "  resource     field state this mon CREATES; its death ends it",
   "  requires     field state this mon NEEDS to be worth its slot",
-  "  entry_condition  precondition for this mon's PLAN, not its survival: e.g.",
-  "                   full_hp when a Sash/Multiscale sequence needs a clean",
-  "                   entry. Distinct from preserve (cost of losing it) and",
+  "  entry_condition  precondition for this mon's PLAN, not its survival.",
+  "                   Values in use: full_hp (a Sash/Multiscale/Sturdy sequence",
+  "                   needs a clean entry), first_entry_boost (a one-shot entry",
+  "                   resource, below), terrain_up (a Seed only fires under its",
+  "                   matching terrain, and with it the whole Unburden line).",
+  "                   Distinct from preserve (cost of losing it) and",
   "                   requires (a field state). Added 2026-07-31 after the",
   "                   Ceruledge entry needed a concept neither field had.",
   "                first_entry_boost marks a one-shot entry resource: Booster",
@@ -492,7 +537,7 @@
   },
   "greattusk": {
    "tags": [
-    "hazard-removal",
+    "hazard-remover",
     "wall",
     "pivot"
    ],
@@ -516,7 +561,7 @@
     {
      "name": "Offensive Utility",
      "tags": [
-      "hazard-removal",
+      "hazard-remover",
       "pivot"
      ],
      "fact": "Booster Energy raises a stat on entry, pairing immediate offence with Rapid Spin removal. The boost applies to its first entry only.",
@@ -542,7 +587,7 @@
      "name": "Defensive",
      "tags": [
       "wall",
-      "hazard-removal",
+      "hazard-remover",
       "pivot"
      ],
      "axis": {
@@ -565,7 +610,7 @@
   },
   "corviknight": {
    "tags": [
-    "hazard-removal",
+    "hazard-remover",
     "pivot",
     "wall"
    ],
@@ -589,7 +634,7 @@
     {
      "name": "Defensive",
      "tags": [
-      "hazard-removal",
+      "hazard-remover",
       "pivot",
       "wall"
      ],
@@ -1377,7 +1422,7 @@
   },
   "irontreads": {
    "tags": [
-    "hazard-removal",
+    "hazard-remover",
     "hazard-setter",
     "lead"
    ],
@@ -1393,7 +1438,7 @@
      "name": "Lead",
      "tags": [
       "hazard-setter",
-      "hazard-removal",
+      "hazard-remover",
       "lead"
      ],
      "fact": "Booster Energy makes it fast enough to set or remove hazards before most leads act. The boost applies to its first entry only.",
@@ -1404,7 +1449,7 @@
     {
      "name": "Utility",
      "tags": [
-      "hazard-removal",
+      "hazard-remover",
       "pivot"
      ],
      "axis": {
@@ -1568,7 +1613,7 @@
   "cinderace": {
    "tags": [
     "pivot",
-    "hazard-control"
+    "hazard-remover"
    ],
    "ability": "libero",
    "preserve": "med",
@@ -1583,7 +1628,7 @@
      "name": "Offensive Pivot",
      "tags": [
       "pivot",
-      "hazard-control"
+      "hazard-remover"
      ],
      "deployment": "pivot-cycle",
      "prevalence": 0.83,
