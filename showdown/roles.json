@@ -3296,6 +3296,66 @@
    ],
    "review": "rag-grounded",
    "provenance": "Tinted Lens (chainModify(2) on typeMod<0) and First Impression (+2 priority, first-turn-only) verified in sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed."
+  },
+  "tyranitar": {
+   "review": "rag-grounded",
+   "tags": [
+    "weather-setter",
+    "wall",
+    "hazard-setter",
+    "wallbreaker"
+   ],
+   "preserve": "high",
+   "axis": {
+    "attacks": "physical",
+    "defends": "special"
+   },
+   "ability": "sandstream",
+   "resource": "sand",
+   "fact": "The sand setter, and unusually a genuine Pokemon in its own right rather than pure support. Sand Stream (99%) starts sand on entry and Smooth Rock (31% of items) extends it to eight turns — the resource a Sand Rush sweeper is built to spend, so its survival is its team's speed tier. Sand also gives Rock-types a passive Special Defense boost, which is why its own special bulk is so hard to break. Knock Off (87%) strips items on almost every set, Stealth Rock (46%) adds hazard chip, and Stone Edge (47%) plus coverage punches make it a real attacker. Its Rock/Dark typing has many weaknesses, so it trades rather than walls indefinitely.",
+   "sets": [
+    {
+     "name": "Defensive (Smooth Rock)",
+     "tags": [
+      "weather-setter",
+      "wall",
+      "hazard-setter"
+     ],
+     "axis": {
+      "defends": "special"
+     },
+     "prevalence": 0.31,
+     "prevalence_method": "signature",
+     "fact": "Longest possible sand plus Stealth Rock and Knock Off: the sand team's engine, built to survive and keep the clock running."
+    },
+    {
+     "name": "Choice Band",
+     "tags": [
+      "wallbreaker"
+     ],
+     "axis": {
+      "attacks": "physical"
+     },
+     "prevalence": 0.22,
+     "prevalence_method": "signature",
+     "fact": "Locked physical breaker: banded Knock Off or Stone Edge off a huge Attack stat, with the sand still set on entry for free."
+    },
+    {
+     "name": "Assault Vest",
+     "tags": [
+      "wall",
+      "tank"
+     ],
+     "axis": {
+      "attacks": "physical",
+      "defends": "special"
+     },
+     "prevalence": 0.15,
+     "prevalence_method": "signature",
+     "fact": "Sand's Special Defense boost stacked with the vest makes it an extreme special sponge that still hits hard; no status or Stealth Rock while held."
+    }
+   ],
+   "provenance": "Drafted 2026-08-02 from species-filtered smogon RAG chunks + deflation-corrected gen9ou chaos prevalences. Added on the user's top-50-by-usage sweep: it was the ONLY top-50 species missing (#32, 6.06% usage) despite being witnessed only 4 times — exactly the usage-vs-witnessed gap that sweep exists to catch, and its partner Excadrill (already entered) names it as the sand setter it depends on. Sand's passive SpD boost for Rock-types verified as a real mechanic. Not yet user-reviewed."
   }
  }
 }

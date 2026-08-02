@@ -1,6 +1,6 @@
 # Role annotations — review copy
 
-Generated from `showdown/roles.json` (71 entries). **Edit the JSON, not this file.**
+Generated from `showdown/roles.json` (72 entries). **Edit the JSON, not this file.**
 
 Nothing consumes these yet. **The plain paragraph under each entry is the `fact`** — the only field a consumer would ever be shown. It is written to stand alone: present tense, mechanically true, no named opponents, no references to other entries. Everything about where a claim came from lives in the collapsed provenance block, which no consumer sees.
 
@@ -46,6 +46,7 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 6.3% | **deoxysspeed** ✳ | Smogon-cited | special | low | lead | suicide-lead, screens-setter, hazard-setter |
 | 6.2% | **garganacl** ✳ ▸ | Smogon-cited | physical/physical | high | setup-window | wall, wincon |
 | 6.1% | **heatran** ✳ ▸ | Smogon-cited | special/special | med | — | wall, stallbreaker, hazard-setter, trapper |
+| 6.1% | **tyranitar** ✳ | Smogon-cited | physical/special | high | — | weather-setter, wall, hazard-setter, wallbreaker |
 | 5.6% | **primarina** ✳ | Smogon-cited | special/special | med | — | tank, wallbreaker, trapper |
 | 5.0% | **clefable** ✳ | Smogon-cited | physical | med | — | wall, hazard-setter, anti-setup |
 | 4.8% | **enamorus** ✳ | Smogon-cited | special | med | — | wallbreaker, support |
@@ -869,6 +870,30 @@ A Fire/Steel glue mon whose signature play kills walls: Magma Storm traps the ta
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. The two smogon sets share items AND core moves — flagged estimate, the shape the user named for non-separable splits. Magma Storm 78 / Taunt 55 / Stealth Rock 62 marginals.
+
+</details>
+
+### tyranitar — 6.1% usage · *Smogon-cited*
+
+**tags** weather-setter, wall, hazard-setter, wallbreaker · **axis** attacks physical, defends special · **ability** sandstream · **preserve** high · **resource** sand
+
+The sand setter, and unusually a genuine Pokemon in its own right rather than pure support. Sand Stream (99%) starts sand on entry and Smooth Rock (31% of items) extends it to eight turns — the resource a Sand Rush sweeper is built to spend, so its survival is its team's speed tier. Sand also gives Rock-types a passive Special Defense boost, which is why its own special bulk is so hard to break. Knock Off (87%) strips items on almost every set, Stealth Rock (46%) adds hazard chip, and Stone Edge (47%) plus coverage punches make it a real attacker. Its Rock/Dark typing has many weaknesses, so it trades rather than walls indefinitely.
+
+**Set — Defensive (Smooth Rock)** *(~31% of sets)*: **tags** weather-setter, wall, hazard-setter · **axis** defends special
+
+> Longest possible sand plus Stealth Rock and Knock Off: the sand team's engine, built to survive and keep the clock running.
+
+**Set — Choice Band** *(~22% of sets)*: **tags** wallbreaker · **axis** attacks physical
+
+> Locked physical breaker: banded Knock Off or Stone Edge off a huge Attack stat, with the sand still set on entry for free.
+
+**Set — Assault Vest** *(~15% of sets)*: **tags** wall, tank · **axis** attacks physical, defends special
+
+> Sand's Special Defense boost stacked with the vest makes it an extreme special sponge that still hits hard; no status or Stealth Rock while held.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+Drafted 2026-08-02 from species-filtered smogon RAG chunks + deflation-corrected gen9ou chaos prevalences. Added on the user's top-50-by-usage sweep: it was the ONLY top-50 species missing (#32, 6.06% usage) despite being witnessed only 4 times — exactly the usage-vs-witnessed gap that sweep exists to catch, and its partner Excadrill (already entered) names it as the sand setter it depends on. Sand's passive SpD boost for Rock-types verified as a real mechanic. Not yet user-reviewed.
 
 </details>
 
