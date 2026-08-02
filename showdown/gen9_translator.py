@@ -532,11 +532,13 @@ class Gen9Translator:
         stats = self._chaos().pokemon.get(species)
         if stats is None:
             return None
+        from showdown.chaos_stats import _COHERENCE_ON, incompatible_items
         rng = getattr(self, "_rng", None)
         if rng is not None:
             sampled = stats.sample_set(
                 rng, known_moves=known_moves,
-                speed_pessimistic=getattr(self, "_speed_pess", False))
+                speed_pessimistic=getattr(self, "_speed_pess", False),
+                known_item=known_item, known_ability=known_ability)
             nature, evs = sampled["nature"], sampled["evs"]
             item, ability = sampled["item"], sampled["ability"]
             moves, tera = sampled["moves"], sampled["tera_type"]
@@ -545,7 +547,15 @@ class Gen9Translator:
             nature, evs = spread if spread else (
                 "Serious", dict.fromkeys(("hp", "atk", "def",
                                           "spa", "spd", "spe"), 85))
-            item, ability = stats.top_item() or "none", stats.top_ability()
+            ability = _normalize(known_ability) if known_ability \
+                else stats.top_ability()
+            if known_item:
+                item = _normalize(known_item)
+            else:
+                item = stats.top_item(
+                    exclude=incompatible_items(known_moves)) or "none"
+                if _COHERENCE_ON and ability == "poisonheal":
+                    item = "toxicorb"
             moves, tera = stats.top_moves(4), stats.top_tera_type()
 
         # tier 2: joint moveset fragments (and teras) actually observed in

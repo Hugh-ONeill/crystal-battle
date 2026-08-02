@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 
@@ -13,6 +14,61 @@ def _normalize_name(name: str) -> str:
     """Normalize Pokemon/move names to lowercase no-space form."""
     import re
     return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+# --- set-coherence rules (CB_SET_COHERENCE=0 disables) -----------------------
+# Chaos marginals compose per-axis, so the item draw can contradict revealed
+# moves — the audited specimen: both worlds assumed Choice Band + Poison Heal
+# Gliscor after all four stall moves (EQ/Protect/Toxic/Knock Off) were
+# revealed. These rules re-condition the item on ground truth only (revealed
+# moves / known ability), never on sampled guesses.
+_COHERENCE_ON = os.environ.get("CB_SET_COHERENCE", "1") != "0"
+
+# Status-category moves seen in gen9 OU reveals. An Assault Vest holder
+# cannot SELECT any of these; no real Choice set carries them either, except
+# Trick/Switcheroo, which are the signature Choice tech.
+_STATUS_REVEALS = frozenset({
+    # protection / sub
+    "protect", "detect", "banefulbunker", "spikyshield", "silktrap",
+    "burningbulwark", "substitute",
+    # recovery
+    "recover", "roost", "slackoff", "softboiled", "synthesis", "moonlight",
+    "morningsun", "shoreup", "strengthsap", "rest", "wish", "healbell",
+    # status infliction
+    "toxic", "willowisp", "thunderwave", "spore", "sleeppowder", "stunspore",
+    "glare", "hypnosis", "yawn", "leechseed",
+    # hazards / removal
+    "stealthrock", "spikes", "toxicspikes", "stickyweb", "defog",
+    # boosts — a revealed setup move rules Choice items out entirely
+    "swordsdance", "nastyplot", "calmmind", "dragondance", "quiverdance",
+    "bulkup", "irondefense", "agility", "rockpolish", "autotomize",
+    "shellsmash", "curse", "coil", "bellydrum", "honeclaws", "workup",
+    "growth", "stockpile", "cottonguard", "amnesia", "acidarmor", "tidyup",
+    # field / utility
+    "reflect", "lightscreen", "auroraveil", "tailwind", "trickroom",
+    "taunt", "encore", "disable", "haze", "whirlwind", "roar",
+    "partingshot", "chillyreception", "teleport", "shedtail",
+    "trick", "switcheroo", "healingwish", "lunardance", "memento",
+})
+_CHOICE_ITEMS = frozenset({"choiceband", "choicespecs", "choicescarf"})
+# status moves REAL Choice sets do run: the item-swap tech, and the
+# suicide-support class a Scarf makes fast (Scarf Healing Wish lineage) —
+# these still veto Assault Vest (unselectable), but never Choice.
+_CHOICE_OK_STATUS = frozenset({"trick", "switcheroo", "healingwish",
+                               "lunardance", "memento"})
+
+
+def incompatible_items(known_moves) -> frozenset:
+    """Items ruled out by revealed moves alone."""
+    if not _COHERENCE_ON:
+        return frozenset()
+    status = {_normalize_name(m) for m in known_moves} & _STATUS_REVEALS
+    out = set()
+    if status:
+        out.add("assaultvest")
+        if status - _CHOICE_OK_STATUS:
+            out |= _CHOICE_ITEMS
+    return frozenset(out)
 
 
 class ChaosStats:
@@ -181,12 +237,6 @@ class PokemonStats:
         ranked = sorted(self._moves.keys(), key=lambda k: -self._moves[k])
         return ranked[:n]
 
-    def top_item(self) -> str:
-        """Get the most likely item."""
-        if not self._items:
-            return "leftovers"
-        return max(self._items.keys(), key=lambda k: self._items[k])
-
     def item_prob(self, item: str) -> float:
         return self._items.get(_normalize_name(item), 0)
 
@@ -216,8 +266,17 @@ class PokemonStats:
     # natures that boost speed, for the pessimistic-spread tiebreak
     _PLUS_SPE = frozenset({"Timid", "Jolly", "Hasty", "Naive"})
 
+    def top_item(self, exclude: frozenset = frozenset()) -> str:
+        """Most likely item outside `exclude` (falls back to leftovers)."""
+        pool = {k: v for k, v in self._items.items() if k not in exclude}
+        if not pool:
+            return "leftovers"
+        return max(pool.keys(), key=lambda k: pool[k])
+
     def sample_set(self, rng, known_moves: tuple[str, ...] = (),
-                   speed_pessimistic: bool = False) -> dict:
+                   speed_pessimistic: bool = False,
+                   known_item: str | None = None,
+                   known_ability: str | None = None) -> dict:
         """Sample one plausible full set from the chaos distributions.
 
         Committing to the single top set is systematically wrong whenever
@@ -261,15 +320,27 @@ class PokemonStats:
             moves.append(m)
             del pool[m]
 
-        if speed_pessimistic and self._items.get("choicescarf", 0) >= 0.02:
+        ability = (_normalize_name(known_ability) if known_ability
+                   else pick(self._abilities))
+        bad = incompatible_items(known_moves)
+        if known_item:
+            item = _normalize_name(known_item)   # ground truth beats rules
+        elif speed_pessimistic and "choicescarf" not in bad \
+                and self._items.get("choicescarf", 0) >= 0.02:
             item = "choicescarf"
         else:
-            item = pick(self._items) or "none"
+            pool = {k: v for k, v in self._items.items() if k not in bad}
+            item = pick(pool) or "none"
+            if _COHERENCE_ON and ability == "poisonheal":
+                # Poison Heal without Toxic Orb is dead weight — the
+                # audited Gliscor specimen (CB + Poison Heal, 4 revealed
+                # stall moves) came from exactly this marginal composition
+                item = "toxicorb"
         return {
             "nature": nature,
             "evs": evs,
             "item": item,
-            "ability": pick(self._abilities),
+            "ability": ability,
             "moves": moves,
             "tera_type": pick(self._tera_types),
         }
