@@ -84,7 +84,8 @@ LIVE_TIMEOUT_S = float(os.environ.get("CB_OVERLAY_LIVE_TIMEOUT", "10"))
 # what the dossier is missing — read them that way.
 _ENTRY_FIELDS = ("fact", "tags", "axis", "preserve", "deployment",
                  "lead_intent", "entry_condition", "value_curve", "resource",
-                 "requires", "ability", "ability_split", "single_build_note")
+                 "requires", "ability", "ability_split", "engine_blind",
+                 "single_build_note")
 
 _WEATHER = {"raindance": "rain", "primordialsea": "rain",
             "sunnyday": "sun", "desolateland": "sun",
@@ -142,6 +143,9 @@ SYSTEM = (
     "exactly as shown in the team knowledge (e.g. 'kingambit.value_curve', "
     "'ceruledge.entry_condition') — invented rule names are discarded "
     "mechanically, so a flag without a real citation is wasted output. "
+    "An `engine_blind` line on a species means THE SEARCH ITSELF CANNOT "
+    "MODEL that mechanic, so every world's numbers are confidently wrong "
+    "about it — weigh that far above anything the visit counts say. "
     "Respond only with the JSON."
 )
 

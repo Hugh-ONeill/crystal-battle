@@ -1973,7 +1973,7 @@ A Fire/Rock physical breaker whose ability removes the usual cost of its moves: 
 
 **tags** setup-sweeper, wincon · **axis** attacks special · **preserve** med · **deployment** setup-window · **entry_condition** full_hp
 
-A Ghost-type all-in sweeper: Shell Smash (99%) raises Attack, Special Attack and Speed by TWO stages each in one turn, at the cost of dropping both defenses — and White Herb (27% of items) immediately restores those drops, leaving a pure +2/+2/+2. Stored Power (75%) then scales directly with the stages held, so one Smash roughly quadruples its power. Focus Sash (70%) is the more common route, guaranteeing the setup turn from full HP. Its Ghost typing blocks Rapid Spin. It is extremely frail before the boost and dies to any priority after it.
+A Ghost-type all-in sweeper: Shell Smash (99%) raises Attack, Special Attack and Speed by TWO stages each in one turn, at the cost of dropping both defenses — and White Herb (27% of items) immediately restores those drops, leaving a pure +2/+2/+2. Stored Power (75%) then scales directly with the stages held, so one Smash roughly quadruples its power. Focus Sash (70%) is the more common route, guaranteeing the setup turn from full HP. Its Ghost typing blocks Rapid Spin. It is extremely frail before the boost and dies to any priority after it. A quarter of sets instead run Cursed Body, a 30% chance to disable the move that hit it.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -2039,7 +2039,7 @@ A Dark/Flying defensive wall built to answer physical attackers without needing 
 
 **tags** wallbreaker, revenge-killer · **axis** attacks special · **preserve** med
 
-A frail, fast Normal/Ghost special attacker — a typing with no weaknesses to the common priority moves and immunities to both Normal and Fighting. Shadow Ball (56%) and Hyper Voice (47%) are the STABs; Nasty Plot (33%) converts it into a sweeper. Items are spread with no modal answer (Specs 26%, Sash 25%, Scarf 14%), so its job is genuinely unknown on entry. Its real weapon is Illusion, below.
+A frail, fast Normal/Ghost special attacker — a typing with no weaknesses to the common priority moves and immunities to both Normal and Fighting. Shadow Ball (56%) and Hyper Voice (47%) are the STABs; Nasty Plot (33%) converts it into a sweeper. Items are spread with no modal answer (Specs 26%, Sash 25%, Scarf 14%), so its job is genuinely unknown on entry. Its real weapon is Illusion (100%): on entry it DISGUISES ITSELF AS ITS LAST UNFAINTED TEAMMATE — wrong species, wrong typing, wrong expected moves — until it takes direct damage, at which point the disguise breaks and the true mon is revealed. Until then, everything an opponent believes about the active mon may be about a different Pokemon entirely.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
@@ -2077,7 +2077,7 @@ A Fire/Flying utility mon. Its ability is a genuine fork: Gale Wings (45%) gives
 
 **tags** wallbreaker, revenge-killer, spinblocker · **axis** attacks special · **ability** cursedbody · **preserve** med
 
-A very fast, very frail Ghost/Poison special attacker. Shadow Ball (86%) is the STAB and its Ghost typing blocks Rapid Spin. Destiny Bond (31%) is its signature threat: if it faints while the move is active, the attacker faints with it, so killing it can cost a mon — which makes attacking it a real decision rather than a free trade. Trick (24%) hands a Choice item to a wall. Its items split evenly between Focus Sash (28%) and Choice Scarf (28%), so whether it survives a hit or outruns the field is unknown until it acts.
+A very fast, very frail Ghost/Poison special attacker. Shadow Ball (86%) is the STAB and its Ghost typing blocks Rapid Spin. Destiny Bond (31%) is its signature threat: if it faints while the move is active, the attacker faints with it, so killing it can cost a mon — which makes attacking it a real decision rather than a free trade. Trick (24%) hands a Choice item to a wall. Its items split evenly between Focus Sash (28%) and Choice Scarf (28%), so whether it survives a hit or outruns the field is unknown until it acts. Cursed Body (100%) has a 30% chance to DISABLE the move that just hit it for several turns, so every contact attack into it risks losing that move.
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 

@@ -131,6 +131,28 @@ def test_ability_citation_resolves_against_a_split(doc):
     assert not sh._rule_resolves(f"{split[0]}.not_a_field")
 
 
+def test_engine_blind_is_consumer_facing(doc):
+    """What the SEARCH cannot model must reach consumers, not sit in review-only
+    text. Before 2026-08-02 the Illusion explanation — the single most
+    decision-relevant fact about Zoroark-H — lived in `provenance`, which no
+    consumer ever sees, while `fact` merely pointed at it."""
+    from showdown.overlay import _ENTRY_FIELDS
+    assert "engine_blind" in _ENTRY_FIELDS
+    blind = {sp for sp, e in entries(doc).items() if e.get("engine_blind")}
+    assert {"zoroarkhisui", "gengar"} <= blind, (
+        "the known unmodelled abilities (Illusion, Cursed Body) must be "
+        "declared where a consumer can read them")
+
+
+def test_no_fact_dangles_into_review_only_text(doc):
+    """A `fact` may not defer to text the consumer cannot see."""
+    import re
+    for sp, e in entries(doc).items():
+        f = e.get("fact", "")
+        assert not re.search(r",\s*(below|above)\.\s*$", f), sp
+        assert "see the provenance" not in f.lower(), sp
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))
