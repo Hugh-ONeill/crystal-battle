@@ -167,9 +167,23 @@ _SELF_SIDE = {"reflect": "REFLECT", "lightscreen": "LIGHT_SCREEN",
 #   DETERMINISTIC — Future Sight while one is pending (49), Wish while one is
 #   pending (34), Substitute already up or below its HP cost (24), Roost at
 #   full HP (20), Taunt duplicate (19). 146 turns thrown away for no gamble.
+# GATED OFF BY DEFAULT (CB_NOOP_FAIL=1 to enable). The "wasted turn" framing
+# that motivated these does not survive scrutiny: a move that FAILS deals no
+# damage, and the engine has no explicit pass, so a guaranteed-fail move is
+# how we express "idle safely". The specimen is the game that prompted the
+# whole audit — our failed Taunt into Alomomola gave Mirror Coat nothing to
+# reflect, which beat every attacking option we had. Filtering it at the root
+# would have FORCED the attack and fed the Mirror Coat. Whether the 146
+# deterministic failures are net-negative is therefore an open A/B question,
+# not a bug: they are only waste when nothing on the field punishes acting.
+_NOOP_FAIL_ON = os.environ.get("CB_NOOP_FAIL", "") in ("1", "true", "True")
+
+
 def _is_noop_pending(move_id: str, battle) -> bool:
     """True for moves that fail because their own effect is already pending
     or their precondition is unmet."""
+    if not _NOOP_FAIL_ON:
+        return False
     from poke_env.battle.effect import Effect
     me = battle.active_pokemon
     if me is None:
@@ -202,7 +216,12 @@ def _is_noop_pending(move_id: str, battle) -> bool:
 
 
 def _is_noop_volatile(move_id: str, battle) -> bool:
-    """True if the move re-applies something already in place, so it fails."""
+    """True if the move re-applies something already in place, so it fails.
+
+    Same gate and reasoning as _is_noop_pending: a failed re-Taunt is a
+    zero-damage idle, exactly what you want against Mirror Coat or Counter."""
+    if not _NOOP_FAIL_ON:
+        return False
     from poke_env.battle.effect import Effect
 
     def has(mon, name) -> bool:

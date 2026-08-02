@@ -15,6 +15,16 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+
+@pytest.fixture(autouse=True)
+def _enable(monkeypatch):
+    """These filters are GATED OFF by default (CB_NOOP_FAIL) — a failing move
+    is a zero-damage idle, which is the right play against Mirror Coat or
+    Counter, so removing it at the root can force a worse attack. Tests
+    exercise the enabled behaviour explicitly."""
+    import showdown.gen9_player as gp
+    monkeypatch.setattr(gp, "_NOOP_FAIL_ON", True)
+
 from poke_env.battle.effect import Effect
 from showdown.gen9_player import _is_noop_volatile
 
@@ -134,3 +144,14 @@ def test_prediction_gambles_are_never_filtered():
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+def test_the_filters_are_off_by_default(monkeypatch):
+    """Default behaviour must be unchanged: the Mirror Coat specimen showed a
+    guaranteed-fail move is sometimes the BEST play, so this ships gated."""
+    import importlib
+    monkeypatch.delenv("CB_NOOP_FAIL", raising=False)
+    import showdown.gen9_player as gp
+    importlib.reload(gp)
+    assert gp._NOOP_FAIL_ON is False
+    assert not gp._is_noop_volatile("taunt", battle(foe_effects=[Effect.TAUNT]))
