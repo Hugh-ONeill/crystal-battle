@@ -35,10 +35,68 @@ class ReplaySetsIndex:
         # movesets arrive as [[moves...], count]; normalize to tuples
         for entry in self.species.values():
             entry["movesets"] = [(tuple(ms), c) for ms, c in entry["movesets"]]
+        self._partial_cache: dict = {}
         self.teams = raw.get("teams", {})
         for team in self.teams.values():
             for mon in team["mons"].values():
                 mon["movesets"] = [(tuple(ms), c) for ms, c in mon["movesets"]]
+
+    def partial_team_match(self, species_iterable, min_overlap: int = 5,
+                           min_count: int = 3) -> dict | None:
+        """Merge every archetype core sharing >= min_overlap species with this
+        roster into one synthetic entry (same shape as team_match).
+
+        WHY: team_match needs all SIX species to line up, which fires on 70.5%
+        of the rosters we actually face (measured 2026-08-02 over 730 booked
+        games). Relaxing to >=5 reaches 87.1% and >=4 reaches 98.4% — and the
+        conditioning is worth having because a mon's build genuinely shifts
+        with its neighbours: median total-variation from the pooled move
+        distribution is 0.23-0.39 across Gholdengo/Great Tusk/Kingambit, versus
+        a resample-null of 0.09-0.12.
+
+        Each contributing core is weighted by its own observed count, so a
+        core seen 70 times counts for more than one seen 3 times, and cores
+        below min_count are ignored as possible one-player home-brews (the
+        same gate team_match uses). Returns None when nothing clears the bar,
+        so every caller falls through to its existing behaviour.
+        """
+        want = frozenset(_normalize(s) for s in species_iterable)
+        if len(want) < min_overlap:
+            return None
+        # scanning 67k cores costs ~400ms at min_overlap=4, and the caller
+        # (_resolve_archetype) runs EVERY TURN, once per world — so the
+        # result is memoised on the roster. Rosters are fixed at preview, so
+        # one battle pays this once.
+        ck = (want, min_overlap, min_count)
+        if ck in self._partial_cache:
+            return self._partial_cache[ck]
+        merged: dict[str, dict] = {}
+        total = 0
+        for key, team in self.teams.items():
+            if team.get("count", 0) < min_count:
+                continue
+            if len(want & set(key.split("|"))) < min_overlap:
+                continue
+            total += team["count"]
+            for sp, mon in team["mons"].items():
+                acc = merged.setdefault(
+                    sp, {"movesets": {}, "items": {}, "teras": {}})
+                for ms, c in mon["movesets"]:
+                    acc["movesets"][ms] = acc["movesets"].get(ms, 0) + c
+                for field in ("items", "teras"):
+                    for name, c in mon.get(field) or []:
+                        acc[field][name] = acc[field].get(name, 0) + c
+        if not merged:
+            self._partial_cache[ck] = None
+            return None
+        out = {"count": total, "partial": True, "mons": {
+            sp: {"movesets": sorted(a["movesets"].items(),
+                                    key=lambda kv: -kv[1]),
+                 "items": sorted(a["items"].items(), key=lambda kv: -kv[1]),
+                 "teras": sorted(a["teras"].items(), key=lambda kv: -kv[1])}
+            for sp, a in merged.items()}}
+        self._partial_cache[ck] = out
+        return out
 
     def team_match(self, species_iterable) -> dict | None:
         """Archetype entry for this exact 6-species roster, or None."""

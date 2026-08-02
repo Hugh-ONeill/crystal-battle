@@ -168,6 +168,13 @@ def _base_format(fmt: str | None) -> str | None:
 # per process like CB_MERGE_RAW; default unset = current behaviour.
 _PS_TERA_SOURCE = os.environ.get("CB_PS_TERA", "")
 
+# CB_TEAM_COND_OVERLAP=5|4: partial-core backoff for the replay archetype
+# tier. Default 0 = OFF = today's exact-6-roster behaviour. See
+# ReplaySetsIndex.partial_team_match for the coverage and divergence
+# measurements; gated because world-composition changes are 0-for-3 and this
+# needs its own paired A/B.
+_TEAM_COND_OVERLAP = int(os.environ.get("CB_TEAM_COND_OVERLAP") or 0)
+
 
 def _stable_tera_draw(dist: dict, battle_tag: str, species: str) -> str | None:
     """One probability-weighted draw from a tera marginal, seeded by
@@ -403,6 +410,15 @@ class Gen9Translator:
             # home-brew; three-plus sightings means a real archetype
             if match is not None and match.get("count", 0) >= 3:
                 self._archetype = match
+            elif _TEAM_COND_OVERLAP:
+                # PARTIAL-CORE BACKOFF (default OFF, CB_TEAM_COND_OVERLAP=5|4).
+                # The exact-roster match fires on 70.5% of the rosters we
+                # actually face; >=5 shared reaches 87.1% and >=4 reaches
+                # 98.4% (measured 2026-08-02 over 730 booked games). Held
+                # behind a flag because every world-composition change so far
+                # is 0-for-3 on winrate and this needs its own paired A/B.
+                self._archetype = idx.partial_team_match(
+                    species, min_overlap=_TEAM_COND_OVERLAP)
 
     def _resolve_archive(self, battle):
         """Full-set team archive tier (team_archive.py): match the previewed
