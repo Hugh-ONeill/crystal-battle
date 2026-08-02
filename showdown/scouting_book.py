@@ -36,6 +36,15 @@ _POKE = re.compile(r"\|poke\|(p[12])\|([^,|]+)")
 _SWITCH = re.compile(r"\|(?:switch|drag)\|(p[12])a: ([^|]+)\|([^,|]+)")
 _MOVE = re.compile(r"\|move\|(p[12])a: ([^|]+)\|([^|]+)")
 _ITEM = re.compile(r"\|-(?:item|enditem)\|(p[12])a: ([^|]+)\|([^|]+)")
+# Items also announce themselves as a [from] TAG on an ordinary event —
+# "|-status|p2a: Gliscor|tox|[from] item: Toxic Orb", Leftovers heals, Life
+# Orb recoil, Rocky Helmet chip. _ITEM misses all of those, which is why 22
+# of richwoman's 34 recorded species had EMPTY item data after 321 games:
+# we had faced her Toxic Orb Gliscor dozens of times and never wrote the orb
+# down. An [of] tag reassigns the owner (Rocky Helmet chip names the
+# DEFENDER's item, on the line describing damage to the ATTACKER).
+_ITEM_TAG = re.compile(r"\|-\w+\|(p[12])a: ([^|]+)\|.*?\[from\] item: ([^|\[]+)")
+_OF_TAG = re.compile(r"\[of\] (p[12])a: ([^|]+)")
 _ABILITY = re.compile(r"\|-ability\|(p[12])a: ([^|]+)\|([^|]+)")
 _TERA = re.compile(r"\|-terastallize\|(p[12])a: ([^|]+)\|(\w+)")
 _TURN = re.compile(r"\|turn\|(\d+)")
@@ -100,6 +109,14 @@ def parse_battles(paths: list[Path], our_name: str) -> list[dict]:
             m = _ITEM.search(line)
             if m and "[from] move:" not in line:
                 side, nickname, item = m.group(1), m.group(2).strip(), m.group(3).strip()
+                sp = nick.get((side, nickname), nickname)
+                cur["items"].setdefault((side, sp), _norm(item))
+            m = _ITEM_TAG.search(line)
+            if m:
+                side, nickname, item = m.group(1), m.group(2).strip(), m.group(3).strip()
+                of = _OF_TAG.search(line)
+                if of:                      # the item belongs to the [of] mon
+                    side, nickname = of.group(1), of.group(2).strip()
                 sp = nick.get((side, nickname), nickname)
                 cur["items"].setdefault((side, sp), _norm(item))
             m = _ABILITY.search(line)
