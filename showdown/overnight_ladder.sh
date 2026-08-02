@@ -33,10 +33,11 @@ if [ $# -ge 2 ]; then shift 2; else shift $#; fi   # rest -> gen9_player
 
 SERVER="${SERVER:-pokeagent}"
 export LADDER_FORMAT="${LADDER_FORMAT:-gen9oulongtimer}"
-# per-game timeout doubles as the queue-wait: a thin baseline pool means we
-# often sit queued with no match, so keep it long enough for a real long-timer
-# game AND to catch a baseline that queues sporadically, but short enough that
-# a dead slot recycles (re-queues) rather than blocking for ages.
+# DECOUPLED 2026-08-02: the player's own queue watchdog (--queue-timeout,
+# default 150s / CB_QUEUE_TIMEOUT) bails an UNMATCHED slot with exit 3, so
+# this cap now only bounds MATCHED live games — keep it generous (900s was
+# killing richwoman grinds at T85+ as disconnect forfeits) with no dead-slot
+# cost: an empty queue recycles in ~2.5 min instead of 45.
 #
 # RAISED 900 -> 2700 on 2026-07-30. At 900s we were KILLING OUR OWN LIVE GAMES:
 # three in one 16-slot session, two of them richwoman grinds already at T85 and

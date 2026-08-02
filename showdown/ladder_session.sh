@@ -77,7 +77,14 @@ while [ "$g" -le "$N_GAMES" ]; do
       "$@" >> "$LOG" 2>&1
   status=$?
   if [ "$status" -eq 124 ]; then
+    # PER_GAME_TIMEOUT killed a MATCHED live game — with the queue watchdog
+    # bailing unmatched slots at exit 3, this is always self-inflicted now
     echo "=== game $g TIMED OUT (skipped) ===" >> "$LOG"
+  elif [ "$status" -eq 3 ]; then
+    echo "=== game $g NO MATCH (queue empty; slot freed early) ===" >> "$LOG"
+    g=$((g + 1))
+    sleep 3
+    continue  # nothing played — skip the book refresh
   fi
   grep -q "finished: 1W" "$LOG" && :  # tally computed at the end
   # per-game book refresh so a BRAND-NEW opponent is scouted from our second

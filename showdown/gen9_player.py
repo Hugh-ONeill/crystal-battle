@@ -2416,6 +2416,24 @@ async def _run_player_mode(player, args, parser):
         await player.accept_challenges(None, args.n_games)
 
 
+async def _queue_watchdog(player, deadline_s: float, interval: float = 3.0):
+    """Return once deadline_s elapses with NO battle room ever created.
+
+    Decouples the queue-wait from the per-game cap: the slot's timeout must
+    cover the longest legitimate GAME (2700s — 900s was killing live
+    richwoman grinds at T85+, a forfeit the tally never even saw), which
+    made it a terrible queue bound — a dead queue blocked a slot for 45
+    minutes. This future completing lets main() free the slot in ~2 minutes
+    with exit code 3 (never matched, no game lost). Once a battle exists
+    the question is settled and this task parks forever (it must NEVER
+    complete after a match, or FIRST_COMPLETED would read it as a bail)."""
+    start = time.monotonic()
+    while time.monotonic() - start < deadline_s:
+        await asyncio.sleep(interval)
+        if player._battles:
+            await asyncio.Event().wait()    # matched; stand down for good
+
+
 async def _ws_closed_watchdog(player, interval: float = 5.0):
     """Return once the Showdown websocket is gone.
 
@@ -2478,6 +2496,14 @@ async def main():
     parser.add_argument("--set-source", default=None,
                         help="opponent set inference source; defaults to "
                              "'monotype' for gen9monotype else the format name")
+    parser.add_argument("--queue-timeout", type=float,
+                        default=float(os.environ.get("CB_QUEUE_TIMEOUT")
+                                      or 150),
+                        help="ladder mode only: exit 3 if no battle room "
+                             "appears within this many seconds, so the slot "
+                             "frees in minutes while PER_GAME_TIMEOUT stays "
+                             "generous for live games (0 disables). Env "
+                             "fallback CB_QUEUE_TIMEOUT.")
     parser.add_argument("--mode", choices=["accept", "challenge", "ladder"],
                         default="accept")
     parser.add_argument("--user-to-challenge", default=None)
@@ -2745,15 +2771,26 @@ async def main():
     # mid-battle, poke-env leaves the mode coroutine hanging forever (see
     # _ws_closed_watchdog), so we detect the dead socket and bail instead of
     # wedging the process with its search memory resident.
+    exit_code = 0
     try:
         mode = asyncio.ensure_future(_run_player_mode(player, args, parser))
         watch = asyncio.ensure_future(_ws_closed_watchdog(player))
+        futs = {mode, watch}
+        queue_watch = None
+        if args.mode == "ladder" and args.queue_timeout > 0:
+            queue_watch = asyncio.ensure_future(
+                _queue_watchdog(player, args.queue_timeout))
+            futs.add(queue_watch)
         done, pending = await asyncio.wait(
-            {mode, watch}, return_when=asyncio.FIRST_COMPLETED)
+            futs, return_when=asyncio.FIRST_COMPLETED)
         for t in pending:
             t.cancel()
         await asyncio.gather(*pending, return_exceptions=True)
-        if watch in done:
+        if queue_watch is not None and queue_watch in done:
+            print(f"NO MATCH within {args.queue_timeout:.0f}s of searching; "
+                  "freeing the slot (exit 3)", flush=True)
+            exit_code = 3
+        elif watch in done:
             print("Showdown connection lost; shutting down cleanly "
                   "(poke-env swallows the socket error and would otherwise "
                   "hang holding the search's memory)", flush=True)
@@ -2773,7 +2810,8 @@ async def main():
     if bridge is not None:
         await asyncio.sleep(2.0)  # let the [RESULT] event flush
         await bridge.close()
+    return exit_code
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    sys.exit(asyncio.run(main()) or 0)

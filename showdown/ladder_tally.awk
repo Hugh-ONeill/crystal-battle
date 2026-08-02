@@ -35,6 +35,7 @@ FNR == 1 {
 # ---- slot markers (written by ladder_session.sh) --------------------------
 /^=== game [0-9]+\/[0-9]+ team: / {
     slots[cur_file]++; cur_team = $5
+    slot_rooms = 0     # rooms seen under THIS slot, for the kill split below
     # Fold weighting duplicates into the team they copy. A subpool was weighted
     # by making N byte-identical copies (`ah1_x`, `ah1_x_v2`, `ah1_x_v3`) since
     # the rotation draws with `ls | shuf`; the copies were deleted when that
@@ -49,7 +50,17 @@ FNR == 1 {
     if (cur_team == "40_greattusk_bootsbal") cur_team = "ah1_greattusk_bootsbal"
     next
 }
-/^=== game [0-9]+ TIMED OUT/      { killed[cur_file]++; next }
+# a kill with a room under its slot was a MATCHED LIVE GAME cut down by
+# PER_GAME_TIMEOUT (self-inflicted, forfeits by disconnect, and the result
+# lands in the NEXT slot's block); with no room it was only a queue wait.
+# Post-2026-08-02 the queue watchdog bails unmatched slots as NO MATCH, so
+# new logs should show killed ≈ killed_live.
+/^=== game [0-9]+ TIMED OUT/ {
+    killed[cur_file]++
+    if (slot_rooms > 0) killed_live[cur_file]++
+    next
+}
+/^=== game [0-9]+ NO MATCH/       { nomatch[cur_file]++; next }
 
 # ---- config banner --------------------------------------------------------
 # "=== session config | commit=X | format=Y | ... | argv= <rest>". Sessions
@@ -82,6 +93,7 @@ FNR == 1 {
             team[rr] = cur_team
             src[rr] = cur_file
             how[rr] = "board"
+            slot_rooms++
         }
         room = rr
     }
@@ -205,13 +217,17 @@ END {
     if (nfiles == 1) {
         fn = files[1]
         printf "  %s\n", fn
-        printf "  %s → %s  ·  %s  ·  %d slots, %d killed by timeout\n",
+        printf "  %s → %s  ·  %s  ·  %d slots, %s%s\n",
                substr(t0[fn], 12), substr(t1[fn], 12), dur(t0[fn], t1[fn]),
-               slots[fn], killed[fn]
+               slots[fn], killstr(killed[fn], killed_live[fn]),
+               (nomatch[fn] ? sprintf(", %d no-match bails", nomatch[fn]) : "")
         printf "  config  %s\n", cfg(fn)
     } else {
-        printf "  %d sessions  ·  %d slots, %d killed by timeout\n",
-               nfiles, sum_slots(), sum_killed()
+        printf "  %d sessions  ·  %d slots, %s%s\n",
+               nfiles, sum_slots(),
+               killstr(sum_killed(), sum_a(killed_live)),
+               (sum_a(nomatch) ? sprintf(", %d no-match bails",
+                                         sum_a(nomatch)) : "")
     }
     printf "\n"
 
@@ -369,3 +385,10 @@ END {
 
 function sum_slots(   f, s) { for (f in slots) s += slots[f]; return s }
 function sum_killed(  f, s) { for (f in killed) s += killed[f]; return s }
+function sum_a(arr,   f, s) { for (f in arr) s += arr[f]; return s }
+function killstr(k, klive) {   # "N killed by timeout (M mid-battle!)"
+    if (k == 0) return "0 killed by timeout"
+    if (klive > 0)
+        return sprintf("%d killed by timeout (%d MID-BATTLE — self-inflicted forfeits)", k, klive)
+    return sprintf("%d killed by timeout (all while unmatched)", k)
+}
