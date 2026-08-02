@@ -499,6 +499,13 @@ class Gen9Translator:
 
         booked = self._book_set(species, known_moves)
 
+        # behavioral disproof: this mon used two moves in one stint, so no
+        # tier may hand it a Choice item (revealed items still win)
+        disproven = frozenset()
+        if self._obs is not None \
+                and _normalize(species) in self._obs.choice_disproven:
+            disproven = _CHOICE_LOCKERS
+
         # full-set archive tier: a correlated whole-team match beats every
         # per-species source; the book (this exact opponent's observed
         # behaviour) still overlays it
@@ -510,7 +517,8 @@ class Gen9Translator:
 
         if getattr(self, "_prefer_ps", True):
             ps_cand = self._ps_candidate(species, known_moves, known_item,
-                                         known_ability)
+                                         known_ability,
+                                         exclude_items=disproven)
             if ps_cand is not None:
                 if _PS_TERA_SOURCE == "chaos":
                     # tera only: the PS set's moves/item are its strength,
@@ -538,7 +546,8 @@ class Gen9Translator:
             sampled = stats.sample_set(
                 rng, known_moves=known_moves,
                 speed_pessimistic=getattr(self, "_speed_pess", False),
-                known_item=known_item, known_ability=known_ability)
+                known_item=known_item, known_ability=known_ability,
+                exclude_items=disproven)
             nature, evs = sampled["nature"], sampled["evs"]
             item, ability = sampled["item"], sampled["ability"]
             moves, tera = sampled["moves"], sampled["tera_type"]
@@ -553,7 +562,8 @@ class Gen9Translator:
                 item = _normalize(known_item)
             else:
                 item = stats.top_item(
-                    exclude=incompatible_items(known_moves)) or "none"
+                    exclude=incompatible_items(known_moves) | disproven) \
+                    or "none"
                 if _COHERENCE_ON and ability == "poisonheal":
                     item = "toxicorb"
             moves, tera = stats.top_moves(4), stats.top_tera_type()
@@ -588,8 +598,8 @@ class Gen9Translator:
         }, booked)
 
     def _ps_candidate(self, species: str, known_moves: tuple[str, ...],
-                      known_item: str | None,
-                      known_ability: str | None) -> dict | None:
+                      known_item: str | None, known_ability: str | None,
+                      exclude_items: frozenset = frozenset()) -> dict | None:
         """Pick a curated full set consistent with all observations, or None
         to fall through to chaos. Mirrors foul-play's tier semantics: always
         used when nothing is revealed; with reveals, the sampler keeps 25%
@@ -602,6 +612,9 @@ class Gen9Translator:
                               known_item=known_item,
                               known_ability=known_ability,
                               speed_floor=floor)
+        if exclude_items:
+            cands = [c for c in cands
+                     if _normalize(c.get("item") or "") not in exclude_items]
         # confidence gate: with nothing revealed, an editorial dex set is
         # only trusted if the ladder corpus corroborates it — the suite A/B
         # showed uncorroborated curated sets cost more than chaos sampling
@@ -1252,7 +1265,9 @@ class Gen9Translator:
         spe_stat = calc("spe")
         if self._obs is not None and not revealed_item:
             from showdown.chaos_stats import incompatible_items
-            choice_vetoed = "choicescarf" in incompatible_items(known_move_ids)
+            choice_vetoed = (
+                "choicescarf" in incompatible_items(known_move_ids)
+                or species in self._obs.choice_disproven)
             # speed floor: they outsped something our model says they can't
             if self._obs.scarf_needed(species, spe_stat, item):
                 # CHEAPEST EXPLANATION FIRST: full Speed investment before any

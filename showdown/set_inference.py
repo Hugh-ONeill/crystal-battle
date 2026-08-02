@@ -140,6 +140,15 @@ class BattleObservations:
         # opp species -> item id / ability id
         self.revealed_item: dict[str, str] = {}
         self.revealed_ability: dict[str, str] = {}
+
+        # behavioral Choice disproof: two DISTINCT moves in one stint means
+        # the mon is not currently Choice-locked — airtight, and it clears
+        # wrongly-branded pure attackers the status-move veto can't reach
+        # (measured 2026-08-02: 33 game-mons had an assumed Choice item
+        # falsified by a later reveal). Called moves ([from] tags: Sleep
+        # Talk, Dancer, locked-move continuations) and Struggle don't count.
+        self.choice_disproven: set[str] = set()
+        self._stint_moves: dict[str, set] = {}   # role -> move ids this stint
         self._side_sr = {"p1": False, "p2": False}      # Stealth Rock per side
         self._side_spikes = {"p1": False, "p2": False}  # Spikes per side
         self._gravity = False                    # grounds everyone for Spikes
@@ -293,6 +302,7 @@ class BattleObservations:
                 role = event[2][:2]
                 species = _normalize(event[3].split(",")[0])
                 self._active[role] = species
+                self._stint_moves.pop(role, None)
                 self._spe_boost[role] = 0
                 self._atk_boost[role] = 0
                 self._spa_boost[role] = 0
@@ -323,6 +333,20 @@ class BattleObservations:
                 self._resolve_entry()  # first action after a switch closes it
                 role = event[2][:2]
                 self._turn_moves.append((role, event[3]))
+                mid = _normalize(event[3])
+                called = any(isinstance(a, str) and a.startswith("[from]")
+                             for a in event[4:])
+                if role == opp_role and mid != "struggle" and not called:
+                    stint = self._stint_moves.setdefault(role, set())
+                    stint.add(mid)
+                    if len(stint) >= 2:
+                        sp = self._active.get(role)
+                        if sp:
+                            self.choice_disproven.add(sp)
+                            if self.confirmed.get(sp) in (
+                                    "choiceband", "choicespecs",
+                                    "choicescarf"):
+                                del self.confirmed[sp]
                 if role == opp_role:
                     target = self._active.get(our_role)
                     clean = (self._atk_boost[opp_role] <= 0
@@ -562,7 +586,8 @@ class BattleObservations:
         if not boosted:
             return None
         from showdown.chaos_stats import incompatible_items
-        choice_ok = "choiceband" not in incompatible_items(known_moves)
+        choice_ok = ("choiceband" not in incompatible_items(known_moves)
+                     and species not in self.choice_disproven)
         top = max(boosted, key=lambda e: e["ratio"])
         if top["ratio"] > 1.38 and choice_ok:
             return "choiceband" if top["category"] == "Physical" else "choicespecs"

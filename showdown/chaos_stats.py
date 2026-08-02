@@ -276,7 +276,8 @@ class PokemonStats:
     def sample_set(self, rng, known_moves: tuple[str, ...] = (),
                    speed_pessimistic: bool = False,
                    known_item: str | None = None,
-                   known_ability: str | None = None) -> dict:
+                   known_ability: str | None = None,
+                   exclude_items: frozenset = frozenset()) -> dict:
         """Sample one plausible full set from the chaos distributions.
 
         Committing to the single top set is systematically wrong whenever
@@ -322,7 +323,7 @@ class PokemonStats:
 
         ability = (_normalize_name(known_ability) if known_ability
                    else pick(self._abilities))
-        bad = incompatible_items(known_moves)
+        bad = incompatible_items(known_moves) | exclude_items
         if known_item:
             item = _normalize_name(known_item)   # ground truth beats rules
         elif speed_pessimistic and "choicescarf" not in bad \
