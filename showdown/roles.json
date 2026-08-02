@@ -1,11 +1,11 @@
 {
  "_comment": [
-  "STARTER SKETCH \u2014 nothing reads this yet. Role/economics annotations for",
+  "STARTER SKETCH — nothing reads this yet. Role/economics annotations for",
   "the mons whose value the leaf eval structurally cannot price.",
   "",
   "WHY A DATA FILE AND NOT AN LLM CALL. The knowledge here is ENUMERABLE (a",
   "few dozen meta mons, each with a stable role), so it belongs in a",
-  "versioned, diffable artifact with zero inference latency \u2014 the same call",
+  "versioned, diffable artifact with zero inference latency — the same call",
   "made for ps_sets_overrides.json, where a 40-line overlay fixed the",
   "Kingambit Low Kick blindness that would otherwise have needed a model.",
   "An LLM+RAG pass over the smogon corpus is a good way to DRAFT this file",
@@ -15,14 +15,14 @@
   "stay with the search or a later live overlay.",
   "",
   "WHY IT EXISTS AT ALL. Three open items are each blocked on the same",
-  "missing fact \u2014 which mons are cleaners, which are resource anchors, which",
+  "missing fact — which mons are cleaners, which are resource anchors, which",
   "are meant to lead:",
   "  1. Kingambit hold-back annuity: the eval now prices Supreme Overlord's",
   "     fallen-ally scaling (poke-engine c68f15a) but still cannot see the",
   "     OPPORTUNITY COST of spending the cleaner early; it needs to know the",
   "     mon is a cleaner at all.",
   "  2. Weather preservation: measured 43% rain uptime with 41% of Swift Swim",
-  "     moves clicked OUTSIDE rain \u2014 the search does not treat the setter's",
+  "     moves clicked OUTSIDE rain — the search does not treat the setter's",
   "     survival as a resource, or the weather clock as a wasting asset.",
   "  3. Canonical-lead weighting: the preview matrix is nearly flat (row-min",
   "     spreads 0.01-0.12 at any depth) so lead choice is close to a coin",
@@ -37,11 +37,11 @@
   "  tags         role labels, the primary key for consumers",
   "                `disruptor` is its own role, distinct from wall and attacker:",
   "                a mon whose job is to deny the opponent's turn rather than to",
-  "                absorb or threaten damage \u2014 forcing switches (Whirlwind, Red",
+  "                absorb or threaten damage — forcing switches (Whirlwind, Red",
   "                Card), locking a move (Encore), shutting off status and setup",
   "                (Taunt), or punishing an attack directly (Mirror Coat). It is",
   "                easy to mistake for a lead because it wants to act early, but",
-  "                it is not trying to win the first turn \u2014 it is trying to make",
+  "                it is not trying to win the first turn — it is trying to make",
   "                the opponent's turn worthless, which is why leading it is a",
   "                CHOICE rather than its definition.",
   "  ability      role holds only for this ability (omit = any)",
@@ -60,12 +60,12 @@
   "                returns, so a Booster set is a different Pokemon on its second",
   "                switch-in than its first. WHEN it is spent is a real decision",
   "                the leaf eval does not price.",
-  "                An entry condition is not only LOST \u2014 it can be MANUFACTURED",
+  "                An entry condition is not only LOST — it can be MANUFACTURED",
   "                and even RESTORED, which the field alone does not say. The",
   "                avenues, cheapest first: (1) entry after a faint, which is a",
-  "                free switch that takes no hit; (2) a SLOW PIVOT \u2014 Chilly",
+  "                free switch that takes no hit; (2) a SLOW PIVOT — Chilly",
   "                Reception, or U-turn/Volt Switch/Flip Turn from something",
-  "                slower \u2014 which brings the mon in without it taking that turn's",
+  "                slower — which brings the mon in without it taking that turn's",
   "                attack, strictly safer than a hard switch; (3) HEALING WISH,",
   "                which restores a teammate to full HP and so RE-ENABLES a",
   "                full_hp condition outright; (4) Wish passing, partially;",
@@ -87,24 +87,24 @@
   "                at some moments of a game. Spinblocking is the type case: the",
   "                Ghost typing blocks Rapid Spin ALWAYS, but it is worth nothing",
   "                until hazards are actually standing that the other side wants",
-  "                to clear \u2014 so the tag is unconditional and the VALUE is",
+  "                to clear — so the tag is unconditional and the VALUE is",
   "                board-gated.",
-  "  axis          which side of the split a role operates on \u2014 {attacks: ...}",
+  "  axis          which side of the split a role operates on — {attacks: ...}",
   "                and, for anything tagged wall, {defends: ...}. Values:",
   "                physical | special | mixed. A wall is only a wall against one",
   "                side, and a sweeper only threatens through one stat, so a bare",
   "                'wall' or 'setup-sweeper' tag leaves out the thing that decides",
   "                whether it checks the mon in front of it. Set per-set where a",
   "                species splits: Kyurem's Choice Specs set attacks specially",
-  "                `defends` belongs on anything that WALLS \u2014 it is the field that",
+  "                `defends` belongs on anything that WALLS — it is the field that",
   "                says what the mon actually checks, and a bare 'wall' tag without",
   "                it is close to useless. It does NOT belong on an offensive pivot,",
   "                which switches for momentum rather than to absorb a side. Read it",
   "                off the EV spread: Slowking-Galar's 252 HP / 252 SpD spreads make",
   "                it a SPECIAL wall on both its sets, while Corviknight's Impish",
   "                248 / 252 Def makes it a physical one.",
-  "                `attacks` belongs on ATTACKERS. A genuinely utility set \u2014 a",
-  "                weather setter, a screens lead, a Wish passer \u2014 carrying one",
+  "                `attacks` belongs on ATTACKERS. A genuinely utility set — a",
+  "                weather setter, a screens lead, a Wish passer — carrying one",
   "                weak attack does not have a meaningful offensive axis, and",
   "                listing one implies a threat it does not pose. Omit it unless a",
   "                tag actually claims an offensive role.",
@@ -114,13 +114,13 @@
   "                species' sets run it, estimated as the signature move's usage",
   "                divided by 25% (a set holds four moves, so any one move tops",
   "                Three signature kinds, in order of preference: a MOVE unique to",
-  "                the set (usage / 25%), else the ITEM (usage directly \u2014 one item",
+  "                the set (usage / 25%), else the ITEM (usage directly — one item",
   "                Ability is often ORTHOGONAL to the set rather than a set of its",
-  "                own \u2014 a Choice Specs Dragapult may run either Infiltrator or",
-  "                Clear Body \u2014 so an ability split is recorded at species level in",
+  "                own — a Choice Specs Dragapult may run either Infiltrator or",
+  "                Clear Body — so an ability split is recorded at species level in",
   "                Signatures are NOT always one-dimensional. A set can be defined",
-  "                by a COMBINATION \u2014 a particular move with a particular item, or",
-  "                move+item+ability together \u2014 and two sets may share a move while",
+  "                by a COMBINATION — a particular move with a particular item, or",
+  "                move+item+ability together — and two sets may share a move while",
   "                differing on item, or share an item while differing on ability.",
   "                Where a single signature cannot separate them, say so in the set",
   "                fact rather than forcing one dimension to carry the split.",
@@ -131,7 +131,7 @@
   "                double-counts and the two shares summed over 100%.",
   "                SET SHARES DO NOT PARTITION and should not be forced to 100%.",
   "                The named sets are overlapping ARCHETYPES, not exclusive",
-  "                categories \u2014 a Booster Energy Iron Valiant can be both the",
+  "                categories — a Booster Energy Iron Valiant can be both the",
   "                'Calm Mind' and the 'Mixed' build, so shares can legitimately",
   "                sum over 100 where archetypes overlap and under 100 where the",
   "                write-ups skip a common build. Where named sets cover under",
@@ -140,17 +140,17 @@
   "                the list is exhaustive. Raging Bolt was the warning case: its",
   "                two named sets covered 16% while the real majority build",
   "                (Booster Energy, 52%) went unnamed by the analysis.",
-  "                Some sets have NO positive signature \u2014 an all-out-attacker build",
+  "                Some sets have NO positive signature — an all-out-attacker build",
   "                is defined by what it lacks, and a form item like Wellspring Mask",
   "                is on every set. Those get a RESIDUAL estimate (whatever the",
   "                signature-derived sets leave over) with prevalence_method set to",
   "                'residual' so a reader can weight it accordingly: it absorbs the",
   "                combined error of the others and assumes the sets partition",
-  "                cleanly. An estimate beats a blank \u2014 but label how it was made.",
+  "                cleanly. An estimate beats a blank — but label how it was made.",
   "                which would quietly absorb every estimation error in the others.",
   "                identifies one build.",
-  "                out near 25%). It is an ESTIMATE, not ground truth \u2014 shared",
-  "                moves and four-move overlap blur it \u2014 but it separates a set",
+  "                out near 25%). It is an ESTIMATE, not ground truth — shared",
+  "                moves and four-move overlap blur it — but it separates a set",
   "                that is nearly universal from one that is fringe. Ceruledge",
   "                runs Swords Dance on ~84% of sets and Bulk Up on ~8%; listing",
   "                both without that weighting would be its own kind of",
@@ -161,7 +161,7 @@
   "                set when it has one and fall back to the species otherwise.",
   "                against certain opposing teams. Static fields describe the",
   "                DEFAULT case; a matching `when` replaces them. Added",
-  "                2026-07-31 \u2014 Magic Bounce Hatterene is a hazard-denial",
+  "                2026-07-31 — Magic Bounce Hatterene is a hazard-denial",
   "                anchor against a team with setters and close to dead weight",
   "                against one without, and a single `preserve` cannot say",
   "                both. `when` vocabulary: opponent_has:<tag>, opponent_lacks:<tag>.",
@@ -170,30 +170,30 @@
   "                | late-cleaner | sacrifice. Distinct from lead_intent (which",
   "                only answers 'should it start the game'). bait-switch means",
   "                it is sent in to INVITE a specific opponent action and punish",
-  "                it \u2014 Hatterene switching in on a predicted hazard turn to",
+  "                it — Hatterene switching in on a predicted hazard turn to",
   "                bounce it is the type case, and it is explicitly NOT a lead.",
   "                Values: lead | bait-switch | pivot-cycle | late-cleaner |",
   "                sacrifice | setup-window (needs a FREE entry to begin a",
-  "                multi-turn plan \u2014 Ceruledge and Multiscale Dragonite).",
+  "                multi-turn plan — Ceruledge and Multiscale Dragonite).",
   "  sequence      the ordered play a mon's value actually comes from, for the",
   "                cases where no single turn of it looks good. Added 2026-07-31",
   "                (user): Ceruledge's line deliberately TAKES a hit, so a search",
   "                scoring each turn on immediate safety declines the whole plan.",
   "                This is the beyond-horizon knowledge in its most explicit form",
-  "                \u2014 write the chain down rather than hoping depth finds it.",
+  "                — write the chain down rather than hoping depth finds it.",
   "  fact          WHAT THE MON DOES, plainly. This is the only field a consumer",
   "                WHERE THE META IS GENUINELY SPREAD, SAY SO. Do not manufacture",
   "                a modal answer: Darkrai's items run Boots 21% / Specs 18% /",
   "                Scarf 16% / Life Orb 12% / Leftovers 11%, so 'usually Choice",
   "                Scarf' is a confident claim the data does not support. A",
-  "                confidently wrong belief is worse than an honestly vague one \u2014",
+  "                confidently wrong belief is worse than an honestly vague one —",
   "                the same lesson the opponent-belief work learned the hard way,",
   "                where sharper-but-wrong sets lost to calibrated spread. Prefer",
   "                'runs several sets' plus the `sets` list over inventing a",
   "                single answer.",
   "                should ever be shown: present tense, mechanically true, and",
   "                OPPONENT-AGNOSTIC. No campaign history, no commit hashes, no",
-  "                named opponents \u2014 a note about how one specific ladder bot",
+  "                named opponents — a note about how one specific ladder bot",
   "                builds its teams is per-opponent knowledge that belongs in the",
   "                scouting book, and feeding it here would mislead us against",
   "                everyone else. Narrative prose also invites a downstream model",
@@ -204,7 +204,7 @@
   "                the fact itself.",
   "",
   "REVIEW RULE: an entry without `evidence` is a guess and should not ship.",
-  "Role tags are TESTABLE against behaviour \u2014 the Kingambit timing analysis",
+  "Role tags are TESTABLE against behaviour — the Kingambit timing analysis",
   "(first-entry turn, allies fallen at entry) is the template; a claimed",
   "'cleaner' whose deployment timing does not move after wiring is a claim",
   "that failed, not a fact."
@@ -257,7 +257,7 @@
    "preserve": "med",
    "review": "measured",
    "fact": "Swift Swim doubles its Speed in rain, so it outspeeds most of the field only while rain is up and is ordinary without it.",
-   "provenance": "41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) \u2014 the search spends the abuser while its enabling condition is down.",
+   "provenance": "41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down.",
    "axis": {
     "attacks": "physical"
    },
@@ -274,7 +274,7 @@
    "review": "measured",
    "deployment": "lead",
    "fact": "Drought sets sun on entry and Heat Rock extends it. Its own Speed is very low, so it exists to enable partners.",
-   "provenance": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy \u2014 so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.",
+   "provenance": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy — so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.",
    "axis": {
     "defends": "physical"
    },
@@ -290,7 +290,7 @@
    "review": "rag-grounded",
    "deployment": "lead",
    "fact": "Toxic Debris sets Toxic Spikes when it is hit by a physical move. Stealth Rock and Mortal Spin give it hazard control, and Focus Sash guarantees it gets at least one layer down.",
-   "provenance": "RAG-grounded [smogon#Glimmora (gen9ou) \u2014 Lead]: the Lead set exists to deny setup \u2014 it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).",
+   "provenance": "RAG-grounded [smogon#Glimmora (gen9ou) — Lead]: the Lead set exists to deny setup — it stops \"Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce\". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).",
    "sets": [
     {
      "name": "Lead",
@@ -341,7 +341,7 @@
    "review": "rag-grounded",
    "deployment": "lead",
    "fact": "Prankster gives its status moves priority, so it sets Reflect and Light Screen before being attacked. Light Clay extends both to eight turns.",
-   "provenance": "RAG-grounded [smogon#Grimmsnarl (gen9ou) \u2014 Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind \u2014 the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.",
+   "provenance": "RAG-grounded [smogon#Grimmsnarl (gen9ou) — Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind — the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.",
    "axis": {
     "defends": "special"
    },
@@ -358,7 +358,7 @@
    "review": "measured",
    "deployment": "pivot-cycle",
    "fact": "Regenerator restores a third of its HP whenever it switches out, so repeated entries cost it almost nothing. Chilly Reception switches it out while setting snow, and Future Sight lands two turns later so it threatens even after leaving the field.",
-   "provenance": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) \u2014 the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed. [Trimmed 2026-07-31: the fact had noted its low Speed investment, which was only interesting because of a speed-inference bug on our side \u2014 session detail, not a property a reader needs. Removed.]",
+   "provenance": "Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) — the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed. [Trimmed 2026-07-31: the fact had noted its low Speed investment, which was only interesting because of a speed-inference bug on our side — session detail, not a property a reader needs. Removed.]",
    "axis": {
     "defends": "special"
    },
@@ -394,7 +394,7 @@
      "tags": [],
      "prevalence": 0.26,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ]
   },
@@ -412,8 +412,8 @@
      "note": "The spinblock only cashes in when hazards are actually standing that the other side wants to clear. The typing blocks Rapid Spin regardless, but with an empty field or an opponent carrying no removal it changes nothing, and the mon is being kept for its attacking sets instead."
     }
    ],
-   "fact": "Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin, so hazards its side has set cannot be spun away while it is alive \u2014 this is true of every set, being a property of its typing rather than its moves. Air Balloon, its most common item, adds a temporary Ground immunity.",
-   "provenance": "USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction \u2014 Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it \"both a defensive and offensive glue on virtually any team\" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy \u2014 a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem. [Refined 2026-07-31 (user): spinblocking is a TYPING property so the tag is unconditional \u2014 what is conditional is whether it matters, which needs hazards actually on the field, not merely a hazard-setter on the roster. Split into per-set entries at the same time.]",
+   "fact": "Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin, so hazards its side has set cannot be spun away while it is alive — this is true of every set, being a property of its typing rather than its moves. Air Balloon, its most common item, adds a temporary Ground immunity.",
+   "provenance": "USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction — Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it \"both a defensive and offensive glue on virtually any team\" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy — a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem. [Refined 2026-07-31 (user): spinblocking is a TYPING property so the tag is unconditional — what is conditional is whether it matters, which needs hazards actually on the field, not merely a hazard-setter on the roster. Split into per-set entries at the same time.]",
    "sets": [
     {
      "name": "Nasty Plot",
@@ -425,7 +425,7 @@
      "deployment": "setup-window",
      "fact": "Nasty Plot doubles its Special Attack, then Shadow Ball and Make It Rain sweep. Recover sustains it across the game.",
      "sequence": [
-      "enter on a status move or an attack it absorbs \u2014 Good as Gold ignores status outright and Air Balloon dodges Ground moves until it is popped",
+      "enter on a status move or an attack it absorbs — Good as Gold ignores status outright and Air Balloon dodges Ground moves until it is popped",
       "Nasty Plot on that free turn, doubling Special Attack",
       "attack with Shadow Ball, which is the repeatable one",
       "use Make It Rain only as a finisher: it hits harder but lowers its own Special Attack, undoing the boost",
@@ -483,12 +483,12 @@
    "preserve": "high",
    "review": "user-corrected",
    "deployment": "pivot-cycle",
-   "fact": "Poison Heal turns being poisoned into recurring healing rather than damage, so it has to be statused before it does anything \u2014 the Toxic Orb it carries applies that poison at the end of a turn. Protect does two jobs: it blocks Knock Off, which matters because losing the orb disables Poison Heal outright, and it stalls turns while the healing ticks. Substitute blocks status and chip from behind.",
+   "fact": "Poison Heal turns being poisoned into recurring healing rather than damage, so it has to be statused before it does anything — the Toxic Orb it carries applies that poison at the end of a turn. Protect does two jobs: it blocks Knock Off, which matters because losing the orb disables Poison Heal outright, and it stalls turns while the healing ticks. Substitute blocks status and chip from behind.",
    "provenance": "The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]",
    "axis": {
     "defends": "special"
    },
-   "single_build_note": "One build: Toxic Orb on 99% of sets \u2014 Poison Heal requires it."
+   "single_build_note": "One build: Toxic Orb on 99% of sets — Poison Heal requires it."
   },
   "greattusk": {
    "tags": [
@@ -506,8 +506,8 @@
      "note": "Hazard removal is only worth something while the opponent is setting hazards. Against a team that sets none, the removal move is a wasted slot."
     }
    ],
-   "fact": "Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-   "provenance": "RAG-grounded [smogon#Great Tusk (gen9ou) \u2014 Offensive Utility / Defensive]: \"Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown\"; also \"a staple on Sticky Web teams\". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover \u2014 a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover \u2014 a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
+   "fact": "Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its Speed, letting it outpace threats that would normally be faster. Its removal is a service to teammates, not a personal benefit. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
+   "provenance": "RAG-grounded [smogon#Great Tusk (gen9ou) — Offensive Utility / Defensive]: \"Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown\"; also \"a staple on Sticky Web teams\". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover — a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover — a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
    "axis": {
     "attacks": "physical",
     "defends": "physical"
@@ -558,7 +558,7 @@
      "tags": [],
      "prevalence": 0.38,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ],
    "entry_condition": "first_entry_boost"
@@ -581,7 +581,7 @@
    ],
    "deployment": "pivot-cycle",
    "fact": "Defog clears hazards from both sides. Pressure makes opponents spend two PP per move. Roost and high Defense let it re-enter repeatedly. About a fifth run Mirror Armor instead of Pressure, reflecting stat drops back at the attacker rather than taxing PP.",
-   "provenance": "RAG-grounded [smogon#Corviknight (gen9ou) \u2014 Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover \u2014 a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
+   "provenance": "RAG-grounded [smogon#Corviknight (gen9ou) — Defensive]: \"Defog allows Corviknight to fulfill the role as the team's hazard remover\", and Pressure \"more quickly stall[s] out their attacks' PP\" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover — a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]",
    "axis": {
     "defends": "physical"
    },
@@ -616,8 +616,8 @@
    "resource": "grassyterrain",
    "preserve": "med",
    "review": "rag-grounded",
-   "fact": "Grassy Surge sets Grassy Terrain, which heals every grounded Pokemon each turn and weakens Earthquake \u2014 a benefit to its whole side that ends when it does. Grassy Glide gains priority in terrain.",
-   "provenance": "RAG-grounded [smogon#Rillaboom (gen9ou) \u2014 Utility]: Grassy Terrain is described as \"solving its problem with longevity\" for partners and enabling Grassy-Seed setup \u2014 i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care.",
+   "fact": "Grassy Surge sets Grassy Terrain, which heals every grounded Pokemon each turn and weakens Earthquake — a benefit to its whole side that ends when it does. Grassy Glide gains priority in terrain.",
+   "provenance": "RAG-grounded [smogon#Rillaboom (gen9ou) — Utility]: Grassy Terrain is described as \"solving its problem with longevity\" for partners and enabling Grassy-Seed setup — i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care.",
    "axis": {
     "attacks": "physical"
    },
@@ -661,7 +661,7 @@
      "tags": [],
      "prevalence": 0.42,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ]
   },
@@ -674,8 +674,8 @@
    "requires": "sun",
    "preserve": "med",
    "review": "measured",
-   "fact": "Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-   "provenance": "Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back on Booster Energy when the sun drops \u2014 which is exactly WHY sun tolerates engine piloting (63%) while rain does not (29.2%, benched). Recorded to keep the weather fix from treating all abusers as equally weather-dependent.",
+   "fact": "Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activates in sun or from Booster Energy, so it still functions when the sun is gone. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
+   "provenance": "Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back on Booster Energy when the sun drops — which is exactly WHY sun tolerates engine piloting (63%) while rain does not (29.2%, benched). Recorded to keep the weather fix from treating all abusers as equally weather-dependent.",
    "axis": {
     "attacks": "special"
    },
@@ -712,7 +712,7 @@
      "axis": {},
      "prevalence": 0.41,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 treat it as the chance the build is not one listed."
+     "fact": "No named analysis set covers this share — treat it as the chance the build is not one listed."
     }
    ]
   },
@@ -728,9 +728,9 @@
    "review": "user-corrected",
    "deployment": "setup-window",
    "fact": "Multiscale halves incoming damage only at full HP, so it needs an undamaged entry to function. Roost restores that condition. Dragon Dance turns one safe turn into a sweep. Most sets tera Normal, which gives Extreme Speed same-type damage and turns its priority move into a finisher.",
-   "provenance": "RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets \"give Dragonite easy setup opportunities\" and let it check Ogerpon-W, Iron Moth and Rillaboom, \"with Multiscale intact\". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up \u2014 which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [USER-CORRECTED 2026-07-31: the sequence omitted terastallizing. Usage confirms Tera Normal on 57% of sets, far ahead of Flying 16%, and Extreme Speed is its third-most-used move at 18% \u2014 the tera exists to give that priority move STAB.]",
+   "provenance": "RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets \"give Dragonite easy setup opportunities\" and let it check Ogerpon-W, Iron Moth and Rillaboom, \"with Multiscale intact\". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up — which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [USER-CORRECTED 2026-07-31: the sequence omitted terastallizing. Usage confirms Tera Normal on 57% of sets, far ahead of Flying 16%, and Extreme Speed is its third-most-used move at 18% — the tera exists to give that priority move STAB.]",
    "sequence": [
-    "enter at FULL HP \u2014 Multiscale halves the incoming hit only from full, and Heavy-Duty Boots are what keep it full through hazards",
+    "enter at FULL HP — Multiscale halves the incoming hit only from full, and Heavy-Duty Boots are what keep it full through hazards",
     "Dragon Dance while Multiscale absorbs the first attack, raising Attack and Speed",
     "sweep with Earthquake and its coverage move",
     "Terastallize to Normal when the sweep needs finishing: it gives Extreme Speed same-type damage on top of the Dragon Dance boost, and priority ignores Speed entirely",
@@ -768,7 +768,7 @@
      "deployment": "pivot-cycle",
      "prevalence": 0.14,
      "prevalence_method": "residual",
-     "prevalence_note": "Defined by the ABSENCE of Dragon Dance rather than the presence of Roost \u2014 Roost appears on Dragon Dance sets too, so counting it double-counts. Estimated as the residual instead."
+     "prevalence_note": "Defined by the ABSENCE of Dragon Dance rather than the presence of Roost — Roost appears on Dragon Dance sets too, so counting it double-counts. Estimated as the residual instead."
     }
    ],
    "entry_enablers": [
@@ -790,15 +790,15 @@
    "review": "user-corrected",
    "deployment": "setup-window",
    "sequence": [
-    "enter at FULL HP on a free switch \u2014 Focus Sash only functions from full, so entry chip cancels the plan",
+    "enter at FULL HP on a free switch — Focus Sash only functions from full, so entry chip cancels the plan",
     "Swords Dance while they attack or switch",
     "TAKE the hit: Sash holds at 1 HP, which procs Weak Armor for +Speed (losing the Sash here is the mechanism, not a loss)",
     "now outspeeding: attack with Bitter Blade, whose drain heals back off 1 HP",
     "hold Shadow Sneak in reserve for anything that still outspeeds or carries priority"
    ],
-   "sequence_note": "Every step scores badly on its own \u2014 1 HP, no item, lowered Defense \u2014 and only the finished chain is a sweep. Judging any single turn of it in isolation rejects the plan.",
+   "sequence_note": "Every step scores badly on its own — 1 HP, no item, lowered Defense — and only the finished chain is a sweep. Judging any single turn of it in isolation rejects the plan.",
    "fact": "Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the damage dealt. Focus Sash survives one hit but only from full HP. Shadow Sneak provides priority. Most sets carry Weak Armor; a minority run Flash Fire instead, which grants a Fire immunity rather than a Speed boost when hit.",
-   "provenance": "TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) \u2014 Swords Dance]: popping the Sash with weak moves \"would only give it a trouble-free Weak Armor boost\", so the opponent removing the Sash is often GOOD for Ceruledge \u2014 I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend \u2014 it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.] [EXPANDED 2026-07-31 from full multi-angle retrieval: Smogon names TWO sets and I had only the Swords Dance one. The Bulk Up set is a different mon in practice \u2014 it boosts Defence rather than buying a turn with Focus Sash, carries Taunt to stop Defog, and wants screens rather than a clean entry. The sequence recorded on this entry is the Swords Dance line specifically.]",
+   "provenance": "TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) — Swords Dance]: popping the Sash with weak moves \"would only give it a trouble-free Weak Armor boost\", so the opponent removing the Sash is often GOOD for Ceruledge — I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend — it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.] [EXPANDED 2026-07-31 from full multi-angle retrieval: Smogon names TWO sets and I had only the Swords Dance one. The Bulk Up set is a different mon in practice — it boosts Defence rather than buying a turn with Focus Sash, carries Taunt to stop Defog, and wants screens rather than a clean entry. The sequence recorded on this entry is the Swords Dance line specifically.]",
    "axis": {
     "attacks": "physical"
    },
@@ -854,8 +854,8 @@
    "ability": "quarkdrive",
    "preserve": "med",
    "review": "rag-grounded",
-   "fact": "Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-   "provenance": "RAG-grounded [smogon#Iron Moth (gen9ou) \u2014 Booster Energy]: the recommended set is Booster Energy with Fiery Dance / Sludge Wave / coverage / Substitute, i.e. the item is spent on entry BY DESIGN to switch on Quark Drive. Consistent with the item-polarity finding (consumption is the point, not a loss). Remaining unpriced question is TIMING \u2014 which entry spends it \u2014 which the eval does not model.",
+   "fact": "Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise its Special Attack further, letting it sweep once boosted. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
+   "provenance": "RAG-grounded [smogon#Iron Moth (gen9ou) — Booster Energy]: the recommended set is Booster Energy with Fiery Dance / Sludge Wave / coverage / Substitute, i.e. the item is spent on entry BY DESIGN to switch on Quark Drive. Consistent with the item-polarity finding (consumption is the point, not a loss). Remaining unpriced question is TIMING — which entry spends it — which the eval does not model.",
    "axis": {
     "attacks": "special"
    },
@@ -873,8 +873,8 @@
    "lead_intent": "strong",
    "review": "measured",
    "deployment": "lead",
-   "fact": "Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying. Whirlwind forces the opponent out regardless of what they intended, which is disruption rather than damage \u2014 it wastes their turn and drags the next mon onto the hazards.",
-   "provenance": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination \u2014 Whirlwind is what converts her hazards into forced-switch chip.",
+   "fact": "Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes, and Whirlwind forces switches so those hazards keep applying. Whirlwind forces the opponent out regardless of what they intended, which is disruption rather than damage — it wastes their turn and drags the next mon onto the hazards.",
+   "provenance": "richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination — Whirlwind is what converts her hazards into forced-switch chip.",
    "axis": {
     "defends": "special"
    },
@@ -891,7 +891,7 @@
    "review": "rag-grounded",
    "deployment": "lead",
    "fact": "Extreme Speed stat lets it set hazards or screens before almost anything else moves. Focus Sash guarantees it acts at least twice.",
-   "provenance": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) \u2014 Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" \u2014 the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve.",
+   "provenance": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" — the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve.",
    "axis": {
     "attacks": "special"
    },
@@ -936,7 +936,7 @@
      "tags": [],
      "prevalence": 0.36,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ]
   },
@@ -949,7 +949,7 @@
    "preserve": "med",
    "review": "measured",
    "fact": "Poison Puppeteer confuses any foe it poisons. Bulk and recovery let it stall and spread status.",
-   "provenance": "CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented \u2014 generate_instructions.rs:907 adds CONFUSION to a foe it poisons, landed in 2e000e6 alongside Rock Head/Anger Shell/Synchronize. An earlier memory note listing it as a silent OU gap was stale. The engine models it correctly; this is now an ordinary role entry.",
+   "provenance": "CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented — generate_instructions.rs:907 adds CONFUSION to a foe it poisons, landed in 2e000e6 alongside Rock Head/Anger Shell/Synchronize. An earlier memory note listing it as a silent OU gap was stale. The engine models it correctly; this is now an ordinary role entry.",
    "axis": {
     "attacks": "special",
     "defends": "physical"
@@ -993,8 +993,8 @@
    "ability": "quarkdrive",
    "preserve": "med",
    "review": "rag-grounded",
-   "fact": "High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-   "provenance": "RAG-grounded [smogon#Iron Valiant (gen9ou)]: \"Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor.\" Booster Energy is its top item by usage \u2014 a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question. [CORRECTED 2026-07-31: I had written a Swords Dance set. Usage says Calm Mind 7.6% against Swords Dance 3.9%, with Encore at 8.8% and Booster Energy on 80% of sets \u2014 the setup set is special, and Encore is the enabler.]",
+   "fact": "High mixed offense with Booster Energy spent on entry to raise its best stat. Choice Specs Moonblast breaks special walls that normally check it. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
+   "provenance": "RAG-grounded [smogon#Iron Valiant (gen9ou)]: \"Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor.\" Booster Energy is its top item by usage — a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question. [CORRECTED 2026-07-31: I had written a Swords Dance set. Usage says Calm Mind 7.6% against Swords Dance 3.9%, with Encore at 8.8% and Booster Energy on 80% of sets — the setup set is special, and Encore is the enabler.]",
    "sets": [
     {
      "name": "Choice Specs",
@@ -1019,7 +1019,7 @@
      "deployment": "setup-window",
      "fact": "Calm Mind raises Special Attack and Special Defense together, and Encore can manufacture the free turn to use it.",
      "sequence": [
-      "enter on something passive \u2014 Booster Energy activates on entry and raises its highest stat",
+      "enter on something passive — Booster Energy activates on entry and raises its highest stat",
       "Encore locks the opponent into a move that cannot threaten it, creating a guaranteed free turn",
       "Calm Mind while they are locked, raising Special Attack and Special Defense",
       "sweep with Moonblast and its coverage move once the boost is up"
@@ -1055,7 +1055,7 @@
      "fact": "Booster Energy on entry with both physical and special attacks, so no single wall answers it. The boost applies to its first entry only.",
      "prevalence": 0.45,
      "prevalence_method": "residual",
-     "prevalence_note": "Booster Energy is on ~80% of ALL its sets, so it cannot separate this build from the Calm Mind and Swords Dance ones \u2014 a compound signature would be needed. Estimated as the residual."
+     "prevalence_note": "Booster Energy is on ~80% of ALL its sets, so it cannot separate this build from the Calm Mind and Swords Dance ones — a compound signature would be needed. Estimated as the residual."
     }
    ],
    "axis": {
@@ -1072,8 +1072,8 @@
    "preserve": "med",
    "review": "rag-grounded",
    "deployment": "late-cleaner",
-   "fact": "Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-   "provenance": "RAG-grounded [smogon#Raging Bolt (gen9ou) \u2014 Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters \u2014 same shape as Ceruledge's Shadow Sneak. [GAP FOUND 2026-07-31: the two named Smogon sets (Choice Specs 12%, Boots Pivot 4%) account for only 16% of usage \u2014 the MAJORITY build is Booster Energy at 52%, which the analysis did not name as its own set. A set list taken from written analyses is not guaranteed to cover the meta; check the item and move distributions for a dominant build the prose skipped.]",
+   "fact": "Thunderclap is a priority move, so it revenge-kills faster threats and beats slower priority attackers. Its value is largely in being held back until something needs killing. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
+   "provenance": "RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: \"Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor.\" Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters — same shape as Ceruledge's Shadow Sneak. [GAP FOUND 2026-07-31: the two named Smogon sets (Choice Specs 12%, Boots Pivot 4%) account for only 16% of usage — the MAJORITY build is Booster Energy at 52%, which the analysis did not name as its own set. A set list taken from written analyses is not guaranteed to cover the meta; check the item and move distributions for a dominant build the prose skipped.]",
    "axis": {
     "attacks": "special"
    },
@@ -1124,7 +1124,7 @@
      "tags": [],
      "prevalence": 0.32,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ],
    "entry_condition": "first_entry_boost"
@@ -1182,11 +1182,11 @@
    "ability": "waterabsorb",
    "preserve": "high",
    "review": "user-corrected",
-   "fact": "Water Absorb heals it whenever it is hit by a Water move, so it can enter freely on one. Ivy Cudgel is its signature move and becomes Water-type while it holds the Wellspring Mask, with a raised critical-hit rate. It runs one Grass move alongside it rather than both \u2014 usually Horn Leech, which drains HP back, sometimes Power Whip for raw power. Swords Dance doubles its Attack, and Trailblaze can be run to raise its Speed by one stage when it hits.",
-   "provenance": "RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: \"one of OU's premier physical attackers\" with \"the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes\". Trailblaze makes it a conditional sweeper \u2014 a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move \u2014 usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.] [EXPANDED 2026-07-31: three named sets, not one. The sequence on this entry is the Swords Dance line; the All-Out Attacker and Utility sets do not set up at all.]",
+   "fact": "Water Absorb heals it whenever it is hit by a Water move, so it can enter freely on one. Ivy Cudgel is its signature move and becomes Water-type while it holds the Wellspring Mask, with a raised critical-hit rate. It runs one Grass move alongside it rather than both — usually Horn Leech, which drains HP back, sometimes Power Whip for raw power. Swords Dance doubles its Attack, and Trailblaze can be run to raise its Speed by one stage when it hits.",
+   "provenance": "RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: \"one of OU's premier physical attackers\" with \"the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes\". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move — usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.] [EXPANDED 2026-07-31: three named sets, not one. The sequence on this entry is the Swords Dance line; the All-Out Attacker and Utility sets do not set up at all.]",
    "deployment": "setup-window",
    "sequence": [
-    "enter on something it walls \u2014 a Water move heals it outright through Water Absorb",
+    "enter on something it walls — a Water move heals it outright through Water Absorb",
     "Swords Dance while the opponent switches or attacks into its bulk",
     "optionally click Trailblaze first, trading a turn of damage for +1 Speed when outspeeding is what is missing",
     "sweep with Ivy Cudgel and its single Grass move, Horn Leech draining HP back as it goes"
@@ -1222,7 +1222,7 @@
      "deployment": null,
      "fact": "Four attacks and no setup, hitting immediately on entry rather than asking for a free turn.",
      "prevalence": 0.1,
-     "prevalence_note": "No positive signature \u2014 this set is defined by what it LACKS (no setup move, or an item every set carries), so its share is estimated as whatever the signature-derived sets leave over. Less reliable than a signature estimate: it absorbs their combined error, and the sets may not partition cleanly.",
+     "prevalence_note": "No positive signature — this set is defined by what it LACKS (no setup move, or an item every set carries), so its share is estimated as whatever the signature-derived sets leave over. Less reliable than a signature estimate: it absorbs their combined error, and the sets may not partition cleanly.",
      "prevalence_method": "residual"
     },
     {
@@ -1248,7 +1248,7 @@
    "review": "rag-grounded",
    "deployment": "pivot-cycle",
    "fact": "Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes it a momentum pivot rather than a mon to hold back. Roughly a third of sets run Clear Body instead of Infiltrator, trading the ability to bypass Substitutes and screens for immunity to stat drops.",
-   "provenance": "RAG-grounded [smogon#Dragapult (gen9ou) \u2014 Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.",
+   "provenance": "RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: \"Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of\" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.",
    "axis": {
     "attacks": "mixed"
    },
@@ -1292,7 +1292,7 @@
      "tags": [],
      "prevalence": 0.29,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ],
    "ability_split": {
@@ -1324,8 +1324,8 @@
      "usage": "It is switched in on a turn the setter is expected to act, so the hazard move is reflected back onto them. Inviting that attempt is the point, so only bringing it in when it is safe never collects the value."
     }
    ],
-   "fact": "Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazards rather than removing them \u2014 it must be in play when the setter acts. Healing Wish trades it away to fully restore a teammate.",
-   "provenance": "RAG-grounded [smogon#Hatterene (gen9ou) \u2014 Healing Wish]: Magic Bounce denies hazards passively while alive; \"Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health\", and the Healing Wish set trades itself to \"pivot them in safely\". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us \u2014 its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even. CONDITIONAL + DEPLOYMENT added 2026-07-31 (user): the static schema could not express that Magic Bounce's worth depends on the OPPONENT's roster, nor that the mon is played as a setup-baiting switch-in rather than a lead.",
+   "fact": "Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazards rather than removing them — it must be in play when the setter acts. Healing Wish trades it away to fully restore a teammate.",
+   "provenance": "RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies hazards passively while alive; \"Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health\", and the Healing Wish set trades itself to \"pivot them in safely\". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us — its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even. CONDITIONAL + DEPLOYMENT added 2026-07-31 (user): the static schema could not express that Magic Bounce's worth depends on the OPPONENT's roster, nor that the mon is played as a setup-baiting switch-in rather than a lead.",
    "axis": {
     "attacks": "special",
     "defends": "physical"
@@ -1386,8 +1386,8 @@
    "lead_intent": "strong",
    "review": "rag-grounded",
    "deployment": "lead",
-   "fact": "Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only \u2014 after it, the same Pokemon is unboosted unless its weather or terrain is up.",
-   "provenance": "RAG-grounded [smogon#Iron Treads (gen9ou) \u2014 Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.",
+   "fact": "Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
+   "provenance": "RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.",
    "sets": [
     {
      "name": "Lead",
@@ -1420,7 +1420,7 @@
      "tags": [],
      "prevalence": 0.32,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ],
    "entry_condition": "first_entry_boost"
@@ -1433,7 +1433,7 @@
    "preserve": "med",
    "review": "rag-grounded",
    "fact": "High mixed offense across several very different sets, so which set it is changes what counters it. Freeze-Dry hits Water types super effectively.",
-   "provenance": "RAG-grounded [smogon#Kyurem (gen9ou)]: \"one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker.\" 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here \u2014 relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.] [CORRECTED 2026-07-31: I had written a 'Substitute Roost' set, but Roost does not appear in its moves at all. Usage: Choice Specs 25% / Loaded Dice 23% / Leftovers 23% items; Dragon Dance 6.7% with Icicle Spear 7.0% and Scale Shot 4.7% is the Loaded Dice physical set; Substitute 6.6% with Protect 3.4% is the stall set.]",
+   "provenance": "RAG-grounded [smogon#Kyurem (gen9ou)]: \"one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker.\" 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.] [CORRECTED 2026-07-31: I had written a 'Substitute Roost' set, but Roost does not appear in its moves at all. Usage: Choice Specs 25% / Loaded Dice 23% / Leftovers 23% items; Dragon Dance 6.7% with Icicle Spear 7.0% and Scale Shot 4.7% is the Loaded Dice physical set; Substitute 6.6% with Protect 3.4% is the stall set.]",
    "sets": [
     {
      "name": "Choice Specs",
@@ -1461,7 +1461,7 @@
       "enter on a hit it resists or a forced switch",
       "Dragon Dance, raising Attack and Speed together",
       "Icicle Spear with Loaded Dice, which guarantees four or five hits and so breaks Substitutes and Focus Sash",
-      "Scale Shot when more Speed is needed \u2014 it raises Speed but lowers Defense, so it commits to winning quickly"
+      "Scale Shot when more Speed is needed — it raises Speed but lowers Defense, so it commits to winning quickly"
      ],
      "axis": {
       "attacks": "physical"
@@ -1490,7 +1490,7 @@
      "tags": [],
      "prevalence": 0.22,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ],
    "axis": {
@@ -1515,7 +1515,7 @@
    ],
    "deployment": "lead",
    "fact": "Ceaseless Edge sets Spikes as part of an attack, so it lays hazards even through Magic Bounce and Taunt, which stop ordinary setters. Sharpness boosts its cutting moves.",
-   "provenance": "RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: \"one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt.\" Setting hazards THROUGH Magic Bounce is the counter to hazard-denial \u2014 the other side of the war that decides our long games.",
+   "provenance": "RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: \"one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt.\" Setting hazards THROUGH Magic Bounce is the counter to hazard-denial — the other side of the war that decides our long games.",
    "axis": {
     "attacks": "physical"
    },
@@ -1561,7 +1561,7 @@
      "tags": [],
      "prevalence": 0.3,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ]
   },
@@ -1574,7 +1574,7 @@
    "preserve": "med",
    "review": "rag-grounded",
    "fact": "Court Change swaps all side conditions, moving hazards onto the opponent instead of clearing them. Libero changes its type to match the move it uses, and U-turn pivots. Roughly a third of sets run Blaze instead of Libero, keeping a fixed Fire typing.",
-   "provenance": "RAG-grounded [smogon#Cinderace (gen9ou) \u2014 Offensive Pivot]: Recommended set is \"Pyro Ball; U-turn; Court Change; ...\" with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT \u2014 it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours.",
+   "provenance": "RAG-grounded [smogon#Cinderace (gen9ou) — Offensive Pivot]: Recommended set is \"Pyro Ball; U-turn; Court Change; ...\" with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT — it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours.",
    "axis": {
     "attacks": "physical"
    },
@@ -1621,7 +1621,7 @@
    "review": "rag-grounded",
    "deployment": "pivot-cycle",
    "fact": "Intimidate lowers the opposing Attack every time it enters, so repeated switch-ins compound the effect. U-turn pivots; Earthquake and Stealth Rock add utility.",
-   "provenance": "RAG-grounded [smogon#Landorus-Therian (gen9ou)]: \"one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt.\" Intimidate is a persistent team-wide defensive effect applied on every entry \u2014 an annuity the eval prices only as a one-off stat drop.",
+   "provenance": "RAG-grounded [smogon#Landorus-Therian (gen9ou)]: \"one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt.\" Intimidate is a persistent team-wide defensive effect applied on every entry — an annuity the eval prices only as a one-off stat drop.",
    "axis": {
     "attacks": "physical",
     "defends": "physical"
@@ -1660,7 +1660,7 @@
      "tags": [],
      "prevalence": 0.21,
      "prevalence_method": "residual",
-     "fact": "No named analysis set covers this share \u2014 off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
+     "fact": "No named analysis set covers this share — off-meta spreads, hybrid builds, or archetypes the write-ups do not separate. Treat it as the chance the build in front of you is not one of the listed ones."
     }
    ]
   },
@@ -1675,7 +1675,7 @@
    "review": "rag-grounded",
    "deployment": "pivot-cycle",
    "fact": "Regenerator restores HP on switch out and Wish heals a teammate, so it is a healing source for the whole side rather than only itself. Flip Turn pivots.",
-   "provenance": "RAG-grounded [smogon#Alomomola (gen9ou) \u2014 WishFish (Wish Passer)]: Recommended set is \"Flip Turn; Wish; Protect; Scald / Tickle\" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch \u2014 so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds.",
+   "provenance": "RAG-grounded [smogon#Alomomola (gen9ou) — WishFish (Wish Passer)]: Recommended set is \"Flip Turn; Wish; Protect; Scald / Tickle\" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch — so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds.",
    "axis": {
     "defends": "physical"
    },
@@ -1719,7 +1719,7 @@
    "review": "rag-grounded",
    "deployment": "late-cleaner",
    "fact": "Very high Speed, usually with Choice Scarf, makes it a revenge killer. Trick hands the Choice item to a wall to cripple it.",
-   "provenance": "RAG-grounded [smogon#Darkrai (gen9ou) \u2014 Choice Scarf]: \"Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick.\" Trick converts its own item into a liability on their wall \u2014 a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction).",
+   "provenance": "RAG-grounded [smogon#Darkrai (gen9ou) — Choice Scarf]: \"Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick.\" Trick converts its own item into a liability on their wall — a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction).",
    "axis": {
     "attacks": "special"
    },
@@ -1785,7 +1785,7 @@
    "review": "rag-grounded",
    "deployment": "pivot-cycle",
    "fact": "Volt Switch pivots while Roost restores HP, so it re-enters many times a game. Heavy-Duty Boots let it ignore entry hazards while doing so.",
-   "provenance": "RAG-grounded [smogon#Zapdos (gen9ou) \u2014 Offensive]: Recommended set \"Hurricane; Volt Switch; Heat Wave; Roost\" with Heavy-Duty Boots: \"a very proactive Pokemon that can help gain momentum.\" Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes.",
+   "provenance": "RAG-grounded [smogon#Zapdos (gen9ou) — Offensive]: Recommended set \"Hurricane; Volt Switch; Heat Wave; Roost\" with Heavy-Duty Boots: \"a very proactive Pokemon that can help gain momentum.\" Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes.",
    "axis": {
     "attacks": "special",
     "defends": "physical"
@@ -1830,15 +1830,15 @@
    "preserve": "high",
    "review": "rag-grounded",
    "deployment": "setup-window",
-   "fact": "Purifying Salt blocks status. Iron Defense with Body Press converts its Defense into attacking power, while Salt Cure chips and Recover sustains \u2014 a slow plan that needs several turns to pay off.",
-   "provenance": "RAG-grounded [smogon#Garganacl (gen9ou) \u2014 Iron Defense]: \"With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense\" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat \u2014 the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip.",
+   "fact": "Purifying Salt blocks status. Iron Defense with Body Press converts its Defense into attacking power, while Salt Cure chips and Recover sustains — a slow plan that needs several turns to pay off.",
+   "provenance": "RAG-grounded [smogon#Garganacl (gen9ou) — Iron Defense]: \"With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense\" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat — the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip.",
    "sequence": [
-    "enter on a physical attacker it walls \u2014 Purifying Salt blocks any status they try to stick on it",
+    "enter on a physical attacker it walls — Purifying Salt blocks any status they try to stick on it",
     "Iron Defense, and keep using it while Recover undoes the chip they deal",
     "Body Press attacks using the boosted Defense stat, so every Iron Defense raises its damage too",
     "Salt Cure anything that switches in, chipping it every turn it stays"
    ],
-   "sequence_note": "This is a slow plan that needs several uninterrupted turns, and each early turn looks like it accomplishes nothing \u2014 the payoff only exists once Defense is high enough that Body Press threatens. Anything that forces it out resets the whole attempt.",
+   "sequence_note": "This is a slow plan that needs several uninterrupted turns, and each early turn looks like it accomplishes nothing — the payoff only exists once Defense is high enough that Body Press threatens. Anything that forces it out resets the whole attempt.",
    "axis": {
     "attacks": "physical",
     "defends": "physical"
@@ -1899,7 +1899,7 @@
     "attacks": "special"
    },
    "preserve": "med",
-   "fact": "A special Fairy wallbreaker whose two builds run the SAME four moves (Moonblast, Earth Power, Mystical Fire, Healing Wish) \u2014 only the item changes the job. Contrary inverts stat drops, so Intimidate-style drops and its own Superpower raise it instead. Healing Wish lets it sacrifice itself late to fully restore a teammate, so a low-HP Enamorus is still worth a full heal.",
+   "fact": "A special Fairy wallbreaker whose two builds run the SAME four moves (Moonblast, Earth Power, Mystical Fire, Healing Wish) — only the item changes the job. Contrary inverts stat drops, so Intimidate-style drops and its own Superpower raise it instead. Healing Wish lets it sacrifice itself late to fully restore a teammate, so a low-HP Enamorus is still worth a full heal.",
    "ability_split": {
     "contrary": 0.9,
     "cutecharm": 0.1
@@ -1933,7 +1933,7 @@
      "fact": "Specs Moonblast 2HKOes bulky pivots; Earth Power and Mystical Fire cover the Steels and Poisons that resist it."
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal."
   },
   "ironcrown": {
    "tags": [
@@ -1958,7 +1958,7 @@
      },
      "prevalence": 0.31,
      "prevalence_method": "signature",
-     "fact": "Specs with Volt Switch pivoting \u2014 it hits hard and leaves."
+     "fact": "Specs with Volt Switch pivoting — it hits hard and leaves."
     },
     {
      "name": "Calm Mind + Booster Energy",
@@ -1990,7 +1990,7 @@
      "fact": "The vest build checks strong special attackers and pivots with Volt Switch; Future Sight variants layer delayed damage onto whatever its physical partners force in."
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Item three-way split 31/31/24 (specs/booster/vest); Quark Drive 100%."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Item three-way split 31/31/24 (specs/booster/vest); Quark Drive 100%."
   },
   "primarina": {
    "tags": [
@@ -2003,7 +2003,7 @@
     "defends": "special"
    },
    "preserve": "med",
-   "fact": "A Water/Fairy special tank that trades hits rather than walls: it checks big special attackers while 2HKOing back. Psychic Noise blocks its target's healing for the turn, which is how it chips walls down. Whirlpool variants trap a wall and win the 1v1. Flip Turn makes it a slow pivot into its breakers.",
+   "fact": "A Water/Fairy special tank that trades hits rather than walls: it checks big special attackers while 2HKOing back. Psychic Noise blocks its target's healing for two turns, which is how it chips walls down. Whirlpool variants trap a wall and win the 1v1. Flip Turn makes it a slow pivot into its breakers.",
    "ability_split": {
     "torrent": 0.54,
     "liquidvoice": 0.46
@@ -2039,7 +2039,7 @@
      "fact": "Calm Mind behind its natural bulk turns it into a slow win-condition that walls special setup mirrors via raw stats."
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. AV 48% item-signature; ability split is orthogonal (Liquid Voice only matters on Psychic Noise-as-STAB builds)."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. AV 48% item-signature; ability split is orthogonal (Liquid Voice only matters on Psychic Noise-as-STAB builds). Heal-block duration corrected to two turns 2026-08-02 (verified vs pokemon-showdown moves.ts healblock durationCallback: Psychic Noise -> 2)."
   },
   "skarmory": {
    "tags": [
@@ -2051,8 +2051,8 @@
     "defends": "physical"
    },
    "preserve": "high",
-   "single_build_note": "One defensive frame (Sturdy 94%; Rocky Helmet 60% / Covert Cloak 19% / Leftovers 13%) \u2014 the real fork is the LAST SLOT: Iron Defense (~50%) makes it a Body Press win-condition, Whirlwind (~40%) makes it a phazer.",
-   "fact": "A physical wall that sets multiple Spikes layers and heals with Roost. The Iron Defense variant stacks Defense until Body Press \u2014 which attacks USING its Defense stat \u2014 beats the physical attackers cornering it, becoming a late-game win condition that only taking special hits or Ghosts stop. The Whirlwind variant instead throws boosted sweepers out and drags the replacement onto its own Spikes.",
+   "single_build_note": "One defensive frame (Sturdy 94%; Rocky Helmet 60% / Covert Cloak 19% / Leftovers 13%) — the real fork is the LAST SLOT: Iron Defense (~50%) makes it a Body Press win-condition, Whirlwind (~40%) makes it a phazer.",
+   "fact": "A physical wall that sets multiple Spikes layers and heals with Roost. The Iron Defense variant stacks Defense until Body Press — which attacks USING its Defense stat — beats the physical attackers cornering it, becoming a late-game win condition that only taking special hits or Ghosts stop. The Whirlwind variant instead throws boosted sweepers out and drags the replacement onto its own Spikes.",
    "sets": [
     {
      "name": "Iron Defense + Body Press",
@@ -2080,10 +2080,10 @@
      },
      "prevalence": 0.4,
      "prevalence_method": "signature",
-     "fact": "Whirlwind denies setup outright and cashes Spikes chip on whatever gets dragged in \u2014 its turn spent to waste yours."
+     "fact": "Whirlwind denies setup outright and cashes Spikes chip on whatever gets dragged in — its turn spent to waste yours."
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Slot-4 slash Iron Defense/Whirlwind is the split (50/40 move-signatures on one slot); Spikes 79%, Roost 93%, Body Press 70%."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Slot-4 slash Iron Defense/Whirlwind is the split (50/40 move-signatures on one slot); Spikes 79%, Roost 93%, Body Press 70%."
   },
   "ursaluna": {
    "tags": [
@@ -2095,16 +2095,16 @@
    },
    "preserve": "med",
    "deployment": "bait-switch",
-   "single_build_note": "Flame Orb Guts is 91% of items \u2014 effectively the only build; the split is Swords Dance (41%) vs Protect (28%) in the last slot.",
+   "single_build_note": "Flame Orb Guts is 91% of items — effectively the only build; the split is Swords Dance (41%) vs Protect (28%) in the last slot.",
    "requires": "a free turn to activate Flame Orb before it can breach",
-   "fact": "A slow, enormous physical wallbreaker on a burn clock: Flame Orb burns it to trigger Guts, after which Facade doubles and very little walls it \u2014 but the same burn drains it every turn, so its value decays the longer it stays active. It must take one un-statused turn for the orb to trigger; Protect variants buy that turn safely (and dodge Knock Off), Swords Dance variants spend it boosting into a forced switch. Burn also makes it immune to further status, and on Trick Room teams its low Speed becomes the payoff.",
+   "fact": "A slow, enormous physical wallbreaker on a burn clock: Flame Orb burns it to trigger Guts, after which Facade doubles and very little walls it — but the same burn drains it every turn, so its value decays the longer it stays active. It must take one un-statused turn for the orb to trigger; Protect variants buy that turn safely (and dodge Knock Off), Swords Dance variants spend it boosting into a forced switch. Burn also makes it immune to further status, and on Trick Room teams its low Speed becomes the payoff.",
    "sequence": [
     "enter on a forced switch or into a passive wall",
     "activate the orb: Protect the first turn (or absorb a status attempt)",
-    "from then on Guts Facade 2HKOes most of the tier \u2014 trade HP for kills",
+    "from then on Guts Facade 2HKOes most of the tier — trade HP for kills",
     "the burn ticks every turn: it is breaking on a timer, not walling"
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28. NB (2026-07-31, user question): richwoman's OWN Ursaluna is an off-meta Bulk Up variant \u2014 book shows Body Slam 15 / Bulk Up 13 / Ice Punch 10 / Supercell Slam 8 and ZERO Facade, so hers is likely not orb'd; the per-opponent book tier overrides this entry against her. Bloodmoon forme: no OU chaos presence, no booked roster carries it."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28. NB (2026-07-31, user question): richwoman's OWN Ursaluna is an off-meta Bulk Up variant — book shows Body Slam 15 / Bulk Up 13 / Ice Punch 10 / Supercell Slam 8 and ZERO Facade, so hers is likely not orb'd; the per-opponent book tier overrides this entry against her. Bloodmoon forme: no OU chaos presence, no booked roster carries it."
   },
   "moltres": {
    "tags": [
@@ -2119,7 +2119,7 @@
    "preserve": "med",
    "single_build_note": "One build: defensive Heavy-Duty Boots (95%), Flame Body (98%).",
    "fact": "A defensive Fire/Flying pivot: Will-O-Wisp cripples physical attackers (and, being a status move, cannot be Sucker Punched), Flame Body threatens a burn on every contact hit against it, U-turn keeps momentum, and Roar throws out anything that tries to set up on it, cashing hazard chip on the replacement. Boots make it indifferent to hazards itself; its checks are strong special attacks, Electric- and Rock-type moves, and Knock Off removing the Boots.",
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Boots 95 / Flame Body 98 / Roost 95 / U-turn 77 / Roar 50 marginals; single smogon Defensive analysis."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Boots 95 / Flame Body 98 / Roost 95 / U-turn 77 / Roar 50 marginals; single smogon Defensive analysis."
   },
   "heatran": {
    "tags": [
@@ -2142,7 +2142,7 @@
     "come in on a special wall, a Fire move, or (with Balloon) a Ground move",
     "Magma Storm as it stays or heals: it is now trapped",
     "Taunt: no recovery, no pivot, no status back",
-    "the storm plus Earth Power finish it \u2014 the wall never leaves"
+    "the storm plus Earth Power finish it — the wall never leaves"
    ],
    "sets": [
     {
@@ -2173,7 +2173,7 @@
      "fact": "Max-Speed max-SpA frame: same trap kit, real damage, no bulk."
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. The two smogon sets share items AND core moves \u2014 flagged estimate, the shape the user named for non-separable splits. Magma Storm 78 / Taunt 55 / Stealth Rock 62 marginals."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. The two smogon sets share items AND core moves — flagged estimate, the shape the user named for non-separable splits. Magma Storm 78 / Taunt 55 / Stealth Rock 62 marginals."
   },
   "clefable": {
    "tags": [
@@ -2185,7 +2185,7 @@
     "defends": "physical"
    },
    "preserve": "med",
-   "fact": "A Fairy wall whose ABILITY is the real set split. Magic Guard (71%): takes zero damage from hazards, status, weather, and Rocky Helmet-style chip \u2014 it switches into Stealth Rock and Spikes for free, poison does nothing, and only direct attacks touch it. Unaware (28%): ignores the opponent's stat boosts entirely, walling setup sweepers at +6 as if they were at +0. Both frames run Moonblast plus recovery; Magic Guard builds usually carry Stealth Rock or Calm Mind, and Knock Off/Thunder Wave for utility.",
+   "fact": "A Fairy wall whose ABILITY is the real set split. Magic Guard (71%): takes zero damage from hazards, status, weather, and Rocky Helmet-style chip — it switches into Stealth Rock and Spikes for free, poison does nothing, and only direct attacks touch it. Unaware (28%): ignores the opponent's stat boosts entirely, walling setup sweepers at +6 as if they were at +0. Both frames run Moonblast plus recovery; Magic Guard builds usually carry Stealth Rock or Calm Mind, and Knock Off/Thunder Wave for utility.",
    "ability_split": {
     "magicguard": 0.71,
     "unaware": 0.28
@@ -2234,7 +2234,7 @@
      "fact": "The anti-setup answer: boosts simply do not exist against it."
     }
    ],
-   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps \u2014 richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Ability split doubles as the set split (the ironvaliant lesson does NOT apply here \u2014 Magic Guard vs Unaware genuinely define different sets, unlike orthogonal ability cosmetics). CM 37% crosses only the Magic Guard side per the smogon analyses."
+   "provenance": "Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Ability split doubles as the set split (the ironvaliant lesson does NOT apply here — Magic Guard vs Unaware genuinely define different sets, unlike orthogonal ability cosmetics). CM 37% crosses only the Magic Guard side per the smogon analyses."
   }
  }
 }
