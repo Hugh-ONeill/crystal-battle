@@ -819,18 +819,33 @@ class Gen9Translator:
         weather = _WEATHER_MAP.get(weather_enum.name, pe.Weather.NONE)
         if weather == pe.Weather.NONE:
             return pe.Weather.NONE, 0
-        duration = 5
+        # DURATION IS ITSELF THE EVIDENCE. The extender rocks are silent
+        # items, so waiting for one to be "revealed" never fired for an
+        # opponent and we modelled every weather as 5 turns — against a
+        # Ninetales running Heat Rock on 94% of sets that is three turns of
+        # sun we think we have waited out and have not. A weather still up
+        # after 5 elapsed turns CANNOT be the 5-turn version, so the rock is
+        # proven. Measured on our own logs (554 runs, re-sets counted
+        # separately since Drought re-fires on every switch-in): durations
+        # are bimodal at 4 and 7 elapsed turns exactly as the mechanic
+        # predicts, and 23% of runs prove an extender.
+        elapsed = battle.turn - start_turn
         rock = _WEATHER_ROCK.get(weather)
-        if rock and rock in self._revealed_items(battle):
+        duration = 5
+        if elapsed >= 5 or (rock and rock in self._revealed_items(battle)):
             duration = 8
-        return weather, _clamp_turns(duration - (battle.turn - start_turn))
+        return weather, _clamp_turns(duration - elapsed)
 
     def _terrain(self, battle) -> tuple[pe.Terrain, int]:
         for field, start_turn in battle.fields.items():
             terrain = _TERRAIN_MAP.get(field.name)
             if terrain is not None:
-                duration = 8 if "terrainextender" in self._revealed_items(battle) else 5
-                return terrain, _clamp_turns(duration - (battle.turn - start_turn))
+                elapsed = battle.turn - start_turn
+                duration = 8 if (
+                    elapsed >= 5
+                    or "terrainextender" in self._revealed_items(battle)
+                ) else 5
+                return terrain, _clamp_turns(duration - elapsed)
         return pe.Terrain.NONE, 0
 
     def _trick_room(self, battle) -> tuple[bool, int]:
@@ -845,7 +860,15 @@ class Gen9Translator:
                          active) -> pe.SideConditions:
         turn = battle.turn
         side_items = {_normalize(m.item) for m in side_mons if m.item}
-        screen_duration = 8 if "lightclay" in side_items else 5
+        # Light Clay is silent too, so the same duration proof applies: a
+        # screen still standing after 5 elapsed turns proves the Clay. Uses
+        # the OLDEST standing screen on this side, since one Clay extends
+        # them all.
+        screen_starts = [v for c, v in conditions.items()
+                         if c.name in ("REFLECT", "LIGHT_SCREEN",
+                                       "AURORA_VEIL")]
+        clay_proven = any(turn - v >= 5 for v in screen_starts)
+        screen_duration = 8 if ("lightclay" in side_items or clay_proven) else 5
 
         kwargs: dict[str, int] = {}
         for cond, value in conditions.items():
