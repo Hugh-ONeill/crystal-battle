@@ -153,6 +153,22 @@ def test_no_fact_dangles_into_review_only_text(doc):
         assert "see the provenance" not in f.lower(), sp
 
 
+def test_every_entry_is_signed_off_and_provenance_is_not_stale(doc):
+    """The file was signed off 2026-08-02, clearing the header's review gate."""
+    for sp, e in entries(doc).items():
+        assert e.get("reviewed_on"), f"{sp} has no reviewed_on"
+        assert "not yet user-reviewed" not in e["provenance"].lower(), sp
+
+
+def test_review_class_survives_review(doc):
+    """`review` records WHERE A CLAIM CAME FROM and must not be flattened to
+    user-corrected just because a human approved the file — only entries whose
+    claims a human actually changed carry that class."""
+    classes = {e["review"] for e in entries(doc).values()}
+    assert {"rag-grounded", "usage-only"} <= classes, (
+        "provenance classes were destroyed by the review pass")
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))

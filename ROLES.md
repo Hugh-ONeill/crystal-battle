@@ -47,14 +47,14 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 6.2% | **garganacl** ✳ ▸ | Smogon-cited | physical/physical | high | setup-window | wall, wincon |
 | 6.1% | **heatran** ✳ ▸ | Smogon-cited | special/special | med | — | wall, stallbreaker, hazard-setter, trapper |
 | 6.1% | **tyranitar** ✳ | Smogon-cited | physical/special | high | — | weather-setter, wall, hazard-setter, wallbreaker |
-| 5.6% | **primarina** ✳ | Smogon-cited | special/special | med | — | tank, wallbreaker, trapper |
+| 5.6% | **primarina** ✳ | USER-CORRECTED | special/special | med | — | tank, wallbreaker, trapper |
 | 5.0% | **clefable** ✳ | Smogon-cited | physical | med | — | wall, hazard-setter, anti-setup |
-| 4.8% | **enamorus** ✳ | Smogon-cited | special | med | — | wallbreaker, support |
+| 4.8% | **enamorus** ✳ | USER-CORRECTED | special | med | — | wallbreaker, support |
 | 4.7% | **moltres** | Smogon-cited | physical | med | — | wall, pivot, disruptor |
 | 4.7% | **pelipper** | measured here | physical | high | lead | weather-setter |
 | 4.6% | **garchomp** ✳ | Smogon-cited | physical/physical | med | — | hazard-setter, wall, setup-sweeper |
 | 4.6% | **tornadustherian** ✳ | Smogon-cited | special | med | pivot-cycle | pivot, wallbreaker |
-| 4.5% | **scizor** ✳ | Smogon-cited | physical | med | — | revenge-killer, wallbreaker, pivot |
+| 4.5% | **scizor** ✳ | USER-CORRECTED | physical | med | — | revenge-killer, wallbreaker, pivot |
 | 4.4% | **weezinggalar** | Smogon-cited | physical | med | — | wall, hazard-remover, disruptor |
 | 4.4% | **dondozo** | Smogon-cited | physical | high | — | wall, setup-sweeper, anti-setup |
 | 3.9% | **excadrill** | Smogon-cited | physical | med | late-cleaner | setup-sweeper, hazard-remover |
@@ -64,9 +64,9 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 3.4% | **ninetales** | Smogon-cited | — | high | lead | weather-setter, support, disruptor |
 | 3.4% | **toxapex** ✳ | Smogon-cited | physical | high | — | wall, disruptor, hazard-setter, anti-setup |
 | 3.3% | **torkoal** | measured here | physical | med | lead | weather-setter |
-| 3.2% | **ursaluna** ▸ | Smogon-cited | physical | med | bait-switch | wallbreaker, status-absorber |
+| 3.2% | **ursaluna** ▸ | USER-CORRECTED | physical | med | bait-switch | wallbreaker, status-absorber |
 | 3.1% | **clodsire** | Smogon-cited | special | high | — | wall, hazard-setter, anti-setup, status-absorber |
-| 3.0% | **blissey** ✳ | Smogon-cited | special | high | — | wall, hazard-setter, support, status-absorber |
+| 3.0% | **blissey** ✳ | USER-CORRECTED | special | high | — | wall, hazard-setter, support, status-absorber |
 | 2.9% | **ribombee** | Smogon-cited | — | med | lead | hazard-setter, suicide-lead, support |
 | 2.8% | **weavile** ✳ | Smogon-cited | physical | med | — | wallbreaker, revenge-killer |
 | 2.7% | **hoopaunbound** ✳ | Smogon-cited | mixed | med | bait-switch | wallbreaker |
@@ -104,27 +104,27 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 1.2% | **porygon2** | usage-only | special/special | high | — | wall, trick-room-setter, tank |
 | 1.1% | **kommoo** ▸ | Smogon-cited | mixed | med | setup-window | setup-sweeper, wincon |
 | 1.1% | **arcaninehisui** | Smogon-cited | physical | med | — | wallbreaker, priority-attacker |
-| 1.1% | **polteageist** | usage-only | special | med | setup-window | setup-sweeper, wincon |
+| 1.1% | **polteageist** | USER-CORRECTED | special | med | setup-window | setup-sweeper, wincon |
 | 1.1% | **thundurustherian** | usage-only | special | med | — | wallbreaker, pivot, setup-sweeper |
 | 1.1% | **mimikyu** ▸ | Smogon-cited | physical | med | setup-window | setup-sweeper, priority-attacker, disruptor |
 | 1.0% | **indeedee** | Smogon-cited | special | high | lead | terrain-setter, support, sacrificial-support |
 | 1.0% | **mandibuzz** | Smogon-cited | physical | med | — | wall, hazard-remover, status-spreader |
-| 1.0% | **zoroarkhisui** | usage-only | special | med | — | wallbreaker, revenge-killer |
+| 1.0% | **zoroarkhisui** | USER-CORRECTED | special | med | — | wallbreaker, revenge-killer |
 | 0.9% | **slowking** | Smogon-cited | special/physical | med | pivot-cycle | pivot, wall, support |
 | 0.9% | **talonflame** | Smogon-cited | physical | med | — | hazard-remover, pivot, status-spreader |
-| 0.9% | **gengar** | usage-only | special | med | — | wallbreaker, revenge-killer, spinblocker |
+| 0.9% | **gengar** | USER-CORRECTED | special | med | — | wallbreaker, revenge-killer, spinblocker |
 | 0.8% | **incineroar** | usage-only | physical/physical | med | pivot-cycle | pivot, disruptor, support |
 | 0.8% | **mamoswine** | Smogon-cited | physical | med | — | wallbreaker, priority-attacker |
 | 0.8% | **azumarill** ▸ | usage-only | physical | med | setup-window | setup-sweeper, priority-attacker, wincon |
-| 0.7% | **okidogi** ✳ | Smogon-cited | physical/special | med | — | setup-sweeper, tank, status-spreader, wallbreaker |
+| 0.7% | **okidogi** ✳ | USER-CORRECTED | physical/special | med | — | setup-sweeper, tank, status-spreader, wallbreaker |
 | 0.7% | **ironboulder** | Smogon-cited | physical | med | setup-window | setup-sweeper, wallbreaker |
 | 0.7% | **amoonguss** | Smogon-cited | special | med | — | wall, anti-setup, status-spreader, pivot |
-| 0.6% | **whimsicott** | usage-only | special | med | — | disruptor, support, setup-sweeper, tailwind-setter |
+| 0.6% | **whimsicott** | USER-CORRECTED | special | med | — | disruptor, support, setup-sweeper, tailwind-setter |
 | 0.6% | **comfey** ▸ | Smogon-cited | special | med | setup-window | setup-sweeper, cleric, wincon |
 | 0.6% | **mew** | usage-only | mixed | med | — | setup-sweeper, hazard-setter, support |
 | 0.5% | **galvantula** | usage-only | — | med | lead | hazard-setter, suicide-lead, status-spreader |
 | 0.5% | **chesnaught** | Smogon-cited | physical/physical | med | — | wall, hazard-setter, anti-setup |
-| 0.5% | **hippowdon** | usage-only | physical | high | lead | weather-setter, wall, hazard-setter, disruptor |
+| 0.5% | **hippowdon** | USER-CORRECTED | physical | high | lead | weather-setter, wall, hazard-setter, disruptor |
 | 0.5% | **ironjugulis** | Smogon-cited | special | med | — | wallbreaker, disruptor |
 | 0.3% | **necrozma** | usage-only | mixed/special | med | — | setup-sweeper, wallbreaker, tank |
 | 0.2% | **enamorustherian** | Smogon-cited | special/special | med | — | wall, setup-sweeper, tank |
@@ -162,7 +162,7 @@ Rapid Spin removes entry hazards for the whole team. Protosynthesis raises its S
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Great Tusk (gen9ou) — Offensive Utility / Defensive]: "Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown"; also "a staple on Sticky Web teams". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover — a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover — a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]
+RAG-grounded [smogon#Great Tusk (gen9ou) — Offensive Utility / Defensive]: "Rapid Spin allows it to remove entry hazards for its teammates, and the Speed boost lets it scare out usually faster threats like Darkrai and Iron Crown"; also "a staple on Sticky Web teams". SOLE-REMOVER CAVEAT: preserve:high holds only when it is the team's only remover — a TEAM property this per-species file cannot express (schema gap). Hazard chip is our pinned loss mechanism (SR = 21% of damage taken), so the remover is a team-persistent resource. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover — a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -176,7 +176,7 @@ Supreme Overlord raises its power by 10% for each fallen ally, so it is weakest 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored into threat_vs (c68f15a). Timing instrument: we first deploy it ~T9 with 0.44 allies down and 77% of the time with ZERO down, vs the ladder population's T13.0 / 0.96. fp is equally guilty, so this is absolute strength, not fp-gap.
+Supreme Overlord = +10% power per fallen ally (abilities.rs:2257), now mirrored into threat_vs (c68f15a). Timing instrument: we first deploy it ~T9 with 0.44 allies down and 77% of the time with ZERO down, vs the ladder population's T13.0 / 0.96. fp is equally guilty, so this is absolute strength, not fp-gap. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -204,7 +204,7 @@ Good as Gold makes it immune to status moves. Its Ghost typing blocks Rapid Spin
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction — Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it "both a defensive and offensive glue on virtually any team" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy — a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem. [Refined 2026-07-31 (user): spinblocking is a TYPING property so the tag is unconditional — what is conditional is whether it matters, which needs hazards actually on the field, not merely a hazard-setter on the roster. Split into per-set entries at the same time.]
+USER-CORRECTED 2026-07-31: my entry reduced a top-3 usage Pokemon to 'spinblocker', omitting that it is a primary win condition. Usage data confirms the correction — Shadow Ball 21.1% and Make It Rain 20.8% are its two most-used moves, Nasty Plot 12.8%, Recover 12.5%, Trick 8.4% (Choice Scarf is 33% of its items), Thunder Wave 4.1% with Hex 3.1%, Air Balloon 44% of items. Smogon's analysis calls it "both a defensive and offensive glue on virtually any team" and carries a dedicated Offensive Nasty Plot set. SCHEMA LIMITATION this exposed: the file annotates a SPECIES, but this mon has several sets with genuinely different roles (Nasty Plot sweeper, Choice Scarf Trick, defensive status/Hex). Tags and fact now cover all of them, which is lossy — a consumer cannot tell WHICH set is in front of it. The set-inference tiers already identify that at runtime, so a future consumer should key role off the inferred set rather than the species alone. Same class of gap as the sole-remover team-property problem. [Refined 2026-07-31 (user): spinblocking is a TYPING property so the tag is unconditional — what is conditional is whether it matters, which needs hazards actually on the field, not merely a hazard-setter on the roster. Split into per-set entries at the same time.] USER-REVIEWED 2026-08-02, with a correction: status-absorber added (Good as Gold BLOCKS status moves outright).
 
 </details>
 
@@ -241,7 +241,7 @@ Multiscale halves incoming damage only at full HP, so it needs an undamaged entr
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy setup opportunities" and let it check Ogerpon-W, Iron Moth and Rillaboom, "with Multiscale intact". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up — which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [USER-CORRECTED 2026-07-31: the sequence omitted terastallizing. Usage confirms Tera Normal on 57% of sets, far ahead of Flying 16%, and Extreme Speed is its third-most-used move at 18% — the tera exists to give that priority move STAB.]
+RAG-grounded [smogon#Dragonite (gen9ou)]: Roost-based sets "give Dragonite easy setup opportunities" and let it check Ogerpon-W, Iron Moth and Rillaboom, "with Multiscale intact". Same entry_condition family as Ceruledge: Multiscale only halves damage at FULL HP, so entry chip deletes the defensive half of the wincon before it sets up — which is why the standard set runs Boots. The eval prices Multiscale when at full HP but cannot price PRESERVING full HP for a later sweep. [USER-CORRECTED 2026-07-31: the sequence omitted terastallizing. Usage confirms Tera Normal on 57% of sets, far ahead of Flying 16%, and Extreme Speed is its third-most-used move at 18% — the tera exists to give that priority move STAB.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -269,7 +269,7 @@ High mixed offense with Booster Energy spent on entry to raise its best stat. Ch
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor." Booster Energy is its top item by usage — a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question. [CORRECTED 2026-07-31: I had written a Swords Dance set. Usage says Calm Mind 7.6% against Swords Dance 3.9%, with Encore at 8.8% and Booster Energy on 80% of sets — the setup set is special, and Encore is the enabler.]
+RAG-grounded [smogon#Iron Valiant (gen9ou)]: "Choice Specs takes advantage of Moonblast's spammability and lets Iron Valiant break through and even 2HKO otherwise common Iron Valiant answers such as Assault Vest Hatterene, Galarian Weezing, and specially defensive Gliscor." Booster Energy is its top item by usage — a one-shot entry resource like Iron Moth's, so entry TIMING is the unpriced question. [CORRECTED 2026-07-31: I had written a Swords Dance set. Usage says Calm Mind 7.6% against Swords Dance 3.9%, with Encore at 8.8% and Booster Energy on 80% of sets — the setup set is special, and Encore is the enabler.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -297,7 +297,7 @@ Thunderclap is a priority move, so it revenge-kills faster threats and beats slo
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor." Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters — same shape as Ceruledge's Shadow Sneak. [GAP FOUND 2026-07-31: the two named Smogon sets (Choice Specs 12%, Boots Pivot 4%) account for only 16% of usage — the MAJORITY build is Booster Energy at 52%, which the analysis did not name as its own set. A set list taken from written analyses is not guaranteed to cover the meta; check the item and move distributions for a dominant build the prose skipped.]
+RAG-grounded [smogon#Raging Bolt (gen9ou) — Choice Specs]: "Thunderclap is used as powerful priority to revenge kill or force out faster threats such as Ogerpon-W, Iron Valiant, and Enamorus, and it also helps Raging Bolt beat slower priority users such as Kingambit and Scizor." Priority-in-reserve is a role the leaf eval sees only as a weak move until the turn it matters — same shape as Ceruledge's Shadow Sneak. [GAP FOUND 2026-07-31: the two named Smogon sets (Choice Specs 12%, Boots Pivot 4%) account for only 16% of usage — the MAJORITY build is Booster Energy at 52%, which the analysis did not name as its own set. A set list taken from written analyses is not guaranteed to cover the meta; check the item and move distributions for a dominant build the prose skipped.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -317,7 +317,7 @@ Dauntless Shield raises its Defense on entry. Bulk and typing let it check many 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Zamazenta (gen9ou)]: "Zamazenta is the tier's most consistent glue piece and wincon. Its natural bulk alongside a valuable typing, which can be boosted further by Dauntless Shield, lets it take on many manner of offensive threats like Kingambit, Hisuian Samurott, some Dragonite sets, and Great Tusk." Glue = it is what other members are built around; losing it costs more than its own HP.
+RAG-grounded [smogon#Zamazenta (gen9ou)]: "Zamazenta is the tier's most consistent glue piece and wincon. Its natural bulk alongside a valuable typing, which can be boosted further by Dauntless Shield, lets it take on many manner of offensive threats like Kingambit, Hisuian Samurott, some Dragonite sets, and Great Tusk." Glue = it is what other members are built around; losing it costs more than its own HP. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -352,7 +352,7 @@ Water Absorb heals it whenever it is hit by a Water move, so it can enter freely
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical attackers" with "the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move — usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.] [EXPANDED 2026-07-31: three named sets, not one. The sequence on this entry is the Swords Dance line; the All-Out Attacker and Utility sets do not set up at all.]
+RAG-grounded [smogon#Ogerpon-Wellspring (gen9ou)]: "one of OU's premier physical attackers" with "the high power of Ivy Cudgel and Power Whip, the option to trade the latter with Trailblaze to outspeed otherwise faster foes". Trailblaze makes it a conditional sweeper — a setup curve the eval prices only one turn at a time. [USER-CORRECTED 2026-07-31: my fact implied it runs Ivy Cudgel AND Power Whip together. It picks ONE Grass move — usage confirms Ivy Cudgel 24.9% (on essentially every set, since four moves cap at 25%), with the Grass slot split between Horn Leech 10.3% and Power Whip 5.8%, so Horn Leech is the commoner choice and I had named the rarer one. Swords Dance 15.1%. Trailblaze does not reach the top eight, consistent with it being an option rather than standard. The play sequence was missing entirely.] [EXPANDED 2026-07-31: three named sets, not one. The sequence on this entry is the Swords Dance line; the All-Out Attacker and Utility sets do not set up at all.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -380,7 +380,7 @@ Infiltrator ignores Substitutes and screens. Very high Speed with U-turn makes i
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: "Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back.
+RAG-grounded [smogon#Dragapult (gen9ou) — Boots Pivot]: "Infiltrator is the preferred ability, as it allows Dragapult to both hit and cripple foes regardless of" substitutes and screens. Infiltrator ignoring Substitute/screens is a matchup fact the eval does model; the role note is that it is the momentum piece, not a mon to hold back. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -410,7 +410,7 @@ Magic Bounce reflects hazards and status back at the user, so it PREVENTS hazard
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies hazards passively while alive; "Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health", and the Healing Wish set trades itself to "pivot them in safely". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us — its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even. CONDITIONAL + DEPLOYMENT added 2026-07-31 (user): the static schema could not express that Magic Bounce's worth depends on the OPPONENT's roster, nor that the mon is played as a setup-baiting switch-in rather than a lead.
+RAG-grounded [smogon#Hatterene (gen9ou) — Healing Wish]: Magic Bounce denies hazards passively while alive; "Psychic Noise notably lets Hatterene significantly chip bulky foes like Gliscor, Garganacl, and Clefable, preventing them from recovering their health", and the Healing Wish set trades itself to "pivot them in safely". TWO team-persistent effects the eval cannot price: (a) Magic Bounce is hazard PREVENTION, worth most against exactly the hazard-stack that beats us — its death re-opens the SR war; (b) Healing Wish is a deliberate SACRIFICE that restores a teammate, so a low-HP Hatterene is not obviously a liability. Psychic Noise blocking recovery also matters in the long grinds where the recovery war is even. CONDITIONAL + DEPLOYMENT added 2026-07-31 (user): the static schema could not express that Magic Bounce's worth depends on the OPPONENT's roster, nor that the mon is played as a setup-baiting switch-in rather than a lead. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -430,7 +430,7 @@ Defog clears hazards from both sides. Pressure makes opponents spend two PP per 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Corviknight (gen9ou) — Defensive]: "Defog allows Corviknight to fulfill the role as the team's hazard remover", and Pressure "more quickly stall[s] out their attacks' PP" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover — a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.]
+RAG-grounded [smogon#Corviknight (gen9ou) — Defensive]: "Defog allows Corviknight to fulfill the role as the team's hazard remover", and Pressure "more quickly stall[s] out their attacks' PP" against setup sweepers (Dragonite, Gliscor, Kingambit). Sole-remover caveat still applies: preserve pressure is a TEAM property this per-species file cannot express. PP-stalling matters in the long grinds where the stall audit measured real PP bankruptcy. [SCHEMA GAP, reviewer note: preserve also depends on whether OUR OWN team carries another remover — a team property this per-species file cannot express, and `conditional` only covers opponent facts. Moved out of the consumer-facing note 2026-07-31.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -456,7 +456,7 @@ Regenerator restores a third of its HP whenever it switches out, so repeated ent
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) — the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed. [Trimmed 2026-07-31: the fact had noted its low Speed investment, which was only interesting because of a speed-inference bug on our side — session detail, not a property a reader needs. Removed.]
+Regenerator pivots are net-positive on entry (fp routes hazard cycles through them: pays 12.5%, regains 33%) — the hazard_cycle finding. Also the mon whose speed floor produced the false Choice Scarf call (88f1f17), so its canonical spread is bulky with ~0 Speed. [Trimmed 2026-07-31: the fact had noted its low Speed investment, which was only interesting because of a speed-inference bug on our side — session detail, not a property a reader needs. Removed.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -470,7 +470,7 @@ Poison Heal turns being poisoned into recurring healing rather than damage, so i
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.]
+The flagship annuity case. Stall audit: fp's Poison Heal Gliscor played its FULL PP budget and generated 22.8 mons of free healing over three marathons while ours clicked 6 moves in ~711 turns. Eval terms shipped for exactly this (poke-engine 76af1e9: POISON_HEAL_STATUSED 15->35, PENDING +15) and our Gliscor now SubToxes at full budget. Known race: the naked orb walked into Knock Off on entry in 2/3 marathons, so activation timing is itself the play. [USER-CORRECTED 2026-07-31: the fact described Protect as only stalling for heal ticks. Its other job is blocking Knock Off to keep the Toxic Orb, without which the whole set does nothing.] USER-REVIEWED 2026-08-02, with a correction: status-absorber added (Toxic Orb self-status, and it heals from it).
 
 </details>
 
@@ -494,7 +494,7 @@ Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself for hazard control and "gives it another way to block Defog and Rapid Spin"; coverage choice is explicitly about stopping Raging Bolt boosting or "Pecharunt from blocking Rapid Spin". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve.
+RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself for hazard control and "gives it another way to block Defog and Rapid Spin"; coverage choice is explicitly about stopping Raging Bolt boosting or "Pecharunt from blocking Rapid Spin". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -522,7 +522,7 @@ High mixed offense across several very different sets, so which set it is change
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.] [CORRECTED 2026-07-31: I had written a 'Substitute Roost' set, but Roost does not appear in its moves at all. Usage: Choice Specs 25% / Loaded Dice 23% / Leftovers 23% items; Dragon Dance 6.7% with Icicle Spear 7.0% and Scale Shot 4.7% is the Loaded Dice physical set; Substitute 6.6% with Protect 3.4% is the stall set.]
+RAG-grounded [smogon#Kyurem (gen9ou)]: "one of SV OU's strongest offensive Pokemon, utilizing its powerful mixed offensive stats and solid overall bulk to run a wide variety of sets, each requiring different counterplay. Choice Specs makes Kyurem into a wallbreaker." 'Each set requires different counterplay' is a direct statement that set inference matters more than usual here — relevant to the belief-tier work. [Split into sets 2026-07-31: its own analysis says each set 'requires different counterplay', so a single species role is misleading here.] [CORRECTED 2026-07-31: I had written a 'Substitute Roost' set, but Roost does not appear in its moves at all. Usage: Choice Specs 25% / Loaded Dice 23% / Leftovers 23% items; Dragon Dance 6.7% with Icicle Spear 7.0% and Scale Shot 4.7% is the Loaded Dice physical set; Substitute 6.6% with Protect 3.4% is the stall set.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -554,7 +554,7 @@ Ceaseless Edge sets Spikes as part of an attack, so it lays hazards even through
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: "one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt." Setting hazards THROUGH Magic Bounce is the counter to hazard-denial — the other side of the war that decides our long games.
+RAG-grounded [smogon#Samurott-Hisui (gen9ou)]: "one of the most prolific entry hazard setters in the tier with its signature move Ceaseless Edge, letting it both set Spikes and deal heavy damage thanks to its Sharpness ability. It can even do so in the face of Hatterene's Magic Bounce and Taunt." Setting hazards THROUGH Magic Bounce is the counter to hazard-denial — the other side of the war that decides our long games. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -574,7 +574,7 @@ Court Change swaps all side conditions, moving hazards onto the opponent instead
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Cinderace (gen9ou) — Offensive Pivot]: Recommended set is "Pyro Ball; U-turn; Court Change; ..." with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT — it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours.
+RAG-grounded [smogon#Cinderace (gen9ou) — Offensive Pivot]: Recommended set is "Pyro Ball; U-turn; Court Change; ..." with Heavy-Duty Boots and Libero. COURT CHANGE is hazard control by THEFT — it flips our hazards onto them rather than clearing them, which is strictly better in a chip war and is why our ah3 team runs it. The eval sees a side-condition swap but not that it converts their investment into ours. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -588,7 +588,7 @@ Vessel of Ruin weakens opposing Special Attack. It sets Stealth Rock and Spikes,
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination — Whirlwind is what converts her hazards into forced-switch chip.
+richwoman's most-used lead by a distance (45 of her games) and the anchor of the hazard-stack that produces our pinned chip loss. Her revealed set is SR/Whirlwind/Earthquake/Ruination — Whirlwind is what converts her hazards into forced-switch chip. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -612,7 +612,7 @@ Intimidate lowers the opposing Attack every time it enters, so repeated switch-i
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Landorus-Therian (gen9ou)]: "one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt." Intimidate is a persistent team-wide defensive effect applied on every entry — an annuity the eval prices only as a one-off stat drop.
+RAG-grounded [smogon#Landorus-Therian (gen9ou)]: "one of OU's premier pivots. It can check a wide variety of threats such as Kingambit, Ceruledge, and Raging Bolt." Intimidate is a persistent team-wide defensive effect applied on every entry — an annuity the eval prices only as a one-off stat drop. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -649,7 +649,7 @@ Weak Armor raises its Speed when it is hit. Bitter Blade heals it for half the d
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) — Swords Dance]: popping the Sash with weak moves "would only give it a trouble-free Weak Armor boost", so the opponent removing the Sash is often GOOD for Ceruledge — I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend — it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.] [EXPANDED 2026-07-31 from full multi-angle retrieval: Smogon names TWO sets and I had only the Swords Dance one. The Bulk Up set is a different mon in practice — it boosts Defence rather than buying a turn with Focus Sash, carries Taunt to stop Defog, and wants screens rather than a clean entry. The sequence recorded on this entry is the Swords Dance line specifically.]
+TWICE-CORRECTED, and the final read is the user's (2026-07-31). (1) My inference: 'Focus Sash is a resource chip destroys, so preserve it.' (2) RAG partly corrected it [smogon#Ceruledge (gen9ou) — Swords Dance]: popping the Sash with weak moves "would only give it a trouble-free Weak Armor boost", so the opponent removing the Sash is often GOOD for Ceruledge — I then over-corrected to preserve:low. (3) The real mechanism is a SEQUENCE, and entry chip is what breaks it: come in at FULL HP (Focus Sash only functions from full), Swords Dance, TAKE a hit, survive at 1 HP on Sash, which procs Weak Armor for +Speed, then outspeed and heal back with Bitter Blade's drain, holding Shadow Sneak in reserve for anything that still outspeeds or carries priority. So the Sash is not a thing to protect and not a thing to spend — it is the PIVOT of a multi-turn plan whose precondition is an uncontested entry. Any Stealth Rock chip kills the plan before turn one. DIRECTLY TIED to our pinned loss mechanism (SR = 21% of damage taken in the long grinds): this is a mon whose wincon the hazard war silently deletes, which is also why the standard set wants removal or Boots support. The whole sequence is exactly the beyond-horizon multi-turn plan the leaf eval cannot price. [Cross-references removed from the consumer-facing note 2026-07-31: it had pointed at Hatterene's bait-switch and the Curse/Dondozo accumulation. Those parallels are real and useful to a reviewer, but each entry must stand alone for a consumer.] [EXPANDED 2026-07-31 from full multi-angle retrieval: Smogon names TWO sets and I had only the Swords Dance one. The Bulk Up set is a different mon in practice — it boosts Defence rather than buying a turn with Focus Sash, carries Taunt to stop Defog, and wants screens rather than a clean entry. The sequence recorded on this entry is the Swords Dance line specifically.] USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -669,7 +669,7 @@ Poison Puppeteer confuses any foe it poisons. Bulk and recovery let it stall and
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented — generate_instructions.rs:907 adds CONFUSION to a foe it poisons, landed in 2e000e6 alongside Rock Head/Anger Shell/Synchronize. An earlier memory note listing it as a silent OU gap was stale. The engine models it correctly; this is now an ordinary role entry.
+CORRECTION 2026-07-31 (user-flagged, verified): Poison Puppeteer IS implemented — generate_instructions.rs:907 adds CONFUSION to a foe it poisons, landed in 2e000e6 alongside Rock Head/Anger Shell/Synchronize. An earlier memory note listing it as a silent OU gap was stale. The engine models it correctly; this is now an ordinary role entry. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -693,7 +693,7 @@ Toxic Debris sets Toxic Spikes when it is hit by a physical move. Stealth Rock a
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Glimmora (gen9ou) — Lead]: the Lead set exists to deny setup — it stops "Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads).
+RAG-grounded [smogon#Glimmora (gen9ou) — Lead]: the Lead set exists to deny setup — it stops "Ting-Lu from setting up entry hazards multiple times and Hatterene from trying to deny Stealth Rock with Magic Bounce". Confirms the suicide-lead role: its job is completed on the turns it survives, not by surviving. Directly relevant to richwoman, whose hazard stack is anchored by Ting-Lu (45 leads). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -707,7 +707,7 @@ Booster Energy is spent on entry to raise its best stat. Fiery Dance can raise i
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Iron Moth (gen9ou) — Booster Energy]: the recommended set is Booster Energy with Fiery Dance / Sludge Wave / coverage / Substitute, i.e. the item is spent on entry BY DESIGN to switch on Quark Drive. Consistent with the item-polarity finding (consumption is the point, not a loss). Remaining unpriced question is TIMING — which entry spends it — which the eval does not model.
+RAG-grounded [smogon#Iron Moth (gen9ou) — Booster Energy]: the recommended set is Booster Energy with Fiery Dance / Sludge Wave / coverage / Substitute, i.e. the item is spent on entry BY DESIGN to switch on Quark Drive. Consistent with the item-polarity finding (consumption is the point, not a loss). Remaining unpriced question is TIMING — which entry spends it — which the eval does not model. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -727,7 +727,7 @@ Regenerator restores HP on switch out and Wish heals a teammate, so it is a heal
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Alomomola (gen9ou) — WishFish (Wish Passer)]: Recommended set is "Flip Turn; Wish; Protect; Scald / Tickle" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch — so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds.
+RAG-grounded [smogon#Alomomola (gen9ou) — WishFish (Wish Passer)]: Recommended set is "Flip Turn; Wish; Protect; Scald / Tickle" with Regenerator. TEAM-WIDE HEALING ANNUITY: Wish heals a TEAMMATE, and Regenerator heals itself on every switch — so its survival is a recurring income stream for the whole side, the same economics as Poison Heal Gliscor. Directly relevant to the recovery war measured in the long grinds. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -755,7 +755,7 @@ Very high Speed, usually with Choice Scarf, makes it a revenge killer. Trick han
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Darkrai (gen9ou) — Choice Scarf]: "Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick." Trick converts its own item into a liability on their wall — a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction).
+RAG-grounded [smogon#Darkrai (gen9ou) — Choice Scarf]: "Darkrai can also cripple physical walls like Dondozo and Skarmory with Trick." Trick converts its own item into a liability on their wall — a resource TRADE the eval scores as an item swap. Also the species our speed-floor inference must not mistake for a Scarf when it is not (see the 88f1f17 correction). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -779,7 +779,7 @@ Hydro Steam is strengthened rather than weakened in sun. Protosynthesis activate
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back on Booster Energy when the sun drops — which is exactly WHY sun tolerates engine piloting (63%) while rain does not (29.2%, benched). Recorded to keep the weather fix from treating all abusers as equally weather-dependent.
+Hydro Steam is sun-boosted rather than sun-nerfed, and Protosynthesis falls back on Booster Energy when the sun drops — which is exactly WHY sun tolerates engine piloting (63%) while rain does not (29.2%, benched). Recorded to keep the weather fix from treating all abusers as equally weather-dependent. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -807,7 +807,7 @@ Grassy Surge sets Grassy Terrain, which heals every grounded Pokemon each turn a
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Rillaboom (gen9ou) — Utility]: Grassy Terrain is described as "solving its problem with longevity" for partners and enabling Grassy-Seed setup — i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care.
+RAG-grounded [smogon#Rillaboom (gen9ou) — Utility]: Grassy Terrain is described as "solving its problem with longevity" for partners and enabling Grassy-Seed setup — i.e. the terrain is a TEAM-WIDE annuity (passive recovery + halved Earthquake), not a personal buff, so the setter's death ends a resource the whole side was drawing on. Same economics shape as the weather setters; RE-RUN the rain_audit for terrain before assigning preserve pressure, since sun leaked identically to rain and did not care. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -827,7 +827,7 @@ Volt Switch pivots while Roost restores HP, so it re-enters many times a game. H
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Zapdos (gen9ou) — Offensive]: Recommended set "Hurricane; Volt Switch; Heat Wave; Roost" with Heavy-Duty Boots: "a very proactive Pokemon that can help gain momentum." Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes.
+RAG-grounded [smogon#Zapdos (gen9ou) — Offensive]: Recommended set "Hurricane; Volt Switch; Heat Wave; Roost" with Heavy-Duty Boots: "a very proactive Pokemon that can help gain momentum." Boots + Roost = a mon designed to re-enter repeatedly, so its value is in the switch economy the hazard war taxes. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -855,7 +855,7 @@ Extreme Speed stat lets it set hazards or screens before almost anything else mo
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: "Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats" — the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve.
+RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: "Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats" — the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -888,7 +888,7 @@ Purifying Salt blocks status. Iron Defense with Body Press converts its Defense 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Garganacl (gen9ou) — Iron Defense]: "With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat — the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip.
+RAG-grounded [smogon#Garganacl (gen9ou) — Iron Defense]: "With fantastic bulk, Salt Cure, Purifying Salt's status immunity, the combination of Iron Defense" and Body Press + Recover. IronPress is a slow multi-turn wincon whose intermediate states look flat — the exact accumulation pattern the leaf eval prunes (the documented Curse/Dondozo failure mode). Salt Cure is chip we measured at only 1% of damage taken, so its threat here is the setup, not the chip. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -915,7 +915,7 @@ A Fire/Steel glue mon whose signature play kills walls: Magma Storm traps the ta
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. The two smogon sets share items AND core moves — flagged estimate, the shape the user named for non-separable splits. Magma Storm 78 / Taunt 55 / Stealth Rock 62 marginals.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. The two smogon sets share items AND core moves — flagged estimate, the shape the user named for non-separable splits. Magma Storm 78 / Taunt 55 / Stealth Rock 62 marginals. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -939,11 +939,11 @@ The sand setter, and unusually a genuine Pokemon in its own right rather than pu
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-08-02 from species-filtered smogon RAG chunks + deflation-corrected gen9ou chaos prevalences. Added on the user's top-50-by-usage sweep: it was the ONLY top-50 species missing (#32, 6.06% usage) despite being witnessed only 4 times — exactly the usage-vs-witnessed gap that sweep exists to catch, and its partner Excadrill (already entered) names it as the sand setter it depends on. Sand's passive SpD boost for Rock-types verified as a real mechanic. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks + deflation-corrected gen9ou chaos prevalences. Added on the user's top-50-by-usage sweep: it was the ONLY top-50 species missing (#32, 6.06% usage) despite being witnessed only 4 times — exactly the usage-vs-witnessed gap that sweep exists to catch, and its partner Excadrill (already entered) names it as the sand setter it depends on. Sand's passive SpD boost for Rock-types verified as a real mechanic. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### primarina — 5.6% usage · *Smogon-cited*
+### primarina — 5.6% usage · *USER-CORRECTED*
 
 **tags** tank, wallbreaker, trapper · **axis** attacks special, defends special · **preserve** med
 
@@ -959,7 +959,7 @@ A Water/Fairy special tank that trades hits rather than walls: it checks big spe
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. AV 48% item-signature; ability split is orthogonal (Liquid Voice only matters on Psychic Noise-as-STAB builds). Heal-block duration corrected to two turns 2026-08-02 (verified vs pokemon-showdown moves.ts healblock durationCallback: Psychic Noise -> 2).
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. AV 48% item-signature; ability split is orthogonal (Liquid Voice only matters on Psychic Noise-as-STAB builds). Heal-block duration corrected to two turns 2026-08-02 (verified vs pokemon-showdown moves.ts healblock durationCallback: Psychic Noise -> 2). USER-REVIEWED 2026-08-02, with a correction: Psychic Noise heal-block duration corrected to two turns.
 
 </details>
 
@@ -983,11 +983,11 @@ A Fairy wall whose ABILITY is the real set split. Magic Guard (71%): takes zero 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Ability split doubles as the set split (the ironvaliant lesson does NOT apply here — Magic Guard vs Unaware genuinely define different sets, unlike orthogonal ability cosmetics). CM 37% crosses only the Magic Guard side per the smogon analyses.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Ability split doubles as the set split (the ironvaliant lesson does NOT apply here — Magic Guard vs Unaware genuinely define different sets, unlike orthogonal ability cosmetics). CM 37% crosses only the Magic Guard side per the smogon analyses. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### enamorus — 4.8% usage · *Smogon-cited*
+### enamorus — 4.8% usage · *USER-CORRECTED*
 
 **tags** wallbreaker, support · **axis** attacks special · **preserve** med
 
@@ -1009,7 +1009,7 @@ A special Fairy wallbreaker whose builds share a Moonblast + Earth Power core wi
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25%-of-move-slots rule is correct as written, but was misapplied to share-of-RAW-COUNT: this dump's weighted counts run ~0.57 of Raw count for Enamorus, so raw shares need dividing by sum(Items)/Raw first — deflation-corrected superpower is ~15%, matching the anchor ratio). User had observed Contrary+Superpower in play.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Scarf/Specs split is item-signature (58/18, residual Leftovers/Life Orb odd sets). Both smogon sets list the identical four moves; Healing Wish 65% marginal. 2026-08-02 user review: 'same four moves' claim retracted and Superpower set added — chaos superpower 8.8% raw over the Moonblast universal-anchor 56% gives ~0.16 (the /25%-of-move-slots rule is correct as written, but was misapplied to share-of-RAW-COUNT: this dump's weighted counts run ~0.57 of Raw count for Enamorus, so raw shares need dividing by sum(Items)/Raw first — deflation-corrected superpower is ~15%, matching the anchor ratio). User had observed Contrary+Superpower in play. USER-REVIEWED 2026-08-02, with a correction: Superpower (Contrary) set added; the same-four-moves claim retracted.
 
 </details>
 
@@ -1023,7 +1023,7 @@ A defensive Fire/Flying pivot: Will-O-Wisp cripples physical attackers (and, bei
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Boots 95 / Flame Body 98 / Roost 95 / U-turn 77 / Roar 50 marginals; single smogon Defensive analysis.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Boots 95 / Flame Body 98 / Roost 95 / U-turn 77 / Roar 50 marginals; single smogon Defensive analysis. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1037,7 +1037,7 @@ Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.
+rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1057,7 +1057,7 @@ A Dragon/Ground that appears in two opposite roles. Rough Skin (100%) chips anyt
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1081,11 +1081,11 @@ A fast Flying special attacker whose durability comes from Regenerator (100%): a
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### scizor — 4.5% usage · *Smogon-cited*
+### scizor — 4.5% usage · *USER-CORRECTED*
 
 **tags** revenge-killer, wallbreaker, pivot · **axis** attacks physical · **ability** technician · **preserve** med
 
@@ -1105,7 +1105,7 @@ A Bug/Steel physical attacker built around priority: Technician (98%) boosts Bul
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02, with a correction: status-absorber removed — incidental Steel typing is not a team role.
 
 </details>
 
@@ -1119,7 +1119,7 @@ A Poison/Fairy defensive utility mon: Defog (89%) clears hazards, Will-O-Wisp (8
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1133,7 +1133,7 @@ The physical wall that ignores setup: Unaware (99%) means the opponent's Attack 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1147,7 +1147,7 @@ A physical Ground sweeper that lives on sand: Sand Rush (84%) doubles its Speed 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1167,7 +1167,7 @@ A very fast physical Grass/Dark attacker. Flower Trick (93%) is the reason it br
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1191,7 +1191,7 @@ A special Steel/Psychic attacker with three genuinely distinct builds separated 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Item three-way split 31/31/24 (specs/booster/vest); Quark Drive 100%.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Item three-way split 31/31/24 (specs/booster/vest); Quark Drive 100%. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1213,7 +1213,7 @@ The base (Teal Mask) Ogerpon: a fast physical Grass attacker holding a NORMAL it
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1227,7 +1227,7 @@ The sun setter: Drought (100%) starts sun on entry and Heat Rock (94% of items) 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-The weather-preservation motivation in this file's header names exactly this mon class. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+The weather-preservation motivation in this file's header names exactly this mon class. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1247,7 +1247,7 @@ The archetypal defensive pivot: Regenerator (96%) restores a third of its HP eve
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1261,11 +1261,11 @@ Drought sets sun on entry and Heat Rock extends it. Its own Speed is very low, s
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy — so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule.
+same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy — so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### ursaluna — 3.2% usage · *Smogon-cited*
+### ursaluna — 3.2% usage · *USER-CORRECTED*
 
 **tags** wallbreaker, status-absorber · **axis** attacks physical · **preserve** med · **deployment** bait-switch · **requires** a free turn to activate Flame Orb before it can breach
 
@@ -1282,7 +1282,7 @@ A slow, enormous physical wallbreaker on a burn clock: Flame Orb burns it to tri
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28. NB (2026-07-31, user question): richwoman's OWN Ursaluna is an off-meta Bulk Up variant — book shows Body Slam 15 / Bulk Up 13 / Ice Punch 10 / Supercell Slam 8 and ZERO Facade, so hers is likely not orb'd; the per-opponent book tier overrides this entry against her. Bloodmoon forme: no OU chaos presence, no booked roster carries it.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Flame Orb 91% item-signature; Facade 92 / Headlong Rush 72 marginals; SD/Protect slash 41/28. NB (2026-07-31, user question): richwoman's OWN Ursaluna is an off-meta Bulk Up variant — book shows Body Slam 15 / Bulk Up 13 / Ice Punch 10 / Supercell Slam 8 and ZERO Facade, so hers is likely not orb'd; the per-opponent book tier overrides this entry against her. Bloodmoon forme: no OU chaos presence, no booked roster carries it. USER-REVIEWED 2026-08-02, with a correction: status-absorber restored (Flame Orb self-status blocks everything else).
 
 </details>
 
@@ -1296,11 +1296,11 @@ A Poison/Ground special wall with Recover (95%) and, on most builds, Unaware (63
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### blissey — 3.0% usage · *Smogon-cited*
+### blissey — 3.0% usage · *USER-CORRECTED*
 
 **tags** wall, hazard-setter, support, status-absorber · **axis** defends special · **ability** naturalcure · **preserve** high
 
@@ -1316,7 +1316,7 @@ The special wall: enormous HP with Soft-Boiled (97%) recovery, and Natural Cure 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02, with a correction: status-absorber added (Natural Cure cures on switch-out).
 
 </details>
 
@@ -1330,7 +1330,7 @@ A Sticky Web lead: Sticky Web (98%) drops the Speed of everything the opponent s
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1354,7 +1354,7 @@ A very fast physical Dark/Ice attacker whose job is item removal and speed. Knoc
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1378,7 +1378,7 @@ A huge mixed Psychic/Dark attacker with no defensive role: it comes in and force
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1392,7 +1392,7 @@ A Grass/Dragon special setup breaker with Regenerator (98%), so it heals a third
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Regenerator recovery fraction and Fickle Beam's damage-roll mechanic verified against sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Regenerator recovery fraction and Fickle Beam's damage-roll mechanic verified against sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1406,7 +1406,7 @@ Swift Swim doubles its Speed in rain, so it outspeeds most of the field only whi
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down.
+41% of Swift Swim moves across those games were clicked OUTSIDE rain (60 in / 42 out) — the search spends the abuser while its enabling condition is down. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1420,7 +1420,7 @@ An Electric/Water defensive pivot that is Ground-immune through Levitate (100%) 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1432,7 +1432,7 @@ A Fire/Water bulky special attacker — a typing nothing else in the tier has, g
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1458,7 +1458,7 @@ A Bug/Dark attacker whose ability removes the usual way of answering it: Tinted 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Tinted Lens (chainModify(2) on typeMod<0) and First Impression (+2 priority, first-turn-only) verified in sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Tinted Lens (chainModify(2) on typeMod<0) and First Impression (+2 priority, first-turn-only) verified in sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1470,7 +1470,7 @@ A fast Grass attacker built on one interaction: Contrary INVERTS its own stat dr
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1499,7 +1499,7 @@ A physical Grass breaker locked to the Cornerstone Mask (100%) and Sturdy (100%)
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Mask and ability are format-locked, hence 100% — not an estimate. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Mask and ability are format-locked, hence 100% — not an estimate. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1520,7 +1520,7 @@ A Fire/Fighting sweeper whose threat grows every turn it survives: Speed Boost (
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-value_curve 'grows_with_turns_active' (per-turn accumulators like Speed Boost) is not in the schema comment's list, but nor are 'grows_with_own_status' and 'decays_with_chip' already in use — the header enum has DRIFTED from the file and should be reconciled at review; adding a value follows existing practice rather than breaking it. Nothing consumes the field yet. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+value_curve 'grows_with_turns_active' (per-turn accumulators like Speed Boost) is not in the schema comment's list, but nor are 'grows_with_own_status' and 'decays_with_chip' already in use — the header enum has DRIFTED from the file and should be reconciled at review; adding a value follows existing practice rather than breaking it. Nothing consumes the field yet. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1534,7 +1534,7 @@ A bulky Grass/Ghost Calm Mind wincon. Strength Sap (97%) does two jobs in one tu
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1548,7 +1548,7 @@ The Aurora Veil lead: Snow Warning (100%) sets snow on entry, which is the PRECO
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Screens-setter role class: a suicide-support lead whose value is the window it opens, not its own survival. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Screens-setter role class: a suicide-support lead whose value is the window it opens, not its own survival. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1562,7 +1562,7 @@ A very fast, frail special attacker. Battle Bond (68%) is a ONE-TIME transformat
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Battle Bond verified in sim data as a once-per-battle +1/+1/+1 on causing a faint (bondTriggered flag), NOT the older transformation. value_curve 'grows_after_first_ko' is likewise outside the header's documented list (see the blaziken note on enum drift). Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Battle Bond verified in sim data as a once-per-battle +1/+1/+1 on causing a faint (bondTriggered flag), NOT the older transformation. value_curve 'grows_after_first_ko' is likewise outside the header's documented list (see the blaziken note on enum drift). Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1583,7 +1583,7 @@ The bulky Sticky Web lead: Sticky Web (96%) is its job and its bulk is what gets
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1603,7 +1603,7 @@ The Trick Room setter: Trick Room (57%) INVERTS the speed order for five turns, 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1627,7 +1627,7 @@ A fast Dragon/Psychic special attacker, Ground-immune through Levitate (100%) an
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1641,7 +1641,7 @@ An enormous, very slow Electric/Fighting attacker. Booster Energy (59% of items)
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Trick Room relevance is mechanical (lowest Speed moves first while the room is up), and matches this pool's dedicated-TR archetypes. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Trick Room relevance is mechanical (lowest Speed moves first while the room is up), and matches this pool's dedicated-TR archetypes. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1655,7 +1655,7 @@ A Steel/Fairy utility piece: it sets Stealth Rock, locks a foe into one move wit
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Gigaton Hammer's once-per-two-turns restriction and the Mold Breaker/Good as Gold interaction verified against pokemon-showdown data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+Gigaton Hammer's once-per-two-turns restriction and the Mold Breaker/Good as Gold interaction verified against pokemon-showdown data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1667,7 +1667,7 @@ A sun sweeper and nothing else: Chlorophyll (94%) DOUBLES its Speed while sun is
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1681,7 +1681,7 @@ A Fire/Ghost defensive wincon. Unaware (97%) ignores the opponent's stat boosts 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1703,7 +1703,7 @@ A physical wall that sets multiple Spikes layers and heals with Roost. The Iron 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Not yet user-reviewed. Slot-4 slash Iron Defense/Whirlwind is the split (50/40 move-signatures on one slot); Spikes 79%, Roost 93%, Body Press 70%.
+Drafted 2026-07-31 from species-filtered smogon RAG chunks (roles_draft.py batch 2: ladder-roster gaps — richwoman + LoblollyFreeplayv1 coverage) + gen9ou chaos prevalences same date. Slot-4 slash Iron Defense/Whirlwind is the split (50/40 move-signatures on one slot); Spikes 79%, Roost 93%, Body Press 70%. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1717,7 +1717,7 @@ Prankster gives its status moves priority, so it sets Reflect and Light Screen b
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-RAG-grounded [smogon#Grimmsnarl (gen9ou) — Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind — the definition of expendable team-persistent support. Matches the monotype screens-setter precedent.
+RAG-grounded [smogon#Grimmsnarl (gen9ou) — Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind — the definition of expendable team-persistent support. Matches the monotype screens-setter precedent. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1738,7 +1738,7 @@ A terrain-dependent sweeper built on a two-step item trick. It carries a Seed (G
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-Unburden's Speed doubling, Acrobatics' no-item doubling and seed consumption verified in sim data — the three-way synergy is mechanical, not editorial. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Unburden's Speed doubling, Acrobatics' no-item doubling and seed consumption verified in sim data — the three-way synergy is mechanical, not editorial. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1762,7 +1762,7 @@ A bulky Bug/Fighting pivot. First Impression (92%) is a +2 priority hit that ONL
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1776,7 +1776,7 @@ A Steel/Dragon special wall with an enormous Special Defense, further inflated b
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1797,7 +1797,7 @@ A Dark/Flying setup sweeper with an unusual engine: Berserk raises its Special A
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1817,7 +1817,7 @@ A physical Water/Fighting attacker that snowballs two ways at once: Aqua Step (9
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1829,7 +1829,7 @@ A rain sweeper: Swift Swim (96%) DOUBLES its Speed while rain is up and it is un
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1849,7 +1849,7 @@ A Dark/Dragon special breaker, Ground-immune through Levitate (100%) and so unaf
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1867,7 +1867,7 @@ A frail Normal-type built on one move: Population Bomb (99%) strikes up to TEN t
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1881,7 +1881,7 @@ A bulky Water setup sweeper with the fastest boost in the tier: Tail Glow (76%) 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1900,7 +1900,7 @@ A bulky Dragon/Psychic setup wincon, Ground-immune through Levitate. Calm Mind (
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1920,7 +1920,7 @@ A fast Water/Fighting special attacker with a mechanically unusual STAB: Secret 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1932,7 +1932,7 @@ A Normal-type wall defined by its item: Eviolite (99%) raises BOTH its defenses 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1951,7 +1951,7 @@ A Dragon/Fighting setup wincon with an all-in boosting move: Clangorous Soul (84
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -1965,11 +1965,11 @@ A Fire/Rock physical breaker whose ability removes the usual cost of its moves: 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### polteageist — 1.1% usage · *usage-only*
+### polteageist — 1.1% usage · *USER-CORRECTED*
 
 **tags** setup-sweeper, wincon · **axis** attacks special · **preserve** med · **deployment** setup-window · **entry_condition** full_hp
 
@@ -1977,7 +1977,7 @@ A Ghost-type all-in sweeper: Shell Smash (99%) raises Attack, Special Attack and
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-ENGINE GAP (adjudicated, see the gengar entry): its minority ability Cursed Body (25% of sets) is the one remaining silent ability in poke-engine, deliberately left unimplemented on usage maths — so a quarter of Polteageist are modelled abilityless. Shell Smash and White Herb, which carry the set, are both implemented. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+ENGINE GAP (adjudicated, see the gengar entry): its minority ability Cursed Body (25% of sets) is the one remaining silent ability in poke-engine, deliberately left unimplemented on usage maths — so a quarter of Polteageist are modelled abilityless. Shell Smash and White Herb, which carry the set, are both implemented. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02, with a correction: engine_blind split out of provenance so a consumer can read it.
 
 </details>
 
@@ -1989,7 +1989,7 @@ A fast Electric special attacker: Volt Absorb (100%) means an incoming Electric 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2007,7 +2007,7 @@ A Ghost/Fairy setup sweeper built around Disguise (100%): the FIRST damaging hit
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2019,7 +2019,7 @@ The Psychic Terrain setter: Psychic Surge (100%) sets it on entry and Terrain Ex
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2031,11 +2031,11 @@ A Dark/Flying defensive wall built to answer physical attackers without needing 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### zoroarkhisui — 1.0% usage · *usage-only*
+### zoroarkhisui — 1.0% usage · *USER-CORRECTED*
 
 **tags** wallbreaker, revenge-killer · **axis** attacks special · **preserve** med
 
@@ -2043,7 +2043,7 @@ A frail, fast Normal/Ghost special attacker — a typing with no weaknesses to t
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-ENGINE GAP, and the largest one in this batch: Illusion (100% of sets) is NOT implemented in poke-engine. It disguises the mon as its last unfainted teammate until it takes damage, so the OPPONENT'S BELIEF is wrong about which Pokemon is on the field — a Zoroark can be treated as a wall and attacked accordingly, or bluff a threat it does not have. The engine's own comment records this as an INTENTIONAL omission on the grounds that it is an information-hiding effect belonging to the translator/belief layer rather than state mechanics, and that Zoroark is niche. That reasoning holds, but the consequence is concrete: against a Zoroark-H team our belief layer is systematically wrong about the identity of the active mon, and nothing in the search knows it. User-flagged 2026-08-02 as a known hard case. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+ENGINE GAP, and the largest one in this batch: Illusion (100% of sets) is NOT implemented in poke-engine. It disguises the mon as its last unfainted teammate until it takes damage, so the OPPONENT'S BELIEF is wrong about which Pokemon is on the field — a Zoroark can be treated as a wall and attacked accordingly, or bluff a threat it does not have. The engine's own comment records this as an INTENTIONAL omission on the grounds that it is an information-hiding effect belonging to the translator/belief layer rather than state mechanics, and that Zoroark is niche. That reasoning holds, but the consequence is concrete: against a Zoroark-H team our belief layer is systematically wrong about the identity of the active mon, and nothing in the search knows it. User-flagged 2026-08-02 as a known hard case. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02, with a correction: engine_blind split out of provenance so a consumer can read it.
 
 </details>
 
@@ -2057,7 +2057,7 @@ A Water/Psychic defensive pivot whose durability is Regenerator (99%): a third o
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2069,11 +2069,11 @@ A Fire/Flying utility mon. Its ability is a genuine fork: Gale Wings (45%) gives
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### gengar — 0.9% usage · *usage-only*
+### gengar — 0.9% usage · *USER-CORRECTED*
 
 **tags** wallbreaker, revenge-killer, spinblocker · **axis** attacks special · **ability** cursedbody · **preserve** med
 
@@ -2081,7 +2081,7 @@ A very fast, very frail Ghost/Poison special attacker. Shadow Ball (86%) is the 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-ENGINE GAP, ALREADY ADJUDICATED — not a new finding. Cursed Body (100% of Gengar sets) has zero effect-code references in poke-engine: the constant exists in the Abilities enum but nothing applies it, so we model every Gengar as abilityless. This is the LAST remaining silent ability for gen9 OU (the 2026-07-26 full scan, updated 2026-07-31 after four others were implemented in `2e000e6`), and it was DELIBERATELY CLOSED as not worth fixing on usage maths: Gengar 0.86% usage x 100% of sets, Dragapult 14.6% x 2%, Polteageist 1.09% x 25%, Froslass/Banette ~0.1% => roughly 1.5% of opposing mons carry it, and it only fires on CONTACT moves at 30%. Re-verified against source 2026-08-02 during the top-100 sweep: still silent, still correctly closed. Recorded here so the entry does not imply a pending fix. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+ENGINE GAP, ALREADY ADJUDICATED — not a new finding. Cursed Body (100% of Gengar sets) has zero effect-code references in poke-engine: the constant exists in the Abilities enum but nothing applies it, so we model every Gengar as abilityless. This is the LAST remaining silent ability for gen9 OU (the 2026-07-26 full scan, updated 2026-07-31 after four others were implemented in `2e000e6`), and it was DELIBERATELY CLOSED as not worth fixing on usage maths: Gengar 0.86% usage x 100% of sets, Dragapult 14.6% x 2%, Polteageist 1.09% x 25%, Froslass/Banette ~0.1% => roughly 1.5% of opposing mons carry it, and it only fires on CONTACT moves at 30%. Re-verified against source 2026-08-02 during the top-100 sweep: still silent, still correctly closed. Recorded here so the entry does not imply a pending fix. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02, with a correction: engine_blind split out of provenance so a consumer can read it.
 
 </details>
 
@@ -2093,7 +2093,7 @@ A Fire/Dark utility pivot whose value is in the turns it takes away from the opp
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2105,7 +2105,7 @@ A physical Ice/Ground attacker with strong priority: Ice Shard (90%) picks off w
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2124,11 +2124,11 @@ A Water/Fairy wincon built on two multipliers stacking. Huge Power (88%) DOUBLES
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### okidogi — 0.7% usage · *Smogon-cited*
+### okidogi — 0.7% usage · *USER-CORRECTED*
 
 **tags** setup-sweeper, tank, status-spreader, wallbreaker · **axis** attacks physical, defends special · **preserve** med
 
@@ -2144,7 +2144,7 @@ A bulky Poison/Fighting attacker. Its ability is the fork and it matters: Toxic 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-ENTERED BECAUSE THE OVERLAY KEPT ASKING FOR IT: `okidogi.ability` was the single most-cited path in the shadow worry corpus (18 citations) while the dossier rendered this species as '(no entry)' — the LLM correctly identified the ability as the decision-relevant fact and had nothing to read. Found via the citation audit 2026-08-02. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+ENTERED BECAUSE THE OVERLAY KEPT ASKING FOR IT: `okidogi.ability` was the single most-cited path in the shadow worry corpus (18 citations) while the dossier rendered this species as '(no entry)' — the LLM correctly identified the ability as the decision-relevant fact and had nothing to read. Found via the citation audit 2026-08-02. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02, with a correction: entered because the overlay kept citing okidogi.ability against no entry.
 
 </details>
 
@@ -2156,7 +2156,7 @@ A very fast Rock/Fighting setup sweeper. Booster Energy (85% of items) is consum
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2168,11 +2168,11 @@ A Grass/Poison defensive pivot with Regenerator (93%), healing a third of its HP
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### whimsicott — 0.6% usage · *usage-only*
+### whimsicott — 0.6% usage · *USER-CORRECTED*
 
 **tags** disruptor, support, setup-sweeper, tailwind-setter · **axis** attacks special · **preserve** med · **value_curve** decays_with_weather_clock · **resource** Tailwind turns (on the Prankster builds)
 
@@ -2180,7 +2180,7 @@ A very fast, frail Grass/Fairy utility mon whose ability decides its whole role:
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02, with a correction: Tailwind added — 21% of sets, +1 priority under Prankster.
 
 </details>
 
@@ -2199,7 +2199,7 @@ A Fairy setup sweeper with a unique speed trick: Triage (99%) gives its HEALING 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2211,7 +2211,7 @@ A Psychic-type generalist with no modal build at all — its most common move ap
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2223,7 +2223,7 @@ A Sticky Web lead: Sticky Web (95%) is its job, and Focus Sash (80% of items) gu
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2235,11 +2235,11 @@ A Grass/Fighting physical wall. Bulletproof (96%) makes it IMMUNE to ball and bo
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
-### hippowdon — 0.5% usage · *usage-only*
+### hippowdon — 0.5% usage · *USER-CORRECTED*
 
 **tags** weather-setter, wall, hazard-setter, disruptor · **axis** defends physical · **ability** sandstream · **preserve** high · **deployment** lead · **resource** sand
 
@@ -2249,7 +2249,7 @@ The sand setter: Sand Stream (98%) starts sand on entry, and Smooth Rock (34% of
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-NO SMOGON ANALYSIS EXISTS for this species in the gen9ou corpus (0.47% usage is below the analysis cutoff) — every claim here is from usage stats plus verified move/ability mechanics, never from role prose, hence review=usage-only. We have faced it 31 times on the ladder, which is why it is entered at all: our opponent pool skews off-meta relative to Smogon usage. User-flagged 2026-08-02, including the Eject Button read (confirmed at 13%). NOTE for anyone carrying monotype habits over: Smooth Rock is NOT banned in gen9 OU (Hippowdon 34%, Tyranitar 31%); the Smooth/Damp Rock ban is a MONOTYPE rule. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+NO SMOGON ANALYSIS EXISTS for this species in the gen9ou corpus (0.47% usage is below the analysis cutoff) — every claim here is from usage stats plus verified move/ability mechanics, never from role prose, hence review=usage-only. We have faced it 31 times on the ladder, which is why it is entered at all: our opponent pool skews off-meta relative to Smogon usage. User-flagged 2026-08-02, including the Eject Button read (confirmed at 13%). NOTE for anyone carrying monotype habits over: Smooth Rock is NOT banned in gen9 OU (Hippowdon 34%, Tyranitar 31%); the Smooth/Damp Rock ban is a MONOTYPE rule. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02, with a correction: Eject Button confirmed as a real minority; Smooth Rock is legal in OU (the ban is monotype).
 
 </details>
 
@@ -2261,7 +2261,7 @@ A fast Dark/Flying special attacker. Booster Energy (75% of items) is spent on i
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2273,7 +2273,7 @@ A bulky Psychic-type setup attacker. Prism Armor (100%) REDUCES SUPER-EFFECTIVE 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2287,7 +2287,7 @@ The Therian form is a bulky special attacker, not the fast breaker its Incarnate
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 6: the user's WIDENED net — every species witnessed >=5 times) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
@@ -2299,7 +2299,7 @@ The Kantonian Arcanine — a bulky Fire attacker, distinct from Arcanine-Hisui's
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
- USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.
+USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).
 
 </details>
 
