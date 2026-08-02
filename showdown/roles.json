@@ -111,6 +111,12 @@
   "                  bulky-attacker real bulk AND a real offensive presence — the",
   "                                 step past tank, where the attack, not the",
   "                                 absorption, is the point.",
+  "                  tailwind-setter  sets Tailwind, DOUBLING its own side's Speed",
+  "                                 for four turns. The mirror of trick-room-setter:",
+  "                                 both are TIMED TEAM-WIDE SPEED RESOURCES whose",
+  "                                 whole value is the window they open, so both get",
+  "                                 a tag and a `resource`. With Prankster the set",
+  "                                 goes up at +1 priority, i.e. almost uncontested.",
   "                  trick-room-setter  sets Trick Room, which INVERTS the speed",
   "                                 order while it lasts. Grouped with the other",
   "                                 field-setters; a slow beneficiary is not tagged",
@@ -391,7 +397,7 @@
    "lead_intent": "strong",
    "review": "measured",
    "deployment": "lead",
-   "fact": "Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The rain ends early if another weather setter replaces it.",
+   "fact": "Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The rain ends early if another weather setter replaces it. Tailwind (6%) is a minority option that doubles its side's Speed for four turns.",
    "provenance": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype.",
    "axis": {
     "defends": "physical"
@@ -3875,7 +3881,7 @@
    "axis": {
     "defends": "physical"
    },
-   "fact": "A Fire/Flying utility mon. Its ability is a genuine fork: Gale Wings (45%) gives its FLYING moves +1 priority but ONLY at FULL HP, so a single point of chip — hazard damage included — switches the ability off entirely; Flame Body (55%) instead threatens a burn on contact. Defog (62%) is its main job, with Roost (54%) to keep itself healthy and Will-O-Wisp (46%) to cripple physical attackers. Boots (68%) both dodge hazards and, on the Gale Wings builds, protect the full-HP condition the ability depends on.",
+   "fact": "A Fire/Flying utility mon. Its ability is a genuine fork: Gale Wings (45%) gives its FLYING moves +1 priority but ONLY at FULL HP, so a single point of chip — hazard damage included — switches the ability off entirely; Flame Body (55%) instead threatens a burn on contact. Defog (62%) is its main job, with Roost (54%) to keep itself healthy and Will-O-Wisp (46%) to cripple physical attackers. Boots (68%) both dodge hazards and, on the Gale Wings builds, protect the full-HP condition the ability depends on. Tailwind (8%) is a minority option that doubles its side's Speed for four turns.",
    "ability_split": {
     "flamebody": 0.55,
     "galewings": 0.45
@@ -4228,19 +4234,22 @@
    "tags": [
     "disruptor",
     "support",
-    "setup-sweeper"
+    "setup-sweeper",
+    "tailwind-setter"
    ],
    "preserve": "med",
    "axis": {
     "attacks": "special"
    },
-   "fact": "A very fast, frail Grass/Fairy utility mon whose ability decides its whole role: Prankster (47%) gives its STATUS moves +1 priority, so Encore, Leech Seed and Taunt land before the opponent can act — that is the disruption build. Chlorophyll (50%) instead DOUBLES its Speed in sun, making it a fast sun attacker with Growth (48%) and Moonblast (82%). The two abilities want opposite teams, so identifying which one is in front of you matters more than the item.",
+   "fact": "A very fast, frail Grass/Fairy utility mon whose ability decides its whole role: Prankster (47%) gives its STATUS moves +1 priority, so Encore, Leech Seed, Taunt and Tailwind land before the opponent can act — that is the disruption build. Tailwind (21%) DOUBLES THE SPEED OF ITS WHOLE SIDE for four turns, and with Prankster it goes up on turn one essentially uncontested, which turns a slow team fast for exactly the window a sweeper needs. Chlorophyll (50%) instead doubles ITS OWN Speed in sun, making it a fast sun attacker with Growth (48%) and Moonblast (82%). The two abilities want opposite teams, so identifying which one is in front of you matters more than the item.",
    "ability_split": {
     "chlorophyll": 0.5,
     "prankster": 0.47
    },
    "review": "usage-only",
-   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed."
+   "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. Not yet user-reviewed.",
+   "resource": "Tailwind turns (on the Prankster builds)",
+   "value_curve": "decays_with_weather_clock"
   },
   "arcanine": {
    "tags": [
