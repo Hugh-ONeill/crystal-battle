@@ -167,6 +167,18 @@ def build_book(battles: list[dict]) -> dict:
             "games": 0, "our_wins": 0, "rosters": Counter(), "leads": Counter(),
             "sets": defaultdict(lambda: {"moves": Counter(), "items": Counter(),
                                          "abilities": Counter(), "tera": Counter()}),
+            # SAME species, DIFFERENT team = different set. Every opponent
+            # reuses species across rosters (richwoman 17 of 34 species over
+            # 12 rosters; 100% of games involve at least one), and a species'
+            # moveset shifts materially with its teammates — measured on the
+            # replay corpus at 0.23-0.39 total variation vs a 0.09-0.12
+            # resample null. Blending them produces a set no team runs, so
+            # keep a per-roster copy and let the consumer prefer it.
+            "sets_by_roster": defaultdict(
+                lambda: defaultdict(lambda: {"moves": Counter(),
+                                             "items": Counter(),
+                                             "abilities": Counter(),
+                                             "tera": Counter()})),
             "tera_turns": [], "game_lengths": [], "switch_rates": [],
         })
         prof["games"] += 1
@@ -176,11 +188,15 @@ def build_book(battles: list[dict]) -> dict:
             prof["rosters"][roster] += 1
         if b["leads"].get(side):
             prof["leads"][b["leads"][side]] += 1
+        rkey = "|".join(sorted(_norm(x) for x in b["roster"].get(side, [])))
+        rset = prof["sets_by_roster"][rkey] if len(rkey.split("|")) >= 5 else None
         for (s, sp), mvs in b["moves"].items():
             if s != side:
                 continue
             for mv in mvs:
                 prof["sets"][sp]["moves"][mv] += 1
+                if rset is not None:
+                    rset[sp]["moves"][mv] += 1
         # inferred items fold in UNDER the observed ones: the species key is
         # a normalized id here, so map it back onto the display names the
         # rest of the profile uses, and never overwrite a direct sighting
@@ -192,6 +208,8 @@ def build_book(battles: list[dict]) -> dict:
         for (s, sp), it in b["items"].items():
             if s == side:
                 prof["sets"][sp]["items"][it] += 1
+                if rset is not None:
+                    rset[sp]["items"][it] += 1
         for (s, sp), ab in b["abilities"].items():
             if s == side:
                 prof["sets"][sp]["abilities"][ab] += 1
@@ -261,6 +279,18 @@ def _jsonable(book: dict) -> dict:
                           "abilities": dict(s["abilities"]),
                           "tera": dict(s["tera"])}
                      for sp, s in p["sets"].items()},
+            # per-roster copies: same species on a different team is a
+            # different set, and only entries with real support are kept so
+            # the artifact does not balloon with one-game rosters
+            "sets_by_roster": {
+                rk: {sp: {"moves": dict(s["moves"]),
+                          "items": dict(s["items"]),
+                          "abilities": dict(s["abilities"]),
+                          "tera": dict(s["tera"])}
+                     for sp, s in mons.items()
+                     if sum(s["moves"].values()) >= 3}
+                for rk, mons in p.get("sets_by_roster", {}).items()
+                if any(sum(s["moves"].values()) >= 3 for s in mons.values())},
         }
     return out
 

@@ -278,7 +278,19 @@ class Gen9Translator:
         rather than a one-off. Returns None when unknown/too thin."""
         if not self._book:
             return None
-        sets = (self._book.get("sets") or {})
+        # SAME species on a DIFFERENT team is a different set. richwoman
+        # runs three distinct Ting-Lu builds across her rosters (one with
+        # Protect, one with Spikes, one with neither) and a Dragon Dance
+        # Dragonite on one team beside a mixed attacker on another; blending
+        # them yields a set no team of hers actually runs. Prefer the entry
+        # recorded for THIS roster and fall back to the blend, exactly the
+        # backoff shape the replay tier uses.
+        sets = {}
+        rkey = getattr(self, "_opp_roster", "")
+        if rkey:
+            sets = ((self._book.get("sets_by_roster") or {}).get(rkey) or {})
+        if not sets:
+            sets = (self._book.get("sets") or {})
         # book keys are display species ("Great Tusk"); translator asks with
         # normalized ids ("greattusk")
         entry = sets.get(species)
@@ -404,6 +416,7 @@ class Gen9Translator:
                    getattr(battle, "teampreview_opponent_team", None) or []]
         if len(species) != 6 and len(battle.opponent_team) == 6:
             species = [m.species for m in battle.opponent_team.values()]
+        self._opp_roster = "|".join(sorted(_normalize(x) for x in species))
         if len(species) == 6:
             match = idx.team_match(species)
             # confidence gate: a roster seen twice could be one player's
