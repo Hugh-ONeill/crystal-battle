@@ -1629,8 +1629,40 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    def _log_inferred_items(self, battle):
+        """Persist the items we INFERRED but never saw announced.
+
+        The silent half of the item space — Choice items, Boots, Assault Vest
+        — never emits a protocol event, so the scouting book can only learn it
+        from OUR OWN inferences (speed floors, damage brackets, zero-chip
+        entry). Those were being discarded at game end; this writes them into
+        the log in a parseable form so scouting_book.py can fold them in.
+
+        Emitted only at battle end and only for inferences the FINAL evidence
+        still supports: anything the constraint layer later ruled out, or that
+        the stint-disproof cleared, is dropped rather than written down. That
+        guard matters because the book is TIER 0 — a wrong item persisted here
+        becomes an authoritative belief against that opponent for every future
+        game, which is exactly how the Choice Band Gliscor would have become
+        permanent instead of a one-game error.
+        """
+        obs = getattr(self._translator, "_obs", None)
+        if obs is None or not getattr(obs, "confirmed", None):
+            return
+        try:
+            for species, item in sorted(obs.confirmed.items()):
+                if item in obs.forbidden(species):
+                    continue
+                if (item in ("choiceband", "choicespecs", "choicescarf")
+                        and species in getattr(obs, "choice_disproven", ())):
+                    continue
+                print(f"|inferreditem|{species}|{item}", flush=True)
+        except Exception:
+            pass
+
     def _battle_finished_callback(self, battle):
         self._flush_desk_log(battle)
+        self._log_inferred_items(battle)
         if self._airi is None:
             return
         try:

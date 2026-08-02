@@ -45,6 +45,12 @@ _ITEM = re.compile(r"\|-(?:item|enditem)\|(p[12])a: ([^|]+)\|([^|]+)")
 # DEFENDER's item, on the line describing damage to the ATTACKER).
 _ITEM_TAG = re.compile(r"\|-\w+\|(p[12])a: ([^|]+)\|.*?\[from\] item: ([^|\[]+)")
 _OF_TAG = re.compile(r"\[of\] (p[12])a: ([^|]+)")
+# Items we INFERRED rather than saw: the silent half (Choice items, Boots,
+# Assault Vest) never announces, so our own speed-floor / damage-bracket /
+# zero-chip inferences are the only way the book can ever learn them. The
+# player emits these at battle end, already filtered to inferences the final
+# evidence still supports.
+_INFERRED = re.compile(r"\|inferreditem\|([a-z0-9]+)\|([a-z0-9]+)")
 _ABILITY = re.compile(r"\|-ability\|(p[12])a: ([^|]+)\|([^|]+)")
 _TERA = re.compile(r"\|-terastallize\|(p[12])a: ([^|]+)\|(\w+)")
 _TURN = re.compile(r"\|turn\|(\d+)")
@@ -119,6 +125,11 @@ def parse_battles(paths: list[Path], our_name: str) -> list[dict]:
                     side, nickname = of.group(1), of.group(2).strip()
                 sp = nick.get((side, nickname), nickname)
                 cur["items"].setdefault((side, sp), _norm(item))
+            m = _INFERRED.search(line)
+            if m:
+                # opponent side only, and never over a DIRECT observation:
+                # setdefault means a seen item always beats an inferred one
+                cur.setdefault("inferred", {})[m.group(1)] = m.group(2)
             m = _ABILITY.search(line)
             if m:
                 side, nickname, ab = m.group(1), m.group(2).strip(), m.group(3).strip()
@@ -170,6 +181,14 @@ def build_book(battles: list[dict]) -> dict:
                 continue
             for mv in mvs:
                 prof["sets"][sp]["moves"][mv] += 1
+        # inferred items fold in UNDER the observed ones: the species key is
+        # a normalized id here, so map it back onto the display names the
+        # rest of the profile uses, and never overwrite a direct sighting
+        for sp_norm, it in (b.get("inferred") or {}).items():
+            match = next((d for d in prof["sets"]
+                          if _norm(d) == sp_norm), None)
+            if match and not prof["sets"][match]["items"]:
+                prof["sets"][match]["items"][it] += 1
         for (s, sp), it in b["items"].items():
             if s == side:
                 prof["sets"][sp]["items"][it] += 1
