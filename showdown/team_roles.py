@@ -173,6 +173,78 @@ def analyze(team_path: str, roles: dict) -> dict:
     }
 
 
+# A wincon is not a wincon until the answers to it are gone — the user's
+# definition (2026-08-02): "wincons aren't really wincons until they get the
+# right opportunity". That opportunity is mostly the disappearance of the
+# specific mons that blank the plan, which is derivable from tags on BOTH
+# sides. Each blocker class defeats a setup plan a different way, so they are
+# reported separately rather than as one count.
+BLOCKER_CLASSES = {
+    "anti-setup": "ignores or erases the boosts (Unaware/Haze), so setting up "
+                  "gains nothing against it",
+    "trapper": "prevents the switch, so the setup mon cannot leave once caught",
+    "priority-attacker": "moves first regardless of the Speed boost, so a "
+                         "boosted sweeper can still be revenge-killed",
+}
+
+
+def wincon_outlook(a: dict, their_species: list[str], roles: dict) -> list[dict]:
+    """For each of our wincons, which of THEIR mons blank it, and what has to
+    happen before the window opens."""
+    out = []
+    ours = [r for r in a["roster"] if roles.get(r)]
+    for sp in ours:
+        tags = set(roles[sp].get("tags") or [])
+        if "wincon" not in tags and "setup-sweeper" not in tags:
+            continue
+        blockers = []
+        for opp in their_species:
+            e = roles.get(_norm(opp))
+            if not e:
+                continue
+            for cls in BLOCKER_CLASSES:
+                if cls in (e.get("tags") or []):
+                    blockers.append({"species": _norm(opp), "class": cls})
+        entry = roles[sp]
+        out.append({
+            "species": sp,
+            "is_wincon": "wincon" in tags,
+            "entry_condition": entry.get("entry_condition"),
+            "sole_wincon": None,          # filled by the caller
+            "blockers": blockers,
+        })
+    n_wincon = sum(1 for w in out if w["is_wincon"])
+    for w in out:
+        w["sole_wincon"] = w["is_wincon"] and n_wincon == 1
+    return out
+
+
+def wincon_report(rows: list[dict]) -> list[str]:
+    out = []
+    for w in rows:
+        if not w["blockers"] and not w["is_wincon"]:
+            continue
+        label = "WINCON" if w["is_wincon"] else "setup"
+        sole = "  [the team's ONLY wincon — trading it trades the game plan]" \
+            if w["sole_wincon"] else ""
+        out.append(f"  {label} {w['species']}{sole}")
+        if not w["blockers"]:
+            out.append("    window is OPEN: nothing on their side blanks it")
+            continue
+        by = {}
+        for b in w["blockers"]:
+            by.setdefault(b["class"], []).append(b["species"])
+        for cls, who in by.items():
+            out.append(f"    blocked by {', '.join(sorted(set(who)))} "
+                       f"({cls}: {BLOCKER_CLASSES[cls]})")
+        names = sorted({b["species"] for b in w["blockers"]})
+        listed = names[0] if len(names) == 1 else \
+            ", ".join(names[:-1]) + " and " + names[-1]
+        out.append(f"    window opens once {listed} "
+                   f"{'is' if len(names) == 1 else 'are'} gone or too weak to act")
+    return out
+
+
 def report(a: dict) -> str:
     out = [f"=== {a['team']}  ({', '.join(a['roster'])})"]
     if a["unknown"]:
@@ -221,6 +293,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("teams", nargs="+", help="team paste files (globs ok)")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--vs", metavar="SPECIES",
+                    help="comma-separated opposing species (or a team file): "
+                         "report which of them blank each of our wincons")
     ap.add_argument("--errors-only", action="store_true",
                     help="only teams with a build error (orphaned resource)")
     args = ap.parse_args()
@@ -233,8 +308,20 @@ def main():
     if args.json:
         print(json.dumps(results, indent=1))
         return
+    their = []
+    if args.vs:
+        if Path(args.vs).exists():
+            their = [_norm(m.get("species", "")) for m in
+                     parse_showdown_team(Path(args.vs).read_text())]
+        else:
+            their = [_norm(x) for x in args.vs.split(",")]
     for r in results:
         print(report(r))
+        if their:
+            lines = wincon_report(wincon_outlook(r, their, roles))
+            if lines:
+                print("  -- wincon outlook vs " + ", ".join(their))
+                print("\n".join(lines))
     hard = [r for r in results if r["orphans"] and not r["unknown"]]
     soft = [r for r in results if r["orphans"] and r["unknown"]]
     print(f"\n{len(results)} teams analysed, {len(hard)} with a confirmed "

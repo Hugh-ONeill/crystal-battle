@@ -85,5 +85,29 @@ def test_healing_wish_is_recorded_as_a_restorer(tmp_path, roles):
     assert any(r["move"] == "healingwish" for r in a["restorers"])
 
 
+def test_wincon_outlook_names_the_blockers_and_the_window(tmp_path, roles):
+    """A wincon is not live until its answers are gone — the blockers must be
+    named by class, since each defeats a setup plan differently."""
+    from showdown.team_roles import wincon_outlook
+    t = write(tmp_path, "w", ["Zamazenta @ Leftovers", "Great Tusk @ Leftovers"])
+    a = analyze(t, roles)
+    rows = wincon_outlook(a, ["dondozo", "heatran", "dragapult"], roles)
+    zama = next(r for r in rows if r["species"] == "zamazenta")
+    assert zama["is_wincon"] and zama["sole_wincon"]
+    classes = {b["class"] for b in zama["blockers"]}
+    assert "anti-setup" in classes      # Dondozo's Unaware
+    assert "trapper" in classes         # Heatran's Magma Storm
+    # a species with no blocking role contributes nothing
+    assert "dragapult" not in {b["species"] for b in zama["blockers"]}
+
+
+def test_open_window_when_nothing_blanks_it(tmp_path, roles):
+    from showdown.team_roles import wincon_outlook, wincon_report
+    t = write(tmp_path, "w2", ["Zamazenta @ Leftovers"])
+    rows = wincon_outlook(analyze(t, roles), ["dragapult", "greattusk"], roles)
+    assert not rows[0]["blockers"]
+    assert any("window is OPEN" in ln for ln in wincon_report(rows))
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
