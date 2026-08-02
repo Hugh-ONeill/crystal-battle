@@ -136,5 +136,76 @@ def test_chaos_sampling_respects_the_same_constraint():
         assert s["item"] not in banned
 
 
+def test_damaging_move_without_recoil_rules_out_life_orb():
+    """Life Orb costs 1/10 max HP per damaging move and announces it."""
+    o = obs(["|switch|p2a: Weavile|Weavile, M|100/100",
+             "|move|p2a: Weavile|Knock Off|p1a: X",
+             "|turn|3"])
+    assert "lifeorb" in o.forbidden("weavile")
+
+
+def test_life_orb_recoil_seen_means_no_elimination():
+    o = obs(["|switch|p2a: Weavile|Weavile, M|100/100",
+             "|move|p2a: Weavile|Knock Off|p1a: X",
+             "|-damage|p2a: Weavile|90/100|[from] item: Life Orb",
+             "|turn|3"])
+    assert "lifeorb" not in o.forbidden("weavile")
+
+
+def test_sheer_force_and_magic_guard_species_are_exempt():
+    """Both cancel Life Orb recoil, so silence proves nothing — the same
+    confound shape as the Boots read."""
+    o = obs(["|switch|p2a: Clefable|Clefable, F|100/100",
+             "|move|p2a: Clefable|Moonblast|p1a: X",
+             "|turn|3"])
+    assert "lifeorb" not in o.forbidden("clefable")
+
+
+def test_status_move_does_not_prove_anything_about_life_orb():
+    o = obs(["|switch|p2a: Weavile|Weavile, M|100/100",
+             "|move|p2a: Weavile|Swords Dance|p2a: Weavile",
+             "|turn|3"])
+    assert "lifeorb" not in o.forbidden("weavile")
+
+
+def test_our_contact_move_without_chip_rules_out_rocky_helmet():
+    o = obs(["|switch|p1a: Kingambit|Kingambit, M|100/100",
+             "|switch|p2a: Corviknight|Corviknight, M|100/100",
+             "|move|p1a: Kingambit|Sucker Punch|p2a: Corviknight",
+             "|turn|3"])
+    assert "rockyhelmet" in o.forbidden("corviknight")
+
+
+def test_helmet_chip_seen_means_no_elimination():
+    o = obs(["|switch|p1a: Kingambit|Kingambit, M|100/100",
+             "|switch|p2a: Corviknight|Corviknight, M|100/100",
+             "|move|p1a: Kingambit|Sucker Punch|p2a: Corviknight",
+             "|-damage|p1a: Kingambit|84/100|[from] item: Rocky Helmet"
+             "|[of] p2a: Corviknight",
+             "|turn|3"])
+    assert "rockyhelmet" not in o.forbidden("corviknight")
+
+
+def test_a_non_contact_move_proves_nothing_about_the_helmet():
+    o = obs(["|switch|p1a: Kingambit|Kingambit, M|100/100",
+             "|switch|p2a: Corviknight|Corviknight, M|100/100",
+             "|move|p1a: Kingambit|Stealth Rock|p2a: Corviknight",
+             "|turn|3"])
+    assert "rockyhelmet" not in o.forbidden("corviknight")
+
+
+def test_switch_in_without_an_announcement_rules_out_air_balloon():
+    """Air Balloon announces on EVERY switch-in (532 in our own logs)."""
+    o = obs(["|switch|p2a: Gholdengo|Gholdengo|100/100", "|turn|3"])
+    assert "airballoon" in o.forbidden("gholdengo")
+
+
+def test_an_announced_balloon_is_not_eliminated():
+    o = obs(["|switch|p2a: Gholdengo|Gholdengo|100/100",
+             "|-item|p2a: Gholdengo|Air Balloon",
+             "|turn|3"])
+    assert "airballoon" not in o.forbidden("gholdengo")
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))

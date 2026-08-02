@@ -165,6 +165,12 @@ class BattleObservations:
         self._opp_hp: dict[str, tuple[int, int]] = {}
         self._healed_this_turn: set[str] = set()
         self._opp_unstatused: set[str] = set()
+        # per-turn: opponent species that attacked, that we hit with a
+        # CONTACT move, and the item announcements actually seen this turn
+        self._opp_attacked: set[str] = set()
+        self._we_contacted: set[str] = set()
+        self._item_seen: set[tuple] = set()
+        self._balloon_pending: set[str] = set()
         self._side_sr = {"p1": False, "p2": False}      # Stealth Rock per side
         self._side_spikes = {"p1": False, "p2": False}  # Spikes per side
         self._gravity = False                    # grounds everyone for Spikes
@@ -222,7 +228,60 @@ class BattleObservations:
                 self._forbid(sp, "leftovers", "blacksludge")
             if sp in self._opp_unstatused:
                 self._forbid(sp, "flameorb", "toxicorb")
+
+        # LIFE ORB: it costs the holder 1/10 max HP on every damaging move
+        # and announces that recoil. A damaging move with no Life Orb damage
+        # therefore proves no Life Orb — unless the species can run Sheer
+        # Force (which cancels the recoil on secondary-effect moves) or Magic
+        # Guard (which cancels it outright), the same confound shape as the
+        # Boots read. 694 Life Orb announcements in our own logs.
+        for sp in self._opp_attacked:
+            if ("lifeorb", sp) in self._item_seen:
+                continue
+            if _abilities_of(sp) & {"sheerforce", "magicguard"}:
+                continue
+            self._forbid(sp, "lifeorb")
+
+        # ROCKY HELMET: chips anything that makes CONTACT with the holder and
+        # announces it. We hit them with a contact move and took no helmet
+        # chip -> they are not holding one. 956 announcements logged, and at
+        # 6.3% prior this is the largest of the three.
+        for sp in self._we_contacted:
+            if ("rockyhelmet", sp) not in self._item_seen:
+                self._forbid(sp, "rockyhelmet")
+
+        # AIR BALLOON announces itself on EVERY switch-in (532 in our logs),
+        # so a switch-in with no announcement is proof of absence.
+        for sp in self._balloon_pending:
+            self._forbid(sp, "airballoon")
+
         self._healed_this_turn = set()
+        self._opp_attacked = set()
+        self._we_contacted = set()
+        self._item_seen = set()
+        self._balloon_pending = set()
+
+    def _note_item_event(self, event, opp_role):
+        """Record that an item ANNOUNCED itself this turn, for the
+        absence-proofs in _close_turn_upkeep."""
+        owner = None
+        for a in event[3:]:
+            if isinstance(a, str) and a.startswith("[of] ") and ":" in a:
+                owner = a[5:].strip()[:2]
+        role = owner or str(event[2])[:2]
+        if role != opp_role:
+            return
+        sp = self._active.get(role)
+        if not sp:
+            return
+        for a in list(event[3:]) + [event[3] if len(event) > 3 else ""]:
+            if isinstance(a, str) and "item:" in a:
+                self._item_seen.add((_normalize(a.split("item:")[1]), sp))
+        if str(event[1]) == "-item" and len(event) > 3:
+            name = _normalize(str(event[3]))
+            self._item_seen.add((name, sp))
+            if name == "airballoon":
+                self._balloon_pending.discard(sp)
 
     def _capture_reveals(self, event, opp_role):
         """Record [from] item:/ability: tags. An [of] tag reassigns the
@@ -340,6 +399,9 @@ class BattleObservations:
             kind = event[1]
             if len(event) >= 3 and str(event[2])[:2] in ("p1", "p2"):
                 self._capture_reveals(event, opp_role)
+                if kind in ("-damage", "-heal", "-item", "-enditem",
+                            "-status", "-activate"):
+                    self._note_item_event(event, opp_role)
             # these arrive between |move| and its |-damage|; keep the window open
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
@@ -354,6 +416,8 @@ class BattleObservations:
                 species = _normalize(event[3].split(",")[0])
                 self._active[role] = species
                 self._stint_moves.pop(role, None)
+                if role == opp_role:
+                    self._balloon_pending.add(species)
                 self._spe_boost[role] = 0
                 self._atk_boost[role] = 0
                 self._spa_boost[role] = 0
@@ -387,6 +451,19 @@ class BattleObservations:
                 mid = _normalize(event[3])
                 called = any(isinstance(a, str) and a.startswith("[from]")
                              for a in event[4:])
+                if role == opp_role:
+                    _, cat = _move_info(event[3])
+                    if cat in _DAMAGING:
+                        sp_a = self._active.get(role)
+                        if sp_a:
+                            self._opp_attacked.add(sp_a)
+                if role == our_role:
+                    entry = _moves_data().get(mid, {})
+                    if (entry.get("category") in _DAMAGING
+                            and (entry.get("flags") or {}).get("contact")):
+                        tgt = self._active.get(opp_role)
+                        if tgt:
+                            self._we_contacted.add(tgt)
                 if role == opp_role and mid != "struggle" and not called:
                     stint = self._stint_moves.setdefault(role, set())
                     stint.add(mid)
