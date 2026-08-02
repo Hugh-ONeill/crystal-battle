@@ -1,6 +1,6 @@
 # Role annotations — review copy
 
-Generated from `showdown/roles.json` (72 entries). **Edit the JSON, not this file.**
+Generated from `showdown/roles.json` (101 entries). **Edit the JSON, not this file.**
 
 Nothing consumes these yet. **The plain paragraph under each entry is the `fact`** — the only field a consumer would ever be shown. It is written to stand alone: present tense, mechanically true, no named opponents, no references to other entries. Everything about where a claim came from lives in the collapsed provenance block, which no consumer sees.
 
@@ -67,25 +67,54 @@ Nothing consumes these yet. **The plain paragraph under each entry is the `fact`
 | 3.2% | **ursaluna** ▸ | Smogon-cited | physical | med | bait-switch | wallbreaker, status-absorber |
 | 3.1% | **clodsire** | Smogon-cited | special | high | — | wall, hazard-setter, anti-setup, status-absorber |
 | 3.0% | **blissey** ✳ | Smogon-cited | special | high | — | wall, hazard-setter, support, status-absorber |
+| 2.9% | **ribombee** | Smogon-cited | — | med | lead | hazard-setter, suicide-lead, support |
 | 2.8% | **weavile** ✳ | Smogon-cited | physical | med | — | wallbreaker, revenge-killer |
 | 2.7% | **hoopaunbound** ✳ | Smogon-cited | mixed | med | bait-switch | wallbreaker |
 | 2.7% | **hydrapple** | Smogon-cited | special | med | setup-window | setup-sweeper, wallbreaker |
 | 2.6% | **barraskewda** | measured here | physical | med | — | weather-abuser, sweeper |
 | 2.5% | **rotomwash** | Smogon-cited | physical | med | pivot-cycle | pivot, wall, disruptor |
+| 2.5% | **volcanion** | Smogon-cited | special/special | med | — | wallbreaker, tank |
 | 2.5% | **lokix** ✳ ▸ | Smogon-cited | physical | med | bait-switch | revenge-killer, wallbreaker, pivot |
+| 2.4% | **serperior** | Smogon-cited | special | med | — | setup-sweeper, wallbreaker, status-spreader |
 | 2.4% | **ogerponcornerstone** ✳ ▸ | Smogon-cited | physical | med | setup-window | wallbreaker, setup-sweeper |
 | 2.3% | **blaziken** ▸ | Smogon-cited | physical | med | setup-window | setup-sweeper, wallbreaker |
 | 2.3% | **sinistcha** | Smogon-cited | special/physical | med | setup-window | wall, setup-sweeper |
 | 2.3% | **ninetalesalola** | Smogon-cited | — | high | lead | screens-setter, weather-setter, support, disruptor |
 | 2.3% | **greninja** | Smogon-cited | special | med | — | wallbreaker, revenge-killer |
+| 2.2% | **araquanid** ▸ | Smogon-cited | — | med | lead | hazard-setter, suicide-lead |
+| 2.1% | **cresselia** ✳ | Smogon-cited | physical | high | — | trick-room-setter, wall, sacrificial-support |
 | 2.0% | **latios** ✳ | Smogon-cited | special | med | — | wallbreaker, setup-sweeper, pivot |
 | 2.0% | **ironhands** | Smogon-cited | physical | med | bait-switch | wallbreaker, setup-sweeper |
 | 2.0% | **tinkaton** | Smogon-cited | physical | med | — | hazard-setter, disruptor, support |
+| 2.0% | **venusaur** | Smogon-cited | special | med | setup-window | setup-sweeper, weather-abuser |
 | 1.8% | **skeledirge** | Smogon-cited | special/special | med | — | wall, setup-sweeper, pivot, anti-setup |
 | 1.8% | **skarmory** ✳ | Smogon-cited | physical | high | — | wall, hazard-setter |
 | 1.8% | **grimmsnarl** | Smogon-cited | special | low | lead | suicide-lead, screens-setter |
 | 1.6% | **hawlucha** ▸ | Smogon-cited | physical | med | setup-window | setup-sweeper |
+| 1.5% | **slitherwing** ✳ | Smogon-cited | physical/physical | med | pivot-cycle | pivot, wallbreaker, tank |
+| 1.5% | **goodrahisui** | Smogon-cited | special/special | med | — | wall, tank |
+| 1.5% | **moltresgalar** ▸ | Smogon-cited | special | med | setup-window | setup-sweeper, wincon |
+| 1.5% | **quaquaval** ✳ | Smogon-cited | physical | med | — | setup-sweeper, hazard-remover |
+| 1.5% | **overqwil** | Smogon-cited | physical | med | setup-window | setup-sweeper, weather-abuser, wallbreaker |
+| 1.4% | **hydreigon** ✳ | Smogon-cited | special | med | — | wallbreaker, setup-sweeper |
+| 1.3% | **maushold** ▸ | usage-only | physical | med | setup-window | setup-sweeper, hazard-remover |
 | 1.3% | **manaphy** | Smogon-cited | special | med | setup-window | setup-sweeper, wallbreaker |
+| 1.2% | **latias** ▸ | Smogon-cited | special | med | setup-window | setup-sweeper, wincon |
+| 1.2% | **keldeo** ✳ | Smogon-cited | special | med | — | wallbreaker, revenge-killer |
+| 1.2% | **porygon2** | usage-only | special/special | high | — | wall, trick-room-setter, tank |
+| 1.1% | **kommoo** ▸ | Smogon-cited | mixed | med | setup-window | setup-sweeper, wincon |
+| 1.1% | **arcaninehisui** | Smogon-cited | physical | med | — | wallbreaker, priority-attacker |
+| 1.1% | **polteageist** | usage-only | special | med | setup-window | setup-sweeper, wincon |
+| 1.1% | **thundurustherian** | usage-only | special | med | — | wallbreaker, pivot, setup-sweeper |
+| 1.1% | **mimikyu** ▸ | Smogon-cited | physical | med | setup-window | setup-sweeper, priority-attacker, disruptor |
+| 1.0% | **indeedee** | Smogon-cited | special | high | lead | terrain-setter, support, sacrificial-support |
+| 1.0% | **mandibuzz** | Smogon-cited | physical | med | — | wall, hazard-remover, status-spreader |
+| 1.0% | **zoroarkhisui** | usage-only | special | med | — | wallbreaker, revenge-killer |
+| 0.9% | **slowking** | Smogon-cited | special/physical | med | pivot-cycle | pivot, wall, support |
+| 0.9% | **talonflame** | Smogon-cited | physical | med | — | hazard-remover, pivot, status-spreader |
+| 0.9% | **gengar** | usage-only | special | med | — | wallbreaker, revenge-killer, spinblocker |
+| 0.8% | **incineroar** | usage-only | physical/physical | med | pivot-cycle | pivot, disruptor, support |
+| 0.8% | **mamoswine** | Smogon-cited | physical | med | — | wallbreaker, priority-attacker |
 | 0.5% | **hippowdon** | usage-only | physical | high | lead | weather-setter, wall, hazard-setter, disruptor |
 
 ⚡ = value is conditional  ✳ = splits into distinct sets  ▸ = has a written play sequence
@@ -1270,6 +1299,20 @@ The special wall: enormous HP with Soft-Boiled (97%) recovery, and Natural Cure 
 
 </details>
 
+### ribombee — 2.9% usage · *Smogon-cited*
+
+**tags** hazard-setter, suicide-lead, support · **ability** shielddust · **preserve** med · **deployment** lead · **lead_intent** strong
+
+A Sticky Web lead: Sticky Web (98%) drops the Speed of everything the opponent switches in, which is the whole point of the team behind it. Focus Sash (89%) guarantees it survives one hit to finish setting. Shield Dust blocks the SECONDARY effects of moves aimed at it — no burn from Flamethrower, no poison from Sludge Bomb — which reliably buys it the second turn it needs. Stun Spore (80%) and Skill Swap (54%) are the follow-ups; it does no meaningful damage.
+
+*Single build.* One Sash web lead; if it does not get the web up it has done nothing.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
 ### weavile — 2.8% usage · *Smogon-cited*
 
 **tags** wallbreaker, revenge-killer · **axis** attacks physical · **preserve** med
@@ -1360,6 +1403,18 @@ An Electric/Water defensive pivot that is Ground-immune through Levitate (100%) 
 
 </details>
 
+### volcanion — 2.5% usage · *Smogon-cited*
+
+**tags** wallbreaker, tank · **axis** attacks special, defends special · **ability** waterabsorb · **preserve** med
+
+A Fire/Water bulky special attacker — a typing nothing else in the tier has, giving it resistances to Fire, Water, Ice, Steel and Fairy at once. Steam Eruption (99%) is a strong STAB with a 30% burn chance attached. Water Absorb (100%) means an incoming Water move HEALS it instead of damaging it. Earth Power (69%) and Sludge Bomb (56%) cover the Steels and Fairies. Choice Specs (45%) is the common item, so it usually hits enormously hard but locked in.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
 ### lokix — 2.5% usage · *Smogon-cited*
 
 **tags** revenge-killer, wallbreaker, pivot · **axis** attacks physical · **ability** tintedlens · **preserve** med · **deployment** bait-switch
@@ -1383,6 +1438,18 @@ A Bug/Dark attacker whose ability removes the usual way of answering it: Tinted 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 Tinted Lens (chainModify(2) on typeMod<0) and First Impression (+2 priority, first-turn-only) verified in sim data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+
+</details>
+
+### serperior — 2.4% usage · *Smogon-cited*
+
+**tags** setup-sweeper, wallbreaker, status-spreader · **axis** attacks special · **ability** contrary · **preserve** med · **value_curve** grows_with_turns_active
+
+A fast Grass attacker built on one interaction: Contrary INVERTS its own stat drops, so Leaf Storm (99%) — which normally slashes its Special Attack by two stages — RAISES it by two instead. Every attack is also a double boost, so it snowballs simply by clicking its STAB, with no setup turn spent. Glare (68%) paralyses a switch-in to help its teammates. Leftovers (51%) lets it stay in and accumulate; Choice Scarf (23%) instead makes it immediate speed control.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
 
 </details>
 
@@ -1476,6 +1543,47 @@ Battle Bond verified in sim data as a once-per-battle +1/+1/+1 on causing a fain
 
 </details>
 
+### araquanid — 2.2% usage · *Smogon-cited*
+
+**tags** hazard-setter, suicide-lead · **ability** waterbubble · **preserve** med · **deployment** lead · **lead_intent** strong
+
+The bulky Sticky Web lead: Sticky Web (96%) is its job and its bulk is what gets it up against offence. The item is the tell — Custap Berry (62%) activates below a quarter HP and lets it move FIRST for one turn from the brink, which is what makes Endeavor (64%) lethal: Endeavor sets the target's HP equal to its own, so a nearly-dead Araquanid drags a healthy sweeper down to almost nothing before dying. Water Bubble doubles its Water damage and halves incoming Fire, so Liquidation (41%) hits far harder than its stats suggest.
+
+*Single build.* One web lead build; Custap+Endeavor vs Red Card (9%) is the main variation.
+
+**The play:**
+
+1. lead, or come in on a faint — it is spending itself either way
+2. Sticky Web turn one; Endure (43%) or its bulk survives the answer
+3. at low HP the Custap Berry lets it move first
+4. Endeavor drops the opposing sweeper to Araquanid's own sliver of HP
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### cresselia — 2.1% usage · *Smogon-cited*
+
+**tags** trick-room-setter, wall, sacrificial-support · **axis** defends physical · **ability** levitate · **preserve** high · **value_curve** decays_with_weather_clock · **resource** Trick Room turns
+
+The Trick Room setter: Trick Room (57%) INVERTS the speed order for five turns, so the slowest mon moves first — which is what turns Ursaluna and Iron Hands from liabilities into the fastest things on the field. Its enormous bulk is what lets it set the room reliably rather than dying first, and Mental Herb (42%) protects the attempt from Taunt exactly once. Lunar Dance (85%) then trades its own life to restore a teammate's HP, PP and status completely — so it spends itself twice over: once for the room, once for the payload.
+
+**Set — Trick Room Setter** *(~56% of sets)*: **tags** trick-room-setter, sacrificial-support · **axis** defends physical
+
+> Mental Herb guarantees the room against Taunt; Lunar Dance hands a fresh payload the turns it bought.
+
+**Set — Utility** *(~43% est. of sets)*: **tags** wall, sacrificial-support · **axis** defends physical
+
+> No room: Moonlight recovery and Lunar Dance support on a huge defensive frame.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
 ### latios — 2.0% usage · *Smogon-cited*
 
 **tags** wallbreaker, setup-sweeper, pivot · **axis** attacks special · **ability** levitate · **preserve** med
@@ -1525,6 +1633,18 @@ A Steel/Fairy utility piece: it sets Stealth Rock, locks a foe into one move wit
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
 Gigaton Hammer's once-per-two-turns restriction and the Mold Breaker/Good as Gold interaction verified against pokemon-showdown data. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). Not yet user-reviewed.
+
+</details>
+
+### venusaur — 2.0% usage · *Smogon-cited*
+
+**tags** setup-sweeper, weather-abuser · **axis** attacks special · **ability** chlorophyll · **preserve** med · **deployment** setup-window · **value_curve** decays_with_weather_clock · **requires** SUN — Chlorophyll doubles its Speed, and Weather Ball becomes a strong Fire move
+
+A sun sweeper and nothing else: Chlorophyll (94%) DOUBLES its Speed while sun is up, taking it past the whole tier, and Growth (85%) raises both attacking stats by TWO stages at once in sun instead of one. Weather Ball (82%) becomes a 100-BP Fire move under the same sun. Giga Drain (86%) heals as it hits. Outside sun it is slow and unthreatening, so its entire value is tied to the setter's survival and the weather clock.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
 
 </details>
 
@@ -1599,6 +1719,133 @@ Unburden's Speed doubling, Acrobatics' no-item doubling and seed consumption ver
 
 </details>
 
+### slitherwing — 1.5% usage · *Smogon-cited*
+
+**tags** pivot, wallbreaker, tank · **axis** attacks physical, defends physical · **ability** protosynthesis · **preserve** med · **deployment** pivot-cycle · **entry_condition** first_entry_boost
+
+A bulky Bug/Fighting pivot. First Impression (92%) is a +2 priority hit that ONLY works on the turn it enters, so its entry turn is its strongest, and U-turn (88%) leaves before that decay bites — the two together make it a hit-and-run pivot rather than a mon that stays. Protosynthesis boosts its highest stat in sun, or once its Booster Energy is spent on entry (a one-shot resource). Morning Sun (26%) gives the defensive build recovery, doubled under sun.
+
+**Set — Choice Band** *(~31% of sets)*: **tags** wallbreaker · **axis** attacks physical
+
+> Banded First Impression as an entry nuke; U-turn is the escape from the lock.
+
+**Set — Assault Vest** *(~27% of sets)*: **tags** tank, pivot · **axis** attacks physical, defends special
+
+> Special bulk on an attacker that already resists the physical side; no status moves while held.
+
+**Set — Defensive (Boots)** *(~17% of sets)*: **tags** wall, pivot · **axis** defends physical
+
+> Morning Sun plus Will-O-Wisp on a bulky frame, pivoting frail teammates in safely.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### goodrahisui — 1.5% usage · *Smogon-cited*
+
+**tags** wall, tank · **axis** attacks special, defends special · **preserve** med
+
+A Steel/Dragon special wall with an enormous Special Defense, further inflated by Assault Vest (67% of items) — the standard build simply cannot be broken specially by most of the tier. Its ability is a real fork: Sap Sipper (58%) makes it IMMUNE to Grass moves and raises its Attack when hit by one; Gooey (28%) instead drops the Speed of anything that makes contact. Flash Cannon (52%) and Draco Meteor (41%) mean it threatens back rather than merely absorbing, and Dragon Tail (40%) phazes. The vest build cannot click status moves at all.
+
+*Single build.* One Assault Vest tank build; the ability decides what it actually walls.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### moltresgalar — 1.5% usage · *Smogon-cited*
+
+**tags** setup-sweeper, wincon · **axis** attacks special · **ability** berserk · **preserve** med · **deployment** setup-window
+
+A Dark/Flying setup sweeper with an unusual engine: Berserk raises its Special Attack by one stage whenever a hit drops it below half HP, and Sitrus Berry (81% of items) then restores that HP — so TAKING a hit is part of the setup rather than a cost. Nasty Plot (92%) and Agility (89%) are both on nearly every set, so it can boost power and speed in consecutive turns and come out faster and far stronger than it went in. Fiery Wrath (99%) is its STAB, with a flinch chance.
+
+**The play:**
+
+1. get in safely — it needs turns, not chip
+2. Nasty Plot, or take a hit that triggers Berserk for a free boost
+3. Agility once power is banked, or the reverse against a slower answer
+4. sweep: at +2/+2 with Sitrus recovery behind it, revenge-killing is the only answer left
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### quaquaval — 1.5% usage · *Smogon-cited*
+
+**tags** setup-sweeper, hazard-remover · **axis** attacks physical · **ability** moxie · **preserve** med · **value_curve** grows_after_first_ko
+
+A physical Water/Fighting attacker that snowballs two ways at once: Aqua Step (96%) raises its own Speed every time it connects, and Moxie (99%) raises its Attack every time it takes a KO — so a single kill makes it both faster and stronger without a setup turn. Close Combat (87%) is its Fighting STAB at the cost of its own defenses. It also compresses hazard removal with Rapid Spin (46%).
+
+**Set — Assault Vest** *(~28% of sets)*: **tags** tank, hazard-remover · **axis** attacks physical, defends special
+
+> Special bulk to survive the hits its frailty invites, still spinning and still snowballing.
+
+**Set — Swords Dance** *(~20% est. of sets)*: **tags** setup-sweeper · **axis** attacks physical
+
+> A boost on top of the Aqua Step and Moxie escalation, for when one kill is not enough.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### overqwil — 1.5% usage · *Smogon-cited*
+
+**tags** setup-sweeper, weather-abuser, wallbreaker · **axis** attacks physical · **ability** swiftswim · **preserve** med · **deployment** setup-window · **value_curve** decays_with_weather_clock · **requires** RAIN — Swift Swim doubles its Speed, and without it Overqwil is simply slow
+
+A rain sweeper: Swift Swim (96%) DOUBLES its Speed while rain is up and it is unremarkable without it, so it is entirely dependent on its setter surviving. Swords Dance (90%) is on nearly every set, and Liquidation (92%) is both rain-boosted and carries a Defense-drop chance. Gunk Shot (88%) and Crunch (88%) round out coverage its Dark/Poison typing wants. Life Orb (89%) is almost universal, so it is trading its own HP every turn on top of the weather clock.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### hydreigon — 1.4% usage · *Smogon-cited*
+
+**tags** wallbreaker, setup-sweeper · **axis** attacks special · **ability** levitate · **preserve** med
+
+A Dark/Dragon special breaker, Ground-immune through Levitate (100%) and so unaffected by Spikes. Draco Meteor (88%) is the nuke but halves its own Special Attack afterwards, which is why the Nasty Plot builds (17%) exist — the boost cancels the drop. Dark Pulse (87%) is the spammable STAB, and Flash Cannon (73%) is mandatory coverage for the Fairy-types that would otherwise wall it outright. Choice Specs (58%) is the default: enormous immediate power, locked.
+
+**Set — Choice Specs** *(~57% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Locked but overwhelming; the Draco Meteor drop makes each click a commitment.
+
+**Set — Nasty Plot** *(~17% of sets)*: **tags** setup-sweeper, wallbreaker · **axis** attacks special
+
+> Plot restores what Draco Meteor takes away, turning a one-shot breaker into a sustained one.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### maushold — 1.3% usage · *usage-only*
+
+**tags** setup-sweeper, hazard-remover · **axis** attacks physical · **ability** technician · **preserve** med · **deployment** setup-window
+
+A frail Normal-type built on one move: Population Bomb (99%) strikes up to TEN times in a single turn, each hit boosted by Technician (98%) since each individual hit is weak — which is why Wide Lens (79% of items) is near-mandatory, as the move's imperfect accuracy is checked per hit and a miss ends the sequence early. Ten hits also break Substitutes and Focus Sashes and ignore the usual protection a single big hit gives. Tidy Up (94%) raises its Attack and Speed AND clears every hazard and Substitute from BOTH sides at once — a boost and a sweep in one.
+
+**The play:**
+
+1. find a free turn — it is frail and dies to almost anything
+2. Tidy Up: +1 Attack, +1 Speed, and both sides' hazards and Subs are gone
+3. Population Bomb: up to ten Technician-boosted hits, Wide Lens patching the accuracy
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
 ### manaphy — 1.3% usage · *Smogon-cited*
 
 **tags** setup-sweeper, wallbreaker · **axis** attacks special · **ability** hydration · **preserve** med · **deployment** setup-window
@@ -1610,6 +1857,228 @@ A bulky Water setup sweeper with the fastest boost in the tier: Tail Glow (76%) 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
  Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. Not yet user-reviewed.
+
+</details>
+
+### latias — 1.2% usage · *Smogon-cited*
+
+**tags** setup-sweeper, wincon · **axis** attacks special · **ability** levitate · **preserve** med · **deployment** setup-window
+
+A bulky Dragon/Psychic setup wincon, Ground-immune through Levitate. Calm Mind (80%) feeds Stored Power (68%), whose base power is 20 PLUS 20 for every positive stat stage it holds — so the third Calm Mind roughly triples the move's power and the snowball is self-reinforcing. Weakness Policy (42% of items) is the aggressive line: taking a super-effective hit grants +2 Attack and +2 Special Attack at once, which is two free Calm Minds' worth of Stored Power. Recover (32%) or Agility (49%) chooses between outlasting and outrunning the revenge-killers.
+
+**The play:**
+
+1. find a passive turn — its bulk is what buys setup, not its speed
+2. Calm Mind (or eat a super-effective hit with Weakness Policy for a double boost)
+3. Stored Power now scales with every stage held
+4. Dark-types and priority are the outs; Steel resists it until Tera
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### keldeo — 1.2% usage · *Smogon-cited*
+
+**tags** wallbreaker, revenge-killer · **axis** attacks special · **ability** justified · **preserve** med
+
+A fast Water/Fighting special attacker with a mechanically unusual STAB: Secret Sword (78%) is a SPECIAL move that damages using the target's DEFENSE stat, so physical walls do not answer it the way their typing suggests. Vacuum Wave (81%) is priority for finishing weakened fast threats. Justified raises its Attack when hit by a Dark move, which is a real deterrent to the Knock Off users that would otherwise pressure it. Flip Turn (56%) pivots out safely.
+
+**Set — Choice Specs** *(~39% of sets)*: **tags** wallbreaker · **axis** attacks special
+
+> Locked and enormous; Flip Turn is the escape hatch.
+
+**Set — Boots Attacker** *(~35% of sets)*: **tags** wallbreaker, revenge-killer · **axis** attacks special
+
+> Unlocked and hazard-immune, free to pick Secret Sword, Vacuum Wave or the pivot each turn.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### porygon2 — 1.2% usage · *usage-only*
+
+**tags** wall, trick-room-setter, tank · **axis** attacks special, defends special · **ability** download · **preserve** high
+
+A Normal-type wall defined by its item: Eviolite (99%) raises BOTH its defenses by half again, because it is a not-fully-evolved Pokemon — the item is not optional, it is the build. Download (84%) reads the opponent on entry and raises its Attack or Special Attack depending on which of their defenses is weaker, so it enters with a free boost aimed at the right side. Trick Room (78%) is on most sets, making it a bulky room setter as well as a wall, and Recover (45%) keeps it there. Ice Beam (86%) is the usual attack.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
+### kommoo — 1.1% usage · *Smogon-cited*
+
+**tags** setup-sweeper, wincon · **axis** attacks mixed · **preserve** med · **deployment** setup-window
+
+A Dragon/Fighting setup wincon with an all-in boosting move: Clangorous Soul (84%) raises ALL FIVE stats by one stage at the cost of a THIRD of its own HP — and it fails outright below 33% HP, so the window closes as it takes chip. Substitute (27%) and Leftovers (34%) exist to protect that window. Throat Spray (41% of items) pairs with its sound moves for a further +2 Special Attack. Its abilities are both immunities that define what it can set up against: Soundproof (46%) blanks sound moves, Bulletproof (45%) blanks ball and bomb moves.
+
+**The play:**
+
+1. come in on something its ability blanks outright
+2. Clangorous Soul while above a third HP — below that it simply fails
+3. the boost is +1 across the board, so both attacking sides and its Speed rise at once
+4. Substitute or Leftovers to protect the now-shortened HP bar
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### arcaninehisui — 1.1% usage · *Smogon-cited*
+
+**tags** wallbreaker, priority-attacker · **axis** attacks physical · **ability** rockhead · **preserve** med
+
+A Fire/Rock physical breaker whose ability removes the usual cost of its moves: Rock Head (94%) cancels RECOIL entirely, so Head Smash (95%, 150 BP) and Flare Blitz (98%, 120 BP) hit at full power for free — normally those cost a third and a quarter of the damage back. Extreme Speed (86%) is +2 priority, so it also picks off weakened fast threats. Choice Band (53%) is the common item, making it a locked but enormous hitter.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### polteageist — 1.1% usage · *usage-only*
+
+**tags** setup-sweeper, wincon · **axis** attacks special · **preserve** med · **deployment** setup-window · **entry_condition** full_hp
+
+A Ghost-type all-in sweeper: Shell Smash (99%) raises Attack, Special Attack and Speed by TWO stages each in one turn, at the cost of dropping both defenses — and White Herb (27% of items) immediately restores those drops, leaving a pure +2/+2/+2. Stored Power (75%) then scales directly with the stages held, so one Smash roughly quadruples its power. Focus Sash (70%) is the more common route, guaranteeing the setup turn from full HP. Its Ghost typing blocks Rapid Spin. It is extremely frail before the boost and dies to any priority after it.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ENGINE GAP: its minority ability Cursed Body (25%) has ZERO implementation in poke-engine (see the gengar entry) — the search models this mon as having no ability a quarter of the time. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
+### thundurustherian — 1.1% usage · *usage-only*
+
+**tags** wallbreaker, pivot, setup-sweeper · **axis** attacks special · **ability** voltabsorb · **preserve** med
+
+A fast Electric special attacker: Volt Absorb (100%) means an incoming Electric move HEALS it rather than damaging it, so it switches into the tier's Electric attacks for free. Thunderbolt (64%) is the STAB and Volt Switch (61%) pivots out while damaging. Nasty Plot (32%) converts it from a pivot into a breaker. Its items split three ways — Boots 37%, Specs 23%, Scarf 18% — so which of those three jobs it is doing is not knowable until it acts.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
+### mimikyu — 1.1% usage · *Smogon-cited*
+
+**tags** setup-sweeper, priority-attacker, disruptor · **axis** attacks physical · **ability** disguise · **preserve** med · **deployment** setup-window
+
+A Ghost/Fairy setup sweeper built around Disguise (100%): the FIRST damaging hit it takes does nothing but break the disguise, which is a guaranteed free turn on entry — that is the setup turn, and it cannot be taken away by prediction. Swords Dance (57%) uses it; Shadow Sneak (67%) is priority for cleaning afterwards. Its Ghost typing blocks Rapid Spin. Red Card (35% of items) drags the attacker out instead, and a Trick Room minority (28%) makes it a room setter.
+
+**The play:**
+
+1. switch in: the first hit only breaks Disguise, so the turn is free by construction
+2. Swords Dance on that turn
+3. Play Rough and Shadow Sneak clean; the disguise is spent and it is now frail
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### indeedee — 1.0% usage · *Smogon-cited*
+
+**tags** terrain-setter, support, sacrificial-support · **axis** attacks special · **ability** psychicsurge · **preserve** high · **deployment** lead · **value_curve** decays_with_weather_clock · **resource** Psychic Terrain
+
+The Psychic Terrain setter: Psychic Surge (100%) sets it on entry and Terrain Extender (67% of items) stretches it to eight turns. The terrain does two things that matter — it BLOCKS PRIORITY moves against grounded targets, which shuts off Sucker Punch, Extreme Speed and Aqua Jet wholesale, and it powers up Psychic moves, turning Expanding Force (96%) into a very strong attack. Encore (63%) locks a foe into one move and Healing Wish (68%) trades its life to fully restore a teammate. Its team is built to spend those terrain turns.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### mandibuzz — 1.0% usage · *Smogon-cited*
+
+**tags** wall, hazard-remover, status-spreader · **axis** defends physical · **ability** overcoat · **preserve** med
+
+A Dark/Flying defensive wall built to answer physical attackers without needing an Attack stat of its own: Foul Play (82%) damages USING THE TARGET'S Attack stat, so the harder the opposing attacker hits, the harder Foul Play hits it back — and a boosted sweeper feeds it. Roost (96%) is reliable recovery, Defog (84%) clears hazards, and Toxic (55%) puts walls on a clock. Overcoat (76%) makes it immune to weather chip and powder moves. Boots (64%) keeps it free of hazard damage on its many switch-ins.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### zoroarkhisui — 1.0% usage · *usage-only*
+
+**tags** wallbreaker, revenge-killer · **axis** attacks special · **preserve** med
+
+A frail, fast Normal/Ghost special attacker — a typing with no weaknesses to the common priority moves and immunities to both Normal and Fighting. Shadow Ball (56%) and Hyper Voice (47%) are the STABs; Nasty Plot (33%) converts it into a sweeper. Items are spread with no modal answer (Specs 26%, Sash 25%, Scarf 14%), so its job is genuinely unknown on entry. Its real weapon is Illusion, below.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ENGINE GAP, and the largest one in this batch: Illusion (100% of sets) is NOT implemented in poke-engine. It disguises the mon as its last unfainted teammate until it takes damage, so the OPPONENT'S BELIEF is wrong about which Pokemon is on the field — a Zoroark can be treated as a wall and attacked accordingly, or bluff a threat it does not have. The engine's own comment records this as an INTENTIONAL omission on the grounds that it is an information-hiding effect belonging to the translator/belief layer rather than state mechanics, and that Zoroark is niche. That reasoning holds, but the consequence is concrete: against a Zoroark-H team our belief layer is systematically wrong about the identity of the active mon, and nothing in the search knows it. User-flagged 2026-08-02 as a known hard case. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
+### slowking — 0.9% usage · *Smogon-cited*
+
+**tags** pivot, wall, support · **axis** attacks special, defends physical · **ability** regenerator · **preserve** med · **deployment** pivot-cycle
+
+A Water/Psychic defensive pivot whose durability is Regenerator (99%): a third of its HP back every time it switches out. Future Sight (75%) is its signature — it lands TWO TURNS LATER, so it damages whatever has switched in by then, and pairs with a partner that forces switches. Chilly Reception (49%) both sets SNOW and pivots out in one move. Scald (89%) threatens a burn on anything physical. Assault Vest (42%) trades the utility for special bulk.
+
+*Single build.* Distinct from Slowking-Galar, which is the Poison-type special wall — same line, different mon.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### talonflame — 0.9% usage · *Smogon-cited*
+
+**tags** hazard-remover, pivot, status-spreader · **axis** defends physical · **preserve** med
+
+A Fire/Flying utility mon. Its ability is a genuine fork: Gale Wings (45%) gives its FLYING moves +1 priority but ONLY at FULL HP, so a single point of chip — hazard damage included — switches the ability off entirely; Flame Body (55%) instead threatens a burn on contact. Defog (62%) is its main job, with Roost (54%) to keep itself healthy and Will-O-Wisp (46%) to cripple physical attackers. Boots (68%) both dodge hazards and, on the Gale Wings builds, protect the full-HP condition the ability depends on.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
+
+</details>
+
+### gengar — 0.9% usage · *usage-only*
+
+**tags** wallbreaker, revenge-killer, spinblocker · **axis** attacks special · **ability** cursedbody · **preserve** med
+
+A very fast, very frail Ghost/Poison special attacker. Shadow Ball (86%) is the STAB and its Ghost typing blocks Rapid Spin. Destiny Bond (31%) is its signature threat: if it faints while the move is active, the attacker faints with it, so killing it can cost a mon — which makes attacking it a real decision rather than a free trade. Trick (24%) hands a Choice item to a wall. Its items split evenly between Focus Sash (28%) and Choice Scarf (28%), so whether it survives a hit or outruns the field is unknown until it acts.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ENGINE GAP — its ability Cursed Body (100% of sets) has ZERO implementation in poke-engine: the constant exists in the Abilities enum but no code path applies it, and unlike Illusion it is NOT listed in the file's documented intentional-omission comment. Cursed Body has a 30% chance to DISABLE the move that hit it for several turns, which is a genuine state-mechanics effect, so this is an implementation gap rather than a deliberate information-layer choice. We therefore model every Gengar as abilityless. User-flagged 2026-08-02. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
+### incineroar — 0.8% usage · *usage-only*
+
+**tags** pivot, disruptor, support · **axis** attacks physical, defends physical · **ability** intimidate · **preserve** med · **deployment** pivot-cycle
+
+A Fire/Dark utility pivot whose value is in the turns it takes away from the opponent. Intimidate (96%) lowers the opposing Attack by one stage EVERY time it switches in, so repeated entries compound; Parting Shot (70%) lowers BOTH the target's Attack and Special Attack and pivots out in the same turn; Knock Off (75%) strips the item; Fake Out (41%) is a priority flinch on its entry turn. Will-O-Wisp (43%) burns what Intimidate did not already blunt. Note that Intimidate feeds Defiant and Competitive holders instead of weakening them.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+
+</details>
+
+### mamoswine — 0.8% usage · *Smogon-cited*
+
+**tags** wallbreaker, priority-attacker · **axis** attacks physical · **ability** thickfat · **preserve** med
+
+A physical Ice/Ground attacker with strong priority: Ice Shard (90%) picks off weakened fast threats, and Earthquake (97%) is near-universal. Thick Fat (83%) HALVES incoming Fire AND Ice damage, which turns its own Ice typing from a liability into a usable defensive profile. Focus Sash (30%) guarantees it one turn from full. It also compresses Stealth Rock on 42% of sets.
+
+<details><summary>provenance (review only — not shown to any consumer)</summary>
+
+ Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. Not yet user-reviewed.
 
 </details>
 
