@@ -591,6 +591,23 @@ class Gen9Translator:
         replay_idx = self._replay_index()
         if replay_idx is not None:
             team = getattr(self, "_archetype", None)
+            # item conditioning rides the same gate as the partial backoff.
+            # Visibility-aware by construction (see conditioned_item): it only
+            # re-allocates the mass chaos gives to items replays can SEE, so
+            # P(Choice item) is untouched — the naive version would have
+            # deleted choice-lock modelling, 14.06% of real usage vs 0.09% of
+            # replay observations.
+            if _TEAM_COND_OVERLAP and team is not None and known_item is None:
+                cs = self._chaos()
+                shares = {}
+                for st in cs.pokemon.values():
+                    for i, p in st._items.items():
+                        shares[i] = shares.get(i, 0.0) + p * st.usage
+                probs = dict(stats._items)
+                alt = replay_idx.conditioned_item(species, probs, team,
+                                                  shares, rng)
+                if alt:
+                    item = alt
             frag = replay_idx.pick_moves(species, known_moves, team=team,
                                          rng=rng)
             if frag:

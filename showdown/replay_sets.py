@@ -36,6 +36,7 @@ class ReplaySetsIndex:
         for entry in self.species.values():
             entry["movesets"] = [(tuple(ms), c) for ms, c in entry["movesets"]]
         self._partial_cache: dict = {}
+        self._observable = None
         self.teams = raw.get("teams", {})
         for team in self.teams.values():
             for mon in team["mons"].values():
@@ -123,6 +124,70 @@ class ReplaySetsIndex:
         if entry is None:
             return []
         return self._consistent(entry["movesets"], known_moves)
+
+    # ---- item conditioning -------------------------------------------------
+    # Replay item counts are BIASED BY VISIBILITY, not by usage: an item only
+    # appears here if it emits a protocol event. Measured 2026-08-02 over
+    # 1.28M item observations, Choice items are 14.06% of real usage and
+    # 0.09% of replay observations — a ~150x under-representation — and Heavy-
+    # Duty Boots, Assault Vest, the Ogerpon masks, Light Clay and Loaded Dice
+    # are equally invisible. Conditioning naively on these counts would delete
+    # Choice-locked modelling from our beliefs, which is decision-critical.
+    #
+    # So the rule: replay evidence may only re-allocate the mass chaos already
+    # assigns to items replays CAN see. P(some Choice item) is left exactly at
+    # its chaos value; what changes is which Leftovers-class item this species
+    # holds ON THIS TEAM. The observable set is derived from the data (ratio of
+    # replay share to chaos share) rather than hardcoded, so it cannot go stale
+    # against a re-scraped corpus.
+    _OBSERVABLE_RATIO = 0.3
+
+    def observable_items(self, chaos_shares: dict) -> frozenset:
+        """Items whose replay presence is consistent with their real usage."""
+        if getattr(self, "_observable", None) is not None:
+            return self._observable
+        rep = {}
+        for team in self.teams.values():
+            for mon in team["mons"].values():
+                for name, c in mon.get("items") or []:
+                    rep[name] = rep.get(name, 0) + c
+        tot = sum(rep.values()) or 1
+        tc = sum(chaos_shares.values()) or 1
+        out = set()
+        for name, share in chaos_shares.items():
+            pc = share / tc
+            pr = rep.get(name, 0) / tot
+            if pc > 0 and pr / pc >= self._OBSERVABLE_RATIO:
+                out.add(name)
+        self._observable = frozenset(out)
+        return self._observable
+
+    def conditioned_item(self, species: str, chaos_probs: dict,
+                         team: dict | None, chaos_shares: dict, rng,
+                         min_obs: int = 5) -> str | None:
+        """One item drawn from the chaos prior with its OBSERVABLE mass
+        re-allocated by this team's replay counts. None -> caller keeps its
+        existing behaviour."""
+        if team is None or rng is None or not chaos_probs:
+            return None
+        entry = team["mons"].get(_normalize(species))
+        if not entry:
+            return None
+        obs = self.observable_items(chaos_shares)
+        counts = {n: c for n, c in (entry.get("items") or []) if n in obs}
+        if sum(counts.values()) < min_obs:
+            return None
+        obs_mass = sum(p for i, p in chaos_probs.items() if i in obs)
+        if obs_mass <= 0:
+            return None
+        tot = sum(counts.values())
+        blended = {i: p for i, p in chaos_probs.items() if i not in obs}
+        for name, c in counts.items():
+            blended[name] = obs_mass * c / tot
+        if not blended:
+            return None
+        keys = list(blended)
+        return rng.choices(keys, weights=[blended[k] for k in keys])[0]
 
     def pick_moves(self, species: str, known_moves: tuple[str, ...] = (),
                    team: dict | None = None, rng=None,
