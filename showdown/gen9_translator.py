@@ -1190,7 +1190,15 @@ class Gen9Translator:
         revealed_item_id = None
         if raw_item and _normalize(raw_item) != "unknownitem":
             revealed_item_id = _normalize(raw_item)
+        elif raw_item and self._obs is not None:
+            # still the unknown sentinel, but the protocol may have named it
+            # in a [from] tag poke-env ignores ("poisoned by Toxic Orb") —
+            # sentinel-only so a knocked-off item is never resurrected
+            revealed_item_id = self._obs.revealed_item.get(_normalize(species))
         revealed_ability = _normalize(mon.ability) if mon.ability else None
+        if revealed_ability is None and self._obs is not None:
+            revealed_ability = self._obs.revealed_ability.get(
+                _normalize(species))
 
         canon = self._opp_set(
             species, known_moves=tuple(_normalize(m) for m in mon.moves),

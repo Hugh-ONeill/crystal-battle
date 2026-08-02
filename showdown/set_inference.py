@@ -131,6 +131,15 @@ class BattleObservations:
         # wrong item, though a caster may hedge on it).
         self.boots: set[str] = set()            # confident Heavy-Duty Boots
         self.boots_ambiguous: set[str] = set()  # zero-chip but MG-capable
+
+        # DIRECT reveals the protocol broadcasts in [from]/[of] tags — "was
+        # poisoned by Toxic Orb", Flame Orb burns, Leftovers heals, Rocky
+        # Helmet chip, ability activations. Not inference: the sim names the
+        # source; we were dropping the tag (the audited Gliscor game had
+        # item: null at T16 with the orb announced on the wire since T2).
+        # opp species -> item id / ability id
+        self.revealed_item: dict[str, str] = {}
+        self.revealed_ability: dict[str, str] = {}
         self._side_sr = {"p1": False, "p2": False}      # Stealth Rock per side
         self._side_spikes = {"p1": False, "p2": False}  # Spikes per side
         self._gravity = False                    # grounds everyone for Spikes
@@ -155,6 +164,30 @@ class BattleObservations:
     @staticmethod
     def _boost_mult(stages: int) -> float:
         return (2 + stages) / 2 if stages >= 0 else 2 / (2 - stages)
+
+    def _capture_reveals(self, event, opp_role):
+        """Record [from] item:/ability: tags. An [of] tag reassigns the
+        source (Rocky Helmet chip names the DEFENDER's item); otherwise the
+        source is the mon the event is about. Opponent side only — our own
+        set is known."""
+        tags = [a for a in event[3:]
+                if isinstance(a, str) and a.startswith("[")]
+        if not tags:
+            return
+        of_role = None
+        for a in tags:
+            if a.startswith("[of] ") and ":" in a:
+                of_role = a[5:].strip()[:2]
+        for a in tags:
+            for prefix, store in (("[from] item: ", self.revealed_item),
+                                  ("[from] ability: ",
+                                   self.revealed_ability)):
+                if not a.startswith(prefix):
+                    continue
+                owner = of_role or event[2][:2]
+                species = self._active.get(owner)
+                if owner == opp_role and species:
+                    store[species] = _normalize(a[len(prefix):])
 
     def _close_pending(self):
         p = self._pending
@@ -246,6 +279,8 @@ class BattleObservations:
             if len(event) < 2:
                 continue
             kind = event[1]
+            if len(event) >= 3 and str(event[2])[:2] in ("p1", "p2"):
+                self._capture_reveals(event, opp_role)
             # these arrive between |move| and its |-damage|; keep the window open
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
