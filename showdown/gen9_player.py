@@ -1883,7 +1883,7 @@ class Gen9PokeEnginePlayer(Player):
             return solved               # tree must never advance past it
         for i in range(1, k):
             rng = random.Random()
-            pessimistic = i == k - 1
+            pessimistic = i == k - 1 and self._world_style != "plain"
             # structured style: replace ONE chaos world (the slot just before
             # the speed-pessimistic one) with a tera-defensive worst-case
             # world. K is unchanged, so chaos-vs-structured is a world-QUALITY
@@ -2487,12 +2487,18 @@ async def main():
                         help="sampled opponent-set worlds searched per turn "
                              "(1 = deterministic top sets). Env fallback "
                              "CB_SET_SAMPLES so par_series --ab can vary K.")
-    parser.add_argument("--world-style", choices=["chaos", "structured"],
+    parser.add_argument("--world-style",
+                        choices=["chaos", "structured", "plain"],
                         default=(os.environ.get("CB_WORLD_STYLE") or "chaos"),
                         help="opponent-world sampling: 'chaos' = all neutral "
-                             "prior draws; 'structured' swaps one chaos world "
-                             "for a tera-defensive worst-case world (needs "
-                             "K>=3). Env fallback CB_WORLD_STYLE for --ab.")
+                             "prior draws with a speed-pessimistic LAST world; "
+                             "'structured' swaps one chaos world for a "
+                             "tera-defensive worst-case world (needs K>=3); "
+                             "'plain' drops the speed-pessimistic tail (every "
+                             "extra world a neutral draw) — the last world's "
+                             "hedge predates the DONE ledger and has never "
+                             "been isolated in an A/B. Env fallback "
+                             "CB_WORLD_STYLE for --ab.")
     parser.add_argument("--data-tiers", choices=["on", "off"], default="on",
                         help="PS-curated + replay-observed set tiers; 'off' "
                              "reproduces the pure chaos config (ab9 baseline)")
