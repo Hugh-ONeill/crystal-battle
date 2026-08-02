@@ -1950,7 +1950,7 @@ A Ghost-type all-in sweeper: Shell Smash (99%) raises Attack, Special Attack and
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-ENGINE GAP: its minority ability Cursed Body (25%) has ZERO implementation in poke-engine (see the gengar entry) — the search models this mon as having no ability a quarter of the time. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+ENGINE GAP (adjudicated, see the gengar entry): its minority ability Cursed Body (25% of sets) is the one remaining silent ability in poke-engine, deliberately left unimplemented on usage maths — so a quarter of Polteageist are modelled abilityless. Shell Smash and White Herb, which carry the set, are both implemented. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
 
 </details>
 
@@ -2054,7 +2054,7 @@ A very fast, very frail Ghost/Poison special attacker. Shadow Ball (86%) is the 
 
 <details><summary>provenance (review only — not shown to any consumer)</summary>
 
-ENGINE GAP — its ability Cursed Body (100% of sets) has ZERO implementation in poke-engine: the constant exists in the Abilities enum but no code path applies it, and unlike Illusion it is NOT listed in the file's documented intentional-omission comment. Cursed Body has a 30% chance to DISABLE the move that hit it for several turns, which is a genuine state-mechanics effect, so this is an implementation gap rather than a deliberate information-layer choice. We therefore model every Gengar as abilityless. User-flagged 2026-08-02. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
+ENGINE GAP, ALREADY ADJUDICATED — not a new finding. Cursed Body (100% of Gengar sets) has zero effect-code references in poke-engine: the constant exists in the Abilities enum but nothing applies it, so we model every Gengar as abilityless. This is the LAST remaining silent ability for gen9 OU (the 2026-07-26 full scan, updated 2026-07-31 after four others were implemented in `2e000e6`), and it was DELIBERATELY CLOSED as not worth fixing on usage maths: Gengar 0.86% usage x 100% of sets, Dragapult 14.6% x 2%, Polteageist 1.09% x 25%, Froslass/Banette ~0.1% => roughly 1.5% of opposing mons carry it, and it only fires on CONTACT moves at 30%. Re-verified against source 2026-08-02 during the top-100 sweep: still silent, still correctly closed. Recorded here so the entry does not imply a pending fix. USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim here comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the user's top-100 sweep 2026-08-02. Not yet user-reviewed.
 
 </details>
 
