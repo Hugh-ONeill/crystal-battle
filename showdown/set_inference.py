@@ -523,7 +523,8 @@ class BattleObservations:
         return ev["damage"] / max(rolls)
 
     def damage_item_upgrade(self, species: str, opp_mon: pe.Pokemon,
-                            our_mons: dict[str, pe.Pokemon]) -> str | None:
+                            our_mons: dict[str, pe.Pokemon],
+                            known_moves: tuple[str, ...] = ()) -> str | None:
         """Weakest damage-boosting item consistent with ALL observations.
 
         Ratio brackets over the modeled max roll: >1.38 -> Choice Band/Specs
@@ -532,6 +533,14 @@ class BattleObservations:
         which case a 1.2x type item is inferred. Expert Belt and Booster
         Energy land in the Life Orb bracket and are modeled as it — the
         damage multiplier is what the search needs, not the item's name.
+
+        `known_moves` gates the Choice bracket: a mon with a revealed status
+        move is never branded Choice-locked, however hot the hit — the
+        audited Gliscor game had a beyond-roll Knock Off (an invested
+        spread, most likely) upgrade a Protect/Toxic mon to Choice Band in
+        every world for the rest of the game. Such hits fall through to the
+        Life Orb bracket: the multiplier is closer and it carries no
+        lock-in claim.
         """
         boosted: list[dict] = []
         clean: list[dict] = []
@@ -552,8 +561,10 @@ class BattleObservations:
                 clean.append(entry)
         if not boosted:
             return None
+        from showdown.chaos_stats import incompatible_items
+        choice_ok = "choiceband" not in incompatible_items(known_moves)
         top = max(boosted, key=lambda e: e["ratio"])
-        if top["ratio"] > 1.38:
+        if top["ratio"] > 1.38 and choice_ok:
             return "choiceband" if top["category"] == "Physical" else "choicespecs"
         # 1.2x bracket disambiguation: boost confined to SE hits -> Expert
         # Belt; confined to one type with another type clean -> type item

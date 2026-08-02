@@ -1200,8 +1200,9 @@ class Gen9Translator:
             revealed_ability = self._obs.revealed_ability.get(
                 _normalize(species))
 
+        known_move_ids = tuple(_normalize(m) for m in mon.moves)
         canon = self._opp_set(
-            species, known_moves=tuple(_normalize(m) for m in mon.moves),
+            species, known_moves=known_move_ids,
             known_item=revealed_item_id, known_ability=revealed_ability)
 
         # stats: canonical spread when we have one, neutral 85s otherwise
@@ -1250,6 +1251,8 @@ class Gen9Translator:
         revealed_item = item_known
         spe_stat = calc("spe")
         if self._obs is not None and not revealed_item:
+            from showdown.chaos_stats import incompatible_items
+            choice_vetoed = "choicescarf" in incompatible_items(known_move_ids)
             # speed floor: they outsped something our model says they can't
             if self._obs.scarf_needed(species, spe_stat, item):
                 # CHEAPEST EXPLANATION FIRST: full Speed investment before any
@@ -1260,7 +1263,11 @@ class Gen9Translator:
                 # cannot reach the floor is an item actually required.
                 max_spe = _calc_stat_modern(bs.get("spe", 80), 31, 252,
                                             mon.level, 1.1, False)
-                if self._obs.max_speed_suffices(species, max_spe):
+                if self._obs.max_speed_suffices(species, max_spe) \
+                        or choice_vetoed:
+                    # a revealed status move rules the scarf claim out too
+                    # (Booster Energy or investment explains the floor
+                    # without asserting a choice lock)
                     spe_stat = max_spe
                 else:
                     item = "choicescarf"
@@ -1287,7 +1294,8 @@ class Gen9Translator:
                 weight_kg=self._weight(species),
             )
             upgrade = self._obs.damage_item_upgrade(
-                species, probe, getattr(self, "_my_built", {}))
+                species, probe, getattr(self, "_my_built", {}),
+                known_moves=known_move_ids)
             if upgrade:
                 item = upgrade
                 self._obs.confirmed[species] = upgrade

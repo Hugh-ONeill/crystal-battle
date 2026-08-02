@@ -15,6 +15,7 @@ import pytest
 
 from showdown import chaos_stats
 from showdown.chaos_stats import PokemonStats, incompatible_items
+from showdown.set_inference import BattleObservations
 
 
 def mk_stats(items, abilities=None, moves=None):
@@ -103,6 +104,24 @@ def test_deterministic_top_item_exclude():
     st = mk_stats({"choiceband": 90, "leftovers": 10})
     assert st.top_item() == "choiceband"
     assert st.top_item(exclude=incompatible_items(("toxic",))) == "leftovers"
+
+
+class _FixedRatio(BattleObservations):
+    """Stub the damage model: every observed hit reads 1.5x over max roll."""
+    def _observed_ratio(self, ev, opp_mon, our_mons):
+        return 1.5
+
+
+def test_choice_damage_upgrade_vetoed_by_status_reveal():
+    o = _FixedRatio()
+    o.damage_evidence.append({"species": "gliscor", "move": "knockoff",
+                              "damage": 50, "our_species": "corviknight",
+                              "weather": "none", "se": False})
+    # unrevealed: a 1.5x physical hit brands Choice Band, as before
+    assert o.damage_item_upgrade("gliscor", None, {}) == "choiceband"
+    # with a revealed status move the claim degrades to the 1.3x bracket
+    assert o.damage_item_upgrade(
+        "gliscor", None, {}, known_moves=("protect",)) == "lifeorb"
 
 
 def test_kill_switch(monkeypatch):
