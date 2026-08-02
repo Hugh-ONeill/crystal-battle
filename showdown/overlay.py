@@ -75,9 +75,16 @@ APPLY_MIN = float(os.environ.get("CB_OVERLAY_APPLY_MIN", "0.8"))
 LIVE_TIMEOUT_S = float(os.environ.get("CB_OVERLAY_LIVE_TIMEOUT", "10"))
 
 # consumer-facing roles fields only — provenance/review never enter a prompt
+# ability/ability_split were MISSING here until 2026-08-02, so the dossier
+# never showed an ability at all — while 89 of 114 entries carry `ability`
+# and 23 carry a genuine `ability_split`. The shadow corpus caught it: the
+# LLM cited `okidogi.ability` 18 times (its single most-cited path) for a
+# species whose Toxic Chain / Guard Dog split decides the matchup, and got
+# back "(no entry)". Citation audits are a channel for the model to report
+# what the dossier is missing — read them that way.
 _ENTRY_FIELDS = ("fact", "tags", "axis", "preserve", "deployment",
                  "lead_intent", "entry_condition", "value_curve", "resource",
-                 "requires", "single_build_note")
+                 "requires", "ability", "ability_split", "single_build_note")
 
 _WEATHER = {"raindance": "rain", "primordialsea": "rain",
             "sunnyday": "sun", "desolateland": "sun",
@@ -553,7 +560,12 @@ class OverlayShadow:
         e = self.roles.get(parts[0])
         if e is None:
             return False
-        return len(parts) == 1 or parts[1] in e
+        if len(parts) == 1 or parts[1] in e:
+            return True
+        # `X.ability` is the natural way to cite a species whose ability is
+        # recorded as a SPLIT (63/37 Toxic Chain / Guard Dog); rejecting it
+        # on the field name alone fails a semantically correct citation
+        return parts[1] == "ability" and "ability_split" in e
 
     def _flips(self, llm_weights, results, engine_choice) -> dict:
         from showdown.gen9_player import _merge_mcts_results

@@ -108,6 +108,29 @@ def test_required_fields_and_prevalence_sanity(doc):
                     "signature", "residual", "estimate"), sp
 
 
+def test_dossier_exposes_ability_fields(doc):
+    """The overlay dossier must render ability info.
+
+    It did not until 2026-08-02: `_ENTRY_FIELDS` omitted both `ability` and
+    `ability_split`, so 89 entries' abilities were invisible to the LLM —
+    which then cited `okidogi.ability` 18 times, its most-cited path, for a
+    species rendered as "(no entry)". Regression guard for that omission.
+    """
+    from showdown.overlay import _ENTRY_FIELDS
+    assert "ability" in _ENTRY_FIELDS and "ability_split" in _ENTRY_FIELDS
+
+
+def test_ability_citation_resolves_against_a_split(doc):
+    """`X.ability` must resolve when the entry records an ability_split."""
+    from showdown.overlay import OverlayShadow
+    sh = OverlayShadow.__new__(OverlayShadow)
+    sh.roles = doc["roles"]
+    split = [sp for sp, e in doc["roles"].items() if e.get("ability_split")]
+    assert split, "no ability_split entries to test against"
+    assert sh._rule_resolves(f"{split[0]}.ability")
+    assert not sh._rule_resolves(f"{split[0]}.not_a_field")
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))
