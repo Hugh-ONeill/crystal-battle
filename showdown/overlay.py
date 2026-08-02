@@ -295,26 +295,52 @@ class OverlayShadow:
         reasons.extend(self._role_reasons(battle, ranked))
         return reasons
 
+    @staticmethod
+    def _active_resources(battle) -> set[str]:
+        """Canonical tokens for every field resource CURRENTLY up on our
+        side. A resource can live in three different places — weather,
+        fields (terrain and Trick Room), and our own side conditions
+        (Tailwind, screens) — and the gate has to look in all of them."""
+        out = set()
+        for w in getattr(battle, "weather", {}) or {}:
+            tok = _WEATHER.get(str(getattr(w, "name", w)).split(".")[-1].lower())
+            if tok:
+                out.add(tok)
+        for f in getattr(battle, "fields", {}) or {}:
+            name = str(getattr(f, "name", f)).split(".")[-1].lower()
+            if name.endswith("terrain"):
+                out.add(name.replace("_", ""))
+            elif "trick" in name:
+                out.add("trickroom")
+        for c in getattr(battle, "side_conditions", {}) or {}:
+            name = str(getattr(c, "name", c)).split(".")[-1].lower()
+            if "tailwind" in name:
+                out.add("tailwind")
+            elif "screen" in name or "veil" in name or "reflect" in name:
+                out.add("screens")
+        return out
+
     def _role_reasons(self, battle, ranked) -> list[str]:
         out = []
         ours = {_norm(m.species): m for m in battle.team.values()}
         fallen = sum(1 for m in battle.team.values() if m.fainted)
         active = next((m for m in battle.team.values() if m.active), None)
         act_sp = _norm(active.species) if active else ""
-        weather_now = None
-        for w in getattr(battle, "weather", {}) or {}:
-            weather_now = _WEATHER.get(str(w).split(".")[-1].lower())
-        fields = {str(f).split(".")[-1].lower()
-                  for f in (getattr(battle, "fields", {}) or {})}
+        active_res = self._active_resources(battle)
         top = {r.move_choice for r in ranked[:4]}
         for sp, mon in ours.items():
             e = self.roles.get(sp) or {}
             res = e.get("resource")
             if res and not mon.fainted and sp != act_sp:
-                up = (res == weather_now or
-                      (res == "grassyterrain" and any("grassy" in f
-                                                      for f in fields)))
-                if not up:
+                # resource_tokens() normalises the PROSE the field actually
+                # holds ("Psychic Terrain", "Trick Room turns", "snow +
+                # Aurora Veil"). The old exact-string compare matched only
+                # the five single-token values and so fired EVERY TURN for
+                # the rest — a permanent false positive introduced when the
+                # 2026-08-02 entries wrote prose into a machine-read field.
+                from showdown.team_roles import resource_tokens
+                want = resource_tokens(res)
+                if want and not (want & active_res):
                     out.append(f"weather-down:{sp}")
             if e.get("value_curve") == "grows_with_own_faints" and \
                     fallen <= 1 and f"switch {sp}" in top:
