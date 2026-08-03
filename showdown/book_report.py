@@ -1,5 +1,21 @@
 """Summarise opening-book shadow logs.
 
+A BOOK IS A SEQUENCE, AND SHADOW CANNOT OBSERVE ONE. Shadow mode watches the
+SEARCH's trajectory, so the moment the lead diverges from the book every later
+state is off-policy relative to the line the book describes. Its steps were
+written for a game that, in the 2026-08-03 run, only happened 20 times in 200.
+Reading a pooled step statistic therefore measures the book applied to games it
+never contemplated — which is why this report always splits ON-BOOK from
+OFF-BOOK. Measured there: steps fire 3.7/game on-book vs 2.2 off-book, the
+search agrees 28% vs 16%, and EVERY step fires earlier on-book (Growth turn 8
+vs 19, Trick Room 6 vs 9). Late firing was a symptom of divergence, not a
+design flaw, and an earlier reading of the pooled numbers wrongly concluded the
+steps needed turn bounds.
+
+The LEAD is exempt from all of this: it is decision #1, nothing precedes it, so
+it can never be off-policy. It is the one part of a book shadow can measure
+honestly.
+
 Reports PER GAME, not per turn. An opening book is supposed to fire a handful
 of times and then go quiet, so a per-turn rate would make a working book look
 like a rounding error. The question is what fraction of GAMES it would have
@@ -91,6 +107,27 @@ def main(paths):
               "line, drop the book.\n  Disagreement at LOW margins -> `weighted` "
               "is the right strength.\n  Disagreement at HIGH margins -> either "
               "the book is wrong or the eval is; read those turns before A/Bing.")
+    # on-book vs off-book: the only coherent way to read step rows
+    on = off = None
+    if lead_seen:
+        on_s, off_s, on_g, off_g = [], [], 0, 0
+        for g in games.values():
+            ld = [r for r in g if r.get("kind") == "lead"]
+            if not ld:
+                continue
+            st = [r for r in g if r.get("kind") != "lead"]
+            if ld[0].get("agree"):
+                on_g += 1; on_s += st
+            else:
+                off_g += 1; off_s += st
+        print("\nSTEPS SPLIT BY WHETHER THE LINE WAS EVER ENTERED")
+        print("  (off-book step rows describe games the book never contemplated)")
+        for lab, st, ng in (("on-book ", on_s, on_g), ("off-book", off_s, off_g)):
+            if not st:
+                continue
+            a = sum(1 for r in st if r.get("agree"))
+            print(f"  {lab}: {ng:>3} games, {len(st):>4} steps "
+                  f"({len(st)/max(1,ng):.1f}/game), agreement {100*a/len(st):.0f}%")
     print("\nper team:")
     for t, c in per_team.most_common():
         print(f"  {t}: {c} games")
