@@ -394,8 +394,10 @@ while [ "$lane" -le "$LANES" ]; do
       done
       sleep 0.5
     }
+    LANE_DRY=0   # consecutive games this lane finished with no decision
     while g=$(next_game); do
       cd "$CB"   # each iteration starts from a known cwd (we cd to $FP below)
+      DEC_BEFORE=$(grep -c '^INFO     Winner:' "$FP_LOG" 2>/dev/null || echo 0)
       if [ -n "$AB_ENV" ]; then
         # pairs share a team; odd = arm A, even = arm B
         ridx=$(( (g + 1) / 2 ))
@@ -474,6 +476,22 @@ while [ "$lane" -le "$LANES" ]; do
         wait "$curpid" 2>/dev/null
         eval "OURS_PID_${ARM:-A}=''"
       fi
+      # LANE QUARANTINE (2026-08-03). A lane whose opponent dies fails every
+      # game in seconds while the dispenser keeps feeding it: bookopen lane 2
+      # ate 231 of 400 games to produce 58 decisions. Stop pulling work once a
+      # lane has gone this dry — the other lanes finish the series instead of
+      # the queue draining into a black hole.
+      DEC_AFTER=$(grep -c '^INFO     Winner:' "$FP_LOG" 2>/dev/null || echo 0)
+      if [ "${DEC_AFTER:-0}" -gt "${DEC_BEFORE:-0}" ]; then
+        LANE_DRY=0
+      else
+        LANE_DRY=$((LANE_DRY + 1))
+        if [ "$LANE_DRY" -ge "${CB_LANE_DRY_MAX:-8}" ]; then
+          echo "=== lane $lane QUARANTINED after $LANE_DRY consecutive" \
+               "no-decision games; not pulling more work ===" | tee -a "$CUR_LOG" >&2
+          break
+        fi
+      fi
     done
     for p in "$OURS_PID_A" "$OURS_PID_B"; do
       if [ -n "$p" ]; then
@@ -503,8 +521,29 @@ LANE_PIDS=""
 W=$(tally CBGen9)
 L=$(tally FPSpar1)
 N=$((W + L))
+DEALT=$(cat "$CB/showdown/bench/${NAME}"_L*_foulplay.log 2>/dev/null | grep -c "^=== lane ")
 echo "=== '$NAME' complete at $(date +%H:%M:%S): ${W}W-${L}L of ${N} decided ==="
 [ "$N" -gt 0 ] && echo "    $(echo "$W $N" | awk '{printf "%.1f%%", 100*$1/$2}')"
+# DEALT vs DECIDED (2026-08-03). A lane whose opponent dies keeps taking games
+# off the queue and failing them in seconds, so a half-dead run reports a
+# plausible-looking "N decided" and reads as complete: the bookopen A/B dealt
+# 400 and decided 221 because lane 2's foul-play crashed at battle start
+# (231 dealt / 58 decided / 342 tracebacks on that lane alone). Say both
+# numbers, and say loudly when they disagree.
+if [ "${DEALT:-0}" -gt 0 ]; then
+  echo "    dealt ${DEALT}, decided ${N}"
+  LOST=$((DEALT - N))
+  if [ "$LOST" -gt 0 ] && [ $((LOST * 10)) -gt "$DEALT" ]; then
+    echo "    WARNING: ${LOST} of ${DEALT} dealt games produced NO decision (>10%)." >&2
+    echo "             Check per-lane health before trusting this result:" >&2
+    for lg in "$CB/showdown/bench/${NAME}"_L*_foulplay.log; do
+      [ -f "$lg" ] || continue
+      echo "             $(basename "$lg"): dealt=$(grep -c '^=== lane ' "$lg")" \
+           "decided=$(grep -c '^INFO     Winner:' "$lg")" \
+           "tracebacks=$(grep -c 'Traceback' "$lg")" >&2
+    done
+  fi
+fi
 if [ -n "$SPRT_P0" ]; then
   if [ -f "$QUEUE.verdict" ]; then
     echo "    SPRT: $(cat "$QUEUE.verdict") (final tally ${W}W-${L}L incl." \
