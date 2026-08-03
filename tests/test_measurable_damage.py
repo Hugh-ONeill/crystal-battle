@@ -142,3 +142,51 @@ def test_ordinary_attacks_still_measurable(move):
 
 def test_unknown_move_is_not_measurable():
     assert not _measurable_damage("notarealmove")
+
+
+# ---- mixed attackers cannot hold Choice Band or Specs (but CAN hold Scarf) ----
+
+def _obs_using(moves, species="kyurem"):
+    """Feed a protocol history where the opponent uses `moves`."""
+    from types import SimpleNamespace
+    from showdown.set_inference import BattleObservations
+    disp = species.replace("ironvaliant", "Iron Valiant").title()
+    events = [f"|switch|p2a: {disp}|{disp}|100/100"]
+    events += [f"|move|p2a: {disp}|{m}|p1a: X" for m in moves]
+    b = SimpleNamespace(
+        _replay_data=[[""] + e.split("|")[1:] for e in events],
+        player_role="p1")
+    o = BattleObservations()
+    o.update(b)
+    return o
+
+
+def test_attacking_with_both_categories_rules_out_band_and_specs():
+    """Kyurem's Loaded Dice build: Icicle Spear physically, Ice Beam and
+    Earth Power specially. Each Choice damage item boosts ONE category, so
+    half the moveset would be dead weight behind a lock."""
+    o = _obs_using(["Icicle Spear", "Ice Beam", "Earth Power"])
+    forbidden = o.forbidden("kyurem")
+    assert "choiceband" in forbidden
+    assert "choicespecs" in forbidden
+
+
+def test_mixed_attacker_may_still_hold_a_choice_scarf():
+    """Scarf boosts SPEED, which every move uses equally — nothing is wasted.
+    Iron Valiant (Close Combat + Moonblast) is the canonical mixed Scarf set,
+    and is the exact mon whose real Scarf this module exists to catch."""
+    o = _obs_using(["Close Combat", "Moonblast"], species="ironvaliant")
+    assert "choicescarf" not in o.forbidden("ironvaliant")
+    assert "choiceband" in o.forbidden("ironvaliant")
+
+
+def test_a_special_attacker_with_uturn_is_not_mixed():
+    """Pelipper's genuine Choice Specs set is Hurricane / Hydro Pump /
+    U-turn. Pivots are carried for the switch, not the stat."""
+    o = _obs_using(["Hurricane", "Hydro Pump", "U-turn"], species="pelipper")
+    assert "choicespecs" not in o.forbidden("pelipper")
+
+
+def test_knock_off_on_a_special_attacker_is_not_mixed():
+    o = _obs_using(["Shadow Ball", "Knock Off"], species="gholdengo")
+    assert "choicespecs" not in o.forbidden("gholdengo")

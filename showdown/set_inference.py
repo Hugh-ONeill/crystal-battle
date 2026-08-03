@@ -182,6 +182,31 @@ _UNMODELED_DAMAGE = frozenset({
 # would otherwise infer, never invent one.
 _WEIGHT_BASED = frozenset({"grassknot", "lowkick", "heavyslam", "heatcrash"})
 
+# Damaging moves carried for their EFFECT, not for the stat behind them: a
+# pivot, a hazard, a removal, a knock. They must not count toward "this mon
+# attacks with both categories", because a special attacker running U-turn is
+# the single most ordinary set in the tier — Pelipper's Choice Specs build is
+# Hurricane / Hydro Pump / U-turn / Roost, and it produced the one CORRECT
+# Choice brand in the sample. A naive category test would have killed it.
+_UTILITY_DAMAGING = frozenset({
+    "uturn", "flipturn", "voltswitch", "knockoff", "rapidspin", "mortalspin",
+    "ceaselessedge", "stoneaxe",
+})
+
+
+def _offensive_categories(move_ids) -> set[str]:
+    """Categories this mon actually ATTACKS with, utility moves removed."""
+    cats: set[str] = set()
+    for move_id in move_ids:
+        mid = _normalize(move_id)
+        if mid in _UTILITY_DAMAGING:
+            continue
+        entry = _moves_data().get(mid) or {}
+        if entry.get("category") in _DAMAGING and (
+                entry.get("basePower") or mid in _WEIGHT_BASED):
+            cats.add(entry["category"])
+    return cats
+
 
 def _measurable_damage(move_id: str) -> bool:
     """Can this move's damage be reproduced by the synthetic probe state?
@@ -271,6 +296,9 @@ class BattleObservations:
         # stay separate because they are abductive and need a uniqueness
         # argument (Magic Guard explains the same observation).
         self.impossible_items: dict[str, set] = {}
+        # every damaging move each opposing species has been seen using,
+        # across all stints — the mixed-attacker test needs the whole game
+        self._seen_moves: dict[str, set] = {}
         # per-species HP state at the last end-of-turn, for upkeep proofs
         self._opp_hp: dict[str, tuple[int, int]] = {}
         self._healed_this_turn: set[str] = set()
@@ -580,6 +608,36 @@ class BattleObservations:
                 if role == opp_role and mid != "struggle" and not called:
                     stint = self._stint_moves.setdefault(role, set())
                     stint.add(mid)
+                    # a mon that ATTACKS with both categories is not holding a
+                    # Choice item: each boosts one category, and locks you into
+                    # whichever you clicked, so half the moveset is dead weight
+                    # behind a lock. Kyurem's Loaded Dice build is the case that
+                    # prompted this — Scale Shot and Icicle Spear physically,
+                    # Ice Beam / Freeze-Dry / Earth Power specially. Its Dragon
+                    # Dance already rules Choice out via the setup-move gate,
+                    # but only once DANCED; the second attacking category shows
+                    # up far earlier, and it was during that window that we
+                    # branded it Choice Band.
+                    if role == opp_role:
+                        sp_now = self._active.get(role)
+                        if sp_now:
+                            seen = self._seen_moves.setdefault(sp_now, set())
+                            seen.add(mid)
+                            if len(_offensive_categories(seen)) >= 2:
+                                # Band and Specs ONLY. Choice Scarf boosts
+                                # SPEED, which every move uses equally, so a
+                                # mixed attacker wastes none of it — and the
+                                # canonical mixed Scarf set is Iron Valiant
+                                # (Close Combat + Moonblast), the very mon in
+                                # this module's header whose real Scarf we
+                                # kept mis-modelling as Booster Energy.
+                                # Forbidding it here would re-break the case
+                                # set_inference was written for.
+                                self._forbid(sp_now, "choiceband",
+                                             "choicespecs")
+                                if self.confirmed.get(sp_now) in (
+                                        "choiceband", "choicespecs"):
+                                    del self.confirmed[sp_now]
                     if len(stint) >= 2:
                         sp = self._active.get(role)
                         if sp:
