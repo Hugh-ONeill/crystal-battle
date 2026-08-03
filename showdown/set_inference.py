@@ -103,6 +103,106 @@ def _move_type(move_name: str) -> str:
             .get("type", "Normal")).lower()
 
 
+# Moves whose damage cannot be measured against our synthetic probe state.
+#
+# A damage observation is re-evaluated by rebuilding a two-mon State and
+# calling calculate_damage. That state reproduces stats, types, abilities,
+# items and the weather — and NOTHING ELSE. It does not reproduce turn
+# order, terrain, either side's status, the defender's HP at the moment of
+# the hit, hit counts, boosts outside Atk/SpA, or how many mons have
+# fainted. When a move's damage depends on any of those, the modelling error
+# does not vanish: it lands in the ratio, and the ratio's only output is an
+# ITEM CLAIM.
+#
+# Found 2026-08-03 from a Ting-Lu branded Choice Specs whose only special
+# move is RUINATION — percentage damage, which poke-engine models correctly
+# but against the defender's CURRENT HP. Evidence is collected across turns
+# and re-evaluated later, so as our mon takes chip the modeled damage falls
+# while the recorded hit stays fixed: the same observation reads 1.00 at
+# full HP, 1.61 at 200/323, and 4.03 at 80/323. No item involved anywhere.
+#
+# Two rules are data-driven and cover most of it:
+#   basePower 0  fixed, percentage, counter and variable-power moves
+#                (Ruination, Super Fang, Seismic Toss, Night Shade, Endeavor,
+#                Counter/Mirror Coat/Metal Burst, Flail, Reversal, Gyro Ball,
+#                Electro Ball, Punishment, Final Gambit, the OHKOs)
+#   multihit     calculate_damage returns ONE hit's rolls while the protocol
+#                reports the TOTAL, so a 5-hit Rock Blast reads ~4x
+# The set below is the rest: real base power, but power conditional on state
+# the probe does not carry. Facade is the headline — modeled unstatused it
+# reads 254, but a Guts user with a Flame Orb actually hits for 754, a 2.97x
+# ratio that brands Choice Band every single time.
+_UNMODELED_DAMAGE = frozenset({
+    # attacker or target status
+    "facade", "hex", "venoshock", "barbbarrage", "infernalparade",
+    # defender's current HP
+    "brine", "hardpress", "wringout", "crushgrip",
+    # attacker's current HP
+    "eruption", "waterspout", "dragonenergy",
+    # turn order / prior damage this turn. Sucker Punch and Steel Roller are
+    # deliberately NOT here: their condition makes them FAIL, it does not
+    # change their power (70 and 130 flat), so a hit that landed is
+    # measurable like any other.
+    "boltbeak", "fishiousrend", "payback", "avalanche", "assurance",
+    "revenge",
+    # terrain (never set on the probe state)
+    "risingvoltage", "expandingforce", "psyblade", "mistyexplosion",
+    "terrainpulse",
+    # Weather Ball alone: the probe DOES carry the recorded weather, so its
+    # power is reproducible — but its TYPE changes with weather while
+    # _move_type reports the dex value (Normal), which would drop it in the
+    # wrong bucket for the type-item branch. Solar Beam and Solar Blade keep
+    # their type and track weather correctly (183 clear, 93 in rain), so
+    # they stay measurable.
+    "weatherball",
+    # running counters: boosts outside Atk/SpA, hits taken, faints, repeats
+    "storedpower", "powertrip", "ragefist", "lastrespects", "echoedvoice",
+    "furycutter", "rollout", "iceball", "spitup", "trumpcard",
+    # item-derived power — circular here, since the item is what we infer
+    "acrobatics", "fling", "naturalgift",
+    # tera changes the type and the STAB math
+    "terablast", "terastarstorm",
+    # RANDOM multiplier — not a function of any state, so no probe could
+    # reproduce it. Fickle Beam doubles on a 30% roll (80 -> 160 BP), which
+    # is a 2x ratio landing squarely in the Choice bracket roughly one hit
+    # in three. The protocol does announce the proc, but we do not parse it;
+    # if that changes, this one can move to the measurable side. The other
+    # random-power moves (Magnitude, Present, Psywave, Beat Up) are all base
+    # power 0 and already fall to the data-driven rule.
+    "ficklebeam",
+})
+
+
+# Base power 0 in the dex, but the damage IS a deterministic function of
+# inputs the probe carries exactly: both sides' weight_kg, straight from the
+# dex. Verified against the engine — Grass Knot reads 33/123/183 against a
+# 5/50/200kg target, Heavy Slam the inverse. Autotomize and Float Stone
+# halve the attacker's weight without our tracking it, which makes the
+# modeled hit too STRONG and the ratio too LOW: it can cost us an item we
+# would otherwise infer, never invent one.
+_WEIGHT_BASED = frozenset({"grassknot", "lowkick", "heavyslam", "heatcrash"})
+
+
+def _measurable_damage(move_id: str) -> bool:
+    """Can this move's damage be reproduced by the synthetic probe state?
+
+    Conservative by design: an unmeasurable observation is not weak evidence,
+    it is evidence of the wrong thing, and the only claim it can produce is
+    a false lock. Dropping a real Life Orb hit costs us a slightly soft
+    damage model; keeping a false Choice brand tells the search the target is
+    locked into one move it may in fact switch off freely.
+    """
+    mid = _normalize(move_id)
+    entry = _moves_data().get(mid)
+    if not entry:
+        return False
+    if entry.get("multihit"):
+        return False
+    if not entry.get("basePower") and mid not in _WEIGHT_BASED:
+        return False
+    return mid not in _UNMODELED_DAMAGE
+
+
 # type-boosting held items (1.2x one type). Inferred only when boosted hits
 # are confined to one type while another damaging type reads clean.
 _TYPE_ITEM = {
@@ -321,6 +421,9 @@ class BattleObservations:
         p = self._pending
         self._pending = None
         if p is None or p["damage"] <= 0 or p["invalid"]:
+            return
+        # the observation must be one the probe state can reproduce at all
+        if not _measurable_damage(p["move"]):
             return
         self.damage_evidence.append({
             "species": p["attacker"], "move": p["move"],
