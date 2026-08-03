@@ -35,7 +35,7 @@
   "  eterr1 Hawlucha's Electric Seed only fires under terrain, and consuming it is what",
   "         triggers Unburden AND powers Acrobatics. Three effects, one precondition.",
   "  ho1    screens are a 5-turn (8 with Light Clay) window the sweepers spend.",
-  "  troom1 the round-3 diagnostic itself; TR is 5 turns and the payloads are 0-Spe.",
+  "  troom1 the round-3 diagnostic itself; TR is 5 turns and the payloads are 0-Spe.\n  sun1   MEASURED FAILURE, added 2026-08-03: across 48 sun-team ladder games we led\n         the actual sun SETTER only 8% of the time, and the three most common leads\n         were Walking Wake 21%, Ceruledge 19% and Great Tusk 17% — Walking Wake\n         REQUIRES sun, so we were repeatedly leading a mon that depends on a\n         resource nobody had created yet. The lead is chosen by uniform\n         choice_rng.choice() over the near-tie pool, so paste order carries no\n         weight; the canonical-slot-1 weighting idea was never implemented, and\n         this file's `lead` field is the stronger version of it.",
   "  (web2 was the fifth candidate and was REMOVED at authoring time: the validator\n         found its Araquanid does not know Sticky Web, and no mon on that team does.\n         See the TODO note — the whole webs sub-family is affected.)",
   "",
   "SCHEMA",
@@ -189,6 +189,38 @@
      },
      "do": "facade",
      "why": "under the room Ursaluna moves FIRST, and Guts Facade is why the team accepted a 0-Spe payload at all. The room is 5 turns; spend them attacking."
+    }
+   ]
+  },
+  "sun1_torkoal": {
+   "lead": "torkoal",
+   "steps": [
+    {
+     "when": {
+      "active": "torkoal",
+      "unused": "stealthrock",
+      "max_turn": 3
+     },
+     "do": "stealthrock",
+     "why": "Drought already set the sun ON ENTRY, so no turn is spent creating the resource — turn 1 is free for the hazard. This is why leading the setter costs nothing here and gains everything: the sun clock starts at turn 1 instead of whenever it happens to come in."
+    },
+    {
+     "when": {
+      "active": "torkoal",
+      "field_up": "sun",
+      "unused": "rapidspin",
+      "max_turn": 8
+     },
+     "do": "rapidspin",
+     "why": "Torkoal's other job. Removing hazards protects the Life Orb Venusaur that has to switch in repeatedly, and it is doing this while the sun clock it started keeps running."
+    },
+    {
+     "when": {
+      "active": "venusaur",
+      "field_up": "sun"
+     },
+     "do": "growth",
+     "why": "under sun Growth raises BOTH attacking stats by two stages instead of one, and Chlorophyll has already doubled Venusaur's Speed — so this single turn is worth two boosts and a speed tier. Outside sun it is worth neither, which is the whole argument for leading Torkoal."
     }
    ]
   }
