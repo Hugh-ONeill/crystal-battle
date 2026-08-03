@@ -144,9 +144,13 @@ SYSTEM = (
     "'ceruledge.entry_condition') — invented rule names are discarded "
     "mechanically, so a flag without a real citation is wasted output. "
     "A `usually:` line under an opposing species gives its TYPICAL moves and "
-    "items with usage shares — use it to judge whether a world's assumed set "
-    "is plausible or off-meta, which is exactly what your weights express; "
-    "cite it as '<species>.moves' or '<species>.item'. "
+    "items with usage shares, and the `set '<name>':` lines under it give the "
+    "REAL BUILDS those moves belong to. Judge a world by whether its assumed "
+    "moves form ONE of those builds — the marginals alone cannot tell you "
+    "which moves go together (a mon showing 7 plausible moves has only 4 "
+    "slots, and they are not interchangeable). A world assuming a combination "
+    "that matches no listed build is the one to weight DOWN; cite this as "
+    "'<species>.moves' or '<species>.item'. "
     "An `engine_blind` line on a species means THE SEARCH ITSELF CANNOT "
     "MODEL that mechanic, so every world's numbers are confidently wrong "
     "about it — weigh that far above anything the visit counts say. "
@@ -236,6 +240,27 @@ class OverlayShadow:
         self._dossiers[tag] = d
         return d
 
+    _ps_cache = None
+
+    @classmethod
+    def _ps_sets(cls, species: str):
+        """Curated whole builds: [(name, moves, item)]. The joint counterpart
+        to the usage marginals."""
+        try:
+            if cls._ps_cache is None:
+                import json as _j
+                raw = _j.loads((HERE / "ps_sets_gen9.json").read_text())
+                dex = raw.get("gen9ou", {}).get("dex", {})
+                cls._ps_cache = {_norm(k): v for k, v in dex.items()}
+            out = []
+            for name, st in (cls._ps_cache.get(species) or {}).items():
+                mv = [str(m) for m in (st.get("moves") or []) if not isinstance(m, list)]
+                slashed = [m[0] for m in (st.get("moves") or []) if isinstance(m, list)]
+                out.append((name, (mv + slashed)[:4], st.get("item") or "?"))
+            return out
+        except Exception:
+            return []
+
     _chaos_cache = None
 
     @classmethod
@@ -266,7 +291,19 @@ class OverlayShadow:
             tot_i = sum(st._items.values()) or 1
             mv = ", ".join(f"{m} {p / tot_i:.0%}" for m, p in moves)
             it = ", ".join(f"{i} {p / tot_i:.0%}" for i, p in items)
-            return f"  usually: {mv} | {it}"
+            out = [f"  usually: {mv} | {it}"]
+            # MARGINALS CANNOT SHOW WHICH MOVES GO TOGETHER. Gliscor is the
+            # type case: protect 82 / earthquake 72 / knockoff 53 / toxic 43 /
+            # swordsdance 33 / spikes 29 / facade 28 is SEVEN moves for four
+            # slots, and nothing in that list says Swords Dance pairs with
+            # Facade while Spikes pairs with Toxic — two different Pokemon.
+            # The curated sets are the JOINT view, which is what lets the
+            # model match a world's assumed moves to a real build instead of
+            # scoring each move independently.
+            cand = cls._ps_sets(species)
+            for name, mv4, item in cand[:3]:
+                out.append(f"    set '{name}': {', '.join(mv4)} @ {item}")
+            return "\n".join(out)
         except Exception:
             return None
 

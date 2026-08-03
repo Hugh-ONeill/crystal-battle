@@ -216,6 +216,20 @@ def test_the_usage_prior_is_deflation_corrected(doc):
     assert pct >= 90, f"expected a corrected share, got {pct}%"
 
 
+def test_the_dossier_shows_joint_sets_not_just_marginals(doc):
+    """Marginals cannot express which moves go together. Gliscor lists seven
+    moves above 25% for four slots, and nothing in that list says Swords
+    Dance pairs with Facade while Spikes pairs with Toxic — two different
+    Pokemon. The curated builds are the joint view."""
+    from showdown.overlay import OverlayShadow
+    line = OverlayShadow._usage_prior("gliscor")
+    assert "set '" in line, "no curated builds rendered"
+    sd = [l for l in line.split("\n") if "Swords Dance" in l]
+    assert sd and "Facade" in sd[0], "the SD build must show its real partner"
+    util = [l for l in line.split("\n") if "Spikes" in l]
+    assert util and "Toxic" in util[0]
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))
