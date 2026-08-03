@@ -644,7 +644,16 @@ class OverlayShadow:
         # `X.ability` is the natural way to cite a species whose ability is
         # recorded as a SPLIT (63/37 Toxic Chain / Guard Dog); rejecting it
         # on the field name alone fails a semantically correct citation
-        return parts[1] == "ability" and "ability_split" in e
+        if parts[1] == "ability" and "ability_split" in e:
+            return True
+        # ...and once abilities became visible in the dossier (2026-08-02) the
+        # model started citing them BY VALUE — `gholdengo.goodasgold` rather
+        # than `gholdengo.ability`, 11 times in the first session. That names a
+        # real fact in a real entry, so accept it rather than discard the
+        # output on a naming convention it was never told.
+        named = {_norm(e.get("ability") or "")} | {
+            _norm(k) for k in (e.get("ability_split") or {})}
+        return parts[1] in named - {""}
 
     def _flips(self, llm_weights, results, engine_choice) -> dict:
         from showdown.gen9_player import _merge_mcts_results

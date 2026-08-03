@@ -169,6 +169,28 @@ def test_review_class_survives_review(doc):
         "provenance classes were destroyed by the review pass")
 
 
+def test_ability_cited_by_name_resolves(doc):
+    """Once abilities became visible in the dossier the model started citing
+    them BY VALUE — `gholdengo.goodasgold`, 11 times in the first session —
+    rather than by field name. That names a real fact in a real entry, so
+    discarding it would penalise the model for a convention it was never
+    told."""
+    from showdown.overlay import OverlayShadow
+    sh = OverlayShadow.__new__(OverlayShadow)
+    sh.roles = doc["roles"]
+    named = [(sp, e["ability"]) for sp, e in doc["roles"].items()
+             if e.get("ability")]
+    assert named
+    sp, ab = named[0]
+    assert sh._rule_resolves(f"{sp}.{ab}")
+    assert not sh._rule_resolves(f"{sp}.notanability")
+    split = [(sp, k) for sp, e in doc["roles"].items()
+             for k in (e.get("ability_split") or {})]
+    if split:
+        sp, k = split[0]
+        assert sh._rule_resolves(f"{sp}.{k}")
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))
