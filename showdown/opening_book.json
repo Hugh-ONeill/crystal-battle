@@ -1,0 +1,196 @@
+{
+ "_comment": [
+  "PER-TEAM OPENING BOOK — canonical startup sequences. NOTHING CONSUMES THIS YET.",
+  "",
+  "WHY IT EXISTS. The eval is MEASURED BLIND in the opening: Brier 0.2496-0.2559 at",
+  "turns 1-9 across four sessions, i.e. at or worse than always-guessing-50/50, and an",
+  "independent early-signal study put observables at T3 (0.1716) ahead of the engine's",
+  "own read at T9 (0.2479). So the opening is the ONE phase where overriding the search",
+  "does not fight a working component — which is the failure mode of nearly every other",
+  "lever this campaign has tried.",
+  "",
+  "AND A NATURAL EXPERIMENT SAYS THE LOSS IS SEQUENCE-SHAPED. Round 3 ran a dedicated",
+  "Trick Room team (troom1: 0-Spe setters plus slow payloads, pure sequence) against a",
+  "semi-TR team that can also just attack (troom2). troom1 floored at 28.6% while troom2",
+  "TOPPED the table at 51.4% — 23pp apart, and troom2 winning rules out 'TR is simply",
+  "bad for this pilot'. The engine improvises where a human would execute a known line.",
+  "",
+  "SCOPE, chosen to avoid the move-net mistake (-51pp from injecting preferences",
+  "everywhere): per-team, opening-only, condition-gated, and DEFAULT-MCTS on any failed",
+  "condition. This is not a policy over the game; it is a handful of teams whose value",
+  "IS their first few turns.",
+  "",
+  "TWO STRENGTHS, both planned, neither wired yet:",
+  "  weighted  each step becomes an s1 ROOT PRIOR (the advocate's proven machinery —",
+  "            0.75 prior steers 20k+ visits on demand, and branch-invariance does NOT",
+  "            apply to priors since they allocate exploration rather than leaf value),",
+  "            so MCTS keeps its catastrophe veto.",
+  "  scripted  return the order pre-search. Strictly stronger and strictly riskier.",
+  "SHIP DISCIPLINE: shadow first (log book-vs-MCTS disagreement and margins, the overlay",
+  "pattern), then a paired A/B on these teams only.",
+  "",
+  "TEAM SELECTION. Ranked by how MECHANICALLY FORCED the sequence is, using",
+  "team_roles.py's resource chains and entry-gated mons — not by intuition:",
+  "  snow1  Aurora Veil CANNOT be used without snow. Hard mechanical gate.",
+  "  eterr1 Hawlucha's Electric Seed only fires under terrain, and consuming it is what",
+  "         triggers Unburden AND powers Acrobatics. Three effects, one precondition.",
+  "  ho1    screens are a 5-turn (8 with Light Clay) window the sweepers spend.",
+  "  troom1 the round-3 diagnostic itself; TR is 5 turns and the payloads are 0-Spe.",
+  "  (web2 was the fifth candidate and was REMOVED at authoring time: the validator\n         found its Araquanid does not know Sticky Web, and no mon on that team does.\n         See the TODO note — the whole webs sub-family is affected.)",
+  "",
+  "SCHEMA",
+  "  lead        species to send at team preview (step 0 — this also kills the",
+  "              preview-maximin / T1-repudiation split at its source: one plan instead",
+  "              of maximin-then-override)",
+  "  steps       ordered; the FIRST step whose `when` holds and whose `do` is legal is",
+  "              the book's suggestion. No match = MCTS, unchanged.",
+  "  when        ALL keys must hold. Vocabulary is deliberately tiny and every key is",
+  "              checkable against a poke-env Battle:",
+  "                active        our active species (normalized id)",
+  "                max_turn      battle.turn <= n",
+  "                field_up      one of: snow/sun/rain/sand/electricterrain/",
+  "                              grassyterrain/psychicterrain/trickroom/screens",
+  "                field_down    same vocabulary, negated",
+  "                hp_at_least   our active's hp fraction >= x",
+  "                unused        this move has not yet been used by us this battle",
+  "  do          move id, or 'switch <species>'",
+  "  why         human-facing rationale. Never parsed.",
+  "",
+  "REVIEW RULE: every `do` must be a move the team actually carries (or a switch to a",
+  "mon it actually has) — a step naming a move nobody has is a silent no-op, which is",
+  "the quietest possible way for this file to be useless. tests/test_opening_book.py",
+  "cross-checks every step against the paste.",
+  "",
+  "OCTOBER CAVEAT: scripts are scoutable. Fine against non-adapting bots; revisit",
+  "before qualifying."
+ ],
+ "books": {
+  "snow1_ninetalesalola": {
+   "lead": "ninetalesalola",
+   "steps": [
+    {
+     "when": {
+      "active": "ninetalesalola",
+      "unused": "auroraveil",
+      "field_up": "snow"
+     },
+     "do": "auroraveil",
+     "why": "Snow Warning sets snow on entry, and Aurora Veil is ILLEGAL without it — so this is the one turn the whole team is built around. Light Clay makes it 8 turns; every later step spends them."
+    },
+    {
+     "when": {
+      "active": "ninetalesalola",
+      "field_up": "screens",
+      "max_turn": 6
+     },
+     "do": "encore",
+     "why": "veil is up and its job is done; Encore locks the opponent's answer so the payload gets a free entry rather than a predicted one."
+    },
+    {
+     "when": {
+      "field_up": "screens",
+      "hp_at_least": 0.99,
+      "active": "cetitan"
+     },
+     "do": "bellydrum",
+     "why": "Belly Drum FAILS at or below 50% HP and costs half, so it must happen at full HP behind the veil — the veil is what makes surviving the drop survivable."
+    }
+   ]
+  },
+  "eterr1_pincurchin": {
+   "lead": "pincurchin",
+   "steps": [
+    {
+     "when": {
+      "active": "pincurchin",
+      "unused": "spikes",
+      "max_turn": 3
+     },
+     "do": "spikes",
+     "why": "Electric Surge already set the terrain on entry, so turn 1 is free for the hazard this team otherwise has no setter for."
+    },
+    {
+     "when": {
+      "active": "pincurchin",
+      "field_up": "electricterrain",
+      "hp_at_least": 0.01,
+      "max_turn": 8
+     },
+     "do": "memento",
+     "why": "Pincurchin's job is done once terrain and Spikes are up; Memento halves the opponent's attack AND hands Hawlucha the free entry its Seed plan needs."
+    },
+    {
+     "when": {
+      "active": "hawlucha",
+      "field_up": "electricterrain"
+     },
+     "do": "swordsdance",
+     "why": "the Seed has already been consumed on entry, so Unburden has doubled Speed and Acrobatics is item-less and doubled — this is the turn the sweep is set up, not the turn it starts."
+    }
+   ]
+  },
+  "ho1_grimmsnarl_screens": {
+   "lead": "grimmsnarl",
+   "steps": [
+    {
+     "when": {
+      "active": "grimmsnarl",
+      "unused": "reflect",
+      "max_turn": 2
+     },
+     "do": "reflect",
+     "why": "Prankster gives it +1 priority, so it lands before the opponent acts. Physical first: the sweepers behind it are frailer physically."
+    },
+    {
+     "when": {
+      "active": "grimmsnarl",
+      "unused": "lightscreen",
+      "max_turn": 4
+     },
+     "do": "lightscreen",
+     "why": "the second half of the window. Light Clay makes both 8 turns, which is the entire resource this team plays for."
+    },
+    {
+     "when": {
+      "active": "grimmsnarl",
+      "field_up": "screens"
+     },
+     "do": "partingshot",
+     "why": "screens are up and Grimmsnarl has nothing left to add; Parting Shot drops both attacking stats AND pivots a sweeper in for free — the safest possible entry."
+    }
+   ]
+  },
+  "troom1_hatt_ursaluna": {
+   "lead": "hatterene",
+   "steps": [
+    {
+     "when": {
+      "active": "hatterene",
+      "unused": "trickroom",
+      "max_turn": 3
+     },
+     "do": "trickroom",
+     "why": "the round-3 diagnostic that greenlit this file: troom1 floored at 28.6% while semi-TR troom2 topped the table, so the engine is not finding this line on its own."
+    },
+    {
+     "when": {
+      "active": "cresselia",
+      "unused": "trickroom",
+      "field_down": "trickroom",
+      "max_turn": 12
+     },
+     "do": "trickroom",
+     "why": "Cresselia is the backup setter; Mental Herb protects the attempt from Taunt exactly once."
+    },
+    {
+     "when": {
+      "field_up": "trickroom",
+      "active": "ursaluna"
+     },
+     "do": "facade",
+     "why": "under the room Ursaluna moves FIRST, and Guts Facade is why the team accepted a 0-Spe payload at all. The room is 5 turns; spend them attacking."
+    }
+   ]
+  }
+ }
+}
