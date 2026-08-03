@@ -230,6 +230,37 @@ def test_the_dossier_shows_joint_sets_not_just_marginals(doc):
     assert util and "Toxic" in util[0]
 
 
+def test_dossier_shows_what_this_opponent_actually_does(doc):
+    """A set's prevalence is a property of the FORMAT, the ELO and the
+    PLAYER, not of the species — SubProtect Gliscor is 7% in gen9 OU, 17.6%
+    in monotype Ground at 1500 and 8.6% by 1630. Against a known opponent the
+    observed counts settle it, and the book had been feeding the translator
+    since forever while the model was never shown it."""
+    from types import SimpleNamespace as NS
+    from showdown.overlay import OverlayShadow
+    sh = OverlayShadow.__new__(OverlayShadow)
+    sh.roles = doc["roles"]
+    sh._dossiers = {}
+
+    def mon(sp):
+        return NS(species=sp, moves={}, item="x", ability="y")
+
+    b = NS(battle_tag="t", opponent_username="richwoman",
+           team={"a": mon("Kingambit")},
+           opponent_team={k: mon(v) for k, v in zip("abcdef", (
+               "Gliscor", "Ting-Lu", "Darkrai", "Gholdengo", "Primarina",
+               "Zapdos"))})
+    d = sh._dossier(b)
+    assert "SEEN from this opponent" in d
+    # an unknown opponent must degrade silently to the meta prior
+    b2 = NS(battle_tag="t2", opponent_username="nobody-we-know",
+            team={"a": mon("Kingambit")},
+            opponent_team={"a": mon("Gliscor")})
+    d2 = sh._dossier(b2)
+    assert "SEEN from this opponent" not in d2
+    assert "usually:" in d2
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))

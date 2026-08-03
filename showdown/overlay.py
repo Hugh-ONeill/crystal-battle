@@ -224,6 +224,8 @@ class OverlayShadow:
             if e:
                 lines.extend("  " + ln for ln in _entry_lines(sp, e))
         lines.append("=== THEIR PREVIEW (roles knowledge) ===")
+        rkey = "|".join(sorted(_norm(m.species)
+                               for m in battle.opponent_team.values()))
         their = []
         for mon in battle.opponent_team.values():
             sp = _norm(mon.species)
@@ -233,12 +235,64 @@ class OverlayShadow:
             prior = self._usage_prior(sp)
             if prior:
                 lines.append(prior)
+            lines.extend(self._book_lines(battle, sp, rkey))
         lines.extend(self._team_level(battle, their))
         d = "\n".join(lines)
         if len(self._dossiers) > 8:        # one-game-per-process anyway
             self._dossiers.clear()
         self._dossiers[tag] = d
         return d
+
+    _book_cache = None
+
+    @classmethod
+    def _book_lines(cls, battle, species: str, roster_key: str = ""):
+        """What THIS opponent has actually been seen doing with this species.
+
+        Strictly better than the meta prior when it exists: a set's real
+        prevalence is a property of the FORMAT, the ELO and the PLAYER, not
+        of the species (SubProtect Gliscor is 7% in gen9 OU, 17.6% in
+        monotype Ground at 1500 and 8.6% by 1630 — the same mon three
+        times). Against a known opponent the observed counts settle it, and
+        bots in particular run stable sets. The book fed the translator's
+        tier-0 inference from the start; the model was never shown it.
+
+        Prefers the PER-ROSTER record — the same species on a different team
+        of theirs is a different set (richwoman runs three distinct Ting-Lu
+        builds) — and falls back to their species-level blend.
+        """
+        try:
+            if cls._book_cache is None:
+                import json as _j
+                cls._book_cache = _j.loads(
+                    (HERE / "scouting_book.json").read_text())
+            prof = cls._book_cache.get(
+                getattr(battle, "opponent_username", "") or "")
+            if not prof:
+                return []
+            sets = {}
+            if roster_key:
+                sets = (prof.get("sets_by_roster") or {}).get(roster_key) or {}
+            if not sets:
+                sets = prof.get("sets") or {}
+            entry = next((v for k, v in sets.items() if _norm(k) == species),
+                         None)
+            if not entry:
+                return []
+            mv = sorted((entry.get("moves") or {}).items(),
+                        key=lambda kv: -kv[1])[:5]
+            it = sorted((entry.get("items") or {}).items(),
+                        key=lambda kv: -kv[1])[:2]
+            if not mv:
+                return []
+            games = prof.get("games", 0)
+            out = ("    SEEN from this opponent (" + str(games) + " games): "
+                   + ", ".join(f"{m} x{c}" for m, c in mv))
+            if it:
+                out += " | " + ", ".join(f"{i} x{c}" for i, c in it)
+            return [out]
+        except Exception:
+            return []
 
     _ps_cache = None
 
