@@ -397,7 +397,8 @@ while [ "$lane" -le "$LANES" ]; do
     LANE_DRY=0   # consecutive games this lane finished with no decision
     while g=$(next_game); do
       cd "$CB"   # each iteration starts from a known cwd (we cd to $FP below)
-      DEC_BEFORE=$(grep -c '^INFO     Winner:' "$FP_LOG" 2>/dev/null || echo 0)
+      DEC_BEFORE=$(grep -c '^INFO     Winner:' "$FP_LOG" 2>/dev/null)
+      DEC_BEFORE=${DEC_BEFORE:-0}
       if [ -n "$AB_ENV" ]; then
         # pairs share a team; odd = arm A, even = arm B
         ridx=$(( (g + 1) / 2 ))
@@ -481,7 +482,8 @@ while [ "$lane" -le "$LANES" ]; do
       # ate 231 of 400 games to produce 58 decisions. Stop pulling work once a
       # lane has gone this dry — the other lanes finish the series instead of
       # the queue draining into a black hole.
-      DEC_AFTER=$(grep -c '^INFO     Winner:' "$FP_LOG" 2>/dev/null || echo 0)
+      DEC_AFTER=$(grep -c '^INFO     Winner:' "$FP_LOG" 2>/dev/null)
+      DEC_AFTER=${DEC_AFTER:-0}
       if [ "${DEC_AFTER:-0}" -gt "${DEC_BEFORE:-0}" ]; then
         LANE_DRY=0
       else
