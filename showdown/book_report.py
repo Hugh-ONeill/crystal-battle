@@ -29,13 +29,19 @@ def main(paths):
     if not rows:
         print("no shadow rows — was CB_OPENING_BOOK=shadow set?")
         return 1
+    # group by battle_tag: bench lanes append to one log concurrently, so
+    # positional grouping would mix games together. Rows without a tag (unit
+    # tests, single-game runs) fall back to lead-delimited grouping.
     games = collections.defaultdict(list)
-    for i, r in enumerate(rows):
-        # a lead row (turn 0) opens a new game
-        if r.get("kind") == "lead" or not games:
-            games[len(games)].append(r)
-        else:
-            games[len(games) - 1].append(r)
+    if any(r.get("battle") for r in rows):
+        for r in rows:
+            games[r.get("battle")].append(r)
+    else:
+        for r in rows:
+            if r.get("kind") == "lead" or not games:
+                games[len(games)].append(r)
+            else:
+                games[len(games) - 1].append(r)
 
     n = len(games)
     per_team = collections.Counter()

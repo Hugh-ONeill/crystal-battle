@@ -1203,7 +1203,7 @@ class Gen9PokeEnginePlayer(Player):
                     self._book.identify(
                         self._team_reload_path,
                         [m.species for m in battle.team.values()])
-                    self._book.observe_lead(lead)
+                    self._book.observe_lead(lead, battle)
                 except Exception:
                     pass
             self._airi_new_battle(

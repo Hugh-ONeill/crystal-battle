@@ -188,7 +188,7 @@ class OpeningBook:
 
     # ---- shadow instrumentation ---------------------------------------
 
-    def observe_lead(self, chosen) -> dict | None:
+    def observe_lead(self, chosen, battle=None) -> dict | None:
         """The once-per-game decision, logged separately from the steps.
 
         Kept distinct because it is not comparable to them: there is no
@@ -203,6 +203,7 @@ class OpeningBook:
             return None
         entry = {
             "team": self._team_key, "turn": 0, "kind": "lead",
+            "battle": getattr(battle, "battle_tag", None),
             "book": want, "mcts": _norm(chosen) if chosen else None,
             "agree": chosen is not None and _norm(chosen) == _norm(want),
         }
@@ -251,6 +252,7 @@ class OpeningBook:
                 break
         entry = {
             "team": self._team_key,
+            "battle": getattr(battle, "battle_tag", None),
             "turn": battle.turn,
             "book": step["do"],
             "mcts": top.move_choice,
@@ -266,11 +268,16 @@ class OpeningBook:
         return entry
 
     def dump(self, path):
+        """Append this battle's rows. Bench lanes share one log, so rows are
+        tagged with battle_tag rather than grouped by position, and the whole
+        battle goes out in ONE write — interleaved multi-line appends from
+        parallel lanes would otherwise scramble the per-game statistic that
+        is the point of the measurement."""
         if not self.log:
             return
+        blob = "".join(json.dumps(row) + "\n" for row in self.log)
         with open(path, "a") as f:
-            for row in self.log:
-                f.write(json.dumps(row) + "\n")
+            f.write(blob)
         self.log.clear()
 
 
