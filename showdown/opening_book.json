@@ -223,6 +223,37 @@
      "why": "under sun Growth raises BOTH attacking stats by two stages instead of one, and Chlorophyll has already doubled Venusaur's Speed — so this single turn is worth two boosts and a speed tier. Outside sun it is worth neither, which is the whole argument for leading Torkoal."
     }
    ]
+  },
+  "psytr1_indeedee_room": {
+   "lead": "indeedee",
+   "steps": [
+    {
+     "when": {
+      "active": "indeedee",
+      "unused": "trickroom",
+      "max_turn": 3
+     },
+     "do": "trickroom",
+     "why": "Psychic Surge sets the terrain ON ENTRY, so turn 1 costs nothing and is free for the second resource. Terrain Extender makes it 8 turns against Trick Room's 5, so the priority block OUTLASTS the room and covers a second setup — which is the whole reason this pairing exists: Trick Room inverts speed, and priority is the one thing that ignores the inversion."
+    },
+    {
+     "when": {
+      "active": "indeedee",
+      "field_up": "trickroom",
+      "max_turn": 6
+     },
+     "do": "encore",
+     "why": "the room is running and Indeedee has nothing left to add; Encore locks the opponent's answer so a 0-Spe payload gets a free entry rather than a predicted one."
+    },
+    {
+     "when": {
+      "active": "ursaluna",
+      "field_up": "trickroom"
+     },
+     "do": "facade",
+     "why": "under the room Ursaluna moves FIRST, and Guts Facade is why a 0-Spe payload was acceptable. Psychic Terrain is what stops it being revenge-killed by priority, which is how slow sweepers normally die."
+    }
+   ]
   }
  }
 }
