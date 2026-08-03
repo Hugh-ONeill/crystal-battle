@@ -404,7 +404,18 @@ while [ "$lane" -le "$LANES" ]; do
         idx=$(( (ridx - 1) % N_TEAMS + 1 ))
         OUR_TEAM=$(ls "$SUITE_DIR"/*.txt | sort | sed -n "${idx}p")
         if [ "$FP_N_TEAMS" -gt 0 ]; then
-          fidx=$(( (ridx - 1) % FP_N_TEAMS + 1 ))
+          # BOTH indices used to advance on ridx, so the (ours, theirs) pair
+          # cycled with period lcm(N, FP_N) and only lcm-many DISTINCT
+          # matchups were ever played — not N x FP_N. Whenever the two counts
+          # share a factor the suite silently collapses: the 2026-08-03 webs
+          # screen was 4 x 8, so each of our teams met just TWO of foul-play's
+          # eight and its 320 games could not be compared with round 3, where
+          # 15 x 8 is coprime and every pair occurred. Advance theirs only
+          # after a full cycle of ours, which enumerates the cross product.
+          pair=$(( (ridx - 1) % (N_TEAMS * FP_N_TEAMS) ))
+          idx=$(( pair % N_TEAMS + 1 ))
+          OUR_TEAM=$(ls "$SUITE_DIR"/*.txt | sort | sed -n "${idx}p")
+          fidx=$(( pair / N_TEAMS % FP_N_TEAMS + 1 ))
           FP_SRC=$(ls "$FP_SUITE_DIR"/*.txt | sort | sed -n "${fidx}p")
           BASE="G${g}_$(basename "$OUR_TEAM" .txt)_vs_$(basename "$FP_SRC" .txt)"
           cp "$FP_SRC" "$FP/teams/teams/gen9/ou/suite/$BASE"
