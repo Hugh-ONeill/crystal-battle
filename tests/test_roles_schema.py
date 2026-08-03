@@ -191,6 +191,31 @@ def test_ability_cited_by_name_resolves(doc):
         assert sh._rule_resolves(f"{sp}.{k}")
 
 
+def test_usage_citations_resolve_now_that_the_dossier_carries_them(doc):
+    """`X.moves` and `X.item` were the model's TOP unresolved citations for
+    weeks (ragingbolt.item 23, blissey.moves 21, greattusk.moves 15). They
+    are not roles fields, but the dossier now carries a per-species usage
+    prior, so they reference something real and must be honoured."""
+    from showdown.overlay import OverlayShadow
+    sh = OverlayShadow.__new__(OverlayShadow)
+    sh.roles = doc["roles"]
+    assert sh._rule_resolves("ragingbolt.item")
+    assert sh._rule_resolves("blissey.moves")
+    # a species with no chaos entry still cannot be cited
+    assert not sh._rule_resolves("notapokemon.moves")
+    # and an invented field is still rejected
+    assert not sh._rule_resolves("gliscor.nonsense")
+
+
+def test_the_usage_prior_is_deflation_corrected(doc):
+    """Raw chaos shares understate by ~2x; Gliscor is 99% Toxic Orb, not 45%."""
+    from showdown.overlay import OverlayShadow
+    line = OverlayShadow._usage_prior("gliscor")
+    assert line and "toxicorb" in line
+    pct = int(line.split("toxicorb")[1].split("%")[0].strip())
+    assert pct >= 90, f"expected a corrected share, got {pct}%"
+
+
 if __name__ == "__main__":
     import sys
     sys.exit(pytest.main([__file__, "-q"]))

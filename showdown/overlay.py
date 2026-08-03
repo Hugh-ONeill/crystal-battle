@@ -143,6 +143,10 @@ SYSTEM = (
     "exactly as shown in the team knowledge (e.g. 'kingambit.value_curve', "
     "'ceruledge.entry_condition') — invented rule names are discarded "
     "mechanically, so a flag without a real citation is wasted output. "
+    "A `usually:` line under an opposing species gives its TYPICAL moves and "
+    "items with usage shares — use it to judge whether a world's assumed set "
+    "is plausible or off-meta, which is exactly what your weights express; "
+    "cite it as '<species>.moves' or '<species>.item'. "
     "An `engine_blind` line on a species means THE SEARCH ITSELF CANNOT "
     "MODEL that mechanic, so every world's numbers are confidently wrong "
     "about it — weigh that far above anything the visit counts say. "
@@ -222,12 +226,49 @@ class OverlayShadow:
             their.append(sp)
             e = self.roles.get(sp)
             lines.extend(_entry_lines(sp, e) if e else [f"{sp}: (no entry)"])
+            prior = self._usage_prior(sp)
+            if prior:
+                lines.append(prior)
         lines.extend(self._team_level(battle, their))
         d = "\n".join(lines)
         if len(self._dossiers) > 8:        # one-game-per-process anyway
             self._dossiers.clear()
         self._dossiers[tag] = d
         return d
+
+    _chaos_cache = None
+
+    @classmethod
+    def _usage_prior(cls, species: str, n_moves: int = 5, n_items: int = 3):
+        """What this species TYPICALLY runs, as a one-line prior.
+
+        The dossier already shows each world's ASSUMED set, but never what is
+        normal — so the model could see "world 0 says Choice Band, world 1
+        says Toxic Orb" with no way to judge which is plausible, which is
+        exactly the judgement its only lever (world_weights) requires. This
+        is the missing half, and it was the model's own standing request:
+        per-species `moves` and `item` were the top UNRESOLVED citations for
+        weeks (ragingbolt.item 23, blissey.moves 21, greattusk.moves 15).
+
+        Shares are DEFLATION-CORRECTED — this chaos dump's weighted counts run
+        0.35-0.67 of Raw count per species, identically across the item,
+        ability and move axes, so raw shares understate everything by ~2x.
+        """
+        try:
+            if cls._chaos_cache is None:
+                from showdown.chaos_stats import ChaosStats
+                cls._chaos_cache = ChaosStats(format="gen9ou")
+            st = cls._chaos_cache.pokemon.get(species)
+            if st is None:
+                return None
+            items = sorted(st._items.items(), key=lambda kv: -kv[1])[:n_items]
+            moves = sorted(st._moves.items(), key=lambda kv: -kv[1])[:n_moves]
+            tot_i = sum(st._items.values()) or 1
+            mv = ", ".join(f"{m} {p / tot_i:.0%}" for m, p in moves)
+            it = ", ".join(f"{i} {p / tot_i:.0%}" for i, p in items)
+            return f"  usually: {mv} | {it}"
+        except Exception:
+            return None
 
     def _team_level(self, battle, their: list[str]) -> list[str]:
         """Team-derived knowledge no per-species entry can carry.
@@ -653,7 +694,15 @@ class OverlayShadow:
         # output on a naming convention it was never told.
         named = {_norm(e.get("ability") or "")} | {
             _norm(k) for k in (e.get("ability_split") or {})}
-        return parts[1] in named - {""}
+        if parts[1] in named - {""}:
+            return True
+        # `X.moves` / `X.item` were the model's TOP unresolved citations for
+        # weeks. They are not roles fields — but as of 2026-08-03 the dossier
+        # carries a per-species usage prior ("usually: ... | ..."), so those
+        # citations now reference something real and are honoured.
+        if parts[1] in ("moves", "move", "item", "items", "usage"):
+            return self._usage_prior(parts[0]) is not None
+        return False
 
     def _flips(self, llm_weights, results, engine_choice) -> dict:
         from showdown.gen9_player import _merge_mcts_results
