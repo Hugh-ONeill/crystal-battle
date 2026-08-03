@@ -1024,7 +1024,10 @@ class Gen9PokeEnginePlayer(Player):
         # `lead` applies the book's lead at preview and nothing else — the
         # nested arm 1. Steps stay unapplied: they are conditioned on the line
         # having been entered, so they only become measurable once the lead is.
-        self._book_apply_lead = book_mode() in ("lead", "weighted", "scripted")
+        self._book_apply_lead = book_mode() in ("lead", "open", "scripted")
+        # steps only apply in the full-book modes; `lead` stays available as
+        # the documented half-plan that this campaign measured and rejected
+        self._book_apply_steps = book_mode() in ("open", "scripted")
         self._preview_search_ms = preview_search_ms
         self._stall_mode = stall_mode
         # >1: search that many sampled opponent-set worlds per turn and merge
@@ -1843,7 +1846,25 @@ class Gen9PokeEnginePlayer(Player):
         # decide whether `weighted` or `scripted` is even worth an A/B.
         if self._book is not None and ranked:
             try:
-                self._book.observe(battle, ranked)
+                entry = self._book.observe(battle, ranked)
+                # APPLYING the book: the lead alone is a HALF-PLAN. Measured
+                # 2026-08-03 — with only the lead forced, arm B still switched
+                # straight back out on turn 1 in 46% of games, so we paid a
+                # free turn and got no setup. Every team's step 0 IS the
+                # turn-1 move that justifies leading that mon (Reflect,
+                # Spikes, Trick Room, Stealth Rock, Aurora Veil), so the
+                # smallest coherent unit is lead + steps, not lead alone.
+                if self._book_apply_steps and entry is not None:
+                    step = self._book.suggest(battle)
+                    order = self._book_order(battle, step) if step else None
+                    if order is not None:
+                        self._book.note_applied(battle, step["do"], entry)
+                        if self._verbose:
+                            print(f"  T{battle.turn} BOOK plays {step['do']} "
+                                  f"(search wanted {entry['mcts']}, "
+                                  f"margin {entry.get('margin')})")
+                        self._book.note_used(step["do"])
+                        return order
             except Exception:
                 pass    # instrumentation must never cost a move
         if self._dump_states_path is not None and ranked and self._dump_state_str:
@@ -2550,6 +2571,27 @@ class Gen9PokeEnginePlayer(Player):
         self._bank_used_s += time.monotonic() - t0
         self._last_escalate_turn = battle.turn
         return deep
+
+    def _book_order(self, battle, step):
+        """Map a book step to a legal order, or None if it is not available.
+
+        Deliberately does NOT go through _map_choice: that picks by visit
+        count, so reordering would not force the choice, and inflating the
+        book entry's visits would corrupt the numbers the choice log and
+        loss_trace parse back out.
+        """
+        do = str(step.get("do", ""))
+        if do.startswith("switch "):
+            want = _normalize(do[7:])
+            for p in battle.available_switches:
+                if _normalize(p.species) == want:
+                    return self.create_order(p)
+            return None
+        want = _normalize(do)
+        for m in battle.available_moves:
+            if _normalize(m.id) == want:
+                return self.create_order(m)
+        return None
 
     def _map_choice(self, ranked, battle):
         """Collect every legal engine choice, then pick: probabilistic among

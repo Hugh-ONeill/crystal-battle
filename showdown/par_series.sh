@@ -118,6 +118,14 @@ case "$FP_SUITE_DIR" in
   *) FP_SUITE_DIR="$CB_ABS/$FP_SUITE_DIR" ;;
 esac
 
+# Username collision guard (2026-08-03). Worker names are fixed strings, so
+# a run that is killed mid-flight leaves the SERVER holding that name's battle
+# and the next run's worker re-joins the stale game on login instead of
+# starting a fresh one — observed live: two smoke runs in a row silently
+# joined battle-gen9ou-17908 and never reached turn 1. Setting
+# CB_BENCH_TAG=<short> gives a run its own namespace without touching anyone
+# else's server or processes. Default empty = names unchanged.
+UTAG="${CB_BENCH_TAG:-}"
 export PYTHONUNBUFFERED=1
 CB=/home/wiz/Developer/grimoire/crystal-battle
 FP=/home/wiz/Developer/grimoire/foul-play
@@ -318,7 +326,7 @@ while [ "$lane" -le "$LANES" ]; do
     OURS_LOG="$CB/showdown/bench/${NAME}_L${lane}_ours.log"
     FP_LOG="$CB/showdown/bench/${NAME}_L${lane}_foulplay.log"
     : > "$FP_LOG"
-    THEM="FPSpar1L${lane}"
+    THEM="FPSpar1${UTAG}L${lane}"
     if [ -n "$AB_ENV" ]; then
       : > "$CB/showdown/bench/${NAME}_L${lane}A_ours.log"
       : > "$CB/showdown/bench/${NAME}_L${lane}B_ours.log"
@@ -350,7 +358,7 @@ while [ "$lane" -le "$LANES" ]; do
           echo "resp=$RESP"
           echo "log=$W_LOG"
           for kv in $W_ENV; do echo "env $kv"; done
-          for tok in --local --username "CBGen9L${lane}${arm}" --mode accept \
+          for tok in --local --username "CBGen9${UTAG}L${lane}${arm}" --mode accept \
               --format gen9ou --team "$W_TEAM" --team-reload on \
               --search-ms "${CB_SEARCH_MS:-300}" \
               $CB_CAPS --n-games 999 --log-level 20; do
@@ -366,7 +374,7 @@ while [ "$lane" -le "$LANES" ]; do
         eval "OURS_PID_${arm:-A}=\$(cat \"$RESP\" 2>/dev/null)"
       else
         env $W_ENV .venv/bin/python showdown/gen9_player.py --local \
-            --username "CBGen9L${lane}${arm}" \
+            --username "CBGen9${UTAG}L${lane}${arm}" \
             --mode accept --format gen9ou --team "$W_TEAM" --team-reload on \
             --search-ms "${CB_SEARCH_MS:-300}" \
             $CB_CAPS --n-games 999 --log-level 20 \
@@ -395,7 +403,7 @@ while [ "$lane" -le "$LANES" ]; do
       else
         ridx=$g; ARM=""
       fi
-      US="CBGen9L${lane}${ARM}"
+      US="CBGen9${UTAG}L${lane}${ARM}"
       LANE_TEAM="$CB/showdown/bench/${NAME}_L${lane}${ARM}.team"
       CUR_LOG="$CB/showdown/bench/${NAME}_L${lane}${ARM}_ours.log"
       if [ "$N_TEAMS" -gt 0 ]; then

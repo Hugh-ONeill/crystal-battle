@@ -221,6 +221,16 @@ class OpeningBook:
             "was": was, "now": _norm(now), "maximin_rank": rank,
         })
 
+    def note_applied(self, battle, do, entry):
+        """Record that the book actually PLAYED a step, with the margin it
+        overrode — the ablation data for deciding which steps earned it."""
+        self.log.append({
+            "team": self._team_key, "kind": "step_applied",
+            "battle": getattr(battle, "battle_tag", None),
+            "turn": getattr(battle, "turn", None), "book": do,
+            "overrode": entry.get("mcts"), "margin": entry.get("margin"),
+        })
+
     def note_used(self, played: str):
         """Record a move we actually played, so `unused` steps retire.
 
