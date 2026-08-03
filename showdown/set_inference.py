@@ -17,17 +17,27 @@
 #     which also captures slower spreads and rare speed-drop items (Iron
 #     Ball, Macho Brace) without guessing which one it is. Floors win over
 #     ceilings when observations conflict.
-#   - DAMAGE BRACKETS: a non-crit, boost-free, non-tera hit that exceeds the
-#     modeled set's MAXIMUM roll by >15% proves a boosting item. The WEAKEST
-#     item that explains the hit is chosen: Life Orb (1.3x, boosts both
-#     categories) up to ~1.38x over max roll, Choice Band/Specs beyond.
+#   - DAMAGE BRACKETS: a non-crit, boost-free, non-tera hit that exceeds a
+#     MAX-INVESTED attacker's maximum roll by >15% proves a boosting item.
+#     The WEAKEST item that explains the hit is chosen: Life Orb (1.3x,
+#     boosts both categories) up to ~1.38x, Choice Band/Specs beyond. The
+#     denominator is max investment, NOT our canonical-spread guess: an
+#     attacker invests in Atk or SpA as a matter of course, and billing that
+#     to an item branded 28-99% of sets Choice-locked for free.
 #
 # Observations only ever apply to inferred details — revealed items are
 # never overridden.
 
 from __future__ import annotations
 
+import os
+
 import poke_engine as pe
+
+# Measure damage-bracket ratios against a max-invested attacker rather than
+# our canonical-spread guess. Default ON: it removes a false certainty rather
+# than sharpening an estimate. "0" restores the old denominator.
+_INVESTED_DENOM = os.environ.get("CB_DAMAGE_INVESTED", "1") != "0"
 
 _DAMAGING = ("Physical", "Special")
 
@@ -685,7 +695,10 @@ class BattleObservations:
 
     def _observed_ratio(self, ev: dict, opp_mon: pe.Pokemon,
                         our_mons: dict) -> float | None:
-        """observed damage / modeled max roll for one observation."""
+        """observed damage / modeled max roll for one observation.
+
+        `opp_mon` should be the MAX-INVESTED probe, not the canonical-spread
+        one — see damage_item_upgrade for why."""
         our = our_mons.get(ev["our_species"])
         if our is None:
             return None
@@ -711,24 +724,58 @@ class BattleObservations:
 
     def damage_item_upgrade(self, species: str, opp_mon: pe.Pokemon,
                             our_mons: dict[str, pe.Pokemon],
-                            known_moves: tuple[str, ...] = ()) -> str | None:
+                            known_moves: tuple[str, ...] = (),
+                            invested_probe: pe.Pokemon | None = None) -> str | None:
         """Weakest damage-boosting item consistent with ALL observations.
 
-        Ratio brackets over the modeled max roll: >1.38 -> Choice Band/Specs
-        (1.5x); 1.15-1.38 -> Life Orb (1.3x), unless the boost is confined to
-        one move type while another damaging type reads clean (<=1.05), in
-        which case a 1.2x type item is inferred. Expert Belt and Booster
-        Energy land in the Life Orb bracket and are modeled as it — the
-        damage multiplier is what the search needs, not the item's name.
+        Ratio brackets over the max roll: >1.38 -> Choice Band/Specs (1.5x);
+        1.15-1.38 -> Life Orb (1.3x), unless the boost is confined to one
+        move type while another damaging type reads clean (<=1.05), in which
+        case a 1.2x type item is inferred. Expert Belt and Booster Energy
+        land in the Life Orb bracket and are modeled as it — the damage
+        multiplier is what the search needs, not the item's name.
+
+        CHEAPEST EXPLANATION FIRST (2026-08-03). Those thresholds are derived
+        from ITEM multipliers, so they only mean what they claim when the
+        denominator is THE SAME MON HOLDING NOTHING. It used to be the max
+        roll of our CANONICAL-SPREAD guess, which conflates two different
+        errors: "they hold an item" and "they invested where my guess did
+        not". The second is far more common — any mon meant to attack is
+        invested in Atk or SpA — so the ratio was measuring our spread error
+        and billing it to an item.
+
+        How wrong: across the 392 (set, attacking-stat) pairs in the gen9ou
+        curated corpus, investment ALONE clears the Life Orb bracket for
+        68.9% and the CHOICE bracket for 57.9%. Restricted to stats a set
+        actually attacks with it is 46.9% / 28.1%; for a category the
+        canonical set does not invest in at all — a coverage move, or simply
+        an offensive variant of a mon we model defensively — it is 99.4%,
+        i.e. a guaranteed false Choice brand. And when there is no canonical
+        set at all the fallback spread (31 IV / 85 EV / neutral) sits a
+        median 1.32x below max investment, so a plain Life Orb attacker
+        reads 1.71x and gets branded Choice Band.
+
+        The fix is the one the Speed path already uses (max_speed_suffices):
+        exhaust the free explanation before claiming an item. `invested_probe`
+        is the same Pokemon with Atk/SpA/Def at 252 EV / 31 IV / +nature, and
+        only damage exceeding THAT needs an item to explain it. The brackets
+        are unchanged and are now correct rather than merely calibrated: a
+        genuine Band on a max-invested attacker still reads 1.5x, a genuine
+        Orb still 1.3x. Maxing all three stats at once is EV-illegal, but
+        only one is read per damage calc, so each read is a legal maximum;
+        Def is included so Body Press cannot sneak through the same hole.
+        Kill switch: CB_DAMAGE_INVESTED=0 restores the canonical denominator.
 
         `known_moves` gates the Choice bracket: a mon with a revealed status
         move is never branded Choice-locked, however hot the hit — the
         audited Gliscor game had a beyond-roll Knock Off (an invested
         spread, most likely) upgrade a Protect/Toxic mon to Choice Band in
-        every world for the rest of the game. Such hits fall through to the
-        Life Orb bracket: the multiplier is closer and it carries no
-        lock-in claim.
+        every world for the rest of the game. That gate was the band-aid over
+        this same bug and stays: it catches the sets whose revealed moves
+        prove no lock, while the invested denominator catches the rest.
         """
+        if invested_probe is not None and _INVESTED_DENOM:
+            opp_mon = invested_probe
         boosted: list[dict] = []
         clean: list[dict] = []
         for ev in self.damage_evidence:

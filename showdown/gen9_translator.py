@@ -1403,9 +1403,27 @@ class Gen9Translator:
                 ability=ability, base_ability=ability, item=item,
                 weight_kg=self._weight(species),
             )
+            # ...but MEASURE the ratio against a max-invested attacker. The
+            # brackets encode ITEM multipliers, so the denominator has to be
+            # this mon holding nothing; using the canonical spread instead
+            # billed ordinary EV investment to an item and branded a large
+            # share of the tier Choice-locked. See damage_item_upgrade.
+            def maxinv(stat: str) -> int:
+                return _calc_stat_modern(bs.get(stat, 80), 31, 252,
+                                         mon.level, 1.1, False)
+
+            invested = pe.Pokemon(
+                id=species, level=mon.level, hp=maxhp, maxhp=maxhp,
+                attack=maxinv("atk"), defense=maxinv("def"),
+                special_attack=maxinv("spa"), special_defense=calc("spd"),
+                speed=spe_stat, types=self._types(mon),
+                base_types=self._types(mon),
+                ability=ability, base_ability=ability, item=item,
+                weight_kg=self._weight(species),
+            )
             upgrade = self._obs.damage_item_upgrade(
                 species, probe, getattr(self, "_my_built", {}),
-                known_moves=known_move_ids)
+                known_moves=known_move_ids, invested_probe=invested)
             if upgrade:
                 item = upgrade
                 self._obs.confirmed[species] = upgrade

@@ -471,33 +471,64 @@ def test_speed_ceiling_clamps_modeled_speed():
     assert pult.speed < 298  # our Ninetales' speed from the request
 
 
-def test_damage_bracket_upgrades_item():
-    # a weak move (U-turn) hitting for 1.6x the modeled max roll fits within
-    # our HP (overkill damage is HP-censored, so strong moves can't prove a
-    # boost) -> Choice Band inferred from the protocol alone
+def _pelipper_max_rolls():
+    """(canonical-spread max roll, max-invested max roll) for one U-turn.
+
+    A weak move is used deliberately: overkill damage is HP-censored, so a
+    strong move can never prove a boost.
+    """
+    import poke_engine as pe
     from showdown.set_inference import BattleObservations
 
-    probe_b = make_battle()
-    probe_b.parse_message(["", "switch", "p2a: Pelipper", "Pelipper, M", "100/100"])
+    b = make_battle()
+    b.parse_message(["", "switch", "p2a: Pelipper", "Pelipper, M", "100/100"])
     tr = Gen9Translator(set_source="gen9ou")
-    probe_state = tr.translate(probe_b)
-    bird = _find(probe_state.side_two, "pelipper")
+    bird = _find(tr.translate(b).side_two, "pelipper")
     ev = {"species": "pelipper", "move": "uturn", "our_species": "ninetales",
           "weather": "none", "se": False, "damage": 100}
-    ratio = BattleObservations()._observed_ratio(ev, bird, tr._my_built)
-    max_roll = 100 / ratio
-    hit = int(max_roll * 1.6)
-    assert hit < 323  # must not be HP-censored
 
+    def roll(mon):
+        return 100 / BattleObservations()._observed_ratio(ev, mon, tr._my_built)
+
+    invested = pe.Pokemon(
+        id=bird.id, level=100, hp=bird.hp, maxhp=bird.maxhp,
+        attack=218, defense=218, special_attack=218,
+        special_defense=bird.special_defense, speed=bird.speed,
+        types=bird.types, base_types=bird.base_types, ability=bird.ability,
+        base_ability=bird.base_ability, item=bird.item,
+        weight_kg=bird.weight_kg)
+    return roll(bird), roll(invested)
+
+
+def _pelipper_after_hit(hit):
     b = make_battle()
     b.parse_message(["", "switch", "p2a: Pelipper", "Pelipper, M", "100/100"])
     b.parse_message(["", "turn", "1"])
     b.parse_message(["", "move", "p2a: Pelipper", "U-turn", "p1a: Ninetales"])
     b.parse_message(["", "-damage", "p1a: Ninetales", f"{323 - hit}/323"])
     b.parse_message(["", "turn", "2"])
-    state = Gen9Translator(set_source="gen9ou").translate(b)
-    bird = _find(state.side_two, "pelipper")
+    assert hit < 323, "HP-censored: the hit proves nothing"
+    return _find(Gen9Translator(set_source="gen9ou").translate(b).side_two,
+                 "pelipper")
+
+
+def test_damage_bracket_upgrades_item():
+    # 1.5x over a MAX-INVESTED no-item Pelipper is what a Band actually adds
+    _, invested_roll = _pelipper_max_rolls()
+    bird = _pelipper_after_hit(int(invested_roll * 1.5))
     assert bird.item == "choiceband"
+
+
+def test_investment_alone_does_not_upgrade_item():
+    # regression, 2026-08-03: this assertion used to be `== "choiceband"`.
+    # Pelipper's canonical set is the Damp Rock rain lead with 0 Atk EVs, so
+    # a max-invested variant hits 1.58x harder holding NOTHING — and the old
+    # denominator billed every point of that to an item. The hit here is the
+    # one the old test used, and it is 1.02x of what plain investment gives.
+    canon_roll, invested_roll = _pelipper_max_rolls()
+    assert invested_roll / canon_roll > 1.38, "premise broken"
+    bird = _pelipper_after_hit(int(canon_roll * 1.6))
+    assert bird.item != "choiceband", "EV investment branded as a Choice lock"
 
 
 def test_damage_bracket_tiers():
