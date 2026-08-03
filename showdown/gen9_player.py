@@ -1011,6 +1011,16 @@ class Gen9PokeEnginePlayer(Player):
             from showdown.overlay import OverlayShadow
             self._overlay = OverlayShadow()
         self._dump_state_str = None
+        # opening book: shadow mode records book-vs-search disagreement and
+        # applies nothing. `weighted`/`scripted` are not wired yet by design.
+        self._book = None
+        from showdown.opening_book import book_mode, OpeningBook
+        if book_mode() != "off":
+            try:
+                self._book = OpeningBook(mode=book_mode())
+            except Exception:
+                self._book = None
+        self._book_log_path = os.environ.get("CB_BOOK_LOG") or None
         self._preview_search_ms = preview_search_ms
         self._stall_mode = stall_mode
         # >1: search that many sampled opponent-set worlds per turn and merge
@@ -1183,6 +1193,19 @@ class Gen9PokeEnginePlayer(Player):
                 lead = list(battle.team.values())[lead_idx].species
             except Exception:
                 lead = None
+            # opening book, SHADOW: the LEAD is the book's highest-value entry
+            # and the only decision it makes exactly once per game, so it is
+            # logged separately from the per-turn steps. Identification is by
+            # roster, since the bench hands us a per-lane team file.
+            if self._book is not None:
+                try:
+                    self._book.reset()
+                    self._book.identify(
+                        self._team_reload_path,
+                        [m.species for m in battle.team.values()])
+                    self._book.observe_lead(lead)
+                except Exception:
+                    pass
             self._airi_new_battle(
                 battle, lead=lead,
                 preview_text=(self._team_paste or "") + "\n" + (opp_paste or ""))
@@ -1663,6 +1686,11 @@ class Gen9PokeEnginePlayer(Player):
     def _battle_finished_callback(self, battle):
         self._flush_desk_log(battle)
         self._log_inferred_items(battle)
+        if self._book is not None and self._book_log_path:
+            try:
+                self._book.dump(self._book_log_path)
+            except Exception:
+                pass
         if self._airi is None:
             return
         try:
@@ -1767,6 +1795,15 @@ class Gen9PokeEnginePlayer(Player):
                     ranked = applied
             except Exception:
                 pass
+        # opening book, SHADOW ONLY: records what the book would have played
+        # against what the search picked, and the visit-share margin between
+        # them. Applies nothing — the fire rate and the margins are what
+        # decide whether `weighted` or `scripted` is even worth an A/B.
+        if self._book is not None and ranked:
+            try:
+                self._book.observe(battle, ranked)
+            except Exception:
+                pass    # instrumentation must never cost a move
         if self._dump_states_path is not None and ranked and self._dump_state_str:
             self._dump_position(battle, ranked)
         if self._overlay is not None and ranked and not self._overlay_live:
@@ -2548,6 +2585,11 @@ class Gen9PokeEnginePlayer(Player):
                 self._desk_reads.setdefault(battle.battle_tag, []).append(
                     (battle.turn,
                      round(top.total_score / max(1, top.visits), 4)))
+            except Exception:
+                pass
+        if self._book is not None:
+            try:
+                self._book.note_used(desc)   # retires `unused` steps
             except Exception:
                 pass
         self._airi_turn_event(battle, ranked, desc)
