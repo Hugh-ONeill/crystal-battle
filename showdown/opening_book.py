@@ -210,6 +210,17 @@ class OpeningBook:
         self.log.append(entry)
         return entry
 
+    def note_lead_override(self, battle, was, now, rank):
+        """Record an applied lead override and how far down the search's own
+        maximin ranking it reached — the diagnostic that would explain a
+        regression, since a rank-6 override means overruling the search's
+        worst-rated lead."""
+        self.log.append({
+            "team": self._team_key, "turn": 0, "kind": "lead_override",
+            "battle": getattr(battle, "battle_tag", None),
+            "was": was, "now": _norm(now), "maximin_rank": rank,
+        })
+
     def note_used(self, played: str):
         """Record a move we actually played, so `unused` steps retire.
 

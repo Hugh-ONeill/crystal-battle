@@ -131,3 +131,37 @@ def test_reset_clears_used_moves_between_games():
     b.reset()
     b.identify(None, sorted(b._roster_index["sun1_torkoal"]))
     assert b.suggest(_battle(active="torkoal", turn=1))["do"] == "stealthrock"
+
+
+# ---- arm 1: applying the lead --------------------------------------------
+
+def test_lead_mode_is_recognised_as_applying():
+    import os
+    from showdown.opening_book import book_mode
+    for mode, applies in (("shadow", False), ("off", False),
+                          ("lead", True), ("scripted", True)):
+        os.environ["CB_OPENING_BOOK"] = mode
+        assert (book_mode() in ("lead", "weighted", "scripted")) is applies
+    os.environ.pop("CB_OPENING_BOOK", None)
+
+
+def test_override_row_records_the_rank_it_reached():
+    """A rank-6 override means overruling the search's WORST-rated lead; that
+    number is what would explain a regression, so it is logged."""
+    b = _sun()
+    b.note_lead_override(None, "hatterene", "Torkoal", 5)
+    row = b.log[-1]
+    assert row["kind"] == "lead_override"
+    assert row["was"] == "hatterene" and row["now"] == "torkoal"
+    assert row["maximin_rank"] == 5
+
+
+def test_book_lead_is_on_the_team_for_every_entry():
+    """An override naming a mon the team does not have is a silent no-op —
+    the same class of defect as a step naming a move nobody carries."""
+    b = OpeningBook()
+    for key in b.books:
+        want = b.books[key].get("lead")
+        assert want, f"{key} has no lead"
+        assert _norm(want) in b._roster_index[key], (
+            f"{key}: book leads {want}, not on the roster")

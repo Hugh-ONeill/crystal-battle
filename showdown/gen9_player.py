@@ -1021,6 +1021,10 @@ class Gen9PokeEnginePlayer(Player):
             except Exception:
                 self._book = None
         self._book_log_path = os.environ.get("CB_BOOK_LOG") or None
+        # `lead` applies the book's lead at preview and nothing else — the
+        # nested arm 1. Steps stay unapplied: they are conditioned on the line
+        # having been entered, so they only become measurable once the lead is.
+        self._book_apply_lead = book_mode() in ("lead", "weighted", "scripted")
         self._preview_search_ms = preview_search_ms
         self._stall_mode = stall_mode
         # >1: search that many sampled opponent-set worlds per turn and merge
@@ -1169,6 +1173,48 @@ class Gen9PokeEnginePlayer(Player):
                 pool = _lead_pool(matrix)
             if self._stochastic and len(pool) > 1:
                 lead_idx = self._choice_rng.choice(pool)
+            # OPENING BOOK, lead entry. Identification must happen here, not
+            # after the order is built, because the override needs it.
+            if self._book is not None:
+                try:
+                    self._book.reset()
+                    self._book.identify(
+                        self._team_reload_path,
+                        [m.species for m in battle.team.values()])
+                except Exception:
+                    pass
+            if self._book_apply_lead and self._book is not None:
+                # Shadow measured the search picking the book's lead in 20 of
+                # 200 games, and leading mons that CANNOT function yet —
+                # Walking Wake before sun exists, 0-Spe payloads before Trick
+                # Room. This is a hard override rather than a tie-break for
+                # exactly that reason: those leads are not in the near-tie
+                # pool to be broken toward, so a soft version would never
+                # fire. The maximin rank we are overriding is logged, since
+                # "how far down the search's own ranking did we reach" is the
+                # diagnostic that explains a regression if one comes.
+                try:
+                    want = self._book.lead()
+                    names = [_normalize(p.species)
+                             for p in battle.team.values()]
+                    if want and _normalize(want) in names:
+                        booked = names.index(_normalize(want))
+                        if booked != lead_idx:
+                            try:
+                                row_mins = [min(r) for r in matrix]
+                                rank = sorted(row_mins, reverse=True).index(
+                                    row_mins[booked]) + 1
+                            except Exception:
+                                rank = None
+                            if self._verbose:
+                                print(f"  preview: BOOK overrides lead "
+                                      f"{names[lead_idx]} -> {want} "
+                                      f"(maximin rank {rank}/6)")
+                            self._book.note_lead_override(
+                                battle, names[lead_idx], want, rank)
+                            lead_idx = booked
+                except Exception:
+                    pass
             order = _preview_order(lead_idx, 6)
             if self._verbose:
                 # full maximin ranking of OUR leads (matrix rows are in team-
@@ -1199,10 +1245,6 @@ class Gen9PokeEnginePlayer(Player):
             # roster, since the bench hands us a per-lane team file.
             if self._book is not None:
                 try:
-                    self._book.reset()
-                    self._book.identify(
-                        self._team_reload_path,
-                        [m.species for m in battle.team.values()])
                     self._book.observe_lead(lead, battle)
                 except Exception:
                     pass
