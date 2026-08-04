@@ -451,3 +451,353 @@ def _render(state, battle, obs, turn) -> str:
                    if getattr(p, "hp", 0) > 0]
         lines += _beliefs_lines(obs, species)
     return "\n".join(lines)
+
+
+# =========================================================================
+# CASTER RENDERING
+# =========================================================================
+# The sheet above is the REASONING register: normalized ids, and world-0's
+# sampled guesses printed beside the reveals so the shadow LLM can judge one
+# against the other. Neither property survives contact with the broadcast.
+#
+# Two consumers, two contracts. The shadow LLM WEIGHS a guess; the casters
+# ASSERT. A field labelled `assumed(world-0 sample)` is still a field a
+# character will say out loud, and the caster guard stack catches
+# fabrications, not laundered assumptions — measured live, PRISM announced a
+# Choice Scarf on their Slowking-Galar that no protocol line ever revealed,
+# reasoning from a speed number world-0 had sampled. So the caster rendering
+# COLLAPSES the assumed block: everything under `revealed:` is promoted to
+# plain fact, and the rest becomes an explicit statement of ignorance.
+#
+# That collapse is not only a safety measure. "Their item is still unknown"
+# is material PRISM has never had — his contract asks him to say "I don't
+# have numbers in front of me" rather than guess, and until now nothing in
+# the prompt told him WHICH things he didn't know.
+#
+# STATE ONLY, NEVER EVENTS. The beat text already narrates the exchange
+# ("Last exchange: ... knocked out ..."). A sheet that also rendered
+# last_used_move would hand the model two accounts of the same turn, and
+# where they disagreed the guards would have to arbitrate. The beat owns
+# what HAPPENED; the sheet owns what IS.
+
+# Weather and terrain in the SAME WORDS the beat footer uses (kept in sync
+# with crystal-broadcast's beat_director._WEATHER). The sheet and the beat
+# reach the model in one prompt: two names for one condition is a
+# contradiction the caster has to resolve, and the weather guard checks
+# claims against the BEAT, so the sheet must speak the beat's dialect.
+# Turn counts are deliberately absent — they hinge on unrevealed extender
+# items and are the engine's estimate, and an estimate in this rendering
+# would be the same laundering the assumed block was collapsed to prevent.
+_CASTER_WEATHER = {
+    "sun": "harsh sun", "harshsun": "extreme sun", "rain": "rain",
+    "heavyrain": "heavy rain", "sand": "a sandstorm", "hail": "hail",
+    "snow": "snow",
+}
+_CASTER_TERRAIN = {
+    "electricterrain": "Electric Terrain", "grassyterrain": "Grassy Terrain",
+    "mistyterrain": "Misty Terrain", "psychicterrain": "Psychic Terrain",
+}
+
+_DISPLAY_CACHE: dict = {}
+
+
+def _display_index() -> dict:
+    """{normalized -> display} for items and abilities, harvested from the
+    Showdown set dex. poke-env's GenData ships a pokedex and a movedex but
+    no item or ability names, and the sets file is the source already on
+    disk that carries them in display form ('Heavy-Duty Boots', 'Good as
+    Gold') — and by construction it covers exactly what turns up in play."""
+    if _DISPLAY_CACHE:
+        return _DISPLAY_CACHE
+    _DISPLAY_CACHE["_"] = "_"          # never rebuild, even if the load fails
+    try:
+        import json
+        from pathlib import Path
+        blob = json.loads(
+            (Path(__file__).parent / "ps_sets_gen9.json").read_text())
+    except Exception:
+        return _DISPLAY_CACHE
+
+    def walk(o):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                if k in ("item", "ability") and isinstance(v, str) and v:
+                    _DISPLAY_CACHE.setdefault(_norm(v), v)
+                else:
+                    walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    try:
+        walk(blob)
+    except Exception:
+        pass
+    return _DISPLAY_CACHE
+
+
+def _gen9():
+    try:
+        from poke_env.data import GenData
+        return GenData.from_gen(9)
+    except Exception:
+        return None
+
+
+def _disp_species(raw) -> str:
+    g = _gen9()
+    e = g.pokedex.get(_norm(raw)) if g else None
+    return (e or {}).get("name") or str(raw or "?")
+
+
+def _disp_move(raw) -> str:
+    g = _gen9()
+    e = g.moves.get(_norm(raw)) if g else None
+    return (e or {}).get("name") or str(raw or "?")
+
+
+def _disp_thing(raw) -> str:
+    """Item or ability. Falls back to the raw id rather than omitting it:
+    an unknown name is a cosmetic problem, a missing item is a false claim
+    that the mon is holding nothing."""
+    n = _norm(raw)
+    if not n or n in ("none", "unknownitem"):
+        return ""
+    return _display_index().get(n) or str(raw)
+
+
+def _caster_status(mon, side) -> str:
+    """'badly poisoned', 'asleep' — the status in words. The engine token
+    plus counters is reasoning-register; a caster saying 'tox ctr=3' on air
+    is the engine-speak leak this rendering exists to stop."""
+    raw = _status(mon, side)
+    tok = raw.split("(")[0]
+    words = {"brn": "burned", "burn": "burned", "psn": "poisoned",
+             "poison": "poisoned", "tox": "badly poisoned",
+             "toxic": "badly poisoned", "par": "paralyzed",
+             "paralysis": "paralyzed", "slp": "asleep", "sleep": "asleep",
+             "frz": "frozen", "freeze": "frozen", "frozen": "frozen"}
+    return words.get(tok, tok if tok != "none" else "")
+
+
+def _caster_hazards(sc) -> str:
+    bits = []
+    if getattr(sc, "stealth_rock", 0):
+        bits.append("Stealth Rock")
+    spikes = getattr(sc, "spikes", 0) or 0
+    if spikes:
+        bits.append(f"Spikes x{spikes}")
+    tsp = getattr(sc, "toxic_spikes", 0) or 0
+    if tsp:
+        bits.append(f"Toxic Spikes x{tsp}")
+    if getattr(sc, "sticky_web", 0):
+        bits.append("Sticky Web")
+    return ", ".join(bits) or "none"
+
+
+def _caster_screens(sc) -> str:
+    bits = []
+    for name, attr in (("Reflect", "reflect"),
+                       ("Light Screen", "light_screen"),
+                       ("Aurora Veil", "aurora_veil")):
+        v = getattr(sc, attr, 0) or 0
+        if v:
+            bits.append(f"{name} ({v} turns left)")
+    return ", ".join(bits) or "none"
+
+
+def _caster_boosts(side) -> str:
+    # same stat words as beat_director._STAT, for the same reason as the
+    # weather table above
+    words = {"atk": "Attack", "def": "Defense", "spa": "Special Attack",
+             "spd": "Special Defense", "spe": "Speed", "acc": "accuracy",
+             "eva": "evasiveness"}
+    out = []
+    for tok in _boosts(side).split():
+        if tok == "none":
+            continue
+        stat, sign = tok[:3], tok[3:]
+        out.append(f"{words.get(stat, stat)} {sign}")
+    return ", ".join(out) or "none"
+
+
+def _caster_side_line(label, side) -> str:
+    sc = getattr(side, "side_conditions", None)
+    bits = [f"hazards: {_caster_hazards(sc)}",
+            f"screens: {_caster_screens(sc)}",
+            f"boosts: {_caster_boosts(side)}"]
+    wish = getattr(side, "wish", (0, 0)) or (0, 0)
+    if wish[0]:
+        bits.append(f"Wish incoming ({wish[1]} hp)")
+    fs = getattr(side, "future_sight", (0, "0")) or (0, "0")
+    if fs[0]:
+        bits.append(f"Future Sight lands in {fs[0]} turn(s)")
+    if getattr(side, "force_trapped", False):
+        bits.append("TRAPPED — cannot switch")
+    vol = _volatiles(side)
+    if vol and vol != "none":
+        bits.append(f"on the active: {vol}")
+    return f"{label} — " + " | ".join(bits)
+
+
+def _caster_bench(mons, act, side) -> str:
+    out = []
+    for i, p in enumerate(mons):
+        if i == act or getattr(p, "hp", 0) <= 0:
+            continue
+        st = _caster_status(p, side)
+        pct = _pct(getattr(p, "hp", 0), getattr(p, "maxhp", 1))
+        out.append(f"{_disp_species(getattr(p, 'id', '?'))} {pct}%"
+                   + (f" ({st})" if st else ""))
+    return ", ".join(out) or "none"
+
+
+def _caster_our_active(mon, side) -> list[str]:
+    st = _caster_status(mon, side)
+    head = (f"OUR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}, "
+            f"{_pct(getattr(mon, 'hp', 0), getattr(mon, 'maxhp', 1))}% hp"
+            + (f", {st}" if st else ", no status"))
+    if getattr(mon, "terastallized", False):
+        head += (f" — TERASTALLIZED into "
+                 f"{_norm(getattr(mon, 'tera_type', '?')).title()}")
+    out = [head]
+    kit = []
+    item = _disp_thing(getattr(mon, "item", None))
+    abil = _disp_thing(getattr(mon, "ability", None))
+    if item:
+        kit.append(f"holding {item}")
+    if abil:
+        kit.append(f"ability {abil}")
+    if kit:
+        out.append("  " + ", ".join(kit) + ".")
+    moves = []
+    for mv in getattr(mon, "moves", None) or []:
+        mid = _norm(getattr(mv, "id", "none"))
+        if mid in ("", "none"):
+            continue
+        pp = getattr(mv, "pp", 0)
+        s = f"{_disp_move(mid)} ({pp} pp left)"
+        if getattr(mv, "disabled", False):
+            s += " [DISABLED]"
+        moves.append(s)
+    if moves:
+        out.append("  Moves: " + ", ".join(moves))
+    return out
+
+
+def _caster_their_active(mon, side, bmon) -> list[str]:
+    """Reveals only. Everything world-0 merely sampled becomes a named
+    ABSENCE, which is the whole point of the caster rendering: the desk may
+    say what is not yet known, and may not say what was only guessed."""
+    st = _caster_status(mon, side)
+    head = (f"THEIR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}, "
+            f"{_pct(getattr(mon, 'hp', 0), getattr(mon, 'maxhp', 1))}% hp"
+            + (f", {st}" if st else ", no status"))
+    if getattr(mon, "terastallized", False):
+        head += (f" — TERASTALLIZED into "
+                 f"{_norm(getattr(mon, 'tera_type', '?')).title()}")
+    out = [head]
+
+    seen = sorted(_revealed_moves(bmon)) if bmon is not None else []
+    shown = [_disp_move(m) for m in seen if m and m != "none"]
+    out.append("  Moves they have actually shown: "
+               + (", ".join(shown) or "none yet"))
+
+    known, unknown = [], []
+    item = _disp_thing(_item_revealed(bmon)) if bmon is not None else ""
+    (known if item else unknown).append(
+        f"item {item}" if item else "its item")
+    abil = _disp_thing(getattr(bmon, "ability", None)) if bmon else ""
+    (known if abil else unknown).append(
+        f"ability {abil}" if abil else "its ability")
+    tera = _norm(getattr(bmon, "tera_type", None)) if bmon else ""
+    if getattr(mon, "terastallized", False):
+        pass                          # already in the head line
+    elif tera:
+        known.append(f"Tera type {tera.title()}")
+    else:
+        unknown.append("its Tera type")
+    if known:
+        out.append("  Confirmed: " + ", ".join(known) + ".")
+    if unknown:
+        # The sentence a guard cannot produce: naming the gap is what stops
+        # the model treating a sampled value as a discovery.
+        out.append("  NOT YET KNOWN — " + ", ".join(unknown)
+                   + ". Do not state or guess any of these; you may say "
+                     "outright that they are still unknown.")
+    return out
+
+
+def render_caster_sheet(state, battle=None, turn=None) -> str:
+    """Board state for the commentary duo: display names, reveals only.
+
+    Same never-raises contract as render_sheet — this rides the live beat
+    payload, and a broadcast losing its board is better than a broadcast
+    losing its beat.
+    """
+    try:
+        return _render_caster(state, battle, turn)
+    except Exception:
+        return ""
+
+
+def _render_caster(state, battle, turn) -> str:
+    if turn is None and battle is not None:
+        turn = getattr(battle, "turn", None)
+    s1 = getattr(state, "side_one", None)
+    s2 = getattr(state, "side_two", None)
+    mons1, act1 = _mons_and_active(s1)
+    mons2, act2 = _mons_and_active(s2)
+    # NO BOARD IS BETTER THAN AN EMPTY ONE. Every accessor here is a
+    # defaulted getattr, so a malformed state does not raise — it renders a
+    # complete, confident board with nobody on it, and "US: 0 alive | THEM:
+    # 0 alive" is a false claim a caster would narrate as a double wipe.
+    # Silence degrades to the pre-sheet prompt; a phantom wipe does not.
+    if not mons1 and not mons2:
+        return ""
+
+    w = _norm(getattr(state, "weather", "")) or "none"
+    t = _norm(getattr(state, "terrain", "")) or "none"
+    lines = [f"=== BOARD STATE (turn {turn if turn is not None else '?'}) — "
+             "this is what IS true right now ==="]
+    field = [f"Weather: {_CASTER_WEATHER.get(w, w) if w != 'none' else 'none'}",
+             f"Terrain: {_CASTER_TERRAIN.get(t, t) if t != 'none' else 'none'}"]
+    if getattr(state, "trick_room", False):
+        field.append("TRICK ROOM is up")
+    lines.append(" | ".join(field))
+
+    ours_f = [_disp_species(n) for n in
+              (_fainted_names(getattr(battle, "team", None)) if battle else [])]
+    theirs_f = [_disp_species(n) for n in
+                (_fainted_names(getattr(battle, "opponent_team", None))
+                 if battle else [])]
+    n1 = sum(1 for p in mons1 if getattr(p, "hp", 0) > 0)
+    n2 = sum(1 for p in mons2 if getattr(p, "hp", 0) > 0)
+    lines.append(
+        f"US: {n1} alive, Tera "
+        f"{'still available' if _tera_available(s1) else 'ALREADY USED'}. "
+        f"Fainted: {', '.join(ours_f) or 'none'}.")
+    lines.append(
+        f"THEM: {n2} alive, Tera "
+        f"{'still available' if _tera_available(s2) else 'ALREADY USED'}. "
+        f"Fainted: {', '.join(theirs_f) or 'none'}.")
+
+    lines.append(_caster_side_line("OUR SIDE", s1))
+    if act1 >= 0 and getattr(mons1[act1], "hp", 0) > 0:
+        lines += _caster_our_active(mons1[act1], s1)
+    lines.append(f"  Our bench: {_caster_bench(mons1, act1, s1)}")
+
+    lines.append(_caster_side_line("THEIR SIDE", s2))
+    bindex = _battle_index(getattr(battle, "opponent_team", None)
+                           if battle else None)
+    if act2 >= 0 and getattr(mons2[act2], "hp", 0) > 0:
+        lines += _caster_their_active(
+            mons2[act2], s2, bindex.get(_norm(mons2[act2].id)))
+    # Naming their bench is safe and it is not a leak: the roster comes from
+    # battle.teampreview_opponent_team (gen9_translator._opp_species), so all
+    # six species are protocol fact from preview — the beat already reads
+    # them out at MATCH START. Only the SETS are sampled, and those are
+    # exactly what the collapse above removes. A mon that has never been in
+    # is trivially at full hp with no status, so the numbers are safe too.
+    lines.append(f"  Their bench (all six were shown at team preview): "
+                 f"{_caster_bench(mons2, act2, s2)}")
+    return "\n".join(lines)

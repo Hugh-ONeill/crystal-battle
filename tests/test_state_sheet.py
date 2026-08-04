@@ -287,3 +287,128 @@ def test_turn_message_prefers_sheet_and_drops_appendix():
     rec2 = dict(rec)
     del rec2["sheet"]
     assert '"appendix"' in OverlayShadow._turn_message(rec2)
+
+
+# =====================================================================
+# CASTER RENDERING
+# =====================================================================
+# The contract here is the inverse of the sheet above: the shadow LLM is
+# handed world-0's guesses so it can judge them, and the casters must never
+# see one, because a character asserts what a reasoner would weigh.
+
+import poke_engine as pe
+
+from showdown.state_sheet import render_caster_sheet
+
+
+def _caster_fixture():
+    """Their Zapdos has shown Hurricane and Roost; world-0 has SAMPLED its
+    item, ability, tera and two more moves. None of the sample may appear."""
+    ours = [mon("ironcrown", hp=134, maxhp=281, item="boosterenergy",
+                ability="quarkdrive", status="brn",
+                moves=["tachyoncutter", "voltswitch"]),
+            mon("gliscor", item="toxicorb", ability="poisonheal",
+                moves=["earthquake"])]
+    theirs = [mon("zapdos", hp=81, maxhp=100, item="heavydutyboots",
+                  ability="static", tera="steel",
+                  moves=["hurricane", "roost", "voltswitch", "heatwave"]),
+              mon("slowkinggalar", moves=["futuresight"])]
+    s = state(side(ours), side(theirs))
+    b = battle(turn=17, opp=[bmon("zapdos", moves=["hurricane", "roost"])])
+    return s, b
+
+
+def test_caster_sheet_never_leaks_a_sampled_set():
+    """The measured failure this rendering exists to prevent: PRISM
+    announced a Choice Scarf that no protocol line ever revealed, reasoning
+    from a speed world-0 had sampled."""
+    sheet = render_caster_sheet(*_caster_fixture())
+    for sampled in ("Heavy-Duty Boots", "heavydutyboots", "Static", "static",
+                    "Steel", "Heat Wave", "heatwave"):
+        assert sampled not in sheet, f"world-0's guess leaked: {sampled}"
+    assert "Hurricane" in sheet and "Roost" in sheet, "reveals must survive"
+    assert "NOT YET KNOWN" in sheet
+    for gap in ("its item", "its ability", "its Tera type"):
+        assert gap in sheet, f"the gap must be NAMED, not merely omitted: {gap}"
+
+
+def test_caster_sheet_promotes_a_real_reveal_to_plain_fact():
+    s, _ = _caster_fixture()
+    b = battle(turn=17, opp=[bmon("zapdos", moves=["hurricane"],
+                                  item="choicespecs", ability="static")])
+    sheet = render_caster_sheet(s, battle=b)
+    assert "Confirmed: item Choice Specs, ability Static." in sheet
+    assert "its item" not in sheet and "its ability" not in sheet
+    assert "its Tera type" in sheet, "still unrevealed, still named"
+
+
+def test_caster_sheet_speaks_display_names_not_engine_ids():
+    """Measured: engine-speak makes the characters free-associate. Every
+    entity in the caster rendering is the name a human would say."""
+    sheet = render_caster_sheet(*_caster_fixture())
+    assert "Iron Crown" in sheet and "ironcrown" not in sheet
+    assert "Tachyon Cutter" in sheet and "tachyoncutter" not in sheet
+    assert "Booster Energy" in sheet and "boosterenergy" not in sheet
+    assert "Quark Drive" in sheet and "quarkdrive" not in sheet
+    assert "Slowking-Galar" in sheet and "slowkinggalar" not in sheet
+    assert "burned" in sheet and "brn" not in sheet
+
+
+def test_caster_sheet_field_words_match_the_beat_footer():
+    """The sheet and the beat arrive in ONE prompt and the weather guard
+    checks claims against the BEAT, so 'sun' here against 'harsh sun' there
+    is a contradiction the model has to resolve on air."""
+    ours = [mon("kingambit")]
+    theirs = [mon("zapdos")]
+    for token, expected in ((pe.Weather.SUN, "harsh sun"),
+                            (pe.Weather.SAND, "a sandstorm"),
+                            (pe.Weather.SNOW, "snow"),
+                            (pe.Weather.HEAVY_RAIN, "heavy rain")):
+        s = state(side(ours), side(theirs), weather=token)
+        assert f"Weather: {expected}" in render_caster_sheet(s)
+    s = state(side(ours), side(theirs), terrain=pe.Terrain.GRASSY)
+    assert "Terrain: Grassy Terrain" in render_caster_sheet(s)
+    # no turn counts: they hinge on unrevealed extender items and are the
+    # engine's estimate, which is the laundering the collapse exists to stop
+    s = state(side(ours), side(theirs), weather=pe.Weather.SNOW,
+              weather_turns_remaining=5)
+    assert "5" not in render_caster_sheet(s).split("US:")[0]
+
+
+def test_caster_sheet_states_boosts_hazards_and_screens_in_words():
+    ours = [mon("kingambit")]
+    theirs = [mon("zapdos")]
+    s = state(side(ours, side_conditions=pe.SideConditions(stealth_rock=1,
+                                                           spikes=2)),
+              side(theirs, side_conditions=pe.SideConditions(reflect=3),
+                   attack_boost=2, speed_boost=-1))
+    sheet = render_caster_sheet(s)
+    assert "hazards: Stealth Rock, Spikes x2" in sheet
+    assert "Reflect (3 turns left)" in sheet
+    assert "Attack +2, Speed -1" in sheet
+
+
+def test_caster_sheet_reports_tera_availability_both_ways():
+    ours = [mon("kingambit", terastallized=True, tera="dark")]
+    theirs = [mon("zapdos")]
+    sheet = render_caster_sheet(state(side(ours), side(theirs)))
+    assert "US: 1 alive, Tera ALREADY USED" in sheet
+    assert "THEM: 1 alive, Tera still available" in sheet
+    assert "TERASTALLIZED into Dark" in sheet
+
+
+def test_caster_sheet_never_raises_and_is_deterministic():
+    assert render_caster_sheet(object()) == ""
+    assert render_caster_sheet(None, battle=None) == ""
+    s, b = _caster_fixture()
+    assert render_caster_sheet(s, battle=b) == render_caster_sheet(s, battle=b)
+
+
+def test_caster_sheet_renders_no_events_only_state():
+    """The beat text owns what HAPPENED. A sheet that also rendered the last
+    move would give the model two accounts of one turn."""
+    ours = [mon("kingambit")]
+    theirs = [mon("zapdos")]
+    s = state(side(ours, last_used_move="move:suckerpunch"), side(theirs))
+    sheet = render_caster_sheet(s)
+    assert "Sucker Punch" not in sheet and "last_move" not in sheet
