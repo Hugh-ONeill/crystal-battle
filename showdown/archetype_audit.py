@@ -158,7 +158,50 @@ def audit(path):
             problems.append(
                 "Psychic Surge blocks priority for BOTH sides, so these are "
                 f"self-disabled: {', '.join(sorted(clash))}")
+    problems.extend(_harvest_defects(mons))
     return not problems, label or "-", problems
+
+
+# HARVEST-DEFECT CLASSES (2026-08-04). Most of the pool was scraped from
+# high-ladder replays, not built — and real ladder teams carry real
+# sloppiness plus scraper artifacts. Found live: 32_primarina's Enamorus
+# ran CALM MIND ON A CHOICE SCARF (a dead slot; the mon is locked the
+# moment it boosts) in the pool for weeks. These are set-level
+# contradictions, mechanical to check and invisible to legality.
+
+def _status_moves():
+    """Move ids whose category is Status, from the dex the belief system
+    already loads. Trick/Switcheroo excluded — see the choice rule."""
+    from showdown.set_inference import _moves_data
+    return {mid for mid, e in _moves_data().items()
+            if (e.get("category") or "").lower() == "status"}
+
+
+_CHOICE_ITEMS = {"choiceband", "choicespecs", "choicescarf"}
+_TRICKS = {"trick", "switcheroo"}
+
+
+def _harvest_defects(mons) -> list[str]:
+    out = []
+    try:
+        status = _status_moves()
+    except Exception:
+        return out
+    for m in mons:
+        sp = m.get("species", "?")
+        item = _norm(m.get("item"))
+        mv = [_norm(x) for x in (m.get("moves") or [])]
+        dead = sorted(set(mv) & status - _TRICKS)
+        if item in _CHOICE_ITEMS and dead and not (set(mv) & _TRICKS):
+            # a Trick set legitimately carries status to use AFTER tricking
+            # the item away; without Trick, a choiced status move is a slot
+            # the mon can only click by accepting a lock into a non-attack
+            out.append(f"{sp}: {item} with status move(s) "
+                       f"{'/'.join(dead)} and no Trick — dead slot(s)")
+        if item == "assaultvest" and dead:
+            out.append(f"{sp}: Assault Vest forbids selecting status "
+                       f"move(s) {'/'.join(dead)} — unusable slot(s)")
+    return out
 
 
 def main(dirs):
