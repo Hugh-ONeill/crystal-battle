@@ -11,3 +11,4 @@ numpy>=1.24.0
 #   pip install -e ../crystal-broadcast
 # Only needed for `gen9_player.py --airi`; the engine and benches run without it.
 -e ../crystal-broadcast
+poke-env==0.15.0
