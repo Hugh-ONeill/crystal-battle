@@ -157,6 +157,9 @@ esac
 UTAG="${CB_BENCH_TAG:-}"
 export PYTHONUNBUFFERED=1
 CB=/home/wiz/Developer/grimoire/crystal-battle
+# bench/ is gitignored scratch, so a fresh checkout (the laptop, 2026-08-04)
+# lacks it and the zygote log open fails before the first game
+mkdir -p "$CB/showdown/bench"
 FP=/home/wiz/Developer/grimoire/foul-play
 PER_GAME_TIMEOUT="${PER_GAME_TIMEOUT:-1200}"
 cd "$CB" || exit 1
