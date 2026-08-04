@@ -521,6 +521,14 @@ while [ "$lane" -le "$LANES" ]; do
   ) &
   LANE_PIDS="$LANE_PIDS $!"
   lane=$((lane + 1))
+  # STAGGER (2026-08-04). Defence in depth behind the foul-play fix: launching
+  # every lane at once means N battles are created in the same instant, which
+  # is what made the server coalesce room-init with the player lines and crash
+  # fp's slot parsing (3 of 6 lanes died on 08-04). The root cause is fixed in
+  # foul-play, but spacing the starts also keeps login/challenge bursts off the
+  # single-threaded Showdown server. Only between lanes, so it costs a few
+  # seconds once per series, never per game.
+  [ "$lane" -le "$LANES" ] && sleep "${CB_LANE_STAGGER_S:-4}"
 done
 # Wait on the LANES ONLY, never a bare `wait`. The zygote is also a background
 # child of this script, and it never exits on its own — it waits for the
