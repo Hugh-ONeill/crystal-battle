@@ -73,8 +73,19 @@ if [ -z "${CB_INHIBITED:-}" ] && command -v systemd-inhibit >/dev/null 2>&1; the
   # `sh par_series.sh ...` and is NOT mode +x, so handing the path to
   # systemd-inhibit as a command fails with "Permission denied" — which would
   # break every series, not just long ones. Caught by the 6-lane smoke.
-  exec systemd-inhibit --what=sleep:idle --mode=block \
-       --why="crystal-battle bench series ${1:-?}" /bin/sh "$0" "$@"
+  #
+  # PROBE FIRST: on a box where polkit gates block-mode inhibitors for the
+  # calling session (the laptop over ssh, 2026-08-04), the unconditional
+  # exec died with "Access denied" before the series started. A denied
+  # inhibitor should cost the protection, never the run.
+  if systemd-inhibit --what=sleep:idle --mode=block --why=probe true \
+       >/dev/null 2>&1; then
+    exec systemd-inhibit --what=sleep:idle --mode=block \
+         --why="crystal-battle bench series ${1:-?}" /bin/sh "$0" "$@"
+  else
+    echo "WARN: systemd-inhibit denied here; running WITHOUT a sleep" \
+         "inhibitor — make sure this box cannot auto-suspend" >&2
+  fi
 fi
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
 SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""; AB_ENV=""; AB_P0=""; AB_P1=""
