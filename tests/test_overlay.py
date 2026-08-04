@@ -215,3 +215,39 @@ def test_dossier_covers_preview_roster_not_just_appeared():
     d = o._dossier(b)
     assert "ceruledge" in d and "pelipper" in d
     assert d.count("kingambit") >= 1          # no dup entry for appeared+preview
+
+
+def test_build_rec_threads_obs_into_the_sheet():
+    """The BELIEFS hookup (2026-08-04): _build_rec must hand the
+    translator's BattleObservations to the sheet, or play-derived item
+    eliminations never reach the prompt — the belief system would keep
+    proving items wrong while the consult keeps weighing worlds that
+    assume them."""
+    import poke_engine as pe
+
+    def pmon(mid):
+        return pe.Pokemon(id=mid, hp=100, maxhp=100, item="none",
+                          ability="none", moves=[], status="none",
+                          tera_type="normal", terastallized=False,
+                          nature="serious", evs=(85,) * 6, speed=100,
+                          rest_turns=0, sleep_turns=0)
+
+    st = pe.State(side_one=pe.Side(pokemon=[pmon("kingambit")]),
+                  side_two=pe.Side(pokemon=[pmon("greattusk")]))
+    o = overlay()
+    b = battle(team=[mon("kingambit", active=True)],
+               opp=[mon("greattusk", active=True)])
+    ranked = rr(("suckerpunch", 600, 350.0), ("ironhead", 400, 200.0))
+
+    class Obs:
+        def forbidden(self, sp):
+            return {"leftovers"}
+
+        def boots_inferred(self, sp):
+            return None
+
+    got = o._build_rec(b, ranked, [], [st], ["near-tie"], obs=Obs())
+    plain = o._build_rec(b, ranked, [], [st], ["near-tie"])
+    assert "BELIEFS" in got["sheet"]
+    assert "not leftovers" in got["sheet"]
+    assert "BELIEFS" not in plain["sheet"]

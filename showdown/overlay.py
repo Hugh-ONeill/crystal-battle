@@ -161,6 +161,11 @@ SYSTEM = (
     "whether their guesses fit the revealed lines and the usage priors, "
     "and never treat an assumed value as a reveal. An axis marked `none` "
     "really is empty; do not invent state the board does not show. "
+    "A BELIEFS block, when present, lists ITEM eliminations proven by this "
+    "game's play (e.g. `not leftovers` after an unhealed upkeep, or "
+    "`heavydutyboots` after a chip-free entry over hazards) — stronger than "
+    "a usage prior, weaker than a reveal: weight DOWN any world whose "
+    "assumed item BELIEFS has eliminated. "
     "Respond only with the JSON."
 )
 
@@ -620,7 +625,8 @@ class OverlayShadow:
             out["error"] = repr(e)
         return out
 
-    def _build_rec(self, battle, ranked, results, states, reasons) -> dict:
+    def _build_rec(self, battle, ranked, results, states, reasons,
+                   obs=None) -> dict:
         rec = {
             "ts": time.time(),
             "tag": getattr(battle, "battle_tag", "?"),
@@ -644,7 +650,7 @@ class OverlayShadow:
         try:
             if states:
                 from showdown.state_sheet import render_sheet
-                rec["sheet"] = render_sheet(states[0], battle=battle)
+                rec["sheet"] = render_sheet(states[0], battle=battle, obs=obs)
         except Exception:
             pass
         return rec
@@ -656,7 +662,7 @@ class OverlayShadow:
         except Exception:
             pass
 
-    def live_consult(self, battle, ranked, results, states):
+    def live_consult(self, battle, ranked, results, states, obs=None):
         """SYNCHRONOUS consult for live mode: returns the reweighted merged
         ranking to PLAY when the LLM clears the extreme-weight gate, else
         None (identity — the engine's own choice stands). Everything is
@@ -664,7 +670,8 @@ class OverlayShadow:
         reasons = self.consult_reasons(battle, ranked, results)
         if not reasons or len(results or []) < 2:
             return None
-        rec = self._build_rec(battle, ranked, results, states, reasons)
+        rec = self._build_rec(battle, ranked, results, states, reasons,
+                              obs=obs)
         rec["mode"] = "live"
         rec["applied"] = False
         t0 = time.monotonic()
@@ -699,11 +706,16 @@ class OverlayShadow:
         self._log(rec)
         return out
 
-    def maybe_consult(self, battle, ranked, results, states):
+    def maybe_consult(self, battle, ranked, results, states, obs=None):
+        # obs is the translator's per-battle BattleObservations; the sheet
+        # (and thus obs) is consumed HERE on the main thread, before the
+        # daemon thread starts, so the translator mutating it next move
+        # cannot race the render.
         reasons = self.consult_reasons(battle, ranked, results)
         if not reasons or len(results or []) < 2:
             return
-        rec = self._build_rec(battle, ranked, results, states, reasons)
+        rec = self._build_rec(battle, ranked, results, states, reasons,
+                              obs=obs)
         # CB_ADVOCATE_MS=0 disables the advocate entirely (shadow-path only —
         # live_consult never runs it). Retired on the ladder 2026-08-01: its
         # question is answered (95% confirms offline, 52/53 live) and its

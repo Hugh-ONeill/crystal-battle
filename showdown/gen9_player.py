@@ -1902,7 +1902,8 @@ class Gen9PokeEnginePlayer(Player):
             try:
                 applied = self._overlay.live_consult(
                     battle, ranked, results,
-                    getattr(self, "_last_states", None))
+                    getattr(self, "_last_states", None),
+                    obs=getattr(self._translator, "_obs", None))
                 if applied:
                     ranked = applied
             except Exception:
@@ -1938,8 +1939,10 @@ class Gen9PokeEnginePlayer(Player):
             self._dump_position(battle, ranked)
         if self._overlay is not None and ranked and not self._overlay_live:
             try:
-                self._overlay.maybe_consult(battle, ranked, results,
-                                            getattr(self, "_last_states", None))
+                self._overlay.maybe_consult(
+                    battle, ranked, results,
+                    getattr(self, "_last_states", None),
+                    obs=getattr(self._translator, "_obs", None))
             except Exception:
                 pass    # shadow instrumentation must never cost a move
         order = self._map_choice(ranked, battle)
