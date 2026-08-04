@@ -243,6 +243,11 @@ class Gen9Translator:
         # observe_events; consumed by _assemble_side / _side_conditions.
         self._wish: dict[str, tuple[int, str] | None] = {"me": None, "opp": None}
         self._healing_wish: dict[str, int] = {"me": 0, "opp": 0}
+        # pending Future Sight per side as (set_turn, caster_species); the
+        # engine stores it on the CASTER's side and damages the defender at
+        # expiry, so "me" = OUR outgoing attack
+        self._future_sight: dict[str, tuple[int, str] | None] = {"me": None,
+                                                                 "opp": None}
 
     def new_battle(self):
         self._opp_type = None
@@ -251,6 +256,7 @@ class Gen9Translator:
         self._archive_team = None
         self._wish = {"me": None, "opp": None}
         self._healing_wish = {"me": 0, "opp": 0}
+        self._future_sight = {"me": None, "opp": None}
 
     def observe_events(self, split_messages, role: str, turn: int) -> None:
         """Track slot state the protocol NEVER RESTATES, from raw message
@@ -300,6 +306,22 @@ class Gen9Translator:
                     # consumes healing_wish generically on switch-in and
                     # implements no Lunar Dance effect of its own
                     self._healing_wish[side] = self._healing_wish.get(side, 0) + 1
+            elif kind == "-start":
+                # Future Sight announces success as |-start|<caster>|move:
+                # Future Sight — and ONLY success: a repeat against an
+                # occupied slot fails with |-fail| and no -start, so this
+                # branch needs no failure guard (verified against the sim's
+                # own test suite). Hits end of set_turn+2, matching the
+                # engine's 3-counter. Doom Desire (bare 'Doom Desire'
+                # payload) is deliberately untracked: the engine implements
+                # no DOOMDESIRE effect, and modeling a Steel 140 as a
+                # Psychic 120 would be worse than the engine's honest zero.
+                what = _normalize((msg[3] if len(msg) > 3 else "")
+                                  .replace("move:", ""))
+                if what == "futuresight":
+                    side = "me" if msg[2].startswith(role) else "opp"
+                    species = _normalize(msg[2].split(":", 1)[-1])
+                    self._future_sight[side] = (cur, species)
             elif kind == "-heal":
                 frm = _normalize(next((p for p in msg
                                        if isinstance(p, str)
@@ -1163,6 +1185,23 @@ class Gen9Translator:
                 if wisher is not None and getattr(wisher, "maxhp", 0):
                     wish = (turns_left, wisher.maxhp // 2)
 
+        # pending Future Sight (observe_events): the engine wants (turns,
+        # caster slot index) on the caster's side and computes the damage
+        # from that slot's stats at expiry — the caster keeps its index
+        # after switching out or fainting, so a stale index stays right.
+        # Same degradation contract as wish: no slot match -> (0, "0").
+        future_sight = (0, "0")
+        rec = self._future_sight.get(side_key)
+        if rec is not None:
+            fs_left = 3 - (battle.turn - rec[0])
+            if fs_left <= 0 or fs_left > 3:
+                self._future_sight[side_key] = None
+            else:
+                idx = next((i for i, p in enumerate(pokemon)
+                            if getattr(p, "id", "") == rec[1]), None)
+                if idx is not None and idx < 6:
+                    future_sight = (fs_left, str(idx))
+
         return pe.Side(
             pokemon=pokemon[:6],
             active_index=str(active_slot),
@@ -1170,6 +1209,7 @@ class Gen9Translator:
                 battle, conditions, mons, active,
                 healing_wish=self._healing_wish.get(side_key, 0)),
             wish=wish,
+            future_sight=future_sight,
             volatile_statuses=vols,
             volatile_status_durations=durs,
             substitute_health=sub_health,

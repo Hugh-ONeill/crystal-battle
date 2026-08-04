@@ -506,3 +506,12 @@ def test_pending_wish_rendered_when_live():
     assert "WISH us" not in sheet
     quiet = render_sheet(default_state(), battle())
     assert "WISH" not in quiet
+
+
+def test_pending_future_sight_rendered_with_caster():
+    ours = side([mon("kingambit")])
+    theirs = side([mon("slowkinggalar")], future_sight=(2, "0"))
+    sheet = render_sheet(state(ours, theirs), battle())
+    assert "FUTURE SIGHT by them (slowkinggalar): lands end of NEXT turn" \
+        in sheet
+    assert "FUTURE SIGHT by us" not in sheet

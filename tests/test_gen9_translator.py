@@ -1483,3 +1483,44 @@ def test_gravity_reaches_engine_state():
     assert state.gravity_turns_remaining == 5
     b2 = make_battle()
     assert Gen9Translator().translate(b2).gravity is False
+
+
+# ---- future sight tracking (2026-08-04, the wish playbook again) -------
+# Engine: side.future_sight = (turns, caster slot index), set 3 on use,
+# damage when the counter reaches 1 at end of turn = end of set_turn+2
+# (verified against the sim's own futuresight test). -start only fires on
+# SUCCESS (a repeat against the slot |-fail|s with no -start), so tracking
+# keys on -start with no failure guard.
+
+def test_future_sight_tracked_with_caster_index():
+    b = make_battle()
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "-start", "p1a: Ninetales", "move: Future Sight"]),
+        "p1", b.turn)
+    assert tr.translate(b).side_one.future_sight == (3, "0")
+    b.parse_message(["", "turn", "2"])
+    assert tr.translate(b).side_one.future_sight == (2, "0")
+    b.parse_message(["", "turn", "3"])
+    assert tr.translate(b).side_one.future_sight == (1, "0")
+    b.parse_message(["", "turn", "4"])
+    assert tr.translate(b).side_one.future_sight == (0, "0")
+
+def test_opponent_future_sight_lands_on_side_two():
+    b = make_battle()
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "-start", "p2a: Garchomp", "move: Future Sight"]),
+        "p1", b.turn)
+    state = tr.translate(b)
+    assert state.side_two.future_sight[0] == 3
+    assert state.side_one.future_sight == (0, "0")
+
+def test_doom_desire_is_deliberately_untracked():
+    """The engine implements no DOOMDESIRE effect; a Steel 140 modeled as
+    a Psychic 120 would be worse than the engine's honest zero."""
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "-start", "p2a: Garchomp", "Doom Desire"]),
+        "p1", 1)
+    assert tr._future_sight == {"me": None, "opp": None}

@@ -424,6 +424,21 @@ def _render(state, battle, obs, turn) -> str:
         if w[0] > 0:
             lines.append(f"WISH {wlabel}: {w[1]} hp arrives at end of "
                          f"{'THIS turn' if w[0] == 1 else 'NEXT turn'}")
+    # future_sight lives on the CASTER's side: "us" = OUR outgoing attack
+    _FS_WHEN = {1: "end of THIS turn", 2: "end of NEXT turn",
+                3: "in two turns"}
+    for flabel, fside in (("by us", s1), ("by them", s2)):
+        fs = getattr(fside, "future_sight", None) or (0, "0")
+        if fs[0] > 0:
+            caster = ""
+            try:
+                mons_f = getattr(fside, "pokemon", None) or []
+                caster = getattr(mons_f[int(fs[1])], "id", "") or ""
+            except Exception:
+                pass
+            lines.append(f"FUTURE SIGHT {flabel}"
+                         + (f" ({caster})" if caster else "")
+                         + f": lands {_FS_WHEN.get(fs[0], '?')}")
 
     # --- us ---
     lines.append("--- US (sets exact) ---")
