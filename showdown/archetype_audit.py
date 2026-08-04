@@ -179,6 +179,10 @@ def _status_moves():
 
 _CHOICE_ITEMS = {"choiceband", "choicespecs", "choicescarf"}
 _TRICKS = {"trick", "switcheroo"}
+# self-fainting support moves are clicked once and the lock never matters —
+# Scarf Healing Wish Enamorus is a real set, not a defect (learned from the
+# rw_proxy build, 2026-08-04)
+_SELF_FAINT = {"healingwish", "lunardance", "memento"}
 
 
 def _harvest_defects(mons) -> list[str]:
@@ -191,16 +195,20 @@ def _harvest_defects(mons) -> list[str]:
         sp = m.get("species", "?")
         item = _norm(m.get("item"))
         mv = [_norm(x) for x in (m.get("moves") or [])]
-        dead = sorted(set(mv) & status - _TRICKS)
-        if item in _CHOICE_ITEMS and dead and not (set(mv) & _TRICKS):
+        dead_av = sorted(set(mv) & status - _TRICKS)
+        dead_choice = sorted(set(dead_av) - _SELF_FAINT)
+        if item in _CHOICE_ITEMS and dead_choice and not (set(mv) & _TRICKS):
             # a Trick set legitimately carries status to use AFTER tricking
             # the item away; without Trick, a choiced status move is a slot
-            # the mon can only click by accepting a lock into a non-attack
+            # the mon can only click by accepting a lock into a non-attack.
+            # Self-faint support (Healing Wish class) is exempt: clicked
+            # once, the lock never matters. AV is NOT exempt — the vest
+            # forbids selecting ANY status move, self-faint included.
             out.append(f"{sp}: {item} with status move(s) "
-                       f"{'/'.join(dead)} and no Trick — dead slot(s)")
-        if item == "assaultvest" and dead:
+                       f"{'/'.join(dead_choice)} and no Trick — dead slot(s)")
+        if item == "assaultvest" and dead_av:
             out.append(f"{sp}: Assault Vest forbids selecting status "
-                       f"move(s) {'/'.join(dead)} — unusable slot(s)")
+                       f"move(s) {'/'.join(dead_av)} — unusable slot(s)")
     return out
 
 
