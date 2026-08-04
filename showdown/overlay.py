@@ -154,6 +154,13 @@ SYSTEM = (
     "An `engine_blind` line on a species means THE SEARCH ITSELF CANNOT "
     "MODEL that mechanic, so every world's numbers are confidently wrong "
     "about it — weigh that far above anything the visit counts say. "
+    "The BOARD block is the full field state with an epistemic contract: "
+    "US lines are exact; on THEM lines, hp/status/boosts/faints and "
+    "anything under `revealed:` are protocol fact, while everything under "
+    "`assumed(world-0 sample):` is one world's GUESS — judge worlds by "
+    "whether their guesses fit the revealed lines and the usage priors, "
+    "and never treat an assumed value as a reveal. An axis marked `none` "
+    "really is empty; do not invent state the board does not show. "
     "Respond only with the JSON."
 )
 
@@ -601,7 +608,7 @@ class OverlayShadow:
         return out
 
     def _build_rec(self, battle, ranked, results, states, reasons) -> dict:
-        return {
+        rec = {
             "ts": time.time(),
             "tag": getattr(battle, "battle_tag", "?"),
             "turn": battle.turn,
@@ -614,6 +621,20 @@ class OverlayShadow:
             "worlds": self._emit_worlds(results, states),
             "appendix": self._appendix(battle),
         }
+        # full-board fact sheet (2026-08-04): replaces the appendix in the
+        # PROMPT (strict superset — adds boosts, volatiles, PP, counters,
+        # tera availability, and the revealed/assumed split the appendix
+        # never had). The appendix stays in the rec because flip_audit and
+        # friends read it; the sheet is logged too so audits can see exactly
+        # what the model saw. Prompt change ⇒ flip rates before/after this
+        # date are not comparable.
+        try:
+            if states:
+                from showdown.state_sheet import render_sheet
+                rec["sheet"] = render_sheet(states[0], battle=battle)
+        except Exception:
+            pass
+        return rec
 
     def _log(self, rec) -> None:
         try:
@@ -718,18 +739,33 @@ class OverlayShadow:
             rec["latency_s"] = round(time.monotonic() - t0, 2)
         self._log(rec)
 
+    @staticmethod
+    def _turn_message(rec) -> str:
+        """The per-turn user message. When the fact sheet rendered, it IS
+        the board (the appendix is its strict subset and sending both would
+        spend the same tokens twice inside num_ctx=12288); the appendix JSON
+        is the fallback so an import or render failure degrades to the old
+        prompt rather than a stateless consult."""
+        keys = ("turn", "reasons", "engine_choice", "engine_margin", "worlds")
+        sheet = rec.get("sheet")
+        if not sheet:
+            keys += ("appendix",)
+        turn_block = json.dumps({k: rec[k] for k in keys},
+                                separators=(",", ":"))
+        msg = ""
+        if sheet:
+            msg += f"{sheet}\n"
+        msg += (f"SEARCH:\n{turn_block}\n"
+                "Weigh the worlds; flag at most 2 rows.")
+        return msg
+
     def _ask(self, dossier, rec, timeout: float = TIMEOUT_S) -> dict:
-        turn_block = json.dumps(
-            {k: rec[k] for k in ("turn", "reasons", "engine_choice",
-                                 "engine_margin", "worlds", "appendix")},
-            separators=(",", ":"))
         body = {
             "model": MODEL,
             "messages": [
                 {"role": "system", "content": SYSTEM},
                 {"role": "user", "content": dossier},
-                {"role": "user", "content": f"TURN STATE:\n{turn_block}\n"
-                 "Weigh the worlds; flag at most 2 rows."},
+                {"role": "user", "content": self._turn_message(rec)},
             ],
             "stream": False,
             "think": False,
