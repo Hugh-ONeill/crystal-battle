@@ -1028,7 +1028,16 @@ class Gen9PokeEnginePlayer(Player):
         # steps only apply in the full-book modes; `lead` stays available as
         # the documented half-plan that this campaign measured and rejected
         self._book_apply_steps = book_mode() in ("open", "scripted")
-        self._preview_search_ms = preview_search_ms
+        # CB_PREVIEW_MS: env override so the paired --ab rig (env-knob arms)
+        # can test deeper preview matrices. The 2026-07-30 instrumentation
+        # pinned the T1-churn chain to this budget: at 80ms/pair the row-min
+        # spread (0.034) is inside search noise, so the maximin ranks noise
+        # and the full-budget T1 search repudiates the lead half the time.
+        try:
+            self._preview_search_ms = int(
+                os.environ.get("CB_PREVIEW_MS", "") or preview_search_ms)
+        except ValueError:
+            self._preview_search_ms = preview_search_ms
         self._stall_mode = stall_mode
         # >1: search that many sampled opponent-set worlds per turn and merge
         # (chaos sources only; monotype canonical sets have no sampler yet)
