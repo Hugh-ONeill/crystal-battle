@@ -158,8 +158,37 @@ def audit(path):
             problems.append(
                 "Psychic Surge blocks priority for BOTH sides, so these are "
                 f"self-disabled: {', '.join(sorted(clash))}")
+    problems.extend(_structure_defects(mons))
     problems.extend(_harvest_defects(mons))
     return not problems, label or "-", problems
+
+
+# PASTE-STRUCTURE LINT (2026-08-04). The parser treats a blank line as the
+# mon separator and silently DROPS an unrecognized line — so a paste whose
+# separator went missing in harvest merges two mons into one: the second
+# species line vanishes and its moves pile onto the first. Found live:
+# pool_hl/21_cinderace had carried Clefable+Cinderace as ONE 8-move mon
+# since harvest, fielding 5 mons per game, and every legality check passed
+# because the merged mon's first 4 moves were legal. Each symptom below is
+# a mechanical tell of a mangled block, not a play-quality judgment.
+
+def _structure_defects(mons) -> list[str]:
+    out = []
+    if len(mons) != 6:
+        out.append(f"team parses to {len(mons)} mons, not 6 — "
+                   "likely a missing blank separator merging two blocks")
+    for m in mons:
+        sp = m.get("species", "?")
+        mv = [_norm(x) for x in (m.get("moves") or [])]
+        if len(mv) > 4:
+            out.append(f"{sp}: {len(mv)} moves — two pastes merged into "
+                       "one block (missing blank separator)")
+        dupes = sorted({x for x in mv if mv.count(x) > 1})
+        if dupes:
+            out.append(f"{sp}: duplicate move(s) {'/'.join(dupes)}")
+        if not m.get("ability"):
+            out.append(f"{sp}: no Ability line — mangled or truncated block")
+    return out
 
 
 # HARVEST-DEFECT CLASSES (2026-08-04). Most of the pool was scraped from

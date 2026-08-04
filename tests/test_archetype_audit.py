@@ -12,7 +12,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from showdown.archetype_audit import audit, _off_role_species
+from showdown.archetype_audit import audit, _off_role_species, _structure_defects
 
 TEAMS = Path(__file__).parent.parent / "showdown" / "teams"
 
@@ -29,6 +29,51 @@ def test_team_contains_what_it_claims(path):
     hard = [p for p in problems
             if "dead slot" not in p and "unusable slot" not in p]
     assert not hard, f"{Path(path).name}: " + "; ".join(hard)
+
+
+def test_structure_lint_catches_merged_blocks(tmp_path):
+    """pool_hl/21_cinderace carried Clefable+Cinderace as ONE 8-move mon
+    for weeks: the parser drops an unrecognized mid-block species line and
+    piles the second mon's moves onto the first, so the team fielded 5 mons
+    and every legality check passed. The lint must fire on both symptoms."""
+    p = tmp_path / "99_merged.txt"
+    p.write_text(
+        "Clefable @ Leftovers\n"
+        "Ability: Magic Guard\n"
+        "Tera Type: Water\n"
+        "EVs: 252 HP / 252 Def / 4 SpD\n"
+        "Bold Nature\n"
+        "- Moonblast\n"
+        "- Soft-Boiled\n"
+        "- Calm Mind\n"
+        "- Knock Off\n"
+        "Cinderace @ Heavy-Duty Boots\n"   # no blank separator: merged
+        "Ability: Libero\n"
+        "Tera Type: Fire\n"
+        "EVs: 252 Atk / 4 SpD / 252 Spe\n"
+        "Jolly Nature\n"
+        "- Pyro Ball\n"
+        "- U-turn\n"
+        "- Court Change\n"
+        "- Sucker Punch\n")
+    ok, _label, problems = audit(str(p))
+    assert not ok
+    assert any("8 moves" in x for x in problems)
+    assert any("not 6" in x for x in problems)
+
+
+def test_structure_lint_duplicates_and_missing_ability():
+    mons = [{"species": f"mon{i}", "ability": "ab",
+             "moves": ["m1", "m2", "m3", "m4"]} for i in range(6)]
+    mons[0]["moves"] = ["voltswitch", "voltswitch", "m3", "m4"]
+    mons[1]["ability"] = None
+    probs = _structure_defects(mons)
+    assert any("duplicate move" in p and "voltswitch" in p for p in probs)
+    assert any("no Ability" in p for p in probs)
+    assert not any("not 6" in p for p in probs)
+    assert not _structure_defects(
+        [{"species": f"mon{i}", "ability": "ab",
+          "moves": ["m1", "m2", "m3", "m4"]} for i in range(6)])
 
 
 def test_off_role_threshold_separates_defining_from_optional():
