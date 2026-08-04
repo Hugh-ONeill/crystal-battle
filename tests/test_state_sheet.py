@@ -412,3 +412,87 @@ def test_caster_sheet_renders_no_events_only_state():
     s = state(side(ours, last_used_move="move:suckerpunch"), side(theirs))
     sheet = render_caster_sheet(s)
     assert "Sucker Punch" not in sheet and "last_move" not in sheet
+
+
+# ---- the third register: reads the search worked out ---------------------
+
+def _obs(confirmed=None, boots=(), ambiguous=(), forbidden=()):
+    return SimpleNamespace(confirmed=dict(confirmed or {}),
+                           boots=set(boots), boots_ambiguous=set(ambiguous),
+                           forbidden=lambda sp: frozenset(forbidden))
+
+
+def _reads_fixture():
+    ours = [mon("ironcrown")]
+    theirs = [mon("zapdos", hp=81, maxhp=100, item="choicescarf",
+                  moves=["hurricane", "roost", "voltswitch"]),
+              mon("slowkinggalar")]
+    s = state(side(ours), side(theirs))
+    b = battle(turn=21, opp=[bmon("zapdos", moves=["hurricane", "roost"])])
+    return s, b
+
+
+def test_a_confirmed_inference_is_its_own_register_not_an_unknown():
+    """_emit_belief_deltas calls the Scarf ONCE, with its evidence chain. A
+    board that then reports the item unknown on every later turn contradicts
+    a call the desk already made on air, inside the same prompt."""
+    s, b = _reads_fixture()
+    sheet = render_caster_sheet(s, battle=b,
+                                obs=_obs({"zapdos": "choicescarf"}))
+    assert "READ FROM PLAY" in sheet and "Choice Scarf" in sheet
+    assert "its item" not in sheet, "a called Scarf is not an unknown item"
+    assert "Never say it was revealed" in sheet
+    # the other axes are untouched by an item read
+    assert "its ability, its Tera type" in sheet
+
+
+def test_a_read_that_later_evidence_ruled_out_is_never_spoken():
+    """Mirrors the filter _log_inferred_items applies before persisting: an
+    inference the constraint layer killed must not be said either."""
+    s, b = _reads_fixture()
+    sheet = render_caster_sheet(
+        s, battle=b, obs=_obs({"zapdos": "choicescarf"},
+                              forbidden=("choicescarf",)))
+    assert "READ FROM PLAY" not in sheet and "Choice Scarf" not in sheet
+    assert "NOT YET KNOWN — its item" in sheet
+
+
+def test_a_real_reveal_outranks_a_read():
+    s, _ = _reads_fixture()
+    b = battle(turn=21, opp=[bmon("zapdos", moves=["hurricane"],
+                                  item="leftovers")])
+    sheet = render_caster_sheet(s, battle=b,
+                                obs=_obs({"zapdos": "choicescarf"}))
+    assert "Confirmed: item Leftovers" in sheet
+    assert "READ FROM PLAY" not in sheet, "protocol beats inference"
+
+
+def test_boots_reads_are_confident_or_hedged_by_magic_guard():
+    s, b = _reads_fixture()
+    confident = render_caster_sheet(s, battle=b, obs=_obs(boots=("zapdos",)))
+    assert "READ FROM PLAY" in confident and "Heavy-Duty Boots" in confident
+    hedged = render_caster_sheet(s, battle=b, obs=_obs(ambiguous=("zapdos",)))
+    assert "could be Magic Guard instead" in hedged, \
+        "set_inference records the ambiguous case exactly so a caster hedges"
+
+
+def test_a_read_follows_a_mon_to_the_bench():
+    """Where the sheet earns most: the set_reveal beat fired once, maybe
+    fifteen turns ago, and is long gone from the transcript and the beat
+    window. Restating it is the only way a bench callout is ever sayable."""
+    s, b = _reads_fixture()
+    sheet = render_caster_sheet(
+        s, battle=b, obs=_obs({"slowkinggalar": "assaultvest"},
+                              boots=("slowkinggalar",)))
+    bench = next(l for l in sheet.splitlines() if "Their bench" in l)
+    assert "Slowking-Galar 100% [read: Assault Vest]" in bench
+
+
+def test_reads_are_absent_without_obs_and_never_come_from_world_zero():
+    """No obs -> no reads, and world-0's sampled Choice Scarf on their Zapdos
+    still never appears. The sample is not evidence in any register."""
+    s, b = _reads_fixture()
+    sheet = render_caster_sheet(s, battle=b)
+    assert "READ FROM PLAY" not in sheet
+    assert "Choice Scarf" not in sheet and "choicescarf" not in sheet
+    assert "NOT YET KNOWN — its item" in sheet

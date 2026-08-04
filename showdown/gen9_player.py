@@ -1604,7 +1604,14 @@ class Gen9PokeEnginePlayer(Player):
             if stamped is not None and stamped != getattr(battle, "turn", None):
                 return ""      # worlds from another turn describe another board
             from showdown.state_sheet import render_caster_sheet
-            return render_caster_sheet(states[0], battle=battle)
+            # obs carries the CONFIRMED set inferences. Without it the board
+            # reports "its item is NOT YET KNOWN" for a mon whose Scarf the
+            # desk already called on air (_emit_belief_deltas fires the
+            # set_reveal beat once, and never restates it), so the sheet
+            # would contradict the broadcast inside the same prompt.
+            return render_caster_sheet(
+                states[0], battle=battle,
+                obs=getattr(self._translator, "_obs", None))
         except Exception:
             return ""      # commentary furniture must never cost a move
 

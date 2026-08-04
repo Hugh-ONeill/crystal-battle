@@ -639,15 +639,28 @@ def _caster_side_line(label, side) -> str:
     return f"{label} — " + " | ".join(bits)
 
 
-def _caster_bench(mons, act, side) -> str:
+def _caster_bench(mons, act, side, obs=None) -> str:
     out = []
     for i, p in enumerate(mons):
         if i == act or getattr(p, "hp", 0) <= 0:
             continue
         st = _caster_status(p, side)
         pct = _pct(getattr(p, "hp", 0), getattr(p, "maxhp", 1))
-        out.append(f"{_disp_species(getattr(p, 'id', '?'))} {pct}%"
-                   + (f" ({st})" if st else ""))
+        entry = (f"{_disp_species(getattr(p, 'id', '?'))} {pct}%"
+                 + (f" ({st})" if st else ""))
+        # A read belongs on the bench too, and this is where the sheet earns
+        # the most: the set_reveal beat that called the Scarf fired once,
+        # maybe fifteen turns ago, and has long since left both the 12-line
+        # transcript and the beat window. Restating it is the only way "and
+        # the Scarf Zapdos is still sitting back there" is ever sayable.
+        read, boots = _caster_reads(obs, getattr(p, "id", ""))
+        # the CONFIDENT boots read counts as an item read here; the ambiguous
+        # one is a whole hedged sentence and has no room on a bench line
+        if not read and boots == "Heavy-Duty Boots":
+            read = boots
+        if read:
+            entry += f" [read: {read}]"
+        out.append(entry)
     return ", ".join(out) or "none"
 
 
@@ -684,10 +697,51 @@ def _caster_our_active(mon, side) -> list[str]:
     return out
 
 
-def _caster_their_active(mon, side, bmon) -> list[str]:
-    """Reveals only. Everything world-0 merely sampled becomes a named
-    ABSENCE, which is the whole point of the caster rendering: the desk may
-    say what is not yet known, and may not say what was only guessed."""
+def _caster_reads(obs, species: str) -> tuple[str, str]:
+    """(confirmed inferred item, hedgeable boots note) for one species.
+
+    THREE registers, not two. The first cut of this rendering had only
+    `revealed` and `NOT YET KNOWN`, and that was wrong in a way that showed
+    up immediately: _emit_belief_deltas fires a set_reveal beat the moment
+    an inference is confirmed — "that's a Scarf", with the evidence chain —
+    and it fires ONCE. A board that then reports the item as unknown on
+    every following turn contradicts a call the desk already made on air,
+    inside the same prompt that carries the board.
+
+    Only obs.confirmed, which is the constraint layer's surviving output,
+    never world-0's sample. Re-filtered through forbidden() exactly as
+    _log_inferred_items does before persisting: an inference that later
+    evidence ruled out must not be spoken, for the same reason it must not
+    be written down.
+    """
+    if obs is None:
+        return "", ""
+    sp = _norm(species)
+    item = ""
+    try:
+        got = (getattr(obs, "confirmed", None) or {}).get(sp)
+        if got and got not in obs.forbidden(sp):
+            item = _disp_thing(got)
+    except Exception:
+        item = ""
+    boots = ""
+    try:
+        if sp in (getattr(obs, "boots", None) or set()):
+            boots = "Heavy-Duty Boots"
+        elif sp in (getattr(obs, "boots_ambiguous", None) or set()):
+            # the ambiguity is definitional, not derived, so it is safe to
+            # state in full — set_inference records it precisely so a caster
+            # can hedge on it where the search must not model it
+            boots = ("possibly Heavy-Duty Boots — it took no Stealth Rock "
+                     "chip coming in, though it could be Magic Guard instead")
+    except Exception:
+        boots = ""
+    return item, boots
+
+
+def _caster_their_active(mon, side, bmon, obs=None) -> list[str]:
+    """Reveals first, the search's surviving READS second, and whatever is
+    left named as an absence. What never appears is world-0's sample."""
     st = _caster_status(mon, side)
     head = (f"THEIR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}, "
             f"{_pct(getattr(mon, 'hp', 0), getattr(mon, 'maxhp', 1))}% hp"
@@ -702,10 +756,13 @@ def _caster_their_active(mon, side, bmon) -> list[str]:
     out.append("  Moves they have actually shown: "
                + (", ".join(shown) or "none yet"))
 
+    read_item, boots = _caster_reads(obs, getattr(mon, "id", ""))
     known, unknown = [], []
     item = _disp_thing(_item_revealed(bmon)) if bmon is not None else ""
-    (known if item else unknown).append(
-        f"item {item}" if item else "its item")
+    if item:
+        known.append(f"item {item}")
+    elif not read_item:
+        unknown.append("its item")
     abil = _disp_thing(getattr(bmon, "ability", None)) if bmon else ""
     (known if abil else unknown).append(
         f"ability {abil}" if abil else "its ability")
@@ -718,6 +775,17 @@ def _caster_their_active(mon, side, bmon) -> list[str]:
         unknown.append("its Tera type")
     if known:
         out.append("  Confirmed: " + ", ".join(known) + ".")
+    reads = []
+    if read_item and not item:
+        reads.append(read_item)
+    if boots and not item and _norm(boots) != _norm(read_item):
+        reads.append(boots)
+    if reads:
+        out.append("  READ FROM PLAY (never announced — the search worked it "
+                   "out from what this mon has done, and is playing as though "
+                   "it is true): " + "; ".join(reads)
+                   + ". You may call this as the desk's read. Never say it "
+                     "was revealed, announced, or that anyone saw it.")
     if unknown:
         # The sentence a guard cannot produce: naming the gap is what stops
         # the model treating a sampled value as a discovery.
@@ -727,7 +795,7 @@ def _caster_their_active(mon, side, bmon) -> list[str]:
     return out
 
 
-def render_caster_sheet(state, battle=None, turn=None) -> str:
+def render_caster_sheet(state, battle=None, obs=None, turn=None) -> str:
     """Board state for the commentary duo: display names, reveals only.
 
     Same never-raises contract as render_sheet — this rides the live beat
@@ -735,12 +803,12 @@ def render_caster_sheet(state, battle=None, turn=None) -> str:
     losing its beat.
     """
     try:
-        return _render_caster(state, battle, turn)
+        return _render_caster(state, battle, obs, turn)
     except Exception:
         return ""
 
 
-def _render_caster(state, battle, turn) -> str:
+def _render_caster(state, battle, obs, turn) -> str:
     if turn is None and battle is not None:
         turn = getattr(battle, "turn", None)
     s1 = getattr(state, "side_one", None)
@@ -791,7 +859,7 @@ def _render_caster(state, battle, turn) -> str:
                            if battle else None)
     if act2 >= 0 and getattr(mons2[act2], "hp", 0) > 0:
         lines += _caster_their_active(
-            mons2[act2], s2, bindex.get(_norm(mons2[act2].id)))
+            mons2[act2], s2, bindex.get(_norm(mons2[act2].id)), obs)
     # Naming their bench is safe and it is not a leak: the roster comes from
     # battle.teampreview_opponent_team (gen9_translator._opp_species), so all
     # six species are protocol fact from preview — the beat already reads
@@ -799,5 +867,5 @@ def _render_caster(state, battle, turn) -> str:
     # exactly what the collapse above removes. A mon that has never been in
     # is trivially at full hp with no status, so the numbers are safe too.
     lines.append(f"  Their bench (all six were shown at team preview): "
-                 f"{_caster_bench(mons2, act2, s2)}")
+                 f"{_caster_bench(mons2, act2, s2, obs)}")
     return "\n".join(lines)
