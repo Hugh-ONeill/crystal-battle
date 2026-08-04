@@ -201,3 +201,17 @@ def test_live_consult_identity_on_llm_failure(monkeypatch):
     monkeypatch.setattr(o, "_log", lambda rec: logged.update(rec))
     assert o.live_consult(btl, ranked, [a, b_w], None) is None
     assert logged["applied"] is False and "error" in logged
+
+
+def test_dossier_covers_preview_roster_not_just_appeared():
+    """The dossier builds at the first consult (usually T1-3, lead only
+    appeared) and is cached — it must draw on the PREVIEWED roster, or
+    every later-appearing mon consults with no entry/prior/sets (the
+    model's `quagsire.moves` worry-requests, 2026-08-04)."""
+    o = overlay()
+    b = battle(team=[mon("garganacl")], opp=[mon("kingambit", active=True)])
+    b.teampreview_opponent_team = [mon("kingambit"), mon("ceruledge"),
+                                   mon("pelipper")]
+    d = o._dossier(b)
+    assert "ceruledge" in d and "pelipper" in d
+    assert d.count("kingambit") >= 1          # no dup entry for appeared+preview

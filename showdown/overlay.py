@@ -231,11 +231,24 @@ class OverlayShadow:
             if e:
                 lines.extend("  " + ln for ln in _entry_lines(sp, e))
         lines.append("=== THEIR PREVIEW (roles knowledge) ===")
-        rkey = "|".join(sorted(_norm(m.species)
-                               for m in battle.opponent_team.values()))
+        # The FULL previewed roster, not just appeared mons (2026-08-04 —
+        # same appeared-only blindness as the translator's phantom-roster
+        # fill, one layer up): this dossier builds at the FIRST consult,
+        # usually T1-3 when only their lead has appeared, and is then
+        # byte-stable-cached for the battle — so every later-appearing mon
+        # had no roles entry, no usage prior and no curated sets, which is
+        # exactly what the model's `quagsire.moves`-style worry requests
+        # were reporting. The roster key needs all six for the same reason:
+        # a partial key can never match a sets_by_roster book entry.
+        their_species: list[str] = []
+        for mon in list(battle.opponent_team.values()) + list(
+                getattr(battle, "teampreview_opponent_team", None) or []):
+            sp = _norm(getattr(mon, "species", ""))   # _norm strips '-*'
+            if sp and sp not in their_species:
+                their_species.append(sp)
+        rkey = "|".join(sorted(their_species))
         their = []
-        for mon in battle.opponent_team.values():
-            sp = _norm(mon.species)
+        for sp in their_species:
             their.append(sp)
             e = self.roles.get(sp)
             lines.extend(_entry_lines(sp, e) if e else [f"{sp}: (no entry)"])
