@@ -1568,7 +1568,10 @@ class Gen9PokeEnginePlayer(Player):
             # instead of snapping the meter to center on an out-of-band beat
             me_disp = _species_display(me.species) if me else None
             opp_disp = _species_display(opp.species) if opp else None
-            self._airi.send(text, beats=[asdict(beat)], hud={
+            # same board, same turn-gate: an interject that beat this turn's
+            # search to the wire simply carries no sheet
+            self._airi.send(text, beats=[asdict(beat)],
+                            sheet=self._caster_sheet(battle), hud={
                 "turn": battle.turn,
                 "us": me_disp,
                 "us_hp": hp(me),
@@ -1585,6 +1588,25 @@ class Gen9PokeEnginePlayer(Player):
                                       if p.fainted)})
         except Exception:
             pass
+
+    def _caster_sheet(self, battle) -> str:
+        """World-0's board in broadcast register, or "" if it cannot be had.
+
+        World-0 specifically: it is the state the beat's own numbers came
+        from, so the sheet and the desk read never describe different
+        boards. Everything the sampler GUESSED about their sets is stripped
+        by the renderer — the duo sees reveals and named gaps only."""
+        try:
+            states = getattr(self, "_last_states", None)
+            if not states:
+                return ""
+            stamped = getattr(self, "_last_states_turn", None)
+            if stamped is not None and stamped != getattr(battle, "turn", None):
+                return ""      # worlds from another turn describe another board
+            from showdown.state_sheet import render_caster_sheet
+            return render_caster_sheet(states[0], battle=battle)
+        except Exception:
+            return ""      # commentary furniture must never cost a move
 
     def _airi_turn_event(self, battle, ranked, desc: str):
         """Adapt the decision point into a TurnContext and let the director
@@ -1654,6 +1676,15 @@ class Gen9PokeEnginePlayer(Player):
                 self._airi.send(
                     decision.text,
                     beats=[asdict(b) for b in decision.beats],
+                    # Board state for the duo, stamped HERE rather than
+                    # fetched at generation time. The caster runs
+                    # deliberately behind the engine (the PTS clock holds
+                    # lines until the viewer reaches the turn), so a sheet
+                    # read when the line is written would describe a board
+                    # the audience has not been shown — a spoiler, not just
+                    # a staleness bug. Riding the payload, it stays pinned
+                    # to the beat it belongs to all the way through.
+                    sheet=self._caster_sheet(battle),
                     hud={"turn": ctx.turn, "value": round(ctx.value, 4),
                          "us": ctx.me_name, "us_hp": ctx.me_hp,
                          "them": ctx.opp_name, "them_hp": ctx.opp_hp,
@@ -2165,6 +2196,12 @@ class Gen9PokeEnginePlayer(Player):
         # shadow-overlay emission needs each world's assumed sets alongside
         # its search result; results alone don't carry them
         self._last_states = states
+        # which turn these worlds describe. The caster sheet rides beats that
+        # fire on protocol events as well as on decisions, and an out-of-band
+        # beat can reach the duo before this turn's search has run — stamping
+        # last turn's board onto it would hand the commentary a hp bar the
+        # audience has already watched change.
+        self._last_states_turn = getattr(battle, "turn", None)
         # value net defaults to on-when-loaded, but callers override: the
         # adaptive probe forces it OFF (fast plain MCTS), and only the
         # escalated deep-think turns it ON — spend the learned eval where a
