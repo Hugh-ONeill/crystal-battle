@@ -1034,12 +1034,14 @@ class Gen9Translator:
             kwargs["healing_wish"] = healing_wish
         return pe.SideConditions(**kwargs)
 
-    def _active_volatiles(self, active) -> tuple[set, pe.VolatileStatusDurations]:
-        """(volatile_statuses, durations) for one active."""
+    def _active_volatiles(self, active) -> tuple[set, dict]:
+        """(volatile_statuses, durations DICT) for one active — the caller
+        constructs pe.VolatileStatusDurations, so obs-derived volatiles
+        (rampage lock) can inject durations after this returns."""
         vols: set[str] = set()
         durs: dict[str, int] = {}
         if active is None:
-            return vols, pe.VolatileStatusDurations()
+            return vols, durs
         for effect, count in active.effects.items():
             name = effect.name.replace("_", "")
             if name not in _VOLATILE_ALLOW:
@@ -1057,7 +1059,7 @@ class Gen9Translator:
                 durs["yawn"] = 1
             elif name == "SLOWSTART":
                 durs["slowstart"] = _clamp_turns(5 - count)
-        return vols, pe.VolatileStatusDurations(**durs)
+        return vols, durs
 
     def _boost_kwargs(self, active) -> dict[str, int]:
         if active is None:
@@ -1115,6 +1117,35 @@ class Gen9Translator:
                 order.append(sp)
         return order
 
+    def _sub_remaining(self, hits, defender, sub_max: int) -> int:
+        """Estimated HP left on THEIR substitute: sub_max minus the median
+        engine-calc roll of every absorbed hit. Attacker builds are our own
+        exact mons (_my_built, populated before the opp side assembles);
+        multihit moves pair one [damage] activation per hit with
+        calculate_damage returning one hit's rolls. The probe reproduces
+        stats/types/items and NOTHING ELSE (no weather/boosts) — but unlike
+        the damage-bracket module, the error lands inside a [1, sub_max]
+        clamp rather than an item claim. A sub still standing that the
+        estimate says broke clamps to 1, and that floor IS the
+        information: one more hit ends it."""
+        total = 0
+        for att_sp, mid in hits:
+            att = getattr(self, "_my_built", {}).get(att_sp)
+            if att is None:
+                return max(1, defender.maxhp // 10)   # fp-style fallback
+            try:
+                st = pe.State(
+                    side_one=pe.Side(pokemon=[att] + [
+                        pe.Pokemon.create_fainted() for _ in range(5)]),
+                    side_two=pe.Side(pokemon=[defender] + [
+                        pe.Pokemon.create_fainted() for _ in range(5)]))
+                rolls = pe.calculate_damage(st, mid, "splash", True)[0]
+                if rolls:
+                    total += rolls[len(rolls) // 2]
+            except Exception:
+                total += sub_max // 2   # unknown hit: assume it hurt
+        return max(1, sub_max - total)
+
     def _assemble_side(self, battle, mons, active, conditions,
                        build_one, side_key, force_switch=False,
                        force_trapped=False, fill=None) -> pe.Side:
@@ -1158,11 +1189,49 @@ class Gen9Translator:
             if active_species in order and order.index(active_species) < 6 else 0
 
         vols, durs = self._active_volatiles(active)
+
+        our_role = getattr(battle, "player_role", None) or "p1"
+        role = our_role if side_key == "me" else \
+            ("p2" if our_role == "p1" else "p1")
+
+        if self._obs is not None and active is not None:
+            # two-turn charge in progress (|-prepare|; poke-env keeps
+            # nothing): the engine's charging volatile makes the release
+            # execute and models the semi-invulnerable turn. Sun-mode
+            # Solar Beam/Blade never emits -prepare, and a Power Herb
+            # release clears at its -enditem, so neither goes stale.
+            from showdown.set_inference import _CHARGE_MOVES
+            ch = self._obs.charging(role)
+            if ch in _CHARGE_MOVES:
+                vols.add(ch)
+            # Outrage-class rampage: volatile + turns-used duration drive
+            # the engine's fatigue clock (end-of-turn duration==2 ->
+            # rampage ends into confusion); the move RESTRICTION half is
+            # pinned in _opp_pokemon like a choice lock
+            ramp = self._obs.rampage_for(
+                getattr(active, "species", "") or "")
+            if side_key == "opp" and ramp is not None:
+                vols.add("lockedmove")
+                durs["lockedmove"] = min(int(ramp[2]), 2)
+
         sub_health = 0
         if active is not None and "substitute" in vols:
-            # poke-env tracks sub presence, not HP; use the engine-side maxhp
-            # (opponent poke-env HP is normalized to /100)
-            sub_health = max(1, pokemon[active_slot].maxhp // 4)
+            # poke-env tracks sub presence, not HP — the protocol hides sub
+            # damage by design. THEIR sub: estimate every absorbed hit with
+            # the engine's damage calc (our attacker builds are exact).
+            # OUR sub: the attackers are per-world guesses that are not
+            # even built yet at this point in assembly, so it keeps the
+            # binary fresh-1/4 vs hit-~1/10 read (fp parity).
+            sub_max = max(1, pokemon[active_slot].maxhp // 4)
+            sub_health = sub_max
+            if self._obs is not None:
+                if side_key == "opp":
+                    hits = self._obs.opp_sub_hits()
+                    if hits:
+                        sub_health = self._sub_remaining(
+                            hits, pokemon[active_slot], sub_max)
+                elif self._obs.our_sub_hit():
+                    sub_health = max(1, pokemon[active_slot].maxhp // 10)
 
         # last_used_move feeds the engine's Encore re-routing, Fake Out /
         # First Impression legality, and choice-lock continuation. poke-env
@@ -1227,7 +1296,7 @@ class Gen9Translator:
             wish=wish,
             future_sight=future_sight,
             volatile_statuses=vols,
-            volatile_status_durations=durs,
+            volatile_status_durations=pe.VolatileStatusDurations(**durs),
             substitute_health=sub_health,
             last_used_move=last_used_move,
             force_switch=force_switch,
@@ -1637,6 +1706,18 @@ class Gen9Translator:
         if (bool(mon.active) and mon.last_move is not None
                 and (item in _CHOICE_LOCKERS or ability == _LOCKING_ABILITY)):
             locked_move = _normalize(mon.last_move.id)
+        # mid-rampage (Outrage class) or mid-charge (Solar Beam class) the
+        # mon has no choice at all — same pin as a choice lock. Both are
+        # obs-derived: the protocol marks neither and poke-env keeps
+        # nothing (fp cross-audit, 2026-08-04).
+        if locked_move is None and bool(mon.active) and self._obs is not None:
+            ramp = self._obs.rampage_for(species)
+            if ramp is not None:
+                locked_move = ramp[1]
+            else:
+                ch = self._obs.opp_charging()
+                if ch is not None:
+                    locked_move = ch
 
         # moves: revealed first (PP as observed), canonical fill for the rest
         moves = []

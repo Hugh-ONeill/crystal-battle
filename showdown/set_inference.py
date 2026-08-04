@@ -96,6 +96,20 @@ _ANNOUNCE_TERRAIN = {"electricsurge": "electric", "hadronengine": "electric",
                      "grassysurge": "grassy", "mistysurge": "misty",
                      "psychicsurge": "psychic"}
 
+# Outrage-class rampages: once clicked, the user has no choice until the
+# rampage ends (2-3 turns, then fatigue confusion). The protocol marks
+# neither the lock nor its end — both are derived from consecutive use.
+_LOCK_MOVES = frozenset({"outrage", "petaldance", "thrash", "ragingfury"})
+
+# Two-turn charge moves, named exactly as the engine's charging volatiles
+# (poke-engine charge_choice_to_volatile): mid-charge the user is committed
+# and often semi-invulnerable, announced only by |-prepare|.
+_CHARGE_MOVES = frozenset({
+    "bounce", "dig", "dive", "fly", "freezeshock", "geomancy", "iceburn",
+    "meteorbeam", "electroshot", "phantomforce", "razorwind", "shadowforce",
+    "skullbash", "skyattack", "skydrop", "solarbeam", "solarblade",
+})
+
 
 def _grounded_by_species(species_norm: str) -> bool:
     """True when the species is grounded on type + ability alone — not a
@@ -306,6 +320,20 @@ class BattleObservations:
         self._nogas = False   # Neutralizing Gas seen -> announce rule is off
         self._terrain = "none"                   # for the Surge-class check
 
+        # substitute bookkeeping: per sub-OWNER role, every hit the standing
+        # sub has absorbed as (attacker_species, move_id). The protocol
+        # never states sub damage (that concealment is the move's point), so
+        # remaining HP is ESTIMATED downstream from these; multihit moves
+        # emit one [damage] activation per hit, which pairs exactly with
+        # calculate_damage returning one hit's rolls.
+        self.sub_hits: dict[str, list] = {"p1": [], "p2": []}
+        self._last_move: dict[str, tuple[str, str]] = {}  # role -> (sp, mid)
+        # Outrage-class rampage: role -> (species, move_id, consecutive uses)
+        self._rampage: dict[str, tuple | None] = {"p1": None, "p2": None}
+        # two-turn charge in progress: role -> move id (from |-prepare|)
+        self._charging: dict[str, str | None] = {"p1": None, "p2": None}
+        self._opp_role: str | None = None
+
         # DIRECT reveals the protocol broadcasts in [from]/[of] tags — "was
         # poisoned by Toxic Orb", Flame Orb burns, Leftovers heals, Rocky
         # Helmet chip, ability activations. Not inference: the sim names the
@@ -403,6 +431,31 @@ class BattleObservations:
         """Abilities ruled out by a silent first switch-in."""
         return frozenset(self.impossible_abilities.get(_normalize(species),
                                                        ()))
+
+    def rampage_for(self, species: str):
+        """(species, move_id, consecutive_uses) when the OPPONENT'S active
+        is mid-Outrage-class-rampage and matches, else None."""
+        if self._opp_role is None:
+            return None
+        r = self._rampage.get(self._opp_role)
+        return r if r is not None and r[0] == _normalize(species) else None
+
+    def opp_sub_hits(self) -> list:
+        """Hits absorbed by the opponent's standing substitute."""
+        return list(self.sub_hits.get(self._opp_role or "", ()))
+
+    def our_sub_hit(self) -> bool:
+        """Whether OUR standing substitute has absorbed at least one hit."""
+        our = "p1" if self._opp_role == "p2" else "p2"
+        return bool(self.sub_hits.get(our))
+
+    def charging(self, role: str) -> str | None:
+        """Move id this role's active is mid-charge on, else None."""
+        return self._charging.get(role)
+
+    def opp_charging(self) -> str | None:
+        """Move id the OPPONENT's active is mid-charge on, else None."""
+        return self._charging.get(self._opp_role or "")
 
     def _close_turn_upkeep(self):
         """End-of-turn proofs from what did NOT happen.
@@ -635,6 +688,7 @@ class BattleObservations:
         replay = getattr(battle, "_replay_data", [])
         our_role = battle.player_role
         opp_role = "p2" if our_role == "p1" else "p1"
+        self._opp_role = opp_role
         for event in replay[self._cursor:]:
             if len(event) < 2:
                 continue
@@ -666,6 +720,9 @@ class BattleObservations:
                 species = _normalize(event[3].split(",")[0])
                 self._active[role] = species
                 self._stint_moves.pop(role, None)
+                self.sub_hits[role] = []      # a sub does not survive switching
+                self._rampage[role] = None    # nor a rampage, nor a charge
+                self._charging[role] = None
                 if role == opp_role:
                     self._balloon_pending.add(species)
                     # Regenerator proof: back with more HP than it left with
@@ -723,6 +780,22 @@ class BattleObservations:
                 role = event[2][:2]
                 self._turn_moves.append((role, event[3]))
                 mid = _normalize(event[3])
+                sp_mv = self._active.get(role) or ""
+                self._last_move[role] = (sp_mv, mid)
+                # rampage counting: consecutive uses of the SAME lock move
+                # by the SAME mon; anything else ends it
+                ramp = self._rampage.get(role)
+                if mid in _LOCK_MOVES:
+                    if ramp and ramp[0] == sp_mv and ramp[1] == mid:
+                        self._rampage[role] = (sp_mv, mid, ramp[2] + 1)
+                    else:
+                        self._rampage[role] = (sp_mv, mid, 1)
+                elif ramp is not None:
+                    self._rampage[role] = None
+                # any move line closes a charge: the charging turn's own
+                # |move| precedes its |-prepare| (cleared then re-set), and
+                # the completion turn's |move| is the release
+                self._charging[role] = None
                 called = any(isinstance(a, str) and a.startswith("[from]")
                              for a in event[4:])
                 if role == opp_role:
@@ -876,6 +949,47 @@ class BattleObservations:
                             self._opp_hp[sp] = (int(cur), int(mx))
                     except ValueError:
                         pass
+            elif kind == "-prepare" and len(event) >= 4:
+                # a charge turn: committed (and often semi-invulnerable)
+                # until the release |move| line, a switch, a full stop
+                # (cant), or a Power Herb instant release. A confusion
+                # self-hit on the release turn emits none of those, so the
+                # state can run one turn stale there — it self-corrects on
+                # the mon's next move line.
+                self._charging[event[2][:2]] = _normalize(str(event[3]))
+            elif kind == "cant" and len(event) >= 3:
+                role = event[2][:2]
+                self._rampage[role] = None    # a full stop ends a rampage
+                self._charging[role] = None   # and interrupts a charge
+            elif kind == "-miss" and len(event) >= 3:
+                # gen5+: a missed rampage turn ends the rampage
+                self._rampage[event[2][:2]] = None
+            elif kind == "-enditem" and len(event) >= 4:
+                if "Power Herb" in str(event[3]):
+                    self._charging[event[2][:2]] = None
+            elif kind == "-start" and len(event) >= 4:
+                role = event[2][:2]
+                if "Substitute" in str(event[3]):
+                    self.sub_hits[role] = []          # a fresh sub
+                elif ("confusion" in str(event[3]).lower()
+                        and any(a == "[fatigue]" for a in event[4:]
+                                if isinstance(a, str))):
+                    self._rampage[role] = None        # rampage fatigued out
+            elif kind == "-end" and len(event) >= 4:
+                if "Substitute" in str(event[3]):
+                    self.sub_hits[event[2][:2]] = []  # sub broke
+            elif kind == "-activate" and len(event) >= 4:
+                # a sub absorbed a hit; the amount is deliberately hidden by
+                # the protocol, so record WHICH move hit it (the other
+                # role's last move line) for downstream damage estimation
+                if ("Substitute" in str(event[3])
+                        and any(a == "[damage]" for a in event[4:]
+                                if isinstance(a, str))):
+                    role = event[2][:2]
+                    other = "p2" if role == "p1" else "p1"
+                    lm = self._last_move.get(other)
+                    if lm and lm[0]:
+                        self.sub_hits[role].append(lm)
             elif kind == "-status" and len(event) >= 3:
                 role = event[2][:2]
                 sp = self._event_species(event)
