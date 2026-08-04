@@ -417,6 +417,13 @@ def _render(state, battle, obs, turn) -> str:
     lines.append(
         f"TERA us={'available' if _tera_available(s1) else 'USED'} | "
         f"them={'available' if _tera_available(s2) else 'USED'}")
+    # pending Wish is protocol fact on both sides (the move was public);
+    # rendered only when live so the fixed-slot contract stays quiet-empty
+    for wlabel, wside in (("us", s1), ("them", s2)):
+        w = getattr(wside, "wish", None) or (0, 0)
+        if w[0] > 0:
+            lines.append(f"WISH {wlabel}: {w[1]} hp arrives at end of "
+                         f"{'THIS turn' if w[0] == 1 else 'NEXT turn'}")
 
     # --- us ---
     lines.append("--- US (sets exact) ---")

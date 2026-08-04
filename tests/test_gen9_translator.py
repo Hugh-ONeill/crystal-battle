@@ -1393,3 +1393,81 @@ def test_predicted_fill_chaos_only_without_preview():
     b = SimpleNamespace(teampreview_opponent_team=[])
     fill = tr._predicted_fill(b, appeared)
     assert len(fill) == 5 and all(p.id != "gliscor" for p in fill)
+
+
+# ---- wish / healing wish tracking (2026-08-04) -------------------------
+# The protocol never restates a pending Wish and poke-env keeps nothing, so
+# before observe_events every rebuilt root had wish=(0,0): the engine
+# re-clicked Wish on the collect turn (real server fails it — dead turn
+# every cycle) and never modeled the incoming heal. The player's old no-op
+# guard for this searched battle.side_conditions for a WISH member that
+# poke-env does not define — dead code, which is why the misplay survived.
+
+def _wish_batch(*msgs):
+    return [[">battle-gen9monotype-test-1"], *msgs]
+
+
+def test_wish_tracked_into_engine_state():
+    b = make_battle()
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "move", "p1a: Ninetales", "Wish", "p1a: Ninetales"]),
+        "p1", b.turn)
+    state = tr.translate(b)
+    assert state.side_one.wish == (2, 161)      # 323 maxhp // 2, same turn
+    b.parse_message(["", "turn", "2"])
+    assert tr.translate(b).side_one.wish == (1, 161)   # collect turn
+    b.parse_message(["", "turn", "3"])
+    assert tr.translate(b).side_one.wish == (0, 0)     # expired
+
+def test_second_wish_while_pending_does_not_extend():
+    b = make_battle()
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "move", "p1a: Ninetales", "Wish", "p1a: Ninetales"]),
+        "p1", 1)
+    tr.observe_events(_wish_batch(
+        ["", "turn", "2"],
+        ["", "move", "p1a: Ninetales", "Wish", "p1a: Ninetales"]),
+        "p1", 1)
+    assert tr._wish["me"] == (1, "ninetales")   # first record, not re-stamped
+
+def test_wish_heal_event_clears_pending():
+    b = make_battle()
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "move", "p1a: Ninetales", "Wish", "p1a: Ninetales"]),
+        "p1", b.turn)
+    tr.observe_events(_wish_batch(
+        ["", "-heal", "p1a: Ninetales", "300/323",
+         "[from] move: Wish", "[wisher] Ninetales"]),
+        "p1", b.turn)
+    assert tr.translate(b).side_one.wish == (0, 0)
+
+def test_still_marked_wish_is_ignored():
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "move", "p1a: Ninetales", "Wish", "p1a: Ninetales", "[still]"]),
+        "p1", 1)
+    assert tr._wish["me"] is None
+
+def test_turn_cursor_advances_inside_batch():
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "turn", "7"],
+        ["", "move", "p2a: Garchomp", "Wish", "p2a: Garchomp"]),
+        "p1", 6)
+    assert tr._wish["opp"] == (7, "garchomp")
+
+def test_healing_wish_sets_side_condition_until_consumed():
+    b = make_battle()
+    tr = Gen9Translator()
+    tr.observe_events(_wish_batch(
+        ["", "move", "p2a: Garchomp", "Healing Wish", "p2a: Garchomp"]),
+        "p1", b.turn)
+    assert tr.translate(b).side_two.side_conditions.healing_wish == 1
+    tr.observe_events(_wish_batch(
+        ["", "-heal", "p2a: Garchomp", "100/100",
+         "[from] move: Healing Wish"]),
+        "p1", b.turn)
+    assert tr.translate(b).side_two.side_conditions.healing_wish == 0

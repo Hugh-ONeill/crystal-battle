@@ -496,3 +496,13 @@ def test_reads_are_absent_without_obs_and_never_come_from_world_zero():
     assert "READ FROM PLAY" not in sheet
     assert "Choice Scarf" not in sheet and "choicescarf" not in sheet
     assert "NOT YET KNOWN — its item" in sheet
+
+
+def test_pending_wish_rendered_when_live():
+    ours = side([mon("kingambit")])
+    theirs = side([mon("greattusk")], wish=(1, 212))
+    sheet = render_sheet(state(ours, theirs), battle())
+    assert "WISH them: 212 hp arrives at end of THIS turn" in sheet
+    assert "WISH us" not in sheet
+    quiet = render_sheet(default_state(), battle())
+    assert "WISH" not in quiet

@@ -237,12 +237,81 @@ class Gen9Translator:
         self._book_min_obs = 2
         # per-battle canonical slot ordering (see _slot_order)
         self._slots: dict[str, list[str]] = {}
+        # cross-turn slot state the protocol never restates (poke-env keeps
+        # none of it): pending Wish per side as (set_turn, wisher_species),
+        # pending Healing Wish / Lunar Dance count per side. Fed by
+        # observe_events; consumed by _assemble_side / _side_conditions.
+        self._wish: dict[str, tuple[int, str] | None] = {"me": None, "opp": None}
+        self._healing_wish: dict[str, int] = {"me": 0, "opp": 0}
 
     def new_battle(self):
         self._opp_type = None
         self._obs = None
         self._slots = {}
         self._archive_team = None
+        self._wish = {"me": None, "opp": None}
+        self._healing_wish = {"me": 0, "opp": 0}
+
+    def observe_events(self, split_messages, role: str, turn: int) -> None:
+        """Track slot state the protocol NEVER RESTATES, from raw message
+        batches (the player calls this from _handle_battle_message).
+
+        Wish is the founding member (2026-08-04): there is no protocol line
+        for a pending wish — only the move event and, two turns later, the
+        heal — and poke-env keeps nothing, so without this every rebuilt
+        root had wish=(0,0). The engine then re-clicked Wish on the collect
+        turn (the real server fails it: dead turn every cycle) and never
+        modeled the incoming heal. foul-play tracks this identically
+        (fp/battle_modifier.py: "there is nothing special in the protocol
+        for wish - it must be extracted here").
+
+        A batch can carry both a move and the next |turn| line, so the turn
+        cursor advances INSIDE the loop — attributing by the caller's
+        battle.turn alone would stamp late-batch events with the wrong turn.
+        Must never raise; the caller wraps it anyway.
+        """
+        if not role:
+            return
+        cur = turn
+        for msg in split_messages:
+            if len(msg) < 3 or not isinstance(msg[1], str):
+                continue
+            kind = msg[1]
+            if kind == "turn":
+                try:
+                    cur = int(msg[2])
+                except (ValueError, TypeError):
+                    pass
+            elif kind == "move":
+                mv = _normalize(msg[3] if len(msg) > 3 else "")
+                if mv not in ("wish", "healingwish", "lunardance"):
+                    continue
+                if any(p == "[still]" for p in msg):
+                    continue    # animation suppressed = the move failed
+                side = "me" if msg[2].startswith(role) else "opp"
+                if mv == "wish":
+                    rec = self._wish.get(side)
+                    if rec is not None and 0 <= cur - rec[0] <= 1:
+                        continue    # Wish while one is pending fails
+                    species = _normalize(msg[2].split(":", 1)[-1])
+                    self._wish[side] = (cur, species)
+                else:
+                    # Lunar Dance approximated as Healing Wish: the engine
+                    # consumes healing_wish generically on switch-in and
+                    # implements no Lunar Dance effect of its own
+                    self._healing_wish[side] = self._healing_wish.get(side, 0) + 1
+            elif kind == "-heal":
+                frm = _normalize(next((p for p in msg
+                                       if isinstance(p, str)
+                                       and p.startswith("[from]")), ""))
+                if frm not in ("frommovewish", "frommovehealingwish",
+                               "frommovelunardance"):
+                    continue
+                side = "me" if msg[2].startswith(role) else "opp"
+                if frm == "frommovewish":
+                    self._wish[side] = None
+                else:
+                    self._healing_wish[side] = 0
 
     def set_opponent_book(self, profile: dict | None, min_obs: int = 2):
         """Scouting profile for the CURRENT opponent (showdown/scouting_book
@@ -870,7 +939,7 @@ class Gen9Translator:
     # ---- side-level state ----
 
     def _side_conditions(self, battle, conditions, side_mons,
-                         active) -> pe.SideConditions:
+                         active, healing_wish: int = 0) -> pe.SideConditions:
         turn = battle.turn
         side_items = {_normalize(m.item) for m in side_mons if m.item}
         # Light Clay is silent too, so the same duration proof applies: a
@@ -912,6 +981,8 @@ class Gen9Translator:
                 kwargs["toxic_count"] = active.status_counter
             if active.protect_counter:
                 kwargs["protect"] = active.protect_counter
+        if healing_wish:
+            kwargs["healing_wish"] = healing_wish
         return pe.SideConditions(**kwargs)
 
     def _active_volatiles(self, active) -> tuple[set, pe.VolatileStatusDurations]:
@@ -1064,10 +1135,30 @@ class Gen9Translator:
                                      and last_used_move != "move:none"):
             vols.discard("encore")
 
+        # pending Wish (observe_events): heal = half the WISHER's maxhp —
+        # our side exact, opponent from the modeled build. The wisher is
+        # matched by protocol identifier, which is the NICKNAME; on a bot
+        # ladder that is the species, and a no-match degrades to (0,0),
+        # i.e. exactly the pre-tracking behavior.
+        wish = (0, 0)
+        rec = self._wish.get(side_key)
+        if rec is not None:
+            turns_left = 2 - (battle.turn - rec[0])
+            if turns_left <= 0 or turns_left > 2:
+                self._wish[side_key] = None
+            else:
+                wisher = next((p for p in pokemon
+                               if getattr(p, "id", "") == rec[1]), None)
+                if wisher is not None and getattr(wisher, "maxhp", 0):
+                    wish = (turns_left, wisher.maxhp // 2)
+
         return pe.Side(
             pokemon=pokemon[:6],
             active_index=str(active_slot),
-            side_conditions=self._side_conditions(battle, conditions, mons, active),
+            side_conditions=self._side_conditions(
+                battle, conditions, mons, active,
+                healing_wish=self._healing_wish.get(side_key, 0)),
+            wish=wish,
             volatile_statuses=vols,
             volatile_status_durations=durs,
             substitute_health=sub_health,

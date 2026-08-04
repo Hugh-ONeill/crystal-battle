@@ -1378,16 +1378,26 @@ class Gen9PokeEnginePlayer(Player):
         return battle
 
     async def _handle_battle_message(self, split_messages):
-        """Defer to the base handler, then scrape dramatic protocol events
-        for commentary. Best-effort: a scan error must never disturb play."""
+        """Scrape cross-turn slot state (pending Wish / Healing Wish) into
+        the translator BEFORE the base handler — battle.turn must still be
+        the pre-batch turn, since observe_events advances its own cursor on
+        the |turn| lines inside the batch — then defer to the base handler,
+        then scrape dramatic events for commentary. Both scrapes are
+        best-effort: an error must never disturb play."""
+        b = None
+        try:
+            if split_messages and split_messages[0]:
+                tag = split_messages[0][0].lstrip(">").strip()
+                b = self._battles.get(tag)
+                if b is not None and getattr(b, "player_role", None):
+                    self._translator.observe_events(
+                        split_messages, b.player_role, b.turn)
+        except Exception:
+            pass
         result = await super()._handle_battle_message(split_messages)
         if self._airi is not None:
             try:
-                role = None
-                if split_messages and split_messages[0]:
-                    tag = split_messages[0][0].lstrip(">").strip()
-                    b = self._battles.get(tag)
-                    role = b.player_role if b else None
+                role = b.player_role if b else None
                 self._director.observe(
                     self._scanner.scan(split_messages, role))
             except Exception:
