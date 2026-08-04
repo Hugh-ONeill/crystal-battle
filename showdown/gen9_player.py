@@ -1183,7 +1183,17 @@ class Gen9PokeEnginePlayer(Player):
                           f"({self._opp_profile.get('games', 0)} book games)")
             else:
                 pool = _lead_pool(matrix)
-            if self._stochastic and len(pool) > 1:
+            # CB_LEAD_ARGMAX=1: always lead the maximin #1, never sample the
+            # near-tie pool. Attribution over 1024 bench games (2026-08-04):
+            # rank-1 leads are held at 14% T1-switch — exactly the fp/
+            # richwoman reference — while sampled rank-2/3 leads (55% of
+            # games) get repudiated at 24-25%, and the rerun-stability study
+            # showed the #1-vs-#2 ordering is reproducible signal, not noise.
+            # The pool's anti-read rationale is a ladder-vs-adaptive-humans
+            # feature; stock fp keeps no cross-game lead memory to exploit.
+            if os.environ.get("CB_LEAD_ARGMAX", "") == "1":
+                pass                        # keep the maximin/EV argmax
+            elif self._stochastic and len(pool) > 1:
                 lead_idx = self._choice_rng.choice(pool)
             # OPENING BOOK, lead entry. Identification must happen here, not
             # after the order is built, because the override needs it.
