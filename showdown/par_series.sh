@@ -58,6 +58,20 @@
 # Tally: grep -c "^INFO     Winner: CBGen9" showdown/bench/<name>_L*_foulplay.log
 set -u
 CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
+# SELF-INHIBIT (2026-08-04). A series is hours long and the box sleeps on idle:
+# the evalstock A/B lost 4h32m to `PM: suspend entry (deep)` at 00:11 and only
+# resumed at 04:43. The practice was to launch as
+# `systemd-inhibit ... sh par_series.sh`, but every wrapper written on 08-03
+# used systemd-run instead — which survives a harness restart but does NOTHING
+# about sleep — and 0 of 11 held an inhibitor. Acquiring it here means the rule
+# no longer depends on whoever writes the wrapper. Re-exec once, before any
+# argument parsing, so the full original argv is preserved.
+if [ -z "${CB_INHIBITED:-}" ] && command -v systemd-inhibit >/dev/null 2>&1; then
+  CB_INHIBITED=1
+  export CB_INHIBITED
+  exec systemd-inhibit --what=sleep:idle --mode=block \
+       --why="crystal-battle bench series ${1:-?}" "$0" "$@"
+fi
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
 SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""; AB_ENV=""; AB_P0=""; AB_P1=""
 OPPONENT="foulplay"
