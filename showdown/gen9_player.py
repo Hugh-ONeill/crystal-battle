@@ -1042,6 +1042,16 @@ class Gen9PokeEnginePlayer(Player):
         # >1: search that many sampled opponent-set worlds per turn and merge
         # (chaos sources only; monotype canonical sets have no sampler yet)
         self._set_samples = set_samples if set_source not in (None, "monotype") else 1
+        # CB_K1_COMMIT=1: the world-concentration arm (2026-08-04). fp
+        # searches 1-2 sampled realities and plays sharp; our K-world merge
+        # rewards moves that are good in EVERY world, which structurally
+        # favors switches/recovery/hazards over lines that pay only in the
+        # true world — a candidate mechanism for "better beliefs, softer
+        # play". K=1 commits every decision to the single stable world. The
+        # old K-sweep null (n=36/arm, tera-off era) could not see this.
+        if os.environ.get("CB_K1_COMMIT", "") == "1":
+            self._set_samples = 1
+            self._k_max = 1
         self._verbose = verbose
         self._last_tag: str | None = None
         # commentary bridge (optional): battle beats become input:text
