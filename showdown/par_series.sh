@@ -69,8 +69,12 @@ CB_ABS=/home/wiz/Developer/grimoire/crystal-battle
 if [ -z "${CB_INHIBITED:-}" ] && command -v systemd-inhibit >/dev/null 2>&1; then
   CB_INHIBITED=1
   export CB_INHIBITED
+  # Re-exec through /bin/sh, not "$0" directly: the script is invoked as
+  # `sh par_series.sh ...` and is NOT mode +x, so handing the path to
+  # systemd-inhibit as a command fails with "Permission denied" — which would
+  # break every series, not just long ones. Caught by the 6-lane smoke.
   exec systemd-inhibit --what=sleep:idle --mode=block \
-       --why="crystal-battle bench series ${1:-?}" "$0" "$@"
+       --why="crystal-battle bench series ${1:-?}" /bin/sh "$0" "$@"
 fi
 NAME="$1"; TOTAL="$2"; LANES="$3"; shift 3
 SUITE_DIR=""; FP_SUITE_DIR=""; SPRT_P0=""; SPRT_P1=""; AB_ENV=""; AB_P0=""; AB_P1=""
