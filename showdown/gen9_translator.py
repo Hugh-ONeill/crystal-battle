@@ -1115,10 +1115,10 @@ class Gen9Translator:
             conditions=battle.opponent_side_conditions,
             build_one=self._opp_pokemon,
             side_key="opp",
-            fill=self._predicted_fill(opp_mons),
+            fill=self._predicted_fill(battle, opp_mons),
         )
 
-    def _predicted_fill(self, opp_mons) -> list:
+    def _predicted_fill(self, battle, opp_mons) -> list:
         """Predicted mons for the opponent's unrevealed slots.
 
         Fainted-dummy fill (the gen2 approach) is catastrophic for live play:
@@ -1127,15 +1127,36 @@ class Gen9Translator:
         (measured 0-10 vs foul-play with ~0.98 mid-game evals). Chaos-stats
         team prediction, teammate-correlated with what's been revealed, keeps
         the eval honest.
+
+        TEAM PREVIEW NAMES THE ROSTER (2026-08-04, found by the shadow
+        overlay's worry stream and verified against a live game's |poke|
+        lines): poke-env keeps the previewed six in
+        `teampreview_opponent_team` while `opponent_team` holds only mons
+        that have APPEARED — and this fill was inventing chaos teammates
+        for slots the preview had already named (world-1 assumed Great
+        Tusk/Ting-Lu into a revealed Quagsire/Blissey stall core). Known
+        but not-yet-seen species fill first, through the same
+        `_predicted_pokemon` tier stack; chaos prediction only ever covers
+        slots no preview named, so no-preview formats behave as before.
         """
         n_fill = 6 - len(opp_mons)
         if n_fill <= 0 or self._set_source in (None, "monotype"):
             # TODO monotype: fill from per-type replay teammate stats
             return []
+        seen = {_slot_key(m.species) for m in opp_mons}
+        known: list[str] = []
+        for m in (getattr(battle, "teampreview_opponent_team", None) or []):
+            sp = _slot_key(getattr(m, "species", "") or "")
+            if sp and sp not in seen and sp not in known:
+                known.append(sp)
+        out = [self._predicted_pokemon(sp) for sp in known[:n_fill]]
+        n_fill -= len(out)
+        if n_fill <= 0:
+            return out
         try:
             from showdown.chaos_stats import RevealedMon
-            revealed = {_normalize(m.species): RevealedMon(_normalize(m.species))
-                        for m in opp_mons}
+            revealed = {sp: RevealedMon(sp)
+                        for sp in seen | set(known)}
             rng = getattr(self, "_rng", None)
             if rng is not None:
                 species = self._chaos().sample_team(revealed, n_fill, rng)
@@ -1143,8 +1164,8 @@ class Gen9Translator:
                 species = [_normalize(p.species) for p in
                            self._chaos().predict_team(revealed, n_fill=n_fill)]
         except Exception:
-            return []
-        return [self._predicted_pokemon(sp) for sp in species]
+            return out
+        return out + [self._predicted_pokemon(sp) for sp in species]
 
     def _predicted_pokemon(self, species: str) -> pe.Pokemon:
         """Full-HP engine mon for a predicted (never-revealed) species."""

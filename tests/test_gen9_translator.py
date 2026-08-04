@@ -1366,3 +1366,30 @@ def test_tera_draw_differs_by_species_under_one_tag():
 def test_tera_draw_degrades_to_none():
     assert _stable_tera_draw({}, "battle-gen9ou-1", "kingambit") is None
     assert _stable_tera_draw({"fairy": 0.0}, "battle-gen9ou-1", "x") is None
+
+
+def test_predicted_fill_uses_preview_roster_not_chaos_invention():
+    """Team preview names all six; unrevealed slots must be the KNOWN
+    species, never chaos-invented teammates (2026-08-04: world-1 assumed
+    Great Tusk/Ting-Lu into a revealed Quagsire/Blissey stall core —
+    found by the shadow overlay's worry stream, verified vs |poke| lines).
+    The '-*' undisclosed forme must resolve to its base species."""
+    from types import SimpleNamespace
+    tr = Gen9Translator(set_source="gen9ou")
+    appeared = [SimpleNamespace(species="gliscor")]
+    b = SimpleNamespace(teampreview_opponent_team=[
+        SimpleNamespace(species=s) for s in
+        ("Gliscor", "Quagsire", "Blissey", "Toxapex", "Sinistcha",
+         "Zamazenta-*")])
+    ids = sorted(p.id for p in tr._predicted_fill(b, appeared))
+    assert ids == ["blissey", "quagsire", "sinistcha", "toxapex", "zamazenta"]
+
+
+def test_predicted_fill_chaos_only_without_preview():
+    """No-preview formats keep the teammate-correlated chaos fill."""
+    from types import SimpleNamespace
+    tr = Gen9Translator(set_source="gen9ou")
+    appeared = [SimpleNamespace(species="gliscor")]
+    b = SimpleNamespace(teampreview_opponent_team=[])
+    fill = tr._predicted_fill(b, appeared)
+    assert len(fill) == 5 and all(p.id != "gliscor" for p in fill)
