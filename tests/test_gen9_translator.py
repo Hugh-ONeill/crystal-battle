@@ -1471,3 +1471,15 @@ def test_healing_wish_sets_side_condition_until_consumed():
          "[from] move: Healing Wish"]),
         "p1", b.turn)
     assert tr.translate(b).side_two.side_conditions.healing_wish == 0
+
+def test_gravity_reaches_engine_state():
+    """Engine modeled gravity all along; the translator never passed it
+    (found in the 2026-08-04 fp cross-audit — fp doesn't serialize it
+    either, so both stacks were blind to the same public field state)."""
+    b = make_battle()
+    b.parse_message(["", "-fieldstart", "move: Gravity"])
+    state = Gen9Translator().translate(b)
+    assert state.gravity is True
+    assert state.gravity_turns_remaining == 5
+    b2 = make_battle()
+    assert Gen9Translator().translate(b2).gravity is False

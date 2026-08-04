@@ -877,11 +877,13 @@ class Gen9Translator:
         weather, weather_turns = self._weather(battle)
         terrain, terrain_turns = self._terrain(battle)
         trick_room, tr_turns = self._trick_room(battle)
+        gravity, gravity_turns = self._gravity(battle)
         return pe.State(
             side_one=side_one, side_two=side_two,
             weather=weather, weather_turns_remaining=weather_turns,
             terrain=terrain, terrain_turns_remaining=terrain_turns,
             trick_room=trick_room, trick_room_turns_remaining=tr_turns,
+            gravity=gravity, gravity_turns_remaining=gravity_turns,
             team_preview=False,
         )
 
@@ -933,6 +935,15 @@ class Gen9Translator:
     def _trick_room(self, battle) -> tuple[bool, int]:
         for field, start_turn in battle.fields.items():
             if field.name == "TRICK_ROOM":
+                return True, _clamp_turns(5 - (battle.turn - start_turn))
+        return False, 0
+
+    def _gravity(self, battle) -> tuple[bool, int]:
+        # found in the 2026-08-04 fp cross-audit: the engine models gravity
+        # (grounding + accuracy) but the translator never passed it — and
+        # poke-env has tracked it all along. fp doesn't serialize it either.
+        for field, start_turn in battle.fields.items():
+            if field.name == "GRAVITY":
                 return True, _clamp_turns(5 - (battle.turn - start_turn))
         return False, 0
 
