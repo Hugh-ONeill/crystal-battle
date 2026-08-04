@@ -625,10 +625,12 @@ class Gen9Translator:
         # the Choice Band Gliscor survived a game's worth of contrary
         # evidence. Revealed items still win over all of it.
         disproven = frozenset()
+        ability_disproven = frozenset()
         if self._obs is not None:
             disproven = self._obs.forbidden(species)
             if _normalize(species) in self._obs.choice_disproven:
                 disproven = disproven | _CHOICE_LOCKERS
+            ability_disproven = self._obs.ability_forbidden(species)
 
         # full-set archive tier: a correlated whole-team match beats every
         # per-species source; the book (this exact opponent's observed
@@ -642,7 +644,8 @@ class Gen9Translator:
         if getattr(self, "_prefer_ps", True):
             ps_cand = self._ps_candidate(species, known_moves, known_item,
                                          known_ability,
-                                         exclude_items=disproven)
+                                         exclude_items=disproven,
+                                         exclude_abilities=ability_disproven)
             if ps_cand is not None:
                 if _PS_TERA_SOURCE == "chaos":
                     # tera only: the PS set's moves/item are its strength,
@@ -740,7 +743,9 @@ class Gen9Translator:
 
     def _ps_candidate(self, species: str, known_moves: tuple[str, ...],
                       known_item: str | None, known_ability: str | None,
-                      exclude_items: frozenset = frozenset()) -> dict | None:
+                      exclude_items: frozenset = frozenset(),
+                      exclude_abilities: frozenset = frozenset()) \
+            -> dict | None:
         """Pick a curated full set consistent with all observations, or None
         to fall through to chaos. Mirrors foul-play's tier semantics: always
         used when nothing is revealed; with reveals, the sampler keeps 25%
@@ -768,6 +773,17 @@ class Gen9Translator:
                 cands = ok
             else:
                 redraw_item = True
+        # unlike items, an ability is integral to its build (Unaware
+        # Clodsire and Water Absorb Clodsire are different sets), so a
+        # candidate with a ruled-out ability is dropped rather than
+        # re-drawn — unless none survive, and the final assignment's
+        # choke-point filter re-picks the ability instead
+        if exclude_abilities:
+            ok_a = [c for c in cands
+                    if _normalize(c.get("ability") or "")
+                    not in exclude_abilities]
+            if ok_a:
+                cands = ok_a
         # confidence gate: with nothing revealed, an editorial dex set is
         # only trusted if the ladder corpus corroborates it — the suite A/B
         # showed uncorroborated curated sets cost more than chaos sampling
@@ -1470,6 +1486,11 @@ class Gen9Translator:
         if revealed_ability is None and self._obs is not None:
             revealed_ability = self._obs.revealed_ability.get(
                 _normalize(species))
+            if revealed_ability is None \
+                    and _normalize(species) in self._obs.regen:
+                # behaviorally proven (bench heal on re-switch-in);
+                # adopted like a reveal so set selection keys on it too
+                revealed_ability = "regenerator"
 
         known_move_ids = tuple(_normalize(m) for m in mon.moves)
         canon = self._opp_set(
@@ -1511,12 +1532,23 @@ class Gen9Translator:
         else:
             item = canon["item"] if canon is not None else "none"
             item_known = False
-        if mon.ability:
-            ability = _normalize(mon.ability)
-        elif canon is not None and canon.get("ability"):
+        # negative evidence (silent first switch-in) filters every tier's
+        # ability at this single choke point; a positive reveal or the
+        # Regenerator proof (both folded into revealed_ability above) wins
+        # outright
+        amiss = (self._obs.ability_forbidden(species)
+                 if self._obs is not None else frozenset())
+        if revealed_ability:
+            ability = revealed_ability
+        elif (canon is not None and canon.get("ability")
+                and canon["ability"] not in amiss):
             ability = canon["ability"]
         else:
-            ability = _normalize(str(entry.get("abilities", {}).get("0", "noability")))
+            abl = entry.get("abilities", {})
+            ranked = [_normalize(str(abl.get(k, "")))
+                      for k in ("0", "1", "H", "S")]
+            ability = next((a for a in ranked if a and a not in amiss),
+                           None) or _normalize(str(abl.get("0", "noability")))
 
         # observational refinement (set_inference.py) — inferred details only
         revealed_item = item_known

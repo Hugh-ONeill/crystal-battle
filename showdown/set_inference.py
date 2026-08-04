@@ -73,6 +73,30 @@ def _can_magic_guard(species_norm: str) -> bool:
     return "magicguard" in _abilities_of(species_norm)
 
 
+# NEGATIVE ability evidence (2026-08-04, from the fp cross-audit): these
+# abilities ANNOUNCE THEMSELVES on switch-in, so a first entry that stays
+# silent rules them out for the species. Only unconditional announcers
+# qualify for the flat set; weather/terrain setters announce only when they
+# would CHANGE the field, so they carry their expected result and are
+# checked against the field state at entry. Deliberately absent:
+# supremeoverlord (silent at fallen=0), frisk (silent vs itemless),
+# screencleaner (silent without screens), trace (can fail on untraceable),
+# protosynthesis/quarkdrive (condition on sun/Booster). Dauntless Shield
+# and Intrepid Sword announce only ONCE per battle in gen9 — safe here
+# because only a species' FIRST entry ever opens the latch.
+_ANNOUNCE_ALWAYS = frozenset({
+    "intimidate", "pressure", "unnerve", "download", "dauntlessshield",
+    "intrepidsword", "vesselofruin", "swordofruin", "tabletsofruin",
+    "beadsofruin", "slowstart", "moldbreaker", "teravolt", "turboblaze",
+})
+_ANNOUNCE_WEATHER = {"drought": "sun", "orichalcumpulse": "sun",
+                     "drizzle": "rain", "sandstream": "sand",
+                     "snowwarning": "snow"}
+_ANNOUNCE_TERRAIN = {"electricsurge": "electric", "hadronengine": "electric",
+                     "grassysurge": "grassy", "mistysurge": "misty",
+                     "psychicsurge": "psychic"}
+
+
 def _grounded_by_species(species_norm: str) -> bool:
     """True when the species is grounded on type + ability alone — not a
     Flying type and cannot plausibly run Levitate. Spikes only chip grounded
@@ -267,6 +291,21 @@ class BattleObservations:
         self.boots: set[str] = set()            # confident Heavy-Duty Boots
         self.boots_ambiguous: set[str] = set()  # zero-chip but MG-capable
 
+        # Regenerator proven behaviorally: a mon that left the field alive
+        # and returned with MORE HP was healed on the bench, and Regenerator
+        # is the only passive bench heal in gen9 (Healing Wish / Revival
+        # Blessing announce -heal events, and the switch line shows the
+        # PRE-heal hp, so they can't fake this). Dex-gated at record time.
+        self.regen: set[str] = set()
+
+        # negative ability evidence: entry announcers that stayed silent on
+        # the species' FIRST switch-in (see _ANNOUNCE_ALWAYS)
+        self.impossible_abilities: dict[str, set] = {}
+        self._ability_latch: dict | None = None  # open first-entry watch
+        self._entered: set[str] = set()          # opp species seen entering
+        self._nogas = False   # Neutralizing Gas seen -> announce rule is off
+        self._terrain = "none"                   # for the Surge-class check
+
         # DIRECT reveals the protocol broadcasts in [from]/[of] tags — "was
         # poisoned by Toxic Orb", Flame Orb burns, Leftovers heals, Rocky
         # Helmet chip, ability activations. Not inference: the sim names the
@@ -340,9 +379,30 @@ class BattleObservations:
             return
         self.impossible_items.setdefault(species, set()).update(items)
 
+    def _event_species(self, event) -> str | None:
+        """Details-consistent species for a slot-addressed event. Idents
+        carry the NICKNAME, which for formes is the base name ('p2a:
+        Slowking' for Slowking-Galar), so parsing the ident produced keys
+        that never matched the details-derived ones the rest of the scanner
+        uses — every upkeep proof and par-speed correction silently missed
+        forme mons until the Regenerator test caught it (2026-08-04).
+        Slot events are about the ACTIVE mon, so resolve through the active
+        table; bench-addressed idents ('p2: Name', no slot letter — e.g.
+        Revival Blessing heals) return None."""
+        ident = str(event[2])
+        pos = ident.split(":", 1)[0]
+        if len(pos) < 3:
+            return None
+        return self._active.get(pos[:2])
+
     def forbidden(self, species: str) -> frozenset:
         """Items ruled out for this species. Every set tier filters on this."""
         return frozenset(self.impossible_items.get(_normalize(species), ()))
+
+    def ability_forbidden(self, species: str) -> frozenset:
+        """Abilities ruled out by a silent first switch-in."""
+        return frozenset(self.impossible_abilities.get(_normalize(species),
+                                                       ()))
 
     def _close_turn_upkeep(self):
         """End-of-turn proofs from what did NOT happen.
@@ -459,13 +519,54 @@ class BattleObservations:
             "weather": p["weather"], "se": p["se"],
         })
 
+    def _note_ability_announce(self, event, opp_role):
+        """Record entry-ability announces while a first-entry watch is open:
+        plain |-ability| lines and [from] ability: tags ([of] reassigns the
+        owner, as in _capture_reveals)."""
+        latch = self._ability_latch
+        if (str(event[1]) == "-ability" and len(event) >= 4
+                and str(event[2])[:2] == opp_role):
+            latch["announced"].add(_normalize(str(event[3])))
+            return
+        of_role = None
+        for a in event[3:]:
+            if isinstance(a, str) and a.startswith("[of] ") and ":" in a:
+                of_role = a[5:].strip()[:2]
+        for a in event[3:]:
+            if isinstance(a, str) and a.startswith("[from] ability: "):
+                owner = of_role or str(event[2])[:2]
+                if owner == opp_role:
+                    latch["announced"].add(
+                        _normalize(a[len("[from] ability: "):]))
+
     def _resolve_entry(self):
         """A switch-in over hazards closes its window (the next turn/move/
         switch after the immediate entry damage). Zero chip is Boots — or
         Magic Guard if the species can run it. Evidence is airtight for
         Stealth Rock (hits everything); for Spikes it only counts if the mon
         wasn't revealed airborne by an Air Balloon on entry (the species is
-        already known grounded — that's the gate to latch on Spikes)."""
+        already known grounded — that's the gate to latch on Spikes).
+
+        Also closes the first-entry ABILITY watch: announce-class abilities
+        the species could run that stayed silent are ruled out — weather and
+        terrain setters only when they would have CHANGED the field."""
+        alatch = self._ability_latch
+        self._ability_latch = None
+        if alatch is not None and not self._nogas:
+            sp = alatch["species"]
+            dex = _abilities_of(sp)
+            expected = set(_ANNOUNCE_ALWAYS & dex)
+            for ab, wx in _ANNOUNCE_WEATHER.items():
+                if ab in dex and alatch["weather"] != wx:
+                    expected.add(ab)
+            for ab, tx in _ANNOUNCE_TERRAIN.items():
+                if ab in dex and alatch["terrain"] != tx:
+                    expected.add(ab)
+            missing = expected - alatch["announced"]
+            if missing:
+                self.impossible_abilities.setdefault(sp, set()).update(
+                    missing)
+
         latch = self._entry_latch
         self._entry_latch = None
         if latch is None or latch["chipped"]:
@@ -543,6 +644,14 @@ class BattleObservations:
                 if kind in ("-damage", "-heal", "-item", "-enditem",
                             "-status", "-activate"):
                     self._note_item_event(event, opp_role)
+            if (kind == "-ability" and len(event) >= 4
+                    and _normalize(str(event[3])) == "neutralizinggas"):
+                # every announce is suppressed under it; the negative-
+                # evidence rule stays off for the rest of the battle
+                self._nogas = True
+                self._ability_latch = None
+            if self._ability_latch is not None:
+                self._note_ability_announce(event, opp_role)
             # these arrive between |move| and its |-damage|; keep the window open
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
@@ -559,6 +668,30 @@ class BattleObservations:
                 self._stint_moves.pop(role, None)
                 if role == opp_role:
                     self._balloon_pending.add(species)
+                    # Regenerator proof: back with more HP than it left with
+                    if len(event) >= 5 and "/" in str(event[4]):
+                        try:
+                            cur, mx = (str(event[4]).split(" ")[0]
+                                       .split("/")[:2])
+                            cur, mx = int(cur), int(mx)
+                        except ValueError:
+                            cur = mx = 0
+                        if cur > 0:
+                            stored = self._opp_hp.get(species)
+                            if (stored is not None and 0 < stored[0] < cur
+                                    and "regenerator"
+                                    in _abilities_of(species)):
+                                self.regen.add(species)
+                            self._opp_hp[species] = (cur, mx)
+                    # negative ability evidence: watch the species' FIRST
+                    # entry for the announces its dex abilities owe us
+                    if species not in self._entered:
+                        self._entered.add(species)
+                        if not self._nogas:
+                            self._ability_latch = {
+                                "species": species, "announced": set(),
+                                "weather": self._weather,
+                                "terrain": self._terrain}
                 self._spe_boost[role] = 0
                 self._atk_boost[role] = 0
                 self._spa_boost[role] = 0
@@ -608,6 +741,13 @@ class BattleObservations:
                 if role == opp_role and mid != "struggle" and not called:
                     stint = self._stint_moves.setdefault(role, set())
                     stint.add(mid)
+                    # Assault Vest forbids SELECTING status moves, so a
+                    # genuinely selected one (not [from]-called) disproves
+                    # the vest outright (fp cross-audit, 2026-08-04)
+                    if _move_info(event[3])[1] not in _DAMAGING:
+                        sp_av = self._active.get(role)
+                        if sp_av:
+                            self._forbid(sp_av, "assaultvest")
                     # a mon that ATTACKS with both categories is not holding a
                     # Choice item: each boosts one category, and locks you into
                     # whichever you clicked, so half the moveset is dead weight
@@ -670,21 +810,22 @@ class BattleObservations:
                     # assumptions) because the mons that take chip are the
                     # ones whose builds do not run Boots anyway — kept
                     # because it costs one line on the constraint layer.
-                    sp = _normalize(event[2].split(":")[1])
-                    self._forbid(sp, "heavydutyboots")
+                    self._forbid(self._event_species(event) or "",
+                                 "heavydutyboots")
                 if role == opp_role and "/" in str(event[3]):
-                    sp = _normalize(event[2].split(":")[1])
+                    sp = self._event_species(event)
                     try:
                         cur, mx = event[3].split(" ")[0].split("/")
-                        self._opp_hp[sp] = (int(cur), int(mx))
+                        if sp:
+                            self._opp_hp[sp] = (int(cur), int(mx))
                     except ValueError:
                         pass
-                    if len(event[3].split(" ")) == 1:
+                    if sp and len(event[3].split(" ")) == 1:
                         self._opp_unstatused.add(sp)
-                    else:
+                    elif sp:
                         self._opp_unstatused.discard(sp)
                 if role == our_role:
-                    species = _normalize(event[2].split(":")[1])
+                    species = self._event_species(event) or ""
                     new_hp = 0
                     if "/" in event[3]:
                         try:
@@ -700,28 +841,59 @@ class BattleObservations:
             elif kind == "-heal" and len(event) >= 4:
                 role = event[2][:2]
                 if role == opp_role:
-                    sp = _normalize(event[2].split(":")[1])
-                    self._healed_this_turn.add(sp)
-                    if "/" in str(event[3]):
+                    sp = self._event_species(event)
+                    if sp:
+                        self._healed_this_turn.add(sp)
+                        if "/" in str(event[3]):
+                            try:
+                                cur, mx = event[3].split(" ")[0].split("/")
+                                self._opp_hp[sp] = (int(cur), int(mx))
+                            except ValueError:
+                                pass
+                if role == our_role and "/" in event[3]:
+                    species = self._event_species(event)
+                    if species:
                         try:
-                            cur, mx = event[3].split(" ")[0].split("/")
-                            self._opp_hp[sp] = (int(cur), int(mx))
+                            self._hp[species] = int(event[3].split("/")[0])
                         except ValueError:
                             pass
-                if role == our_role and "/" in event[3]:
-                    species = _normalize(event[2].split(":")[1])
+            elif kind == "faint" and len(event) >= 3:
+                # zero the stored HP so a later Revival Blessing return
+                # (alive again, higher hp) can't fake a Regenerator proof
+                if event[2][:2] == opp_role:
+                    sp = self._event_species(event)
+                    if sp:
+                        self._opp_hp[sp] = (0, self._opp_hp.get(
+                            sp, (0, 100))[1])
+            elif kind == "-sethp" and len(event) >= 4:
+                # Pain Split writes HP with no -damage/-heal; without this
+                # the stored value goes stale and the regen compare lies
+                if event[2][:2] == opp_role and "/" in str(event[3]):
+                    sp = self._event_species(event)
                     try:
-                        self._hp[species] = int(event[3].split("/")[0])
+                        cur, mx = str(event[3]).split(" ")[0].split("/")
+                        if sp:
+                            self._opp_hp[sp] = (int(cur), int(mx))
                     except ValueError:
                         pass
             elif kind == "-status" and len(event) >= 3:
-                if event[2][:2] == opp_role:
-                    self._opp_unstatused.discard(
-                        _normalize(event[2].split(":")[1]))
+                role = event[2][:2]
+                sp = self._event_species(event)
+                if role == opp_role:
+                    self._opp_unstatused.discard(sp or "")
+                # par tracking used to live in a LATER elif of this same
+                # chain — dead code, every -status matched here first, so
+                # _par stayed empty and the speed-order par corrections
+                # never fired (found 2026-08-04)
+                if sp and len(event) >= 4 and event[3] == "par":
+                    self._par.add(f"{role} {sp}")
             elif kind == "-curestatus" and len(event) >= 3:
-                if event[2][:2] == opp_role:
-                    self._opp_unstatused.add(
-                        _normalize(event[2].split(":")[1]))
+                role = event[2][:2]
+                sp = self._event_species(event)
+                if role == opp_role and sp:
+                    self._opp_unstatused.add(sp)
+                if sp and len(event) >= 4 and event[3] == "par":
+                    self._par.discard(f"{role} {sp}")
             elif kind == "-crit":
                 if self._pending is not None:
                     self._pending["invalid"] = True
@@ -741,14 +913,6 @@ class BattleObservations:
                     self._atk_boost[role] += delta
                 elif stat == "spa":
                     self._spa_boost[role] += delta
-            elif kind == "-status" and len(event) >= 4 and event[3] == "par":
-                role = event[2][:2]
-                species = _normalize(event[2].split(":")[1])
-                self._par.add(f"{role} {species}")
-            elif kind == "-curestatus" and len(event) >= 4 and event[3] == "par":
-                role = event[2][:2]
-                species = _normalize(event[2].split(":")[1])
-                self._par.discard(f"{role} {species}")
             elif kind == "-terastallize":
                 self._tera.add(event[2][:2])
             elif kind == "-sidestart" and len(event) >= 4:
@@ -784,11 +948,20 @@ class BattleObservations:
                     self._trick_room = True
                 elif "Gravity" in event[2]:
                     self._gravity = True
+                else:
+                    for tname, tid in (("Electric Terrain", "electric"),
+                                       ("Grassy Terrain", "grassy"),
+                                       ("Misty Terrain", "misty"),
+                                       ("Psychic Terrain", "psychic")):
+                        if tname in str(event[2]):
+                            self._terrain = tid
             elif kind == "-fieldend" and len(event) >= 3:
                 if "Trick Room" in event[2]:
                     self._trick_room = False
                 elif "Gravity" in event[2]:
                     self._gravity = False
+                elif "Terrain" in str(event[2]):
+                    self._terrain = "none"
             elif kind == "-weather" and len(event) >= 3:
                 self._weather = {"SunnyDay": "sun", "RainDance": "rain",
                                  "Sandstorm": "sand", "Snowscape": "snow",
