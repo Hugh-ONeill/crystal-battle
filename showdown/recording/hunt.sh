@@ -35,8 +35,34 @@ PORT=${HUNT_PORT:-8141}
 URL="ws://127.0.0.1:$PORT/ws"
 SEARCH_MS=${HUNT_SEARCH_MS:-2000}
 OPP_MS=${HUNT_OPP_MS:-300}
-PACE=${HUNT_TURN_PACE:-8}
-GAME_TIMEOUT=${HUNT_GAME_TIMEOUT:-900}
+# TIMED FOR GENERATION, NOT FOR AN ANIMATION.
+#
+# A take paces at 8s/turn and gates beats on a 20s WALL-CLOCK floor, both
+# sized to a viewer watching the battle play out. Measured on the pilot
+# game with nobody watching: generation median 1559ms / p90 3158ms, beat age
+# at voicing 0ms, zero drops, 22 beats in 5m02s -- 13.7s per beat to do
+# 1.6s of work, so the caster sat idle roughly 88% of the run.
+#
+# Two changes. TURN_GAP replaces the wall-clock floor with a per-turn one,
+# which is the fix run_match.sh's header calls for: dropping the pace ALONE
+# was tried and failed (five beats in a whole game) precisely because the
+# 20s floor stayed. And PACE drops to just above the generation p90.
+#
+# Not to zero, deliberately. Without a PTS clock the caster is
+# skip-don't-queue -- it REPLACES the pending beat rather than queueing it
+# -- so outrunning generation does not merely cost samples, it costs the
+# ones that arrive in bursts. That is the KO cascades, which is the sample
+# a bug hunt least wants to lose. ~1.4 lines per beat puts the p90 cost of
+# a beat near 4.4s; 5s of turn holds it just clear of that.
+PACE=${HUNT_TURN_PACE:-5}
+TURN_GAP=${HUNT_TURN_GAP:-1}
+# 1500s, not 900. Measured: turns run ~9.8s (5s pace + ~4.8s engine), so 900
+# capped a game at about 90 turns -- and hunt 3 game 3 hit that ceiling at
+# turn 75 STILL PLAYING, losing only its [RESULT] but logging the game as
+# TIMEOUT-OR-DIED. The long games are the stall games, which are exactly the
+# ones a lull hunt needs, so the ceiling was cutting off the sample it was
+# there to collect.
+GAME_TIMEOUT=${HUNT_GAME_TIMEOUT:-1500}
 
 # ours|theirs. Rotated on both sides; the last is a deliberate mirror.
 PAIRINGS=(
@@ -146,6 +172,7 @@ for pair in "${PAIRINGS[@]}"; do
       --format gen9ou --team "showdown/teams/suite_v1/$OURS.txt" \
       --n-games 1 --search-ms "$SEARCH_MS" \
       --airi --caster-url "$URL" --airi-turn-pace "$PACE" \
+      --airi-turn-gap "$TURN_GAP" \
       ) >"$OUT/runner$i.log" 2>&1 &
   CB_PID=$!
 
