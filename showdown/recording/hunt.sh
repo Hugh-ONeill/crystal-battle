@@ -110,8 +110,13 @@ log "crystal-broadcast $BC_SHA | crystal-battle $CB_SHA | out $OUT"
 # audit can only ask "does this claim look wrong" instead of "does this
 # claim contradict the board the model was actually given" — which is the
 # only question that tells us whether the sheet is doing its job.
+# --memory-log: cross-match callbacks counted from the desk log the player
+# writes. Only games recorded SINCE the roster field landed carry species,
+# and BroadcastMemory skips the rest rather than counting them as empty
+# teams, so this is inert until there is history and never wrong before it.
+MEMLOG=${HUNT_MEMORY_LOG:-$CB/showdown/desk_reads*.jsonl}
 ( cd "$BC" && CB_SHEET_LOG="$OUT/sheets.txt" exec $PY \
-    crystal_broadcast/caster.py --port "$PORT" \
+    crystal_broadcast/caster.py --port "$PORT" --memory-log "$MEMLOG" \
     </dev/null >"$OUT/caster.log" 2>&1 ) &
 CASTER_PID=$!
 for i in $(seq 1 60); do up "$PORT" && break; sleep 1; done
@@ -188,6 +193,18 @@ for pair in "${PAIRINGS[@]}"; do
   [ "$DONE" = 1 ] && log "  done" || log "  TIMEOUT-OR-DIED"
 
   sleep 3
+  # A CRASHED OPPONENT IS NOT A SHORT GAME. foul-play dies intermittently on
+  # an upstream AttributeError (gen_3_consecutive_sleep_talks on a None
+  # pokemon) and the match then ends as a walkover — hunt 5 game 1 logged
+  # "WIN vs FPHunt1, us 5 them 6" three turns in, and both casters wrapped it
+  # up as though a turn were still being played. Nothing downstream could
+  # tell that from a genuine quick win, so it was averaged into the audit.
+  # fp is deliberately kept STOCK as the A/B baseline, so this gets labelled
+  # rather than fixed.
+  if grep -qE "^(Traceback|AttributeError)" "$OUT/fp$i.log" 2>/dev/null; then
+    log "  OPPONENT-CRASHED — walkover, exclude from the audit"
+    echo "game$i" >> "$OUT/void.txt"
+  fi
   for p in $TAP_PID $CB_PID $FP_PID; do kill "$p" 2>/dev/null; done
   sleep 2
   for p in $TAP_PID $CB_PID $FP_PID; do kill -9 "$p" 2>/dev/null; done
