@@ -462,6 +462,58 @@ class BattleObservations:
         fast/slow pivot discriminator for a mid-turn force switch."""
         return any(r == self._opp_role for r, _ in self._turn_moves)
 
+    def has_damage_evidence(self, species: str) -> bool:
+        sp = _normalize(species)
+        return any(ev["species"] == sp for ev in self.damage_evidence)
+
+    def spread_ruled_out(self, opp_probe: pe.Pokemon, our_mons: dict,
+                         max_checks: int = 3) -> bool:
+        """Reverse damage calc at the SPREAD level (fp parity, upper
+        violations only): a candidate build whose maximum roll cannot reach
+        an observed hit is not the build in front of us — drop the whole
+        candidate, spread and all, not just the item.
+
+        `opp_probe` is the CANDIDATE's build (its spread/item/ability), so
+        the item multiplier is part of what's being tested — this is what
+        separates max-Attack from bulky spreads off a single hit. UPPER
+        violations only, deliberately: everything ungated by the evidence
+        curation (screens, Multiscale, attacker burn) only DEFLATES damage,
+        so an under-max hit never convicts, while an over-max hit is safe
+        to. Tolerance absorbs HP rounding and the last EV point."""
+        sp = _normalize(getattr(opp_probe, "id", "") or "")
+        checked = 0
+        for ev in reversed(self.damage_evidence):
+            if checked >= max_checks:
+                break
+            if ev["species"] != sp:
+                continue
+            our = our_mons.get(ev["our_species"])
+            if our is None:
+                continue
+            try:
+                state = pe.State(
+                    side_one=pe.Side(pokemon=[opp_probe] + [
+                        pe.Pokemon.create_fainted() for _ in range(5)]),
+                    side_two=pe.Side(pokemon=[our] + [
+                        pe.Pokemon.create_fainted() for _ in range(5)]),
+                    weather={"sun": pe.Weather.SUN, "rain": pe.Weather.RAIN,
+                             "sand": pe.Weather.SAND, "snow": pe.Weather.SNOW,
+                             "hail": pe.Weather.HAIL}.get(ev["weather"],
+                                                          pe.Weather.NONE),
+                    weather_turns_remaining=3 if ev["weather"] != "none"
+                    else 0,
+                )
+                rolls = pe.calculate_damage(state, ev["move"], "splash",
+                                            True)[0]
+            except Exception:
+                continue
+            if not rolls or max(rolls) <= 0:
+                continue
+            checked += 1
+            if ev["damage"] > max(rolls) + max(2, int(max(rolls) * 0.03)):
+                return True
+        return False
+
     def _close_turn_upkeep(self):
         """End-of-turn proofs from what did NOT happen.
 

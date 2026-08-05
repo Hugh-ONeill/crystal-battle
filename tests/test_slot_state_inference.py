@@ -169,3 +169,59 @@ def test_charging_opponent_carries_volatile_and_pin():
     by_id = {m.id: m for m in chomp.moves if m.id != "none"}
     assert by_id["solarbeam"].disabled is False
     assert all(m.disabled for mid, m in by_id.items() if mid != "solarbeam")
+
+
+# ---- spread-level reverse damage calc (suspect #2, 2026-08-05) ----------
+
+def _max_roll(att, defd, move):
+    import poke_engine as pe
+    st = pe.State(
+        side_one=pe.Side(pokemon=[att] + [
+            pe.Pokemon.create_fainted() for _ in range(5)]),
+        side_two=pe.Side(pokemon=[defd] + [
+            pe.Pokemon.create_fainted() for _ in range(5)]))
+    return max(pe.calculate_damage(st, move, "splash", True)[0])
+
+
+def _cand(nature, atk_evs, item):
+    evs = {"hp": 0, "atk": atk_evs, "def": 0, "spa": 0, "spd": 0, "spe": 252}
+    ivs = {k: 31 for k in evs}
+    return {"nature": nature, "evs": evs, "ivs": ivs, "item": item,
+            "ability": "roughskin", "moves": ["earthquake"]}
+
+
+def test_spread_ruled_out_separates_banded_from_bulky():
+    from showdown.gen9_translator import Gen9Translator
+    from tests.test_gen9_translator import make_battle
+    tr = Gen9Translator()
+    tr.translate(make_battle())          # populates _my_built (real stats)
+    ours = tr._my_built["ninetales"]
+
+    banded = tr._probe_from_set("garchomp", _cand("Jolly", 252, "choiceband"))
+    bulky = tr._probe_from_set("garchomp", _cand("Impish", 0, "leftovers"))
+    hi, lo = _max_roll(banded, ours, "earthquake"), _max_roll(bulky, ours,
+                                                              "earthquake")
+    assert hi > lo * 1.3, "test premise: builds must separate cleanly"
+
+    obs = BattleObservations()
+    obs.damage_evidence.append({
+        "species": "garchomp", "move": "earthquake",
+        "damage": (hi + lo) // 2, "our_species": "ninetales",
+        "weather": "none", "se": False})
+    assert obs.spread_ruled_out(bulky, tr._my_built) is True
+    assert obs.spread_ruled_out(banded, tr._my_built) is False
+
+
+def test_under_max_hit_never_convicts():
+    """Screens/Multiscale/burn deflate damage and are ungated by evidence
+    curation, so a weak observed hit must not rule out strong builds."""
+    from showdown.gen9_translator import Gen9Translator
+    from tests.test_gen9_translator import make_battle
+    tr = Gen9Translator()
+    tr.translate(make_battle())
+    banded = tr._probe_from_set("garchomp", _cand("Jolly", 252, "choiceband"))
+    obs = BattleObservations()
+    obs.damage_evidence.append({
+        "species": "garchomp", "move": "earthquake", "damage": 5,
+        "our_species": "ninetales", "weather": "none", "se": False})
+    assert obs.spread_ruled_out(banded, tr._my_built) is False

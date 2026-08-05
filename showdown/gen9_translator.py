@@ -741,6 +741,56 @@ class Gen9Translator:
             "tera_type": tera,
         }, booked)
 
+    def _species_types(self, species: str) -> tuple[str, str]:
+        types = [t.lower() for t in
+                 self._dex().get(_normalize(species), {}).get("types", [])]
+        if not types:
+            types = ["normal"]
+        while len(types) < 2:
+            types.append("typeless")
+        return tuple(types[:2])
+
+    def _probe_from_set(self, species: str, cand: dict,
+                        level: int = 100) -> pe.Pokemon:
+        """The CANDIDATE's build as an attacker probe for the spread-level
+        reverse damage calc: its nature/EVs drive Atk/SpA and its item and
+        ability ride along — the item multiplier is part of what's tested,
+        which is what separates a max-Attack candidate from a bulky one
+        off a single observed hit."""
+        entry = self._dex().get(_normalize(species), {})
+        bs = entry.get("baseStats", {})
+        pair = _NATURE_TABLE.get(cand.get("nature", "Serious"))
+        default_stats = ("hp", "atk", "def", "spa", "spd", "spe")
+        evs = cand.get("evs") or {k: 85 for k in default_stats}
+        ivs = cand.get("ivs") or {k: 31 for k in default_stats}
+
+        def m(stat: str) -> float:
+            if pair is None:
+                return 1.0
+            if stat == pair[0]:
+                return 1.1
+            if stat == pair[1]:
+                return 0.9
+            return 1.0
+
+        def c(stat: str, is_hp: bool = False) -> int:
+            return _calc_stat_modern(bs.get(stat, 80), ivs.get(stat, 31),
+                                     evs.get(stat, 85), level, m(stat),
+                                     is_hp)
+
+        maxhp = c("hp", is_hp=True)
+        return pe.Pokemon(
+            id=_normalize(species), level=level, hp=maxhp, maxhp=maxhp,
+            attack=c("atk"), defense=c("def"), special_attack=c("spa"),
+            special_defense=c("spd"), speed=c("spe"),
+            types=self._species_types(species),
+            base_types=self._species_types(species),
+            ability=_normalize(cand.get("ability") or "noability"),
+            base_ability=_normalize(cand.get("ability") or "noability"),
+            item=_normalize(cand.get("item") or "none"),
+            weight_kg=self._weight(_normalize(species)),
+        )
+
     def _ps_candidate(self, species: str, known_moves: tuple[str, ...],
                       known_item: str | None, known_ability: str | None,
                       exclude_items: frozenset = frozenset(),
@@ -784,6 +834,21 @@ class Gen9Translator:
                     not in exclude_abilities]
             if ok_a:
                 cands = ok_a
+        # reverse damage calc at the SPREAD level (2026-08-05, fp parity):
+        # a candidate whose max roll cannot reach a hit we already took is
+        # not the build in front of us — the whole candidate goes, spread
+        # and all, where the item bracket could only rebrand the item.
+        # First 12 candidates screened (cost cap), the rest pass through
+        # unscreened rather than being silently dropped; if every screened
+        # candidate is ruled out, keep them all (evidence is noisy).
+        if (self._obs is not None and cands
+                and getattr(self, "_my_built", None)
+                and self._obs.has_damage_evidence(species)):
+            head = [c for c in cands[:12]
+                    if not self._obs.spread_ruled_out(
+                        self._probe_from_set(species, c), self._my_built)]
+            if head or len(cands) > 12:
+                cands = head + cands[12:]
         # confidence gate: with nothing revealed, an editorial dex set is
         # only trusted if the ladder corpus corroborates it — the suite A/B
         # showed uncorroborated curated sets cost more than chaos sampling
