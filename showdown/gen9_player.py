@@ -1814,6 +1814,59 @@ class Gen9PokeEnginePlayer(Player):
         except Exception:
             pass
 
+    @staticmethod
+    def _roster_record(battle) -> dict:
+        """Who was actually on the field this game, for cross-match memory.
+
+        WHY IT LIVES HERE. The broadcast wants callbacks a returning viewer
+        rewards -- "last time this Kingambit took three of ours" -- and
+        nothing on disk could support one: we save no replays of our OWN
+        games (a 400-file sample of showdown/replays/gen9ou held zero), and
+        the desk log recorded the outcome and the read trajectory without a
+        single species. So the memory had no source, and the fix belongs
+        upstream of the memory rather than inside it.
+
+        SPECIES ONLY, NOTHING DERIVED. Every field here is read straight off
+        the battle: who was brought, who fainted, who led. Sweeps, records
+        and tendencies are COUNTED later from many of these rows, which
+        keeps this append-only and grounded by construction -- the property
+        the whole memory design rests on, and the one an LLM-consolidating
+        store gives up.
+
+        Their roster comes from team preview (all six, public from turn 0);
+        their FAINTS from opponent_team, which only ever holds mons that
+        actually appeared. Never raises: a missing field costs a callback,
+        an exception costs the desk log.
+        """
+        def names(mons):
+            out = []
+            for m in (mons or {}).values():
+                sp = getattr(m, "species", None)
+                if sp:
+                    out.append(_species_display(sp))
+            return out
+
+        try:
+            preview = [_species_display(getattr(m, "species", "") or "")
+                       for m in (getattr(battle, "teampreview_opponent_team",
+                                         None) or [])]
+            theirs = preview or names(getattr(battle, "opponent_team", None))
+            return {
+                "ours": sorted(names(getattr(battle, "team", None))),
+                "theirs": sorted(n for n in theirs if n),
+                "our_faints": sorted(
+                    _species_display(m.species)
+                    for m in (getattr(battle, "team", None) or {}).values()
+                    if getattr(m, "fainted", False)),
+                "their_faints": sorted(
+                    _species_display(m.species)
+                    for m in (getattr(battle, "opponent_team", None)
+                              or {}).values()
+                    if getattr(m, "fainted", False)),
+            }
+        except Exception:
+            return {}
+
     def _flush_desk_log(self, battle):
         """One JSONL line per finished game: every numeric desk read the
         search produced plus the outcome. Brier and calibration tables are
@@ -1837,6 +1890,7 @@ class Gen9PokeEnginePlayer(Player):
                 "result": result,
                 "outcome": {"win": 1.0, "loss": 0.0, "tie": 0.5}[result],
             }
+            line.update(self._roster_record(battle))
             with open(self._desk_log_path, "a") as f:
                 f.write(json.dumps(line) + "\n")
         except Exception:
