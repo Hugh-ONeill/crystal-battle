@@ -1297,9 +1297,26 @@ class Gen9Translator:
                 if idx is not None and idx < 6:
                     future_sight = (fs_left, str(idx))
 
+        # FAST pivot root (our U-turn resolved before the opponent moved):
+        # their chosen action is still PENDING while we pick the
+        # replacement. The engine's root_get_all_options has modeled this
+        # all along via the (confusingly named) slow_uturn_move flag on the
+        # side whose action is pending — it swaps their None for their full
+        # move options, and the force-switch resolution lands their hit on
+        # the incoming mon. The translator never set it, so every fast
+        # pivot chose its switch-in as if entry were free (158k/158k root
+        # visits on "No Move", probed 2026-08-05). Slow pivots and
+        # Roar/faint replacements have an opponent move in the current
+        # turn's events, so they stay False.
+        slow_uturn = bool(
+            side_key == "opp" and self._obs is not None
+            and getattr(battle, "force_switch", False)
+            and not self._obs.opp_moved_this_turn())
+
         return pe.Side(
             pokemon=pokemon[:6],
             active_index=str(active_slot),
+            slow_uturn_move=slow_uturn,
             side_conditions=self._side_conditions(
                 battle, conditions, mons, active,
                 healing_wish=self._healing_wish.get(side_key, 0)),

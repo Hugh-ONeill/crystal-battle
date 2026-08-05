@@ -1541,3 +1541,62 @@ def test_taunt_and_encore_durations_use_engine_up_counting():
     assert 0 <= state.side_two.volatile_status_durations.encore <= 2
     # a fresh application must have its full life ahead, not one turn
     assert state.side_one.volatile_status_durations.taunt == 0
+
+
+# ---- fast-pivot pending-action modeling (2026-08-05) --------------------
+# The engine's root_get_all_options swaps the opponent's forced "No Move"
+# for their real options when slow_uturn_move is set on the side whose
+# action is still pending — machinery that existed all along; the
+# translator never set the flag, so every fast-pivot replacement was
+# chosen as if entry were free (probed: 158k/158k root visits on No Move).
+
+def _pivot_battle(*pre_request):
+    import copy
+    b = Battle("battle-gen9monotype-test-3", "wizbot",
+               logging.getLogger("test"), gen=9)
+    b.parse_request(REQUEST)
+    b.parse_message(["", "switch", "p1a: Ninetales", "Ninetales, L100, F",
+                     "323/323"])
+    b.parse_message(["", "switch", "p2a: Garchomp", "Garchomp, L100, M",
+                     "100/100"])
+    b.parse_message(["", "turn", "1"])
+    for e in pre_request:
+        b.parse_message(e)
+    req = copy.deepcopy(REQUEST)
+    req["forceSwitch"] = [True]
+    del req["active"]
+    b.parse_request(req)
+    return b
+
+
+def test_fast_pivot_sets_pending_opponent_action():
+    b = _pivot_battle(
+        ["", "move", "p1a: Ninetales", "U-turn", "p2a: Garchomp"],
+        ["", "-damage", "p2a: Garchomp", "80/100"])
+    state = Gen9Translator().translate(b)
+    assert state.side_one.force_switch is True
+    assert state.side_two.slow_uturn_move is True
+    import poke_engine as pe
+    res = pe.monte_carlo_tree_search(state, 100)
+    opts = {r.move_choice for r in res.side_two}
+    assert opts != {"No Move"}, "opponent must have real pending options"
+
+
+def test_slow_pivot_keeps_opponent_done():
+    # opponent already moved this turn -> their action is spent
+    b = _pivot_battle(
+        ["", "move", "p2a: Garchomp", "Earthquake", "p1a: Ninetales"],
+        ["", "-damage", "p1a: Ninetales", "200/323"],
+        ["", "move", "p1a: Ninetales", "U-turn", "p2a: Garchomp"],
+        ["", "-damage", "p2a: Garchomp", "80/100"])
+    state = Gen9Translator().translate(b)
+    assert state.side_one.force_switch is True
+    assert state.side_two.slow_uturn_move is False
+
+
+def test_roar_drag_keeps_opponent_done():
+    # their Roar caused the switch: their move is spent
+    b = _pivot_battle(
+        ["", "move", "p2a: Garchomp", "Roar", "p1a: Ninetales"])
+    state = Gen9Translator().translate(b)
+    assert state.side_two.slow_uturn_move is False

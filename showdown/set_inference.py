@@ -457,6 +457,11 @@ class BattleObservations:
         """Move id the OPPONENT's active is mid-charge on, else None."""
         return self._charging.get(self._opp_role or "")
 
+    def opp_moved_this_turn(self) -> bool:
+        """Whether the opponent has already acted in the CURRENT turn — the
+        fast/slow pivot discriminator for a mid-turn force switch."""
+        return any(r == self._opp_role for r, _ in self._turn_moves)
+
     def _close_turn_upkeep(self):
         """End-of-turn proofs from what did NOT happen.
 
