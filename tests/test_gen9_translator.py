@@ -1600,3 +1600,19 @@ def test_roar_drag_keeps_opponent_done():
         ["", "move", "p2a: Garchomp", "Roar", "p1a: Ninetales"])
     state = Gen9Translator().translate(b)
     assert state.side_two.slow_uturn_move is False
+
+
+def test_pivotspread_off_reverts_the_boundary_batch(monkeypatch):
+    """CB_PIVOTSPREAD_OFF=1 is the A/B baseline arm for the 08-05 batch:
+    both the fast-pivot flag and the spread pruning must revert together."""
+    monkeypatch.setenv("CB_PIVOTSPREAD_OFF", "1")
+    from tests.test_gen9_translator import _pivot_battle
+    b = _pivot_battle(
+        ["", "move", "p1a: Ninetales", "U-turn", "p2a: Garchomp"],
+        ["", "-damage", "p2a: Garchomp", "80/100"])
+    state = Gen9Translator().translate(b)
+    assert state.side_one.force_switch is True
+    assert state.side_two.slow_uturn_move is False    # reverted
+    monkeypatch.delenv("CB_PIVOTSPREAD_OFF")
+    state2 = Gen9Translator().translate(b)
+    assert state2.side_two.slow_uturn_move is True    # batch behavior

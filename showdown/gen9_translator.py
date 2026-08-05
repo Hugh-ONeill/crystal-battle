@@ -842,6 +842,7 @@ class Gen9Translator:
         # unscreened rather than being silently dropped; if every screened
         # candidate is ruled out, keep them all (evidence is noisy).
         if (self._obs is not None and cands
+                and os.environ.get("CB_PIVOTSPREAD_OFF", "0") != "1"
                 and getattr(self, "_my_built", None)
                 and self._obs.has_damage_evidence(species)):
             head = [c for c in cands[:12]
@@ -1373,8 +1374,12 @@ class Gen9Translator:
         # visits on "No Move", probed 2026-08-05). Slow pivots and
         # Roar/faint replacements have an opponent move in the current
         # turn's events, so they stay False.
+        # CB_PIVOTSPREAD_OFF=1 reverts BOTH halves of the 08-05 boundary
+        # batch (this flag + the spread pruning below) for its paired A/B —
+        # they shipped as one lever. Read at call time so tests can flip it.
         slow_uturn = bool(
             side_key == "opp" and self._obs is not None
+            and os.environ.get("CB_PIVOTSPREAD_OFF", "0") != "1"
             and getattr(battle, "force_switch", False)
             and not self._obs.opp_moved_this_turn())
 
