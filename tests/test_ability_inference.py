@@ -171,3 +171,68 @@ def test_par_tracking_is_alive():
               "|-status|p2a: Landorus|par",
               "|turn|2"])
     assert "p2 landorustherian" in o._par
+
+
+# ---- on-hit negative ability evidence (2026-08-05, user idea) ----------
+
+HIT = ["|switch|p1a: Ninetales|Ninetales, F|100/100",
+       "|switch|p2a: Clodsire|Clodsire, M|100/100"]
+
+
+def test_water_damage_rules_out_the_absorbers():
+    """The Clodsire case: one Water hit that connects proves
+    not-waterabsorb — which in practice means Unaware."""
+    o = _obs(HIT + ["|move|p1a: Ninetales|Surf|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|70/100", "|turn|2"])
+    assert "waterabsorb" in o.ability_forbidden("clodsire")
+    assert "stormdrain" in o.ability_forbidden("clodsire")
+
+
+def test_immune_announce_means_no_damage_and_no_forbid():
+    o = _obs(HIT + ["|move|p1a: Ninetales|Surf|p2a: Clodsire",
+                    "|-immune|p2a: Clodsire|[from] ability: Water Absorb",
+                    "|turn|2"])
+    assert "waterabsorb" not in o.ability_forbidden("clodsire")
+    assert o.revealed_ability.get("clodsire") == "waterabsorb"
+
+
+def test_from_tagged_damage_is_not_hit_evidence():
+    # hazard chip while our attack is armed must not convict
+    o = _obs(HIT + ["|move|p1a: Ninetales|Surf|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|94/100|[from] Stealth Rock",
+                    "|turn|2"])
+    assert "waterabsorb" not in o.ability_forbidden("clodsire")
+
+
+def test_their_self_cost_damage_is_not_hit_evidence():
+    # their Substitute cost is a bare -damage right after THEIR move
+    o = _obs(HIT + ["|move|p1a: Ninetales|Surf|p2a: Clodsire",
+                    "|move|p2a: Clodsire|Substitute|p2a: Clodsire",
+                    "|-start|p2a: Clodsire|Substitute",
+                    "|-damage|p2a: Clodsire|75/100", "|turn|2"])
+    assert "waterabsorb" not in o.ability_forbidden("clodsire")
+
+
+def test_sound_flag_and_priority_reactors():
+    o = _obs(HIT + ["|move|p1a: Ninetales|Hyper Voice|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|80/100", "|turn|2"])
+    assert "soundproof" in o.ability_forbidden("clodsire")
+    o2 = _obs(HIT + ["|move|p1a: Ninetales|Quick Attack|p2a: Clodsire",
+                     "|-damage|p2a: Clodsire|90/100", "|turn|2"])
+    assert "dazzling" in o2.ability_forbidden("clodsire")
+    assert "armortail" in o2.ability_forbidden("clodsire")
+
+
+def test_mold_breaker_attacker_voids_the_evidence():
+    events = ["|switch|p1a: Excadrill|Excadrill, M|100/100",
+              "|switch|p2a: Clodsire|Clodsire, M|100/100",
+              "|move|p1a: Excadrill|Earthquake|p2a: Clodsire",
+              "|-damage|p2a: Clodsire|60/100", "|turn|2"]
+    b = SimpleNamespace(
+        _replay_data=[[""] + e.split("|")[1:] for e in events],
+        player_role="p1",
+        team={"p1: Excadrill": SimpleNamespace(species="Excadrill",
+                                               ability="moldbreaker")})
+    o = BattleObservations()
+    o.update(b)
+    assert "levitate" not in o.ability_forbidden("clodsire")

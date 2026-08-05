@@ -101,6 +101,28 @@ _ANNOUNCE_TERRAIN = {"electricsurge": "electric", "hadronengine": "electric",
 # neither the lock nor its end — both are derived from consecutive use.
 _LOCK_MOVES = frozenset({"outrage", "petaldance", "thrash", "ragingfury"})
 
+# ON-HIT negative ability evidence (user idea, 2026-08-05): the switch-in
+# announce rule's sibling. Absorb/immunity abilities react DETERMINISTICALLY
+# when hit by their trigger — so our damaging move CONNECTING FOR DAMAGE
+# proves the reactive ability absent (had they run it, the -immune/-heal/
+# boost announce would have replaced the damage line). Deterministic
+# reactors only; proc-chance abilities (Static, Flame Body) prove nothing
+# by staying quiet, and Multiscale is silent by design (damage-calc class,
+# not announce class). Marquee case: one Water hit on a Clodsire proves
+# not-waterabsorb, i.e. Unaware.
+_TYPE_REACTIVE = {
+    "electric": ("voltabsorb", "lightningrod", "motordrive"),
+    "water": ("waterabsorb", "stormdrain", "dryskin"),
+    "grass": ("sapsipper",),
+    "ground": ("levitate", "eartheater"),
+    "fire": ("flashfire", "wellbakedbody"),
+}
+_FLAG_REACTIVE = {"sound": ("soundproof",), "bullet": ("bulletproof",),
+                  "wind": ("windrider",)}
+_PRIORITY_REACTIVE = ("dazzling", "queenlymajesty", "armortail")
+# attackers that pierce abilities void the evidence (our side, always known)
+_ABILITY_IGNORERS = frozenset({"moldbreaker", "teravolt", "turboblaze"})
+
 # Two-turn charge moves, named exactly as the engine's charging volatiles
 # (poke-engine charge_choice_to_volatile): mid-charge the user is committed
 # and often semi-invulnerable, announced only by |-prepare|.
@@ -333,6 +355,9 @@ class BattleObservations:
         # two-turn charge in progress: role -> move id (from |-prepare|)
         self._charging: dict[str, str | None] = {"p1": None, "p2": None}
         self._opp_role: str | None = None
+        # our just-used damaging move, awaiting its on-hit verdict
+        self._our_attack: str | None = None
+        self._our_abilities: dict[str, str] = {}   # our species -> ability
 
         # DIRECT reveals the protocol broadcasts in [from]/[of] tags — "was
         # poisoned by Toxic Orb", Flame Orb burns, Leftovers heals, Rocky
@@ -746,6 +771,11 @@ class BattleObservations:
         our_role = battle.player_role
         opp_role = "p2" if our_role == "p1" else "p1"
         self._opp_role = opp_role
+        # our real abilities, for the mold-breaker gate on on-hit evidence
+        for m in getattr(battle, "team", {}).values():
+            if getattr(m, "ability", None):
+                self._our_abilities[_normalize(m.species)] = \
+                    _normalize(m.ability)
         for event in replay[self._cursor:]:
             if len(event) < 2:
                 continue
@@ -771,6 +801,7 @@ class BattleObservations:
                 self._resolve_entry()  # switch-in window closes at end of turn
                 self._eval_turn_order(battle)
                 self._turn_moves = []
+                self._our_attack = None
             elif kind in ("switch", "drag") and len(event) >= 4:
                 self._resolve_entry()  # a new switch closes the prior window
                 role = event[2][:2]
@@ -780,6 +811,7 @@ class BattleObservations:
                 self.sub_hits[role] = []      # a sub does not survive switching
                 self._rampage[role] = None    # nor a rampage, nor a charge
                 self._charging[role] = None
+                self._our_attack = None       # stale across any switch
                 if role == opp_role:
                     self._balloon_pending.add(species)
                     # Regenerator proof: back with more HP than it left with
@@ -861,8 +893,17 @@ class BattleObservations:
                         sp_a = self._active.get(role)
                         if sp_a:
                             self._opp_attacked.add(sp_a)
+                    # their own move may self-inflict bare -damage next
+                    # (Substitute cost, Belly Drum) — our pending attack
+                    # must not claim it
+                    self._our_attack = None
                 if role == our_role:
                     entry = _moves_data().get(mid, {})
+                    # arm the on-hit ability watch: if this move CONNECTS
+                    # for direct damage, the reactive abilities stayed
+                    # silent and are ruled out at the -damage event
+                    self._our_attack = mid \
+                        if entry.get("category") in _DAMAGING else None
                     if (entry.get("category") in _DAMAGING
                             and (entry.get("flags") or {}).get("contact")):
                         tgt = self._active.get(opp_role)
@@ -929,6 +970,32 @@ class BattleObservations:
                     }
             elif kind == "-damage" and len(event) >= 4:
                 role = event[2][:2]
+                # on-hit negative ability evidence: our armed attack landed
+                # DIRECT damage ([from]-tagged lines are hazards/status/item
+                # residuals, not the hit), so the deterministic reactors to
+                # its type/flags cannot be their ability
+                if (role == opp_role and self._our_attack
+                        and not self._nogas
+                        and not any(isinstance(a, str)
+                                    and a.startswith("[from]")
+                                    for a in event[4:])):
+                    if self._our_abilities.get(
+                            self._active.get(our_role) or "") \
+                            not in _ABILITY_IGNORERS:
+                        e = _moves_data().get(self._our_attack, {})
+                        bad = list(_TYPE_REACTIVE.get(
+                            str(e.get("type", "")).lower(), ()))
+                        fl = e.get("flags") or {}
+                        for f, abs_ in _FLAG_REACTIVE.items():
+                            if fl.get(f):
+                                bad += abs_
+                        if (e.get("priority", 0) or 0) > 0:
+                            bad += _PRIORITY_REACTIVE
+                        sp_hit = self._active.get(opp_role)
+                        if sp_hit and bad:
+                            self.impossible_abilities.setdefault(
+                                sp_hit, set()).update(bad)
+                    self._our_attack = None
                 # opponent's incoming mon took hazard chip -> it does NOT
                 # have Boots; cancel the negative-evidence latch
                 if role == opp_role and any(
