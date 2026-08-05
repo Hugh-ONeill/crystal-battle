@@ -844,10 +844,13 @@ class Gen9Translator:
         if (self._obs is not None and cands
                 and os.environ.get("CB_PIVOTSPREAD_OFF", "0") != "1"
                 and getattr(self, "_my_built", None)
-                and self._obs.has_damage_evidence(species)):
-            head = [c for c in cands[:12]
-                    if not self._obs.spread_ruled_out(
-                        self._probe_from_set(species, c), self._my_built)]
+                and (self._obs.has_damage_evidence(species)
+                     or self._obs.has_our_damage_evidence(species))):
+            def _survives(c):
+                p = self._probe_from_set(species, c)
+                return (not self._obs.spread_ruled_out(p, self._my_built)
+                        and not self._obs.bulk_ruled_out(p, self._my_built))
+            head = [c for c in cands[:12] if _survives(c)]
             if head or len(cands) > 12:
                 cands = head + cands[12:]
         # confidence gate: with nothing revealed, an editorial dex set is

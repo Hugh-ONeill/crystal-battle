@@ -225,3 +225,127 @@ def test_under_max_hit_never_convicts():
         "species": "garchomp", "move": "earthquake", "damage": 5,
         "our_species": "ninetales", "weather": "none", "se": False})
     assert obs.spread_ruled_out(banded, tr._my_built) is False
+
+
+# ---- defensive reverse calc: our hits on them (2026-08-05) --------------
+
+def _rolls(att, defd, move):
+    import poke_engine as pe
+    st = pe.State(
+        side_one=pe.Side(pokemon=[att] + [
+            pe.Pokemon.create_fainted() for _ in range(5)]),
+        side_two=pe.Side(pokemon=[defd] + [
+            pe.Pokemon.create_fainted() for _ in range(5)]))
+    return pe.calculate_damage(st, move, "splash", True)[0]
+
+
+def _dcand(nature, hp_evs, spd_evs):
+    evs = {"hp": hp_evs, "atk": 0, "def": 0, "spa": 0, "spd": spd_evs,
+           "spe": 0}
+    return {"nature": nature, "evs": evs, "ivs": {k: 31 for k in evs},
+            "item": "none", "ability": "unaware", "moves": ["recover"]}
+
+
+def _armed(tr, delta_events):
+    from tests.test_gen9_translator import make_battle
+    b = make_battle()
+    for e in delta_events:
+        b.parse_message(e)
+    tr.translate(b)
+    return tr._obs
+
+
+def test_our_hit_evidence_captured_with_gates():
+    from showdown.gen9_translator import Gen9Translator
+    tr = Gen9Translator()
+    obs = _armed(tr, [
+        ["", "-sidestart", "p2: opp", "Reflect"],
+        ["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Garchomp"],
+        ["", "-damage", "p2a: Garchomp", "70/100"], ["", "turn", "2"]])
+    ev = obs.our_damage_evidence[-1]
+    assert ev["delta"] == 30 and ev["their_species"] == "garchomp"
+    assert ev["screens"] == ("reflect",) and ev["truncated"] is False
+    tr2 = Gen9Translator()
+    obs2 = _armed(tr2, [
+        ["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Garchomp"],
+        ["", "-crit", "p2a: Garchomp"],
+        ["", "-damage", "p2a: Garchomp", "50/100"], ["", "turn", "2"]])
+    assert not obs2.our_damage_evidence     # crit invalidates the read
+
+
+def test_bulk_check_separates_frail_from_bulky():
+    from showdown.gen9_translator import Gen9Translator
+    tr = Gen9Translator()
+    tr.translate(__import__("tests.test_gen9_translator",
+                            fromlist=["make_battle"]).make_battle())
+    ours = tr._my_built["ninetales"]
+    frail = tr._probe_from_set("clodsire", _dcand("Serious", 0, 0))
+    bulky = tr._probe_from_set("clodsire", _dcand("Calm", 252, 252))
+    rf, rb = _rolls(ours, frail, "flamethrower"), _rolls(ours, bulky,
+                                                        "flamethrower")
+    mid_frail_pct = round(100 * (sum(rf) / len(rf)) / frail.maxhp)
+    obs_abs = mid_frail_pct / 100
+    assert obs_abs * bulky.maxhp > max(rb) * 1.025 + 5, \
+        "premise: the observation must exceed the bulky candidate's band"
+    assert (min(rf) * 0.975 - 5 < obs_abs * frail.maxhp
+            < max(rf) * 1.025 + 5), \
+        "premise: the observation must sit inside the frail candidate's band"
+
+    tr2 = Gen9Translator()
+    obs = _armed(tr2, [
+        ["", "switch", "p2a: Clodsire", "Clodsire, M", "100/100"],
+        ["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Clodsire"],
+        ["", "-damage", "p2a: Clodsire", f"{100 - mid_frail_pct}/100"],
+        ["", "turn", "2"]])
+    assert obs.bulk_ruled_out(bulky, tr._my_built) is True
+    assert obs.bulk_ruled_out(frail, tr._my_built) is False
+
+
+def test_bulk_lower_violation_and_ko_truncation():
+    from showdown.gen9_translator import Gen9Translator
+    tr = Gen9Translator()
+    tr.translate(__import__("tests.test_gen9_translator",
+                            fromlist=["make_battle"]).make_battle())
+    ours = tr._my_built["ninetales"]
+    frail = tr._probe_from_set("clodsire", _dcand("Serious", 0, 0))
+    bulky = tr._probe_from_set("clodsire", _dcand("Calm", 252, 252))
+    rb = _rolls(ours, bulky, "flamethrower")
+    mid_bulky_pct = max(1, round(100 * (sum(rb) / len(rb)) / bulky.maxhp))
+
+    tr2 = Gen9Translator()
+    obs = _armed(tr2, [
+        ["", "switch", "p2a: Clodsire", "Clodsire, M", "100/100"],
+        ["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Clodsire"],
+        ["", "-damage", "p2a: Clodsire", f"{100 - mid_bulky_pct}/100"],
+        ["", "turn", "2"]])
+    assert obs.bulk_ruled_out(frail, tr._my_built) is True
+
+    tr3 = Gen9Translator()
+    obs3 = _armed(tr3, [
+        ["", "switch", "p2a: Clodsire", "Clodsire, M", "100/100"],
+        ["", "-damage", "p2a: Clodsire", "3/100", "[from] Stealth Rock"],
+        ["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Clodsire"],
+        ["", "-damage", "p2a: Clodsire", "0 fnt"],
+        ["", "faint", "p2a: Clodsire"], ["", "turn", "2"]])
+    assert obs3.bulk_ruled_out(frail, tr._my_built) is False   # truncated
+
+
+def test_multiscale_gate_blocks_full_hp_conviction_only():
+    from showdown.gen9_translator import Gen9Translator
+    tr = Gen9Translator()
+    tr.translate(__import__("tests.test_gen9_translator",
+                            fromlist=["make_battle"]).make_battle())
+    frail_dnite = tr._probe_from_set("dragonite", _dcand("Serious", 0, 0))
+    for prev_events, expect in (
+            ([], False),                                     # full HP: gated
+            ([["", "-damage", "p2a: Dragonite", "80/100",
+               "[from] Stealth Rock"]], True)):              # chipped: real
+        tr_n = Gen9Translator()
+        obs = _armed(tr_n, [
+            ["", "switch", "p2a: Dragonite", "Dragonite, M", "100/100"],
+            *prev_events,
+            ["", "move", "p1a: Ninetales", "Flamethrower", "p2a: Dragonite"],
+            ["", "-damage", "p2a: Dragonite",
+             f"{78 if prev_events else 98}/100"],
+            ["", "turn", "2"]])
+        assert obs.bulk_ruled_out(frail_dnite, tr._my_built) is expect

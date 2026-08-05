@@ -145,6 +145,17 @@ _WEAKNESS_BERRIES = {
     "ghost": "kasibberry", "dragon": "habanberry", "dark": "colburberry",
     "steel": "babiriberry", "fairy": "roseliberry",
 }
+_WEAKNESS_BERRY_SET = frozenset(_WEAKNESS_BERRIES.values())
+
+# silent damage MODIFIERS gate the defensive reverse calc's convictions:
+# reducers explain under-damage (so a frail candidate survives the check
+# when the species can run one), amplifiers explain over-damage for their
+# specific type. All unannounced by the protocol.
+_SILENT_REDUCERS_ANY = frozenset({"multiscale", "shadowshield"})  # full HP
+_SILENT_REDUCERS_PHYS = frozenset({"furcoat"})
+_SILENT_REDUCERS_SPEC = frozenset({"icescales"})
+_SILENT_REDUCERS_SE = frozenset({"filter", "solidrock", "prismarmor"})
+_SILENT_AMPLIFIERS_FIRE = frozenset({"fluffy", "dryskin"})
 
 # Two-turn charge moves, named exactly as the engine's charging volatiles
 # (poke-engine charge_choice_to_volatile): mid-charge the user is committed
@@ -385,6 +396,14 @@ class BattleObservations:
         # on-hit ITEM verdicts latched at the damage line, convicted at the
         # next commitment point unless an announce named the item first
         self._hit_latch: dict | None = None
+        # OUR hits on THEM (2026-08-05): percent-damage evidence for the
+        # DEFENSIVE reverse calc — each entry judged per-candidate (the
+        # candidate supplies its own maxhp, dissolving the pct/absolute
+        # circularity, fp-style). Screens at hit time ride along so the
+        # probe can model them.
+        self.our_damage_evidence: list[dict] = []
+        self._our_crit = False
+        self._screens: dict[str, set] = {"p1": set(), "p2": set()}
 
         # DIRECT reveals the protocol broadcasts in [from]/[of] tags — "was
         # poisoned by Toxic Orb", Flame Orb burns, Leftovers heals, Rocky
@@ -517,6 +536,11 @@ class BattleObservations:
     def has_damage_evidence(self, species: str) -> bool:
         sp = _normalize(species)
         return any(ev["species"] == sp for ev in self.damage_evidence)
+
+    def has_our_damage_evidence(self, species: str) -> bool:
+        sp = _normalize(species)
+        return any(ev["their_species"] == sp and ev.get("valid", True)
+                   for ev in self.our_damage_evidence)
 
     def spread_ruled_out(self, opp_probe: pe.Pokemon, our_mons: dict,
                          max_checks: int = 3) -> bool:
@@ -698,6 +722,92 @@ class BattleObservations:
         sp = latch["species"]
         announced = {item for (item, s) in self._item_seen if s == sp}
         self._forbid(sp, *(latch["items"] - announced))
+        # a weakness berry halved the very hit the defensive evidence was
+        # captured from — that entry's damage read is a lie
+        if (latch.get("ev_i") is not None
+                and announced & (_WEAKNESS_BERRY_SET | {"chilanberry"})):
+            try:
+                self.our_damage_evidence[latch["ev_i"]]["valid"] = False
+            except IndexError:
+                pass
+
+    def bulk_ruled_out(self, defender_probe: pe.Pokemon, our_mons: dict,
+                       max_checks: int = 3) -> bool:
+        """The DEFENSIVE reverse calc (fp's damage_received direction): a
+        candidate build whose roll range cannot explain what OUR hit did to
+        this species is not the build in front of us.
+
+        Per-candidate percent resolution: observed% x the CANDIDATE's own
+        maxhp vs our exact attacker's rolls against the candidate's
+        defenses — screens at hit time modeled in the probe. Upper
+        violations (they took more than the candidate allows -> candidate
+        too bulky) gate only on the Fire amplifiers; lower violations
+        (took less -> candidate too frail) gate on KO truncation and every
+        silent reducer the species could run. Tolerances are fp's
+        (2.5% + 5)."""
+        sp = _normalize(getattr(defender_probe, "id", "") or "")
+        dex_abilities = _abilities_of(sp)
+        checked = 0
+        for ev in reversed(self.our_damage_evidence):
+            if checked >= max_checks:
+                break
+            if ev["their_species"] != sp or not ev.get("valid", True):
+                continue
+            att = our_mons.get(ev["attacker"] or "")
+            if att is None:
+                continue
+            sc_kwargs = {}
+            for name, attr in (("reflect", "reflect"),
+                               ("lightscreen", "light_screen"),
+                               ("auroraveil", "aurora_veil")):
+                if name in ev["screens"]:
+                    sc_kwargs[attr] = 1
+            try:
+                state = pe.State(
+                    side_one=pe.Side(pokemon=[att] + [
+                        pe.Pokemon.create_fainted() for _ in range(5)]),
+                    side_two=pe.Side(
+                        pokemon=[defender_probe] + [
+                            pe.Pokemon.create_fainted() for _ in range(5)],
+                        side_conditions=pe.SideConditions(**sc_kwargs)),
+                    weather={"sun": pe.Weather.SUN, "rain": pe.Weather.RAIN,
+                             "sand": pe.Weather.SAND,
+                             "snow": pe.Weather.SNOW,
+                             "hail": pe.Weather.HAIL}.get(ev["weather"],
+                                                          pe.Weather.NONE),
+                    weather_turns_remaining=3 if ev["weather"] != "none"
+                    else 0,
+                )
+                rolls = pe.calculate_damage(state, ev["move"], "splash",
+                                            True)[0]
+            except Exception:
+                continue
+            if not rolls or max(rolls) <= 0:
+                continue
+            checked += 1
+            maxhp = getattr(defender_probe, "maxhp", 0) or 0
+            observed = ev["delta"] / 100.0 * maxhp
+            e = _moves_data().get(ev["move"], {})
+            mtype = str(e.get("type", "")).lower()
+            cat = e.get("category")
+            if observed > max(rolls) * 1.025 + 5:
+                if not (mtype == "fire"
+                        and dex_abilities & _SILENT_AMPLIFIERS_FIRE):
+                    return True
+            if not ev["truncated"] and observed < min(rolls) * 0.975 - 5:
+                if ev["prev"] >= 100 \
+                        and dex_abilities & _SILENT_REDUCERS_ANY:
+                    continue
+                if cat == "Physical" \
+                        and dex_abilities & _SILENT_REDUCERS_PHYS:
+                    continue
+                if cat == "Special" \
+                        and dex_abilities & _SILENT_REDUCERS_SPEC:
+                    continue
+                if ev["se"] and dex_abilities & _SILENT_REDUCERS_SE:
+                    continue
+                return True
+        return False
 
     def _note_ability_announce(self, event, opp_role):
         """Record entry-ability announces while a first-entry watch is open:
@@ -1092,8 +1202,39 @@ class BattleObservations:
                                     cands.update(_PINCH_25)
                             self._hit_latch = {"species": sp_hit,
                                                "items": cands}
+                    # DEFENSIVE reverse-calc evidence: what our hit did to
+                    # them, in percent (their HP is /100). First hit of a
+                    # multihit only (_our_attack clears below), pairing with
+                    # calculate_damage's single-hit rolls. Gates mirror the
+                    # offensive pipeline: crit and our own category boosts
+                    # invalidate; a weakness-berry announce invalidates
+                    # retroactively via the hit latch.
+                    if (sp_hit and post is not None and prev is not None
+                            and _measurable_damage(self._our_attack)):
+                        cat = e.get("category")
+                        boosted = (self._atk_boost[our_role]
+                                   if cat == "Physical"
+                                   else self._spa_boost[our_role]) != 0
+                        if not self._our_crit and not boosted \
+                                and prev[0] > post[0]:
+                            self.our_damage_evidence.append({
+                                "attacker": self._active.get(our_role),
+                                "move": self._our_attack,
+                                "their_species": sp_hit,
+                                "prev": prev[0], "delta": prev[0] - post[0],
+                                "se": self._our_se,
+                                "screens": tuple(sorted(
+                                    self._screens[opp_role])),
+                                "weather": self._weather,
+                                "truncated": post[0] <= 0,
+                                "valid": True,
+                            })
+                            if self._hit_latch is not None:
+                                self._hit_latch["ev_i"] = \
+                                    len(self.our_damage_evidence) - 1
                     self._our_attack = None
                     self._our_se = False
+                    self._our_crit = False
                 # opponent's incoming mon took hazard chip -> it does NOT
                 # have Boots; cancel the negative-evidence latch
                 if role == opp_role and any(
@@ -1233,6 +1374,9 @@ class BattleObservations:
             elif kind == "-crit":
                 if self._pending is not None:
                     self._pending["invalid"] = True
+                if (len(event) >= 3 and str(event[2])[:2] == opp_role
+                        and self._our_attack):
+                    self._our_crit = True    # crit rolls break the read
             elif kind == "-supereffective":
                 if self._pending is not None:
                     self._pending["se"] = True
@@ -1261,6 +1405,12 @@ class BattleObservations:
                     self._side_sr[event[2][:2]] = True
                 elif "Spikes" in event[3] and "Toxic Spikes" not in event[3]:
                     self._side_spikes[event[2][:2]] = True
+                elif "Aurora Veil" in event[3]:
+                    self._screens[event[2][:2]].add("auroraveil")
+                elif "Light Screen" in event[3]:
+                    self._screens[event[2][:2]].add("lightscreen")
+                elif "Reflect" in event[3]:
+                    self._screens[event[2][:2]].add("reflect")
             elif kind == "-sideend" and len(event) >= 4:
                 if "Tailwind" in event[3]:
                     self._tailwind.discard(event[2][:2])
@@ -1268,12 +1418,20 @@ class BattleObservations:
                     self._side_sr[event[2][:2]] = False
                 elif "Spikes" in event[3] and "Toxic Spikes" not in event[3]:
                     self._side_spikes[event[2][:2]] = False
+                elif "Aurora Veil" in event[3]:
+                    self._screens[event[2][:2]].discard("auroraveil")
+                elif "Light Screen" in event[3]:
+                    self._screens[event[2][:2]].discard("lightscreen")
+                elif "Reflect" in event[3]:
+                    self._screens[event[2][:2]].discard("reflect")
             elif kind == "-swapsideconditions":
-                # Court Change flips hazards to the opposite sides
+                # Court Change flips hazards AND screens to the other side
                 self._side_sr = {"p1": self._side_sr["p2"],
                                  "p2": self._side_sr["p1"]}
                 self._side_spikes = {"p1": self._side_spikes["p2"],
                                      "p2": self._side_spikes["p1"]}
+                self._screens = {"p1": self._screens["p2"],
+                                 "p2": self._screens["p1"]}
             elif (kind == "-item" and len(event) >= 4
                   and self._entry_latch is not None
                   and event[2][:2] == opp_role
