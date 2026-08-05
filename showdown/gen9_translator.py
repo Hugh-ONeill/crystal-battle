@@ -1660,6 +1660,10 @@ class Gen9Translator:
                 # behaviorally proven (bench heal on re-switch-in);
                 # adopted like a reveal so set selection keys on it too
                 revealed_ability = "regenerator"
+            if revealed_ability is None \
+                    and _normalize(species) in self._obs.magic_guard:
+                # deduced (web-loud + rocks-silent entry)
+                revealed_ability = "magicguard"
 
         known_move_ids = tuple(_normalize(m) for m in mon.moves)
         canon = self._opp_set(

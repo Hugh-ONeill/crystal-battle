@@ -368,6 +368,12 @@ class BattleObservations:
         # PRE-heal hp, so they can't fake this). Dex-gated at record time.
         self.regen: set[str] = set()
 
+        # Magic Guard PROVEN (web-loud + rocks-silent, 2026-08-05): web's
+        # -activate is sim-guaranteed grounded+bootless, and nothing else
+        # in gen9 blocks SR chip — a deduction, not a prior. Same adoption
+        # tier as regen.
+        self.magic_guard: set[str] = set()
+
         # negative ability evidence: entry announcers that stayed silent on
         # the species' FIRST switch-in (see _ANNOUNCE_ALWAYS)
         self.impossible_abilities: dict[str, set] = {}
@@ -863,6 +869,13 @@ class BattleObservations:
         self._entry_latch = None
         if latch is None or latch["chipped"]:
             return
+        if latch.get("web_fired"):
+            # bootlessness is proven, so zero SR chip has exactly one
+            # remaining cause in gen9
+            if (latch["expects_sr"] and not self._nogas
+                    and _can_magic_guard(latch["species"])):
+                self.magic_guard.add(latch["species"])
+            return
         # SR proves it outright; Spikes proves it unless an Air Balloon made
         # the mon airborne — but under Gravity even a balloon is grounded, so
         # the balloon voids Spikes evidence only outside Gravity
@@ -1254,8 +1267,11 @@ class BattleObservations:
                     # assumptions) because the mons that take chip are the
                     # ones whose builds do not run Boots anyway — kept
                     # because it costs one line on the constraint layer.
-                    self._forbid(self._event_species(event) or "",
-                                 "heavydutyboots")
+                    sp_chip = self._event_species(event)
+                    self._forbid(sp_chip or "", "heavydutyboots")
+                    if sp_chip:
+                        self.impossible_abilities.setdefault(
+                            sp_chip, set()).add("magicguard")
                 if role == opp_role and "/" in str(event[3]):
                     sp = self._event_species(event)
                     try:
@@ -1358,7 +1374,7 @@ class BattleObservations:
                     if sp_web:
                         self._forbid(sp_web, "heavydutyboots")
                     if self._entry_latch is not None:
-                        self._entry_latch["chipped"] = True
+                        self._entry_latch["web_fired"] = True
                 # a sub absorbed a hit; the amount is deliberately hidden by
                 # the protocol, so record WHICH move hit it (the other
                 # role's last move line) for downstream damage estimation

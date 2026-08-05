@@ -199,3 +199,61 @@ def test_web_activation_proves_no_boots_and_cancels_the_latch():
     # boots (bootlessness is proven; the silent SR points at Magic Guard)
     assert "clefable" not in o.boots
     assert "clefable" not in o.boots_ambiguous
+
+
+def test_web_plus_silent_rocks_proves_magic_guard():
+    """Web-loud + rocks-silent is a DEDUCTION: web's -activate is
+    sim-guaranteed grounded+bootless, and only Magic Guard blocks SR chip
+    in gen9. The Clefable coinflip (MG vs Unaware), resolved on entry."""
+    o = _obs([SR, "|-sidestart|p2: Opp|move: Sticky Web",
+              "|switch|p2a: Clefable|Clefable, F|100/100",
+              "|-activate|p2a: Clefable|move: Sticky Web",
+              "|-unboost|p2a: Clefable|spe|1",
+              "|turn|5"])
+    assert "clefable" in o.magic_guard
+
+
+def test_no_rocks_means_web_proves_only_bootlessness():
+    o = _obs(["|-sidestart|p2: Opp|move: Sticky Web",
+              "|switch|p2a: Clefable|Clefable, F|100/100",
+              "|-activate|p2a: Clefable|move: Sticky Web",
+              "|turn|5"])
+    assert "clefable" not in o.magic_guard
+    assert "heavydutyboots" in o.forbidden("clefable")
+
+
+def test_mg_incapable_species_never_asserted():
+    o = _obs([SR, "|-sidestart|p2: Opp|move: Sticky Web",
+              "|switch|p2a: Garchomp|Garchomp, M|100/100",
+              "|-activate|p2a: Garchomp|move: Sticky Web",
+              "|turn|5"])
+    assert "garchomp" not in o.magic_guard
+
+
+def test_sr_chip_disproves_magic_guard():
+    o = _obs([SR,
+              "|switch|p2a: Clefable|Clefable, F|100/100",
+              "|-damage|p2a: Clefable|94/100|[from] Stealth Rock",
+              "|turn|5"])
+    assert "magicguard" in o.ability_forbidden("clefable")
+
+
+def test_translator_adopts_deduced_magic_guard():
+    import logging
+    from poke_env.battle.battle import Battle
+    from showdown.gen9_translator import Gen9Translator
+    from tests.test_gen9_translator import REQUEST
+    b = Battle("battle-gen9monotype-test-7", "wizbot",
+               logging.getLogger("t"), gen=9)
+    b.parse_request(REQUEST)
+    b.parse_message(["", "switch", "p1a: Ninetales", "Ninetales, L100, F",
+                     "323/323"])
+    b.parse_message(["", "-sidestart", "p2: opp", "move: Stealth Rock"])
+    b.parse_message(["", "-sidestart", "p2: opp", "move: Sticky Web"])
+    b.parse_message(["", "switch", "p2a: Clefable", "Clefable, F",
+                     "100/100"])
+    b.parse_message(["", "-activate", "p2a: Clefable", "move: Sticky Web"])
+    b.parse_message(["", "turn", "2"])
+    state = Gen9Translator().translate(b)
+    clef = next(p for p in state.side_two.pokemon if p.id == "clefable")
+    assert clef.ability == "magicguard"
