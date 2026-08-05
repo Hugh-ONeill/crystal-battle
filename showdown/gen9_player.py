@@ -1951,8 +1951,13 @@ class Gen9PokeEnginePlayer(Player):
             ours_left = 6 - sum(1 for p in battle.team.values() if p.fainted)
             theirs_left = 6 - sum(1 for p in battle.opponent_team.values()
                                   if p.fainted)
+            # the engine's own turn count, not the director's last observed
+            # decision: the final turn often resolves without one, and a
+            # wrap-up that reports the length of the match should not be off
+            # by one for the same reason PRISM should not be guessing it
             text, beat = self._director.match_end(
-                outcome, ours_left, theirs_left, battle.opponent_username)
+                outcome, ours_left, theirs_left, battle.opponent_username,
+                turns=getattr(battle, "turn", None))
             self._airi.send(
                 text, beats=[asdict(beat)],
                 hud={"turn": None, "value": {"WIN": 1.0, "LOSS": 0.0,
