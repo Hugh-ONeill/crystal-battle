@@ -324,8 +324,14 @@ def test_caster_sheet_never_leaks_a_sampled_set():
     from a speed world-0 had sampled."""
     sheet = render_caster_sheet(*_caster_fixture())
     for sampled in ("Heavy-Duty Boots", "heavydutyboots", "Static", "static",
-                    "Steel", "Heat Wave", "heatwave"):
+                    "Heat Wave", "heatwave"):
         assert sampled not in sheet, f"world-0's guess leaked: {sampled}"
+    # their sampled TERA was Steel. A bare substring check cannot test that
+    # any more, because real typing is on the board now and one of OUR mons
+    # is Steel/Psychic — which is public fact, not a guess. What must hold
+    # is that the tera stays unstated.
+    assert "its Tera type" in sheet
+    assert "Tera Steel" not in sheet and "pure Steel" not in sheet
     assert "Hurricane" in sheet and "Roost" in sheet, "reveals must survive"
     assert "NOT YET KNOWN" in sheet
     for gap in ("its item", "its ability", "its Tera type"):
@@ -485,7 +491,7 @@ def test_a_read_follows_a_mon_to_the_bench():
         s, battle=b, obs=_obs({"slowkinggalar": "assaultvest"},
                               boots=("slowkinggalar",)))
     bench = next(l for l in sheet.splitlines() if "Their bench" in l)
-    assert "Slowking-Galar 100% [read: Assault Vest]" in bench
+    assert "Slowking-Galar (Poison/Psychic) 100% [read: Assault Vest]" in bench
 
 
 def test_reads_are_absent_without_obs_and_never_come_from_world_zero():
@@ -515,3 +521,34 @@ def test_pending_future_sight_rendered_with_caster():
     assert "FUTURE SIGHT by them (slowkinggalar): lands end of NEXT turn" \
         in sheet
     assert "FUTURE SIGHT by us" not in sheet
+
+
+def test_the_board_states_typing():
+    """A hand-flagged line said "Zapdos will have to account for those
+    Spikes every time it returns". Zapdos is Flying and immune, and nothing
+    the caster was given said so — the board carried hp, status, item,
+    ability and moves, and no typing. The RAG cannot cover this either: it
+    routes on curated mechanic names and a type matchup is not one."""
+    ours = [mon("gliscor")]
+    theirs = [mon("zapdos")]
+    sheet = render_caster_sheet(state(side(ours), side(theirs)))
+    assert "Zapdos (Electric/Flying)" in sheet
+    assert "Gliscor (Ground/Flying)" in sheet
+
+
+def test_a_terastallized_mon_shows_its_tera_type_not_its_dex_typing():
+    """Tera REPLACES typing, so printing the dex entry would state a typing
+    that has left the field — the same reason the type-claim guard keys on
+    _tera rather than the pokedex."""
+    theirs = [mon("dondozo", terastallized=True, tera="dark")]
+    sheet = render_caster_sheet(state(side([mon("kingambit")]), side(theirs)))
+    assert "now pure Dark" in sheet
+    assert "Dondozo (Water)" not in sheet
+
+
+def test_bench_mons_carry_typing_too():
+    """Hazard immunity is a question about who can come IN."""
+    theirs = [mon("greattusk"), mon("zapdos"), mon("gholdengo")]
+    sheet = render_caster_sheet(state(side([mon("kingambit")]), side(theirs)))
+    bench = next(l for l in sheet.splitlines() if "Their bench" in l)
+    assert "Zapdos (Electric/Flying)" in bench

@@ -571,6 +571,24 @@ def _disp_species(raw) -> str:
     return (e or {}).get("name") or str(raw or "?")
 
 
+def _types_of(raw) -> str:
+    """'Electric/Flying', or "" when the dex is unavailable.
+
+    On the board because it is the premise a type read needs and the one
+    thing the caster was never given. Measured cause of a hand-flagged
+    line: "Gliscor has established a layer of pressure that Zapdos will
+    have to account for every time it returns" — Zapdos is Flying and
+    immune to Spikes, and nothing in front of the model said so. The RAG
+    cannot cover this: it routes on curated mechanic NAMES, and a type
+    matchup is not a mechanic name. The type chart is deterministic, so it
+    belongs in the record rather than in a retrieval.
+    """
+    g = _gen9()
+    e = g.pokedex.get(_norm(raw)) if g else None
+    types = [x.title() for x in (e or {}).get("types", []) if x]
+    return "/".join(types)
+
+
 def _disp_move(raw) -> str:
     g = _gen9()
     e = g.moves.get(_norm(raw)) if g else None
@@ -668,8 +686,9 @@ def _caster_bench(mons, act, side, obs=None) -> str:
             continue
         st = _caster_status(p, side)
         pct = _pct(getattr(p, "hp", 0), getattr(p, "maxhp", 1))
-        entry = (f"{_disp_species(getattr(p, 'id', '?'))} {pct}%"
-                 + (f" ({st})" if st else ""))
+        entry = (f"{_disp_species(getattr(p, 'id', '?'))}"
+                 f"{_type_tag(p)} {pct}%"
+                 + (f" [{st}]" if st else ""))
         # A read belongs on the bench too, and this is where the sheet earns
         # the most: the set_reveal beat that called the Scarf fired once,
         # maybe fifteen turns ago, and has long since left both the 12-line
@@ -688,7 +707,7 @@ def _caster_bench(mons, act, side, obs=None) -> str:
 
 def _caster_our_active(mon, side) -> list[str]:
     st = _caster_status(mon, side)
-    head = (f"OUR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}, "
+    head = (f"OUR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}{_type_tag(mon)}, "
             f"{_pct(getattr(mon, 'hp', 0), getattr(mon, 'maxhp', 1))}% hp"
             + (f", {st}" if st else ", no status"))
     if getattr(mon, "terastallized", False):
@@ -717,6 +736,17 @@ def _caster_our_active(mon, side) -> list[str]:
     if moves:
         out.append("  Moves: " + ", ".join(moves))
     return out
+
+
+def _type_tag(mon) -> str:
+    """' (Electric/Flying)', or the TERA type when one is active — Tera
+    REPLACES typing, so printing the dex entry for a Terastallized mon
+    would state a typing that has left the field."""
+    if getattr(mon, "terastallized", False):
+        tera = _norm(getattr(mon, "tera_type", "")) or ""
+        return f" (now pure {tera.title()})" if tera else ""
+    types = _types_of(getattr(mon, "id", ""))
+    return f" ({types})" if types else ""
 
 
 def _caster_reads(obs, species: str) -> tuple[str, str]:
@@ -765,7 +795,7 @@ def _caster_their_active(mon, side, bmon, obs=None) -> list[str]:
     """Reveals first, the search's surviving READS second, and whatever is
     left named as an absence. What never appears is world-0's sample."""
     st = _caster_status(mon, side)
-    head = (f"THEIR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}, "
+    head = (f"THEIR ACTIVE: {_disp_species(getattr(mon, 'id', '?'))}{_type_tag(mon)}, "
             f"{_pct(getattr(mon, 'hp', 0), getattr(mon, 'maxhp', 1))}% hp"
             + (f", {st}" if st else ", no status"))
     if getattr(mon, "terastallized", False):
