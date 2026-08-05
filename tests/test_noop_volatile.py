@@ -184,3 +184,18 @@ def test_the_kill_switch_still_disables_everything(monkeypatch):
     finally:
         monkeypatch.delenv("CB_NOOP_FAIL", raising=False)
         importlib.reload(gp)
+
+
+def test_healing_wish_and_lunar_dance_fail_as_last_mon():
+    """Both fail on the server when the user is the last able mon — nobody
+    to receive the heal. Seen live: a last-mon Cresselia clicking Lunar
+    Dance turn after turn, failing every time (2026-08-05)."""
+    from showdown.gen9_player import _is_noop_pending
+    last = pending_battle()
+    last.team = {"cresselia": NS(fainted=False)}
+    bench = pending_battle()
+    bench.team = {"cresselia": NS(fainted=False), "jirachi": NS(fainted=False),
+               "dead": NS(fainted=True)}
+    for mid in ("healingwish", "lunardance"):
+        assert _is_noop_pending(mid, last)
+        assert not _is_noop_pending(mid, bench)

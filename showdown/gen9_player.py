@@ -296,6 +296,13 @@ def _is_noop_pending(move_id: str, battle) -> bool:
             if "WISH" in cond.name:
                 return True
         return False
+    if move_id in ("healingwish", "lunardance"):
+        # both FAIL when the user is the last able mon — there is nobody
+        # to receive the heal. Seen live: a last-mon Cresselia clicking
+        # Lunar Dance turn after turn, failing every time (2026-08-05)
+        team = getattr(battle, "team", None) or {}
+        alive = sum(1 for m in team.values() if not m.fainted)
+        return alive <= 1
     if move_id == "substitute":
         # costs 1/4 max HP and fails at or below it (the already-behind-a-Sub
         # case is handled by _is_noop_volatile)
