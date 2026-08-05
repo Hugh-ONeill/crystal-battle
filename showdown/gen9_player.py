@@ -135,6 +135,41 @@ def _time_left(battle, username: str | None) -> int | None:
 # to the best line, so a flat-eval MCTS can't tell it apart and may spend the
 # turn on it — measured as 19 consecutive Spikes (16 wasted) at 5s. The
 # monotype bench fixed this with `_best_useful`; this is the live-player port.
+# SHADOW instrument for residual-gap suspect #3 (decision-rule shape,
+# 2026-08-05): fp picks from a payoff matrix with safety weighting, we take
+# visit-max from a share-normalized world merge — these disagree exactly
+# under set uncertainty. This logs how often a worst-case-across-worlds
+# rule WOULD overrule visit-max; it applies nothing. The fire rate and the
+# flipped positions decide whether a real A/B is worth building.
+_MAXIMIN_SHADOW = os.environ.get("CB_MAXIMIN_SHADOW", "0") == "1"
+_MAXIMIN_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "bench", "maximin_shadow.jsonl")
+
+
+def _maximin_would_veto(ranked, results, margin: float = 0.03):
+    """The shadow record for one decision, or None when incomparable
+    (fewer than 2 worlds/options, or a candidate unexplored somewhere —
+    a missing world Q makes min() lie)."""
+    if not ranked or len(ranked) < 2 or not results or len(results) < 2:
+        return None
+    worst = {}
+    for r in ranked[:2]:
+        qs = []
+        for res in results:
+            by = {row.move_choice: row for row in res.side_one}
+            row = by.get(r.move_choice)
+            if row is not None and row.visits:
+                qs.append(row.total_score / row.visits)
+        if len(qs) < len(results):
+            return None
+        worst[r.move_choice] = min(qs)
+    top, alt = ranked[0].move_choice, ranked[1].move_choice
+    return {"top": top, "alt": alt,
+            "worst_top": round(worst[top], 4),
+            "worst_alt": round(worst[alt], 4),
+            "fired": worst[alt] > worst[top] + margin}
+
+
 _HAZARD_MAX = {"stealthrock": ("STEALTH_ROCK", 1), "spikes": ("SPIKES", 3),
                "toxicspikes": ("TOXIC_SPIKES", 2), "stickyweb": ("STICKY_WEB", 1)}
 
@@ -1906,6 +1941,16 @@ class Gen9PokeEnginePlayer(Player):
             return self.choose_random_move(battle)
 
         ranked = _merge_mcts_results(results, weights=_WORLD_WEIGHTS)
+        if _MAXIMIN_SHADOW:
+            try:
+                rec = _maximin_would_veto(ranked, results)
+                if rec is not None:
+                    rec.update(tag=getattr(battle, "battle_tag", "?"),
+                               turn=battle.turn, ts=time.time())
+                    with open(_MAXIMIN_LOG, "a") as f:
+                        f.write(json.dumps(rec) + "\n")
+            except Exception:
+                pass    # instrumentation must never cost a move
         if self._overlay is not None and ranked and self._overlay_live:
             # live overlay: synchronous consult; the reweighted merge PLAYS
             # when the extreme-weight gate clears, identity on any failure
