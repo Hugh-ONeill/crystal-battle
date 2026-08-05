@@ -349,3 +349,76 @@ def test_multiscale_gate_blocks_full_hp_conviction_only():
              f"{78 if prev_events else 98}/100"],
             ["", "turn", "2"]])
         assert obs.bulk_ruled_out(frail_dnite, tr._my_built) is expect
+
+
+# ---- offensive LOWER bound (2026-08-05, unblocked by screen tracking) ---
+
+def _their_hit_obs(observed, pre=(), our_hp="323/323", move="Tackle"):
+    # Tackle, deliberately: a hit weak enough to leave a survivor — a
+    # Banded EQ mid-roll exceeds Ninetales' whole HP bar, and a crafted
+    # "hit" that would have KO'd is (correctly) refused as truncated
+    start = int(our_hp.split("/")[0])
+    return _obs(["|switch|p1a: Ninetales|Ninetales, F|" + our_hp,
+                 "|switch|p2a: Garchomp|Garchomp, M|100/100",
+                 *pre,
+                 f"|move|p2a: Garchomp|{move}|p1a: Ninetales",
+                 f"|-damage|p1a: Ninetales|{max(0, start - observed)}/323"
+                 if start - observed > 0 else
+                 "|-damage|p1a: Ninetales|0 fnt",
+                 "|turn|2"])
+
+
+def _atk_probes(tr):
+    band = tr._probe_from_set("garchomp", _cand("Jolly", 252, "choiceband"))
+    weak = tr._probe_from_set("garchomp", _cand("Bold", 0, "leftovers"))
+    return band, weak
+
+
+def test_lower_bound_separates_band_from_uninvested():
+    from showdown.gen9_translator import Gen9Translator
+    from tests.test_gen9_translator import make_battle
+    tr = Gen9Translator()
+    tr.translate(make_battle())
+    ours = tr._my_built["ninetales"]
+    band, weak = _atk_probes(tr)
+    rb, rw_ = _rolls(band, ours, "tackle"), _rolls(weak, ours, "tackle")
+    observed = round(sum(rw_) / len(rw_))
+    assert observed < min(rb) * 0.975 - 5, "premise: weak mid below Band min"
+    assert observed < 323, "premise: the survivor must survive"
+    o = _their_hit_obs(observed)
+    our_mons = {"ninetales": ours}
+    assert o.spread_ruled_out(band, our_mons) is True
+    assert o.spread_ruled_out(weak, our_mons) is False
+
+
+def test_lower_bound_respects_our_reflect():
+    from showdown.gen9_translator import Gen9Translator
+    from tests.test_gen9_translator import make_battle
+    tr = Gen9Translator()
+    tr.translate(make_battle())
+    ours = tr._my_built["ninetales"]
+    band, _ = _atk_probes(tr)
+    rb = _rolls(band, ours, "tackle")
+    observed = round(sum(rb) / len(rb) / 2)     # a Band hit THROUGH Reflect
+    assert observed < 323
+    o = _their_hit_obs(observed,
+                       pre=("|-sidestart|p1: Us|move: Reflect",))
+    assert o.spread_ruled_out(band, {"ninetales": ours}) is False
+
+
+def test_lower_bound_gates_on_burn_stage_and_truncation():
+    from showdown.gen9_translator import Gen9Translator
+    from tests.test_gen9_translator import make_battle
+    tr = Gen9Translator()
+    tr.translate(make_battle())
+    ours = tr._my_built["ninetales"]
+    band, weak = _atk_probes(tr)
+    observed = round(sum(_rolls(weak, ours, "tackle")) / 16)
+    our_mons = {"ninetales": ours}
+    for pre in (("|-status|p2a: Garchomp|brn",),
+                ("|-unboost|p2a: Garchomp|atk|1",)):
+        assert _their_hit_obs(observed, pre=pre).spread_ruled_out(
+            band, our_mons) is False, pre
+    # KO from low HP: damage-at-least, never convicts the lower bound
+    ko = _their_hit_obs(60, our_hp="60/323")
+    assert ko.spread_ruled_out(band, our_mons) is False

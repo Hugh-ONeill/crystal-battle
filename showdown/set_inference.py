@@ -373,6 +373,7 @@ class BattleObservations:
         # in gen9 blocks SR chip — a deduction, not a prior. Same adoption
         # tier as regen.
         self.magic_guard: set[str] = set()
+        self._opp_burned: set[str] = set()   # burn halves their physical
 
         # negative ability evidence: entry announcers that stayed silent on
         # the species' FIRST switch-in (see _ANNOUNCE_ALWAYS)
@@ -574,12 +575,20 @@ class BattleObservations:
             our = our_mons.get(ev["our_species"])
             if our is None:
                 continue
+            sc_kwargs = {}
+            for name, attr in (("reflect", "reflect"),
+                               ("lightscreen", "light_screen"),
+                               ("auroraveil", "aurora_veil")):
+                if name in ev.get("screens", ()):
+                    sc_kwargs[attr] = 1
             try:
                 state = pe.State(
                     side_one=pe.Side(pokemon=[opp_probe] + [
                         pe.Pokemon.create_fainted() for _ in range(5)]),
-                    side_two=pe.Side(pokemon=[our] + [
-                        pe.Pokemon.create_fainted() for _ in range(5)]),
+                    side_two=pe.Side(
+                        pokemon=[our] + [
+                            pe.Pokemon.create_fainted() for _ in range(5)],
+                        side_conditions=pe.SideConditions(**sc_kwargs)),
                     weather={"sun": pe.Weather.SUN, "rain": pe.Weather.RAIN,
                              "sand": pe.Weather.SAND, "snow": pe.Weather.SNOW,
                              "hail": pe.Weather.HAIL}.get(ev["weather"],
@@ -596,6 +605,34 @@ class BattleObservations:
             checked += 1
             if ev["damage"] > max(rolls) + max(2, int(max(rolls) * 0.03)):
                 return True
+            # LOWER bound (2026-08-05, unblocked by screen tracking): a
+            # hit too weak for the candidate's offense rules it out —
+            # the Band-vs-Leftovers separator. Every deflation confound
+            # is on a KNOWN side, gated here: their burn/negative stage,
+            # KO truncation (fp's rule), our own silent reducers and
+            # weakness berries (our set is exact).
+            if (ev["damage"] > 0 and not ev.get("burned", False)
+                    and ev.get("stage", 0) == 0
+                    and ev["damage"] < ev.get("target_prehp", 0)):
+                e = _moves_data().get(ev["move"], {})
+                cat = e.get("category")
+                our_ab = _normalize(getattr(our, "ability", "") or "")
+                our_item = _normalize(getattr(our, "item", "") or "")
+                prehp = ev.get("target_prehp", 0)
+                if our_ab in _SILENT_REDUCERS_ANY \
+                        and prehp >= (getattr(our, "maxhp", 0) or 0):
+                    continue
+                if cat == "Physical" and our_ab in _SILENT_REDUCERS_PHYS:
+                    continue
+                if cat == "Special" and our_ab in _SILENT_REDUCERS_SPEC:
+                    continue
+                if ev["se"] and our_ab in _SILENT_REDUCERS_SE:
+                    continue
+                if our_item in _WEAKNESS_BERRY_SET \
+                        or our_item == "chilanberry":
+                    continue
+                if ev["damage"] < min(rolls) * 0.975 - 5:
+                    return True
         return False
 
     def _close_turn_upkeep(self):
@@ -715,6 +752,9 @@ class BattleObservations:
             "species": p["attacker"], "move": p["move"],
             "damage": p["damage"], "our_species": p["target"],
             "weather": p["weather"], "se": p["se"],
+            "screens": p.get("screens", ()), "stage": p.get("stage", 0),
+            "burned": p.get("burned", False),
+            "target_prehp": p.get("target_prehp", 0),
         })
 
     def _resolve_hit_latch(self):
@@ -1141,11 +1181,24 @@ class BattleObservations:
                     clean = (self._atk_boost[opp_role] <= 0
                              and self._spa_boost[opp_role] <= 0
                              and opp_role not in self._tera)
+                    _, _cat = _move_info(event[3])
                     self._pending = {
                         "attacker": self._active.get(opp_role),
                         "move": _normalize(event[3]), "target": target,
                         "damage": 0, "invalid": not clean,
                         "weather": self._weather, "se": False,
+                        # lower-bound fields (2026-08-05): OUR screens at
+                        # the hit, their used-category stage (negative
+                        # stages pass the clean gate but void lower
+                        # convictions), their burn, our pre-hit HP for the
+                        # KO-truncation rule
+                        "screens": tuple(sorted(self._screens[our_role])),
+                        "stage": (self._atk_boost[opp_role]
+                                  if _cat == "Physical"
+                                  else self._spa_boost[opp_role]),
+                        "burned": (self._active.get(opp_role) or "")
+                        in self._opp_burned,
+                        "target_prehp": self._hp.get(target or "", 0),
                     }
             elif kind == "-damage" and len(event) >= 4:
                 role = event[2][:2]
@@ -1398,6 +1451,8 @@ class BattleObservations:
                             and str(event[3]) in ("psn", "tox")):
                         self._forbid(sp, "heavydutyboots")
                         self._tspikes_entry = None
+                    if sp and len(event) >= 4 and str(event[3]) == "brn":
+                        self._opp_burned.add(sp)
                 # par tracking used to live in a LATER elif of this same
                 # chain — dead code, every -status matched here first, so
                 # _par stayed empty and the speed-order par corrections
@@ -1409,6 +1464,7 @@ class BattleObservations:
                 sp = self._event_species(event)
                 if role == opp_role and sp:
                     self._opp_unstatused.add(sp)
+                    self._opp_burned.discard(sp)
                 if sp and len(event) >= 4 and event[3] == "par":
                     self._par.discard(f"{role} {sp}")
             elif kind == "-crit":
@@ -1583,8 +1639,15 @@ class BattleObservations:
             state = pe.State(
                 side_one=pe.Side(pokemon=[opp_mon] + [
                     pe.Pokemon.create_fainted() for _ in range(5)]),
-                side_two=pe.Side(pokemon=[our] + [
-                    pe.Pokemon.create_fainted() for _ in range(5)]),
+                side_two=pe.Side(
+                    pokemon=[our] + [
+                        pe.Pokemon.create_fainted() for _ in range(5)],
+                    side_conditions=pe.SideConditions(**{
+                        attr: 1 for name, attr in (
+                            ("reflect", "reflect"),
+                            ("lightscreen", "light_screen"),
+                            ("auroraveil", "aurora_veil"))
+                        if name in ev.get("screens", ())})),
                 weather={"sun": pe.Weather.SUN, "rain": pe.Weather.RAIN,
                          "sand": pe.Weather.SAND, "snow": pe.Weather.SNOW,
                          "hail": pe.Weather.HAIL}.get(ev["weather"],
