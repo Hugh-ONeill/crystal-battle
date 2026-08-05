@@ -151,3 +151,51 @@ if __name__ == "__main__":
         fn()
         print(f"ok {name}")
     print(f"\n{len(fns)} tests passed")
+
+
+# ---- positive proofs from the non-damage hazards (2026-08-05) -----------
+
+TSPIKES = "|-sidestart|p2: Opp|move: Toxic Spikes"
+
+
+def test_entry_poison_over_tspikes_proves_no_boots():
+    o = _obs([TSPIKES,
+              "|switch|p2a: Garchomp|Garchomp, M|100/100",
+              "|-status|p2a: Garchomp|psn",
+              "|turn|5"])
+    assert "heavydutyboots" in o.forbidden("garchomp")
+    o2 = _obs([TSPIKES, TSPIKES,     # two layers -> tox
+               "|switch|p2a: Garchomp|Garchomp, M|100/100",
+               "|-status|p2a: Garchomp|tox",
+               "|turn|5"])
+    assert "heavydutyboots" in o2.forbidden("garchomp")
+
+
+def test_late_poison_is_not_entry_evidence():
+    # poisoned by a MOVE after entering: the window closed at the move line
+    o = _obs([TSPIKES,
+              "|switch|p2a: Garchomp|Garchomp, M|100/100",
+              "|move|p2a: Garchomp|Earthquake|p1a: X",
+              "|-status|p2a: Garchomp|psn",
+              "|turn|5"])
+    assert "heavydutyboots" not in o.forbidden("garchomp")
+
+
+def test_no_tspikes_no_window():
+    o = _obs(["|switch|p2a: Garchomp|Garchomp, M|100/100",
+              "|-status|p2a: Garchomp|psn",
+              "|turn|5"])
+    assert "heavydutyboots" not in o.forbidden("garchomp")
+
+
+def test_web_activation_proves_no_boots_and_cancels_the_latch():
+    o = _obs([SR, "|-sidestart|p2: Opp|move: Sticky Web",
+              "|switch|p2a: Clefable|Clefable, F|100/100",
+              "|-activate|p2a: Clefable|move: Sticky Web",
+              "|-unboost|p2a: Clefable|spe|1",
+              "|turn|5"])
+    assert "heavydutyboots" in o.forbidden("clefable")
+    # web fired but SR didn't chip: the zero-chip latch must NOT conclude
+    # boots (bootlessness is proven; the silent SR points at Magic Guard)
+    assert "clefable" not in o.boots
+    assert "clefable" not in o.boots_ambiguous

@@ -449,6 +449,8 @@ class BattleObservations:
         self._balloon_pending: set[str] = set()
         self._side_sr = {"p1": False, "p2": False}      # Stealth Rock per side
         self._side_spikes = {"p1": False, "p2": False}  # Spikes per side
+        self._side_tspikes = {"p1": False, "p2": False}
+        self._tspikes_entry: str | None = None  # entry-poison proof window
         self._gravity = False                    # grounds everyone for Spikes
         self._entry_latch: dict | None = None    # open switch-in over hazards
 
@@ -958,6 +960,7 @@ class BattleObservations:
                 self._eval_turn_order(battle)
                 self._turn_moves = []
                 self._our_attack = None
+                self._tspikes_entry = None
             elif kind in ("switch", "drag") and len(event) >= 4:
                 self._resolve_hit_latch()
                 self._resolve_entry()  # a new switch closes the prior window
@@ -971,6 +974,10 @@ class BattleObservations:
                 self._our_attack = None       # stale across any switch
                 if role == opp_role:
                     self._balloon_pending.add(species)
+                    # entry-poison proof window: the sim poisons on entry
+                    # ONLY when grounded, non-Poison/Steel and BOOTLESS
+                    self._tspikes_entry = species \
+                        if self._side_tspikes.get(opp_role) else None
                     # Regenerator proof: back with more HP than it left with
                     if len(event) >= 5 and "/" in str(event[4]):
                         try:
@@ -1055,6 +1062,7 @@ class BattleObservations:
                     # (Substitute cost, Belly Drum) — our pending attack
                     # must not claim it
                     self._our_attack = None
+                    self._tspikes_entry = None
                 if role == our_role:
                     entry = _moves_data().get(mid, {})
                     # arm the on-hit ability watch: if this move CONNECTS
@@ -1342,6 +1350,15 @@ class BattleObservations:
                 if "Substitute" in str(event[3]):
                     self.sub_hits[event[2][:2]] = []  # sub broke
             elif kind == "-activate" and len(event) >= 4:
+                if ("Sticky Web" in str(event[3])
+                        and event[2][:2] == opp_role):
+                    # the sim emits this line ONLY for a grounded, bootless
+                    # entrant — the activation is the whole proof
+                    sp_web = self._event_species(event)
+                    if sp_web:
+                        self._forbid(sp_web, "heavydutyboots")
+                    if self._entry_latch is not None:
+                        self._entry_latch["chipped"] = True
                 # a sub absorbed a hit; the amount is deliberately hidden by
                 # the protocol, so record WHICH move hit it (the other
                 # role's last move line) for downstream damage estimation
@@ -1358,6 +1375,13 @@ class BattleObservations:
                 sp = self._event_species(event)
                 if role == opp_role:
                     self._opp_unstatused.discard(sp or "")
+                    # poisoned the instant it entered over Toxic Spikes:
+                    # positive no-Boots proof (2026-08-05, the tspikes
+                    # sibling of the hazard-chip line)
+                    if (sp and sp == self._tspikes_entry and len(event) >= 4
+                            and str(event[3]) in ("psn", "tox")):
+                        self._forbid(sp, "heavydutyboots")
+                        self._tspikes_entry = None
                 # par tracking used to live in a LATER elif of this same
                 # chain — dead code, every -status matched here first, so
                 # _par stayed empty and the speed-order par corrections
@@ -1403,7 +1427,9 @@ class BattleObservations:
                     self._tailwind.add(event[2][:2])
                 elif "Stealth Rock" in event[3]:
                     self._side_sr[event[2][:2]] = True
-                elif "Spikes" in event[3] and "Toxic Spikes" not in event[3]:
+                elif "Toxic Spikes" in event[3]:
+                    self._side_tspikes[event[2][:2]] = True
+                elif "Spikes" in event[3]:
                     self._side_spikes[event[2][:2]] = True
                 elif "Aurora Veil" in event[3]:
                     self._screens[event[2][:2]].add("auroraveil")
@@ -1416,7 +1442,9 @@ class BattleObservations:
                     self._tailwind.discard(event[2][:2])
                 elif "Stealth Rock" in event[3]:
                     self._side_sr[event[2][:2]] = False
-                elif "Spikes" in event[3] and "Toxic Spikes" not in event[3]:
+                elif "Toxic Spikes" in event[3]:
+                    self._side_tspikes[event[2][:2]] = False
+                elif "Spikes" in event[3]:
                     self._side_spikes[event[2][:2]] = False
                 elif "Aurora Veil" in event[3]:
                     self._screens[event[2][:2]].discard("auroraveil")
@@ -1430,6 +1458,8 @@ class BattleObservations:
                                  "p2": self._side_sr["p1"]}
                 self._side_spikes = {"p1": self._side_spikes["p2"],
                                      "p2": self._side_spikes["p1"]}
+                self._side_tspikes = {"p1": self._side_tspikes["p2"],
+                                      "p2": self._side_tspikes["p1"]}
                 self._screens = {"p1": self._screens["p2"],
                                  "p2": self._screens["p1"]}
             elif (kind == "-item" and len(event) >= 4
