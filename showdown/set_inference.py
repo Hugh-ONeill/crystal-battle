@@ -123,6 +123,29 @@ _PRIORITY_REACTIVE = ("dazzling", "queenlymajesty", "armortail")
 # attackers that pierce abilities void the evidence (our side, always known)
 _ABILITY_IGNORERS = frozenset({"moldbreaker", "teravolt", "turboblaze"})
 
+# ON-HIT item evidence (user idea, 2026-08-05): items that MUST announce
+# when their trigger lands. Unlike abilities the announce (eat/boost/
+# enditem) FOLLOWS the damage line, so verdicts are latched at the hit and
+# convicted at the next commitment point unless an announce cleared them.
+# Focus Sash needs no latch: a KO from full HP is itself the proof.
+_ONHIT_TYPE_ITEMS = {"water": ("absorbbulb", "luminousmoss"),
+                     "electric": ("cellbattery",), "ice": ("snowball",)}
+_PINCH_50 = ("sitrusberry",)
+_PINCH_25 = ("figyberry", "wikiberry", "magoberry", "aguavberry",
+             "iapapaberry")
+# weakness (SE-reducing) berries, keyed by attacking type; they announce
+# when they halve a super-effective hit, so an SE hit that connects
+# unannounced rules the matching berry out. Chilan is the special case:
+# Normal is never super-effective, so it triggers on ANY Normal hit.
+_WEAKNESS_BERRIES = {
+    "fire": "occaberry", "water": "passhoberry", "electric": "wacanberry",
+    "grass": "rindoberry", "ice": "yacheberry", "fighting": "chopleberry",
+    "poison": "kebiaberry", "ground": "shucaberry", "flying": "cobaberry",
+    "psychic": "payapaberry", "bug": "tangaberry", "rock": "chartiberry",
+    "ghost": "kasibberry", "dragon": "habanberry", "dark": "colburberry",
+    "steel": "babiriberry", "fairy": "roseliberry",
+}
+
 # Two-turn charge moves, named exactly as the engine's charging volatiles
 # (poke-engine charge_choice_to_volatile): mid-charge the user is committed
 # and often semi-invulnerable, announced only by |-prepare|.
@@ -357,7 +380,11 @@ class BattleObservations:
         self._opp_role: str | None = None
         # our just-used damaging move, awaiting its on-hit verdict
         self._our_attack: str | None = None
+        self._our_se = False                       # this hit was super-eff.
         self._our_abilities: dict[str, str] = {}   # our species -> ability
+        # on-hit ITEM verdicts latched at the damage line, convicted at the
+        # next commitment point unless an announce named the item first
+        self._hit_latch: dict | None = None
 
         # DIRECT reveals the protocol broadcasts in [from]/[of] tags — "was
         # poisoned by Toxic Orb", Flame Orb burns, Leftovers heals, Rocky
@@ -615,6 +642,10 @@ class BattleObservations:
             self._item_seen.add((name, sp))
             if name == "airballoon":
                 self._balloon_pending.discard(sp)
+        if str(event[1]) == "-enditem" and len(event) > 3:
+            # a consumed/removed item announced itself (berry eats, sash,
+            # Weakness Policy, Eject Button...) — the hit latch reads this
+            self._item_seen.add((_normalize(str(event[3])), sp))
 
     def _capture_reveals(self, event, opp_role):
         """Record [from] item:/ability: tags. An [of] tag reassigns the
@@ -653,6 +684,20 @@ class BattleObservations:
             "damage": p["damage"], "our_species": p["target"],
             "weather": p["weather"], "se": p["se"],
         })
+
+    def _resolve_hit_latch(self):
+        """Convict the latched on-hit item candidates: whatever DIDN'T
+        announce by the next commitment point isn't held. An announced item
+        clears itself (and, being the mon's one item slot, convicts every
+        other candidate all the same). MUST run before _close_turn_upkeep
+        at turn boundaries — upkeep clears _item_seen."""
+        latch = self._hit_latch
+        self._hit_latch = None
+        if latch is None:
+            return
+        sp = latch["species"]
+        announced = {item for (item, s) in self._item_seen if s == sp}
+        self._forbid(sp, *(latch["items"] - announced))
 
     def _note_ability_announce(self, event, opp_role):
         """Record entry-ability announces while a first-entry watch is open:
@@ -797,12 +842,14 @@ class BattleObservations:
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
             if kind == "turn":
+                self._resolve_hit_latch()   # before upkeep wipes _item_seen
                 self._close_turn_upkeep()   # proofs from what did NOT happen
                 self._resolve_entry()  # switch-in window closes at end of turn
                 self._eval_turn_order(battle)
                 self._turn_moves = []
                 self._our_attack = None
             elif kind in ("switch", "drag") and len(event) >= 4:
+                self._resolve_hit_latch()
                 self._resolve_entry()  # a new switch closes the prior window
                 role = event[2][:2]
                 species = _normalize(event[3].split(",")[0])
@@ -865,6 +912,7 @@ class BattleObservations:
                             "expects_spikes": expects_spikes,
                             "gravity": self._gravity, "airborne": False}
             elif kind == "move" and len(event) >= 4:
+                self._resolve_hit_latch()
                 self._resolve_entry()  # first action after a switch closes it
                 role = event[2][:2]
                 self._turn_moves.append((role, event[3]))
@@ -970,32 +1018,82 @@ class BattleObservations:
                     }
             elif kind == "-damage" and len(event) >= 4:
                 role = event[2][:2]
-                # on-hit negative ability evidence: our armed attack landed
-                # DIRECT damage ([from]-tagged lines are hazards/status/item
-                # residuals, not the hit), so the deterministic reactors to
-                # its type/flags cannot be their ability
+                # on-hit negative evidence: our armed attack landed DIRECT
+                # damage ([from]-tagged lines are hazards/status/item
+                # residuals, not the hit). Abilities convict immediately —
+                # their announce would have REPLACED this damage line.
+                # Items latch instead: their announces (eat/boost/enditem)
+                # FOLLOW the damage, so candidates arm here and convict at
+                # the next commitment point via _resolve_hit_latch.
                 if (role == opp_role and self._our_attack
                         and not self._nogas
                         and not any(isinstance(a, str)
                                     and a.startswith("[from]")
                                     for a in event[4:])):
-                    if self._our_abilities.get(
-                            self._active.get(our_role) or "") \
-                            not in _ABILITY_IGNORERS:
-                        e = _moves_data().get(self._our_attack, {})
-                        bad = list(_TYPE_REACTIVE.get(
-                            str(e.get("type", "")).lower(), ()))
+                    e = _moves_data().get(self._our_attack, {})
+                    mtype = str(e.get("type", "")).lower()
+                    sp_hit = self._active.get(opp_role)
+                    pierced = self._our_abilities.get(
+                        self._active.get(our_role) or "") in _ABILITY_IGNORERS
+                    if sp_hit and not pierced:
+                        bad = list(_TYPE_REACTIVE.get(mtype, ()))
                         fl = e.get("flags") or {}
                         for f, abs_ in _FLAG_REACTIVE.items():
                             if fl.get(f):
                                 bad += abs_
                         if (e.get("priority", 0) or 0) > 0:
                             bad += _PRIORITY_REACTIVE
-                        sp_hit = self._active.get(opp_role)
-                        if sp_hit and bad:
+                        if bad:
                             self.impossible_abilities.setdefault(
                                 sp_hit, set()).update(bad)
+                    prev = self._opp_hp.get(sp_hit) if sp_hit else None
+                    head = str(event[3]).split(" ")[0]
+                    post = None
+                    if head.startswith("0"):
+                        post = (0, prev[1] if prev else 100)
+                    elif "/" in head:
+                        try:
+                            cur, mx = head.split("/")
+                            post = (int(cur), int(mx))
+                        except ValueError:
+                            post = None
+                    if sp_hit and post is not None:
+                        if post[0] <= 0:
+                            # KO from FULL HP is itself the Focus Sash
+                            # proof (the sash would have held at 1) — and
+                            # the Sturdy proof, ability-pierce gated.
+                            # Multihit breaks the sash and KOs anyway.
+                            if (prev is not None and prev[0] >= prev[1]
+                                    and not e.get("multihit")):
+                                self._forbid(sp_hit, "focussash")
+                                if not pierced:
+                                    self.impossible_abilities.setdefault(
+                                        sp_hit, set()).add("sturdy")
+                        else:
+                            cands = {"ejectbutton", "redcard"}
+                            if self._our_se:
+                                cands.add("weaknesspolicy")
+                            cands.update(_ONHIT_TYPE_ITEMS.get(mtype, ()))
+                            # Unnerve (ours) suppresses ALL their berries —
+                            # an uneaten berry under it proves nothing
+                            if self._our_abilities.get(
+                                    self._active.get(our_role) or "") \
+                                    != "unnerve":
+                                if self._our_se:
+                                    wb = _WEAKNESS_BERRIES.get(mtype)
+                                    if wb:
+                                        cands.add(wb)
+                                if mtype == "normal":
+                                    cands.add("chilanberry")
+                                frac = post[0] / post[1] if post[1] else 1.0
+                                if frac <= 0.5:
+                                    cands.update(_PINCH_50)
+                                if frac <= 0.25:
+                                    cands.update(_PINCH_25)
+                            self._hit_latch = {"species": sp_hit,
+                                               "items": cands}
                     self._our_attack = None
+                    self._our_se = False
                 # opponent's incoming mon took hazard chip -> it does NOT
                 # have Boots; cancel the negative-evidence latch
                 if role == opp_role and any(
@@ -1138,6 +1236,9 @@ class BattleObservations:
             elif kind == "-supereffective":
                 if self._pending is not None:
                     self._pending["se"] = True
+                if (len(event) >= 3 and str(event[2])[:2] == opp_role
+                        and self._our_attack):
+                    self._our_se = True    # precedes the -damage line
             elif kind in ("-boost", "-unboost") and len(event) >= 5:
                 role = event[2][:2]
                 try:

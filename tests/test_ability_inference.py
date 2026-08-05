@@ -236,3 +236,68 @@ def test_mold_breaker_attacker_voids_the_evidence():
     o = BattleObservations()
     o.update(b)
     assert "levitate" not in o.ability_forbidden("clodsire")
+
+
+# ---- on-hit item evidence (2026-08-05, user idea: latched verdicts) ----
+
+def test_pinch_berries_forbidden_when_low_without_eating():
+    o = _obs(HIT + ["|move|p1a: Ninetales|Flamethrower|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|40/100", "|turn|2"])
+    assert "sitrusberry" in o.forbidden("clodsire")
+    assert "figyberry" not in o.forbidden("clodsire")   # not <=25%
+    o2 = _obs(HIT + ["|move|p1a: Ninetales|Flamethrower|p2a: Clodsire",
+                     "|-damage|p2a: Clodsire|20/100", "|turn|2"])
+    assert "figyberry" in o2.forbidden("clodsire")
+
+
+def test_eaten_berry_is_not_forbidden_but_siblings_are():
+    o = _obs(HIT + ["|move|p1a: Ninetales|Flamethrower|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|40/100",
+                    "|-enditem|p2a: Clodsire|Sitrus Berry|[eat]",
+                    "|-heal|p2a: Clodsire|65/100|[from] item: Sitrus Berry",
+                    "|turn|2"])
+    assert "sitrusberry" not in o.forbidden("clodsire")
+    assert "ejectbutton" in o.forbidden("clodsire")
+
+
+def test_weakness_berry_needs_the_se_hit():
+    se = _obs(HIT + ["|move|p1a: Ninetales|Ice Beam|p2a: Clodsire",
+                     "|-supereffective|p2a: Clodsire",
+                     "|-damage|p2a: Clodsire|55/100", "|turn|2"])
+    assert "yacheberry" in se.forbidden("clodsire")
+    assert "weaknesspolicy" in se.forbidden("clodsire")
+    neutral = _obs(HIT + ["|move|p1a: Ninetales|Flamethrower|p2a: Clodsire",
+                          "|-damage|p2a: Clodsire|60/100", "|turn|2"])
+    assert "occaberry" not in neutral.forbidden("clodsire")
+    assert "weaknesspolicy" not in neutral.forbidden("clodsire")
+
+
+def test_ko_from_full_proves_no_sash_or_sturdy():
+    o = _obs(HIT + ["|move|p1a: Ninetales|Overheat|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|0 fnt",
+                    "|faint|p2a: Clodsire", "|turn|2"])
+    assert "focussash" in o.forbidden("clodsire")
+    assert "sturdy" in o.ability_forbidden("clodsire")
+
+
+def test_multihit_ko_is_not_sash_evidence():
+    o = _obs(HIT + ["|move|p1a: Ninetales|Rock Blast|p2a: Clodsire",
+                    "|-damage|p2a: Clodsire|0 fnt",
+                    "|faint|p2a: Clodsire", "|turn|2"])
+    assert "focussash" not in o.forbidden("clodsire")
+
+
+def test_unnerve_attacker_voids_berry_but_not_item_evidence():
+    events = ["|switch|p1a: Ttar|Tyranitar, M|100/100",
+              "|switch|p2a: Clodsire|Clodsire, M|100/100",
+              "|move|p1a: Ttar|Crunch|p2a: Clodsire",
+              "|-damage|p2a: Clodsire|40/100", "|turn|2"]
+    b = SimpleNamespace(
+        _replay_data=[[""] + e.split("|")[1:] for e in events],
+        player_role="p1",
+        team={"p1: Ttar": SimpleNamespace(species="Tyranitar",
+                                          ability="unnerve")})
+    o = BattleObservations()
+    o.update(b)
+    assert "sitrusberry" not in o.forbidden("clodsire")
+    assert "ejectbutton" in o.forbidden("clodsire")     # not a berry
