@@ -1050,9 +1050,19 @@ class Gen9Translator:
             # poke-env counts turns an effect has been active; the engine
             # wants turns remaining. Best-effort for the turn-limited ones.
             if name == "TAUNT":
-                durs["taunt"] = _clamp_turns(3 - count)
+                # the engine counts taunt turns UP (0 -> 1 -> 2, removed at
+                # 2) and PANICS outside 0..2; the old "3 - count" remaining
+                # mapping was inverted — a fresh taunt was handed 2
+                # ("expires next turn"), under-modeling taunt pressure all
+                # along, and poke-env's rare count=0 produced a literal 3
+                # (one crashed game in rwxscreen, 2026-08-05)
+                durs["taunt"] = min(max(count - 1, 0), 2)
             elif name == "ENCORE":
-                durs["encore"] = _clamp_turns(3 - count)
+                # same up-counting scheme as taunt (removed at exactly 2,
+                # no panic): the inverted mapping expired fresh encores
+                # after one searched turn, and a count=0 handed 3, which
+                # never EQUALS 2 — an encore that never ends in-tree
+                durs["encore"] = min(max(count - 1, 0), 2)
             elif name == "CONFUSION":
                 durs["confusion"] = 2  # actual remaining is hidden (1-4)
             elif name == "YAWN":

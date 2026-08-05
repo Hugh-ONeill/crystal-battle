@@ -136,7 +136,8 @@ def test_status_substitute_and_volatiles():
     assert "substitute" in state.side_two.volatile_statuses
     assert state.side_two.substitute_health == chomp.maxhp // 4
     assert "taunt" in state.side_one.volatile_statuses
-    assert state.side_one.volatile_status_durations.taunt >= 1
+    # up-counting engine semantics: a fresh taunt is 0 (full life ahead)
+    assert state.side_one.volatile_status_durations.taunt == 0
 
 
 def test_unrevealed_slots_are_fainted_dummies():
@@ -1524,3 +1525,19 @@ def test_doom_desire_is_deliberately_untracked():
         ["", "-start", "p2a: Garchomp", "Doom Desire"]),
         "p1", 1)
     assert tr._future_sight == {"me": None, "opp": None}
+
+
+def test_taunt_and_encore_durations_use_engine_up_counting():
+    """The engine counts taunt/encore turns UP (0 -> 1 -> 2, removed at 2;
+    taunt PANICS outside 0..2). The old '3 - count' remaining mapping was
+    inverted — fresh taunts were handed 2 ('expires next turn'), and
+    poke-env's rare count=0 produced a literal 3 that crashed a game
+    (rwxscreen, 2026-08-05)."""
+    b = make_battle()
+    b.parse_message(["", "-start", "p1a: Ninetales", "move: Taunt"])
+    b.parse_message(["", "-start", "p2a: Garchomp", "move: Encore"])
+    state = Gen9Translator().translate(b)
+    assert 0 <= state.side_one.volatile_status_durations.taunt <= 2
+    assert 0 <= state.side_two.volatile_status_durations.encore <= 2
+    # a fresh application must have its full life ahead, not one turn
+    assert state.side_one.volatile_status_durations.taunt == 0
