@@ -38,11 +38,46 @@ def test_quiet_when_top_pick_is_robust():
     assert rec["fired"] is False
 
 
-def test_incomparable_positions_return_none():
+def test_incomparable_maximin_still_reports_voting():
     ranked = rr(("attack", 900, 500.0), ("switch x", 700, 350.0))
-    # "switch x" unexplored in world 1: a missing world Q makes min() lie
+    # "switch x" unexplored in world 1: a missing world Q makes min() lie,
+    # so the maximin column goes None — but each world still has a
+    # visit-max winner, so the voting column survives
     results = [world(("attack", 500, 300.0), ("switch x", 350, 175.0)),
                world(("attack", 400, 220.0))]
-    assert _maximin_would_veto(ranked, results) is None
+    rec = _maximin_would_veto(ranked, results)
+    assert rec["fired"] is None and rec["worst_top"] is None
+    assert rec["vote_pick"] == "attack" and rec["vote_fired"] is False
     assert _maximin_would_veto(ranked, results[:1]) is None
     assert _maximin_would_veto(rr(("attack", 900, 500.0)), results) is None
+
+
+def test_vote_column_fires_when_world_majority_disagrees_with_merge():
+    """Two of three worlds prefer 'attack', but world 0's landslide visit
+    mass makes the MERGED pick 'boost' — fp's per-world voting and our
+    share-normalized merge genuinely disagree here."""
+    results = [world(("boost", 900, 700.0), ("attack", 100, 55.0)),
+               world(("attack", 500, 275.0), ("boost", 450, 240.0)),
+               world(("attack", 500, 275.0), ("boost", 450, 240.0))]
+    ranked = rr(("boost", 1800, 1180.0), ("attack", 1100, 605.0))
+    rec = _maximin_would_veto(ranked, results)
+    assert rec["vote_pick"] == "attack"
+    assert rec["vote_fired"] is True
+
+
+def test_vote_column_quiet_when_worlds_agree():
+    results = [world(("attack", 500, 300.0), ("boost", 350, 175.0)),
+               world(("attack", 400, 220.0), ("boost", 350, 175.0))]
+    ranked = rr(("attack", 900, 520.0), ("boost", 700, 350.0))
+    rec = _maximin_would_veto(ranked, results)
+    assert rec["vote_pick"] == "attack" and rec["vote_fired"] is False
+
+
+def test_vote_weights_break_world_count():
+    # one heavy world outvotes two light ones when weights say so
+    results = [world(("boost", 900, 700.0), ("attack", 100, 55.0)),
+               world(("attack", 500, 275.0), ("boost", 450, 240.0)),
+               world(("attack", 500, 275.0), ("boost", 450, 240.0))]
+    ranked = rr(("boost", 1800, 1180.0), ("attack", 1100, 605.0))
+    rec = _maximin_would_veto(ranked, results, weights=[5.0, 1.0, 1.0])
+    assert rec["vote_pick"] == "boost" and rec["vote_fired"] is False

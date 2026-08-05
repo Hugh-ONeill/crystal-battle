@@ -146,12 +146,38 @@ _MAXIMIN_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                             "bench", "maximin_shadow.jsonl")
 
 
-def _maximin_would_veto(ranked, results, margin: float = 0.03):
-    """The shadow record for one decision, or None when incomparable
-    (fewer than 2 worlds/options, or a candidate unexplored somewhere —
-    a missing world Q makes min() lie)."""
+def _maximin_would_veto(ranked, results, margin: float = 0.03,
+                        weights=None):
+    """The shadow record for one decision, or None with fewer than 2
+    worlds/options. Two columns, three aggregation rules compared against
+    the played share-normalized merge:
+
+    - maximin (`fired`): would worst-case-across-worlds overrule the
+      merged pick? None when incomparable — a candidate unexplored in
+      some world makes min() lie.
+    - fp-style voting (`vote_fired`): each world's visit-max move casts a
+      weighted vote (fp select_move_from_mcts_results); does the vote
+      winner differ from the merged pick? Ties break by summed visits.
+    """
     if not ranked or len(ranked) < 2 or not results or len(results) < 2:
         return None
+    top, alt = ranked[0].move_choice, ranked[1].move_choice
+
+    if not weights or len(weights) != len(results):
+        weights = [1.0] * len(results)
+    votes: dict = {}
+    strength: dict = {}
+    for res, w in zip(results, weights):
+        side = list(res.side_one)
+        if not side:
+            continue
+        winner = max(side, key=lambda row: row.visits)
+        votes[winner.move_choice] = votes.get(winner.move_choice, 0.0) + w
+        strength[winner.move_choice] = (strength.get(winner.move_choice, 0)
+                                        + winner.visits)
+    vote_pick = max(votes, key=lambda c: (votes[c], strength[c])) \
+        if votes else None
+
     worst = {}
     for r in ranked[:2]:
         qs = []
@@ -161,13 +187,20 @@ def _maximin_would_veto(ranked, results, margin: float = 0.03):
             if row is not None and row.visits:
                 qs.append(row.total_score / row.visits)
         if len(qs) < len(results):
-            return None
+            worst = None
+            break
         worst[r.move_choice] = min(qs)
-    top, alt = ranked[0].move_choice, ranked[1].move_choice
-    return {"top": top, "alt": alt,
-            "worst_top": round(worst[top], 4),
-            "worst_alt": round(worst[alt], 4),
-            "fired": worst[alt] > worst[top] + margin}
+
+    rec = {"top": top, "alt": alt,
+           "vote_pick": vote_pick,
+           "vote_fired": vote_pick is not None and vote_pick != top}
+    if worst is None:
+        rec.update(worst_top=None, worst_alt=None, fired=None)
+    else:
+        rec.update(worst_top=round(worst[top], 4),
+                   worst_alt=round(worst[alt], 4),
+                   fired=worst[alt] > worst[top] + margin)
+    return rec
 
 
 _HAZARD_MAX = {"stealthrock": ("STEALTH_ROCK", 1), "spikes": ("SPIKES", 3),
@@ -1943,7 +1976,8 @@ class Gen9PokeEnginePlayer(Player):
         ranked = _merge_mcts_results(results, weights=_WORLD_WEIGHTS)
         if _MAXIMIN_SHADOW:
             try:
-                rec = _maximin_would_veto(ranked, results)
+                rec = _maximin_would_veto(ranked, results,
+                                          weights=_WORLD_WEIGHTS)
                 if rec is not None:
                     rec.update(tag=getattr(battle, "battle_tag", "?"),
                                turn=battle.turn, ts=time.time())
