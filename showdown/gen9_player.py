@@ -1481,9 +1481,14 @@ class Gen9PokeEnginePlayer(Player):
 
     def _airi_note_switch(self, mon):
         """Record a forced-switch replacement as a ride-along highlight so
-        it's named in the next beat, without forcing extra late-game chatter
-        (the single-switch and heuristic paths otherwise return silently)."""
-        if self._airi is None:
+        it's named in the next beat.
+
+        Every forced-switch path needs this. Our own switches emit no
+        protocol event the scanner narrates — the opponent's "they go to X"
+        has no counterpart — so a replacement we chose reaches the record
+        only through this note, and without it the next beat simply shows a
+        different mon standing there with nothing saying we picked it."""
+        if self._airi is None or mon is None:
             return
         try:
             self._director.note(f"we send {_species_display(mon.species)} in",
@@ -2019,6 +2024,16 @@ class Gen9PokeEnginePlayer(Player):
                 order = self._map_choice(
                     _merge_mcts_results(results, weights=_WORLD_WEIGHTS), battle)
                 if order is not None:
+                    # THE PATH THAT ACTUALLY RUNS. The note was wired to the
+                    # single-switch and heuristic-fallback branches only, on
+                    # the assumption that the searched branch narrated itself
+                    # — it does not, and a forced replacement chosen by MCTS
+                    # reached the broadcast as nothing at all. Measured over
+                    # hunts 5 and 6: our mon was knocked out 39 times and
+                    # "we send X in" appeared 5 times, so who we sent to
+                    # replace it was unrecorded in roughly seven cases out
+                    # of eight.
+                    self._airi_note_switch(getattr(order, "order", None))
                     return order
             except Exception as e:
                 if self._verbose:
