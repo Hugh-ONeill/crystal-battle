@@ -1,0 +1,55 @@
+dittoab3_0806 — is it DITTO, or is it the SLOT? PREREGISTERED 2026-08-06 ~17:05
+================================================================================
+
+WHY. dittoab0806 measured the Ditto slot at +12.67pp [+9.11, +16.17] vs stock
+fp — real, artifact-free, control arm sitting in our historical band. But the
+PREDICTED cause was refuted in the same read: the gain is anti-correlated with
+opponent setup rate (low-setup half +17.1pp, high-setup half +8.2pp), so
+"revenge-kills boosted sweepers that fp cannot price" is NOT what is winning.
+
+The leading alternative was engine-pilot fit: Ditto replaced Salamence (a
+Dragon Dance SETUP SWEEPER, the class [[project_monotype_engine_pilot_bias]]
+says our engine underuses). USER OBJECTION, 2026-08-06, and it is decisive
+against that story: the OTHER two replaced mons are not setup sweepers at all
+— ct2's Meowscarada is a CHOICE SCARF revenge killer (Trick/U-turn/Knock
+Off/Triple Axel), i.e. Ditto's own role, and ct3's Latios is a Choice Scarf
+attacker. If pilot-fit-with-setup-sweepers drove the result, dt1 (Salamence)
+would dominate. Measured ordering is the reverse: dt2 +17.4 > dt1 +15.8 >>
+dt3 +4.8. The biggest gain came from a LIKE-FOR-LIKE revenge-killer swap.
+
+QUESTION. Is the +12.67pp a property of DITTO, or of the SLOT — i.e. would any
+competent engine-friendly attacker in that slot beat the mons it replaced?
+
+ARMS. Three arms x three teams, one slot different, nine teams total:
+  ct{1,2,3}  original pool teams (Salamence / Scarf Meowscarada / Scarf Latios)
+  dt{1,2,3}  Scarf Imposter Ditto            (the dittoab0806 arm, re-run)
+  bb{1,2,3}  Choice Band Dragonite           (Multiscale, Outrage/ESpeed/EQ/
+             Fire Punch — no setup move, self-sufficient, priority; the
+             "engine-pilotable breaker" archetype)
+All nine validate clean vs the gen9ou proxy.
+
+DESIGN. par_series dittoab3_0806, N=4500, 12 lanes, --suite ditto_ab3
+--fp-suite rw_proxy, stock knobs, 300ms. 9 x 12 = 108 pairings, ~42 games
+each. All three arms run in ONE queue so they are interleaved in time and
+share opponents — dt and ct are deliberately RE-RUN rather than compared
+across runs, which both gives a same-run three-way comparison and replicates
+the +12.67pp (cross-run level steps have burned this campaign three times).
+
+POWER: 1500/arm -> the dt-vs-bb and bb-vs-ct contrasts each resolve ~5.1pp.
+
+DECISION RULE (before launch):
+  - bb ~= ct, both well below dt  -> the gain is DITTO-SPECIFIC. The cause is
+    the Imposter mechanic itself even though the boost-copy story failed;
+    open a fresh mechanism hunt (candidate: a Scarfed mirror of their active
+    is a universal answer, boosts or not).
+  - bb ~= dt, both well above ct  -> the gain is THE SLOT: these three teams
+    simply had a weak sixth, and any competent breaker fixes it. Ditto is
+    then unremarkable, the ladder promotion is not justified by this evidence,
+    and the honest finding is "we found three improvable teams".
+  - bb strictly between          -> partial: report both contrasts with CIs
+    and attribute proportionally; no single-cause claim.
+  - dt-vs-ct must also REPLICATE within [+9.1, +16.2] or the original run is
+    itself suspect and everything above is re-opened.
+
+NO PEEKING before N=4500. ETA ~4h at the measured 18.5 games/min (done ~21:15,
+clear of the 01:00 ladder).
