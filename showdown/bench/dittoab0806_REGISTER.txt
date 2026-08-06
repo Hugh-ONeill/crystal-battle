@@ -1,0 +1,65 @@
+dittoab0806 — does the Ditto slot PAY? PREREGISTERED 2026-08-06 ~13:30
+================================================================================
+
+QUESTION. dtscreen0806 established the BENEFIT side only: Ditto deploys (1.94
+copies/game, 96% of games), 31% of copies land on a boosted target, 53.6% of
+those kill the target — about 0.32 revenge kills per game — and foul-play is
+provably blind to the threat (setup rate 7.81% with a live Ditto benched vs
+8.08% without: indistinguishable). It could NOT price the COST: the slot Ditto
+takes from a proven team. Net value is benefit minus cost, and only this run
+measures the difference.
+
+ARMS. Six teams, three matched pairs, differing in ONE slot each:
+  dt1_glimmora_ho      vs  ct1_glimmora_ho_orig       (Ditto <-> Salamence)
+  dt2_tinglu_balance   vs  ct2_tinglu_balance_orig    (Ditto <-> Scarf Meowscarada)
+  dt3_lando_bulky      vs  ct3_lando_bulky_orig       (Ditto <-> Scarf Latios)
+Controls are the unmodified pool_hl teams (ho2/33/36). All six validate clean.
+
+DESIGN. par_series dittoab0806, N=3000, 12 lanes, --suite ditto_ab --fp-suite
+rw_proxy, stock knobs, 300ms both sides. NOT --ab: that knob varies an ENV
+VAR on one team, and the variable here is the team itself. Instead the queue's
+index rotation enumerates 6 our-teams x 12 fp-teams = 72 pairings, ~42 games
+each, and lanes pull from ONE queue, so the arms are interleaved in time and
+balanced across opponents by construction — run-scoped drift hits both arms
+alternately, the property --ab exists to guarantee.
+
+POWER (computed BEFORE launch, at p~0.5, alpha .05, 80% power):
+  per pair, 500/arm    -> resolves 8.9pp
+  pooled,  1500/arm    -> resolves 5.1pp
+So the POOLED difference is the primary estimand; per-pair rows are secondary
+and underpowered for anything below ~9pp. A null here means "no effect larger
+than ~5pp", NOT "no effect" — Ditto's measured benefit is ~0.32 kills/game and
+a slot is worth several points, so a true effect could plausibly sit under the
+resolution. Say so in the verdict rather than claiming parity.
+
+PRIMARY. Pooled winrate, ditto arm minus control arm, with a 95% CI on the
+difference. Secondary: the three per-pair rows; mechanism reads re-run on the
+ditto arm as a consistency check against the screen.
+
+DECISION RULE (written before launch):
+  - CI excludes 0 in favour of Ditto -> the slot pays; keep all three on the
+    ladder and draft a fourth around the same idea.
+  - CI excludes 0 against -> the blindness does NOT offset the cost; pull the
+    drafts from pool_hl, keep the engine/translator work (it is correctness,
+    not strategy).
+  - CI spans 0 -> report the interval honestly as an upper bound on the
+    effect; keep the drafts on the ladder trial (the October field, not fp, is
+    the target and richwoman/LLM-bots are different opponents), and do NOT
+    re-run for significance — this is exactly the sequential-peeking trap.
+  - Per-pair rows never override the pooled read at this n.
+
+LANE COUNT 12, chosen BEFORE launch and before any data (amended from 8 in
+the same sitting). Ceiling reasoning, since this is the constraint that
+actually binds: the search budget is WALL-CLOCK (300ms/decision both sides),
+so saturating the CPU does not merely slow the run, it buys fewer visits per
+decision and makes both engines play worse. Measured draw at 8 lanes was 12.8
+of 24 cores = 1.6 cores/lane, so saturation arrives around 15 lanes; 12 lanes
+~= 19 cores leaves real headroom and matches the recorded single-arm cap.
+RAM is not a factor at 60G (8 lanes used 3.8G of a 24G cap). Note the
+interleaved design means CPU pressure would hit both arms alternately and
+cancel in the DIFFERENCE anyway — the reason to stay below saturation is
+external validity (measuring Ditto at representative search depth), not bias.
+
+NO PEEKING: no winrate is read before N=3000 lands. Lane health and crash
+counts only. ETA ~2.7h at 12 lanes (done ~16:20, well clear of the 01:00
+ladder).
