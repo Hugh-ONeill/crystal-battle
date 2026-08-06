@@ -31,10 +31,22 @@ designed.
 - **Row flags (§5.3): near-silent and unreliable.** 37 emitted across six
   thousand consults; 14/37 (38%) discarded for citing rules that do not
   resolve. The citation guard held by construction; nothing to ship.
-- **Reply distribution (§5.2): never exercised** — the shadow build emits
-  only world_weights/confidence/flags/worry. Untested, not refuted, and its
-  premise does not require judging worlds. The only channel with a live
-  path left; note it overlaps the move-net's opponent-prediction lane.
+- **Reply distribution (§5.2): SHADOW BUILD LIVE 2026-08-06 evening**
+  (7b6f3d2 + 86f0cf5). Every gated consult now also predicts the opponent's
+  ACTUAL click (1-3 entries over the searched columns, `reply` required in
+  the schema per the worry lesson, validated against the offered options,
+  never applied). The gate — learned from the world channel's death — is
+  BELIEF ACCURACY FIRST: `reply_audit.py` joins predictions to the
+  opponent's real action from the ladder log. The bar is registered from
+  the pre-build corpus (5,664 scoreable turns): **engine implied-reply
+  33.9% top-1 / 64.0% top-3 / Brier 0.922** — and that Brier is WORSE than
+  uniform's 0.900, i.e. implied-best-response is measurably overconfident
+  about real opponents, which is this channel's premise in one number.
+  Also quantified: 18.0% of actual clicks land outside the searched top-6
+  columns (the "static priors mismodel killers" blind spot). Splits to
+  watch: engine reads richwoman at 42.0% (habitual), LLM bots at 24.6%
+  (erratic). Verdict after a few nightlies of accrual; a re-solve design
+  exists only if the accuracy gate passes.
 - **The learning-free spin-off died too.** The curated world IS more real —
   it beats the hedge world 55.7/44.3 on future reveals (n=1,049 decidable
   consults) — but the offline coupling sweep (`world_weight_sweep.py`,
@@ -48,9 +60,9 @@ designed.
   pairs).** Coupling is real (oracle ceiling flips 37.8% of decidable
   decisions; w0=0.55 flips 8.8%, all tie-breaks) — the value is bracketed
   at null. Equal vote stands; the hedge world keeps its job.
-- **Operational state:** `CB_OVERLAY=shadow` left ON in
-  crystal-ladder.service pending the build-§5.2-or-drop decision; the
-  emission corpus doubles as eval-recalibration data either way.
+- **Operational state:** `CB_OVERLAY=shadow` stays ON in
+  crystal-ladder.service — the §5.2 shadow is now what it's accruing for;
+  the emission corpus doubles as eval-recalibration data either way.
 
 ---
 
