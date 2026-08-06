@@ -118,6 +118,23 @@ def brier(dist: dict, actual: str, support: set) -> float:
                for o in support | {actual})
 
 
+def decided(rec) -> bool:
+    """True when the position is already decided in every world (top row
+    q >= 0.95 or <= 0.05). There the opponent's replies all carry the same
+    Q, decoupled UCT's visit marginal is amplified exploration noise, and
+    'engine implied reply' predicts nothing — found via a 10M-visit turn
+    that put 18% on a Psychic into a Dark-type (immune). ~5% of consults;
+    split out so the gate is judged on turns where prediction can matter."""
+    tops = []
+    for w in rec.get("worlds") or []:
+        rows = w.get("rows") or []
+        if rows:
+            tops.append(max(q for _, _, q in rows))
+    if not tops:
+        return False
+    return min(tops) >= 0.95 or max(tops) <= 0.05
+
+
 def opp_bucket(name: str) -> str:
     if name == "richwoman":
         return "richwoman"
@@ -163,7 +180,7 @@ def main():
         e_dist = engine_dist(d)
         if not e_dist:
             continue
-        u_dist = {o: 1.0 / len(options) for o in options}
+        u_dist = {o: 1.0 / len(options) for o in sorted(options)}
         g_raw = d.get("reply_pred")
         g_dist = None
         if g_raw:
@@ -174,6 +191,7 @@ def main():
         outside += (actual not in options)
         ob = opp_bucket(opp_name.get(d["tag"], "?"))
         tb = band(d["turn"])
+        st = "decided" if decided(d) else "contested"
         for pol, dist in (("engine", e_dist), ("uniform", u_dist),
                           ("gemma", g_dist)):
             if dist is None:
@@ -192,6 +210,8 @@ def main():
             split[("opp", ob)][(pol, "top1")] += hit1
             split[("band", tb)][(pol, "n")] += 1
             split[("band", tb)][(pol, "top1")] += hit1
+            split[("state", st)][(pol, "n")] += 1
+            split[("state", st)][(pol, "top1")] += hit1
         if g_dist:
             g_top = max(g_dist.items(), key=lambda kv: kv[1])[0]
             e_top = max(e_dist.items(), key=lambda kv: kv[1])[0]
@@ -219,7 +239,8 @@ def main():
               f"n={h2h['n']}): gemma right {h2h['gemma']}, "
               f"engine right {h2h['engine']}")
     for dim, title in (("opp", "per-opponent top-1"),
-                       ("band", "per-turn-band top-1")):
+                       ("band", "per-turn-band top-1"),
+                       ("state", "contested-vs-decided top-1")):
         print(f"\n{title}:")
         for (d2, key), c in sorted(split.items()):
             if d2 != dim:
