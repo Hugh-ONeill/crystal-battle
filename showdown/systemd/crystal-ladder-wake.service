@@ -1,0 +1,8 @@
+[Unit]
+Description=No-op wake target for the crystal-battle ladder nightly
+
+[Service]
+Type=oneshot
+# The timer's WakeSystem= does all the work — the box being awake IS the job.
+# The actual session start stays with the user-scope crystal-ladder.timer.
+ExecStart=/bin/true

@@ -1,0 +1,22 @@
+[Unit]
+Description=Wake the box from suspend for the 01:00 crystal-battle ladder nightly
+
+[Timer]
+# Fires 3 minutes ahead of the user-scope crystal-ladder.timer (01:00 plus
+# 0-5 min randomized delay). WakeSystem sets an RTC alarm so a SUSPENDED box
+# resumes in time for the start — on 2026-08-06 hypridle suspended the box at
+# 00:54 and the nightly sat queued until a human nudge at 03:06. If the box
+# is already awake this is a no-op tick; a powered-OFF box still skips the
+# night (RTC wake resumes suspend, it does not boot).
+#
+# System scope on purpose: WakeSystem needs privileges a user manager lacks.
+# Install (from the repo copy in showdown/systemd/):
+#   sudo install -m644 crystal-ladder-wake.{service,timer} /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now crystal-ladder-wake.timer
+# The `ladder nightly` / `ladder off` CLI keeps it in lockstep with the
+# user-scope nightly timer.
+OnCalendar=*-*-* 00:57:00
+WakeSystem=true
+
+[Install]
+WantedBy=timers.target
