@@ -1,8 +1,61 @@
 # LLM + RAG overlay over the MCTS — design
 
-**Status: DESIGN ONLY (2026-07-31). Nothing here is implemented; nothing consumes
-roles.json yet.** This file exists so the design survives context the way
-roles.json does. Companion artifacts:
+**Status: PHASE 1 CLOSED — SHADOW VERDICT AGAINST CHANNEL 5.1 (2026-08-06).**
+Phases 0-1 ran: matrix emission + dossier + shadow consults live on the ladder
+2026-07-31 → 08-06 (`overlay.py`, `CB_OVERLAY=shadow`, nothing ever applied).
+The verdict below supersedes this design's expectations for §5.1 and §5.3;
+§5.2 was never exercised and remains open. Phases 2-5 do not launch as
+designed.
+
+## Phase-1 verdict (2026-08-06 — 6,078 consults, 435 battles)
+
+**The rig worked; the primary channel failed its gate.**
+
+- **Rig health: green.** 99.2% schema-valid (9 hard errors in 6,078),
+  latency p50 2.1 s / p90 2.5 s on the design estimate (cold starts to
+  29 s), and the gates landed exactly as designed — flips concentrate on
+  near-tie × world-disagreement turns (flipped-record median engine margin
+  0.016 vs 0.181 overall). The §9 schema/latency worries are answered.
+- **World reweighting (§5.1): DEAD as built.** Scored against FUTURE
+  reveals only (the appendix ledger at consult time vs what the game later
+  revealed): strong picks (weight ≥ 0.7) are **50.0% correct (85/170,
+  ±7.5 pp) — a coin flip**, with no confidence gradient (weight-1.0
+  collapses: 50.6%). The constant always-curated baseline scores 55.3% on
+  the identical slice; Gemma leans curated on 86.5% of strong picks and
+  still hits 50%, so its deviations toward the hedge world — the picks
+  that would drive the dramatic flips — are anti-informative. Would-be
+  flips at λ=0.25: 220 (3.6% of consults), 64% pure tie-breaks
+  (margin ≤ 0.03), 28 confident-position overrides riding picks with zero
+  measured accuracy — the confidently-wrong class at the one joint where
+  overrides have never won.
+- **Row flags (§5.3): near-silent and unreliable.** 37 emitted across six
+  thousand consults; 14/37 (38%) discarded for citing rules that do not
+  resolve. The citation guard held by construction; nothing to ship.
+- **Reply distribution (§5.2): never exercised** — the shadow build emits
+  only world_weights/confidence/flags/worry. Untested, not refuted, and its
+  premise does not require judging worlds. The only channel with a live
+  path left; note it overlaps the move-net's opponent-prediction lane.
+- **The learning-free spin-off died too.** The curated world IS more real —
+  it beats the hedge world 55.7/44.3 on future reveals (n=1,049 decidable
+  consults) — but the offline coupling sweep (`world_weight_sweep.py`,
+  self-validates 99.9% against the live λ-blend re-solves) shows the
+  CB_WORLD_WEIGHTS dial monetizes that edge at a flat ~5:4 exchange
+  (oracle-agreement gains where curated was real vs hedge-defeats where the
+  hedge was real: +52/−39 at w0=0.55 … +224/−152 at 1.0) — no structure,
+  just the base rate re-expressed. And the dial's far end is already
+  measured live: **K=1 IS curated-world-only with double per-world depth,
+  and its commit A/B vs K=2 was a perfect null (60-59 discordants, 240
+  pairs).** Coupling is real (oracle ceiling flips 37.8% of decidable
+  decisions; w0=0.55 flips 8.8%, all tie-breaks) — the value is bracketed
+  at null. Equal vote stands; the hedge world keeps its job.
+- **Operational state:** `CB_OVERLAY=shadow` left ON in
+  crystal-ladder.service pending the build-§5.2-or-drop decision; the
+  emission corpus doubles as eval-recalibration data either way.
+
+---
+
+Original design follows, kept as written 2026-07-31. This file exists so the
+design survives context the way roles.json does. Companion artifacts:
 
 - `showdown/roles.json` — the knowledge the overlay injects (34 top-usage
   gen9ou species, human-reviewed; consumer-facing `fact` separated from
