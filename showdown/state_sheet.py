@@ -738,15 +738,99 @@ def _caster_our_active(mon, side) -> list[str]:
     return out
 
 
+def _current_types(mon) -> list[str]:
+    """The typing that is on the field RIGHT NOW, Tera included.
+
+    One source of truth for the type tag and the matchup block below, so the
+    two can never disagree about what a Terastallized mon is."""
+    if getattr(mon, "terastallized", False):
+        tera = _norm(getattr(mon, "tera_type", "")) or ""
+        return [tera.title()] if tera else []
+    return [t for t in _types_of(getattr(mon, "id", "")).split("/") if t]
+
+
 def _type_tag(mon) -> str:
     """' (Electric/Flying)', or the TERA type when one is active — Tera
     REPLACES typing, so printing the dex entry for a Terastallized mon
     would state a typing that has left the field."""
+    types = _current_types(mon)
+    if not types:
+        return ""
     if getattr(mon, "terastallized", False):
-        tera = _norm(getattr(mon, "tera_type", "")) or ""
-        return f" (now pure {tera.title()})" if tera else ""
-    types = _types_of(getattr(mon, "id", ""))
-    return f" ({types})" if types else ""
+        return f" (now pure {types[0]})"
+    return f" ({'/'.join(types)})"
+
+
+_EFFECT_LABEL = {0: "NO EFFECT", 0.25: "double resisted", 0.5: "resisted",
+                 2: "super effective", 4: "double super effective"}
+
+
+def _effectiveness(move_id: str, defender_types: list[str]):
+    """(multiplier, label) for one move into a defender's CURRENT typing, or
+    None when the question does not arise — a status move, an unrecognised
+    move, an unresolved defender, or a plain neutral hit.
+
+    poke-env keys the chart tc[DEFENDER][ATTACKER]. Read the other way round
+    it still returns a number for every pair and is silently wrong about half
+    of them — tc['STEEL']['GROUND'] is 2 because Ground hits Steel, while
+    tc['GROUND']['STEEL'] is 1. That inversion is the exact mistake this
+    block exists to stop, so getting it backwards here would be worse than
+    shipping nothing.
+    """
+    g = _gen9()
+    if not g or not defender_types:
+        return None
+    entry = g.moves.get(_norm(move_id))
+    if not entry or entry.get("category") == "Status":
+        return None
+    atk = (entry.get("type") or "").upper()
+    if not atk:
+        return None
+    mult = 1.0
+    for d in defender_types:
+        mult *= g.type_chart.get(d.upper(), {}).get(atk, 1)
+    if mult == 1:
+        return None
+    return mult, _EFFECT_LABEL.get(mult, f"{mult:g}x")
+
+
+def _caster_matchup(our_mon, their_mon, their_bmon) -> list[str]:
+    """Non-neutral type relations between the two actives, computed.
+
+    The typing block gave the caster the nouns and that was not enough. Hunt
+    8 aired "the Normal Tera on Dragonite allowed Earthquake to bypass
+    Kingambit's Ghost immunity" from a sheet that correctly read "Kingambit
+    (now pure Ghost)" — Ghost has no immunity to Ground, and a Tera on the
+    ATTACKER does not retype its move. Both facts were on the board; the
+    relation between them was invented. The chart is deterministic, so it
+    belongs on the record beside the typing rather than in the model's head.
+
+    Only the non-neutral rows. Measured over 395 sheets: a median of 2 and
+    never more than 5, against sixteen pairs that would nearly all read
+    "neutral" — and 82 of them were outright immunities, the rows worth the
+    most. The header says what is missing so the block cannot be read as a
+    damage prediction: abilities and items are not in the chart, and Air
+    Balloon and Levitate both turn up in these matchups.
+    """
+    ours_t, theirs_t = _current_types(our_mon), _current_types(their_mon)
+    our_name = _disp_species(getattr(our_mon, "id", ""))
+    their_name = _disp_species(getattr(their_mon, "id", ""))
+    rows = []
+    for mv in getattr(our_mon, "moves", None) or []:
+        mid = _norm(getattr(mv, "id", ""))
+        got = _effectiveness(mid, theirs_t)
+        if got:
+            rows.append(f"  our {_disp_move(mid)} on {their_name}: "
+                        f"{got[1]} ({got[0]:g}x)")
+    for mid in sorted(_revealed_moves(their_bmon)) if their_bmon else []:
+        got = _effectiveness(mid, ours_t)
+        if got:
+            rows.append(f"  their {_disp_move(mid)} on {our_name}: "
+                        f"{got[1]} ({got[0]:g}x)")
+    if not rows:
+        return []
+    return ["TYPE CHART for these two actives — any pair NOT listed is "
+            "neutral. Abilities and items are not counted here:"] + rows
 
 
 def _caster_reads(obs, species: str) -> tuple[str, str]:
@@ -920,4 +1004,11 @@ def _render_caster(state, battle, obs, turn) -> str:
     # is trivially at full hp with no status, so the numbers are safe too.
     lines.append(f"  Their bench (all six were shown at team preview): "
                  f"{_caster_bench(mons2, act2, s2, obs)}")
+    # last, and only with both actives up: it is a reading OF the two blocks
+    # above and reads as nonsense detached from them
+    if (act1 >= 0 and act2 >= 0
+            and getattr(mons1[act1], "hp", 0) > 0
+            and getattr(mons2[act2], "hp", 0) > 0):
+        lines += _caster_matchup(mons1[act1], mons2[act2],
+                                 bindex.get(_norm(mons2[act2].id)))
     return "\n".join(lines)

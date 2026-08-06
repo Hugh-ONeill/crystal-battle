@@ -552,3 +552,71 @@ def test_bench_mons_carry_typing_too():
     sheet = render_caster_sheet(state(side([mon("kingambit")]), side(theirs)))
     bench = next(l for l in sheet.splitlines() if "Their bench" in l)
     assert "Zapdos (Electric/Flying)" in bench
+
+
+# --- the type chart on the board -----------------------------------------
+#
+# Typing alone was not enough. Hunt 8 aired "the Normal Tera on Dragonite
+# allowed Earthquake to bypass Kingambit's Ghost immunity" from a sheet that
+# correctly read "Kingambit (now pure Ghost)": Ghost has no immunity to
+# Ground, and a Tera on the ATTACKER does not retype its move. Both facts
+# were on the board and the RELATION between them was invented.
+
+def test_the_board_computes_the_matchup_not_just_the_typings():
+    ours = [mon("kingambit", moves=("ironhead", "lowkick"))]
+    theirs = [mon("gholdengo")]
+    sheet = render_caster_sheet(state(side(ours), side(theirs)))
+    assert "TYPE CHART for these two actives" in sheet
+    # Steel into Steel/Ghost is halved; Fighting into Ghost does nothing
+    assert "our Iron Head on Gholdengo: resisted (0.5x)" in sheet
+    assert "our Low Kick on Gholdengo: NO EFFECT (0x)" in sheet
+
+
+def test_the_matchup_follows_the_tera_not_the_dex():
+    """Kingambit is Dark/Steel and takes 4x from Fighting; Tera Ghost makes
+    it immune. The block has to move with the typing or it states a matchup
+    that has left the field."""
+    ours = [mon("kingambit", terastallized=True, tera="ghost")]
+    theirs = [mon("greattusk")]
+    b = battle(opp=(bmon("greattusk", moves=("closecombat",)),))
+    sheet = render_caster_sheet(state(side(ours), side(theirs)), b)
+    assert "their Close Combat on Kingambit: NO EFFECT (0x)" in sheet
+
+
+def test_the_error_it_exists_to_stop_is_absent_from_the_board():
+    """Ghost is NEUTRAL to Ground. No row may claim otherwise, and a neutral
+    pair is simply not listed."""
+    ours = [mon("kingambit", terastallized=True, tera="ghost")]
+    theirs = [mon("dragonite")]
+    b = battle(opp=(bmon("dragonite", moves=("earthquake",)),))
+    sheet = render_caster_sheet(state(side(ours), side(theirs)), b)
+    assert "TYPE CHART" not in sheet, \
+        "Ground into Ghost is neutral, so there is nothing to report"
+
+
+def test_a_matchup_with_nothing_to_say_prints_no_block_at_all():
+    """7% of measured sheets have nothing non-neutral in them. A bare header
+    would read as "the chart had no opinion", which is not what it means."""
+    ours = [mon("kingambit", moves=("swordsdance",))]     # status only
+    theirs = [mon("gholdengo")]                            # nothing revealed
+    sheet = render_caster_sheet(state(side(ours), side(theirs)))
+    assert "TYPE CHART" not in sheet
+
+
+def test_status_moves_carry_no_relation():
+    ours = [mon("kingambit", moves=("swordsdance", "ironhead"))]
+    theirs = [mon("gholdengo")]
+    sheet = render_caster_sheet(state(side(ours), side(theirs)))
+    block = sheet.split("TYPE CHART")[-1]
+    assert "Swords Dance" not in block and "Iron Head" in block
+
+
+def test_only_moves_they_have_actually_shown_are_used():
+    """The block must not leak an unrevealed set — the same rule the moves
+    line above it follows."""
+    ours = [mon("kingambit")]
+    theirs = [mon("greattusk")]
+    b = battle(opp=(bmon("greattusk", moves=("closecombat",)),))
+    sheet = render_caster_sheet(state(side(ours), side(theirs)), b)
+    block = sheet.split("TYPE CHART")[-1]
+    assert "Close Combat" in block and "Headlong Rush" not in block
