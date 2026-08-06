@@ -73,6 +73,23 @@ if pgrep -f "ladder_session.sh" >/dev/null 2>&1 || \
   exit 1
 fi
 
+# After a fired-on-resume start (box woke seconds before us) the Wi-Fi lags
+# the service: on 2026-08-06 game 1 died on "Temporary failure in name
+# resolution". Wait for NetworkManager, then prove DNS end-to-end against the
+# actual ladder host; a still-dead network after the timeout starts anyway —
+# a late-joining network costs the first slot, same as before, and the
+# one-game-per-process loop recovers on slot 2.
+nm-online -q -t 60 2>/dev/null || true
+waited=0
+until getent hosts battling.pokeagentchallenge.com >/dev/null 2>&1; do
+  if [ "$waited" -ge 90 ]; then
+    echo "WARNING: ladder host still unresolvable after ${waited}s; starting anyway"
+    break
+  fi
+  sleep 5
+  waited=$((waited + 5))
+done
+
 STAMP=$(date +%Y%m%d_%H%M%S)
 TAG="overnight_$STAMP"
 LOG="$CB/showdown/bench/${TAG}_ladder.log"
@@ -91,17 +108,26 @@ START=$(date +%s)
 # `timeout $RUN_DEADLINE` caps the whole session by wall-clock so a thin/empty
 # queue can't churn search-timeouts past the night.
 #
-# Probe the inhibitor FIRST and fall back to running uninhibited: on
-# 2026-08-02 02:29 the timer fired mid-suspend-cycle, systemd-inhibit failed
-# with "operation already running", and the whole session died in 1s — a
-# session without an inhibitor beats no session. (Probe-then-run has a tiny
-# race; acceptable. Wrapping with `|| retry` instead would re-run the whole
-# session whenever the INNER command exits nonzero — do not do that.)
+# Probe the inhibitor FIRST and RETRY before giving up: when the 01:00 timer
+# fires on resume (box was asleep at 01:00) the service starts mid-suspend-
+# cycle and the first probe is guaranteed to fail. The old probe-once
+# fallback (added after 2026-08-02, when that failure killed the session in
+# 1s) ran the whole 2026-08-06 session uninhibited and hypridle re-suspended
+# the box MID-GAME at 03:41. The race window is seconds wide; a minute of 5s
+# probes covers it with room to spare. (Still probe-then-run: wrapping the
+# session in `|| retry` instead would re-run the whole session whenever the
+# INNER command exits nonzero — do not do that.)
 INHIBIT="systemd-inhibit --mode=block --what=sleep:idle --why=crystal-battle-overnight-ladder"
-if ! $INHIBIT true 2>/dev/null; then
-  echo "WARNING: suspend inhibitor unavailable (mid-suspend-cycle?); running uninhibited"
-  INHIBIT=""
-fi
+probes=0
+until $INHIBIT true 2>/dev/null; do
+  probes=$((probes + 1))
+  if [ "$probes" -ge 12 ]; then
+    echo "WARNING: suspend inhibitor still unavailable after $probes probes over ~60s; running uninhibited"
+    INHIBIT=""
+    break
+  fi
+  sleep 5
+done
 $INHIBIT \
     timeout "$RUN_DEADLINE" \
     sh showdown/ladder_session.sh "$TAG" "$N_GAMES" "$SERVER" "$POOL" \
