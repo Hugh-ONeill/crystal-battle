@@ -354,7 +354,11 @@ while [ "$lane" -le "$LANES" ]; do
     # 2026-07-23 17:50:08 all TEN foul-play lanes froze on (plausibly) the
     # same pathological position simultaneously and timer-forfeited at once,
     # fabricating 10 wins in one series. A few seconds of skew decorrelates.
-    sleep $(( (lane - 1) * 3 ))
+    # 3s/lane was NOT enough at 6 lanes (2026-08-04: fp threw
+    # KeyError: 'battle' on simultaneous logins and quarantine executed four
+    # of six lanes). Widened to 8s — 8 lanes now spread over ~1 min, which is
+    # noise against a multi-hour series and is the cheapest insurance there is.
+    sleep $(( (lane - 1) * 8 ))
     OURS_LOG="$CB/showdown/bench/${NAME}_L${lane}_ours.log"
     FP_LOG="$CB/showdown/bench/${NAME}_L${lane}_foulplay.log"
     : > "$FP_LOG"
