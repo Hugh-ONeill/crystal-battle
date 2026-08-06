@@ -87,9 +87,13 @@ from poke_env.battle.battle import Battle as _PEBattle
 if not getattr(_PEBattle.parse_request, "_cb_transform_tolerant", False):
     _orig_parse_request = _PEBattle.parse_request
 
-    def _tolerant_parse_request(self, request):
+    def _tolerant_parse_request(self, request, *args, **kwargs):
+        # *args/**kwargs transparency is LOAD-BEARING: the live player calls
+        # parse_request(request, strict) POSITIONALLY — a wrapper pinned to
+        # (self, request) passes offline tests and crashes every live
+        # request (caught by dtscreen0806's first game, 2026-08-06)
         try:
-            _orig_parse_request(self, request)
+            _orig_parse_request(self, request, *args, **kwargs)
         except AssertionError:
             mon = self.active_pokemon
             if mon is None:
@@ -99,7 +103,7 @@ if not getattr(_PEBattle.parse_request, "_cb_transform_tolerant", False):
                     mid = m.get("id") or m.get("move")
                     if mid:
                         mon._add_move(mid)
-            _orig_parse_request(self, request)
+            _orig_parse_request(self, request, *args, **kwargs)
 
     _tolerant_parse_request._cb_transform_tolerant = True
     _PEBattle.parse_request = _tolerant_parse_request

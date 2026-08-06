@@ -86,6 +86,20 @@ def test_parse_request_survives_copied_unrevealed_moves():
         ["earthquake", "outrage", "stealthrock", "swordsdance"]
 
 
+def test_parse_request_patch_is_signature_transparent():
+    # the live player calls parse_request(request, strict) POSITIONALLY —
+    # the patch must pass extra args through (a (self, request)-pinned
+    # wrapper crashed every live request while offline tests stayed green)
+    b = Battle("battle-gen9ou-tftest-3", "wizbot",
+               logging.getLogger("test"), gen=9)
+    b.parse_request(REQ_BASE, False)
+    for msg in PROTOCOL:
+        b.parse_message(msg)
+    b.parse_request(REQ_TRANSFORMED, False)
+    assert sorted(m.id for m in b.available_moves) == \
+        ["earthquake", "outrage", "stealthrock", "swordsdance"]
+
+
 def test_transform_record_set_and_cleared_on_slot_change():
     tr, _ = make_transformed_battle()
     assert tr._transform["me"] == {"who": "ditto", "into": "garchomp"}
