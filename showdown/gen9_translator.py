@@ -71,6 +71,39 @@ from showdown.local_battle import (
 )
 from monotype.chaos_priors import _detect_side_type
 
+# poke-env's parse_request ASSERTS when the active's request moves are not a
+# subset of its known moves (pokemon.py available_moves_from_request). For a
+# transformed Imposter Ditto that is the NORMAL case, not an anomaly: the
+# server names all four copied moves in the very next request, while
+# poke-env's |-transform| handler copied only the target's REVEALED moves —
+# so the first request after Transform would kill the whole message handler
+# mid-game. Quiet local fix (same policy as the engine fork): seed the
+# request's own moves into the mon and retry once. _add_move stores them
+# with from_transform=True while transformed, so the revert-on-switch-out
+# stays clean; for any non-transform assert the seed is a no-op and the
+# retry re-raises the original problem.
+from poke_env.battle.battle import Battle as _PEBattle
+
+if not getattr(_PEBattle.parse_request, "_cb_transform_tolerant", False):
+    _orig_parse_request = _PEBattle.parse_request
+
+    def _tolerant_parse_request(self, request):
+        try:
+            _orig_parse_request(self, request)
+        except AssertionError:
+            mon = self.active_pokemon
+            if mon is None:
+                raise
+            for blk in request.get("active") or []:
+                for m in blk.get("moves", []) or []:
+                    mid = m.get("id") or m.get("move")
+                    if mid:
+                        mon._add_move(mid)
+            _orig_parse_request(self, request)
+
+    _tolerant_parse_request._cb_transform_tolerant = True
+    _PEBattle.parse_request = _tolerant_parse_request
+
 
 # ============================================================
 # STATIC MAPPINGS
@@ -248,6 +281,14 @@ class Gen9Translator:
         # expiry, so "me" = OUR outgoing attack
         self._future_sight: dict[str, tuple[int, str] | None] = {"me": None,
                                                                  "opp": None}
+        # active transform per side (Imposter Ditto): {"who": transformer
+        # species, "into": target species, "moves": cached copied moveset}.
+        # Cleared whenever that side's active slot changes — a transform
+        # never outlives its transformer's stay. poke-env DOES track
+        # transform (temporary types/ability/base-stats, boosts, revealed
+        # moves) but keeps mon.species/stats as base Ditto — this record is
+        # what lets _my_pokemon rebuild the copied identity/statline.
+        self._transform: dict[str, dict | None] = {"me": None, "opp": None}
 
     def new_battle(self):
         self._opp_type = None
@@ -257,6 +298,7 @@ class Gen9Translator:
         self._wish = {"me": None, "opp": None}
         self._healing_wish = {"me": 0, "opp": 0}
         self._future_sight = {"me": None, "opp": None}
+        self._transform = {"me": None, "opp": None}
 
     def observe_events(self, split_messages, role: str, turn: int) -> None:
         """Track slot state the protocol NEVER RESTATES, from raw message
@@ -334,6 +376,23 @@ class Gen9Translator:
                     self._wish[side] = None
                 else:
                     self._healing_wish[side] = 0
+            elif kind == "-transform":
+                # |-transform|p1a: Ditto|p2a: Kingambit — record who copied
+                # whom so _my_pokemon can rebuild the copied identity and
+                # statline (poke-env tracks the transform's temporary
+                # fields, but its species/request-stats stay base Ditto)
+                if len(msg) > 3 and isinstance(msg[3], str):
+                    side = "me" if msg[2].startswith(role) else "opp"
+                    self._transform[side] = {
+                        "who": _normalize(msg[2].split(":", 1)[-1]),
+                        "into": _normalize(msg[3].split(":", 1)[-1]),
+                    }
+            elif kind in ("switch", "drag", "replace"):
+                # a transform never outlives its transformer's stay (the
+                # transformer's own entry fires here BEFORE |-transform|,
+                # so set-after-clear ordering is safe)
+                side = "me" if msg[2].startswith(role) else "opp"
+                self._transform[side] = None
 
     def set_opponent_book(self, profile: dict | None, min_obs: int = 2):
         """Scouting profile for the CURRENT opponent (showdown/scouting_book
@@ -1143,6 +1202,9 @@ class Gen9Translator:
     def _boost_kwargs(self, active) -> dict[str, int]:
         if active is None:
             return {}
+        # transform note: poke-env's |-transform| handler copies the
+        # target's stages onto the transformer itself, so active.boosts is
+        # correct through a transform stint — no special-casing here
         boosts = active.boosts or {}
         return {
             "attack_boost": boosts.get("atk", 0),
@@ -1419,6 +1481,11 @@ class Gen9Translator:
         # moves disabled carries that restriction into multi-turn search.
         self._own_available = {_normalize(m.id) for m in battle.available_moves}
         self._my_built = {}  # species -> pe.Pokemon, for damage inference
+        # for the transformed-Ditto build: the request is authoritative for
+        # the copied moveset, and the target's live mon supplies its
+        # revealed moves/ability for the stat model
+        self._own_request = request
+        self._own_opp_team = battle.opponent_team
         return self._assemble_side(
             battle,
             mons=list(battle.team.values()),
@@ -1589,6 +1656,19 @@ class Gen9Translator:
 
     def _my_pokemon(self, mon) -> pe.Pokemon:
         species = _normalize(mon.species)
+        # our transformed Imposter Ditto: the active mon while a "me"
+        # transform is live IS the transformer (the record dies on any
+        # slot change), and poke-env's view of it is wrong in every copied
+        # field — species-gating on the record's "who" would break on
+        # nicknamed Dittos, so active + live-record is the whole gate
+        tf = self._transform.get("me")
+        if tf is not None and getattr(mon, "active", False) \
+                and not mon.fainted:
+            built = self._transformed_pokemon(mon, tf)
+            if built is not None:
+                if hasattr(self, "_my_built"):
+                    self._my_built[species] = built
+                return built
         entry = self._dex().get(species, {})
 
         stats = mon.stats or {}
@@ -1634,6 +1714,113 @@ class Gen9Translator:
         if hasattr(self, "_my_built"):
             self._my_built[species] = built  # exact stats for damage inference
         return built
+
+    def _transformed_pokemon(self, mon, tf) -> "pe.Pokemon | None":
+        """Rebuild our transformed Imposter Ditto mid-stint. poke-env is
+        transform-blind, so every copied field is reconstructed here:
+
+        COPIED half — id/types/weight from the target species; stats from
+        the target's canonical candidate (same _opp_set machinery the
+        opponent model uses, so the read agrees with the rest of the
+        world); ability from the target's reveals, then the candidate,
+        then dex slot 0.
+        OWN half — item, hp/maxhp, level, status, tera fields: Transform
+        never touches them.
+        MOVES — the request is authoritative (the server names the copied
+        moveset to the Ditto owner explicitly, 5 PP each); cached on the
+        transform record so a request without an "active" block (our own
+        force switch) cannot lose them; the target's revealed + candidate
+        moves are the last resort.
+
+        id=target with base_ability=imposter keeps the ENGINE's own
+        switch-out revert live: it restores base Ditto (Transform/none×3)
+        and Imposter re-fires on the next entry. Boosts ride separately on
+        the side via the _stage tracker (see _boost_kwargs)."""
+        target = tf.get("into")
+        if not target or target == "ditto":
+            return None
+        entry = self._dex().get(target, {})
+        if not entry:
+            return None
+
+        # copied moveset: request truth -> cache -> reveals + candidate
+        move_pairs: list[tuple[str, int]] = []
+        request = getattr(self, "_own_request", None) or {}
+        active_blocks = request.get("active") or []
+        for m in (active_blocks[0].get("moves", []) if active_blocks else []):
+            mid = _normalize(m.get("id") or m.get("move") or "")
+            if mid and mid not in ("transform", "struggle"):
+                try:
+                    pp = max(0, int(m.get("pp", 5)))
+                except (ValueError, TypeError):
+                    pp = 5
+                move_pairs.append((mid, pp))
+        if move_pairs:
+            tf["moves"] = list(move_pairs)
+        elif tf.get("moves"):
+            move_pairs = list(tf["moves"])
+
+        # what we know about the target, off its live opp mon
+        opp_team = getattr(self, "_own_opp_team", None) or {}
+        opp_mon = next((om for om in opp_team.values()
+                        if _normalize(om.species) == target), None)
+        known_moves = tuple(_normalize(m) for m in opp_mon.moves) \
+            if opp_mon is not None else ()
+        revealed_ability = None
+        if opp_mon is not None and opp_mon.ability:
+            revealed_ability = _normalize(opp_mon.ability)
+        if revealed_ability is None and self._obs is not None:
+            revealed_ability = self._obs.revealed_ability.get(target)
+
+        cand = self._opp_set(target, known_moves=known_moves,
+                             known_item=None,
+                             known_ability=revealed_ability) or {}
+        probe = self._probe_from_set(
+            target, cand,
+            level=getattr(opp_mon, "level", None) or mon.level)
+
+        if not move_pairs:
+            ids = [m for m in known_moves if m != "struggle"]
+            for mid in (cand.get("moves") or []):
+                n = _normalize(mid)
+                if n not in ids:
+                    ids.append(n)
+            move_pairs = [(mid, 5) for mid in ids[:4]]
+
+        available = getattr(self, "_own_available", set())
+        restrict = bool(available & {mid for mid, _ in move_pairs})
+        moves = [pe.Move(id=mid, pp=pp,
+                         disabled=restrict and mid not in available)
+                 for mid, pp in move_pairs[:4]]
+        while len(moves) < 4:
+            moves.append(pe.Move(id="none", pp=0))
+
+        if revealed_ability:
+            ability = revealed_ability
+        elif cand.get("ability"):
+            ability = _normalize(cand["ability"])
+        else:
+            abl = entry.get("abilities", {})
+            ability = _normalize(str(abl.get("0", "noability")))
+
+        types = self._species_types(target)
+        tera_fallback = getattr(self, "_own_tera", {}).get(
+            _normalize(mon.species), types[0])
+        return pe.Pokemon(
+            id=target, level=mon.level,
+            hp=mon.current_hp or 0, maxhp=mon.max_hp or 100,
+            attack=probe.attack, defense=probe.defense,
+            special_attack=probe.special_attack,
+            special_defense=probe.special_defense,
+            speed=probe.speed,
+            types=types, base_types=types,
+            ability=ability, base_ability="imposter",
+            item=_normalize(mon.item) if mon.item else "none",
+            weight_kg=self._weight(target),
+            moves=moves[:4],
+            **self._tera_fields(mon, tera_fallback),
+            **self._status_fields(mon),
+        )
 
     def _opp_pokemon(self, mon) -> pe.Pokemon:
         species = _normalize(mon.species)
