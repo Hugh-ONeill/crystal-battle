@@ -1477,8 +1477,17 @@ class Gen9Translator:
         request = getattr(battle, "last_request", None) or {}
         for pkmn in (request.get("side") or {}).get("pokemon", []):
             tera = pkmn.get("teraType")
-            if tera:
-                self._own_tera[_normalize(pkmn["ident"][4:])] = tera.lower()
+            if not tera:
+                continue
+            # key by the DETAILS species, never the ident: idents carry the
+            # NICKNAME, and every lookup here is by species, so a nicknamed
+            # team silently lost all its tera types to the types[0] fallback
+            # (the ident form also gave formes their base name — same class
+            # as the 2026-08-04 _event_species bug, one layer up)
+            details = pkmn.get("details") or pkmn.get("ident", "")[4:]
+            species = _normalize(details.split(",", 1)[0])
+            if species:
+                self._own_tera[species] = tera.lower()
 
         # the request is authoritative for what our active can do THIS turn
         # (choice lock, Taunt, Disable, Encore, no PP). Marking the missing
