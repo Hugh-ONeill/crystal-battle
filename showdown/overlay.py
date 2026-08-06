@@ -120,12 +120,27 @@ SCHEMA = {
             },
         },
         "confidence": {"type": "number"},
+        # Reply channel (§5.2), shadow build 2026-08-06 — the one overlay
+        # channel still open after the phase-1 verdict killed world
+        # reweighting. Still a COLUMN statement: predicting THEM, never
+        # choosing for us. Scored post-hoc by reply_audit.py against the
+        # opponent's actual click from the ladder log; the gate is beating
+        # the engine's own implied-reply baseline, and only a passed gate
+        # earns a re-solve design.
+        "reply": {
+            "type": "object",
+            "additionalProperties": {"type": "number"},
+            "description": "1-3 entries: action string from THEIR OPTIONS "
+                           "(exact) -> probability the opponent actually "
+                           "clicks it this turn",
+        },
     },
     # worry became required 2026-08-01: schema-constrained decoding takes the
     # shortest valid path, so the optional field was emitted in 0 of 504
     # consults — and the worry stream is where both-worlds-wrong evidence
     # (the LLM-authored-world case) would show up. ~20 tokens per consult.
-    "required": ["world_weights", "worry", "confidence"],
+    # reply is required for the same reason (2026-08-06).
+    "required": ["world_weights", "worry", "confidence", "reply"],
 }
 
 SYSTEM = (
@@ -166,8 +181,29 @@ SYSTEM = (
     "`heavydutyboots` after a chip-free entry over hazards) — stronger than "
     "a usage prior, weaker than a reveal: weight DOWN any world whose "
     "assumed item BELIEFS has eliminated. "
+    "Second output, `reply`: predict what the opponent ACTUALLY CLICKS this "
+    "turn — 1-3 entries mapping actions from THEIR OPTIONS (copy the exact "
+    "strings) to probabilities. The worlds' reply counts show what the "
+    "search thinks is BEST for them; real opponents click habits — use "
+    "deployment patterns, usage shares, this game's reveals, and what this "
+    "pilot has done so far. Spread probability honestly when unsure; a "
+    "single 1.0 entry is a claim you will be scored on. This too is a "
+    "column statement: you are predicting them, never choosing for us. "
     "Respond only with the JSON."
 )
+
+
+def _canon_opt(s: str) -> str:
+    """Canonicalize an engine option string (or the LLM's echo of one) for
+    matching: 'Switch Heatran' == 'switch heatran', 'U-turn' == 'uturn',
+    'Earthquake-Tera' == 'earthquake-tera'."""
+    s = (s or "").strip().lower()
+    if s.startswith("switch"):
+        return "switch " + re.sub(r"[^a-z0-9]", "", s[6:])
+    tera = s.endswith("-tera")
+    if tera:
+        s = s[:-5]
+    return re.sub(r"[^a-z0-9]", "", s) + ("-tera" if tera else "")
 
 
 def _norm(s: str) -> str:
@@ -625,6 +661,24 @@ class OverlayShadow:
             out["error"] = repr(e)
         return out
 
+    @staticmethod
+    def _reply_options(results) -> list[str]:
+        """Union of the opponent's searched actions across worlds, ordered
+        by summed visit share — the candidate set the reply prediction is
+        made (and validated) over. Full side_two, not the emission's top-6:
+        the interesting misses are exactly the columns the search starved."""
+        share: dict[str, float] = {}
+        for res in results or []:
+            side = getattr(res, "side_two", None) or []
+            total = sum(r.visits for r in side) or 1
+            for r in side:
+                if r.move_choice.lower() in ("none", "no move", "nomove"):
+                    continue
+                share[r.move_choice] = (share.get(r.move_choice, 0.0)
+                                        + r.visits / total)
+        return [k for k, _ in
+                sorted(share.items(), key=lambda kv: -kv[1])][:14]
+
     def _build_rec(self, battle, ranked, results, states, reasons,
                    obs=None) -> dict:
         rec = {
@@ -639,6 +693,7 @@ class OverlayShadow:
             if len(ranked) >= 2 else 1.0,
             "worlds": self._emit_worlds(results, states),
             "appendix": self._appendix(battle),
+            "reply_options": self._reply_options(results),
         }
         # full-board fact sheet (2026-08-04): replaces the appendix in the
         # PROMPT (strict superset — adds boosts, volatiles, PP, counters,
@@ -680,8 +735,12 @@ class OverlayShadow:
             raw = self._ask(self._dossier(battle), rec,
                             timeout=LIVE_TIMEOUT_S)
             rec["llm"] = raw
-            parsed = self._validate(raw, len(rec["worlds"]))
+            parsed = self._validate(raw, len(rec["worlds"]),
+                                    options=rec.get("reply_options"))
             rec["valid"] = parsed is not None
+            if parsed:
+                rec["reply_pred"] = parsed["reply"]
+                rec["reply_dropped"] = parsed["reply_dropped"]
         except Exception as e:
             rec["error"] = repr(e)
         rec["latency_s"] = round(time.monotonic() - t0, 2)
@@ -750,12 +809,15 @@ class OverlayShadow:
             raw = self._ask(dossier, rec)
             rec["llm"] = raw
             rec["latency_s"] = round(time.monotonic() - t0, 2)
-            parsed = self._validate(raw, len(rec["worlds"]))
+            parsed = self._validate(raw, len(rec["worlds"]),
+                                    options=rec.get("reply_options"))
             rec["valid"] = parsed is not None
             if parsed:
                 rec["flips"] = self._flips(parsed["world_weights"], results,
                                            rec["engine_choice"])
                 rec["dropped_flags"] = parsed["dropped_flags"]
+                rec["reply_pred"] = parsed["reply"]
+                rec["reply_dropped"] = parsed["reply_dropped"]
                 if w0_str and any(v.get("flip") for v in rec["flips"].values()
                                   if isinstance(v, dict)):
                     rec["w0_state"] = w0_str
@@ -780,8 +842,12 @@ class OverlayShadow:
         msg = ""
         if sheet:
             msg += f"{sheet}\n"
-        msg += (f"SEARCH:\n{turn_block}\n"
-                "Weigh the worlds; flag at most 2 rows.")
+        msg += f"SEARCH:\n{turn_block}\n"
+        opts = rec.get("reply_options") or []
+        if opts:
+            msg += f"THEIR OPTIONS (predict `reply` from these, exact " \
+                   f"strings): {', '.join(opts)}\n"
+        msg += "Weigh the worlds; flag at most 2 rows; predict their click."
         return msg
 
     def _ask(self, dossier, rec, timeout: float = TIMEOUT_S) -> dict:
@@ -805,7 +871,8 @@ class OverlayShadow:
             out = json.loads(r.read())
         return json.loads(out["message"]["content"])
 
-    def _validate(self, raw: dict, n_worlds: int) -> dict | None:
+    def _validate(self, raw: dict, n_worlds: int,
+                  options: list | None = None) -> dict | None:
         try:
             ww = {int(k): float(v) for k, v in raw["world_weights"].items()
                   if 0 <= int(k) < n_worlds and float(v) > 0}
@@ -823,7 +890,29 @@ class OverlayShadow:
             else:
                 dropped += 1
         raw["flags"] = kept
-        return {"world_weights": weights, "dropped_flags": dropped}
+        # reply prediction: match the model's action strings against the
+        # offered option set, drop what doesn't resolve, renormalize. A bad
+        # or missing reply NEVER fails the whole consult (identity
+        # philosophy) — it just logs reply=None with the drop count.
+        reply, r_dropped = None, 0
+        if options:
+            canon = {_canon_opt(o): o for o in options}
+            picked = {}
+            try:
+                for k, v in (raw.get("reply") or {}).items():
+                    o = canon.get(_canon_opt(k))
+                    if o is None or not float(v) > 0:
+                        r_dropped += 1
+                        continue
+                    picked[o] = picked.get(o, 0.0) + float(v)
+            except Exception:
+                picked, r_dropped = {}, r_dropped + 1
+            if picked:
+                top = sorted(picked.items(), key=lambda kv: -kv[1])[:4]
+                tot = sum(p for _, p in top)
+                reply = {o: round(p / tot, 4) for o, p in top}
+        return {"world_weights": weights, "dropped_flags": dropped,
+                "reply": reply, "reply_dropped": r_dropped}
 
     def _rule_resolves(self, rule: str) -> bool:
         parts = _norm_path(rule)
