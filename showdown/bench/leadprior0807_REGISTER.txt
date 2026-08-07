@@ -109,3 +109,32 @@ effect diluted by that fraction. KG leads are 8.7% of the third of games that
 CAN lead it = 2.9% of all games, so even perfectly eliminating a -8.9pp
 mistake buys 0.26pp overall. Compute the DILUTED effect before sizing any
 behavioural lever's winrate test.
+
+T1-REPUDIATION CHECK (user question, 2026-08-07 ~11:30): "of the turns they
+are being nudged to lead, are they just switching out?" — PARTLY YES.
+Turn-1 switch rate by lead species, arm A -> arm B, and the MARGINAL rate on
+the leads the prior added:
+  glimmora       10.9% -> 22.7%   90 extra leads, MARGINAL T1-switch 31.1%
+  samurotthisui   9.5% -> 21.6%   74 extra leads, MARGINAL 33.8%
+  cinderace      58.7% -> 63.0%   83 extra leads, MARGINAL 66.3%
+Overall T1-switch 20.6% -> 23.9%.
+So roughly a THIRD of the nudged glimmora/samurott leads and TWO THIRDS of the
+nudged cinderace leads are immediately repudiated — nominal leads, not real
+ones. Discounting them, the +0.78pp nominal gain from these three species
+becomes ~+0.48pp effective, and that discount is OPTIMISTIC because each
+repudiation also hands over a turn.
+This is the near-tie sampler's known signature reappearing: rank-1 leads hold
+at ~14% T1-switch while forced/sampled lower-ranked leads get repudiated at
+24-25% (CB_LEAD_ARGMAX attribution, 2026-08-04). Overriding the matrix
+manufactures T1 switches, which is the very gap the campaign has been trying
+to close ([[project_gen9_behavior_gap]]).
+
+SEPARATE AND ARGUABLY BIGGER FINDING — A PRE-EXISTING PATHOLOGY, NOT CAUSED
+BY THE PRIOR. In the STOCK arm several leads are already mostly nominal:
+  cinderace 58.7%, scizor 59.6%, ragingbolt 44.7% turn-1 switch.
+The preview search is choosing leads it then immediately abandons, in the
+default configuration, on ~1 in 5 games overall. Cinderace has no pivot move
+(HJK/Pyro Ball/Court Change/Sucker Punch), so these are genuine repudiations
+rather than U-turn tempo. Worth its own investigation: either the preview
+matrix and the in-battle search disagree systematically, or the lead is being
+chosen for a matchup the first turn immediately disproves.
