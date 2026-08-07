@@ -57,3 +57,22 @@ and bench are day/night shifts, not roommates. Statistically cheap — 1000
 pairs is an order of magnitude past the rig's sensitivity threshold. If the
 result lands borderline, EXTEND with a fresh same-config run rather than
 reading this one early.
+
+ADDED SECONDARY READ, 22:35, ~20 min in and BEFORE ANY OUTCOME WAS INSPECTED
+(user point, and it may well be the correct read of the constant): the stage
+credit may be doing DOUBLE DUTY. Because evaluate_pokemon is stat-blind, this
+term is the eval's ONLY channel for valuing a setup move at the leaf — Swords
+Dance costs a turn and its payoff is deferred, so without a large credit the
+search would see it as a wasted turn. That is consistent with the standing
+[[project_monotype_engine_pilot_bias]] finding that our engine ALREADY
+underuses setup sweepers. If so the constant is not "too big", it is bearing
+two loads at once: making our own setup worth doing, and pricing a copied or
+opposing stage.
+=> PREREGISTERED SECONDARY: measure each arm's OWN setup-move selection rate
+(our side, p2, from the ours-logs). Prediction under the user's hypothesis:
+arm B (0.5) sets up MEASURABLY LESS. If arm B both sets up less AND loses,
+the credit is load-bearing for setup and must NOT simply be cut — the fix
+would be to SPLIT the term (credit our earned stages separately from mirrored
+or opposing ones) rather than rescale it. A null winrate with a large setup
+drop is the most informative outcome of all: it would mean the two effects
+offset, and the single constant is genuinely conflating two jobs.
