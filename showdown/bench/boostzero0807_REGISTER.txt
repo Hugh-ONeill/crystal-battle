@@ -55,3 +55,33 @@ DECISION RULE (before launch):
 
 NO PEEKING at outcomes before N=1000. ETA ~51 min at the measured 19.8
 games/min. Box is free (ladder stopped by the user at ~06:52).
+
+RESULT 2026-08-07 07:49 (1000/1000, ~52 min, 12 lanes clean).
+PRIMARY 1 — OUR OWN SETUP RATE: **the term IS load-bearing, decisively.**
+  arm A (stock)          634/10481 = 6.05% [5.61%, 6.52%]
+  arm B (credit OFF)     447/10584 = 4.22% [3.86%, 4.62%]
+  Non-overlapping CIs; a 30% RELATIVE collapse in setup-move selection.
+  THE USER'S HYPOTHESIS IS CONFIRMED: because evaluate_pokemon is stat-blind,
+  the stage credit is the eval's only leaf-level reason to spend a turn
+  setting up, and removing it makes the engine stop.
+PRIMARY 2 — DITTO BOOST-SEEKING: **NOT driven by the term.**
+  enrichment (share of transforms onto a boosted target / base rate)
+  arm A 27.3% / 12.4% = 2.2x     arm B 31.8% / 15.1% = 2.1x  — unchanged.
+  So the 2.6x boost-hunting measured on the screen is the SEARCH finding
+  boosted targets through damage_calc, not the eval baiting it.
+SECONDARY (underpowered by design, NOT decisive): 226 discordant pairs, arm A
+share 46.5% [39.9%, 53.0%] — spans 0.5. Arms 51.0% vs 54.2%.
+
+THE FINDING IS A DISSOCIATION. One constant is doing two unrelated jobs:
+  (a) paying for OUR setup moves — load-bearing, dies at 0.0;
+  (b) pricing a copied/opposing stage — inert, the rollouts already carry it
+      via damage_calc (this is what the 2026-08-06 half-scale null measured,
+      and why that null was NOT evidence the term is useless).
+This also explains the 0.5-vs-0.0 discrepancy: the response is THRESHOLDED,
+not linear. At half weight setup still cleared the bar for clicking; at zero
+it does not. A single scale factor cannot separate (a) from (b) — SPLITTING
+the term by source is the indicated design, exactly as the 08-06 register
+predicted for this branch of the decision rule.
+DO NOT cut or rescale the credit. Next: split it — credit stages WE EARNED by
+spending a turn separately from stages that are merely present (copied,
+inherited, or the opponent's) — then A/B the halves independently.
