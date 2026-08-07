@@ -53,3 +53,42 @@ DECISION RULE (before launch):
 
 NO PEEKING before N=4500. ETA ~4h at the measured 18.5 games/min (done ~21:15,
 clear of the 01:00 ladder).
+
+RESULT 2026-08-06 21:59 (4500/4500; 12 lanes clean: 0 quarantines, 0
+tracebacks, 0 fp errors).
+  control (original)     627/1500 = 41.8% [39.3, 44.3]
+  ditto (Imposter)       784/1500 = 52.3% [49.7, 54.8]
+  band breaker (Dnite)   663/1500 = 44.2% [41.7, 46.7]
+  dt - ct  +10.47pp  [+6.90, +14.00]  excludes 0
+  bb - ct   +2.40pp  [-1.14,  +5.93]  SPANS 0
+  dt - bb   +8.07pp  [+4.49, +11.61]  excludes 0
+REPLICATION PASSED: dt-ct point estimate +10.47 sits inside the preregistered
+falsifier band [+9.1, +16.2] from dittoab0806 (+12.67), CIs overlap heavily.
+
+VERDICT PER THE RULE: bb ~= ct, both well below dt -> THE GAIN IS
+DITTO-SPECIFIC. A generic competent sixth (Choice Band Dragonite) does NOT
+reproduce it; these teams did not merely have a weak slot.
+
+TWO HYPOTHESES DIED IN THE SAME READ:
+1. "Archetype-agnostic mirror" (that Ditto is uniquely opponent-independent)
+   predicted dt flat while ct/bb swing across the setup split. Measured swing
+   low->high setup: ct +7.7pp, bb +8.8pp, dt +8.2pp — ALL THE SAME. Ditto is
+   a roughly CONSTANT ~+10pp level shift, not a matchup patch. This also
+   means the dittoab0806 pattern I built that hypothesis on (dt flat, ct
+   collapsing) DID NOT REPLICATE — it was cell noise at n=750.
+2. "Revenge-kills boosted sweepers" is not the driver either, now on
+   positive evidence rather than the (retracted) anti-correlation: copies
+   onto a CLEAN target convert at 40.7% vs 53.6% for boosted ones, and
+   because 69% of copies are clean, **63% of all Ditto revenge kills come
+   from copying an UNBOOSTED mon**. The boost case was always the minority.
+
+WHAT SURVIVES as the mechanism statement: Scarf Imposter is a UNIVERSAL
+revenge killer — it copies whatever is in front of it and, holding the Scarf
+the target does not, outspeeds it whether or not it has boosted. That is
+Imposter-specific (a Band breaker has fixed typing and coverage; Ditto always
+matches), matchup-general (hence the constant level shift and zero setup
+interaction), and it predicts the 2.6x boost-seeking enrichment is a
+SIDE-EFFECT of the eval's large boost credit rather than the source of value.
+NEXT TEST (not run): eval A/B with the boosts term muted (eval_off knob). If
+Ditto's edge survives or grows, the boost credit is bait and the engine is
+leaving value on the table by hunting stages.

@@ -20,6 +20,7 @@ import sys
 from collections import defaultdict
 
 PAIRS = {"dt1": "ct1", "dt2": "ct2", "dt3": "ct3"}
+ARMS = ("ct", "dt", "bb")
 
 
 def wilson(k, n, z=1.96):
@@ -82,6 +83,23 @@ def main():
         print(f"  {d}: {kd:3d}/{nd:3d} = {pd:5.1%} [{ld:.1%},{ud:.1%}]  vs  "
               f"{c}: {kc:3d}/{nc:3d} = {pc:5.1%} [{lc:.1%},{uc:.1%}]  "
               f"-> {diff:+.1%} [{lo:+.1%}, {hi:+.1%}]")
+
+    # three-arm mode: if a bb arm is present, report all pairwise contrasts
+    if any(k.startswith("bb") for k in tally):
+        print("\nTHREE-ARM (pooled)")
+        agg = {a: [sum(tally[f"{a}{i}"][0] for i in (1, 2, 3)),
+                   sum(tally[f"{a}{i}"][1] for i in (1, 2, 3))] for a in ARMS}
+        for a in ARMS:
+            k, n = agg[a]
+            p_, l_, u_ = wilson(k, n)
+            label = {"ct": "control (original)", "dt": "ditto (Imposter)",
+                     "bb": "band breaker (Dnite)"}[a]
+            print(f"  {label:22s} {k:4d}/{n:4d} = {p_:5.1%} [{l_:.1%}, {u_:.1%}]")
+        for a, b in (("dt", "ct"), ("bb", "ct"), ("dt", "bb")):
+            d, lo_, hi_ = newcombe(agg[a][0], agg[a][1], agg[b][0], agg[b][1])
+            verdict = "excludes 0" if (lo_ > 0 or hi_ < 0) else "SPANS 0"
+            print(f"  {a} - {b}: {d:+.2%}  95% CI [{lo_:+.2%}, {hi_:+.2%}]  {verdict}")
+        return
 
     pd, ld, ud = wilson(dw, dn)
     pc, lc, uc = wilson(cw, cn)
