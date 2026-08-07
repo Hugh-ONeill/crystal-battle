@@ -78,3 +78,34 @@ CB_LEAD_PRIOR=0.25. Prediction to check against: at 0.25 the KG prior is
 from ~8.4% toward but NOT to zero, and glimmora should rise well short of 50%.
 A scale that leaves both species non-zero while still moving the rates is the
 one worth taking to a winrate test.
+
+RESULT 2026-08-07 11:18 (2000/2000, 12 lanes clean).
+PRIMARY (behavioural) — ALL FIVE SPECIES MOVED IN THE PREDICTED DIRECTION:
+  glimmora      +0.125   19.2% -> 46.1%   rise OK
+  samurotthisui +0.101   22.2% -> 44.4%   rise OK
+  cinderace     +0.057   18.9% -> 43.8%   rise OK
+  ceruledge     -0.074    9.0% ->  0.0%   fall OK
+  kingambit     -0.089    8.7% ->  0.0%   fall OK
+5/5 correct sign = NO alignment bug; the paste-order fix (matrix rows come
+from split_team_body, not battle.team) held. Arm A's 8.7% KG rate reproduces
+the 9.1% historical baseline, so the instrument agrees with the earlier
+measurement.
+MAGNITUDE: confirmed an OVERRIDE at scale 1.0 — both negatives at HARD ZERO
+over 334 games each, positives roughly doubled.
+SECONDARY (winrate): 450 discordant pairs, arm A share 49.8% [45.2, 54.4];
+arms 47.4% vs 47.6%. Dead null.
+
+THE NULL IS UNINFORMATIVE, AND THAT WAS PREDICTABLE FROM THE DESIGN — do not
+file it as "the lever does not convert". If the measured deltas are causal,
+the behavioural shift implies only +2.82pp overall:
+  glimmora +26.9pp shift x +12.5 = +1.12 | samurotthisui +0.75 | cinderace
+  +0.47 | kingambit +0.26 | ceruledge +0.22  (each family is 1/3 of games)
+This run resolves 6.26pp at 80% power (n=1000/arm). Resolving 2.82pp needs
+~4,900 games/ARM, ~9,850 total (~8h at 20 games/min). So the winrate arm of
+this run never had the power to see its own prediction, and the honest status
+is UNTESTED, not refuted.
+LESSON WORTH KEEPING: a lever that only fires on a fraction of games has its
+effect diluted by that fraction. KG leads are 8.7% of the third of games that
+CAN lead it = 2.9% of all games, so even perfectly eliminating a -8.9pp
+mistake buys 0.26pp overall. Compute the DILUTED effect before sizing any
+behavioural lever's winrate test.
