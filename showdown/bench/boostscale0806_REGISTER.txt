@@ -76,3 +76,33 @@ would be to SPLIT the term (credit our earned stages separately from mirrored
 or opposing ones) rather than rescale it. A null winrate with a large setup
 drop is the most informative outcome of all: it would mean the two effects
 offset, and the single constant is genuinely conflating two jobs.
+
+RESULT 2026-08-07 (2000/2000, completed 23:51 in 101 min = ~19.8 games/min).
+PRIMARY (sign test on discordant pairs): 433 discordant, arm A 217 / arm B
+216 -> arm A share 50.1%, 95% CI [45.4%, 54.8%]. SPANS 0.5 = NULL.
+  arm A (stock)        486/1000 = 48.6%
+  arm B (stages x0.5)  485/1000 = 48.5%
+SECONDARY (the user's prediction, registered before any outcome was seen):
+  our own setup-move rate  arm A 1486/21228 = 7.00%
+                           arm B 1504/21802 = 6.90%
+Effectively identical at n>21k move selections per arm — a very tight null on
+a BEHAVIOURAL measure, which is stronger evidence than the winrate null.
+
+BOTH HYPOTHESES FAIL. Mine (credit oversized -> search over-chases copies)
+predicted arm B better: not observed. The user's (credit load-bearing, it is
+the eval's only channel for valuing a setup move) predicted arm B setting up
+measurably less: not observed, and that read had the power to see it.
+
+LEADING EXPLANATION: the stage credit is largely REDUNDANT. MCTS rollouts
+already realise boost value through damage_calc — a +2 attacker simply deals
+more damage in simulation and wins more rollouts — so the leaf term is
+decoration on a mechanism that already works dynamically. That predicts the
+term could be cut substantially with no behavioural change, and it explains
+why a constant worth more than a whole Pokemon (+43.5 for a Dragon Dance vs
+POKEMON_ALIVE +30) moves nothing when halved.
+CAVEATS: 0.5 is one scale factor; a null here bounds the effect at roughly
++-5pp of discordant share, not zero. The redundancy claim is a hypothesis, and
+the cheap next probe is scale 0.0 vs 1.0 as a BEHAVIOURAL run (does setup rate
+or boost-seeking enrichment move at all when the term is gone?) rather than a
+winrate run — behaviour is where this has the power to show something.
+NOT SHIPPING ANY DEFAULT CHANGE off this run, per the decision rule.
