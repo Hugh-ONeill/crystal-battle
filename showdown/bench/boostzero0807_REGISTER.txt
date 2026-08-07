@@ -1,0 +1,57 @@
+boostzero0807 — is the stat-stage eval term INERT? PREREGISTERED 2026-08-07 ~07:00
+================================================================================
+
+WHY. boostscale0806 halved the stage credit and moved NOTHING: winrate null
+(discordant share 50.1% [45.4, 54.8]) AND our own setup rate unchanged (7.00%
+vs 6.90% at >21k move selections per arm). Both hypotheses failed — mine (the
+credit is oversized and the search over-chases copies) and the user's (the
+credit is load-bearing, it is the eval's only channel for valuing a setup move
+at the leaf, which is why RL agents famously will not set up).
+
+The explanation that fits both nulls: the term is REDUNDANT. mcts.rs `rollout`
+does NO playout — it is a single `evaluate(state)` sigmoided against the root
+— so the eval is the only value source in the search. BUT the eval reads HP
+FRACTION, and the engine's damage_calc converts a stat advantage into HP loss
+a few plies deeper. A +2 attacker therefore looks good WITHOUT any stage
+credit: it simply punches harder in the simulated branches and the HP term
+scores that. The stage credit is a shortcut for something the search already
+computes properly, which is exactly why scaling it does nothing.
+
+TEST. Go to the extreme rather than half measures, and read BEHAVIOUR rather
+than winrate — behaviour is ~20x denser (one observation per move selection
+vs one bit per game), so a small run has large power.
+par_series boostzero0807, N=1000, 12 lanes, --suite ditto_drafts
+--fp-suite rw_proxy, --ab "CB_BOOST_SCALE=0".
+  arm A = stock (scale 1.0)      arm B = stage credit ENTIRELY OFF
+Suite is the three Ditto drafts on purpose: they carry both the setup mons
+(Ceruledge SD / Dragapult DD / Kingambit SD) and the Ditto that generates
+transforms, so one run yields both reads.
+
+PRIMARY (behavioural, per arm):
+ 1. OUR setup-move selection rate. Stock baseline 7.00%. At ~10,600 selections
+    per arm this resolves +-0.5pp.
+ 2. Ditto boost-seeking ENRICHMENT: share of transforms landing on a boosted
+    target. Stock baseline 31.1% against a 12.2% base rate = 2.6x. At ~970
+    transforms per arm this resolves +-2.9pp.
+SECONDARY: winrate/discordant pairs, reported but NOT decisive at N=1000 —
+this run is not powered for it and will not be read as if it were.
+
+DECISION RULE (before launch):
+  - BOTH behavioural numbers flat with the term entirely off -> the constant
+    is INERT. It can be retired (or cut hard) with no behavioural cost, and
+    the boost-value channel is confirmed to be HP-via-damage_calc. Follow up
+    by deleting it and re-running the standard non-regression A/B before any
+    default change ships.
+  - Setup rate DROPS materially -> the user's hypothesis was right after all
+    and 0.5 was simply too gentle a scaling to show it; the term is
+    load-bearing for setup and must be SPLIT (credit earned stages separately
+    from mirrored/opposing ones), never simply cut.
+  - Enrichment drops but setup rate holds -> the credit specifically drives
+    Ditto's boost-hunting without driving our own setup; that is the
+    cleanest possible case for splitting the term by source.
+  - Any behavioural move without a winrate move is still informative: it
+    would mean the term steers play without steering outcomes, which is the
+    campaign's most common finding and worth recording as such.
+
+NO PEEKING at outcomes before N=1000. ETA ~51 min at the measured 19.8
+games/min. Box is free (ladder stopped by the user at ~06:52).
