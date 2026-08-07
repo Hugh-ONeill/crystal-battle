@@ -395,7 +395,20 @@
     "a pilot-fit gap (we set the hazards and fail to convert), which is",
     "information a single merged field would destroy.",
     "'unassessed' means deployment says leading is this mon's job but nobody",
-    "has graded HOW GOOD it is — 11 species, all turn-1 support setters."
+    "has graded HOW GOOD it is — 11 species, all turn-1 support setters.",
+    "",
+    "lead_quality RUBRIC (fixed 2026-08-07 when the 11 unassessed were called):",
+    "  strong = the turn-1 job fires UNCONDITIONALLY (ability-on-entry, priority,",
+    "           or being fastest in the tier) and is worth the slot.",
+    "  fine   = competent and reliable AT LEADING, but the job is CONDITIONAL",
+    "           (partially blocked by the meta) or outclassed by another mon.",
+    "  poor   = leading actively wastes the mon; it has a better job (see",
+    "           `deployment`).",
+    "The weather/screens setters land on the strong side because their effect",
+    "cannot be prevented; the Sticky Web setters land on fine because Heavy-Duty",
+    "Boots (15.0% of OU mons, engine-verified to gate the whole hazard block) and",
+    "ungrounded switch-ins blank the payoff. That is a claim about the JOB, not",
+    "about their competence at leading."
   ],
   "roles": {
     "kingambit": {
@@ -425,7 +438,7 @@
       "ability": "drizzle",
       "resource": "rain",
       "preserve": "high",
-      "review": "measured",
+      "review": "assessed-2026-08-07",
       "deployment": "lead",
       "fact": "Drizzle sets rain the moment it enters, and Damp Rock extends the duration. The rain ends early if another weather setter replaces it. Tailwind (6%) is a minority option that doubles its side's Speed for four turns.",
       "provenance": "rain_audit over 27 rain-team games: 43% average uptime where a piloted Damp Rock team lives 60-80%; uptime tracked outcomes (50% in wins vs 40% in losses). Rain teams benched at 29.2% board-only, the only below-pool-CI archetype. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
@@ -434,7 +447,8 @@
       },
       "single_build_note": "One build: Damp Rock on 85% of sets.",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Drizzle fires on entry, 100% reliable, and rain turns are the resource a rain team spends — leading banks the most of them."
     },
     "barraskewda": {
       "tags": [
@@ -461,7 +475,7 @@
       "ability": "drought",
       "resource": "sun",
       "preserve": "med",
-      "review": "measured",
+      "review": "assessed-2026-08-07",
       "deployment": "lead",
       "fact": "Drought sets sun on entry and Heat Rock extends it. Its own Speed is very low, so it exists to enable partners.",
       "provenance": "same audit: sun leaks identically (43% uptime) but sun teams win anyway (63%) because Protosynthesis abusers fall back on Booster Energy — so preserve pressure is genuinely LOWER here than for rain. Recorded to stop a future fix over-generalising 'weather setter' into one rule. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
@@ -470,7 +484,8 @@
       },
       "single_build_note": "One build: Heat Rock on 82% of sets.",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Drought fires on entry; its terrible Speed is irrelevant on turn 1, and sun must be up before the Chlorophyll sweepers arrive. Most-led of this group in the field at 24%."
     },
     "glimmora": {
       "tags": [
@@ -530,7 +545,7 @@
       ],
       "ability": "prankster",
       "preserve": "low",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "deployment": "lead",
       "fact": "Prankster gives its status moves priority, so it sets Reflect and Light Screen before being attacked. Light Clay extends both to eight turns.",
       "provenance": "RAG-grounded [smogon#Grimmsnarl (gen9ou) — Dual Screens]: recommended set is Reflect / Light Screen / Taunt / Spirit Break with LIGHT CLAY, an item bought purely to extend the side conditions it leaves behind — the definition of expendable team-persistent support. Matches the monotype screens-setter precedent. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
@@ -539,7 +554,8 @@
       },
       "single_build_note": "One build: Light Clay on 85% of sets.",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Prankster gives the screens priority, so they land even into a faster lead. Reliability is the whole case."
     },
     "slowkinggalar": {
       "tags": [
@@ -1095,7 +1111,7 @@
         "hazard-setter"
       ],
       "preserve": "low",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "deployment": "lead",
       "fact": "Extreme Speed stat lets it set hazards or screens before almost anything else moves. Focus Sash guarantees it acts at least twice.",
       "provenance": "RAG-grounded [smogon#Deoxys-Speed (gen9ou) — Hazard Lead]: \"Focus Sash guarantees it can set at least one layer of entry hazard against faster threats... or even set two layers against slower threats\" — the set is explicitly built to trade itself for hazards, confirming the suicide-lead role rather than a mon to preserve. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
@@ -1147,7 +1163,8 @@
         }
       ],
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Fastest mon in the tier: it acts first on turn 1 essentially by definition, so hazards or screens are guaranteed."
     },
     "pecharunt": {
       "tags": [
@@ -1600,7 +1617,7 @@
       ],
       "ability": "quarkdrive",
       "preserve": "med",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "deployment": "lead",
       "fact": "Rapid Spin removes hazards and Stealth Rock sets them, so it can do either job. Booster Energy is consumed on its FIRST entry and does not come back, so the stat boost exists for that one switch-in only — after it, the same Pokemon is unboosted unless its weather or terrain is up.",
       "provenance": "RAG-grounded [smogon#Iron Treads (gen9ou) — Lead]: The Lead set trades itself for hazard control and \"gives it another way to block Defog and Rapid Spin\"; coverage choice is explicitly about stopping Raging Bolt boosting or \"Pecharunt from blocking Rapid Spin\". Dual hazard role (sets AND removes) makes it a lead by design rather than a mon to preserve. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
@@ -1641,7 +1658,8 @@
       ],
       "entry_condition": "first_entry_boost",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Highest OU usage of this group (1.83%) and both of its turn-1 jobs (Stealth Rock, Rapid Spin) are unconditional."
     },
     "kyurem": {
       "tags": [
@@ -2738,10 +2756,11 @@
       "value_curve": "decays_with_weather_clock",
       "fact": "The sun setter: Drought (100%) starts sun on entry and Heat Rock (94% of items) extends it to eight turns, which is the resource its whole team is built to spend. Its own kit is support — Encore (88%) locks a foe into one move, Will-O-Wisp (80%) halves physical attackers, and Healing Wish (86%) lets it sacrifice itself to fully restore a worn teammate. Weather Ball (53%) becomes a strong Fire attack under its own sun. If it dies before the team has cashed the sun, the team loses its engine, not just a slot.",
       "single_build_note": "One sun-setter build; offensive variants swap Will-O-Wisp for a coverage move. Distinct from ninetalesalola, which sets SNOW and Aurora Veil rather than sun.",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "provenance": "The weather-preservation motivation in this file's header names exactly this mon class. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 3: the >=18-sightings ladder-coverage gap, measured against scouting_book rosters) + gen9ou chaos prevalences same date. Prevalences are DEFLATION-CORRECTED: this chaos dump's weighted counts run 0.35-0.67 of Raw count per species (identical factor across the item, ability and move axes), so raw shares are divided by sum(Items)/Raw to recover true P(mon runs X). USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Drought on entry, same logic as Torkoal but faster and frailer; Heat Rock extends it."
     },
     "weezinggalar": {
       "tags": [
@@ -3136,10 +3155,11 @@
       "value_curve": "decays_with_weather_clock",
       "fact": "The Aurora Veil lead: Snow Warning (100%) sets snow on entry, which is the PRECONDITION for Aurora Veil (98%) — a single move that reduces both physical and special damage at once, and which cannot be used at all without snow up. Light Clay (85% of items) extends the veil from five turns to eight. Its whole job is those turns: the team behind it sets up inside the veil. Encore (78%) locks a foe into one move to buy a free turn, and Freeze-Dry (76%) is an Ice move that is SUPER EFFECTIVE against Water-types, which is how it threatens the rain setters that would otherwise erase its snow unpunished.",
       "single_build_note": "One Aurora Veil lead build; the veil turns, not the mon, are the resource. Distinct from ninetales (Kantonian), which is the Drought sun setter.",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "provenance": "Screens-setter role class: a suicide-support lead whose value is the window it opens, not its own survival. Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 4: every species witnessed >=10 times in scouting_book rosters, the user's stated inclusion cutoff) + deflation-corrected gen9ou chaos prevalences same date. Load-bearing ability/move mechanics verified directly against pokemon-showdown data (abilities.ts/moves.ts), not taken from prose. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "strong",
+      "lead_quality_note": "Snow Warning on entry AND it enables Aurora Veil — two unconditional turn-1 jobs in one slot."
     },
     "blaziken": {
       "tags": [
@@ -3495,10 +3515,11 @@
       "ability": "shielddust",
       "fact": "A Sticky Web lead: Sticky Web (98%) drops the Speed of everything the opponent switches in, which is the whole point of the team behind it. Focus Sash (89%) guarantees it survives one hit to finish setting. Shield Dust blocks the SECONDARY effects of moves aimed at it — no burn from Flamethrower, no poison from Sludge Bomb — which reliably buys it the second turn it needs. Stun Spore (80%) and Skill Swap (54%) are the follow-ups; it does no meaningful damage.",
       "single_build_note": "One Sash web lead; if it does not get the web up it has done nothing.",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "provenance": "Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "fine",
+      "lead_quality_note": "Same as Galvantula — fast, Sash-backed, near-certain to set web, but the web itself is blocked by boots and by non-grounded switch-ins."
     },
     "volcanion": {
       "tags": [
@@ -3549,10 +3570,11 @@
         "Endeavor drops the opposing sweeper to Araquanid's own sliver of HP"
       ],
       "single_build_note": "One web lead build; Custap+Endeavor vs Red Card (9%) is the main variation.",
-      "review": "rag-grounded",
+      "review": "assessed-2026-08-07",
       "provenance": "Drafted 2026-08-02 from species-filtered smogon RAG chunks (roles_draft.py batch 5: the top-100-by-usage sweep) + deflation-corrected gen9ou chaos prevalences. Signature mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "fine",
+      "lead_quality_note": "The bulky web setter, so it is the most reliable of the three at surviving to set it — same conditional payoff caps it at fine."
     },
     "cresselia": {
       "tags": [
@@ -4365,10 +4387,11 @@
       "deployment": "lead",
       "ability": "compoundeyes",
       "fact": "A Sticky Web lead: Sticky Web (95%) is its job, and Focus Sash (80% of items) guarantees it survives one hit to finish setting. Compound Eyes (93%) raises the ACCURACY of its moves by a third, which is why it runs Thunder (74%) — normally an unreliable 70%-accurate move, but effectively ~91% here, so it threatens real damage while setting webs rather than being purely passive. Thunder Wave (47%) paralyses instead when the damage is not needed.",
-      "review": "usage-only",
+      "review": "assessed-2026-08-07",
       "provenance": "USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus, so every claim comes from deflation-corrected chaos usage plus mechanics verified against pokemon-showdown data — no role prose. Entered on the >=5-sightings sweep 2026-08-02. USER-REVIEWED 2026-08-02 (batch sign-off: the user reviewed the file and accepted the entries as written).",
       "reviewed_on": "2026-08-02",
-      "lead_quality": "unassessed"
+      "lead_quality": "fine",
+      "lead_quality_note": "Sets Sticky Web reliably, but web is a CONDITIONAL payoff: Heavy-Duty Boots (15.0% of OU mons) blocks it outright and ungrounded mons ignore it. The lead works; the job is partial."
     },
     "whimsicott": {
       "tags": [
@@ -4568,10 +4591,11 @@
       "ability": "levitate",
       "deployment": "lead",
       "fact": "A fast, frail Psychic-type suicide lead: Stealth Rock (40%) is its job and Explosion (41%) is how it leaves — a huge one-shot hit that faints the user, so it sets hazards and then trades itself for damage rather than being switched out. Focus Sash (33%) guarantees it survives one hit to do both. Levitate (100%) makes it immune to Ground moves and to Spikes. Its coverage moves are spread thin (Psychic 42%, Flamethrower 41%, Thunderbolt 33%), so it is not a threat to be respected beyond its lead turn.",
-      "review": "usage-only",
+      "review": "assessed-2026-08-07",
       "reviewed_on": "2026-08-02",
       "provenance": " USAGE-ONLY: no smogon analysis exists for this species in the gen9ou corpus. Entered 2026-08-02 because the TEAM-LEVEL pass (showdown/team_roles.py) exposed it as a blind spot: it appears in OUR OWN pool teams, so its absence broke the team derivation — Pincurchin's missing entry made Hawlucha read as an orphaned terrain user on a team that does set terrain. Deflation-corrected gen9ou chaos; mechanics verified against pokemon-showdown data. USER-REVIEWED 2026-08-02 (batch sign-off).",
-      "lead_quality": "unassessed"
+      "lead_quality": "fine",
+      "lead_quality_note": "Does the Deoxys-Speed job slower and frailer, and OU usage is 0.03% — outclassed at its own role rather than bad at it."
     }
   }
 }
