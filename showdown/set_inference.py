@@ -463,6 +463,17 @@ class BattleObservations:
 
         # ---- scanner state ----
         self._active: dict[str, str] = {}          # role -> species
+        # opening record (2026-08-07): who they led with, and whether WE
+        # repudiated our own lead on turn 1. Both are per-game constants the
+        # protocol states once and never restates, and both are covariates
+        # the ladder lead analysis needs — the T1 churn because forced leads
+        # get switched away 31-66% of the time vs ~10% for matrix-chosen
+        # ones, the opponent lead because our lead's value is conditional on
+        # what it actually faced.
+        self.opp_lead: str | None = None
+        self.our_t1_switch: bool = False
+        self._t1_acted: bool = False
+        self._turn_no: int = 0     # 0 = pre-turn-1 (the leads land here)
         self._hp: dict[str, int] = {}              # our species -> current hp
         self._spe_boost = {"p1": 0, "p2": 0}
         self._atk_boost = {"p1": 0, "p2": 0}
@@ -1006,7 +1017,15 @@ class BattleObservations:
             # these arrive between |move| and its |-damage|; keep the window open
             if kind not in ("-damage", "-crit", "-supereffective", "-resisted"):
                 self._close_pending()
+            if kind == "move" and len(event) > 2 and self._turn_no == 1 \
+                    and not event[2].startswith(opp_role) \
+                    and not self._t1_acted:
+                self._t1_acted = True       # we moved, so we did not switch
             if kind == "turn":
+                try:
+                    self._turn_no = int(event[2])
+                except (ValueError, TypeError, IndexError):
+                    self._turn_no += 1
                 self._resolve_hit_latch()   # before upkeep wipes _item_seen
                 self._close_turn_upkeep()   # proofs from what did NOT happen
                 self._resolve_entry()  # switch-in window closes at end of turn
@@ -1019,6 +1038,16 @@ class BattleObservations:
                 self._resolve_entry()  # a new switch closes the prior window
                 role = event[2][:2]
                 species = _normalize(event[3].split(",")[0])
+                # opening record: first sighting of each side is its LEAD;
+                # a later switch on turn 1 by us is a repudiation of our own
+                # preview choice (drags are not — Roar/Whirlwind is theirs).
+                if role == opp_role and self.opp_lead is None:
+                    self.opp_lead = species
+                if (role != opp_role and self._active.get(role)
+                        and self._turn_no == 1 and kind == "switch"
+                        and not self._t1_acted):
+                    self.our_t1_switch = True
+                    self._t1_acted = True
                 self._active[role] = species
                 self._stint_moves.pop(role, None)
                 self.sub_hits[role] = []      # a sub does not survive switching

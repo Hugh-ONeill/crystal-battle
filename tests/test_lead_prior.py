@@ -50,3 +50,41 @@ def test_scale_is_linear():
     full, _ = _apply_lead_prior(vals, SPECIES, 1.0)
     kg = SPECIES.index("Kingambit")
     assert abs((full[kg] - 0.5) - 2 * (half[kg] - 0.5)) < 1e-9
+
+
+# ---- opening record (2026-08-07): who they led, did we repudiate ours ----
+from types import SimpleNamespace                                   # noqa: E402
+
+from showdown.set_inference import BattleObservations               # noqa: E402
+
+
+def _obs(events, role="p1"):
+    b = SimpleNamespace(
+        _replay_data=[[""] + e.split("|")[1:] for e in events],
+        player_role=role)
+    o = BattleObservations()
+    o.update(b)
+    return o
+
+
+def test_opening_record_captures_their_lead_and_our_t1_switch():
+    o = _obs(["|switch|p1a: Glimmora|Glimmora, M|100/100",
+              "|switch|p2a: Kingambit|Kingambit, M|100/100",
+              "|turn|1",
+              "|switch|p1a: Dragapult|Dragapult, M|100/100",
+              "|turn|2"])
+    assert o.opp_lead == "kingambit"
+    assert o.our_t1_switch is True
+
+
+def test_a_later_switch_is_not_t1_churn():
+    """The window is turn 1 only — a turn-2 switch is ordinary play, and
+    counting it would inflate the churn rate the lead analysis depends on."""
+    o = _obs(["|switch|p1a: Glimmora|Glimmora, M|100/100",
+              "|switch|p2a: Kingambit|Kingambit, M|100/100",
+              "|turn|1",
+              "|move|p1a: Glimmora|Stealth Rock|p2a: Kingambit",
+              "|turn|2",
+              "|switch|p1a: Dragapult|Dragapult, M|100/100"])
+    assert o.opp_lead == "kingambit"
+    assert o.our_t1_switch is False

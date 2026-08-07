@@ -1,0 +1,65 @@
+Pelipper @ Damp Rock
+Tera Type: Ground
+Ability: Drizzle
+EVs: 248 HP / 0 Atk / 224 Def / 0 SpA / 36 SpD / 0 Spe
+Relaxed Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- U-turn
+- Roost
+- Hurricane
+- Weather Ball
+
+Barraskewda @ Choice Band
+Tera Type: Water
+Ability: Swift Swim
+EVs: 0 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 252 Spe
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Flip Turn
+- Liquidation
+- Aqua Jet
+- Close Combat
+
+Zapdos @ Heavy-Duty Boots
+Tera Type: Water
+Ability: Static
+EVs: 248 HP / 0 Atk / 252 Def / 0 SpA / 8 SpD / 0 Spe
+Bold Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Volt Switch
+- Hurricane
+- Roost
+- U-turn
+
+Primarina @ Assault Vest
+Tera Type: Ghost
+Ability: Torrent
+EVs: 80 HP / 0 Atk / 0 Def / 252 SpA / 0 SpD / 176 Spe
+Modest Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Moonblast
+- Surf
+- Flip Turn
+- Psychic Noise
+
+Scizor @ Leftovers
+Tera Type: Steel
+Ability: Technician
+EVs: 120 HP / 252 Atk / 0 Def / 0 SpA / 0 SpD / 136 Spe
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- U-turn
+- Defog
+- Knock Off
+- Bullet Punch
+
+Kingambit @ Leftovers
+Tera Type: Fairy
+Ability: Supreme Overlord
+EVs: 0 HP / 252 Atk / 4 Def / 0 SpA / 0 SpD / 252 Spe
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Kowtow Cleave
+- Swords Dance
+- Sucker Punch
+- Iron Head

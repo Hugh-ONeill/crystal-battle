@@ -16,8 +16,23 @@ from showdown.archetype_audit import audit, _off_role_species, _structure_defect
 
 TEAMS = Path(__file__).parent.parent / "showdown" / "teams"
 
+# OPPONENT PROXIES ARE EXEMPT, and deliberately so. These dirs are generated
+# by build_opponent_proxy.py to REPLICATE a scouted opponent's actual teams,
+# so their incoherences are FIDELITY, not defects — the LLM ladder bots
+# genuinely run Araquanid without Sticky Web and Psychic Surge alongside the
+# priority moves it self-disables, and a proxy that "fixed" those would be a
+# worse model of the opponent we are trying to practise against. The gate
+# exists for teams WE play, where an archetype claim not matching the paste
+# is a lie about our own roster.
+_PROXY_DIRS = ("rw_proxy", "ladder_proxy_", "ladder_field", "rw_fidelity")
 
-@pytest.mark.parametrize("path", sorted(str(p) for p in TEAMS.glob("*/*.txt")))
+
+def _is_proxy(p: Path) -> bool:
+    return any(d in p.parent.name for d in _PROXY_DIRS)
+
+
+@pytest.mark.parametrize("path", sorted(
+    str(p) for p in TEAMS.glob("*/*.txt") if not _is_proxy(p)))
 def test_team_contains_what_it_claims(path):
     ok, _label, problems = audit(path)
     # Harvest-defect findings (dead Choice/AV slots) REPORT, they don't

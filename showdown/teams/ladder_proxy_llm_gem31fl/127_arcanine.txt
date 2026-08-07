@@ -1,0 +1,65 @@
+Landorus-Therian @ Leftovers
+Tera Type: Water
+Ability: Intimidate
+EVs: 248 HP / 0 Atk / 28 Def / 0 SpA / 0 SpD / 232 Spe
+Jolly Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Earthquake
+- Bulk Up
+- Taunt
+- Earth Power
+
+Corviknight @ Rocky Helmet
+Tera Type: Fighting
+Ability: Pressure
+EVs: 248 HP / 0 Atk / 252 Def / 0 SpA / 8 SpD / 0 Spe
+Impish Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Body Press
+- Roost
+- U-turn
+- Brave Bird
+
+Latios @ Soul Dew
+Tera Type: Fighting
+Ability: Levitate
+EVs: 0 HP / 0 Atk / 4 Def / 252 SpA / 0 SpD / 252 Spe
+Timid Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Luster Purge
+- Aura Sphere
+- Recover
+- Flip Turn
+
+Zapdos @ Heavy-Duty Boots
+Tera Type: Steel
+Ability: Static
+EVs: 248 HP / 0 Atk / 200 Def / 0 SpA / 0 SpD / 60 Spe
+Bold Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Hurricane
+- Discharge
+- Volt Switch
+- Thunder
+
+Dragonite @ Heavy-Duty Boots
+Tera Type: Normal
+Ability: Multiscale
+EVs: 0 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 252 Spe
+Jolly Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Dragon Dance
+- Roost
+- Earthquake
+- Extreme Speed
+
+Arcanine @ Silk Scarf
+Tera Type: Grass
+Ability: Intimidate
+EVs: 252 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 0 Spe
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Protect
+- Extreme Speed
+- Flare Blitz
+- Will-O-Wisp

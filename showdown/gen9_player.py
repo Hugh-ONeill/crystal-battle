@@ -1355,6 +1355,23 @@ class Gen9PokeEnginePlayer(Player):
                     if self._verbose:
                         print(f"  preview: lead prior x{_lp} -> "
                               f"{', '.join(applied)}")
+            # PREVIEW DECISION RECORD (2026-08-07). The lead deltas we have
+            # are BENCH-only (vs stock fp on our 9 teams) and the one ladder
+            # cross-check disagreed, so the transfer question is open — but a
+            # ladder RCT is unaffordable (~74 sessions for one species). The
+            # affordable route is covariate adjustment: regress win ~ lead +
+            # MATRIX VALUE + opponent, which strips most of the selection
+            # confound without needing the repeated matchup cells the ladder
+            # can never supply. That needs the matrix value for the chosen
+            # lead, which nothing logged until now. Costs one dict per game.
+            self._preview_record = {
+                "our_species": [m.species for m in battle.team.values()],
+                "opp_species": list(opp_species),
+                "row_mins": [round(min(r), 4) for r in matrix],
+                "vals": [round(v, 4) for v in vals],
+                "pool": list(pool),
+                "lead_prior": _lp,
+            }
             # CB_LEAD_ARGMAX=1: always lead the maximin #1, never sample the
             # near-tie pool. Attribution over 1024 bench games (2026-08-04):
             # rank-1 leads are held at 14% T1-switch — exactly the fp/
@@ -1367,6 +1384,8 @@ class Gen9PokeEnginePlayer(Player):
                 pass                        # keep the maximin/EV argmax
             elif self._stochastic and len(pool) > 1:
                 lead_idx = self._choice_rng.choice(pool)
+            if getattr(self, "_preview_record", None) is not None:
+                self._preview_record["lead_idx"] = lead_idx
             # OPENING BOOK, lead entry. Identification must happen here, not
             # after the order is built, because the override needs it.
             if self._book is not None:
@@ -1990,6 +2009,33 @@ class Gen9PokeEnginePlayer(Player):
                 "outcome": {"win": 1.0, "loss": 0.0, "tie": 0.5}[result],
             }
             line.update(self._roster_record(battle))
+            # the preview decision rides along on the same line: chosen lead,
+            # the matrix value it was chosen on, and the outcome — the three
+            # columns a covariate-adjusted ladder analysis needs.
+            rec = getattr(self, "_preview_record", None)
+            if rec:
+                # WHO THEY PUT OUT and whether we immediately repudiated our
+                # own lead. The T1 churn is the diagnostic that showed the
+                # lead prior's nudged leads get switched away 31-66% of the
+                # time while matrix-chosen ones sit at ~10% — and the stock
+                # arm already repudiates 20.6% of its own leads, so this is
+                # worth tracking on the ladder independently of any prior.
+                try:
+                    obs = self._translator._obs if self._translator else None
+                    rec["t1_switch"] = bool(
+                        getattr(obs, "our_t1_switch", False))
+                    rec["opp_lead"] = getattr(obs, "opp_lead", None)
+                except Exception:
+                    pass
+                lead_i = rec.get("lead_idx")
+                if lead_i is not None and lead_i < len(rec["our_species"]):
+                    rec["lead"] = rec["our_species"][lead_i]
+                    if lead_i < len(rec["vals"]):
+                        rec["lead_val"] = rec["vals"][lead_i]
+                        rec["val_rank"] = 1 + sum(
+                            1 for v in rec["vals"] if v > rec["vals"][lead_i])
+                line["preview"] = rec
+                self._preview_record = None
             with open(self._desk_log_path, "a") as f:
                 f.write(json.dumps(line) + "\n")
         except Exception:

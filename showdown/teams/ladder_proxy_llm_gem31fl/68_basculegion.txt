@@ -1,0 +1,65 @@
+Pelipper @ Damp Rock
+Tera Type: Water
+Ability: Drizzle
+EVs: 248 HP / 0 Atk / 252 Def / 0 SpA / 8 SpD / 0 Spe
+Relaxed Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Surf
+- U-turn
+- Hurricane
+- Ice Beam
+
+Greninja @ Life Orb
+Tera Type: Water
+Ability: Battle Bond
+EVs: 0 HP / 0 Atk / 0 Def / 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Surf
+- Hydro Pump
+- Liquidation
+- Dark Pulse
+
+Basculegion @ Choice Band
+Tera Type: Water
+Ability: Swift Swim
+EVs: 0 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 252 Spe
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Wave Crash
+- Flip Turn
+- Outrage
+- Aqua Jet
+
+Zapdos @ Heavy-Duty Boots
+Tera Type: Steel
+Ability: Static
+EVs: 0 HP / 0 Atk / 0 Def / 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Thunder
+- Heat Wave
+- Hurricane
+- U-turn
+
+Sandy Shocks @ Booster Energy
+Tera Type: Ice
+Ability: Protosynthesis
+EVs: 0 HP / 0 Atk / 4 Def / 252 SpA / 0 SpD / 252 Spe
+Modest Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Stealth Rock
+- Earth Power
+- Discharge
+- Spikes
+
+Scizor @ Life Orb
+Tera Type: Dark
+Ability: Technician
+EVs: 0 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 252 Spe
+Adamant Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Brick Break
+- Knock Off
+- U-turn
+- Close Combat

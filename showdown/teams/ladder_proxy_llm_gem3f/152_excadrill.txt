@@ -1,0 +1,65 @@
+Hippowdon @ Smooth Rock
+Tera Type: Ground
+Ability: Sand Stream
+EVs: 252 HP / 4 Atk / 252 Def / 0 SpA / 0 SpD / 0 Spe
+Impish Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Earthquake
+- Body Press
+- Whirlwind
+- Scorching Sands
+
+Excadrill @ Air Balloon
+Tera Type: Water
+Ability: Sand Rush
+EVs: 0 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 252 Spe
+Jolly Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Earthquake
+- Swords Dance
+- Rapid Spin
+- Iron Head
+
+Gholdengo @ Air Balloon
+Tera Type: Fighting
+Ability: Good as Gold
+EVs: 252 HP / 0 Atk / 196 Def / 0 SpA / 0 SpD / 60 Spe
+Bold Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Dazzling Gleam
+- Thunder Wave
+- Hex
+- Nasty Plot
+
+Garganacl @ Leftovers
+Tera Type: Fairy
+Ability: Purifying Salt
+EVs: 252 HP / 0 Atk / 52 Def / 0 SpA / 204 SpD / 0 Spe
+Careful Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Salt Cure
+- Ice Punch
+- Earthquake
+- Recover
+
+Ogerpon-Cornerstone @ Cornerstone Mask
+Tera Type: Rock
+Ability: Sturdy
+EVs: 0 HP / 252 Atk / 4 Def / 0 SpA / 0 SpD / 252 Spe
+Jolly Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Power Whip
+- Ivy Cudgel
+- Horn Leech
+- Knock Off
+
+Skarmory @ Rocky Helmet
+Tera Type: Dragon
+Ability: Sturdy
+EVs: 252 HP / 0 Atk / 160 Def / 0 SpA / 0 SpD / 96 Spe
+Bold Nature
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+- Iron Defense
+- Body Press
+- Roost
+- Whirlwind
