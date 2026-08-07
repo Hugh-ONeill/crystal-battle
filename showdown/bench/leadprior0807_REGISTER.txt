@@ -1,0 +1,54 @@
+leadprior0807 — does the measured lead prior change WHICH MON WE LEAD?
+PREREGISTERED 2026-08-07 ~08:5x
+================================================================================
+
+WHAT IS BEING TESTED. CB_LEAD_PRIOR (new, default off) adds
+scale x measured_delta to each candidate lead's preview row value BEFORE the
+near-tie pool and the argmax. Table = showdown/lead_measured.json, restricted
+to entries whose 95% CI EXCLUDES ZERO:
+  glimmora +0.125 | samurotthisui +0.101 | cinderace +0.057
+  ceruledge -0.074 | kingambit -0.089
+Ting-Lu and Dragapult are deliberately ABSENT (their intervals span zero at
+1062 and 709 games) — encoding point estimates would encode mostly noise.
+
+THIS IS A BEHAVIOURAL RUN, NOT A WINRATE RUN. The question is whether the
+lever moves the decision it was built to move. Winrate is neither the primary
+nor a decisive read here and N is not sized for it.
+
+ARMS. par_series leadprior0807, N=2000, 12 lanes, --suite ditto_ab3
+--fp-suite rw_proxy, --ab "CB_LEAD_PRIOR=1".
+  arm A = stock (prior off)      arm B = prior at full measured strength
+Suite is the 9-team ditto_ab3 set because it covers all five priored species:
+glimmora/ceruledge/kingambit on the *1 teams, cinderace on *2, samurotthisui
+on *3. Note only 3 of 9 teams can lead Kingambit, so the KG denominator is
+~1/3 of each arm's games (~333) — enough to resolve 9.1% -> ~4% at +-3pp.
+
+PRIMARY (behavioural, per arm, conditioned on the team being able to lead it):
+  1. Kingambit lead rate. Stock baseline 9.1% (and 6.5% for fp, 13.4% for the
+     ladder field). PREDICTION: falls in arm B.
+  2. Glimmora lead rate. PREDICTION: rises in arm B.
+  3. Ceruledge falls / Samurott-H + Cinderace rise (weaker predictions, the
+     priors are smaller).
+SECONDARY, reported and NOT decisive: discordant-pair winrate.
+
+FIRING CHECK IS NOT PEEKING. Within the first ~10 min I will verify the
+manipulation fired at all — that arm B's zyreq files carry CB_LEAD_PRIOR=1 and
+that the two arms' lead distributions are not identical. That is a check on
+the INTERVENTION, not on the outcome, exactly like the CB_BOOST_SCALE zyreq
+check. If it did not fire, kill and fix rather than burn 100 minutes.
+
+DECISION RULE (before launch):
+  - KG lead rate falls AND Glimmora rises -> the lever works as designed.
+    Next step is a properly powered winrate A/B, NOT shipping it on: a lever
+    that moves behaviour without moving outcomes is this campaign's single
+    most common result (world reweight, maximin shadow, boost copy-pricing).
+  - Lead rates unchanged -> the prior is being swamped by the matrix or the
+    near-tie sampler; diagnose before any further investment.
+  - KG falls but the run gets WORSE on the secondary -> do not dismiss it;
+    at this N that is noise, but it would raise the priority of the winrate
+    test rather than lower it.
+  - Any species moving in the WRONG direction = a sign/alignment bug; the
+    paste-order alignment is the prime suspect (matrix rows come from
+    split_team_body, not from battle.team).
+
+NO peeking at outcomes before N=2000. ETA ~100 min at ~20 games/min.
