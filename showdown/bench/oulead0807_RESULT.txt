@@ -1,0 +1,44 @@
+ou_lead_net — OPPONENT-LEAD PREDICTION NET, GATE FAILED 2026-08-07
+================================================================================
+BUILT. showdown/extract_ou_lead_data.py (new) + monotype/train_lead_net.py
+(reused unchanged) -> showdown/ou_lead_net.pt.
+Corpus: 6,574 of 7,508 gen9ou replays (13,148 examples by symmetry, vs the
+monotype net's 5,244). Retention needed a CHAOS FALLBACK: the curated PS index
+covers 118 species but replays contain the whole tier, so requiring a curated
+set for all 12 mons dropped 75% of replays (51 distinct missing species in a
+60-replay probe). Chaos covers 408 species and took retention to ~88%.
+TRAINING: 39.5% val top-1, 77.1% top-3, vs 23.9% majority-class and 16.7%
+random. The net clearly learned the human OU lead meta.
+
+GATE (the point of the exercise): beat the scouting book, which is what
+`_lead_ev_blend` actually uses. Scored on 884 real ladder games vs booked
+opponents:
+    net           20.2%
+    book          32.1%   (in-sample — the book is BUILT from these logs)
+    field prior   35.6%   (also in-sample)
+  leave-one-out, baselines made out-of-sample like the net:
+    book          29.3%
+    field prior   29.9%
+    net           20.2%
+FAILS EVEN AFTER THE FAIRNESS CORRECTION, and by ~9pp. Per opponent the net
+lost to the book on every one: richwoman 27.7 vs 41.2, gem31fl 11.2 vs 21.8,
+gem3f 17.0 vs 21.6, gem31p 9.2 vs 28.9.
+
+DIAGNOSIS — TRAINING/DEPLOYMENT DISTRIBUTION MISMATCH, and it is the useful
+finding here. The net scores 39.5% on held-out HUMAN replays and 20.2% on our
+actual opponents, barely above the 16.7% random floor. It learned how HUMANS
+lead in gen9 OU. Our ladder opponents are richwoman (foul-play) and three LLM
+bots, and they do not lead like humans.
+CONSEQUENCE FOR OCTOBER, which is the part that generalises: the PokeAgent
+field is AI agents, not humans. So human replay data is the WRONG training
+distribution for predicting entrants' leads, and this result says so at 884
+games rather than after the competition. Any future opponent-behaviour model
+should be trained on AGENT behaviour — our own ladder logs and the archive of
+bot games — not on Smogon replays, however plentiful those are.
+ALSO NOTE the simple opponent-AGNOSTIC field prior (29.9% LOO) is as good as
+the per-opponent book (29.3%): at these sample sizes, knowing WHICH bot you
+face adds nothing over knowing what bots lead in general.
+
+KEEP: the extractor, the corpus and the net are all reusable the moment an
+agent-behaviour corpus exists — the pipeline is the asset, the weights are not.
+DO NOT wire ou_lead_net.pt into _lead_ev_blend.
