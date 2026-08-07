@@ -52,3 +52,29 @@ DECISION RULE (before launch):
     split_team_body, not from battle.team).
 
 NO peeking at outcomes before N=2000. ETA ~100 min at ~20 games/min.
+
+INTERPRETATION FIXED MID-RUN 2026-08-07 ~10:15, BEFORE THE FINAL READ.
+User asked for a diagnostic on the two negatively-weighted species. At 772/2000
+the answer is HARD ZERO in arm B: kingambit 0/142 and ceruledge 0/142, vs arm
+A's 12/143 (8.4%) and 11/143 (7.7%); glimmora went 16.8% -> 50.0%.
+(Arm A's 8.4% reproduces the 9.1% historical KG lead rate, so the instrument
+agrees with the earlier measurement.)
+=> AT SCALE 1.0 THE PRIOR IS AN OVERRIDE, NOT A NUDGE. The priors (0.057-0.125)
+are simply LARGER than the quantity they modify: the preview matrix is
+measured-flat with row-min spreads of 0.01-0.12. The matrix stops mattering.
+Two consequences, recorded before the numbers land so the read is not
+rationalised afterwards:
+  (a) it defeats the near-tie pool's ANTI-READ purpose — a side that leads
+      Glimmora half the time and NEVER leads Kingambit is trivially
+      predictable, and unlike stock fp the ladder field has cross-game memory.
+  (b) the secondary winrate no longer measures "does a lead nudge help" but
+      "does hard-forcing Glimmora help" — a blunter and less useful question.
+THIS RUN IS STILL WORTH FINISHING: it establishes the lever's MAXIMUM
+authority and a clean behavioural baseline, both of which the scale tuning
+needs. But the configuration question moves to a scale sweep.
+NEXT (user-directed, queued at 10:15): rerun identical in every respect at
+CB_LEAD_PRIOR=0.25. Prediction to check against: at 0.25 the KG prior is
+-0.022, comparable to the matrix's own spread, so KG lead rate should fall
+from ~8.4% toward but NOT to zero, and glimmora should rise well short of 50%.
+A scale that leaves both species non-zero while still moving the rates is the
+one worth taking to a winrate test.
