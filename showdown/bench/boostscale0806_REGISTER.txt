@@ -1,0 +1,59 @@
+boostscale0806 — is the eval's stat-stage credit OVERSIZED? PREREGISTERED 2026-08-06 ~22:25
+================================================================================
+
+WHY. Measured today on a real state: the eval pays +26.9 for a copied +2 Atk,
++30.0 for +1 Spe, +43.5 for a full Dragon Dance, +86.9 for +2/+2 — against
+POKEMON_ALIVE = +30 for an entire extra Pokemon. In the Ditto screen the
+search entered on a boosted target 2.6x more often than the base rate (31.1%
+of transforms vs 12.2% of available turns), yet 63% of Ditto's actual revenge
+kills came from copying an UNBOOSTED mon, and boosted copies convert WORSE
+against the opponents that offer the most of them (50.5% vs 61.5%). That is
+the signature of a credit the search chases harder than it pays.
+Mechanically the pull is structural: a copied stage is banked at the LEAF
+immediately, while a better answer usually has to be played out over several
+plies — at a 300ms budget an instant reward outcompetes an earned one.
+
+KNOB (new, engine commit this session). CB_BOOST_SCALE multiplies every stat
+stage credit on BOTH sides, so the eval stays unbiased between them; default
+1.0, unset = unchanged. Deliberately a SCALE, not an on/off: zeroing it would
+also blind the engine to the OPPONENT's boosts, which is a different and
+probably worse change. This tests MAGNITUDE only. Pinned by an engine test
+that the default leaves the credit live (950 engine tests green, 899 python).
+
+ARMS. par_series boostscale0806, N=2000, 12 lanes, --suite ditto_ab
+--fp-suite rw_proxy, --ab "CB_BOOST_SCALE=0.5".
+  arm A = stock eval (scale 1.0)      arm B = half-weight stages (0.5)
+Same-team game pairs, two persistent workers per lane (CB_* knobs are
+OnceLock-per-process, so process isolation IS config isolation). Suite is the
+SIX-team ditto_ab set on purpose: pooled discordant pairs answer the general
+eval question at full power, and the dt/ct split is a secondary read of
+whether any effect is Ditto-specific.
+
+PRIMARY. Sign test on DISCORDANT PAIRS over the dispense-order pair prefix
+(paired_tally.py). 0.5 = no difference. Run-scoped drift cancels by
+construction. ~1000 pairs (~400 discordant expected); the rig's stated sensitivity is
+~8pp of discordant share at ~89 pairs, so this is comfortably powered.
+
+DECISION RULE (before launch):
+  - arm B better, excluding 0.5 -> the stage credit IS oversized; follow up
+    with a scale sweep (0.25/0.5/0.75) to site the optimum before changing
+    the default. Do NOT ship 0.5 off one A/B.
+  - arm A better, excluding 0.5 -> the credit is correctly sized or too
+    small; the boost-chasing is good play and the Ditto mechanism question
+    stands unresolved on this axis.
+  - spans 0.5 -> report as an upper bound on the miscalibration; the credit
+    is not costing measurable winrate at this scale factor, and the 2.6x
+    enrichment is behaviour without consequence.
+  - The dt/ct split NEVER overrides the pooled read at this n.
+
+NOTE this is an EVAL-CALIBRATION experiment that happens to be motivated by
+Ditto — the result generalises to every team we run, which is why it is worth
+more than another Ditto-specific run.
+NO PEEKING before N=2000. ETA ~2.2h at ~15 games/min (done ~00:40).
+N WAS CUT 4800 -> 2000 SO THE 01:00 LADDER KEEPS ITS SLOT: tonight is the
+first nightly with the Ditto drafts in pool_hl and it also accrues the
+reply-channel shadow corpus, and the box tenancy rule is explicit that ladder
+and bench are day/night shifts, not roommates. Statistically cheap — 1000
+pairs is an order of magnitude past the rig's sensitivity threshold. If the
+result lands borderline, EXTEND with a fresh same-config run rather than
+reading this one early.

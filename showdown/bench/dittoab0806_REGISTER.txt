@@ -63,3 +63,66 @@ external validity (measuring Ditto at representative search depth), not bias.
 NO PEEKING: no winrate is read before N=3000 lands. Lane health and crash
 counts only. ETA ~2.7h at 12 lanes (done ~16:20, well clear of the 01:00
 ladder).
+
+RESULT 2026-08-06 16:40 (3000/3000; 12 lanes clean: 0 quarantines, 0
+tracebacks, 0 fp errors, 0 team rejections, 0 forfeits, arms matched on game
+length 27.5 vs 28.3 turns and zero degenerate games — no artifact found).
+PRIMARY: ditto arm 776/1500 = 51.7% vs control 586/1500 = 39.1%.
+  DIFFERENCE +12.67pp, 95% CI [+9.11, +16.17] -> FAVOURS DITTO, decisively.
+Per pair: dt1 +15.8 [+9.6,+21.8], dt2 +17.4 [+11.2,+23.4],
+          dt3 +4.8 [-1.3,+10.9].
+SANITY: the control arm's 39.1% lands squarely in our historical vs-fp band
+(~37-49%), so the gap is Ditto adding, not the controls being broken.
+
+BUT THE PREDICTED MECHANISM IS REFUTED. The blindness thesis predicts the
+gain concentrates against opponents that SET UP (that is what a revenge-
+killer punishes, and what fp cannot price). Measured per fp team, it is the
+OPPOSITE: low-setup half +17.1pp mean gain, high-setup half +8.2pp. Extremes
+make it plainer — 05_alomomola sets up 0.91% of moves and concedes +27.0pp,
+while 01_enamorus sets up 10.27% and concedes -0.8pp. Setup rate does not
+order the gains at all (07_dragapult: 0% setup, +1.6pp).
+So: a large, real, replicated-by-CI win whose CAUSE IS UNEXPLAINED. The
+screen's mechanism reads (deploy 96%, 53.6% conversion, fp blind) are all
+still true; they are simply not what is producing the winrate.
+DO NOT bank "Imposter blindness beats fp" as the finding of record. The
+honest statement is: this Ditto slot is worth ~+13pp vs stock fp on these
+three teams, for reasons not yet identified.
+NEXT (not run yet): the leading alternative is engine-pilot fit — the
+replaced mons are Salamence (a Dragon Dance SETUP SWEEPER, the exact class
+[[project_monotype_engine_pilot_bias]] says our engine underuses), Scarf
+Meowscarada and Scarf Latios. If the gain is "the engine pilots Ditto better
+than it pilots what Ditto replaced", that is a fact about OUR PILOT, not
+about Ditto, and it would not transfer to the October field. Discriminating
+test: swap Ditto for a THIRD mon that is neither a setup sweeper nor an
+Imposter (e.g. a Choice-Band breaker) and see whether the gain survives.
+
+CORRECTION 2026-08-06 ~17:40 — "MECHANISM REFUTED" WAS OVERSTATED.
+The refutation above rested on the gain being anti-correlated with opponent
+setup rate. Decomposing that gain by ARM shows it is a CONTROL-arm artifact:
+                      ditto arm    control arm    gain
+  low-setup foes        50.2%         33.1%      +17.1pp
+  high-setup foes       53.3%         45.1%       +8.2pp
+The DITTO arm is essentially flat across the split (50.2 -> 53.3, if anything
+slightly BETTER against setup-heavy teams). All the variation is the control
+teams collapsing to 33% against the bulky/stall/Darkrai archetypes. So the
+anti-correlation says nothing about Ditto and everything about a hole in the
+three base teams. HONEST STATUS: the blindness thesis is UNSUPPORTED (Ditto is
+not dramatically better against setup-heavy opponents), not REFUTED. I read a
+baseline weakness as a Ditto pattern; comparing a DIFFERENCE across a split
+without decomposing both arms is the error, and it is the same shape as the
+in-flight-numerator and wrong-log-file mistakes earlier today.
+
+Mechanism detail that also refutes the user's mistiming hypothesis (checked on
+the 720-game screen): Ditto is NOT copying the wrong mon and getting run over.
+Against setup-heavy foes 45.3% of copies land on an already-boosted target (vs
+17.5% against low-setup foes), so the engine finds the right target; and of the
+clean-copy Ditto deaths, only 1.3% (low) / 3.4% (high) occur while the opponent
+is boosted. Ditto's local stats are near-identical across halves (death rate
+13-16%, kill rate 46-62%).
+
+LEADING HYPOTHESIS NOW: Ditto is an ARCHETYPE-AGNOSTIC answer — a Scarfed
+mirror of whatever is in front of it — so its own winrate is flat (~50-53%)
+regardless of opponent style, and the measured gain is largest exactly where
+the base team is weakest. Testable: it predicts the gain tracks CONTROL-ARM
+WEAKNESS per matchup, not any property of Ditto. The dittoab3 Band-breaker arm
+tests the complementary question (Ditto vs any competent sixth).
