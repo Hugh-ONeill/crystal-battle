@@ -88,3 +88,29 @@ def test_a_later_switch_is_not_t1_churn():
               "|switch|p1a: Dragapult|Dragapult, M|100/100"])
     assert o.opp_lead == "kingambit"
     assert o.our_t1_switch is False
+
+
+# ---- the knob's semantics: calibrated strength, still default OFF --------
+import os                                                           # noqa: E402
+
+from showdown.gen9_player import (LEAD_PRIOR_SCALE,                 # noqa: E402
+                                  _lead_prior_scale)
+
+
+def test_knob_is_off_unless_asked_and_on_means_the_calibrated_scale(
+        monkeypatch):
+    """0.25 is the MEASURED nudge strength (x1.0 was an override that zeroed
+    two species and manufactured turn-1 churn). Enabling must not require
+    remembering the number, and must still be a deliberate act."""
+    monkeypatch.delenv("CB_LEAD_PRIOR", raising=False)
+    assert _lead_prior_scale() == 0.0            # default OFF
+    for off in ("0", "off", "false", ""):
+        monkeypatch.setenv("CB_LEAD_PRIOR", off)
+        assert _lead_prior_scale() == 0.0
+    for on in ("1", "on", "true"):
+        monkeypatch.setenv("CB_LEAD_PRIOR", on)
+        assert _lead_prior_scale() == LEAD_PRIOR_SCALE == 0.25
+    monkeypatch.setenv("CB_LEAD_PRIOR", "0.5")   # explicit scale for sweeps
+    assert _lead_prior_scale() == 0.5
+    monkeypatch.setenv("CB_LEAD_PRIOR", "garbage")
+    assert _lead_prior_scale() == 0.0            # never crash a live game

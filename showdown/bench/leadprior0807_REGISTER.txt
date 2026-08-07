@@ -138,3 +138,27 @@ default configuration, on ~1 in 5 games overall. Cinderace has no pivot move
 rather than U-turn tempo. Worth its own investigation: either the preview
 matrix and the in-battle search disagree systematically, or the lead is being
 chosen for a matchup the first turn immediately disproves.
+
+SCALE SWEEP CLOSED 2026-08-07 13:14 (leadprior025_0807, 2000/2000, clean).
+                        stock     x1.0    x0.25
+  glimmora      +0.125  19.2%    46.1%    35.0%
+  samurotthisui +0.101  22.2%    44.4%    29.4%
+  cinderace     +0.057  18.9%    43.8%    22.8%
+  ceruledge     -0.074   9.0%     0.0%     2.1%
+  kingambit     -0.089   8.7%     0.0%     1.8%
+PREREGISTERED PREDICTION HELD: at 0.25 the negatives fall toward but NOT to
+zero (1.8% / 2.1%) and glimmora rises well short of 46%.
+CHURN — the deciding evidence. x1.0 MANUFACTURED turn-1 switches (overall
+20.6% -> 23.9%; marginal 31-34% on the leads it added). x0.25 does not:
+overall 18.3% vs 19.7% stock (slightly BELOW baseline), marginal 23-24%.
+Secondary winrate null again: 441 discordant pairs, arm A share 46.5%
+[41.8, 51.2]; arms 44.9% vs 48.0% (B +3.1pp nominal, inside noise).
+DECISION: 0.25 is now the CALIBRATED DEFAULT STRENGTH (LEAD_PRIOR_SCALE in
+gen9_player.py) and the lever remains DEFAULT OFF. CB_LEAD_PRIOR accepts
+unset/0/off = disabled, 1/on = the calibrated 0.25, any float = that scale for
+sweeps — so enabling never requires remembering the number, and enabling stays
+a deliberate act.
+WHY NOT ON: behaviour moving is not evidence of winning. The 0.25 shift
+implies a ~1.4pp winrate effect against a ~6pp resolution at n=1000/arm, so
+the winrate question is UNANSWERED rather than answered-null, and resolving it
+needs ~10k games (~8h). That is the price of ever turning this on.

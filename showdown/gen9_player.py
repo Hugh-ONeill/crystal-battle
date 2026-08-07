@@ -869,10 +869,38 @@ def _near_tie_pool(vals, rel: float = 0.3, min_pool: int = 2) -> list[int]:
 # flagged off a point estimate whose interval spanned zero; 12 of 17 measured
 # species are indistinguishable from zero. Reading the CI is the guard.
 #
-# Default OFF (CB_LEAD_PRIOR unset or 0) per the standing rule that a new
-# lever ships behind an env knob until a paired A/B clears it. The value is a
-# SCALE on the measured delta: 1.0 applies it in full, 0.5 half.
+# CALIBRATED STRENGTH = 0.25, measured 2026-08-07 (leadprior0807 at x1.0 vs
+# leadprior025_0807 at x0.25, 2000 games each, same suite and opponents):
+#   x1.0  is an OVERRIDE — kingambit and ceruledge went to HARD ZERO over 334
+#         games each, glimmora took half of all leads, and it MANUFACTURED
+#         turn-1 churn (overall T1-switch 20.6% -> 23.9%, marginal 31-34% on
+#         the leads it added). It also defeats the near-tie pool's anti-read
+#         purpose, which matters against a ladder field that has cross-game
+#         memory even though stock fp does not.
+#   x0.25 is a NUDGE — the negatives survive at ~2% instead of vanishing, so
+#         the matrix still wins when it has a real opinion, and churn does NOT
+#         rise (18.3% vs 19.7% stock; marginal 23-24%).
+# STILL DEFAULT OFF. Behaviour moving is not evidence of winning: the shift at
+# 0.25 implies a ~1.4pp winrate effect against a ~6pp resolution at n=1000/arm,
+# so the winrate question is UNANSWERED, not answered null. Resolving it needs
+# ~10k games. Turning this on is therefore a deliberate act, not a default.
+LEAD_PRIOR_SCALE = 0.25
 _LEAD_PRIOR_CACHE = None
+
+
+def _lead_prior_scale() -> float:
+    """CB_LEAD_PRIOR: unset/0/off -> disabled; 1/on/true -> the calibrated
+    LEAD_PRIOR_SCALE; any float -> that scale (for sweeps). Enabling should
+    not require remembering the number the calibration landed on."""
+    raw = (os.environ.get("CB_LEAD_PRIOR") or "").strip().lower()
+    if raw in ("", "0", "off", "false", "no"):
+        return 0.0
+    if raw in ("1", "on", "true", "yes"):
+        return LEAD_PRIOR_SCALE
+    try:
+        return float(raw)
+    except ValueError:
+        return 0.0
 
 
 def _lead_prior_table() -> dict:
@@ -1338,7 +1366,7 @@ class Gen9PokeEnginePlayer(Player):
             # chosen lead and which candidates count as near-ties. Recomputing
             # the pool from the adjusted vals matters: leaving the old pool
             # would let the sampler re-select a lead the prior just demoted.
-            _lp = float(os.environ.get("CB_LEAD_PRIOR", "") or 0.0)
+            _lp = _lead_prior_scale()
             if _lp:
                 # species MUST come from the team PASTE, not battle.team:
                 # the matrix rows are built by split_team_body(paste), and
