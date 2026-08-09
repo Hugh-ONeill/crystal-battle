@@ -22,12 +22,20 @@ separate question from action prediction.
 
 Usage:
   .venv/bin/python showdown/reply_audit.py [--shadow PATH] [--logs GLOB]
-      [--name PAC-Crystal]
+      [--name PAC-Crystal] [--matched-only]
+
+--matched-only scores engine/uniform ONLY on turns carrying a gemma
+prediction, so all three policies share a population. This is the read that
+closed the channel (2026-08-09): the registered 33.9% bar was set on the
+pre-build field (richwoman-heavy), gemma's consults landed on the post-08-06
+field (74% MuratiBot-1), and on matched turns the engine scores 42.5% on its
+own — gemma's headline 43.2% was the population, not the predictor.
 """
 
 import argparse
 import glob
 import json
+import math
 import re
 from collections import Counter, defaultdict
 
@@ -154,6 +162,9 @@ def main():
     ap.add_argument("--logs",
                     default="showdown/bench/overnight_*_ladder.log")
     ap.add_argument("--name", default="PAC-Crystal")
+    ap.add_argument("--matched-only", action="store_true",
+                    help="restrict to turns with a gemma prediction so "
+                         "engine/uniform are scored on the same population")
     args = ap.parse_args()
 
     decisions, opp_name = parse_logs(sorted(glob.glob(args.logs)),
@@ -170,6 +181,8 @@ def main():
 
     for line in open(args.shadow):
         d = json.loads(line)
+        if args.matched_only and not d.get("reply_pred"):
+            continue
         actual = decisions.get((d["tag"], d["turn"]))
         if not actual:
             continue
@@ -238,6 +251,12 @@ def main():
         print(f"\nhead-to-head (gemma top-1 != engine top-1, "
               f"n={h2h['n']}): gemma right {h2h['gemma']}, "
               f"engine right {h2h['engine']}")
+        m = h2h["gemma"] + h2h["engine"]
+        if m:
+            z = (h2h["gemma"] - m / 2) / (math.sqrt(m) / 2)
+            p = math.erfc(abs(z) / math.sqrt(2))
+            print(f"sign test on {m} decisive: z={z:+.2f}, "
+                  f"two-sided p={p:.3f}")
     for dim, title in (("opp", "per-opponent top-1"),
                        ("band", "per-turn-band top-1"),
                        ("state", "contested-vs-decided top-1")):
