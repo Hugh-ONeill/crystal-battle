@@ -149,6 +149,15 @@ def main():
     ap.add_argument("--opponent", default="richwoman")
     ap.add_argument("--out", default=str(HERE / "teams" / "rw_proxy"))
     ap.add_argument("--max-cands", type=int, default=120)
+    # An archive team that merely SHARES A ROSTER is not the opponent. Built
+    # for richwoman, where 11 of 12 rosters matched the archive at 95%+, the
+    # old code took ANY candidate that existed and only synthesized when none
+    # did. MuratiBot-1 exposed that: its best candidate scored 67% and got 4
+    # of 6 ITEMS wrong (Choice Band Scizor for the real Leftovers Swords
+    # Dance one, Booster Energy Iron Valiant for a Choice Scarf), which is a
+    # different opponent to practise against. Below this threshold, 121 games
+    # of direct observation beat a roster-shaped guess.
+    ap.add_argument("--min-obs-match", type=float, default=0.85)
     args = ap.parse_args()
 
     from showdown.belief_accuracy import ArchiveTier
@@ -173,7 +182,7 @@ def main():
                 best, best_score = team, s
         anchor = norm(roster[0])
         name = f"{i:02d}_{anchor}.txt"
-        if best is not None:
+        if best is not None and best_score >= args.min_obs_match:
             # write the archive candidate's ORIGINAL paste (full spreads),
             # found by re-matching the roster into the index files
             src = _best_source_paste(arch, roster, obs)
@@ -183,7 +192,11 @@ def main():
         else:
             blocks = [synthesize(sp, obs) for sp in roster]
             (out_dir / name).write_text("\n\n".join(blocks) + "\n")
-            print(f"{name}: SYNTHESIZED from book+PS ({n_games} book games)")
+            why = ("no archive candidate" if best is None
+                   else f"best archive match only {best_score:.0%} "
+                        f"< --min-obs-match {args.min_obs_match:.0%}")
+            print(f"{name}: SYNTHESIZED from book+PS ({n_games} book games) "
+                  f"— {why}")
 
 
 def _best_source_paste(arch, roster, obs) -> str:
