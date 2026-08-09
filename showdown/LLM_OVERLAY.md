@@ -1,11 +1,11 @@
 # LLM + RAG overlay over the MCTS — design
 
-**Status: PHASE 1 CLOSED — SHADOW VERDICT AGAINST CHANNEL 5.1 (2026-08-06).**
-Phases 0-1 ran: matrix emission + dossier + shadow consults live on the ladder
-2026-07-31 → 08-06 (`overlay.py`, `CB_OVERLAY=shadow`, nothing ever applied).
-The verdict below supersedes this design's expectations for §5.1 and §5.3;
-§5.2 was never exercised and remains open. Phases 2-5 do not launch as
-designed.
+**Status: CLOSED IN FULL 2026-08-09 — ALL THREE CHANNELS DEAD, OVERLAY
+RETIRED.** Phases 0-1 ran: matrix emission + dossier + shadow consults live
+on the ladder 2026-07-31 → 08-09 (`overlay.py`, `CB_OVERLAY=shadow`, nothing
+ever applied). §5.1 and §5.3 died 2026-08-06; §5.2 closed 2026-08-09 (both
+verdicts below). `CB_OVERLAY` is dropped from crystal-ladder.service.
+Phases 2-5 never launch as designed.
 
 ## Phase-1 verdict (2026-08-06 — 6,078 consults, 435 battles)
 
@@ -45,8 +45,29 @@ designed.
   Also quantified: 18.0% of actual clicks land outside the searched top-6
   columns (the "static priors mismodel killers" blind spot). Splits to
   watch: engine reads richwoman at 42.0% (habitual), LLM bots at 24.6%
-  (erratic). Verdict after a few nightlies of accrual; a re-solve design
-  exists only if the accuracy gate passes.
+  (erratic). Verdict landed 2026-08-09 — next bullet.
+- **Reply distribution (§5.2): CLOSED 2026-08-09 — pass on the stale bar,
+  wash on the matched read, no re-solve.** Three nightlies of accrual
+  (8,116 consults, 1,909 joined turns carrying a prediction). Against the
+  registered bar gemma passes everything: 43.2% top-1 / 75.9% top-3 /
+  Brier 0.814, contested-only 43.0 vs the 33.7 bar. But the field changed
+  under the bar: the prediction-bearing turns are 74% MuratiBot-1
+  (arrived 08-08) + 26% LLM bots and ZERO richwoman, and on the SAME
+  1,909 turns the engine's implied reply scores 42.5% top-1 / 76.8% top-3
+  / Brier 0.819 (`reply_audit.py --matched-only`). Matched deltas:
+  +0.7 pp top-1 (sign test on the 119 decisive head-to-head turns:
+  p=0.23), top-3 BEHIND, Brier −0.005. The channel's premise died with
+  it: on this field the engine is well-calibrated (Brier 0.819 vs uniform
+  0.879 — the overconfidence that justified the channel was a property of
+  the old, richwoman-heavy field), and the killers blind spot is 3.0% on
+  gated turns, not 18%. Predicted effect of a re-solve, per the
+  2026-08-09 verification policy: fires on the 12% disagreement turns ×
+  +5.7 pp accuracy there ≈ 0.7% of turns better-predicted, before the
+  prediction≠control discount — far under the 69 h/1 pp verification
+  floor, so the build is dead on rule 1 regardless of the gate. Asterisk
+  of record: gemma was never sampled against richwoman, the one opponent
+  where implied-reply IS measurably pathological; she left the ladder
+  before the reply shadow went live.
 - **The learning-free spin-off died too.** The curated world IS more real —
   it beats the hedge world 55.7/44.3 on future reveals (n=1,049 decidable
   consults) — but the offline coupling sweep (`world_weight_sweep.py`,
@@ -60,9 +81,10 @@ designed.
   pairs).** Coupling is real (oracle ceiling flips 37.8% of decidable
   decisions; w0=0.55 flips 8.8%, all tie-breaks) — the value is bracketed
   at null. Equal vote stands; the hedge world keeps its job.
-- **Operational state:** `CB_OVERLAY=shadow` stays ON in
-  crystal-ladder.service — the §5.2 shadow is now what it's accruing for;
-  the emission corpus doubles as eval-recalibration data either way.
+- **Operational state:** RETIRED — `CB_OVERLAY` dropped from
+  crystal-ladder.service 2026-08-09 with the §5.2 close. `overlay.py` and
+  the shadow corpus (8,116 consults) stay in-repo; eval-recalibration keeps
+  its own feed via `--dump-states`.
 
 ---
 
