@@ -1,0 +1,40 @@
+muratiscreen0809 — which pool teams beat MuratiBot-1's fixed six?
+PREREGISTERED 2026-08-09 ~18:25
+================================================================================
+
+WHY NOW. MuratiBot-1 appeared 2026-08-08 and immediately became the field:
+121 of our last ~174 ladder games, while richwoman vanished from both nights.
+It plays ONE roster in all 120 observed games — Iron Valiant / Great Tusk /
+Iron Moth / Ting-Lu / Scizor / Dragonite — and the book has its exact sets at
+121 games. A fixed, fully-scouted opponent is the ideal case for team
+selection, and we are 61W-60L = 50.4% against it, i.e. genuinely even.
+The ladder cannot answer WHICH of our teams beats it: 121 games spread over 42
+pool teams is ~3 games each. The proxy answers it at ~18 games/min.
+
+OPPONENT. showdown/teams/murati_proxy (built today, 6/6 items and 4/4 moves
+matching the book after the builder was fixed to prefer 121 games of direct
+observation over a 67% archive match — see commit 3d7d370).
+LOAD-BEARING CAVEAT: the proxy is piloted by STOCK FOUL-PLAY, not by whatever
+MuratiBot actually runs. It teras in 78% of games at mean turn 19.3 and
+switches on 30% of actions; fp does not behave that way. So this measures
+TEAM MATCHUP, not their policy, and a team that beats the proxy has not yet
+been shown to beat MuratiBot.
+
+RUN. par_series muratiscreen0809, N=2580, 12 lanes, --suite pool_hl
+--fp-suite murati_proxy, stock knobs, 300ms. 43 of our teams x 1 of theirs =
+43 pairings, 60 games each. ETA ~2.4h at 18 games/min, clear of the 01:00
+ladder.
+
+PRIMARY. Per-team winrate vs the proxy, Wilson CI, ranked.
+
+DECISION RULE (before launch) — TWO STAGE, because 43 teams tested means ~2
+will clear p<0.05 on noise alone and n=60 gives only +-13pp:
+  - This run RANKS and SHORTLISTS. It does not certify anything.
+  - Top ~4 by CI LOWER BOUND (not by point estimate — the 2026-08-07 Ting-Lu
+    retraction was exactly that error) go to a deeper confirmation run at
+    n>=250 each before any pool reweighting.
+  - Bottom teams are NOT dropped on this evidence: the pool is curated for a
+    whole field, and MuratiBot is one opponent, however dominant right now.
+  - A team beating the proxy is a HYPOTHESIS about MuratiBot, to be checked
+    against its ladder record as games accrue.
+NO peeking before N.
