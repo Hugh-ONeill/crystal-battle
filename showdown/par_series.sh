@@ -146,6 +146,19 @@ case "$FP_SUITE_DIR" in
   ""|/*) ;;
   *) FP_SUITE_DIR="$CB_ABS/$FP_SUITE_DIR" ;;
 esac
+# A suite dir with no teams must be as fatal as no --suite at all: N_TEAMS=0
+# skips the rotation branch and every game silently runs legacy_default —
+# exactly the contamination the guard above exists for. Bit muraticonfirm0809
+# (2026-08-10): --suite murati_confirm resolved to $CB_ABS/murati_confirm
+# (suites live under showdown/teams/), 1,200 mirror games worthless.
+if [ -n "$SUITE_DIR" ] && ! ls "$SUITE_DIR"/*.txt >/dev/null 2>&1; then
+  echo "FATAL: --suite $SUITE_DIR contains no *.txt teams" >&2
+  exit 1
+fi
+if [ -n "$FP_SUITE_DIR" ] && ! ls "$FP_SUITE_DIR"/*.txt >/dev/null 2>&1; then
+  echo "FATAL: --fp-suite $FP_SUITE_DIR contains no *.txt teams" >&2
+  exit 1
+fi
 
 # Username collision guard (2026-08-03). Worker names are fixed strings, so
 # a run that is killed mid-flight leaves the SERVER holding that name's battle
