@@ -50,3 +50,21 @@ showdown/grudges.json
 showdown/scouting_book.json
 showdown/teams/team_archive_gen9ou.json
 showdown/teams/rw_proxy/
+
+# BENCH OUTPUT AND TRACES. Every A/B, sweep and round-robin writes here —
+# 268 files under showdown/bench alone by 2026-08-31, and the largest run
+# artefacts in the tree. They are reproducible from the script that wrote
+# them and the teams file it read; the CONCLUSIONS live in DONE.md and the
+# project memories, which is where they belong.
+showdown/bench/
+monotype/bench/
+monotype/traces/
+
+# Feature dumps: .npy arrays built from the walked record, same class as the
+# *.npz already ignored above. Rebuilt by the script that reads them.
+showdown/policy_feats/
+
+# One-off experiment team folders, the same class as showdown/teams/rw_proxy
+# above. The CURATED pools and the hand-curation inputs stay tracked.
+showdown/teams/murati_confirm/
+showdown/teams/rw_fidelity/
